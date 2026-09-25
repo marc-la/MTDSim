@@ -1,7 +1,7 @@
 ---
 status: durable
 created: 2026-07-13
-updated: 2026-08-14
+updated: 2026-09-22   # the retired name swapped for the APT attacker model at its three mentions (register E2)
 provenance: distilled from a UWA research-writing seminar (April 2026) supplied by Marc; adapted from paper-writing to dissertation shape; unit ledger added 2026-08-12 from Marc's base-unit framing plus an independent chapter-weighting suggestion he supplied
 ---
 
@@ -21,7 +21,7 @@ The single research question decomposes into three methodological sub-questions 
 | | Lit review | Attacker model | Experiments | Discussion |
 |---|---|---|---|---|
 | **Capture** | what exists | how it was done | — | what the capture licenses |
-| **Model** | attacker models in MTD | the movement attacker | sensitivity of its parameters | fidelity verdict |
+| **Model** | attacker models in MTD | the APT attacker model | sensitivity of its parameters | fidelity verdict |
 | **Evaluate** | how MTD is evaluated | — | experimental design / the numbers | what changes for MTD evaluation |
 
 The introduction states the RQ and the three sub-questions (the grey box); the conclusion closes each thread. The capture row's empty results cell is deliberate — the capture produces artefacts, not measurements; its downstream test rides the model row's sensitivity analysis. This matrix is the whole-document coherence check: a proposed unit (see the ledger below) should be able to name its cell, and a unit that cannot is a cut candidate.
@@ -35,9 +35,9 @@ The introduction states the RQ and the three sub-questions (the grey box); the c
 | **Introduction (ch1)** | A compressed literature review that hops landmark-to-landmark straight to the technical gap, then the contributions, then one highlight result. Sells the whole dissertation — a reader should be able to judge the work's value from it alone. States the RQ and the three sub-questions. |
 | **Background (ch2)** | The two existing things this thesis builds on, before the literature review: the moving-target-defence vocabulary the document speaks (2.1) and the inherited simulator it runs on (2.2, with the network model, defence mechanisms and baseline attacker nested beneath it). Existing things, not methodology (V-series ruling, 2026-08-11); scope widened 2026-08-21 when the MTD concept material was re-homed from the literature review. Structure, the lineage table's placement, and the two placement tests that keep ch2 and ch3 apart: [`ch2_background/README.md`](ch2_background/README.md). |
 | **Literature review (ch3)** | Tells each category of prior work as a chronological story — method, its limitation, why the next method came — and *narrows down onto the gap this work fills*, ending on the demonstrated need. Survey of APT attackers; attacker models in MTD; how MTD is evaluated. |
-| **APT attacker model (ch4)** | Defines the attacker model and explains it *as simply as possible*: the chapter preamble names it (the movement attacker) and states the commitments, then L0–L1 → L2 → L3 → L4. The precise problem statement and the fidelity criterion it is built toward are ch3's (§3.3, the research gap and the criterion) — restructured 2026-09-04, Marc's ruling: the former §4.1 duplicated them. Realisation arguments live here too — the ratified structure has no separate implementation chapter. |
+| **APT attacker model (ch4)** | Defines the attacker model and explains it *as simply as possible*: the chapter preamble states the commitments (it names nothing — the model is the *APT attacker model*, its title; the name *movement attacker* was retired on the supervisor's 2026-09-22 ruling, register E2, and the layer trichotomy with it), then L0–L1 → L2 → L3 → L4. The precise problem statement and the fidelity criterion it is built toward are ch3's (§3.3, the research gap and the criterion) — restructured 2026-09-04, Marc's ruling: the former §4.1 duplicated them. Realisation arguments live here too — the ratified structure has no separate implementation chapter. |
 | **Experiments (ch5)** | Experimental setup and results MERGED (Marc's ruling, 2026-09-08): the sensitivity analysis on the three declared inputs of ch4 §4.4 (dwell times, tactic-to-verb mapping, failure matrix), swept within the bounds the formalism sets; the experimental dimensions, with the instrumented metrics named as instrumentation and the comparability boundary as a disclosure; then the strands, one per instrumented metric family (effectiveness, efficiency, the supplementary measures), each running every profile and the baseline. Facts and figures only. No burden / grading / fidelity-defence unit: the model is a hypothesis; the fidelity verdict emerges from the results and is read in the discussion. |
-| **Discussion (ch6)** | Interprets outcomes against the field — what the movement attacker captured, the fidelity verdict, what changes for MTD evaluation — and owns the limitations. |
+| **Discussion (ch6)** | Interprets outcomes against the field — what the APT attacker model captured, the fidelity verdict, what changes for MTD evaluation — and owns the limitations. |
 | **Future work (ch7)** | Names the successor programme this work's own closures point at, with the conditions that would reopen each ruled exclusion. |
 | **Conclusion (ch8)** | *Not* the abstract in past tense. Emphasises the impact of the specific technical move, and names the next step in the line of research. |
 

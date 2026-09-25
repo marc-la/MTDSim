@@ -295,3 +295,7 @@ Flagged for Marc, outside this figure's scope: the shared key map
 registry reserves for the genre; this figure writes "movement attacker" in
 its own key, and the map's other users (`fig_5-3-2a_cross_arm`,
 `fig_5-4a_frontier`, the efficiency table) are his ruling.
+
+## Addendum 2026-09-24 — Figure 5.3 rebuilt
+
+The figure this record fed (refused-action share by step; recovery to the next compromise as a ratio to the unopposed gap) was rebuilt on Marc's ruling. The reads now come from `data/results/ch5_defended/disruption.py` → `disruption_numbers.json`: the compromise rate around each deployment (both attackers, anchored on the deployment's completion) and time lost per deployment per mechanism, placebo-corrected. The per-event recovery estimators in this record were rejected on censoring (a third of the model's IP-shuffle deployments have no next compromise before the time limit) and on their reference; design, three review rounds and numbers in the results context handoff §8g-5. The numbers above stand as the record of the earlier reads; the refused-action share (0.2 → 0.57) survives as a body sentence.

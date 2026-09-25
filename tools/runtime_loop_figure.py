@@ -219,11 +219,10 @@ def emit(order, axis, net, win, durations, mapping, verbs, fmatrix, n_rules,
               % (cx_, cy_ + 0.09, cx_, cy_, cx_ + 0.07, cy_))
             w(r"\node[anchor=west,text=black!58] at (%.3f,%.3f) {dwell};" % (cx_ + 0.24, cy_))
     y = mv_top - H_MOVE
-    w(r"\node[anchor=south east,align=right,text=black!58] at (%.3f,%.3f) {one profile's net, a fragment};"
+    w(r"\node[anchor=south east,align=right,text=black!58] at (%.3f,%.3f) {one Petri net, a fragment};"
       % (BAND_R - 0.18, y + 0.14))
     band(w, mv_top, y, "accent!45")
-    rot_label(w, mv_top, y, "Movement layer", "accent")
-    w(r"\node[anchor=east,align=right] at (%.3f,%.3f) {\textbf{L3}\\Petri net};" % (GUT_R, (mv_top + y) / 2))
+    rot_label(w, mv_top, y, "Petri net", "accent")
     mv_bot = y
     facts["net"] = (len(net["places"]), len(net["transitions"]), win)
 
@@ -274,7 +273,7 @@ def emit(order, axis, net, win, durations, mapping, verbs, fmatrix, n_rules,
     w(r"\node[anchor=north,align=center,text=black!58] at (%.3f,%.3f) {exponential\\draw};" % (ex_x0 + ex_w / 2, ey0 - 0.08))
 
     # (ii) the tactic-to-verb mapping (horizontal: tactics above, verbs below)
-    w(r"\node at (%.3f,%.3f) {Tactic-to-verb mapping};" % (cx[1], head_y))
+    w(r"\node at (%.3f,%.3f) {Tactic-to-action mapping};" % (cx[1], head_y))
     row_l, row_r = cx[1] - 0.80, cx[1] + 1.75
     ty_row, vy_row = body_top - 0.16, body_bot + 0.16
     tp = (row_r - row_l) / (len(order) - 1)
@@ -293,7 +292,7 @@ def emit(order, axis, net, win, durations, mapping, verbs, fmatrix, n_rules,
     for v in verbs:
         w(r"\fill[black!68] (%.3f,%.3f) circle (1.4pt);" % (vx[v], vy_row))
     w(r"\node[anchor=east,text=black!58] at (%.3f,%.3f) {tactics};" % (row_l - 0.20, ty_row))
-    w(r"\node[anchor=east,text=black!58] at (%.3f,%.3f) {verbs};" % (row_l - 0.20, vy_row))
+    w(r"\node[anchor=east,text=black!58] at (%.3f,%.3f) {actions};" % (row_l - 0.20, vy_row))
     n_mapped = sum(1 for t in order if mapping.get(t))
     facts["mapping"] = (mapping_version, n_mapped, len(order) - n_mapped, len(verbs))
 
@@ -320,13 +319,13 @@ def emit(order, axis, net, win, durations, mapping, verbs, fmatrix, n_rules,
 
     y = ctrl_top - H_CTRL
     band(w, ctrl_top, y, "accent!45")
-    rot_label(w, ctrl_top, y, "Controller layer", "accent")
+    rot_label(w, ctrl_top, y, "Join", "accent")
     ctrl_bot = y
 
     # ================================================== join to the action ==
     y_act_top = ctrl_bot - H_JOIN
     jm = (ctrl_bot + y_act_top) / 2
-    for n, x, text in ((2, cx[0], "drawn dwell time"), (3, cx[1], "verb")):
+    for n, x, text in ((2, cx[0], "drawn dwell time"), (3, cx[1], "action")):
         w(r"\draw[->,black!55,line width=0.9pt] (%.3f,%.3f) -- (%.3f,%.3f);" % (x, ctrl_bot - 0.08, x, y_act_top + 0.08))
         badge(w, x + 0.34, jm, n)
         w(r"\node[anchor=west,text=black!58] at (%.3f,%.3f) {%s};" % (x + 0.62, jm, text))
@@ -352,7 +351,7 @@ def emit(order, axis, net, win, durations, mapping, verbs, fmatrix, n_rules,
     # ===================================================== the action layer ==
     act_top = y_act_top
     band(w, act_top, act_top - H_ACT, "black!22", "black!4")
-    rot_label(w, act_top, act_top - H_ACT, "Action layer", "black!55")
+    rot_label(w, act_top, act_top - H_ACT, "MTDSim", "black!55")
     boxes = ["Attacker", "Network", "Defender"]
     bw = 3.2
     bxs = [BAND_L + 0.7 + bw / 2, (BAND_L + BAND_R) / 2, BAND_R - 0.7 - bw / 2]
@@ -368,12 +367,6 @@ def emit(order, axis, net, win, durations, mapping, verbs, fmatrix, n_rules,
           % (x1 + 0.06 * (1 if i == 0 else -1), by_c, x2 + 0.06 * (-1 if i == 0 else 1), by_c))
     w(r"\node[anchor=north,text=black!50] at (%.3f,%.3f) {inherited from MTDSim};" % ((BAND_L + BAND_R) / 2, act_top - 0.08))
     act_bot = act_top - H_ACT
-
-    # ---- the L4 bracket ------------------------------------------------------
-    w(r"\draw[black!45,line width=0.45pt,decorate,decoration={brace,amplitude=3.5pt,mirror}] (%.3f,%.3f) -- (%.3f,%.3f);"
-      % (GUT_R + 0.04, ctrl_top, GUT_R + 0.04, act_bot))
-    w(r"\node[anchor=east,align=right] at (%.3f,%.3f) {\textbf{L4}\\traversal\\in MTDSim};"
-      % (GUT_R - 0.16, (ctrl_top + act_bot) / 2))
 
     w(r"\end{tikzpicture}")
     w(r"\end{document}")

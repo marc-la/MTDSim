@@ -66,31 +66,54 @@
 % interval distribution: the switch governs every simulator draw (run.py:364-368).
 % OWED: its result is in no float; one column or small table in §5.4.2 from
 % numbers.json's regime block (baseline port shuffle 0.90 -> 0.14).
+% 2026-09-23, register E5 (Jin: "every hard-coded number, somebody will ask why
+% that number"; Marc: "it needs to be visible that we're citing where we got the
+% numbers from"). A CITATION NOW SITS AGAINST EVERY VALUE A PRIOR STUDY RAN, after
+% the value it sources (Ho's moved from the label to the value for that reason);
+% the caption's last sentence covers the rest --- the simulator's default, or
+% argued in §5.1. Sources, all read from data/misc/lineage_configurations.yaml
+% (Table 2.2, tab:lineage-configurations): 50 hosts / 4 levels / 5 endpoints are
+% Zhang's second network exactly (Table 2, p.33); targeted with a database target
+% is Brown's Scenario 2 (p.4); singles against no defence are Brown's design
+% (p.6), the schemes Zhang's (§4.3.2); 200 s is the top of Zhang's 50--200 s and
+% Ho's comparison interval (Table 8, p.24); exponential is Zhang's (§4.3.4); four
+% durations are Zhang's Table 3, the other three the simulator's (provenance.md,
+% IS-TIM-03), so the row now says which. UNCITED, AND WHY: subnets 8 (no lineage
+% paper states it bar Brown's 20; default); the two-target narrowing (Marc's
+% reason, [3b] in §5.1); 2 000 s (no precedent; argued in §5.1, and the interval
+% sweep of the corpus handoff replaces the two levels); seeds 1 000 (argued in
+% §5.1 against Zhang's 100).
+% ROW ADDED 2026-09-24 (Marc: "something in Table 5.1 ... list all the names in the metrics"): the ten metrics by
+% class, pointing to Table 4.3 in §4.5, where each is defined and sourced.
+% 2026-09-25 (Marc: "5.1 shows two intervals and no MTDShield ... please fix that"): the
+%   six deployment intervals and MTDShield; random over MTDShield's four is reported
+%   nowhere, so not declared. Semicolons separate varied values, as the caption says.
 \begin{table}[htbp]
   \centering
-  \caption[The experiment]{The settings of the experiment. A parameter with several values, separated by semicolons, is varied; the rest are held. Arm, condition and deployment interval are run in every combination; the timing distribution, which governs the interval, the deployment durations and the delay after an interrupt, is varied at the 200\,s interval.}
+  \caption[The experiment]{The settings of the experiment. A parameter with several values, separated by semicolons, is varied; the rest are held. Arm, condition and deployment interval are run in every combination; the timing distribution, which governs the interval, the deployment durations and the delay after an interrupt, is varied at the 200\,s interval. A citation names the prior study that ran the value (Table~\ref{tab:lineage-configurations}); an uncited value is the simulator's default (Section~\ref{sec:mtdsim}) or is argued in the text.}
   \label{tab:experiment}
   \tablestyle\setlength{\tabcolsep}{4pt}
   \begin{tabular}{@{}cP{3.4cm}P{10.9cm}@{}}
     \toprule
     & Parameter & Value \\
     \midrule
-    & Hosts & 50 \\
-    & Levels of depth & 4 \\
+    & Hosts & 50 \citep{zhang2023} \\
+    & Levels of depth & 4 \citep{zhang2023} \\
     & Subnets & 8 \\
-    & Exposed endpoints & 5 \\
+    & Exposed endpoints & 5 \citep{zhang2023} \\
     \multirow{-5}{*}[-0.30cm]{\smash{\rotatebox{90}{\emph{Network}}}} & Target & the two database hosts, at the deepest level \\
     \midrule
-    & Arm & the baseline attacker; the movement attacker on each of the four attack profiles $c_1$ to $c_4$; the movement attacker on the aggregate $c_{\mathrm{agg}}$ \\
-    \multirow{-2}{*}[-0.46cm]{\smash{\rotatebox{90}{\emph{Attacker}}}} & Objective & targeted \\
+    & Arm & the baseline attacker; the APT attacker model on each of the four attack profiles $c_1$ to $c_4$; the APT attacker model on the aggregate $c_{\mathrm{agg}}$ \\
+    \multirow{-2}{*}[-0.46cm]{\smash{\rotatebox{90}{\emph{Attacker}}}} & Attack scenario & targeted \citep{brown2023} \\
     \midrule
-    & Condition & no defence; each of the seven defence mechanisms alone; the random execution scheme; the alternative execution scheme \\
-    & Deployment interval & 200\,s; 2\,000\,s \\
-    & Timing distribution & near-periodic (Section~\ref{subsec:defence-mechanisms}); exponential, same means \\
-    \multirow{-4}{*}[-0.55cm]{\smash{\rotatebox{90}{\emph{Defence}}}} & Deployment duration & complete topology shuffle 110\,s, host topology shuffle 100\,s, IP shuffle 100\,s, OS diversity 80\,s, port shuffle 70\,s, service diversity 70\,s, user shuffle 20\,s \\
+    & Condition & no defence; each of the seven defence mechanisms alone \citep{brown2023}; the random execution scheme; the alternative execution scheme \citep{zhang2023}; MTDShield, as released \citep{tay2024} \\
+    & Deployment interval & 50\,s \citep{zhang2023}; 100\,s \citep{zhang2023}; 200\,s \citep{zhang2023, ho2024}; 500\,s; 1\,000\,s; 2\,000\,s \\
+    & Timing distribution & near-periodic (Section~\ref{subsec:defence-mechanisms}); exponential, same means \citep{zhang2023} \\
+    \multirow{-4}{*}[-0.55cm]{\smash{\rotatebox{90}{\emph{Defence}}}} & Deployment duration & complete topology shuffle 110\,s, IP shuffle 100\,s, OS diversity 80\,s, service diversity 70\,s \citep{zhang2023}, and the simulator's host topology shuffle 100\,s, port shuffle 70\,s, user shuffle 20\,s \\
     \midrule
-    & Time limit \citep{ho2024} & 15\,000\,s; a run ends earlier if the attacker compromises a target \\
-    \multirow{-2}{*}[-0.17cm]{\smash{\rotatebox{90}{\emph{Runs}}}} & Seeds & 1\,000 per combination, the same set on every arm \\
+    & Time limit & 15\,000\,s \citep{ho2024}; a run ends earlier if the attacker compromises a target, or more than 80\,\% of the hosts \citep{zhang2023} \\
+    & Seeds & 1\,000 per combination, the same set on every arm \\
+    \multirow{-3}{*}[-0.45cm]{\smash{\rotatebox{90}{\emph{Runs}}}} & Metrics & attacker behaviour: relative tactic occurrence, attack path variation (APV), attack rate, attack confidentiality; attack outcome: attack success probability (ASP), network compromise ratio (NCR), mean time to compromise (MTTC); MTD effectiveness: NCR reduction, NCR growth rate, time lost per MTD deployment (Table~\ref{tab:metrics}) \\
     \bottomrule
   \end{tabular}
 \end{table}

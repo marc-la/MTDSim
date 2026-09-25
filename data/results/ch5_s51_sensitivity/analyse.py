@@ -348,7 +348,7 @@ def frag_body(out: dict) -> str:
     def decay_effect(param: str, lo_name: str, hi_name: str) -> str:
         st = {k: v["status"] for n in (lo_name, hi_name) for k, v in four[n].items()}
         if all(s == "zero by structure" for s in st.values()):
-            return "zero by structure: no profile net carries a jump of three stages"
+            return "zero by structure: no Petri net carries a jump of three stages"
         if all(s == "inert" for s in st.values()):
             return "inert"
         moved = sorted({k for k, s in st.items() if s == "moved"})
@@ -366,7 +366,7 @@ def frag_body(out: dict) -> str:
             ("the draw's shape", "exponential", "same-mean, concentrated", shape_effect()),
         ]),
         ("Mapping", [
-            ("tactic to verb", "partial", "forced total", mapping_effect()),
+            ("tactic to action", "partial", "forced total", mapping_effect()),
         ]),
         ("Failure matrix", [
             ("forward rate", "0.25", "0.1 to 0.5", decay_effect("gamma", "decay_gamma_0.1", "decay_gamma_0.5")),
@@ -491,7 +491,7 @@ def frag_decay(out: dict) -> str:
       r"distance parameter's band ends against its declared value, one at a time with the others held, and then "
       r"at the four corners of the two rates with the floor declared, under no defence and under the random scheme "
       r"at each interval. Pooled over the four profiles, 400 runs per cell; intervals are 95\,\%. The floor's rows "
-      r"are bit-identical to the declared point: no profile net carries a jump of three stages, so its sensitivity "
+      r"are bit-identical to the declared point: no Petri net carries a jump of three stages, so its sensitivity "
       r"is zero by structure rather than by measurement.}")
     w(r"\label{tab:decay-sensitivity}")
     w(r"\tablestyle\setlength{\tabcolsep}{4pt}")

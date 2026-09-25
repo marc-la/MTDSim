@@ -7,7 +7,7 @@ substrate, the archive or the pipeline was modified to produce it.
 > rewritten.** Seven of the twelve dispositions §9 opened have since been
 > actioned, each as its own commit, and the account of what was done and why is
 > [`mtd_ai_cost_calibration.md`](mtd_ai_cost_calibration.md) §1:
-> **MTDAI-02** (the live 5/6 head declared canonical rather than 8/3 restored),
+> **MTDAI-02** (the live 5/6 head declared canonical rather than 8/3 restored; *that disposition was overturned 2026-09-25 by Marc: the 8/3 path is restored as a selectable layout so Tay's released head runs as released*),
 > **MTDAI-03**, **MTDAI-04**, **MTDAI-06** (the downtime metric built),
 > **MTDAI-07**, **MTDAI-08** and **MTDAI-12** are repaired or dispositioned;
 > **MTDAI-05** is repaired *and* swept, which is what that record exists to

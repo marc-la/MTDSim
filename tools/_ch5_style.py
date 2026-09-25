@@ -40,7 +40,7 @@ LABEL = {
     "objective_none_c2": "$c_4$",
     "aggregate": r"$c_{\mathrm{agg}}$",
     "baseline": "baseline attacker",
-    "movement": "movement attacker",  # registry row 1 (Marc, 2026-09-22: "attacker model" is the genre)
+    "movement": "APT attacker model",  # registry row 1 as ruled 2026-09-22 (register E2: the model is named by its chapter title; "movement attacker" deprecated)
 }
 COLOUR = {  # RGB; the chapter's series contract (validated 2026-09-15)
     "objective_exfiltration": "31,84,140",
@@ -74,17 +74,25 @@ SINGLES = ("ip_shuffle", "complete_topology", "host_topology", "port_shuffle",
            "user_shuffle", "os_diversity", "service_diversity")
 SCHEMES = ("random", "alternative")
 DEFENDED = SINGLES + SCHEMES
+# MTDShield as released and random over its four mechanisms (2026-09-25;
+# handoff 2026-09-25_mtdshield_preliminary_run.md), in the core corpus only
+SHIELD = ("random_four", "mtdshield")
+# run as MTDShield's matched control but reported in no float (Marc 2026-09-25:
+# "a bit vacuous ... we don't talk about MTDShield's four"); it stays in the
+# corpus and numbers.json, so a body sentence can still quote it
+UNREPORTED = ("random_four",)
 SHORT = {
     "none": "none", "ip_shuffle": "IP", "complete_topology": "topology",
     "host_topology": "host", "port_shuffle": "port", "user_shuffle": "user",
     "os_diversity": "OS", "service_diversity": "service", "random": "random",
-    "alternative": "alternative",
+    "alternative": "alternative", "random_four": "random (four)", "mtdshield": "MTDShield",
 }
 LONG = {
     "none": "no defence", "ip_shuffle": "IP shuffle", "complete_topology": "complete topology shuffle",
     "host_topology": "host topology shuffle", "port_shuffle": "port shuffle", "user_shuffle": "user shuffle",
     "os_diversity": "OS diversity", "service_diversity": "service diversity",
     "random": "random", "alternative": "alternative",
+    "random_four": "random, MTDShield's four", "mtdshield": "MTDShield",
 }
 ACTIVITY = {
     "SCAN_HOST": "scan host", "ENUM_HOST": "enumerate host", "SCAN_PORT": "scan port",

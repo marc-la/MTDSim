@@ -46,10 +46,9 @@
 \draw[->,black!28,line width=0.5pt] (12.680,-1.340) .. controls (11.612,-1.920) and (10.138,-1.920) .. (9.070,-1.340);
 \draw[black!45,fill=white,line width=0.5pt] (11.550,-1.340) circle (0.240);
 \node[anchor=north,align=center,text=black!58] at (11.550,-2.080) {Persistence};
-\node[anchor=south east,align=right,text=black!58] at (14.940,-2.910) {one profile's net, a fragment};
+\node[anchor=south east,align=right,text=black!58] at (14.940,-2.910) {one Petri net, a fragment};
 \draw[draw=accent!45,line width=0.5pt,rounded corners=2pt] (1.950,-3.050) rectangle (15.120,0.000);
-\node[rotate=90,anchor=center,font=\footnotesize,text=accent] at (0.200,-1.525) {Movement layer};
-\node[anchor=east,align=right] at (1.750,-1.525) {\textbf{L3}\\Petri net};
+\node[rotate=90,anchor=center,font=\footnotesize,text=accent] at (0.200,-1.525) {Petri net};
 \draw[->,accent!70,line width=0.9pt] (4.850,-3.130) -- (4.850,-4.420);
 \node[anchor=east,text=accent] at (4.710,-3.775) {tactic};
 \node[circle,draw=black!60,fill=white,text=black!70,inner sep=0.6pt,minimum size=11pt,line width=0.4pt,font=\footnotesize] at (5.190,-3.775) {1};
@@ -92,7 +91,7 @@
 \draw[black!70,line width=0.7pt] (5.060,-5.300) -- (5.100,-5.513) -- (5.140,-5.705) -- (5.180,-5.878) -- (5.220,-6.035) -- (5.260,-6.176) -- (5.300,-6.303) -- (5.340,-6.417) -- (5.380,-6.521) -- (5.420,-6.614) -- (5.460,-6.698) -- (5.500,-6.774) -- (5.540,-6.842) -- (5.580,-6.904) -- (5.620,-6.959) -- (5.660,-7.009) -- (5.700,-7.055) -- (5.740,-7.095) -- (5.780,-7.132) -- (5.820,-7.165) -- (5.860,-7.195) -- (5.900,-7.222) -- (5.940,-7.247) -- (5.980,-7.268) -- (6.020,-7.288) -- (6.060,-7.306) -- (6.100,-7.322) -- (6.140,-7.337) -- (6.180,-7.350) -- (6.220,-7.362) -- (6.260,-7.372);
 \draw[->,black!45,line width=0.45pt] (4.630,-6.695) -- (4.940,-6.695);
 \node[anchor=north,align=center,text=black!58] at (5.660,-7.550) {exponential\\draw};
-\node at (8.535,-4.880) {Tactic-to-verb mapping};
+\node at (8.535,-4.880) {Tactic-to-action mapping};
 \draw[black!45,line width=0.35pt] (7.735,-5.460) -- (7.735,-7.930);
 \draw[black!45,line width=0.35pt] (8.099,-5.460) -- (8.245,-7.930);
 \draw[black!45,line width=0.35pt] (8.281,-5.460) -- (8.245,-7.930);
@@ -123,7 +122,7 @@
 \fill[black!68] (9.775,-7.930) circle (1.4pt);
 \fill[black!68] (10.285,-7.930) circle (1.4pt);
 \node[anchor=east,text=black!58] at (7.535,-5.460) {tactics};
-\node[anchor=east,text=black!58] at (7.535,-7.930) {verbs};
+\node[anchor=east,text=black!58] at (7.535,-7.930) {actions};
 \node at (12.592,-4.880) {Failure matrix};
 \fill[black!8] (11.717,-5.937) rectangle (11.833,-5.820);
 \fill[black!54] (11.833,-5.937) rectangle (11.950,-5.820);
@@ -340,13 +339,13 @@
 \fill[black!8] (13.350,-7.570) rectangle (13.467,-7.453);
 \draw[black!35,line width=0.35pt] (11.717,-7.570) rectangle (13.467,-5.820);
 \draw[draw=accent!45,line width=0.5pt,rounded corners=2pt] (1.950,-8.450) rectangle (15.120,-4.500);
-\node[rotate=90,anchor=center,font=\footnotesize,text=accent] at (0.200,-6.475) {Controller layer};
+\node[rotate=90,anchor=center,font=\footnotesize,text=accent] at (0.200,-6.475) {Join};
 \draw[->,black!55,line width=0.9pt] (4.478,-8.530) -- (4.478,-9.820);
 \node[circle,draw=black!60,fill=white,text=black!70,inner sep=0.6pt,minimum size=11pt,line width=0.4pt,font=\footnotesize] at (4.818,-9.175) {2};
 \node[anchor=west,text=black!58] at (5.098,-9.175) {drawn dwell time};
 \draw[->,black!55,line width=0.9pt] (8.535,-8.530) -- (8.535,-9.820);
 \node[circle,draw=black!60,fill=white,text=black!70,inner sep=0.6pt,minimum size=11pt,line width=0.4pt,font=\footnotesize] at (8.875,-9.175) {3};
-\node[anchor=west,text=black!58] at (9.155,-9.175) {verb};
+\node[anchor=west,text=black!58] at (9.155,-9.175) {action};
 \draw[->,black!55,line width=0.9pt] (12.592,-9.820) -- (12.592,-8.530);
 \node[circle,draw=black!60,fill=white,text=black!70,inner sep=0.6pt,minimum size=11pt,line width=0.4pt,font=\footnotesize] at (12.252,-9.640) {4};
 \node[anchor=east,text=black!58] at (11.972,-9.640) {verdict};
@@ -354,7 +353,7 @@
 \draw[->,black!55,line width=0.9pt,rounded corners=3pt] (12.592,-9.400) -- (15.480,-9.400) -- (15.480,-4.200) -- (14.670,-4.200) -- (14.670,-3.130);
 \node[rotate=90,anchor=center,text=black!58] at (15.740,-6.800) {success};
 \draw[draw=black!22,line width=0.5pt,rounded corners=2pt,fill=black!4] (1.950,-11.850) rectangle (15.120,-9.900);
-\node[rotate=90,anchor=center,font=\footnotesize,text=black!55] at (0.200,-10.875) {Action layer};
+\node[rotate=90,anchor=center,font=\footnotesize,text=black!55] at (0.200,-10.875) {MTDSim};
 \draw[black!38,fill=white,line width=0.5pt,rounded corners=1.6pt] (2.650,-11.395) rectangle (5.850,-10.595);
 \node at (4.250,-10.995) {Attacker};
 \draw[black!38,fill=white,line width=0.5pt,rounded corners=1.6pt] (6.935,-11.395) rectangle (10.135,-10.595);
@@ -364,7 +363,5 @@
 \draw[<->,black!45,line width=0.55pt] (5.910,-10.995) -- (6.875,-10.995);
 \draw[<->,black!45,line width=0.55pt] (11.160,-10.995) -- (10.195,-10.995);
 \node[anchor=north,text=black!50] at (8.535,-9.980) {inherited from MTDSim};
-\draw[black!45,line width=0.45pt,decorate,decoration={brace,amplitude=3.5pt,mirror}] (1.790,-4.500) -- (1.790,-11.850);
-\node[anchor=east,align=right] at (1.590,-8.175) {\textbf{L4}\\traversal\\in MTDSim};
 \end{tikzpicture}
 \end{document}

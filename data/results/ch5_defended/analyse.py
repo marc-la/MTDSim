@@ -21,6 +21,12 @@ Sections written to ``numbers.json`` (keyed apart):
   s55      Fig. 5.7 / 5.8 / Tab. 5.8 — occupancy against suppression; the
            movement arm's time split; effort per host, both arms
   regime   the exponential-regime arm at 200 s, read beside the core
+  shield   MTDShield's decisions and the training-input check
+  sweep    NCR reduction against the six deployment intervals, per attacker,
+           profile and layer
+  ranking  §5.3.2's table: per interval and attacker, every ranked condition's
+           metrics and its Scott-Knott ESD rank (sk_esd.py), and Spearman's
+           rho between the two attackers' NCR reductions
 
     PYTHONPATH=src python data/results/ch5_defended/analyse.py
 """
@@ -36,6 +42,7 @@ from scipy.stats import spearmanr
 from mtdsim.l3_simulation.movement import measures as M
 from mtdsim.l3_simulation.movement.attacker import MovementRecord
 from mtdsim.l3_simulation.movement.statistics import MovementRunResult, MTDExecution
+from sk_esd import sk_esd
 
 HERE = Path(__file__).resolve().parent
 RUNS = HERE / "runs.jsonl"
@@ -59,12 +66,23 @@ LABEL = {
 SINGLES = ("ip_shuffle", "complete_topology", "host_topology", "port_shuffle",
            "user_shuffle", "os_diversity", "service_diversity")
 SCHEMES = ("random", "alternative")
-DEFENDED = SINGLES + SCHEMES
+# MTDShield and random over its four (2026-09-25, appended to the core group
+# only), so the lineage and regime reads stay on the corpus's nine.
+SHIELD = ("random_four", "mtdshield")
+CORPUS9 = SINGLES + SCHEMES
+DEFENDED = CORPUS9 + SHIELD
+# the conditions the floats report and rank (Marc 2026-09-25: random over
+# MTDShield's four is run but reported nowhere, so it takes no rank)
+RANKED = tuple(c for c in DEFENDED if c != "random_four")
+# the input-definition check: the same agent through Tay's training builder
+SHIELD_CHECK = ("mtdshield_train",)
+ACTION_NAME = {0: "no-op", 1: "complete_topology", 2: "ip_shuffle", 3: "os_diversity", 4: "service_diversity"}
 SHORT = {
     "none": "none", "ip_shuffle": "IP", "complete_topology": "topology",
     "host_topology": "host", "port_shuffle": "port", "user_shuffle": "user",
     "os_diversity": "OS", "service_diversity": "service", "random": "random",
-    "alternative": "alternative",
+    "alternative": "alternative", "random_four": "random (four)", "mtdshield": "MTDShield",
+    "mtdshield_train": "MTDShield (training inputs)",
 }
 LAYER = {
     "ip_shuffle": "network", "complete_topology": "network", "host_topology": "network",
@@ -158,6 +176,12 @@ def summarise_movement(row: dict) -> dict:
         "seed": row["seed"],
         "hosts": run.compromised_count,
         "reached": bool(run.reached_objective),
+        # a target host compromised (ASP, section 4.5), read from the attacker's own
+        # record as the baseline row's `hit` is: the end event also fires on the
+        # inherited 80 % compromise-ratio stop, which is not a target reached; and
+        # database_hosts_reached is read at the horizon, after later deployments
+        # may have undone the hold, so it misses targets that were taken
+        "reached_target": bool(run.reached_objective and run.first_database_reach_time is not None),
         "first_compromise": run.first_compromise_time(),
         "elapsed": run.termination_time,
         "terminal": M.terminal_mode(run),
@@ -171,6 +195,7 @@ def summarise_movement(row: dict) -> dict:
         "execs_per_ksec": dis.executions_per_ksec,
         "reconfig_total": dis.reconfig_time_total,
         "substrate_interrupted": row["mtd_attack_interrupted"],
+        "decisions": _ledger(row),
         "mix": None,
         "interrupt_idx": [i for i, r in enumerate(visits) if r.interrupted],
     }
@@ -248,7 +273,18 @@ def summarise_baseline(row: dict) -> dict:
         "execs_per_ksec": dis.executions_per_ksec,
         "reconfig_total": dis.reconfig_time_total,
         "substrate_interrupted": row["mtd_attack_interrupted"],
+        "decisions": _ledger(row),
     }
+
+
+def _ledger(row: dict) -> dict | None:
+    """MTDShield's per-decision ledger, reduced to counts per run."""
+    led = row.get("mtd_decisions")
+    if led is None:
+        return None
+    return {"n": len(led), "actions": dict(Counter(d[1] for d in led)),
+            "sources": dict(Counter(d[2] for d in led)),
+            "forced_actions": dict(Counter(d[1] for d in led if d[2] == "forced"))}
 
 
 def load() -> tuple[dict, list]:
@@ -681,7 +717,7 @@ def section_541(cells, rng) -> dict:
                     **suppression(none, hosts_of(runs), rng),
                     "delay": delay_summary(runs),
                     "blocked": _iv([r["blocked_fraction"] for r in runs if r["blocked_fraction"] is not None]),
-                    "target_reach": float(np.mean([r["reached"] for r in runs])),
+                    "target_reach": float(np.mean([r["reached_target"] for r in runs])),
                     "interrupted_per_run": _iv([r["n_interrupted"] for r in runs]),
                 }
             block[p]["none"] = {
@@ -689,7 +725,7 @@ def section_541(cells, rng) -> dict:
                 "blocked": _iv([r["blocked_fraction"] for r in _cell(cells, "core", "movement", p, "none", 0)
                                 if r["blocked_fraction"] is not None]),
                 "hosts": _iv(none),
-                "target_reach": float(np.mean([r["reached"] for r in _cell(cells, "core", "movement", p, "none", 0)])),
+                "target_reach": float(np.mean([r["reached_target"] for r in _cell(cells, "core", "movement", p, "none", 0)])),
             }
         # the pooled model (the four profiles) for the table's rows
         none4 = hosts_of(_pool(cells, "core", FOUR, "none", 0))
@@ -700,7 +736,7 @@ def section_541(cells, rng) -> dict:
                 **suppression(none4, hosts_of(runs), rng),
                 "delay": delay_summary(runs),
                 "blocked": _iv([r["blocked_fraction"] for r in runs if r["blocked_fraction"] is not None]),
-                "target_reach": float(np.mean([r["reached"] for r in runs])),
+                "target_reach": float(np.mean([r["reached_target"] for r in runs])),
             }
         pooled["none"] = {
             "delay": delay_summary(_pool(cells, "core", FOUR, "none", 0)),
@@ -722,7 +758,8 @@ def section_541(cells, rng) -> dict:
 # --- §5.4.2 --------------------------------------------------------------------
 
 
-def arm_cells(cells, group, interval, objective="targeted", regime="shifted", none_group=None):
+def arm_cells(cells, group, interval, objective="targeted", regime="shifted", none_group=None,
+              conds=DEFENDED):
     """hosts arrays per condition for the two arms: movement = the four
     profiles pooled; baseline = the inherited attacker. The no-defence cell
     is regime-unread, so an arm group without one (the regime arm) borrows
@@ -730,7 +767,7 @@ def arm_cells(cells, group, interval, objective="targeted", regime="shifted", no
     ng = none_group or group
     mv = {"none": hosts_of(_pool(cells, ng, FOUR, "none", 0, objective=objective))}
     bl = {"none": hosts_of(_cell(cells, ng, "baseline", "baseline", "none", 0, objective=objective))}
-    for c in DEFENDED:
+    for c in conds:
         mv[c] = hosts_of(_pool(cells, group, FOUR, c, interval, objective=objective, regime=regime))
         bl[c] = hosts_of(_cell(cells, group, "baseline", "baseline", c, interval, objective=objective, regime=regime))
     return {"movement": mv, "baseline": bl}
@@ -740,20 +777,21 @@ def rank_block(arms: dict, rng) -> dict:
     """Suppression per condition per arm, the two orderings, Spearman rho
     with a seed-bootstrap interval, and the family contrast (network-layer
     vs application-layer hosts) as Cliff's delta per arm."""
-    sup = {arm: {c: suppression(h["none"], h[c], rng) for c in DEFENDED} for arm, h in arms.items()}
-    pts = {arm: [sup[arm][c]["point"] for c in DEFENDED] for arm in arms}
+    conds = [c for c in arms["movement"] if c != "none"]
+    sup = {arm: {c: suppression(h["none"], h[c], rng) for c in conds} for arm, h in arms.items()}
+    pts = {arm: [sup[arm][c]["point"] for c in conds] for arm in arms}
     rho = float(spearmanr(pts["movement"], pts["baseline"]).statistic)
     boots = np.empty(N_BOOT // 2)
     for b in range(len(boots)):
         vec = {}
         for arm, h in arms.items():
             none = h["none"][rng.integers(0, len(h["none"]), len(h["none"]))].mean()
-            vec[arm] = [1 - h[c][rng.integers(0, len(h[c]), len(h[c]))].mean() / none for c in DEFENDED]
+            vec[arm] = [1 - h[c][rng.integers(0, len(h[c]), len(h[c]))].mean() / none for c in conds]
         boots[b] = spearmanr(vec["movement"], vec["baseline"]).statistic
     lo, hi = np.quantile(boots, [0.025, 0.975])
-    ranks = {arm: {c: int(r) for c, r in zip(DEFENDED, (-np.array(pts[arm])).argsort().argsort() + 1)}
+    ranks = {arm: {c: int(r) for c, r in zip(conds, (-np.array(pts[arm])).argsort().argsort() + 1)}
              for arm in arms}
-    top = {arm: max(DEFENDED, key=lambda c: sup[arm][c]["point"]) for arm in arms}
+    top = {arm: max(conds, key=lambda c: sup[arm][c]["point"]) for arm in arms}
     family = {}
     for arm, h in arms.items():
         net = np.concatenate([h[c] for c in SINGLES if LAYER[c] == "network"])
@@ -794,7 +832,8 @@ def section_543(cells, rng) -> dict:
     shuffle = [c for c in SINGLES if FAMILY[c] == "shuffle"]
     diversity = [c for c in SINGLES if FAMILY[c] == "diversity"]
     out = {"objective": "general", "by_interval": {}, "claims": {}}
-    blocks = {i: rank_block(arm_cells(cells, "lineage", i, objective="general"), rng) for i in INTERVALS}
+    blocks = {i: rank_block(arm_cells(cells, "lineage", i, objective="general", conds=CORPUS9), rng)
+              for i in INTERVALS}
     out["by_interval"] = {str(i): b for i, b in blocks.items()}
     for arm in ("baseline", "movement"):
         out["claims"][arm] = {
@@ -902,14 +941,171 @@ def section_55(cells, rng, s542: dict) -> dict:
     return out
 
 
+# --- MTDShield (2026-09-25) ------------------------------------------------------
+
+
+def _ledger_block(runs) -> dict:
+    led = [r["decisions"] for r in runs if r.get("decisions")]
+    n = sum(d["n"] for d in led)
+    acts, srcs, forced = Counter(), Counter(), Counter()
+    for d in led:
+        acts.update({int(k): v for k, v in d["actions"].items()})
+        srcs.update(d["sources"])
+        forced.update({int(k): v for k, v in d["forced_actions"].items()})
+    return {
+        "runs": len(led), "decisions": n,
+        "decisions_per_run": _iv([d["n"] for d in led]) if led else None,
+        "action_share": {ACTION_NAME[a]: acts.get(a, 0) / n if n else None for a in ACTION_NAME},
+        "source_share": {k: v / n for k, v in srcs.items()} if n else {},
+        "forced_share": (srcs.get("forced", 0) / n) if n else None,
+        "forced_action_share": {ACTION_NAME[a]: v / sum(forced.values()) for a, v in forced.items()} if forced else {},
+        "executions_per_run": _iv([r["n_executed"] for r in runs]),
+    }
+
+
+def section_shield(cells, rng) -> dict:
+    """What the agent chose (the ledger), per arm and interval, and the input
+    check: the same agent through Tay's training builder."""
+    out = {"conditions": list(SHIELD), "check": list(SHIELD_CHECK), "by_interval": {}}
+    for interval in INTERVALS:
+        blk = {"ledger": {}, "check": {}}
+        for c in ("mtdshield",) + SHIELD_CHECK:
+            blk["ledger"][c] = {
+                "baseline": _ledger_block(_cell(cells, "core", "baseline", "baseline", c, interval)),
+                "movement": _ledger_block(_pool(cells, "core", FOUR, c, interval)),
+                **{p: _ledger_block(_cell(cells, "core", "movement", p, c, interval)) for p in PROFILES},
+            }
+        arms = arm_cells(cells, "core", interval, conds=("mtdshield",) + SHIELD_CHECK)
+        for arm, h in arms.items():
+            blk["check"][arm] = {c: suppression(h["none"], h[c], rng) for c in ("mtdshield",) + SHIELD_CHECK}
+            blk["check"][arm]["n"] = {c: int(len(h[c])) for c in ("mtdshield",) + SHIELD_CHECK}
+        out["by_interval"][str(interval)] = blk
+    return out
+
+
+# --- the interval sweep (E6; §5.3.2-§5.3.3 line charts, 2026-09-25) -----------
+
+# Table 2.4's words for the layer each single rewrites (LAYER above keeps the
+# corpus's older keys).
+LAYER_WORD = {"network": "host", "application": "service", "reserve": "credentials"}
+
+
+def sweep_intervals(cells) -> list[int]:
+    """Every deployment interval the core group has a defended cell at, so the
+    sweep reads whatever the corpus holds (two levels before the sweep, six after)."""
+    return sorted({k[5] for k in cells if k[0] == "core" and k[4] in DEFENDED and k[5]})
+
+
+def section_sweep(cells, rng) -> dict:
+    """NCR reduction against the deployment interval for every condition: per
+    attacker (the model = the four profiles pooled), per profile, and per layer
+    (the mean of the layer's mechanisms each deployed alone, i.e. 1 - pooled
+    NCR / no-defence NCR over their runs); ranks per attacker; executions and
+    suspensions per run."""
+    ivs = sweep_intervals(cells)
+    out = {"intervals": ivs, "conditions": list(DEFENDED), "profiles": list(PROFILES),
+           "layers": {w: [c for c in SINGLES if LAYER_WORD[LAYER[c]] == w] for w in LAYER_WORD.values()},
+           "by_interval": {}}
+    none_p = {p: hosts_of(_cell(cells, "core", "movement", p, "none", 0)) for p in PROFILES}
+    for i in ivs:
+        present = [c for c in DEFENDED if _cell(cells, "core", "baseline", "baseline", c, i)]
+        arms = arm_cells(cells, "core", i, conds=present)
+        blk = {"conditions": present, "attacker": {}, "profile": {}, "layer": {}, "ranks": {},
+               "executions": {}, "suspended": {}}
+        for arm, h in arms.items():
+            blk["attacker"][arm] = {c: suppression(h["none"], h[c], rng) for c in present}
+            pts = [blk["attacker"][arm][c]["point"] for c in present]
+            blk["ranks"][arm] = {c: int(r) for c, r in zip(present, (-np.array(pts)).argsort().argsort() + 1)}
+            blk["layer"][arm] = {w: suppression(h["none"], np.concatenate([h[c] for c in cs]), rng)
+                                 for w, cs in out["layers"].items() if all(c in present for c in cs)}
+        for p in PROFILES:
+            blk["profile"][p] = {c: suppression(none_p[p], hosts_of(_cell(cells, "core", "movement", p, c, i)), rng)
+                                 for c in present}
+        for c in present:
+            mv, bl = _pool(cells, "core", FOUR, c, i), _cell(cells, "core", "baseline", "baseline", c, i)
+            blk["executions"][c] = {"movement": _iv([r["n_executed"] for r in mv]),
+                                    "baseline": _iv([r["n_executed"] for r in bl])}
+            blk["suspended"][c] = {"movement": _iv([r.get("n_suspended", 0) for r in mv]),
+                                   "baseline": _iv([r.get("n_suspended", 0) for r in bl])}
+        out["by_interval"][str(i)] = blk
+    return out
+
+
+def _metrics(runs, none_hosts, rng, *, blocked: bool) -> dict:
+    return {
+        **suppression(none_hosts, hosts_of(runs), rng),
+        "hosts": _iv(hosts_of(runs)),
+        "asp": float(np.mean([r["reached_target"] for r in runs])),
+        "delay": delay_summary(runs),
+        "blocked": (_iv([r["blocked_fraction"] for r in runs if r["blocked_fraction"] is not None])
+                    if blocked else None),
+    }
+
+
+def per_seed_hosts(runs) -> np.ndarray:
+    """Mean hosts compromised per seed, in seed order. Every condition and
+    attacker runs on the same seeds, and the seed fixes the network, so the
+    seed is the independent unit; the APT attacker model's four profiles at one
+    seed are averaged into one value (sceptical examiner, 2026-09-25: the four
+    are clustered, intraclass correlation up to 0.29)."""
+    by = defaultdict(list)
+    for r in runs:
+        by[r["seed"]].append(r["hosts"])
+    return np.array([np.mean(by[k]) for k in sorted(by)], dtype=float)
+
+
+def section_ranking(cells, rng) -> dict:
+    """§5.3.2's table (Marc 2026-09-25): per deployment interval and attacker,
+    the ranked conditions' attack-outcome and MTD-effectiveness metrics, the
+    no-defence row, and the Scott-Knott ESD rank on per-run hosts compromised
+    (within one attacker every condition shares the no-defence mean, so the
+    order of NCR reduction is the order of mean hosts compromised), on the
+    per-seed means (per_seed_hosts: 100 units per condition for both attackers,
+    so the two rankings rest on the same count). The
+    baseline attacker records no blocked actions (structural zero), so its
+    blocked metric is None, not 0."""
+    out = {"conditions": list(RANKED), "intervals": sweep_intervals(cells), "by_interval": {}}
+    none = {"movement": _pool(cells, "core", FOUR, "none", 0),
+            "baseline": _cell(cells, "core", "baseline", "baseline", "none", 0)}
+    for i in out["intervals"]:
+        blk = {}
+        pts = {}
+        for arm in ("movement", "baseline"):
+            get = ((lambda c: _pool(cells, "core", FOUR, c, i)) if arm == "movement"
+                   else (lambda c: _cell(cells, "core", "baseline", "baseline", c, i)))
+            runs = {c: get(c) for c in RANKED}
+            nh = hosts_of(none[arm])
+            rows = {c: _metrics(runs[c], nh, rng, blocked=(arm == "movement")) for c in RANKED}
+            sk = sk_esd({c: per_seed_hosts(runs[c]) for c in RANKED}, best="low")  # rank 1 = fewest hosts
+            for c in RANKED:
+                rows[c]["rank"] = sk["rank"][c]
+            blk[arm] = {
+                "rows": rows,
+                "none": {"hosts": _iv(nh), "asp": float(np.mean([r["reached_target"] for r in none[arm]])),
+                         "delay": delay_summary(none[arm]),
+                         "blocked": (_iv([r["blocked_fraction"] for r in none[arm] if r["blocked_fraction"] is not None])
+                                     if arm == "movement" else None)},
+                "sk_esd": {k: v for k, v in sk.items() if k != "rank"},
+            }
+            pts[arm] = [rows[c]["point"] for c in RANKED]
+        rho = float(spearmanr(pts["movement"], pts["baseline"]).statistic)
+        rs = [float(spearmanr([blk["movement"]["rows"][c]["rank"] for c in RANKED],
+                              [blk["baseline"]["rows"][c]["rank"] for c in RANKED]).statistic)]
+        blk["spearman_points"] = rho
+        blk["spearman_sk_ranks"] = rs[0]
+        out["by_interval"][str(i)] = blk
+    return out
+
+
 # --- the regime arm ------------------------------------------------------------
 
 
 def section_regime(cells, rng, s542: dict) -> dict:
     core = s542["by_interval"]["200"]
-    exp = rank_block(arm_cells(cells, "regime", 200, regime="exponential", none_group="core"), rng)
+    exp = rank_block(arm_cells(cells, "regime", 200, regime="exponential", none_group="core",
+                               conds=CORPUS9), rng)
     delta = {arm: {c: exp["suppression"][arm][c]["point"] - core["suppression"][arm][c]["point"]
-                   for c in DEFENDED} for arm in ("movement", "baseline")}
+                   for c in CORPUS9} for arm in ("movement", "baseline")}
     execs = {arm: {c: {
         "core": _iv([r["n_executed"] for r in (_pool(cells, "core", FOUR, c, 200) if arm == "movement"
                                               else _cell(cells, "core", "baseline", "baseline", c, 200))]),
@@ -917,7 +1113,7 @@ def section_regime(cells, rng, s542: dict) -> dict:
                                                      else _cell(cells, "regime", "baseline", "baseline", c, 200, regime="exponential"))]),
         "suspended_exponential": _iv([r["n_suspended"] for r in (_pool(cells, "regime", FOUR, c, 200, regime="exponential") if arm == "movement"
                                                                 else _cell(cells, "regime", "baseline", "baseline", c, 200, regime="exponential"))]),
-    } for c in DEFENDED} for arm in ("movement", "baseline")}
+    } for c in CORPUS9} for arm in ("movement", "baseline")}
     return {"regime": "exponential", "interval": 200, "rank_block": exp,
             "suppression_exponential_minus_core": delta, "executions": execs}
 
@@ -1096,10 +1292,16 @@ def main() -> int:
     baseline_blocked_ok = all(
         all(r["blocked_fraction"] == 0.0 for r in v) for k, v in cells.items() if k[1] == "baseline"
     )
+    # The input check (Tay's training builder, verbatim) may die on a run; its
+    # dead cells are counted apart so they are reported, not drawn from.
+    check = lambda k: k.split("|")[4] in SHIELD_CHECK  # noqa: E731
     sanity = {
-        "error_rows": len(errors),
+        "error_rows": sum(1 for e in errors if e["condition"] not in SHIELD_CHECK),
+        "check_error_rows": sum(1 for e in errors if e["condition"] in SHIELD_CHECK),
+        "check_errors": dict(Counter(f"{e['arm']}|{e['profile']}|{e['interval']}|{e['error'][:80]}"
+                                     for e in errors if e["condition"] in SHIELD_CHECK)),
         "cells": len(counts),
-        "all_cells_100": all(v == 100 for v in counts.values()),
+        "all_cells_100": all(v == 100 for k, v in counts.items() if not check(k)),
         "cells_not_100": {k: v for k, v in counts.items() if v != 100},
         "max_events_hit": sum(1 for k, v in cells.items() if k[1] == "movement"
                               for r in v if r["terminal"] == "max_events"),
@@ -1123,6 +1325,9 @@ def main() -> int:
     out["s543"] = section_543(cells, rng)
     out["s55"] = section_55(cells, rng, out["s542"])
     out["regime"] = section_regime(cells, rng, out["s542"])
+    out["shield"] = section_shield(cells, rng)
+    out["sweep"] = section_sweep(cells, rng)
+    out["ranking"] = section_ranking(cells, rng)
     (HERE / "numbers.json").write_text(json.dumps(out, indent=1, default=float), encoding="utf-8")
     previews(out)
 
@@ -1163,6 +1368,19 @@ def main() -> int:
     print("\n§5.5 spearman(occupancy, suppression) @200:", out["s55"]["by_interval"]["200"]["spearman_occupancy_suppression_movement"],
           out["s55"]["by_interval"]["200"]["spearman_occupancy_suppression_baseline"])
     print("regime Δ suppression (exp − core) @200:", json.dumps(out["regime"]["suppression_exponential_minus_core"], indent=0))
+    for interval in INTERVALS:
+        blk = out["shield"]["by_interval"][str(interval)]
+        for c, arms in blk["ledger"].items():
+            for arm in ("baseline", "movement"):
+                L = arms[arm]
+                if not L["decisions"]:
+                    continue
+                print(f"\nMTDShield {c} @ {interval} s {arm}: runs {L['runs']}, decisions/run {L['decisions_per_run']['mean']:.1f}, "
+                      f"execs/run {L['executions_per_run']['mean']:.1f}, forced {L['forced_share']:.3f}, "
+                      f"actions {json.dumps({k: round(v, 3) for k, v in L['action_share'].items()})}")
+        for arm, chk in blk["check"].items():
+            print(f"   check {arm}: " + "  ".join(f"{c} {chk[c]['point']:.3f} [{chk[c]['lo']:.3f},{chk[c]['hi']:.3f}] n={chk['n'][c]}"
+                                                for c in ("mtdshield",) + SHIELD_CHECK))
     return 0
 
 

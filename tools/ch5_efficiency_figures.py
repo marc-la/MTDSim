@@ -134,7 +134,7 @@ def emit_fig57(s55: dict) -> tuple[str, list]:
         kx = X0[0] + j * 4.2
         marker(w, mk, cname, kx + 0.1, ky, r=0.085)
         w(r"\node[anchor=west] at (%.3f,%.3f) {%s};" % (kx + 0.3, ky, LABEL[arm]))
-    w(r"\node[anchor=west,text=black!60] at (%.3f,%.3f) {whiskers: 95\,\%% intervals on both axes; label left of a marker: baseline attacker, right: movement attacker};" % (X0[0], ky - 0.4))
+    w(r"\node[anchor=west,text=black!60] at (%.3f,%.3f) {whiskers: 95\,\%% intervals on both axes; label left of a marker: baseline attacker, right: APT attacker model};" % (X0[0], ky - 0.4))
     w(r"\end{tikzpicture}")
     w(r"\end{document}")
     return "\n".join(L) + "\n", facts

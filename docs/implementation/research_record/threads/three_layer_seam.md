@@ -1,5 +1,15 @@
 # Movement / controller / action — the trichotomy, the concession, and the dial
 
+> **Dissolved on the dissertation's surface, 2026-09-22.** The trichotomy
+> coined in #24 (below) survived to the supervisor's 22 September reading and
+> did not survive it: "layer is like OSI layers"; the three are a process, part
+> of the pipeline, and a name that does no work is "another step of confusion"
+> (register E2). Marc ruled no names. The thesis now says *the profile net*,
+> *the join* and *the simulator's verbs* / *MTDSim*; the repo keeps the three
+> words, and `architecture.md` §(f) states the mapping once. The pre-registered
+> expectation and the owned concession recorded here stand — they were never
+> about the names.
+
 **Span:** 2026-07-16 → 2026-08-03. **Prompts:** #24, #25, #29, #35, #49, #62,
 #65, #66. Landed:
 [`../../architecture.md`](../../architecture.md),

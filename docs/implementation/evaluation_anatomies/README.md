@@ -39,7 +39,20 @@ Formal-model cousins: `bland2020`, `outkin2023`, `anderson2016`, `torquato2022`,
 different shape because they have no experiment of their own: `cho2020`,
 `jalowski2026`. Metric-definition genre: `manadhatawing2011tse`.
 
-Two files are not per-paper:
+Four files are not per-paper:
+
+- [`_method_heading_survey.md`](_method_heading_survey.md) — the grammatical
+  form of 124 method-subsection headings in 29 corpus papers, each verbatim with
+  a locator (2026-09-25): noun phrases about 73 %, process nouns about 18 %,
+  gerunds rare. The evidence for the chapter 4 heading ruling (E8 handoff, F4b).
+
+- [`_overview_figures_survey.md`](_overview_figures_survey.md) — how fifteen
+  corpus papers draw their method-overview figure (box count and kind, arrow
+  meanings, naming word, where the simulator goes, caption length), each figure
+  rendered and page-located (2026-09-25). The corpus evidence behind the
+  scrutinise-figure skill's schematic reference
+  (`.claude/skills/scrutinise-figure/diagram_best_practice.md`) and the
+  Figure 4.1 critique.
 
 - [`extraction_only_sources.md`](extraction_only_sources.md) — twelve extraction
   records read for evaluation-design content, each flagged extraction-only

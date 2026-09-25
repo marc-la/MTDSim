@@ -55,6 +55,18 @@
   url         = {https://www.nitrd.gov/nitrdgroups/images/b/bd/National_Cyber_Leap_Year_Summit_2009_CoChairs_Report.pdf}
 }
 
+%% Zhuang et al. 2012 --- ch1 P2 (the attacker's asymmetric advantage of time,
+%% p. 1: "attackers have an asymmetric advantage in that they have time to study
+%% our networks"). Source: docs/sources/methodology/zhuang2012_simulation_mtd.md.
+%% VERIFY (2026-09-24): venue and pages from session recollection --- the source
+%% copy carries no venue line; confirm the proceedings before submission.
+@inproceedings{zhuang2012,
+  author    = {Zhuang, Rui and Zhang, Su and DeLoach, Scott A. and Ou, Xinming and Singhal, Anoop},
+  title     = {Simulation-based Approaches to Studying Effectiveness of Moving-Target Network Defense},
+  booktitle = {Proceedings of the National Symposium on Moving Target Research},
+  year      = {2012}
+}
+
 
 %% Cho 2020 — IEEE COMST. Publisher key 8949517.
 @article{cho2020,
@@ -159,6 +171,21 @@
 
 %% Ho 2024 — UWA GENG5512 research-project report. MANUAL (no DOI).
 %% Added 2026-08-31 for the ch3 lineage citation; metadata from
+%% Tay's released agents and evaluation code (Appendix app:mtdshield). Added
+%% 2026-09-25. The agents entered history in commit f13ed49 ("Added models for
+%% gamma", author "Joo Kai", 23 Sep 2024, which also added the epsilon models);
+%% e6c13c6 (3 Dec 2024) is the repository's final state, whose evaluation
+%% notebook runs epsilon_0.5_decay_0.99. VERIFY before submission: the owner
+%% handle "bsubs" is Tay's (the commit author names say Joo Kai / Bsubs, and
+%% the agents sit under models_joo_kai/).
+@misc{tay2024code,
+  author       = {Tay, Joo Kai},
+  title        = {{MTDSim} with {MTDShield}: trained agents and evaluation code},
+  howpublished = {GitHub repository, \url{https://github.com/bsubs/MTDSim}},
+  note         = {Agents from commit f13ed49 (23 September 2024); evaluation notebook at commit e6c13c6 (3 December 2024)},
+  year         = {2024}
+}
+
 %% docs/sources/extractions/ho2024.md (title as the report's cover gives it).
 @mastersthesis{ho2024,
   author  = {Ho, Wai Him},
@@ -238,6 +265,51 @@
 %
 %
 %% He 2025 — IEEE TDSC. Publisher key 10962442.
+% Added 2026-09-24 (metrics design, docs/handoffs/2026-09-22_metrics_provenance_and_instrumentation.md
+% §8.4): each verified against the metric census (docs/sources/extractions/metric_census/) or the held
+% source; author names as the source prints them (initials where it gives initials).
+@article{zhan2013,
+  author  = {Zhan, Z. and Xu, M. and Xu, S.},
+  title   = {Characterizing Honeypot-Captured Cyber Attacks: Statistical Framework and Case Study},
+  journal = {IEEE Transactions on Information Forensics and Security},
+  volume  = {8},
+  number  = {11},
+  pages   = {1775--1789},
+  year    = {2013},
+  doi     = {10.1109/TIFS.2013.2279800}
+}
+%% VERIFY (pendleton2016): the attack-rate wording (§5.1) was read in arXiv 1601.05792v1; confirm it in
+%% the published version before quoting.
+@article{pendleton2016,
+  author  = {Pendleton, M. and Garcia-Lebron, R. and Cho, J.-H. and Xu, S.},
+  title   = {A Survey on Systems Security Metrics},
+  journal = {ACM Computing Surveys},
+  volume  = {49},
+  number  = {4},
+  pages   = {62:1--62:35},
+  year    = {2016},
+  doi     = {10.1145/3005714}
+}
+@techreport{ward2018,
+  author      = {Ward, B. C. and Gomez, S. R. and Skowyra, R. W. and Bigelow, D. and Martin, J. N. and Landry, J. W. and Okhravi, H.},
+  title       = {Survey of Cyber Moving Targets, Second Edition},
+  institution = {MIT Lincoln Laboratory},
+  number      = {1228},
+  address     = {Lexington, MA},
+  year        = {2018},
+  month       = jan
+}
+@article{jafarian2015,
+  author  = {Jafarian, Jafar Haadi and Al-Shaer, Ehab and Duan, Qi},
+  title   = {An Effective Address Mutation Approach for Disrupting Reconnaissance Attacks},
+  journal = {IEEE Transactions on Information Forensics and Security},
+  volume  = {10},
+  number  = {12},
+  pages   = {2562--2577},
+  year    = {2015},
+  doi     = {10.1109/TIFS.2015.2467358}
+}
+
 @article{he2025,
   author  = {He, Ke and Kim, Dan Dongseong and Asghar, Muhammad Rizwan},
   title   = {{MTD-AD}: Moving Target Defense as Adversarial Defense},
@@ -1219,4 +1291,94 @@
   pages   = {5},
   year    = {2016},
   doi     = {10.18564/jasss.2857}
+}
+
+% 2026-09-25 (results context §8j-4): the ranking method for §5.3.2's table,
+% declared in §4.5. Metadata checked against Crossref (DOIs below).
+@article{scott1974cluster,
+  author  = {Scott, A. J. and Knott, M.},
+  title   = {A Cluster Analysis Method for Grouping Means in the Analysis of Variance},
+  journal = {Biometrics},
+  volume  = {30},
+  number  = {3},
+  pages   = {507--512},
+  year    = {1974},
+  doi     = {10.2307/2529204}
+}
+
+@article{tantithamthavorn2017empirical,
+  author  = {Tantithamthavorn, Chakkrit and McIntosh, Shane and Hassan, Ahmed E. and Matsumoto, Kenichi},
+  title   = {An Empirical Comparison of Model Validation Techniques for Defect Prediction Models},
+  journal = {IEEE Transactions on Software Engineering},
+  volume  = {43},
+  number  = {1},
+  pages   = {1--18},
+  year    = {2017},
+  doi     = {10.1109/TSE.2016.2584050}
+}
+
+@book{cohen1988statistical,
+  author    = {Cohen, Jacob},
+  title     = {Statistical Power Analysis for the Behavioral Sciences},
+  edition   = {2nd},
+  publisher = {Lawrence Erlbaum Associates},
+  address   = {Hillsdale, NJ},
+  year      = {1988}
+}
+
+% 2026-09-25: the run-count guidance for §4.5's Statistical analysis (Crossref-checked;
+% online 2012, issue 2014).
+@article{arcuri2014hitchhiker,
+  author  = {Arcuri, Andrea and Briand, Lionel},
+  title   = {A Hitchhiker's Guide to Statistical Tests for Assessing Randomized Algorithms in Software Engineering},
+  journal = {Software Testing, Verification and Reliability},
+  volume  = {24},
+  number  = {3},
+  pages   = {219--250},
+  year    = {2014},
+  doi     = {10.1002/stvr.1486}
+}
+
+% Added 2026-09-25 with the §4.5 definitions (drafting agents' verification
+% records; each checked against Crossref).
+@article{bruneau2003,
+  author  = {Bruneau, Michel and Chang, Stephanie E. and Eguchi, Ronald T. and Lee, George C. and O'Rourke, Thomas D. and Reinhorn, Andrei M. and Shinozuka, Masanobu and Tierney, Kathleen and Wallace, William A. and von Winterfeldt, Detlof},
+  title   = {A Framework to Quantitatively Assess and Enhance the Seismic Resilience of Communities},
+  journal = {Earthquake Spectra},
+  volume  = {19},
+  number  = {4},
+  pages   = {733--752},
+  year    = {2003},
+  doi     = {10.1193/1.1623497}
+}
+
+@article{cisar2010ewma,
+  author  = {{\v{C}}isar, Petar and Bo{\v{s}}njak, Sanja and Maravi{\'c} {\v{C}}isar, Sanja},
+  title   = {{EWMA} Algorithm in Network Practice},
+  journal = {International Journal of Computers, Communications \& Control},
+  volume  = {5},
+  number  = {2},
+  pages   = {160--170},
+  year    = {2010},
+  doi     = {10.15837/ijccc.2010.2.2471}
+}
+
+@book{efron1994introduction,
+  author    = {Efron, Bradley and Tibshirani, Robert J.},
+  title     = {An Introduction to the Bootstrap},
+  publisher = {Chapman and Hall/CRC},
+  address   = {New York},
+  year      = {1994},
+  doi       = {10.1201/9780429246593}
+}
+
+@article{tantithamthavorn2019impact,
+  author  = {Tantithamthavorn, Chakkrit and McIntosh, Shane and Hassan, Ahmed E. and Matsumoto, Kenichi},
+  title   = {The Impact of Automated Parameter Optimization on Defect Prediction Models},
+  journal = {IEEE Transactions on Software Engineering},
+  volume  = {45},
+  number  = {7},
+  pages   = {683--711},
+  year    = {2019},
+  doi     = {10.1109/TSE.2018.2794977}
 }

@@ -53,7 +53,7 @@ FAMILY_LABEL = {
 # the value inherits. It is the value's *shape source*, not the verb the tactic
 # dispatches at run time --- the caption says so, because the two differ.
 PRICED_FROM = {
-    "scan-shaped": "MTDSim's scan verbs, one enumeration pass",
+    "scan-shaped": "MTDSim's scan actions, one enumeration pass",
     "exploit-shaped": "MTDSim's exploit time, at median complexity",
     "prep-off-network": "no in-simulator dwell",
 }
@@ -132,7 +132,7 @@ def main() -> None:
     # (tab:dwell-anchors, tab:dwell-derivation below).
     short = "Declared per-tactic dwell times"
     caption = (
-        "The dwell times the movement layer declares for each tactic: the mean "
+        "The dwell times declared for each tactic: the mean "
         "dwell $\\mu_p$ of Equation~\\ref{eq:gspn}, the \\emph{mean} of an "
         "exponential draw. Values are emitted from the declared catalogue "
         f"({esc(version)}); tactic names follow ATT\\&CK~v{pin}. How each value "

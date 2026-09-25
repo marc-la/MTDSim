@@ -323,6 +323,175 @@ def baseline_row(rows: list[dict]) -> dict:
     }
 
 
+# --- the metrics design, 2026-09-24 ------------------------------------------
+# docs/handoffs/2026-09-22_metrics_provenance_and_instrumentation.md §2 (Table 5.2)
+# and 2026-09-24_s45_instrumenting_mtdsim.md (the definitions §4.5 will carry).
+# An ACTION is one verb the attacker runs on the network: an APT-model record that
+# is action-bearing and not blocked (a verb whose precondition is unmet does not
+# run, so no detector could see it); the baseline attacker's consecutive
+# per-vulnerability EXPLOIT_VULN rows are one action. The variant that counts
+# blocked verbs as actions is kept beside the primary, because the choice favours
+# the APT attacker model (the baseline is never blocked) and §4.5 must state it.
+# ACTIVE TIME runs from the start of the run to the end of its last record: in the
+# targeted attack scenario the baseline attacker stops when it takes the target.
+
+TAU = 60.0                                   # the detector's memory (s); swept in app:detector-memory
+THETA = [round(1.0 + 0.1 * i, 1) for i in range(51)]   # alarm levels 1.0 .. 6.0
+NET_HOSTS = 50
+
+
+def _actions_movement(run: MovementRunResult, count_blocked: bool = False) -> tuple[list, float]:
+    # an end-of-run marker is recorded action-bearing with no verb (outcome SIM_END):
+    # it is not an action (scrutinise-figure round 1, 2026-09-24: 53 such records)
+    starts = [
+        rec.start_time for rec in run.records
+        if rec.place_class == "action-bearing" and rec.verb
+        and (count_blocked or not rec.blocked)
+    ]
+    end = max((rec.end_time for rec in run.records), default=0.0)
+    return starts, end
+
+
+def _actions_baseline(row: dict) -> tuple[list, float]:
+    starts, prev, end = [], None, 0.0
+    for rec in row["records"]:
+        verb, s, e = rec[0], rec[1], rec[2]
+        if not (verb == "EXPLOIT_VULN" and prev == "EXPLOIT_VULN"):
+            starts.append(s)
+        prev, end = verb, max(end, e)
+    return starts, end
+
+
+def _rate(starts: list, end: float) -> float | None:
+    return 1000.0 * len(starts) / end if end > 0 else None
+
+
+def _confidentiality_curve(starts: list) -> list | None:
+    """Share of actions taken with the detector below each alarm level: the
+    detector is D(t) = sum_i exp(-(t - t_i)/TAU) over past actions, each counting
+    one; an action is exposed when D, counting it, reaches the level."""
+    if not starts:
+        return None
+    d, last, level = 0.0, None, []
+    for t in starts:
+        d = (d * float(np.exp(-(t - last) / TAU)) if last is not None else 0.0) + 1.0
+        level.append(d)
+        last = t
+    lv = np.asarray(level)
+    return [float((lv < th).mean()) for th in THETA]
+
+
+def _curve_summary(curves: list) -> dict:
+    arr = np.asarray([c for c in curves if c is not None])
+    iv = [_iv(arr[:, j]) for j in range(arr.shape[1])]
+    return {"theta": THETA, "mean": [x["mean"] for x in iv], "ci95": [x["ci95"] for x in iv],
+            "n": int(arr.shape[0])}
+
+
+BIN = 1500.0                                  # the over-the-run reading's time bins (s)
+
+
+def _detector_levels(starts: list) -> list:
+    """(t, D) at each action, D counting the action itself (the detector above)."""
+    d, last, out = 0.0, None, []
+    for t in starts:
+        d = (d * float(np.exp(-(t - last) / TAU)) if last is not None else 0.0) + 1.0
+        out.append((t, d))
+        last = t
+    return out
+
+
+def confidentiality_over_run(action_lists: list, theta: float) -> dict:
+    """Attack confidentiality in each BIN of the run, at the alarm level theta:
+    the share of the actions taken in the bin while D is below theta, pooled over
+    runs, with the number of runs that act in the bin (scrutinise-figure round 3,
+    2026-09-24: Marc's reading --- persistently quieter over the run)."""
+    edges = np.arange(0.0, CORE + BIN, BIN)
+    share, active = [], []
+    levels = [_detector_levels(a) for a in action_lists]
+    for lo, hi in zip(edges[:-1], edges[1:]):
+        below = [d < theta for lv in levels for t, d in lv if lo <= t < hi]
+        share.append(float(np.mean(below)) if below else None)
+        active.append(sum(1 for lv in levels if any(lo <= t < hi for t, _ in lv)))
+    return {"bin_start": edges[:-1].tolist(), "bin": BIN, "share": share, "runs_active": active}
+
+
+def stealth_movement(runs: list[MovementRunResult]) -> dict:
+    acts = [_actions_movement(r) for r in runs]
+    acts_b = [_actions_movement(r, count_blocked=True) for r in runs]
+    return {
+        "attack_rate": _iv(v for s, e in acts if (v := _rate(s, e)) is not None),
+        "attack_rate_counting_blocked": _iv(v for s, e in acts_b if (v := _rate(s, e)) is not None),
+        "active_share_of_horizon": _iv(e / CORE for _, e in acts),
+        "confidentiality": _curve_summary([_confidentiality_curve(s) for s, _ in acts]),
+    }
+
+
+def stealth_baseline(rows: list[dict]) -> dict:
+    acts = [_actions_baseline(row) for row in rows]
+    return {
+        "attack_rate": _iv(v for s, e in acts if (v := _rate(s, e)) is not None),
+        "active_share_of_horizon": _iv(e / CORE for _, e in acts),
+        "confidentiality": _curve_summary([_confidentiality_curve(s) for s, _ in acts]),
+    }
+
+
+def time_share_movement(runs: list[MovementRunResult], profile: str) -> dict:
+    """``tactic -> share of the profile's time spent in it`` (end - start of each
+    record), pooled over runs; a tactic the profile holds and never enters reads 0.0."""
+    from mtdsim.l3_simulation.movement.net import load_routing_net
+
+    t = Counter()
+    for r in runs:
+        for rec in r.records:
+            t[rec.place] += rec.end_time - rec.start_time
+    total = sum(t.values())
+    held = load_routing_net(profile, with_synthetic_overlay=True).places
+    return {p: t.get(p, 0.0) / total for p in sorted(set(held) | set(t))}
+
+
+def time_share_baseline(rows: list[dict]) -> dict:
+    """``activity -> share of the baseline attacker's time spent in it``, pooled."""
+    t = Counter()
+    for row in rows:
+        for rec in row["records"]:
+            t[rec[0]] += rec[2] - rec[1]
+    total = sum(t.values())
+    return {v: t[v] / total for v in sorted(t)}
+
+
+def step_share_baseline(rows: list[dict]) -> dict:
+    """``verb -> share of the baseline attacker's steps``: a step is a verb ENTERED,
+    consecutive repeats of one verb collapsed (the unit its openings use, §8c), so
+    it compares like for like with the profiles' tactics entered. Steps, not time:
+    the model's time at a tactic is its declared dwell, which replaces the verb's
+    native cost, so time shares are not comparable across the attackers
+    (scrutinise-figure round 1, 2026-09-24)."""
+    c = Counter()
+    for row in rows:
+        names = [rec[0] for rec in row["records"]]
+        c.update(n for i, n in enumerate(names) if i == 0 or n != names[i - 1])
+    total = sum(c.values())
+    return {v: c[v] / total for v in sorted(c)}
+
+
+def apv(opening_share: dict) -> dict:
+    """Attack path variation across runs (adapted from Hong et al. 2018's APV):
+    for an opening of k tactics, the share of runs whose first k differ from the
+    attacker's most common first k — one minus the commonest-opening share."""
+    return {k: 1.0 - v for k, v in opening_share.items()}
+
+
+def outcome(row: dict) -> dict:
+    """The attack-outcome class in the field's names (Table 5.2)."""
+    return {
+        "asp": row["target_reach"],
+        "ncr": {k: (v / NET_HOSTS if k in ("mean", "ci95") else v) for k, v in row["hosts"].items()},
+        "mttc": row["delay"],
+        "no_compromise_share": row["zero_host_runs"] / row["n"],
+    }
+
+
 # --- Fig. 5.3 ----------------------------------------------------------------
 
 
@@ -602,8 +771,35 @@ def main() -> int:
     tactics_report = M.interval_report(
         {p: [M.distinct_place_count(r) for r in movement[("targeted", CORE, p)]] for p in PROFILES}
     )
+    metrics = {p: {
+        "outcome": outcome(rows[p]),
+        "apv": apv(rows[p]["commonest_opening_share"]),
+        "time_share": time_share_movement(movement[("targeted", CORE, p)], p),
+        "step_share": rows[p]["tactic_visit_share"],
+        **stealth_movement(movement[("targeted", CORE, p)]),
+    } for p in PROFILES}
+    # The alarm for the over-the-run reading is set by one rule, not chosen: it
+    # flags half of the baseline attacker's actions (the median of D over them),
+    # a detector tuned on the attacker the defences were built against.
+    base_levels = [d for row in baseline[CORE] for _, d in _detector_levels(_actions_baseline(row)[0])]
+    theta_b = float(np.median(base_levels))
+    for p in PROFILES:
+        metrics[p]["confidentiality_over_run"] = confidentiality_over_run(
+            [_actions_movement(r)[0] for r in movement[("targeted", CORE, p)]], theta_b)
+    metrics["baseline"] = {
+        "outcome": outcome(rows["baseline"]),
+        "apv": apv(rows["baseline"]["commonest_opening_share"]),
+        "time_share": time_share_baseline(baseline[CORE]),
+        "step_share": step_share_baseline(baseline[CORE]),
+        **stealth_baseline(baseline[CORE]),
+        "confidentiality_over_run": confidentiality_over_run(
+            [_actions_baseline(row)[0] for row in baseline[CORE]], theta_b),
+    }
     out["core"] = {
         "horizon": CORE,
+        "metrics": metrics,
+        "detector": {"tau": TAU, "theta": THETA, "net_hosts": NET_HOSTS,
+                     "alarm_tuned_to_baseline": theta_b, "rule": "flags half the baseline attacker's actions"},
         "coverage": cov,
         "table": rows,
         "divergence": div,

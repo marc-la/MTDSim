@@ -5,11 +5,14 @@ description: >
   assembled dissertation section (every unit through pass 5), read it end to
   end, and return ONE proposal ledger — register conversion toward academic
   conventions, vacuous/irrelevant sentence cuts, terminology standardisation
-  against the living registry — plus the voice.md §(f) gate report. Every
+  against the living registry, and the reader-overhead screen (names that do
+  no work, undefined or late-defined terms, unexpanded acronyms, floats that
+  do not speak the text's words) — plus the voice.md §(f) gate report. Every
   change is a proposal Marc rules on before it touches the tex; NOTHING is
   applied unratified. Use when Marc says "run the voice pass", "pass 6 on
   §X", "academic register pass", "standardise the terminology in this
-  section", "sweep the section". Not for unit-level dictation repair
+  section", "sweep the section", "screen the terms", "what here would cost a
+  mark". Not for unit-level dictation repair
   (repair-dictation), not for content scrutiny (scrutinise-draft), and not
   for flow/ordering/transitions (the integration check that follows this
   pass).
@@ -42,7 +45,7 @@ or a licensed voice device.
 ## Load order — before reading the draft, always
 
 1. [`docs/workflows/voice.md`](../../../docs/workflows/voice.md) — in full; §(f) is the gate this pass runs.
-2. [`docs/workflows/academic_register.md`](../../../docs/workflows/academic_register.md) — the target register and residue inventory.
+2. [`docs/workflows/academic_register.md`](../../../docs/workflows/academic_register.md) — the target register and residue inventory; §(i) is the reader-overhead screen sweep 4 runs.
 3. [`docs/workflows/terminology.md`](../../../docs/workflows/terminology.md) — the registry; only RATIFIED rows are enforced.
 4. [`docs/workflows/critique_protocol.md`](../../../docs/workflows/critique_protocol.md) — §(b) edit tiers and §(f) banlist govern this pass's own proposals.
 5. The section's `% DRAFT STATE` / skeleton comments in the tex, and the
@@ -92,6 +95,36 @@ Census the section against the registry:
 4. **Conflations** — distinct objects blurred (token vs movement attacker,
    profile vs net) are flagged as errors for Marc, never standardised.
 
+## Sweep 4 — reader overhead (the term screen; added 2026-09-22, register E2)
+
+Against `academic_register.md` §(i): the ten yes/no checks, with
+`tools/term_screen.py` as the mechanical half. The class this sweep exists
+for is the name that does no work — the supervisor's marking mechanism is
+that every term a reader carries for no reason lowers the top of the range.
+
+1. Run the tool on the section's chapter: `phrases --chapter N` (the phrases
+   the chapter introduces and repeats), `acronyms --chapter N`, `variants
+   --chapter N`; and `census` on every deprecated string in the registry's
+   rows. Read the output as candidates, never as findings.
+2. For each candidate, decide which it is: a **field term** (no finding), a
+   term **defined at its first use** (no finding, or a check-3 finding if the
+   definition comes later or moves), or a **name to remove** — a coinage with
+   no needs basis, an ordinary word given a technical sense, a qualified form
+   of an existing term that names the same object. Each finding: term → the
+   §(i) check it fails → one proposal (remove; the field term; define at first
+   use; expand; re-key the float) with the census.
+3. Floats included: every key, tick, header, row group and caption in the
+   section against the body's words (check 7). A float that needs
+   regenerating is a proposal on its generator, never a hand edit.
+4. The first-pages check (9) runs once per chapter, not per section: the
+   abstract, introduction and conclusion against the chapter's names.
+
+Prioritise: the names that do no work go first, then definitions, then
+acronyms, then floats. A candidate the tool raised that the session judges a
+field term is listed once, in a line, so Marc sees the judgement. Nothing
+here hard-codes a thesis term: the tool derives its candidates from the text
+and the registry rows carry the rulings (mechanism, not exception).
+
 ## The gate — voice.md §(f)
 
 Run all nine checks over the assembled section; report a per-check verdict
@@ -139,8 +172,11 @@ merged set, never on two raw streams.
    failure (critique_protocol §c).
 2. **The §(f) gate report** — nine verdicts.
 3. **Registry deltas** — new PROPOSED rows written, pending rulings restated.
-4. Word count against the ledger budget, stated once.
-5. **Self-audit close** (critique_protocol §b): every proposal re-checked
+4. **The screen report** (sweep 4) — the tool's candidate lists reduced to
+   findings, the field-term judgements in a line each, and the census the
+   validation gate will re-run after Marc rules.
+5. Word count against the ledger budget, stated once.
+6. **Self-audit close** (critique_protocol §b): every proposal re-checked
    against the §(f) banlist; report "tier audit: clean" or what was withdrawn.
 
 Applied to the tex at return time: **nothing**.

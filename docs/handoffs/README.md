@@ -8,203 +8,75 @@ line here in the same commit.
 **Reset 2026-08-05.** This file had accumulated ~450 lines of shipped-work
 archaeology, which its own contract says to prune. Every shipped entry named the
 record it landed as; those records are the permanent account, and `git log` is
-the permanent history. Both are better sources than a summary here, so the
-summaries are gone. Parked work is in [`__archive/`](__archive/).
+the permanent history. Parked work is in [`__archive/`](__archive/).
+
+**Swept 2026-09-22 (post-meeting, on Marc's direction).** Ten handoffs
+retired, each by evidence: the four-file ch3 chain (design brief, port plan,
+patchwork draft, §3.3 context — §3.1–§3.2 through pass 6, §3.3.2 ratified,
+§3.3.3 through pass 5; the residue is in the tex's own DRAFT STATE comments at
+l.~3643 and one CONFIRM, the ATT&CK pin v19.1 against Marc's spoken "19.2"); the
+§4.3 formalism inventory (the formalism landed 2026-09-08 and the supervisor
+accepted it 2026-09-22 — the notation simplification is Marc's own item, register
+E9); the ch5/ch6 structure question (superseded twice, by the 2026-09-08
+one-chapter ruling and by E1); the two run plans and the two §5.1 briefs (their
+floats and rebuilt units landed; every owed item they still carried is named in
+the 2026-09-22 corpus and setup handoffs). `git log` holds each file.
+
+**Swept 2026-09-25 (Marc: "any handoffs that are stale, can we remove them ...
+have a look for the others").** Nine retired: the 2026-09-09 experiments design,
+the 2026-09-20 results context, the 2026-09-22 ch4 overview figure family, the
+2026-09-22 defended corpus brief, the 2026-09-24 introduction design and the
+2026-09-24 §4.5 brief (all six named stale by Marc); the 2026-09-25 MTDShield
+preliminary run (evidence: run, floats and Appendix E.5 landed, commit
+7fca1e0b); the 2026-09-21 seminar design and the 2026-09-22 setup-number brief
+(deleted by their session, uncommitted until this sweep). `git log` holds each.
+The §4.5 drafting records stay tracked in
+[`../sources/extractions/s45_metric_definitions/`](../sources/extractions/s45_metric_definitions/).
 
 ---
 
 ## Open work
 
-**Swept 2026-08-11 (evening, post-meeting).** The chain-of-five is retired: (1),
-the axis-metrics brief, closed on Marc's ruling — every axis it owned now reads
-DEMONSTRATED, DESIGNED or future work, and the criterion's per-axis M8b fields
-are the permanent account; (2), (3) and (5) had already shipped or been
-replaced, their files deleted in the commits that shipped them. The axis context
-trio is retired with it (axis 6 on `dea3d4d`; axes 4 and 7 in this sweep), as is
-the disengagement retire-note, whose own retirement condition — delete when
-`feat/axis7-disengagement-clean` lands in `dev` — was met by `07a3459`. `git
-log` is the record for all of it; the shipped-work summaries this section
-carried went with them, per this file's own contract.
-
-What is open:
-
-**Swept 2026-08-13 (session close, on Marc's direction).** The 2026-08-11 set —
-the jin-meeting V-trail folder (whose last open item was the V1 + V4 instrument
-validation pass; V2 and the V5–V7 restructure had already landed and V3
-commissions nothing), the movement-objectives brief, the
-learning-scale-dependence brief, and the FSM-hosted learning control arm (the
-exploit-learning-null discriminators' last open item) — is removed on Marc's
-instruction rather than retired by evidence; the supervisor decision register
-and the shipped findings records remain the permanent account of what each
-carried, and `git log` the record of the briefs themselves. The axis-8
-timing-channel re-examination retired the same day in the commits that shipped
-its work (the D-08 regime ruling and the criterion's dated amendment).
-
-- [`2026-09-20_ch5_s52_s54_results_context.md`](2026-09-20_ch5_s52_s54_results_context.md)
-  — **the §5.2–§5.4 standing context**, written top-down and structure-only:
-  the reader and the question each results section answers for them, why the
-  three-way split is right (the funnel composed with Cho's purpose axis), what
-  each section owes at its head and hands on, a heading audit with five
-  proposed changes, the vocabulary and abstraction level the sections must stay
-  inside, and opening slots per section. Three rulings owed. Depends on the
-  ch5 design handoff; feeds every §5.2–§5.4 drafting session; retires with the
-  last of the three sections through pass 6.
-
-- [`2026-09-08_ch4_s43_gspn_formalism.md`](2026-09-08_ch4_s43_gspn_formalism.md)
-  — **§4.3's missing formalism, inventoried**: every element of the executed
-  net mapped onto Marsan's GSPN tuple (places, the timed/immediate gadget,
-  base weights, synthetic overlay, `M0`), the one extension stated as a rule
-  (immediate weights conditioned on the environment's verdict, `w · F_v ·
-  Π_m` renormalised; `F_failure = R · d`; retrace as a history restriction),
-  termination, the parameter and assumption registers for ch5/ch6, and a
-  P2 scaffold. Six rulings owed (R1–R6) before any tex change; four record
-  inconsistencies to amend first. Feeds the ch5 sensitivity design
-  (`2026-09-08_ch5_ch6_structure.md`); blocks the §4.3 P2 redraft.
-
-- [`2026-09-09_ch5_experiments_design.md`](2026-09-09_ch5_experiments_design.md)
-  — **the Experiments chapter designed against the corpus**: a section-level
-  anatomy of 25 MTD-evaluation papers, distilled into
-  [`../workflows/evaluation_conventions.md`](../workflows/evaluation_conventions.md),
-  and the ch5 design that follows — the merged parameter/assumption register
-  (answering the formalism inventory's R6 without spending a unit), the funnel
-  that lets one run set both characterise the attacker and evaluate the defence,
-  the property-to-measurement map the discussion's fidelity table depends on,
-  and eight rulings owed (C1–C8). Depends on the §4.3 formalism brief for R3,
-  which it shows to be load-bearing for the fidelity table rather than a
-  formalism nicety. **Blocked from drafting by the unreproduced headline** (see
-  the note below); nothing else blocks it.
-
-*(Four entries below no longer match `ls docs/handoffs/`, found 2026-09-09 and
-left for their owners rather than rewritten: the headline-on-restored-substrate,
-targeted-objective-diagnosis and ch2-lineage-precedents briefs are now in
-[`__archive/`](__archive/), which this file's own contract puts off the active
-chain; the §4.2 figures/tables/appendix umbrella is gone from the tree
-entirely. The headline brief's substance is unaffected by its move — the
-inversion is still unreproduced and still blocks ch5 prose, which is why the new
-entry above names it.)*
-
 - [`2026-09-15_ch6_discussion_affinity_board.md`](2026-09-15_ch6_discussion_affinity_board.md)
-  — **the discussion chapter's affinity board**: every discussion-shaped idea
-  on disk (six inventory passes over the notes, the criterion, the L3 records,
-  the ch5 design pass, the ratified ch1/ch3/ch4 prose, the lineage extractions
-  and the field's discussion-section conventions), grouped into six themes as
-  numbered mini-hypotheses, each forward-joined to the ch5 float that earns it
-  and flagged where the foundation has moved since its note. Tests Marc's
-  three reads of §6.1–§6.3 (right on the spine; §6.3 is not a lineage
-  comparison and not future work), audits the three headings against his
-  rules and the corpus, and lists seven session-proposed compositions apart
-  from the inventory. Rulings owed on the unit split, the heading set, and
-  each FOUNDATION item. Depends on the ch5 design handoff (shares its
-  property-to-measurement map) and on the unreproduced headline for every
-  cross-arm point; blocks ch6 drafting.
-
+  — the discussion board; rulings on the unit split and heading set owed.
+- [`2026-09-25_ch4_mark_risk_ledger.md`](2026-09-25_ch4_mark_risk_ledger.md)
+  — chapter 4's minor (M) entries beyond C1, for a later pass.
 - [`2026-09-05_generated_tables_house_style.md`](2026-09-05_generated_tables_house_style.md)
-  — **the generated and appendix tables onto the house table style** ruled
-  2026-09-05 (`figure_table_conventions.md` §k): each `tools/` table
-  generator emits `\tablestyle` / `P{}` instead of its own size and column
-  types; the three inline appendix tables convert by hand. Typography only,
-  no number moves. Depends on nothing; blocks nothing.
+  — typography only (the appendix generators onto `\tablestyle`); blocks
+  nothing; last-week polish, or drop.
 
-- [`2026-08-30_headline_on_restored_substrate.md`](2026-08-30_headline_on_restored_substrate.md)
-  — **the headline does not reproduce on the restored substrate**: the
-  token-hold record's pre-registered kill criterion fired — ρ = −0.071 between
-  the inherited and the (unfixed) movement attacker at 50 seeds against the
-  −0.893 on record, because the *inherited* attacker's defence response moved
-  under `d127f443` (2026-08-27) and nothing re-measured it. Decompose which
-  repair moved it, re-run experiment 2 on HEAD, banner every record that
-  quotes −0.893. Depends on nothing; **blocks any ch5 prose that states the
-  inversion** and sits above the T4 outline in priority.
+### Carried from the retired briefs (owed, no handoff yet)
 
-- [`2026-08-31_ch3_port_plan.md`](2026-08-31_ch3_port_plan.md) — **the ch3
-  executing brief**: Marc's 2026-08-31 working plan critiqued, the 12-unit
-  shape (capture → evaluate → model, the eight axes derived in §3.3.1 and
-  adopted in §4.1), the section-level port ledger from the submitted review,
-  the seven gaps only dictation can fill, and six CONFIRMs. Supersedes Part 2
-  of the 2026-08-21 design brief (whose Part 1 contract stands). **CONFIRM 2 was
-  overtaken 2026-09-04** by Marc's structural ruling: §4.1 is cut outright
-  (not folded), the ch4 preamble's axes `\ref` now points at the ch3
-  criterion, and the §4.1 drafting brief retired by evidence in the same
-  commit. Retires with the last assembled section.
+The live residue of the nine, so nothing is stranded by the sweep; each line
+names the commit or record that holds the detail.
 
-- [`2026-09-07_ch3_s33_context.md`](2026-09-07_ch3_s33_context.md) — **the
-  §3.3 standing context**: what the model strand is for, what it owes ch1 /
-  ch4 / ch7 (the eight axes by number, the descriptor, Table 3.2's return),
-  what it refuses, where each unit stands (~1 560 words against 1 000, no
-  pass run), the two refits Marc expects (the roll-call still speaks four
-  properties beside an eight-row table; the DRAFT cells verified cell by
-  cell against the extractions, with the filled-cell-is-not-the-property
-  decode owed to the caption), the three gaps in dictation order (G3 first),
-  and the finishing order. Executes the port plan's §3.3 rows; retires with
-  it in the commit that takes §3.3 through pass 6.
-
-- [`2026-08-21_targeted_objective_diagnosis.md`](2026-08-21_targeted_objective_diagnosis.md)
-  — **the targeted-objective line, for a fresh session**: wire the located
-  APT target (`is_target_compromised`, dead code) as an additive objective and
-  use it to diagnose what the movement attacker lacks as an MTD-evaluation
-  instrument. Tests Marc's "movement reaches the target better than baseline"
-  claim on the right axis (efficiency/survivability, not raw reach rate — the
-  baseline floods and reaches by collateral). Output = a ranked barrier +
-  minimal-change recommendations record, then Marc rules the objective fork.
-  Depends on nothing; feeds the final campaign's objective choice. Retire when
-  the diagnostic record lands. (Supersedes the narrower Gate 0 reachability
-  probe, folded in as step 2.)
-
-- [`2026-08-21_ch2_lineage_description_precedents.md`](2026-08-21_ch2_lineage_description_precedents.md)
-  — **the ch2 precedent base**: how Brown / Zhang / Ho / Tay each described the
-  simulator, scrutinised; the affinity board of adoptable moves keyed to the
-  ratified §2.1–§2.2.3 skeleton, the anti-pattern sweep list, and the standing
-  facts-from-records-not-papers warning (ATK-04/C7). Companion to the ch2
-  background context brief, which stays authoritative on shape and budget.
-  Feeds the ch2 dictation sessions; retires with the ch2 drafting programme.
-
-- [`2026-08-20_section42_figures_tables_appendix.md`](2026-08-20_section42_figures_tables_appendix.md)
-  — **the §4.2 figure / table / appendix programme**: Marc's 2026-08-20 ruled
-  inventory, the cross-cutting rules, and the open CONFIRMs (audit-table
-  columns; the maybe-appendix renders — threat-model framing and
-  Australianisation both RULED 2026-08-20 and recorded; the fig:l1-graph
-  CONFIRM was answered *remove* on 2026-08-20 and the figure is gone). The work
-  is split into nine component briefs (2026-08-20, Marc's
-  ask), indexed in that file — figures: model/data-flow diagram,
-  controller-mapping bipartite, failure-weight wiring (the pipeline
-  redraw shipped 2026-08-20);
-  tables/appendix: dwell catalogue, full technique graph, L2 classification,
-  preliminary-extraction entries, appendix wiring + labels. **Order:** the
-  appendix-wiring brief early (labels the others resolve against) — shipped
-  2026-08-20, as is the failure-weight wiring (one chapter float carrying all
-  three views; `fig:distance-kernel-bands` and the ledger / kernel / full-set
-  tables in `app:weight-sets` §B.6). The umbrella retires when the last
-  component ships.
-
-*(The §4.2 voice-pass remainder brief opened and closed 2026-08-20 in one day —
-Marc ruled every item: contractions expand globally (wired into
-`repair-dictation` 3a and `academic_register.md` §b1), the all-timing
-contradiction resolved on his "tactic timing" wording, both citation debts
-wired (bland/mcqueen/mendonca for the arbitrariness claim; `applebaum2016` for
-Caldera), M6 grounded by the §sec:apt-survey pointer, the preamble-deferred
-edits applied, the attacker-agent carve-out ratified in the registry. The
-brief was created and closed within one uncommitted session, so it never
-entered history; this note and the commit message are its record. The §4.2
-integration check is next. One CONFIRM survives it,
-owned by Marc with the lit review: the ATT&CK pin — record says v19.1, his
-2026-08-20 dictation said "19.2".)*
-
-*(Deleted by Marc 2026-08-20, `git log` holding each: the §4.2 drafting
-context (2026-08-16 — its ruling trail is restated where the figures programme
-consumes it, and the shipped records are the permanent account), the
-post-ruling chapter-numbers brief (2026-08-17 — the validated 19 / 7 / 7 / 5,
-pinned-baseline and 38 / 38 numbers live in
-[`structural_baseline.md`](../implementation/pipeline/gasp/structural_baseline.md)
-and the §4.2.2 prose that now carries them), the terminology-standardisation
-brief (2026-08-19 — the living registry
-[`../workflows/terminology.md`](../workflows/terminology.md) is its executed
-home), and the validation map (2026-08-13 — consumed by Marc directly).)*
-
-*(The research-record brief retired 2026-08-20 with Stages 1–3 complete — the
-annal is the permanent account
-([`../implementation/research_record/`](../implementation/research_record/),
-whose living README carries the re-run instructions); the post-metrics delta
-pass it stayed open for rides that README now, not a handoff. `git log` holds
-the brief.)*
+- **The 1 000-seed overnight corpus** at the six intervals (the thesis declares
+  1 000; every chapter 5 number is 100-seed preliminary). Retired corpus brief;
+  seed-count protocol.
+- **Resample by seed** (4.5.4 Variant B): intervals over seeds, the NCR-reduction
+  and time-lost bootstraps paired by seed; then swap 4.5.4 to Variant B (commented
+  in the tex). §4.5 brief, "Drafted 2026-09-25" (commit 07150a0c).
+- **§4.5 open calls** (commits 07150a0c, 07ff1897): APV keeps Hong's name, raise
+  it with Dr Hong; the Welch/Holm check in `analyse.py` or the assumption stays;
+  θ ≈ 2.95 regenerated at 1 000; Appendix C.4 (detector memory) is a placeholder;
+  C.5's numbers regenerate at 1 000.
+- **Knock-ons of §4.5:** Table 5.2 prints MTTC without its share of runs; the
+  appendix `tab:experiment-one` "ASR" column (rename to ASP) and its MTTC count;
+  `tab_5-3-3a_lineage.tex` "mean suppression" → NCR reduction; §5.1's Runs
+  paragraph checked against 4.5.4; a Wilson interval for ASP; Figure 5.1's APV
+  k = 1 clause; the §5.2 reader's target rule aligned with the record rule; the
+  metric catalogue's three stale rows; Table 3.1's missing anchors (Zhan,
+  Bruneau, Alavizadeh's mitigation factor); the end-of-run marker filtered from
+  steps at the 1 000-seed run; the attack-rate concession sentence owed to §5.2's
+  body.
+- **The inherited 80 % stop** under the targeted scenario: declared (Marc
+  2026-09-25); not yet classified against the intent spec
+  (`targeted_objective_probe.md:575`).
+- **Chapter 5 body prose** (§5.2–§5.3) and the introduction (nine rulings owed,
+  then dictation): their designs are in the retired results-context and
+  introduction briefs (`git show <commit>:docs/handoffs/...`).
+- **Seminar:** the submitted title and abstract, re-checked against the
+  1 000-seed floats.
 
 ---
 
@@ -216,116 +88,45 @@ one. The full rows, with costed options, are in the disposition list of
 
 | # | What | Blocks |
 |---|---|---|
-| **Overlay: re-key experiment 2 under `v4`?** | The failure-only ruling is **taken and applied** (2026-08-19, Marc: "having a success matrix makes no sense logically"): `v4_failure_only` is the go-forward overlay, registered and compile-checked; `v3` frozen ([`success_null_overlay_feasibility.md`](../implementation/pipeline/ogasp/success_null_overlay_feasibility.md) §8). What remains is whether the published records — experiment 2 first, the chapter's headline source — are re-run under `v4` before ch5 is drafted, or stand on `v3` with the feasibility study as the bridge (the retired success table's effect is a profile-signed 1–3 hosts, no headline moved; ≈ 27 000 rows for the full set, 2 760 for experiment 2 alone, §6). The sibling kernel-discrepancy ruling **closed 2026-08-19** (keep as declared; [`failure_weight_decomposition.md`](../implementation/pipeline/ogasp/failure_weight_decomposition.md) §4), whose figure set regenerates under `--version v4_failure_only` — **wired into the tex 2026-08-20**, so the chapter page now *states* `v4_failure_only` in Figure~4.2's caption and in the appendix set table. That raises the cost of the standing-on-`v3` option: it is no longer only a numbers question but two overlay versions on the page, needing a sentence to reconcile them | the ch5 numbers; the owed §4.2.4 failure-encoding paragraph is unblocked |
-| **D-09** | Zhang's unimplemented MTD-interruption give-up threshold (IS-INT-06) — wanted, and in which form? | no handoff — the measure that generalises it **shipped**; the ruling now bears on whether that generalisation is ratified ([`../implementation/pipeline/ogasp/attacker_disengagement.md`](../implementation/pipeline/ogasp/attacker_disengagement.md) §8, alongside the axis-6 ratification) |
-| **D-16** | Eq 2's `V_exploited` half is not charged into phase-2 duration | — |
-| **D-17** | The OSDA MIP formulation is decoupled; ranked recommendation is withdraw ≥ replace ≫ repair | — |
-| **D-18** | OS Diversity's compatibility guard is inert, so it always replaces every service. **New evidence 2026-08-05:** a repaired guard would replace 13.9 % against Service Diversity's 100 % — a sevenfold separation, so repair settles the family's cardinality by construction | the diversity pair's separability |
-| **D-19** | The commented-out OS success gate. Recommendation: leave commented and record | — |
-| **D-26** | `Host.total_users` is the index of the first password-reusing account, not the account count. **Same two-line loop as D-32** — rule together | — |
-| **D-27** | The credential channel carries 10–23 % of compromises and no mechanism in the reported family moves it | family scope |
-| **D-29** | Mechanisms and attacker share one RNG stream, so seed-matched arms are **independent, not paired** — record-grade. **Widened 2026-08-08 by the `mtd_ai` determinism gate:** it is **two** shared streams, not one. Python `random` carries the forced-deploy draw, the exploration action choice and the detection-sensitivity draw against the attacker's host-ordering tie-break; **numpy/scipy** carries every `exponential_variates` call, which is both the defender's trigger and execution times *and* the attacker's action durations and confusion penalty. Measured: one extra draw shifts everything downstream by one position | seed budgeting |
-| **D-30/31/32** | NAV feed degeneracy; HostTopologyShuffle compromise-model desync; UserShuffle's ratchet — the latter two latent, gating those mechanisms' activation | latent-pool use |
-| **D-35** | EXPLOIT_VULN is uninterruptible in the movement arm, so the diversity family loses **89-97 %** of its exploit-blocking windows in the headline arm. Mapping policy (an S3-R consequence); the recommendation is to state the boundary rather than repair | the diversity family's cross-arm comparison |
-| **D-36** | A network-class mutation arriving during an application-class penalty **loses its cursor clear** — the gate fires, the counter increments, the documented position destruction does not happen. The one candidate *bug* of the disruption brief; repair recommended, bounded re-baseline (1.0/run at `simultaneous`, 0 elsewhere) | — |
-| **D-37** | The confusion penalty (8.0-17.7 % of the clock) is charged to no `attack_record` row on either arm; only the movement arm can reconstruct it — record-grade | cross-arm time budgets |
-| **D-38** | The priority queue gives the higher-priority member of each class pair a systematic extra firing — measured **identically in both arms**, so it is not an arm asymmetry and cannot explain the inversion, but it spuriously separates each pair. Report per firing — record-grade | within-pair claims |
-| **D-33** | SCAN_NEIGHBOR is dispatched from uncompromised hosts (48 % of calls in the movement arm, 0 natively). **Measured to move a ranking** — gating it moves `simultaneous` from third to first | boundary review 1's gate |
-| **D-34** | `HostTopologyShuffle` writes attacker state directly (`swap_hosts_in_compromised_hosts`) — the latent seventh channel, per-mechanism in a boundary otherwise priced per class. Rule before any promotion into a reported family. *(Renumbered on merge: opened as review 3's D-27, which collided with review 1's)* | latent-pool use |
+| **The 2026-09-22 rulings pass** | the four tables named in step 2 above — one sitting | every 2026-09-22 brief's apply step |
+| **Overleaf** | the dissertation project's ID and git token (the only configured project is the literature review) | the push of every landed float |
+| **Overlay: re-key experiment 2 under `v4`?** | `v4_failure_only` is the go-forward overlay (2026-08-19) and the chapter runs on it; whether the older experiment-2 record is re-run under it or stands on `v3` with the feasibility study as the bridge | nothing in ch5 now — a ch6/ch7 sentence at most |
+| **D-09** | Zhang's unimplemented give-up threshold — the generalising measure shipped; whether it is ratified ([`attacker_disengagement.md`](../implementation/pipeline/ogasp/attacker_disengagement.md) §8) | — |
+| **D-16 · D-17 · D-19 · D-26** | Eq 2's `V_exploited` half; the decoupled OSDA formulation; the commented-out OS gate; `Host.total_users` | — |
+| **D-18** | OS Diversity's inert compatibility guard: a repaired guard replaces 13.9 % against Service Diversity's 100 % | the diversity pair's separability |
+| **D-27** | the credential channel carries 10–23 % of compromises and no reported mechanism moves it | family scope |
+| **D-29** | two shared RNG streams: seed-matched arms are independent, not paired — state once where the cross-arm test is named | seed budgeting; the corpus brief states it |
+| **D-30/31/32** | NAV feed degeneracy; HostTopologyShuffle desync; UserShuffle's ratchet — the last is the mechanism behind user shuffle's negative effect on the model (corpus brief §4) | the attribution sentence |
+| **D-33** | SCAN_NEIGHBOR dispatched from uncompromised hosts (48 % of calls in the model's arm); measured to move a ranking | any scheme ranking |
+| **D-34 · D-35 · D-36 · D-37 · D-38** | HostTopologyShuffle's direct write; EXPLOIT_VULN uninterruptible in the model's arm (89–97 % of the diversity family's windows lost); the lost cursor clear (the one candidate bug, repair recommended); the unpriced confusion penalty; the priority-queue extra firing (identical in both arms) | the diversity family's cross-arm reading; within-pair claims |
 
-**Two more, attached to no handoff:**
+**Attached to no handoff:** the axis-7 records report the axis in performance
+terms and under-report it (re-frame?); the retrace re-take for the three
+sink-bearing profiles; tempo claims confined to within-arm comparisons
+([`stealth_dutycycle.md`](../implementation/pipeline/ogasp/stealth_dutycycle.md)
+§8 — now load-bearing for the reinstated stealth column, so the metrics brief
+carries the caveat); the per-vulnerability row count (3.75× against per-action
+counts; `baseline_action_rows` is the correction).
 
-- **Axis-7 framing** — the shipped axis-7 records report the axis in *performance*
-  terms and thereby under-report the finding. Whether they are re-framed, and
-  whether the badge is re-pre-registered under a *property* criterion, are
-  dispositions rather than housekeeping.
-- **The retrace re-take** — the retrace-arm cells of the three sink-bearing
-  profiles ran under the since-superseded sink implementation. Whether they are
-  re-taken is open; Row B of the criterion re-scores against it if they are.
-- **Tempo claims: within-arm only?** The duty-cycle study's kill criterion fired —
-  which attacker returns to the floor **reverses** with how the inherited
-  attacker's exploit attempts are counted, because S3-R took the
-  per-vulnerability clock off the movement arm
-  ([`../implementation/pipeline/ogasp/stealth_dutycycle.md`](../implementation/pipeline/ogasp/stealth_dutycycle.md)
-  §8). The recommendation is to confine tempo claims to **within-arm**
-  comparisons, where the instrument works, rather than re-pricing the movement
-  arm (which would move every movement-arm timing figure on record). The
-  knowledge-gated brief is designed to need only within-arm comparisons, so this
-  ruling does not block it — but it does bound what any cross-arm stealth
-  sentence may say.
-- **The per-vulnerability row count.** `baseline_ledger` and everything built on
-  it count attack-record *rows*, which inflate **3.75×** against per-action
-  counts because `_do_exploit_vuln` writes one row per vulnerability tried. This
-  is no longer only a bookkeeping question: it is the axis the duty-cycle verdict
-  turned on. Whether the suite's cross-arm event definition is corrected — and
-  whether experiment 1's and experiment 2's affected figures are restated — is
-  open. `baseline_action_rows` is the correction; the restatement is the cost.
-
----
-
-## One finding with no owner
-
-**Internal MTTC ranks the mechanisms perversely, and no brief in the programme
-owns the metrics layer.** `evaluation.py:110` computes attack-action time over
-the **number of attack actions** — a mean action duration, not a time to
-compromise. Read from the committed goldens at a common compromise depth, **IP
-Shuffle scores best** (the mechanism verified to change nothing the attacker
-reads) and **OS Diversity worst, below no defence at all**; the four-mechanism
-arm carries the highest attack success rate of any scenario.
-
-The code matches `metrics_semantics.md` §(a), so this is not a code/doc
-divergence, and it does **not** carry experiment 2's headline. But
-[`../workflows/project_context.md`](../workflows/project_context.md) names
-internal MTTC the project's **primary metric**, and §(d) asserts that
-within-substrate cross-configuration deltas are "Valid — informative".
-
-**Recommendation: its own brief, before any ch5 prose leans on internal MTTC.**
-Evidence in
-[`../implementation/attacker_read_surface.md`](../implementation/attacker_read_surface.md)
-§(m1).
+*(The internal-MTTC finding this section carried unowned since 2026-08-05 is now
+owned by the metrics brief, §2.)*
 
 ---
 
 ## The boundary programme — closed 2026-08-05
 
-Marc's three-brief programme (2026-08-02) asked whether the comparative
-evaluation compares *defence ideas* or *integration depths*. All three briefs are
-retired; two durable records survive them and are the reference for anything
-touching the attacker/defender/network seams:
-
-- [`../implementation/attacker_read_surface.md`](../implementation/attacker_read_surface.md)
-  — the read side: what the attacker perceives, censused by instrumented run over
-  both driving arms. Its headline: the attacker consults topology, the host's
-  pooled vulnerability stack, ports and credentials, and **no host label at all**.
-- [`../implementation/mtd_write_surfaces.md`](../implementation/mtd_write_surfaces.md)
-  — the write side: every mechanism's write set, live-verified, with the
-  purview/fairness table.
-
-Two results from that programme bear on how the family is described. **IP
-Shuffle's invisibility to the attacker is documented behaviour, not an
-integration artefact** — no lineage paper gives the attacker an IP-addressing
-model, and Zhang's IS-INT-04 recasts network-layer MTD as class-based immediate
-failure, which is what the code does. **The OS/Service half is different**: that
-one is a broken documented wire (D-18). The reported family therefore carries
-**two attacker-facing effects across four mechanisms**, and the ρ = −0.893
-inversion should be read as a 2 × 2 family contrast.
-
-Boundary review 1's confidence gate did **not** pass — D-33 remains open and is
-measured to move a ranking. Marc closed the programme regardless; the open
-dispositions live on in the audit's list above, which is their permanent home.
-
----
+Two durable records survive it and are the reference for anything touching the
+attacker/defender/network seams:
+[`attacker_read_surface.md`](../implementation/attacker_read_surface.md) (what
+the attacker perceives — no host label at all) and
+[`mtd_write_surfaces.md`](../implementation/mtd_write_surfaces.md) (every
+mechanism's write set). IP Shuffle's invisibility to the attacker is documented
+behaviour, not an integration artefact; the OS/Service half is a broken
+documented wire (D-18). The open dispositions live in the audit's list above.
 
 ## Parked
 
-A sensitivity study over `VULN_PERCENT_CROSS_PLATFORM` — sweeping the service
-catalogue's cross-platform share and reporting the diversity pair across it, so
-"the two diversity mechanisms are one mechanism at the lineage's own default"
-becomes a finding rather than a confound. **Parked by Marc 2026-08-05**, pending
-the metrics question above; the measurements supporting it are in
-[`../implementation/attacker_read_surface.md`](../implementation/attacker_read_surface.md)
-§(g). Note that it needs a joint move — lowering the cross-platform share alone
-restructures sharing rather than reducing it, because the per-OS catalogue
-shrinks with it.
-
-Older parked or superseded work is in [`__archive/`](__archive/).
+A sensitivity study over `VULN_PERCENT_CROSS_PLATFORM` (the diversity pair as
+one mechanism at the lineage's default) — parked by Marc 2026-08-05; needs a
+joint move, evidence in `attacker_read_surface.md` §(g). Older parked work is in
+[`__archive/`](__archive/).

@@ -1,3 +1,81 @@
+% ROUND 2, 2026-09-25 (Marc: "is it conventional to have description, source and
+% equation as a table ... a big table, hard to follow ... what is needed for a
+% headline table of evaluation metrics"). The EQUATION column is CUT: only one
+% held source has a formula column (masud2025 Table 3); the definitions follow
+% the table directly, one run-in head each, so the column bought lookup the
+% headings already give. The corpus's own metric tables are two columns, a name
+% and a description (zaffarano2015 Table 4; ho2024 Table 3); SOURCE is kept as
+% the third because provenance (the field's, adapted, introduced) is what an
+% examiner checks first, and it is what the chapter-5 floats' "Metrics as Table
+% 4.3" lookups need. Descriptions shortened to one line each at \textwidth.
+% Status marks: a dagger decodes as adapted (caption); "this thesis" = introduced;
+% the sources of the two introduced metrics' form (Bruneau 2003) are in their definitions.
+% REFORMED 2026-09-25 (table audit; Marc: "is Table 4.3 conventional ... what does
+% it need to carry? ... is 'Class' the right word?"). Evidence: the audit record in
+% docs/handoffs/2026-09-24_s45_instrumenting_mtdsim.md, "Drafted 2026-09-25".
+% (1) DESCRIPTION column RESTORED as a one-line gloss, overturning the 2026-09-24
+%     removal on merit: every metric table in the held corpus has one (zaffarano2015
+%     Table 4 "Metric | Description"; ho2024 Table 3 "Symbol | Description";
+%     masud2025 Table 3 "Symbols | Explanation | Formula"). Without it the table
+%     read as a list of names with citations.
+% (2) EQUATION column ADDED: where each metric is defined (masud2025's Formula
+%     column; tab:gspn-notation's "Declared in"). First to drop for a leaner table.
+% (3) "CLASS" HEADER REMOVED: no held source uses the word for groups of metrics;
+%     the key column is unheaded as in Table 3.1, its labels the 4.5.1-4.5.3
+%     titles. The prose says "categories" (He 2025). Labels stay horizontal:
+%     rotated (82.9 pt) they overrun the 3-row groups.
+% (4) SOURCE GRAMMAR, three states: a citation alone = defined as used here;
+%     "adapted from" = one difference, stated in 4.5; "this thesis, after" =
+%     introduced, with the source of its form. Cells follow the drafting agents'
+%     status rulings (relative tactic occurrence, MTTC, NCR reduction now adapted).
+% (5) NOT ADDED, on evidence: direction marks (no held source uses one; direction
+%     is each definition's), a unit column, a "read in" column, a separate
+%     symbols table. Geometry: 1.9+3.4+5.4+2.35+1.45 cm, measured 452.6 pt against
+%     455.2 pt. DRAFT STATE --- ratify on read.
+% CUT 2026-09-25 (Marc: "all the metrics need to be there for a purpose ... if they're not,
+% we have to cut it"): ATTACK ACTIONS BLOCKED. It served one float (Table 5.3) for one
+% attacker (structurally zero on the baseline), read 0.24 with no defence (a failed
+% precondition, not an MTD block), and its Brown attribution was already disputed
+% (Brown's metric is our interrupt). Ten metrics remain.
+% 2026-09-24 (Figure 5.3 rebuild, results context §8g-5): recovery time -> TIME LOST (the
+% quantity changed) and NCR GROWTH RATE added (the curve time lost is read from; the context
+% critic: the caption's "Section 4.5 defines both" needs a row). Marc's to overturn.
+% MOVED AND REFORMED 2026-09-24 (Marc): from §5.1 (Table 5.2) into §4.5 Evaluation
+% metrics, so the method defines and chapter 5 only names (literature conventions §d).
+% The Definition column is gone --- each metric is defined in the subsection of its
+% class --- and the class is a level first column, not a header row (Marc: the row
+% read as a data row) and not rotated (a three-row group is shorter than its label).
+% [2026-09-24, round 3] Renamed RELATIVE TACTIC OCCURRENCE, cited to rodriguez2024 (Table 3, 'Occur. (rel.)': the
+% share of an attacker's events per ATT&CK tactic) --- the field's own quantity, so not 'adapted'; the
+% marsan1984 anchor below is superseded. Share of steps per tactic replaces time share (scrutinise-figure round 1: time is
+% not like for like --- the model's time is declared dwell replacing the verb's
+% native cost). Its anchor: the relative firing frequency of each tactic's timed
+% transition, a GSPN throughput measure --- VERIFY the locator in marsan1984 before
+% the definition is written (s45 brief, entry 1).
+% REBUILT 2026-09-24 (register E3; Marc's strict pass, 23-24 Sep; design:
+% docs/handoffs/2026-09-22_metrics_provenance_and_instrumentation.md §1-§2;
+% evidence per row: docs/sources/extractions/mtd_metric_catalogue.md).
+% (1) THE SPLIT IS OURS: three classes, one per job in the results --- attacker
+%     behaviour (what it does, §5.2's figure), attack outcome (what it achieves,
+%     Table 5.3 and what §5.3's defences change), MTD effectiveness (what a
+%     defence does to it, §5.3). The effectiveness/efficiency split is gone; the
+%     thesis does not model defence cost. Labels ruled 2026-09-24.
+% (2) EVERY SOURCE IS A CITATION OR A POINTER TO §4.5: a bare citation = the
+%     field defines it; "adapted from" = the field's name, one difference stated
+%     in §4.5; §4.5 alone = introduced there with why.
+% (3) THE FIELD'S NAMES AND ACRONYMS: ASP (Cho; not Ho's per-attempt ASR), NCR
+%     (Zhang, Ho Eq. 10), MTTC (McQueen, Zhang; checkpoint the first host), APV
+%     (Hong 2018, adapted to the paths an attacker takes across runs), attack
+%     actions blocked (Brown's §IV-A heading, verbatim). Suppression is NCR
+%     reduction (the same number, analyse.py:304), in the form of Alavizadeh's
+%     mitigation factor. No acronym is invented; attack rate and attack
+%     confidentiality have none in their sources.
+% (4) OUT: the four efficiency rows; runs with no compromise (MTTC's note);
+%     suppression (renamed). IN: the four attacker-behaviour metrics.
+% Definitions here are one line each at the reader's level; the equations are
+% §4.5's (holders placed 2026-09-24). SHOULD BE BORN GENERATED with Table 5.1 by
+% the chapter's reader. DRAFT STATE --- ratify on read.
+% THE COMMENTS BELOW DESCRIBE THE TABLES THIS REPLACES (2026-09-18, 2026-09-20).
 % NEW 2026-09-18 (§5.2 readability pass; handoff 2026-09-17_ch5_s52_setup_critique.md
 % §V4, §W). REPLACES tab_5-1c_measures, which is deleted. Three changes, each a
 % ruling of Marc's from the 2026-09-18 read.
@@ -116,24 +194,25 @@
 % which §4.4.1 says have no action in flight (metrics_semantics.md §d2).
 \begin{table}[htbp]
   \centering
-  \caption[The metrics]{The metrics this chapter judges a defence by, under the purposes and measures of Table~\ref{tab:mtd-metrics}.}
+  \caption[The evaluation metrics]{The evaluation metrics and their sources, each defined in Section~\ref{sec:evaluation-metrics}. $^{\dagger}$Adapted from the source; Section~\ref{sec:evaluation-metrics} states the change.}
   \label{tab:metrics}
   \tablestyle\setlength{\tabcolsep}{4pt}
-  \begin{tabular}{@{}cP{1.9cm}P{3.0cm}P{9.4cm}@{}}
+  \begin{tabular}{@{}P{1.9cm}P{5.5cm}P{5.8cm}P{1.9cm}@{}}
     \toprule
-    & Measures & Metric & Definition \\
+    & Metric & Measures & Source \\
     \midrule
-    & success events & Target reached & the share of runs in which the attacker meets the targeted objective (Table~\ref{tab:attacker-objectives}): a database host compromised\\
-    & & Runs with no compromise & the share of runs in which the attacker never compromises its first host\\
-    & & Blocked fraction & the share of the attacker's actions that fail on a missing precondition (Section~\ref{subsec:runtime-mechanics})\\
-    & attacker time & Delay to first compromise & the time from the start of a run to the first host compromised, over the runs that compromise one\\
-    & system state & Hosts reached & the number of distinct hosts compromised in a run\\
-    \rowgroup{6}{Effectiveness} & & Suppression & the fraction of hosts reached that a defence removes, $1 - \bar{H}_{\mathrm{defence}} / \bar{H}_{\mathrm{no\ defence}}$: 0 for no effect, 1 for no host reached, negative if more hosts are reached\\
+    & Relative tactic occurrence & share of steps in each tactic & \citep{rodriguez2024}$^{\dagger}$ \\
+     & Attack path variation (APV) & share of runs that open differently & \citep{hong2018}$^{\dagger}$ \\
+     & Attack rate & actions per 1\,000\,s of active time & \citep{zhan2013}$^{\dagger}$ \\
+    \multirow{-4}{1.9cm}{Attacker behaviour} & Attack confidentiality & share of actions not flagged & \citep{zaffarano2015}$^{\dagger}$ \\
     \midrule
-    & resource spent & Actions per host reached & the actions the attacker attempts for each distinct host it compromises; more is a costlier attack. Adapted from attempts required \citep{brown2023} \\
-    & & Successes per host reached & the actions that succeed for each distinct host compromised; more is a costlier attack\\
-    & & Time lost to MTD & the share of the run spent on activity a deployment interrupts, and in the delay that follows each interrupt\\
-    \rowgroup{4}{Efficiency} & & Share of run under reconfiguration & the share of the run in which a defence mechanism is deploying\\
+    & Attack success probability (ASP) & share of runs that take a target & \citep{cho2020} \\
+     & Network compromise ratio (NCR) & share of hosts compromised & \citep{zhang2023, ho2024} \\
+    \multirow{-3}{1.9cm}{Attack outcome} & Mean time to compromise (MTTC) & mean time to the first compromise & \citep{zhang2023}$^{\dagger}$ \\
+    \midrule
+    & NCR reduction & share of no-defence NCR removed & \citep{alavizadeh2022}$^{\dagger}$ \\
+     & NCR growth rate & pace of compromise after deployment & this thesis \\
+    \multirow{-3}{1.9cm}{MTD effectiveness} & Time lost per MTD deployment & progress lost to one deployment & this thesis \\
     \bottomrule
   \end{tabular}
 \end{table}
