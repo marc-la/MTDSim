@@ -51,6 +51,10 @@ STEM_T55 = "tab_5-3-1a_conditions"
 STEM_T56 = "tab_5-3-2a_orderings"
 STEM_T57 = "tab_5-3-3a_lineage"
 INTERVALS = ("200", "2000")
+# Table 5.4 at one interval (2026-09-25, results context §8j, Q13): the
+# interval lines carry the sweep, the table the other metrics at the interval
+# MTDShield was trained at; the six-interval grid goes to an appendix table.
+TAB55_INTERVALS = ("200",)
 # the execution-scheme columns: random and alternative over the seven, then
 # MTDShield's matched control and MTDShield (2026-09-25)
 PANEL_SCHEMES = SCHEMES + SHIELD
@@ -252,7 +256,7 @@ def emit_tab55(s541: dict) -> str:
     w("%   MTTC is taken over. DRAFT STATE --- ratify on read.")
     w(r"\begin{table}[H]")
     w(r"  \centering")
-    w(r"  \caption[Defence conditions against the APT attacker model]{Each defence condition against the APT attacker model pooled over $c_1$ to $c_4$, at each deployment interval, on the attack-outcome and MTD-effectiveness metrics of Table~\ref{tab:metrics}, ordered by NCR reduction within each interval; the no-defence reference is one row, read against both intervals. MTTC is over the runs that compromise a host, and its parenthesis is their share of all runs. Brackets: a 95\,\% percentile bootstrap interval; $\pm$: a 95\,\% interval on the mean (normal approximation).}")
+    w(r"  \caption[Defence conditions against the APT attacker model]{Each defence condition against the APT attacker model pooled over $c_1$ to $c_4$, deployed every %s\,s, on the attack-outcome and MTD-effectiveness metrics of Table~\ref{tab:metrics}, ordered by NCR reduction; the first row is the no-defence reference. MTTC is over the runs that compromise a host, and its parenthesis is their share of all runs. Brackets: a 95\,\%% percentile bootstrap interval; $\pm$: a 95\,\%% interval on the mean (normal approximation).}" % fmt_thousands(int(TAB55_INTERVALS[0])))
     w(r"  \label{tab:eff-conditions}")
     # widths fill \textwidth (455.24 pt) at 4 pt colsep: 14.28 cm of columns +
     # 6 interior gutters at 8 pt + the rotated key. Two header rows: the
@@ -273,11 +277,11 @@ def emit_tab55(s541: dict) -> str:
         return r"%s (%d\,\%%)" % (pm(dl["observed"], 0), round(100 * (1 - dl["censored_share"])))
 
     marks = {}
-    for interval in INTERVALS:
+    for interval in TAB55_INTERVALS:
         blk = s541["by_interval"][interval]
         pooled = blk["pooled"]
         none = pooled["none"]
-        if interval == INTERVALS[0]:
+        if interval == TAB55_INTERVALS[0]:
             # pooled no-defence target reach: the four profiles' cells are equal-sized
             four = [q for q in blk["per_profile"] if q != "aggregate"]
             none_tr = sum(blk["per_profile"][q]["none"]["target_reach"] for q in four) / len(four)
@@ -290,7 +294,7 @@ def emit_tab55(s541: dict) -> str:
             w("    %s & %s & %.2f & %s & %s & %s & %s \\\\" % (
                 group, LONG[c], d["target_reach"], pm_ncr(d["hosts_cond"]), mttc(d["delay"]),
                 _sup(d), pm(d["blocked"], 2)))
-        w(r"    \midrule" if interval == INTERVALS[0] else r"    \bottomrule")
+        w(r"    \midrule" if interval != TAB55_INTERVALS[-1] else r"    \bottomrule")
         marks[interval] = blk["overlapping_adjacent"]
     w(r"  \end{tabular}")
     w(r"\end{table}")

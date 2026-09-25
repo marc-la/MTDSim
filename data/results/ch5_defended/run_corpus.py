@@ -47,6 +47,9 @@ PROFILES = (
 FOUR = PROFILES[:4]
 SEEDS = tuple(range(100))
 INTERVALS = (200, 2_000)
+# The interval sweep (E6; Marc 2026-09-25): the four levels between and below
+# the corpus's two, so each line has six points from 50 s to 2 000 s.
+SWEEP_INTERVALS = (50, 100, 500, 1_000)
 HORIZON = 15_000
 MAPPING = "v2_partial"
 OVERLAY = "v4_failure_only"
@@ -362,13 +365,21 @@ def build_shield_jobs(conditions=SHIELD, intervals=INTERVALS) -> list[dict]:
 def main() -> int:
     # SHIELD=1 appends MTDShield, random over its four, and the training-builder
     # check to the existing runs.jsonl; the default rebuilds the 2026-09-17 corpus.
+    # SWEEP=1 appends every defended condition at SWEEP_INTERVALS (core group only).
     shield = os.environ.get("SHIELD") == "1"
-    jobs = (build_shield_jobs() + build_shield_jobs(SHIELD_CHECK)) if shield else build_jobs()
+    sweep = os.environ.get("SWEEP") == "1"
+    if sweep:
+        jobs = build_shield_jobs(DEFENDED + SHIELD, SWEEP_INTERVALS)
+    else:
+        jobs = (build_shield_jobs() + build_shield_jobs(SHIELD_CHECK)) if shield else build_jobs()
+    if os.environ.get("LIMIT"):  # timing probe: the first N jobs, printed, not written
+        jobs = jobs[: int(os.environ["LIMIT"])]
     workers = int(os.environ.get("WORKERS", min(7, os.cpu_count() or 4)))
     print(f"{len(jobs)} runs on {workers} workers -> {OUT}", flush=True)
     started = time.time()
     done = errors = 0
-    with OUT.open("a" if shield else "w", encoding="utf-8") as fh, ProcessPoolExecutor(workers) as pool:
+    out = os.devnull if os.environ.get("LIMIT") else OUT
+    with open(out, "a" if (shield or sweep) else "w", encoding="utf-8") as fh, ProcessPoolExecutor(workers) as pool:
         for row in pool.map(dispatch, jobs, chunksize=16):
             fh.write(json.dumps(row) + "\n")
             done += 1

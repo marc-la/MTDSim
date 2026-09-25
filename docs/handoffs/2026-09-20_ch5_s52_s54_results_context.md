@@ -1376,6 +1376,75 @@ Marc: attack confidentiality was "constrained" by fitting three panels and the c
 | every step | 46 | 49 | 54 | 36 | 46 |
 So the margin is the dwell-only rule, as the August ablation said; counting dwell-only steps as actions brings the profiles level with the baseline, and counting every step makes $c_1$, $c_2$, $c_4$ louder. T4 is true under the model's action rule and is a construction consequence of it, not an independent discovery. **Rulings owed (Marc):** (1) the framing — "fewer actions above a rate alarm tuned on the baseline attacker, because much of its campaign is in tactics the simulator gives no network action", rather than "much harder to detect"; (2) the sensitivity as an appendix table beside the $\kappa$ and quantile sweep (C.4); (3) whether E10(i)'s "much harder to detect" survives in chapter 6 or narrows. The examiner's other two: the detector's scope (per run, both attackers raise alarms; a time-on-network detector would reverse it — the model is active 94–98 % of the limit against the baseline's 70 %), and "less successful" is measured at a limit set for a fast attacker (the 60 000 s sentence); "why it matters" belongs to §5.3, not Figure 5.2.
 
+### 8j. §5.3.2–§5.3.3 as line charts over the deployment interval — design brief (2026-09-25; step 1 of the scrutinise-figure pass, before any mock)
+
+**Rulings this rests on (Marc, 2026-09-25, on Jin's second pass; E6 handoff §5.8).**
+- Figures 5.4 and 5.5 are **replaced** (Q11).
+- §5.3.2 is the headline and §5.3.3 the depth, each with a table behind it.
+- The x axis is the deployment interval, on a log scale; the y axis is NCR reduction.
+- Tables 5.3 and 5.4 are kept.
+- The depth figure's form (Q12) and Table 5.4's form (Q13) are the session's call, on clarity, "as long as the scales are right".
+- Marc: takeaway, purpose, context and audience come first, then the mock, then the scrutiny.
+
+**The six-interval corpus** is running: `run_corpus.py SWEEP=1`, 50/100/500/1 000 s × 11 conditions × 6 arms × 100 seeds, appended. `analyse.py` gains `section_sweep` → `numbers.json["sweep"]`. The numbers below are from the two intervals already run and are provenance only. Every takeaway marked *read on the sweep* is a hypothesis the six-interval data can falsify.
+
+**Audience.** §1's reader: a CS student or examiner, not an MTD specialist. Also Jin at the week-9 meeting, who asked for exactly this form. When §5.3.2 opens, the reader holds:
+- the seven mechanisms, grouped by the layer each rewrites (Table 2.4);
+- the execution schemes (Table 2.5) and MTDShield (§2 background, Appendix E);
+- the six deployment intervals (Table 5.1, once the §5.1 staged sentence lands);
+- NCR reduction (§4.5 / Table 4.3);
+- the no-defence reference (§5.2);
+- §5.3.1's hand-off (a deployment lands on position and pace).
+
+**The subsection questions.**
+- §5.3.2: *do the two attackers agree on which defences work, across the range of intervals a defender could configure?* This is SQ3, the headline.
+- §5.3.3: *mechanism by mechanism and profile by profile, where does each defence's effect come from and where does it run out?* This is the depth.
+
+**Takeaways (PROPOSED; the pass criterion).**
+
+| # | Takeaway | Carried by | Could it have come out otherwise? (two-interval support) |
+|---|---|---|---|
+| H1 | The two attackers order the layers in reverse. Against the APT attacker model, host-layer mechanisms reduce NCR most and service-layer mechanisms least; against the baseline attacker it is the other way round. | headline figure, layer rows: the lines change places between the two attacker panels | Yes (200 s: model host 0.96, service 0.21; baseline 0.49, 0.82). *Read on the sweep:* at which intervals the swap holds. |
+| H2 | Every line falls as the interval grows, and the lines meet near zero at the long end. The question is where each line gets there, not why. | headline figure, x direction | Yes (2 000 s: model host 0.22, service 0.01; baseline −0.01, 0.10). *Read on the sweep:* the interval where each line's interval first includes zero. |
+| H3 | No AI versus AI reverses with the attacker. MTDShield does better than random over the same four mechanisms against the baseline attacker, and worse against the APT attacker model. | headline figure, scheme row, MTDShield (accent) against random over its four | Yes (200 s: 0.70 vs 0.56; 0.28 vs 0.80). By-construction sentence allowed, from the ledger (Appendix E.5): it picks service diversity at most decisions. |
+| H4 | Exception, marked and not explained: user shuffle is at or below zero for both attackers. | headline figure, the credentials line (labelled *user shuffle*) | Yes (200 s: −0.14, −0.07) |
+| R1 | The baseline attacker's ranking of the eleven conditions is not the APT attacker model's, at every interval where the conditions separate from zero. | Table 5.3, the rank grid | Yes. *Read on the sweep.* |
+| D1 | A layer line summarises mechanisms that agree for one attacker and not the other. Against the APT attacker model the three host-layer mechanisms are one effect; against the baseline attacker IP shuffle does more than either topology shuffle. The service layer is spread for both attackers. | depth figure (singles), the panels of one row read across | Yes (200 s: model 0.96 / 0.96 / 0.96; baseline 0.68 / 0.41 / 0.40; service, model 0.20 / 0.07 / 0.36, baseline 0.90 / 0.64 / 0.91) |
+| D2 | Within each panel the four profiles move together. They differ in magnitude, not in the shape of the line (T10, carried to the sweep). | depth figures, the profile lines within a panel | Yes. *Read on the sweep.* |
+| D3 | The mechanisms that keep an effect at the long intervals are not all the ones that are strongest at 200 s. | depth figure (singles), the right-hand end of each panel | Yes (2 000 s: model IP shuffle 0.33 but the topology shuffles 0.16; baseline service diversity 0.30 but port shuffle 0.03). *Read on the sweep.* |
+| D4 | Each scheme's panel sits between its pool's best and worst single for each attacker. MTDShield's panel has the shape of service diversity's. | depth figure (schemes) | Yes. *Read on the sweep.* |
+| T9′ | Where the effect shows in the other metrics at one interval: runs denied every host, a later first compromise, actions refused. | Table 5.4 at 200 s | Yes |
+
+Not a takeaway: that a line's fall with the interval is "because" there are fewer deployments. The count of deployments inside the time limit is a construction fact. It is allowed as one sentence (§3 rule 2), from the executions-per-run numbers the analyser now records per cell.
+
+**Purpose → design, per float.**
+
+1. **Headline, `fig:eff-cross-arm` (replaced).** The E6 handoff §5.4 spec, with Q8 and Q9 taken as recommended. Marc accepted the headline as described.
+   - Layout: 2 × 2. Columns are the attacker, with the APT attacker model on the left. Rows are the layers (three lines: host layer, service layer, user shuffle) and the execution schemes (four lines: random, alternative, random over MTDShield's four, MTDShield).
+   - Axes: one y range for all panels; log x with ticks at the six levels.
+   - Encoding: greys, with one marker shape per line and the accent on MTDShield. Dashed for schemes, solid for mechanisms.
+   - Whiskers are 95 % bootstrap intervals.
+   - Direct labels go at the 50 s end, and there is no legend.
+   - The caption decodes only: the panels, a layer line as the mean of its mechanisms each deployed alone, zero as no defence, the whiskers.
+2. **Depth, replacing `fig:eff-suppression-profiles` with two figures (Q12, the session's call).**
+   - **(i) The seven mechanisms:** a 3 × 3 grid of small multiples. Row 1 is the host layer, row 2 the service layer, row 3 user shuffle, and the key sits in the spare slot. The rows are exactly the headline's layer lines taken apart.
+   - **(ii) The four schemes:** 2 × 2.
+   - Each panel draws $c_1$–$c_4$ and $c_{\mathrm{agg}}$ in the chapter's profile hues, which already mean these profiles in this section. The baseline attacker is a grey dashed reference line, the reference E1 asks for.
+   - All panels in both figures share the headline's axes.
+   - Why two figures and not eleven: the same reading with two captions instead of eleven, one guaranteed shared scale, and two `\ref` targets that match §5.3.3's two paragraphs (mechanisms; schemes).
+   - Why not one page for all eleven: five rows at a readable panel height do not fit with a caption.
+   - The risk the mock tests: six lines with whiskers in a 5 cm panel. If they collide where the lines meet, the whiskers stay on the baseline line and $c_{\mathrm{agg}}$ only.
+3. **Table 5.3 `tab:eff-orderings`, the rank grid (Q10 as recommended).**
+   - Rows: the eleven conditions, in the APT attacker model's order at 200 s.
+   - Columns: the six intervals for the model, then the six for the baseline attacker. Ranks only.
+   - The risk the mock tests: ranking conditions that are all within noise of zero at the long intervals. Proposed rule: a condition whose interval includes zero gets a dash, not a rank. The rule is stated once in the caption, as how to read the table.
+4. **Table 5.4 `tab:eff-conditions` at one interval (Q13, the session's call).**
+   - The figures carry the interval, so the table's job is the metrics the lines do not draw (ASP, NCR, MTTC, attack actions blocked), at one reference point.
+   - The point is **200 s**: the interval MTDShield was trained at, and the middle of the swept range.
+   - Eleven rows, down from twenty-two. The full six-interval grid goes to an appendix table.
+
+**Next:** mock from the two intervals so the generator is ready. The shape is judged only on the six-interval data. Then the reviewers (cold reader, context critic, sceptical examiner on the headline), then Marc.
+
 ## Validation gate
 
 This file has done its job when each of §5.2–§5.4 opens on the slots in §6,

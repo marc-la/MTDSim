@@ -967,6 +967,54 @@ def section_shield(cells, rng) -> dict:
     return out
 
 
+# --- the interval sweep (E6; §5.3.2-§5.3.3 line charts, 2026-09-25) -----------
+
+# Table 2.4's words for the layer each single rewrites (LAYER above keeps the
+# corpus's older keys).
+LAYER_WORD = {"network": "host", "application": "service", "reserve": "credentials"}
+
+
+def sweep_intervals(cells) -> list[int]:
+    """Every deployment interval the core group has a defended cell at, so the
+    sweep reads whatever the corpus holds (two levels before the sweep, six after)."""
+    return sorted({k[5] for k in cells if k[0] == "core" and k[4] in DEFENDED and k[5]})
+
+
+def section_sweep(cells, rng) -> dict:
+    """NCR reduction against the deployment interval for every condition: per
+    attacker (the model = the four profiles pooled), per profile, and per layer
+    (the mean of the layer's mechanisms each deployed alone, i.e. 1 - pooled
+    NCR / no-defence NCR over their runs); ranks per attacker; executions and
+    suspensions per run."""
+    ivs = sweep_intervals(cells)
+    out = {"intervals": ivs, "conditions": list(DEFENDED), "profiles": list(PROFILES),
+           "layers": {w: [c for c in SINGLES if LAYER_WORD[LAYER[c]] == w] for w in LAYER_WORD.values()},
+           "by_interval": {}}
+    none_p = {p: hosts_of(_cell(cells, "core", "movement", p, "none", 0)) for p in PROFILES}
+    for i in ivs:
+        present = [c for c in DEFENDED if _cell(cells, "core", "baseline", "baseline", c, i)]
+        arms = arm_cells(cells, "core", i, conds=present)
+        blk = {"conditions": present, "attacker": {}, "profile": {}, "layer": {}, "ranks": {},
+               "executions": {}, "suspended": {}}
+        for arm, h in arms.items():
+            blk["attacker"][arm] = {c: suppression(h["none"], h[c], rng) for c in present}
+            pts = [blk["attacker"][arm][c]["point"] for c in present]
+            blk["ranks"][arm] = {c: int(r) for c, r in zip(present, (-np.array(pts)).argsort().argsort() + 1)}
+            blk["layer"][arm] = {w: suppression(h["none"], np.concatenate([h[c] for c in cs]), rng)
+                                 for w, cs in out["layers"].items() if all(c in present for c in cs)}
+        for p in PROFILES:
+            blk["profile"][p] = {c: suppression(none_p[p], hosts_of(_cell(cells, "core", "movement", p, c, i)), rng)
+                                 for c in present}
+        for c in present:
+            mv, bl = _pool(cells, "core", FOUR, c, i), _cell(cells, "core", "baseline", "baseline", c, i)
+            blk["executions"][c] = {"movement": _iv([r["n_executed"] for r in mv]),
+                                    "baseline": _iv([r["n_executed"] for r in bl])}
+            blk["suspended"][c] = {"movement": _iv([r.get("n_suspended", 0) for r in mv]),
+                                   "baseline": _iv([r.get("n_suspended", 0) for r in bl])}
+        out["by_interval"][str(i)] = blk
+    return out
+
+
 # --- the regime arm ------------------------------------------------------------
 
 
@@ -1196,6 +1244,7 @@ def main() -> int:
     out["s55"] = section_55(cells, rng, out["s542"])
     out["regime"] = section_regime(cells, rng, out["s542"])
     out["shield"] = section_shield(cells, rng)
+    out["sweep"] = section_sweep(cells, rng)
     (HERE / "numbers.json").write_text(json.dumps(out, indent=1, default=float), encoding="utf-8")
     previews(out)
 
