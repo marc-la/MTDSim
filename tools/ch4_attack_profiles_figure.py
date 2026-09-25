@@ -1,52 +1,52 @@
 #!/usr/bin/env python3
-"""Dissertation figure: the section 4.2 zoom --- the attack graph split by
-objective into four attack profiles, each panel drawing only the edges its
-own attack flows drew.
+"""Dissertation figure: the section 4.2 figure --- the four attack profiles,
+c1-c4, each drawn as a grid of the tactic-to-tactic edges its own attack flows
+drew.
 
-The zoom into Figure 4.1's second arrow ("split by objective", from Attack
-graph to Attack profiles). Two takeaways, nothing else:
+Takeaways (the caption carries the rest; Marc 2026-09-25: few words, no
+duplication, the caption does not over-explain):
 
-  T1  each of the 38 attack flows is assigned one objective by what the
-      attacker achieved (c1-c4, counts read from the classification);
-  T2  each panel draws only the tactic-to-tactic edges its own attack flows
-      drew, counted the way section 4.1 counts them for the attack graph, so
-      the profiles differ in which edges exist and how often they recur; the
-      attack graph is also run as a fifth profile, the aggregate. The
-      profile's zero-weight pairs (section 4.3: the attack graph induced on the
-      profile's techniques, pairs its own flows never draw) are not drawn.
+  T1  each attack flow sits in one profile, by its objective (the counts in
+      the titles, read from the classification);
+  T2  the profiles differ in which edges exist and how often they recur.
+
+The attack graph itself is NOT drawn here: it is the end result of the
+section 4.1 figure, which may import `draw_grid` from this module so that the
+two figures draw the grid identically.
 
 Words: the attack graph and the profiles have EDGES; "transition" is reserved
-for the Petri net (lead-session ruling 2026-09-25), so it appears on no mark
-here. The Petri-net artefacts are read only for the cross-check.
+for the Petri net (lead-session ruling 2026-09-25). The Petri-net artefacts
+are read only for the cross-check.
 
-Form: small multiples of one tactic-by-tactic matrix per profile (row = the
-tactic an attack flow moves from, column = the tactic it moves to, both in
-ATT&CK kill-chain order; a cell's grey = the number of the profile's flows
-drawing that edge). Chosen over the recommended arc rows because the
-data is dense: the aggregate draws 122 of the 210 possible ordered tactic
-pairs (58 %), 57 of them backward in the kill chain, and arcs at that density
-read as texture; a matrix keeps presence and recurrence cell-for-cell
-comparable across panels (Ghoniem, Fekete & Castagliola 2004 on matrices vs
-node-link for dense graphs). Identical layout in every panel; tactic labels
-once per grid row, and one shared band of column labels between the two grid
-rows so every panel has its column names beside it; empty cells white on a
-chrome grid; the column of the tactic that names the profile's objective
-(exfiltration for c1, impact for c2, both for c3; none for c4 or the attack
-graph) outlined in the one accent. Scrutiny rounds 1-2, 2026-09-25.
+Form: a 2 x 2 grid of small multiples, one tactic-by-tactic grid per profile
+(row = the tactic an edge leaves, column = the tactic it enters, both in
+ATT&CK kill-chain order; grey = the number of the profile's attack flows that
+drew the edge). Chosen over arc rows because the data is dense (the attack
+graph has 122 of the 210 ordered tactic pairs, 57 backward), and a grid keeps
+each edge in the same cell in every panel (Ghoniem, Fekete & Castagliola 2004).
+Tactic names: once per grid row beside the rows; for the columns, ONE band
+between the two grid rows, directly under the top grids and directly over the
+bottom row's titles, serving both. Titles above their grids. "from" heads the
+row labels, "to" sits beside the column band. Empty cells white on a chrome
+grid; the column of the tactic that names the profile's objective
+(exfiltration for c1, impact for c2, both for c3, none for c4) outlined in the
+one accent. The key: the four greys and the outline, nothing else.
+
+Each grid draws only the edges its own flows drew: the profile as built is the
+attack graph induced on its techniques, and the pairs its flows never draw
+carry weight zero (section 4.3), so they are not drawn.
 
 The edge sets are computed from the attack graph exactly as section 4.1
 builds it: technique edges rolled up to (source tactic, target tactic) pairs,
 same-tactic pairs dropped, weight = distinct attack flows drawing the pair ---
 restricted to the profile's own flows. Cross-checked against the Petri-net
-artefacts (data/ogasp/petri/*_structural.json), whose transitions are these
-edges: the flow-backed transitions (raw numerator > 0) must equal the computed
-edge set with the same backing flows, or the build fails. The nets also carry
-zero-weight transitions (the profile's structure is the attack graph induced
-on the profile's techniques, so it includes edges only other profiles' flows
-drew); those are counted and printed, not drawn.
+artefacts (data/ogasp/petri/*_structural.json, the aggregate's included):
+the flow-backed transitions (raw numerator > 0) must equal the computed edge
+set with the same backing flows, or the build fails; zero-weight transitions
+are counted and printed, not drawn.
 
 House style: tools/ch4_overview_figure.py (900 px -> \\textwidth through
-Chromium, three type sizes, greys + one accent, type-floor check).
+Chromium, greys + one accent, type-floor check).
 
 Usage:
   PYTHONPATH=src python tools/ch4_attack_profiles_figure.py
@@ -58,6 +58,7 @@ import argparse
 import json
 import sys
 from collections import Counter, defaultdict
+from collections.abc import Iterable, Mapping, Sequence
 from pathlib import Path
 
 REPO = Path(__file__).resolve().parent.parent
@@ -83,8 +84,9 @@ BINS = ((1, 1, "1", "#bdbdbd"), (2, 2, "2", "#8c8c8c"),
         (3, 4, "3–4", "#5c5c5c"), (5, 10 ** 6, "5 or more", "#262626"))
 
 AGG = "aggregate"
-# reading order: the attack graph first (the zoom's input), then c1-c4
+# read and cross-checked: the aggregate and c1-c4; drawn: c1-c4 only
 PANELS = (AGG,) + PROFILE_ORDER
+DRAWN = PROFILE_ORDER
 # the objective an attack flow achieved, as a column (c4 achieved none; the
 # aggregate is not defined by an objective). OBJECTIVE_TACTICS gives c4
 # command and control, the tactic its flows end in, which is not an objective.
@@ -198,111 +200,136 @@ def cross_check(prof) -> dict[str, dict]:
 # ------------------------------------------------------------------ drawing --
 def code(p: str, size: float = 18, sub_size: float = 14.5) -> str:
     """A profile code set as chapter 5 sets it: math-italic c, upright
-    subscript (a digit, or 'agg' for the aggregate)."""
+    subscript. The trailing tspan resets the baseline (it needs a glyph)."""
     sub = "agg" if p == AGG else str(PROFILE_CODE[p])
-    return (f'<tspan style="font-family:\'Nimbus Roman\',\'Times New Roman\',serif;'
-            f'font-style:italic;font-size:{size}px">c</tspan>'
-            f'<tspan dy="4" style="font-family:\'Nimbus Roman\',\'Times New Roman\',serif;'
-            f'font-size:{sub_size}px">{sub}</tspan><tspan dy="-4"> </tspan>')   # the reset needs a glyph to apply
+    serif = "font-family:'Nimbus Roman','Times New Roman',serif"
+    return (f'<tspan style="{serif};font-style:italic;font-size:{size}px">c</tspan>'
+            f'<tspan dy="4" style="{serif};font-size:{sub_size}px">{sub}</tspan><tspan dy="-4"> </tspan>')
+
+
+# --------------------------------------------------------------- the grid --
+GRID_LABEL_PX = 15.5       # tactic names (8.52 pt nominal at 900 px -> \textwidth)
+
+
+def _esc(s: str) -> str:
+    return s.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
+
+
+def column_labels(order: Sequence[str], labels: Mapping[str, str], x0: float, cell: float,
+                  y: float, side: str = "above") -> str:
+    """The tactic names of a grid's columns, set vertically. side='above': the
+    names end at y (the grid's top edge minus a gap); 'below': they start at y;
+    'centre': they are centred on y (a band shared by two grids)."""
+    anchor = {"above": "start", "below": "end", "centre": "middle"}[side]
+    out = []
+    for i, t in enumerate(order):
+        cx = x0 + (i + 0.5) * cell + GRID_LABEL_PX * 0.34
+        out.append(f'<text x="{cx:.1f}" y="{y:.1f}" text-anchor="{anchor}" font-size="{GRID_LABEL_PX}px" '
+                   f'fill="{INK}" transform="rotate(-90 {cx:.1f} {y:.1f})">{_esc(labels[t])}</text>')
+    return "\n".join(out)
+
+
+def draw_grid(counts: Mapping[tuple[str, str], int], order: Sequence[str], x0: float, y0: float,
+              cell: float, *, labels: Mapping[str, str] | None = None, row_labels: bool = True,
+              col_labels: str | None = "above", outline: Iterable[str] = ()) -> tuple[str, list[float]]:
+    """ONE tactic grid, as an SVG fragment with every style inline (so any
+    figure can drop it in). Row = the tactic an edge leaves, column = the
+    tactic it enters, both in `order`; a filled cell's grey = the edge's count
+    (BINS); empty cells white on a chrome grid; the diagonal is never filled;
+    a thin grey frame; the columns named in `outline` outlined in the accent.
+
+    counts      {(from_tactic, to_tactic): number of attack flows that drew it}
+    x0, y0      the grid's top-left corner; it is len(order) * cell square
+    labels      tactic -> display name (tools/_tactic_axis.load_axis().label);
+                needed only when a label is drawn
+    row_labels  draw the names right-aligned left of the rows
+    col_labels  'above' / 'below' the grid, or None to omit (e.g. a shared band
+                drawn with column_labels())
+    Returns (fragment, font sizes used) --- feed the sizes to the caller's
+    type-floor check."""
+    n = len(order)
+    M = n * cell
+    idx = {t: i for i, t in enumerate(order)}
+    parts, sizes = [], []
+    grid = " ".join(f"M{x0 + k * cell:.2f},{y0:.2f} V{y0 + M:.2f} M{x0:.2f},{y0 + k * cell:.2f} H{x0 + M:.2f}"
+                    for k in range(1, n))
+    parts.append(f'<path d="{grid}" stroke="{CHROME}" stroke-width="1" fill="none"/>')
+    g = 1.2                                   # white seam between filled cells
+    for (r, c), k in counts.items():
+        if k <= 0 or r == c or r not in idx or c not in idx:
+            continue
+        parts.append(f'<rect x="{x0 + idx[c] * cell + g / 2:.2f}" y="{y0 + idx[r] * cell + g / 2:.2f}" '
+                     f'width="{cell - g:.2f}" height="{cell - g:.2f}" fill="{shade(k)}"/>')
+    parts.append(f'<rect x="{x0:.2f}" y="{y0:.2f}" width="{M:.2f}" height="{M:.2f}" fill="none" '
+                 f'stroke="{FAINT}" stroke-width="1.2"/>')
+    for c in outline:
+        parts.append(f'<rect x="{x0 + idx[c] * cell:.2f}" y="{y0 - 1:.2f}" width="{cell:.2f}" '
+                     f'height="{M + 2:.2f}" fill="none" stroke="{ACCENT}" stroke-width="1.8"/>')
+    if row_labels:
+        for t in order:
+            parts.append(f'<text x="{x0 - 8:.1f}" y="{y0 + (idx[t] + 0.5) * cell + GRID_LABEL_PX * 0.34:.1f}" '
+                         f'text-anchor="end" font-size="{GRID_LABEL_PX}px" fill="{INK}">{_esc(labels[t])}</text>')
+        sizes.append(GRID_LABEL_PX)
+    if col_labels:
+        y = y0 - 6 if col_labels == "above" else y0 + M + 6
+        parts.append(column_labels(order, labels, x0, cell, y, col_labels))
+        sizes.append(GRID_LABEL_PX)
+    return "\n".join(parts), sizes
 
 
 def emit(prof, axis) -> tuple[str, float, float]:
     svg = SVG()
     order = axis.matrix_order
     n = len(order)
-    idx = {t: i for i, t in enumerate(order)}
     svg.sizes.append(14.5)                    # the codes' subscripts (see code())
 
-    GX = 182                      # right edge of the row-label gutter
-    GAP = 16                      # between panels
-    x_first = GX + 8
-    M = (PX - 2 - x_first - 2 * GAP) / 3
-    cell = M / n
-    COLS = [x_first + k * (M + GAP) for k in range(3)]
+    GX = 182                      # right edge of the row labels
+    GAP = 20                      # between grid columns
+    cell = 17.0                   # >= the 15.5 px vertical names' pitch; fills \\textwidth with the key
+    M = n * cell
+    COLS = (GX + 8, GX + 8 + M + GAP)
+    TITLE_H = 28
+    BAND = 172                    # the shared column-name band (longest name ~160 px)
+    y_m1 = 4 + TITLE_H
+    y_band = y_m1 + M + 4
+    y_m2 = y_band + BAND + TITLE_H
+    height = y_m2 + M + 4
 
-    # Layout, top to bottom: grid-row-1 titles; grid row 1; ONE band of column
-    # labels shared by both grid rows (below row 1, above row 2: every panel
-    # has its column names next to it, for no extra band); grid row 2; its
-    # titles beneath it (the labels must touch the matrix they name).
-    TITLE1_H = 48                 # two title lines above each top-row panel (room for the agg descenders)
-    LAB_H = 170                   # vertical tactic names (longest ~ 160 px)
-    y_t1 = 4
-    y_m1 = y_t1 + TITLE1_H
-    y_lab = y_m1 + M + 6          # top of the shared label band
-    y_m2 = y_lab + LAB_H
-    y_t2 = y_m2 + M + 4
-    height = y_t2 + 48
-
-    slots = [(COLS[0], y_m1), (COLS[1], y_m1), (COLS[2], y_m1), (COLS[0], y_m2), (COLS[1], y_m2)]
-
-    # row labels, once per grid row: the tactic moved FROM
-    for ym in (y_m1, y_m2):
-        for t in order:
-            svg.text(GX, ym + (idx[t] + 0.5) * cell + 5.3, axis.label[t], "tick", anchor="end")
-    # column labels, once per grid column, in the shared band: the tactic moved TO
-    # (centred in the band so they sit equally close to both rows)
-    for x0 in COLS:
-        for t in order:
-            cx = x0 + (idx[t] + 0.5) * cell + 5.3
-            yc = y_lab + LAB_H / 2
-            svg.text(cx, yc, axis.label[t], "tick", anchor="middle",
-                     extra=f' transform="rotate(-90 {cx:.1f} {yc:.1f})"')
-    # the reading of a cell, once, in the gutter beside the label band
-    yc = y_lab + LAB_H / 2
-    svg.text(GX, yc - 4, "from the row's tactic", "sm", anchor="end")
-    svg.text(GX, yc + 16, "to the column's tactic", "sm", anchor="end")
-
-    for p, (x0, ym) in zip(PANELS, slots):
+    for k, p in enumerate(DRAWN):
+        x0, ym = COLS[k % 2], (y_m1, y_m2)[k // 2]
         flows, T = prof[p]
-        total = len(prof[AGG][0])
-        if p == AGG:
-            svg.text(x0, y_t1 + 17, "The attack graph", "lbl", extra=' font-weight="bold"')
-            svg.text(x0, y_t1 + 37, f'{len(flows)} attack flows \u00b7 run as {code(p, 16.5)}', "sm", raw=True)
-        else:
-            head = f'{code(p)}<tspan font-weight="bold">{PROFILE_LABEL[p]}</tspan>'
-            sub = f"{len(flows)} of the {total} attack flows"
-            if ym == y_m1:
-                ty = y_t1 + (TITLE1_H - 44) + 13      # bottom-aligned with the attack graph's
-                svg.text(x0, ty, head, "lbl", raw=True)
-                svg.text(x0, ty + 20, sub, "sm")
-            else:
-                svg.text(x0, y_t2 + 17, head, "lbl", raw=True)
-                svg.text(x0, y_t2 + 37, sub, "sm")
-        obj = set(OBJ_COLUMNS[p])
-        # the hairline frame, and a chrome grid so a cell can be found by eye
-        for k in range(1, n):
-            svg.add(f'<path d="M{x0 + k * cell:.2f},{ym:.2f} V{ym + M:.2f} M{x0:.2f},{ym + k * cell:.2f} H{x0 + M:.2f}" '
-                    f'stroke="{CHROME}" stroke-width="1" fill="none"/>')
-        g = 1.2                                   # white seam between filled cells
-        for r in order:
-            for c in order:
-                k = len(T.get((r, c), ())) if r != c else 0   # same tactic: never an edge
-                if k:
-                    x, y = x0 + idx[c] * cell, ym + idx[r] * cell
-                    svg.rect(x + g / 2, y + g / 2, cell - g, cell - g, shade(k))
-        svg.add(f'<rect x="{x0:.2f}" y="{ym:.2f}" width="{M:.2f}" height="{M:.2f}" fill="none" '
-                f'stroke="{FAINT}" stroke-width="1.2"/>')
-        for c in obj:                             # edges into exfiltration / impact, outlined
-            svg.add(f'<rect class="obj" x="{x0 + idx[c] * cell:.2f}" y="{ym - 1:.2f}" '
-                    f'width="{cell:.2f}" height="{M + 2:.2f}"/>')
+        frag, sizes = draw_grid({e: len(f) for e, f in T.items()}, order, x0, ym, cell,
+                                labels=axis.label, row_labels=(k % 2 == 0), col_labels=None,
+                                outline=OBJ_COLUMNS[p])
+        svg.add(frag)
+        svg.sizes += sizes
+        svg.text(x0, ym - 9, f'{code(p)}<tspan font-weight="bold">{PROFILE_LABEL[p]}</tspan> ({len(flows)} flows)',
+                 "lbl", raw=True)
+    # the column names, once, in the band both grid rows touch
+    yc = y_band + BAND / 2
+    for x0 in COLS:
+        svg.add(column_labels(order, axis.label, x0, cell, yc, "centre"))
+    svg.sizes.append(GRID_LABEL_PX)
+    # which way an edge reads: "from" set up the left edge beside each grid
+    # row's names (not on the title line, where it read as "from c1 ..."),
+    # "to" beside the band of column names
+    for ym in (y_m1, y_m2):
+        fy = ym + M / 2
+        svg.text(14, fy, "from", "sm", anchor="middle",
+                 extra=f' font-style="italic" transform="rotate(-90 14 {fy:.1f})"')
+    svg.text(GX, yc + 5, "to", "sm", anchor="end", extra=' font-style="italic"')
 
-    # the key, in the sixth slot: the one scale the cells need, and the outline
-    kx, ky = COLS[2], y_m2
-    svg.text(kx, ky + 17, "Attack flows that", "lbl")
-    svg.text(kx, ky + 37, "drew the edge", "lbl")
+    # the key: the four greys and the outline
+    kx, ky = COLS[1] + M + 26, y_m1
+    svg.text(kx, ky + 12, "attack flows", "sm")
     sw = 17
     for k, (_lo, _hi, lab, col) in enumerate(BINS):
-        xx, yy = kx + (k % 2) * 96, ky + 54 + (k // 2) * 25
-        svg.rect(xx, yy, sw, sw, col)
-        svg.text(xx + sw + 8, yy + 13.5, lab, "tick")
-    yy = ky + 54 + 2 * 25 + 16
-    svg.add(f'<rect class="obj" x="{kx + 5:.1f}" y="{yy - 2:.1f}" width="{sw * 0.6:.1f}" height="{sw + 41}"/>')
-    for k, ln in enumerate(("outlined: the column of the", "tactic that names the", "profile's objective")):
-        svg.text(kx + sw + 8, yy + 13.5 + 19 * k, ln, "tick")
-    yy += 13.5 + 19 * 2 + 30
-    # the assignment rule, once (the cold readers twice doubted it)
-    for k, ln in enumerate(("each attack flow sits in one", "profile, by the objective its", "source reports record")):
-        svg.text(kx, yy + 19 * k, ln, "sm")
+        yy = ky + 26 + k * 25
+        svg.rect(kx, yy, sw, sw, col)
+        svg.text(kx + sw + 8, yy + 13.5, lab, "tick")
+    yy = ky + 26 + 4 * 25 + 14
+    svg.add(f'<rect class="obj" x="{kx + 4:.1f}" y="{yy:.1f}" width="{sw * 0.6:.1f}" height="{sw + 8}"/>')
+    svg.text(kx + sw + 8, yy + 18, "objective", "tick")
 
     html = f"""<!doctype html>
 <html lang="en"><head><meta charset="utf-8">
@@ -362,7 +389,7 @@ def main() -> None:
                 print(f"wrote {a.out_dir / (a.stem + '.pdf')}")
             b.close()
 
-    # the facts, for the caption and the prose
+    # the facts, for the caption and the prose (the aggregate: read and checked, not drawn)
     order = axis.matrix_order
     print("--- facts")
     for p in PANELS:

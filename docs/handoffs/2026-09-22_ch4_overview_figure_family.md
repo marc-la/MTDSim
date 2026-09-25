@@ -290,7 +290,14 @@ the edges its own flows drew"; confirmation reader 8/10). Design departures
 the data argued for: the §4.2 figure is a grid of small multiples, not arcs
 (122 of 210 tactic pairs, 57 backward); the §4.1 figure ends at the two-flow
 combination and hands the full attack graph to the §4.2 figure's first
-panel. Content points left for the prose: a step between two techniques of one
+panel. Revised 2026-09-25 on Marc's read ("a lot of words ... duplication ... the
+blue is hard to see"): Figure 4.2 cut to five text items, the shared edges
+thick blue labelled "shared", and it now ends on the attack graph itself as a
+grid; Figure 4.3 is the four profiles only (2×2), counts in the titles, key cut
+to swatches; both captions about 30 words. Fresh cold reads: 8/10 and 7/10,
+nothing blocking. Open trade-off: Figure 4.3's bottom row takes its column
+names from the shared band above it (a second band costs ~3 cm). Content
+points left for the prose: a step between two techniques of one
 tactic becomes a self-loop; the assignment rule (by the objective the source
 reports record) is also said on the §4.2 figure; the c₁ edge into Impact is
 real and not outlined, because the outline is the profile's objective

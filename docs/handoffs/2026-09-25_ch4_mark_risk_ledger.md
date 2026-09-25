@@ -1,5 +1,5 @@
 ---
-status: open                  # Marc rules / dictates; the one-term (C1) entries were APPLIED 2026-09-25 under his "same term everywhere" ruling
+status: open                  # 2026-09-25: C1 entries and ALL blocking B entries APPLIED on Marc's rulings ('fix up all the facts ... all the contradictions'); the minor (M) entries beyond C1 remain for a later pass
 created: 2026-09-25
 companions: 2026-09-22_ch4_overview_figure_family.md (Part B, the term sweep), ../workflows/terminology.md, ../workflows/voice.md, .claude/skills/voice-pass/SKILL.md
 ---
@@ -25,7 +25,22 @@ M11. Also *the substrate* → *the simulator* in Table B.5's caption. M47
 (Table B.2's *class* and `objective_…` keys) is NOT yet applied: it is a
 generator change in the classification-audit table, left for the next pass.
 
-**Owed, most costly first:** B1–B2 (placeholders: §4.4's disruption paragraph
+**Applied 2026-09-25, second pass (Marc: "fix up all the facts, all the
+contradictions ... a nice clean fix"):** the 29-flow weighting disclosed where
+$w_c$ is defined (§4.3), with the flow set renamed $\mathcal{A}_c$ (B9); the edge
+weight defined as the number of attack flows that drew it (§4.1) and Appendix
+Figure B.1d regenerated to match; a step within one tactic is not an edge (the
+dwell covers it; `petri/build.py` drops it), so the attack graph is 122 edges
+everywhere (B.1d, Figures 4.2–4.3, the nets); Wizard Spider for Conti and the
+motivation overclaim (B7); the stochastic and exponential sentences (B8, B24);
+B3, B4, B5, B6, B10 (σ, declared), B14, B15 (checked against commit 8f2e34ad:
+the join calls MTDSim's own actions one at a time and supplies their
+duration), B16, B17, B18, B19, B20; the two must-carry caveats placed from
+their ruled wording (M46); the §4.4 disruption placeholder and §4.5's
+placeholders commented out with restore notes (§4.5 shows its heading and the
+metrics table until the definitions handoff lands).
+
+**Was owed (before the second pass), most costly first:** B1–B2 (placeholders: §4.4's disruption paragraph
 and all of §4.5 — comment out before anything is shared); B3, B4, B6, B16
 (self-contradictions); B5 (wrong cross-reference); B7, B8 (overclaim, a wrong
 definition of *stochastic*); B9, B10 (notation collisions: $, $); B15 (the

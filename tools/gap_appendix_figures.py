@@ -616,15 +616,21 @@ def _big_components(keep: set, edges: list, floor: int) -> set:
 
 def build_tactic(gap: dict, min_weight: int, per_row: int) -> tuple[Graph, dict]:
     """Tactic-level aggregate: technique edges rolled up to their tactics and
-    weighted by summed observations, states in kill-chain reading order."""
+    weighted by the number of attack flows that drew the tactic pair (the
+    attack graph's weight, as the model and chapter 4 define it --- ruled
+    2026-09-25; was summed observations), states in kill-chain reading order."""
     nodes = gap["nodes"]
     tac = lambda tid: nodes[tid]["primary_tactic"]           # noqa: E731
     layer = {n["primary_tactic"]: n["tactic_layer"] for n in nodes.values()}
     techs: Counter = Counter(n["primary_tactic"] for n in nodes.values())
 
-    weight: Counter = Counter()
+    flows_of: dict = {}
     for e in gap["edges"]:
-        weight[(tac(e["source_id"]), tac(e["target_id"]))] += e["observation_count"]
+        a_, b_ = tac(e["source_id"]), tac(e["target_id"])
+        if a_ == b_:        # a step within one tactic is its dwell, not an edge (petri/build.py drops it too)
+            continue
+        flows_of.setdefault((a_, b_), set()).update(e["flow_ids"])
+    weight: Counter = Counter({k: len(v) for k, v in flows_of.items()})
     shown = {k: v for k, v in weight.items() if v >= min_weight}
     order = tactic_order(gap)
 
@@ -772,7 +778,7 @@ def main() -> None:
     ap.add_argument("--only", nargs="*", default=None, metavar="STEM")
     ap.add_argument("--min-obs", type=int, default=2, metavar="N",
                     help="observation threshold for the technique core view")
-    ap.add_argument("--min-weight", type=int, default=4, metavar="N",
+    ap.add_argument("--min-weight", type=int, default=3, metavar="N",
                     help="weight threshold for the tactic view")
     ap.add_argument("--flow", default="cisa_aa22_138b_vmware_workspace_ta1")
     ap.add_argument("--full-names", action="store_true",
