@@ -1445,6 +1445,61 @@ Not a takeaway: that a line's fall with the interval is "because" there are fewe
 
 **Next:** mock from the two intervals so the generator is ready. The shape is judged only on the six-interval data. Then the reviewers (cold reader, context critic, sceptical examiner on the headline), then Marc.
 
+### 8j-2. Round 1 on the six-interval corpus (2026-09-25): no float wrong; the takeaways amended; fixes applied
+
+**The corpus.** 26 400 sweep runs, 0 errors; 602 cells, all at 100. The floats are swapped into the tex: Figure 5.4 headline, Table 5.3 rank grid, Figure 5.5 mechanisms, Figure 5.6 strategies (new label `fig:eff-schemes-profiles`), Table 5.4 at 200 s.
+- Sanity flag, not investigated: `interrupt_tally_mismatch_movement` rose from 2 405 to 4 723. It was pre-existing and all in the regime group; locate the new ones before the 1 000-seed run.
+
+**The reviewers.**
+- *Cold reader, headline and ranks.* Message: "which layer and which scheme look best depends on the attacker you test against: host shuffling and the random schemes against the APT attacker model, service shuffling and MTDShield against the baseline attacker; every defence fades towards zero by 2 000 s." Table: "the rankings do not transfer."
+- *Cold reader, depth.* The layer that stops each attacker flips. The dashed baseline line "carries the whole story". The profile lines agree except $c_3$.
+- *Context critic.* Recomputed sample points against `numbers.json`; nothing mis-plotted.
+- *Sceptical examiner.*
+
+H1 and H3 were reached cold, and the depth reader reached D1. **Takeaways amended.** The earlier wording is superseded where it differs.
+
+| # | Amended takeaway (100 seeds) |
+|---|---|
+| H1 | Against the APT attacker model the host layer's mean is above the service layer's at every interval, and every host mechanism beats every service mechanism. Against the baseline attacker the service layer's mean is above the host layer's. This is separated at 50–200 s; at 500–2 000 s the whiskers overlap at 100 seeds, and there it is carried by service diversity alone (IP shuffle outranks port shuffle and OS diversity). |
+| H2 | Every mechanism and strategy line falls with the interval, except user shuffle against the APT attacker model, which rises towards zero. Where each line first includes zero: baseline random and alternative at 500 s; model service layer, baseline host layer and baseline random-over-four at 1 000 s; MTDShield (both attackers) and model alternative at 2 000 s; model host layer and baseline service layer never. The flat left end is saturation (see below). |
+| H3 | **Reframed (examiner): a consequence of H1, not a second finding.** MTDShield picks service diversity at 70–76 % of its decisions against either attacker (Appendix E.5), so it follows the service layer. It is above its random control against the baseline attacker (separated at 100–500 s) and below it against the APT attacker model (50–1 000 s). |
+| H4 | User shuffle is below zero against the APT attacker model at 50–500 s and at or near zero beyond that. **Exception, marked:** against the baseline attacker it is +0.47 [0.37, 0.56] at 50 s. It is the only mechanism that runs at the 50 s rate (297 deployments; it takes 20 s). |
+| R1 | **Recast (examiner):** "ranks differently" is true of any two noisy orders. The claim is that the two orders are uncorrelated at 200 s: Spearman's ρ = −0.06 [−0.23, 0.005] (`numbers.json` §s542). At 2 000 s ρ is not informative at 100 seeds. The grid shows the reordering; ρ goes in one body sentence (Marc removed it from the table, 2026-09-25). |
+| D1 | The APT attacker model's three host mechanisms are one effect up to 200 s and separate from 500 s (IP shuffle 0.33 against 0.16–0.17 at 2 000 s). The baseline attacker's are split throughout. |
+| D2 | The profiles agree within whiskers except $c_3$ from 500 s (IP shuffle at 1 000 s: 0.77 [0.70, 0.83] against $c_1$ 0.45 [0.38, 0.52]). |
+| D3 | As proposed (model IP shuffle 0.33 against the topology shuffles 0.16 / 0.17 at 2 000 s; baseline service diversity 0.30 against port shuffle 0.03). |
+| D4 | Narrowed: against the APT attacker model MTDShield's panel has service diversity's values within about 0.1 at every interval. "Between best and worst" was near-automatic and is dropped. |
+| T9′ | Delivered. |
+
+**Construction fact for the body (examiner, critic):** below 200 s the deployments saturate, unequally across layers.
+- At 50 s the service mechanisms execute ~148 of 300 called; the host mechanisms 99–132; user shuffle 297.
+- From 200 s every single mechanism executes exactly 75, 30, 15 and 8.
+- One body sentence, no figure change. For MTDShield the x value is its decision tick (Appendix E).
+
+**Applied.**
+- Figure 5.4:
+  - the lower row and its key are retitled **deployment strategies** (terminology row 62: never "scheme" for a set holding MTDShield; the critic's blocking fix);
+  - the caption says the model is pooled over $c_1$–$c_4$, adds the direction ("higher is fewer hosts compromised than with no defence"), and reads "the only credentials mechanism".
+- Figure 5.6's caption says "each deployment strategy: the random and alternative execution schemes, …".
+- Table 5.3:
+  - a rank whose interval lies wholly below zero is set in italic, with the rule in the caption (both cold readers and the critic);
+  - the caption adds the pooled clause.
+- Table 5.4 drops the redundant rotated "every 200 s" label, and "−0.00" prints as "0.00".
+- The depth key is titled "attack profile".
+
+**Rejected, with the reason.**
+- **The y floor raised to −0.3 (critic).** It would clip the deepest whisker ($c_3$ under user shuffle, −0.375). Instead the floor is now the lowest whisker rounded down to a 0.2 step, so it tightens by itself at 1 000 seeds.
+- **Rows grouped by layer in Table 5.3 (cold reader).** The APT attacker model's order already groups them (host 1–3, strategies 4–6 and 8, service 7, 9, 10, user shuffle 11), and grouping would break the order the table exists to show.
+- **A pooled line or band over the profiles (cold reader).** The profiles are the depth's job, and D2 is carried in the body.
+- **Whisker thinning.** Judged at 1 000 seeds, when the whiskers are about a third as long (critic).
+- **Baseline rows in Table 5.4 (cold reader).** The baseline's no-defence NCR is in Table 5.2 (§5.2). One body sentence gives both references (8.1 against 24.3 hosts).
+
+**Marc's (owed).**
+- (1) **§5.1 now contradicts the floats (critic, blocking).** It says ten conditions at two intervals and that 200 s is the longest the lineage swept. The staged sentence and Table 5.1's six levels, plus the MTDShield condition, should land now rather than with the 1 000 seeds.
+- (2) Q7, the short name "random, MTDShield's four".
+- (3) H1 at 500–2 000 s for the baseline attacker is preliminary until 1 000 seeds.
+- (4) Examiner's viva question, recorded only: is the APT attacker model's near-total host-layer lock-out (0.13 hosts at 50 s against 8.13) attacker behaviour, or how the integration resolves targets after a shuffle? The claim as worded only states the measurement.
+
 ## Validation gate
 
 This file has done its job when each of §5.2–§5.4 opens on the slots in §6,

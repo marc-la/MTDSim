@@ -7355,10 +7355,16 @@ runs are otherwise identical.
 % MTDShield's four and MTDShield, and the panels are restacked (singles full
 % width in (a)-(b), the four schemes per interval in (c)-(d)) because eleven
 % slots across one row cannot hold the tick names. PRELIMINARY: 100 seeds.
+% REPLACED 2026-09-25 (Marc on Jin's second pass: "line graphs"; results context
+% §8j; E6 handoff §5.8, Q11): the grouped bars become NCR reduction against the
+% deployment interval (six levels, log axis), the attacker per column, layers
+% over execution schemes (tools/ch5_sweep_figures.py --only headline). The bars'
+% generator and fragment stay on disk. Caption decode-only. DRAFT STATE ---
+% ratify on read. PRELIMINARY: 100 seeds.
 \begin{figure}[H]
   \centering
-  \includegraphics{fig_5-3-2a_cross_arm}
-  \caption[The same defences measured against each attacker]{The NCR reduction each defence achieves, measured once against the baseline attacker and once against the APT attacker model, on the same network under identical conditions, single mechanisms in panels~(a) and~(b) and execution schemes in panels~(c) and~(d), at each deployment interval. This is the chapter's central comparison, and the mechanism behind any difference is structural rather than statistical: the two attackers share an identical set of available actions and differ in which property of the simulated network they depend on, so defences that destroy position and defences that alter the exploitable surface do not reach them equally. The intention is to show whether the choice of attacker changes what an evaluation would conclude.}
+  \includegraphics{fig_5-3-2b_interval_headline}
+  \caption[The same defences measured against each attacker, across the deployment interval]{NCR reduction against the deployment interval, measured against the APT attacker model, pooled over $c_1$ to $c_4$, in panels~(a) and~(c) and against the baseline attacker in panels~(b) and~(d); higher is fewer hosts compromised than with no defence. Panels~(a) and~(b): the defence mechanisms by the layer each rewrites (Table~\ref{tab:defence-mechanisms}), a layer's line being the mean over its mechanisms each deployed alone; user shuffle is the only credentials mechanism. Panels~(c) and~(d): the deployment strategies, the random and alternative execution schemes (Table~\ref{tab:deployment-strategies}), random selection over MTDShield's four mechanisms, and MTDShield (Appendix~\ref{app:mtdshield}). The interval axis is logarithmic; zero is the no-defence reference; whiskers are 95\,\% percentile bootstrap intervals.}
   \label{fig:eff-cross-arm}
 \end{figure}
 
@@ -7382,7 +7388,10 @@ runs are otherwise identical.
 % (Marc: "it's not fitting"); caption decode-only; type size as Table 5.4.
 % Spearman's rho and the layer contrast (Cliff's delta) stay in numbers.json
 % §s542 for the body, if the body wants them.
-\input{tables/tab_5-3-2a_orderings}
+% REPLACED 2026-09-25 (results context §8j, Q10): the rank grid over the six
+% deployment intervals (tools/ch5_sweep_figures.py --only ranks); a dash where the
+% condition's interval includes zero. DRAFT STATE --- ratify on read.
+\input{tables/tab_5-3-2b_rank_grid}
 
 % ~1 unit. The defence conditions against the movement attacker: the
 % seven single mechanisms and the three deployment schemes, per profile,
@@ -7425,11 +7434,26 @@ runs are otherwise identical.
 % panels (b) and (d) gain random over MTDShield's four and MTDShield, run as
 % released (Appendix E). PRELIMINARY: 100 seeds, 200 s and 2 000 s only; the
 % short name for the matched control is proposed, Marc rules (handoff Q7).
+% REPLACED 2026-09-25 (Marc on Jin's second pass; results context §8j, Q11-Q12):
+% the depth is one line panel per mechanism, NCR reduction against the six
+% deployment intervals, profiles in the chapter's hues and the baseline attacker
+% dashed; the schemes follow as their own figure. Caption decode-only. DRAFT
+% STATE --- ratify on read. PRELIMINARY: 100 seeds.
 \begin{figure}[H]
   \centering
-  \includegraphics{fig_5-3-1a_suppression_profiles}
-  \caption[NCR reduction by defence condition and attack profile]{NCR reduction under each defence condition at each deployment interval, for the four attack profiles $c_1$ to $c_4$ and the aggregate $c_{\mathrm{agg}}$, a fifth series outside the pooled cell of Table~\ref{tab:eff-conditions}. Panels~(a) and~(b): the seven defence mechanisms, grouped by the layer each rewrites (Table~\ref{tab:defence-mechanisms}); (c) and~(d): the random and alternative execution schemes over them (Table~\ref{tab:deployment-strategies}), then random selection over MTDShield's four mechanisms and MTDShield (Appendix~\ref{app:mtdshield}). Zero is the no-defence reference; whiskers are 95\,\% percentile bootstrap intervals on the ratio of means.}
+  \includegraphics{fig_5-3-3b_interval_mechanisms}
+  \caption[NCR reduction by defence mechanism and attack profile, across the deployment interval]{NCR reduction against the deployment interval for each defence mechanism deployed alone, in rows by the layer it rewrites (Table~\ref{tab:defence-mechanisms}), for the attack profiles $c_1$ to $c_4$ and the aggregate $c_{\mathrm{agg}}$, with the baseline attacker dashed for reference. Axes, zero and whiskers as in Figure~\ref{fig:eff-cross-arm}.}
   \label{fig:eff-suppression-profiles}
+\end{figure}
+
+% NEW 2026-09-25 (results context §8j, Q12): the depth's second figure, the four
+% execution schemes in the same form (tools/ch5_sweep_figures.py --only schemes).
+% DRAFT STATE --- ratify on read. PRELIMINARY: 100 seeds.
+\begin{figure}[H]
+  \centering
+  \includegraphics{fig_5-3-3c_interval_schemes}
+  \caption[NCR reduction by deployment strategy and attack profile, across the deployment interval]{NCR reduction against the deployment interval for each deployment strategy: the random and alternative execution schemes (Table~\ref{tab:deployment-strategies}), random selection over MTDShield's four mechanisms, and MTDShield (Appendix~\ref{app:mtdshield}), for the attack profiles $c_1$ to $c_4$ and the aggregate $c_{\mathrm{agg}}$, with the baseline attacker dashed for reference. Axes, zero and whiskers as in Figure~\ref{fig:eff-cross-arm}.}
+  \label{fig:eff-schemes-profiles}
 \end{figure}
 
 % REWORKED 2026-09-13 (stage-2 float audit, ch5 design handoff §18) --- kept despite its cut mark: intervals cannot

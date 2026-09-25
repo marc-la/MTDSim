@@ -56,16 +56,18 @@ SCHEME_SERIES = (("random", "random", "black!80", "circle", True),
 
 
 def _yrange(values) -> tuple[float, float]:
+    """The shared y range: the lowest whisker rounded down to a 0.2 step (so
+    no whisker is clipped and the floor tightens as the intervals narrow), and
+    1.0 at the top."""
     lo, hi = min(0.0, min(values)), max(values)
-    ymin = -0.4 if lo < -0.2 else (-0.2 if lo < -0.02 else 0.0)
-    return ymin, (1.0 if hi > 0.8 else 0.8)
+    return math.floor(round(lo / 0.2, 6)) * 0.2, (1.0 if hi > 0.8 else 0.8)
 
 
 class Panel:
     """One line-chart panel: log x over the corpus's intervals, linear y."""
 
     def __init__(self, w, x0, x1, y0, y1, ivs, yr, *, xlabels=True, ylabels=True, title=None,
-                 letter=None, font=FONT):
+                 letter=None, font=FONT, tickfont=None):
         self.w, self.x0, self.x1, self.y0, self.y1 = w, x0, x1, y0, y1
         self.ivs, (self.ymin, self.ymax) = ivs, yr
         pad = 0.07 * math.log10(ivs[-1] / ivs[0]) if len(ivs) > 1 else 0.5
@@ -89,7 +91,8 @@ class Panel:
             x = self.xv(iv)
             w(r"\draw[black!60,line width=0.3pt] (%.3f,%.3f) -- (%.3f,%.3f);" % (x, y0, x, y0 - 0.07))
             if xlabels:
-                w(r"\node[anchor=north] at (%.3f,%.3f) {%s};" % (x, y0 - 0.1, fmt_thousands(iv)))
+                w(r"\node[anchor=north%s] at (%.3f,%.3f) {%s};" % (
+                    ",font=" + tickfont if tickfont else "", x, y0 - 0.1, fmt_thousands(iv)))
         if title or letter:
             head = (r"\textbf{(%s)}~" % letter if letter else "") + (title or "")
             w(r"\node[anchor=south west] at (%.3f,%.3f) {%s};" % (x0 - 0.02, y1 + 0.05, head))
@@ -129,10 +132,10 @@ def _all_points(sweep):
     for i in sweep["intervals"]:
         b = sweep["by_interval"][str(i)]
         for arm in ("movement", "baseline"):
-            vals += [d["point"] for d in b["attacker"][arm].values()]
-            vals += [d["point"] for d in b["layer"][arm].values()]
+            vals += [d[k] for d in b["attacker"][arm].values() for k in ("point", "lo")]
+            vals += [d[k] for d in b["layer"][arm].values() for k in ("point", "lo")]
         for p in PROFILES:
-            vals += [d["point"] for d in b["profile"][p].values()]
+            vals += [d[k] for d in b["profile"][p].values() for k in ("point", "lo")]
     return vals
 
 
@@ -179,7 +182,7 @@ def emit_headline(sweep, yr):
         x0, x1 = XC[col]
         w(r"\node[anchor=south] at (%.3f,%.3f) {\bfseries %s};" % ((x0 + x1) / 2, TOP, LABEL[arm]))
         for y0, series, kind, letter, title in ((Y1, LAYER_SERIES, "layer", "ab"[col], "defence mechanisms, by layer"),
-                                                (Y2, SCHEME_SERIES, "attacker", "cd"[col], "execution schemes")):
+                                                (Y2, SCHEME_SERIES, "attacker", "cd"[col], "deployment strategies")):
             p = Panel(w, x0, x1, y0, y0 + PH, ivs, yr, xlabels=True, ylabels=(col == 0), letter=letter, title=title)
             offs = _offsets(len(series), 0.018)
             for (key, label, colour, mark, dashed), dx in zip(series, offs):
@@ -190,7 +193,7 @@ def emit_headline(sweep, yr):
     w(r"\node[anchor=north] at (%.3f,%.3f) {deployment interval (s)};" % ((XC[0][0] + XC[1][1]) / 2, Y2 - 0.45))
     w(r"\node[anchor=west,text=black!60] at (%.3f,%.3f) {defence mechanisms};" % (XC[0][0] - 1.2, K1))
     _key(w, XC[0][0] + 2.5, K1, [(lb, c, m, d) for _, lb, c, m, d in LAYER_SERIES], XC[1][1] + 0.3)
-    w(r"\node[anchor=west,text=black!60] at (%.3f,%.3f) {execution schemes};" % (XC[0][0] - 1.2, K2))
+    w(r"\node[anchor=west,text=black!60] at (%.3f,%.3f) {deployment strategies};" % (XC[0][0] - 1.2, K2))
     _key(w, XC[0][0] + 2.5, K2, [(lb, c, m, d) for _, lb, c, m, d in SCHEME_SERIES], XC[1][1] + 0.3, gap=0.25)
     w(r"\end{tikzpicture}")
     w(r"\end{document}")
@@ -202,7 +205,10 @@ def emit_headline(sweep, yr):
 
 def _profile_panel(w, sweep, cond, x0, x1, y0, y1, yr, *, ylabels, title, letter, font):
     ivs = [int(i) for i in sweep["intervals"]]
-    p = Panel(w, x0, x1, y0, y1, ivs, yr, xlabels=True, ylabels=ylabels, title=title, letter=letter, font=font)
+    # the small panels' interval ticks at scriptsize: 1 000 and 2 000 sit
+    # ~0.75 cm apart on a 4.55 cm log axis and ran together at footnotesize
+    p = Panel(w, x0, x1, y0, y1, ivs, yr, xlabels=True, ylabels=ylabels, title=title, letter=letter, font=font,
+              tickfont=r"\scriptsize" if x1 - x0 < 5 else None)
     series = [(pr, CNAME[pr], MARK[pr], False) for pr in PROFILES] + [("baseline", "cbase", "square", True)]
     offs = _offsets(len(series), 0.014)
     facts = []
@@ -242,7 +248,7 @@ def emit_mechanisms(sweep, yr):
     # the key in the credentials row's spare slots
     y0 = ytop - len(ROWS_MECH) * ROWH + 0.85
     kx = X0 + PW + GAP + 0.3
-    w(r"\node[anchor=west,text=black!60] at (%.3f,%.3f) {attack profile, and the reference:};" % (kx, y0 + PH - 0.2))
+    w(r"\node[anchor=west,text=black!60] at (%.3f,%.3f) {attack profile};" % (kx, y0 + PH - 0.2))
     _profile_key(w, kx, y0 + PH - 0.75, X0 + 3 * PW + 2 * GAP)
     w(r"\node[rotate=90,anchor=south] at (%.3f,%.3f) {NCR reduction};" % (X0 - 0.95, (y0 + ytop) / 2))
     w(r"\node[anchor=north] at (%.3f,%.3f) {deployment interval (s)};" % (X0 + 1.5 * PW + GAP, y0 - 0.5))
@@ -269,8 +275,8 @@ def emit_schemes(sweep, yr):
                                     title=LONG[c], letter=next(letters), font=FONT)
     w(r"\node[rotate=90,anchor=south] at (%.3f,%.3f) {NCR reduction};" % (XC[0][0] - 0.75, (ys[1] + ys[0] + PH) / 2))
     w(r"\node[anchor=north] at (%.3f,%.3f) {deployment interval (s)};" % ((XC[0][0] + XC[1][1]) / 2, ys[1] - 0.5))
-    w(r"\node[anchor=west,text=black!60] at (%.3f,%.3f) {attack profile, and the reference:};" % (XC[0][0], KY - 0.3))
-    _profile_key(w, XC[0][0] + 4.6, KY - 0.3, XC[1][1] + 0.3)
+    w(r"\node[anchor=west,text=black!60] at (%.3f,%.3f) {attack profile};" % (XC[0][0], KY - 0.3))
+    _profile_key(w, XC[0][0] + 5.2, KY - 0.3, XC[1][1] + 0.3)
     w(r"\end{tikzpicture}")
     w(r"\end{document}")
     return L, facts
@@ -298,7 +304,7 @@ def emit_rank_grid(sweep) -> tuple[str, list]:
     w("%   every deployment interval replaces the two-interval orderings. DRAFT STATE --- ratify on read.")
     w(r"\begin{table}[H]")
     w(r"  \centering")
-    w(r"  \caption[The defence ranking under each attacker]{The defence conditions ranked by NCR reduction against the APT attacker model and against the baseline attacker, at each deployment interval, in the APT attacker model's order at %s\,s; rank~1 is the largest reduction. A dash: the condition's 95\,\%% bootstrap interval includes zero, the no-defence reference.}" % fmt_thousands(int(ref)))
+    w(r"  \caption[The defence ranking under each attacker]{The defence conditions ranked by NCR reduction against the APT attacker model, pooled over $c_1$ to $c_4$, and against the baseline attacker, at each deployment interval, in the APT attacker model's order at %s\,s; rank~1 is the largest reduction. A dash: the condition's 95\,\%% bootstrap interval includes zero, the no-defence reference; italic: the interval lies wholly below zero.}" % fmt_thousands(int(ref)))
     w(r"  \label{tab:eff-orderings}")
     w(r"  \tablestyle\scriptsize\setlength{\tabcolsep}{4pt}\rowcolors{4}{black!5}{}")
     w(r"  \begin{tabular}{@{}P{3.6cm}*{%d}{>{\centering\arraybackslash}p{0.72cm}}@{}}" % (2 * n))
@@ -315,7 +321,8 @@ def emit_rank_grid(sweep) -> tuple[str, list]:
                 b = sweep["by_interval"][i]
                 d = b["attacker"][arm][c]
                 sep = d["lo"] > 0 or d["hi"] < 0
-                cells.append(str(b["ranks"][arm][c]) if sep else "--")
+                r = str(b["ranks"][arm][c])
+                cells.append(("\\textit{%s}" % r if d["hi"] < 0 else r) if sep else "--")
                 facts.append((arm, c, int(i), b["ranks"][arm][c], d["point"], d["lo"], d["hi"], sep))
         w("    %s & %s \\\\" % (LONG[c], " & ".join(cells)))
     w(r"    \bottomrule")

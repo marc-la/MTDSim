@@ -233,8 +233,10 @@ def pm_ncr(iv: dict) -> str:
 
 def _sup(d: dict, nd: int = 2) -> str:
     # bounds in math mode so a negative bound prints a minus, not a hyphen
-    # (context critic, 2026-09-22)
-    return "$%.*f$ [$%.*f$, $%.*f$]" % (nd, d["point"], nd, d["lo"], nd, d["hi"])
+    # (context critic, 2026-09-22); a value that rounds to zero prints no sign
+    # (2026-09-25: "-0.00" in OS diversity's bracket)
+    f = lambda v: ("%.*f" % (nd, v)).replace("-0." + "0" * nd, "0." + "0" * nd)  # noqa: E731
+    return "$%s$ [$%s$, $%s$]" % (f(d["point"]), f(d["lo"]), f(d["hi"]))
 
 
 def emit_tab55(s541: dict) -> str:
@@ -290,7 +292,10 @@ def emit_tab55(s541: dict) -> str:
             w(r"    \midrule")
         rows = [(c, pooled[c]) for c in blk["order_pooled"]]
         for i, (c, d) in enumerate(rows):
-            group = r"\rowgroup{%d}{every %s\,s}" % (len(rows), fmt_thousands(int(interval))) if i == len(rows) - 1 else ""
+            # one interval since 2026-09-25: the caption names it, so no rotated
+            # group label (context critic: it repeated the caption)
+            group = r"\rowgroup{%d}{every %s\,s}" % (len(rows), fmt_thousands(int(interval))) if (
+                i == len(rows) - 1 and len(TAB55_INTERVALS) > 1) else ""
             w("    %s & %s & %.2f & %s & %s & %s & %s \\\\" % (
                 group, LONG[c], d["target_reach"], pm_ncr(d["hosts_cond"]), mttc(d["delay"]),
                 _sup(d), pm(d["blocked"], 2)))
