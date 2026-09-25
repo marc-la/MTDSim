@@ -1,5 +1,5 @@
 ---
-status: open                  # executes register E6 (and E7's ranking base); supersedes the retired 2026-09-17 defended-runs plan and the 2026-09-15 unopposed plan — their owed items are carried in §4; Q1–Q5 owed, Q5 is "launch the smoke tonight"; 2026-09-25 adds the §5.3.2 figure critique (§5) and Q6–Q10, Q6 RULED 2026-09-25 (MTDAI-02 overturned: restore Tay's 8/3 path, build in §5.6)
+status: open                  # executes register E6 (and E7's ranking base); supersedes the retired 2026-09-17 defended-runs plan and the 2026-09-15 unopposed plan — their owed items are carried in §4; Q1–Q5 owed, Q5 is "launch the smoke tonight"; 2026-09-25 adds the §5.3.2 figure critique (§5) and Q6–Q10, Q6 RULED 2026-09-25 (MTDAI-02 overturned: restore Tay's 8/3 path, build in §5.6); §5.8 added 2026-09-25 (Jin's second pass: line charts replace Figures 5.4 and 5.5, per-mechanism small multiples in §5.3.3), Q11–Q13 owed
 created: 2026-09-22
 executes: docs/implementation/pipeline/ogasp/supervisor_decision_register.md §E6, §E7
 companions: ../workflows/results_section_workflow.md (record → read → draw), the two-phase restructure, landed 2026-09-23 (the headline §5.3.2 reads the interval sweep aggregated by layer, the depth §5.3.3 reads per mechanism with MTDShield as a scheme column; `docs/thesis/FLOATS.md`), 2026-09-24_s45_instrumenting_mtdsim.md (what each metric is; the metrics design handoff retired 2026-09-24)
@@ -94,7 +94,7 @@ H1 is the §5.3.2 headline and the E10(ii) set-up. The figure should make it vis
 - **Caption:** decode only (the Figure 5.4 pass, 8h-2): which panel is which attacker, what each row holds, what a layer line is, zero as no defence, the whiskers. The current caption's interpretation ("the mechanism behind any difference is structural …", "the chapter's central comparison") moves to the body or is cut. MTDShield's 200 s training interval, its pool and ε = 0 go in Table 5.1 and the text, not on the axes (supervisor 2026-09-22: no definitions in captions or axes).
 - **Appendix (E6):** the same form for every one of the seven mechanisms (the user's "every single mechanism") plus the four schemes, one figure per profile $c_1$–$c_4$ and $c_{\mathrm{agg}}$. Add a table of executions per run for each cell (§5.2).
 
-### 5.5 Table 5.4 (the orderings)
+### 5.5 Table 5.3 `tab:eff-orderings` (the orderings; was 5.4 before the 2026-09-25 renumbering)
 
 - As drawn it ranks the baseline attacker first, with a long footnote. Both break E7.
 - Six intervals turn today's two blocks into six. Proposal: a **rank grid**. Rows are the 11 conditions, ordered by the APT attacker model's rank at 200 s. Columns are the six intervals for the model, then the six for the baseline. Cells hold ranks only; the NCR values are in the appendix table. The last row is Spearman's ρ per interval. No footnote.
@@ -187,6 +187,55 @@ An interval-aware retrained variant is future work, beside the declined phase th
    - **E.5 Behaviour observed.** Written after the run, from the per-decision ledger: action shares per interval per attacker, and the share of deployments the guard forced. If the model mostly fires one mechanism, that is reported here as what it does, against the prediction in §5.6 step 5a.
    - **E.6 (only if triggered)** The input-rescaling check (§5.6 step 5b).
 
+### 5.8 Jin's second pass: the headline and the depth (Marc's account, 2026-09-25)
+
+**What Jin said.**
+- §5.3.2 is the **headline**. It shows the difference between the two attackers, it must be drawn well, and a table backs it.
+- §5.3.3 is the **depth**. It has one figure per mechanism (IP shuffle, complete topology shuffle, host topology shuffle, and so on), about ten down the page, and a table backs them.
+- Both use line charts. The x axis is the MTD interval, 50 s to 2 000 s. The y axis is NCR reduction.
+- "Good visualisation of your data is half the work."
+
+**What this changes in §5.4.**
+- §5.4 said the appendix draws every mechanism and every profile. That is overturned. The per-mechanism panels move into §5.3.3's body, and the appendix keeps only the full numeric table.
+- §5.4's headline spec stands: 2 × 2, with the attacker per column and layers over schemes. The difference between the attackers is H1, drawn as the lines changing places between the two columns. Q8 and Q9 are still open.
+
+**Critique of the current §5.3.2 and §5.3.3 against this feedback (100 seeds, 200 s and 2 000 s).**
+
+| Float | Job under Jin's split | What it does now | Verdict |
+|---|---|---|---|
+| Figure 5.4 `fig:eff-cross-arm` | the headline | To find the attacker difference, the reader has to pair hatched and solid bars across eleven slots and four panels. Bars at two intervals cannot show which defences fall faster. The caption interprets ("the chapter's central comparison", "structural rather than statistical"), which the decode-only and no-definitions rulings exclude. | **replace** with §5.4's line chart |
+| Table 5.3 `tab:eff-orderings` | backs the headline | Ranks per attacker at two intervals, with the model as the base (E7). This is sound. | keep; at six intervals it becomes the rank grid (Q10) |
+| Figure 5.5 `fig:eff-suppression-profiles` | the depth | Only the APT attacker model appears, per profile. The baseline attacker is absent, so the depth figure cannot show the flip between attackers. Marc's 2026-09-25 question about random beating MTDShield in (c) is this gap: the flip is visible only in Figure 5.4(c). Panel (d) is blank in effect, with everything at 2 000 s within noise of zero. As bars that is an empty panel; as lines it is where the lines meet (H2), which is a finding. | **replace** with the small multiples below |
+| Table 5.4 `tab:eff-conditions` | backs the depth | It carries the metrics the lines do not: ASP, NCR, MTTC and attack actions blocked. At six intervals it would triple, to about 130 rows. | keep in the body at one anchor interval; the full grid goes to the appendix (Q13) |
+
+**Replace, not in tandem (Q11).** Each line chart already contains the bars, as two of its six x positions. Keeping both would draw the same numbers twice and add two floats to a chapter at its float budget. The one thing the bars add is all eleven conditions side by side at one interval, and the tables already do that job.
+
+**The §5.3.3 figure (proposed; Q12).**
+- **Small multiples, one panel per condition, on shared axes** (the headline's x and y). Draw them as two figures, not eleven:
+  - the seven single mechanisms, laid out by layer (host row 3, service row 3, credentials 1, plus the key in the eighth slot);
+  - the four execution schemes (2 × 2).
+
+  Eleven separate figures would give the same reading with eleven captions and no guarantee of a shared scale. The two figures are the "figures down the page".
+- **Lines per panel:** $c_1$–$c_4$ and $c_{\mathrm{agg}}$ in the profile hues, which already mean these profiles in §5.3.3, plus the baseline attacker as a grey dashed line. That line is the reference E1 asks for, and it puts the flip in every panel.
+  - Whiskers go on every line.
+  - If they collide at 1 000 s and 2 000 s, where the lines meet, keep them on the baseline and the pooled model only. The mock decides this.
+- **Direct labels** go at the 50 s end, where the lines spread; the key is used only if the lines cross there.
+
+**The x axis: log.**
+- The range is a factor of 40, and the six levels (50, 100, 200, 500, 1 000, 2 000 s) are near-doublings, so on a log axis they sit about evenly spaced.
+- On a linear axis, 50–500 s would crowd into the first quarter. That is where the lines change most: the model's host-layer line falls from 0.96 at 200 s to 0.22 at 2 000 s.
+- Ticks are labelled in seconds at the six levels, so the reader needs nothing but the spacing to know the axis is log.
+
+**Sequence.**
+- A line through two intervals is a straight segment, so the shape cannot be judged from today's corpus.
+- The shape check needs the six-interval smoke at 100 seeds (Q5). MTDShield and random over its four are now wired (`run_corpus.py`, the `SHIELD` conditions).
+- Estimated at about 50 min for the existing conditions (§1). The two MTDShield conditions add 7 200 runs, with 50 s running about four times as many decisions as 200 s, so roughly 1–2 h in all.
+- Then:
+  1. mock both figures from the smoke;
+  2. scrutinise them (the scrutinise-figure method, takeaways first);
+  3. Marc ticks off the shape;
+  4. run the 1 000 seeds overnight.
+
 ## Rulings owed (Marc)
 
 - **Q1** the interval levels (six proposed).
@@ -198,7 +247,10 @@ An interval-aware retrained variant is future work, beside the declined phase th
 - **Q7** Add **random over MTDShield's four mechanisms** as a condition: 6 intervals × 6 arms = 36 cells, cheap. **Recommended**: it is the like-for-like "no AI" arm, and it is what Tay's published figures measured.
 - **Q8** Figure layout: 2 × 2 (attacker × mechanisms/schemes; **recommended**) or one panel per attacker with seven lines.
 - **Q9** Encoding: greys with one marker per line and the accent on MTDShield (**recommended**), or a new colour contract for conditions.
-- **Q10** Table 5.4: a rank grid over all six intervals (**recommended**) or two anchor intervals.
+- **Q10** Table 5.3 (`tab:eff-orderings`): a rank grid over all six intervals (**recommended**) or two anchor intervals.
+- **Q11** (§5.8) The line charts **replace** Figures 5.4 and 5.5 (**recommended**), or sit beside them.
+- **Q12** (§5.8) §5.3.3's form: small multiples in two figures, the singles by layer and the schemes (**recommended**); eleven separate figures; or one full-page grid.
+- **Q13** (§5.8) Table 5.4 (`tab:eff-conditions`) at six intervals: one anchor interval in the body with the full grid in the appendix (**recommended**), or an NCR-reduction-only grid over all six.
 - **Tell Jin (carried):** the y axis is NCR reduction, not the change in attack success rate he said on 2026-09-22. Marc's 2026-09-25 account already says NCR reduction. If Jin has agreed to it, record that here and close the item.
 
 ## Validation gate
