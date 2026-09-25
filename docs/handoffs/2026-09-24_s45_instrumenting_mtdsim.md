@@ -44,6 +44,26 @@ In the corpus's own order (the Alavizadeh mitigation-factor paragraph is the cle
 - **Adapted:** plus one clause.
 - **Introduced:** about 8–15 sentences. That length is only precedented where the metric is the contribution (Hong's APV, Zaffarano), which is exactly the status of the two introduced here.
 
+**Marc's calls (2026-09-25):**
+- **A table of symbols is fine** if it reads better than a "where" clause per definition. It is precedented by Hong 2018 Tables 1–2 and Ho 2024 Table 3. The boilerplate lists the candidate symbols.
+- **A brief rationale only where the choice needs motivating;** none otherwise.
+- **A worked value only where the reading is not intuitive.** "0 is this, 1 is that" usually does the job.
+
+**The boilerplate is in the tex** (2026-09-25), under §4.5, commented out. It has:
+- the opener;
+- the symbols list;
+- the four subsection headings, with one `\paragraph` run-in head per metric;
+- slots S1–S6 per metric, holding the facts from the entries below;
+- a DRAFT equation in the proposed symbols for each, with its label (`eq:rto`, `eq:apv`, `eq:attack-rate`, `eq:detector`, `eq:confidentiality`, `eq:asp`, `eq:ncr`, `eq:mttc`, `eq:ncr-reduction`, `eq:ncr-growth`, `eq:time-lost`).
+
+Uncomment a block as it is drafted.
+
+**Sources fixed 2026-09-25:**
+- **Hong 2018's 17 equations** were dropped by the converter. They are restored from Marc's PDF into `docs/sources/lit_review/1_2_hong2018dynamic.md`; the ≠ in Eqs. 10–14 is still to check on the typeset page.
+- **Pendleton 2016 arXiv v1** is now held (`docs/sources/methodology/pendleton2016_security_metrics_survey.md`; attack rate p. 15).
+- **Zhan 2013** (the attack-rate source), and the confirmations owed for Tantithamthavorn 2017, Scott & Knott 1974, Kitchenham 1995 and STRESS, are on Marc's list: `docs/sources/methodology/download_list.md`, §4.5 table.
+- **`arcuri2014hitchhiker` is in the bib.**
+
 **Not in a definition** (corpus: nobody does it): statistics, results, or a worked number, except where it clarifies an introduced metric (Hong; He).
 
 ### Pitfalls to avoid (and where this thesis stands)
