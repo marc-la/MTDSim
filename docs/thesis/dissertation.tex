@@ -702,7 +702,13 @@ studies evaluated on.
     model, adding a service layer to Alavizadeh et al.'s two-layer
     HARM, the baseline attacker, and the combined-MTD evaluation \\
     Zhang \citep{zhang2023} & the time domain: mean time to compromise
-    and the MTD execution schemes \\
+% [CONNECTIVE-PROSE PASS 2026-09-26, DS Table 2.1] Marc 2026-09-26:
+%  'deployment strategies is very clear ... change everything to
+%  deployment strategies' (registry row re-ruled). SESSION-GENERATED on
+%  Marc's 2026-09-26 go-ahead (docs/workflows/connective_prose.md; audit
+%  docs/implementation/connective_prose_audit.md); prior text in git.
+%  DRAFT STATE, ratify on read.
+    and the MTD deployment strategies \\
     Ho \citep{ho2024} & the extended metric suite \\
     Tay \citep{tay2024} & MTDShield, the double deep Q-network selector \\
     \bottomrule
@@ -840,7 +846,13 @@ all of their neighbours.
   \includegraphics{fig_2-2-2a_defence_module}
   \caption[When the defence moves, and what each mechanism rewrites]{When
   the defence moves, and what each mechanism rewrites. An interval
-  elapses, the execution scheme draws which mechanism fires or a learned
+% [CONNECTIVE-PROSE PASS 2026-09-26, DS Fig 2.x caption] Marc 2026-09-26:
+%  'deployment strategies is very clear ... change everything to
+%  deployment strategies' (registry row re-ruled). SESSION-GENERATED on
+%  Marc's 2026-09-26 go-ahead (docs/workflows/connective_prose.md; audit
+%  docs/implementation/connective_prose_audit.md); prior text in git.
+%  DRAFT STATE, ratify on read.
+  elapses, the deployment strategy draws which mechanism fires or a learned
   selector picks one --- and it may pick none --- and the defence moves.
   The seven mechanisms group by what each rewrites: three rewrite the host
   layer, three the service layer, and one the credentials. Two mechanisms
@@ -892,14 +904,27 @@ all of their neighbours.
 % "deployment strategies"; absence sentences to prose.
 \begin{table}[htbp]
   \centering
-  \caption[The five deployment strategies]{The five deployment strategies, grouped by scheduling regime; the
-  four execution schemes, as termed by Zhang~\citep{zhang2023}, and MTDShield, the
-  reinforcement-learning selector of Tay~\citep{tay2024}.}
+% [CONNECTIVE-PROSE PASS 2026-09-26, DS Table 2.4 caption] Marc
+%  2026-09-26: 'deployment strategies is very clear ... change everything
+%  to deployment strategies' (registry row re-ruled). Zhang's own term is
+%  named once, here where the covering term is defined, so a reader of
+%  Zhang can map it (field term first, academic_register i2).
+%  SESSION-GENERATED on Marc's 2026-09-26 go-ahead
+%  (docs/workflows/connective_prose.md; audit
+%  docs/implementation/connective_prose_audit.md); prior text in git.
+%  DRAFT STATE, ratify on read.
+  \caption[The five deployment strategies]{The five deployment strategies, grouped by scheduling regime: four from Zhang~\citep{zhang2023}, who terms them execution schemes, and MTDShield, the reinforcement-learning selector of Tay~\citep{tay2024}.}
   \label{tab:deployment-strategies}
   \tablestyle
   \begin{tabular}{@{}llP{0.62\textwidth}@{}}
     \toprule
-    \textit{When} to move & Execution scheme & Description \\
+% [CONNECTIVE-PROSE PASS 2026-09-26, DS Table 2.4 header] Marc 2026-09-26:
+%  'deployment strategies is very clear ... change everything to
+%  deployment strategies' (registry row re-ruled). SESSION-GENERATED on
+%  Marc's 2026-09-26 go-ahead (docs/workflows/connective_prose.md; audit
+%  docs/implementation/connective_prose_audit.md); prior text in git.
+%  DRAFT STATE, ratify on read.
+    \textit{When} to move & Deployment strategy & Description \\
     \midrule
     proactive & random & draws one mechanism from the pool at random on each interval \\
     & alternative & rotates through the pool in a fixed order, one per interval \\
@@ -6401,8 +6426,13 @@ Section~\ref{sec:technique-graph} before it is partitioned into profiles. Both p
 %  docs/implementation/connective_prose_audit.md); prior text in git.
 %  DRAFT STATE, ratify on read.
 \textbf{Defence.} The 11 defence conditions are no defence, each of the seven defence
-mechanisms under the single scheme, \owed{the random and alternative execution
-schemes}{Section 5.1: the simultaneous execution scheme listed in Chapter 2 is
+% [CONNECTIVE-PROSE PASS 2026-09-26, DS 5.1 Defence] Marc 2026-09-26:
+%  'deployment strategies is very clear ... change everything to
+%  deployment strategies' (registry row re-ruled). SESSION-GENERATED on
+%  Marc's 2026-09-26 go-ahead (docs/workflows/connective_prose.md; audit
+%  docs/implementation/connective_prose_audit.md); prior text in git.
+%  DRAFT STATE, ratify on read.
+mechanisms under the single deployment strategy, \owed{the random and alternative deployment strategies}{Section 5.1: the simultaneous deployment strategy listed in Chapter 2 is
 not run and no reason is given; run it or state why},
 which draw on the whole pool (Section~\ref{subsec:defence-mechanisms}), and
 MTDShield. MTDShield is run as released: Tay's highest-scoring agent, choosing its
@@ -6666,7 +6696,13 @@ are ranked as Section~\ref{subsec:metrics-statistics} describes.
 %  state none --- Ho's 100 is training episodes (H-PAR-06), not runs, which the
 %  setup handoff had wrong. The clause compares; it does not claim a standard.
 \textbf{Runs.} Every combination in Table~\ref{tab:experiment} is run 1\,000
-times, ten times the 100 runs per condition of Zhang \citep{zhang2023};
+% [CONNECTIVE-PROSE PASS 2026-09-26, S23 ten times] Decorative comparison
+%  cut (Marc 2026-09-26: 'we don't need that'); Section 4.5.4 grounds the
+%  count. Overturns the 2026-09-23 E5 clause. SESSION-GENERATED on Marc's
+%  2026-09-26 go-ahead (docs/workflows/connective_prose.md; audit
+%  docs/implementation/connective_prose_audit.md); prior text in git.
+%  DRAFT STATE, ratify on read.
+times;
 Section~\ref{subsec:metrics-statistics} gives the reason for the count, the seeds
 and the intervals reported. Each run is a terminating simulation: it ends at the
 first of the stopping events in Table~\ref{tab:experiment}, fixed before it
@@ -8129,8 +8165,13 @@ defence.
 %  float shows, the numbers that carry it, the APT property the metric records
 %  (Table 3.2 via Section 4.5), a by-construction reason only where Marc gave one.
 %  The agent draft it replaces is in git history (commit e83f280c). DRAFT STATE.
-The deployment strategies split the same way. The random and alternative
-execution schemes, which draw on all seven mechanisms, give the APT attacker model
+% [CONNECTIVE-PROSE PASS 2026-09-26, DS 5.3.2 body] Marc 2026-09-26:
+%  'deployment strategies is very clear ... change everything to
+%  deployment strategies' (registry row re-ruled). SESSION-GENERATED on
+%  Marc's 2026-09-26 go-ahead (docs/workflows/connective_prose.md; audit
+%  docs/implementation/connective_prose_audit.md); prior text in git.
+%  DRAFT STATE, ratify on read.
+The deployment strategies split the same way. The random and alternative deployment strategies, which draw on all seven mechanisms, give the APT attacker model
 the larger reduction at every interval up to 1\,000\,s (at 200\,s, \prelim{0.75}
 and \prelim{0.72} against \prelim{0.33} and \prelim{0.39}). MTDShield gives the
 baseline attacker the larger reduction at every interval (\prelim{0.70} against
@@ -8142,7 +8183,7 @@ Section~\ref{subsec:aio-disruption}.
 \begin{figure}[htbp]
   \centering
   \includegraphics{fig_5-3-2b_interval_headline}
-  \caption[The same defences measured against each attacker, across the deployment interval]{NCR reduction against the deployment interval for each defence, measured against the APT attacker model, pooled over $c_1$ to $c_4$ (solid), and against the baseline attacker (dashed); higher is fewer hosts compromised, zero is as many as with no defence, and below zero is more. Panels~(a) to~(c): the defence mechanisms by the layer each rewrites (Table~\ref{tab:defence-mechanisms}), a layer's line being the mean over its mechanisms, each deployed alone (Table~\ref{tab:eff-interval-values} lists them). Panels~(d) to~(f): the random execution scheme, MTDShield (Appendix~\ref{app:mtdshield}) and the alternative execution scheme (Table~\ref{tab:deployment-strategies}). The interval axis is logarithmic; whiskers are 95\,\% percentile bootstrap intervals.}
+  \caption[The same defences measured against each attacker, across the deployment interval]{NCR reduction against the deployment interval for each defence, measured against the APT attacker model, pooled over $c_1$ to $c_4$ (solid), and against the baseline attacker (dashed); higher is fewer hosts compromised, zero is as many as with no defence, and below zero is more. Panels~(a) to~(c): the defence mechanisms by the layer each rewrites (Table~\ref{tab:defence-mechanisms}), a layer's line being the mean over its mechanisms, each deployed alone (Table~\ref{tab:eff-interval-values} lists them). Panels~(d) to~(f): the random deployment strategy, MTDShield (Appendix~\ref{app:mtdshield}) and the alternative deployment strategy (Table~\ref{tab:deployment-strategies}). The interval axis is logarithmic; whiskers are 95\,\% percentile bootstrap intervals.}
   \label{fig:eff-cross-arm}
 \end{figure}
 
@@ -8229,7 +8270,15 @@ over MTDShield's four, which no float reports}.
 % OWED HERE, 2026-09-20 (setup handoff §AL3, §AM P10): "the movement attacker" in
 % tab:eff-conditions is the four profiles POOLED, 400 runs against the baseline's
 % 100 (analyse.py:398); say so once at the head of this section.
-\subsection{Defence mechanisms and execution schemes}
+% [CONNECTIVE-PROSE PASS 2026-09-26, DS 5.3.3 heading] Marc 2026-09-26:
+%  'deployment strategies is very clear ... change everything to
+%  deployment strategies' (registry row re-ruled). Overturns the
+%  2026-09-20 heading ruling: MTDShield is in this subsection.
+%  SESSION-GENERATED on Marc's 2026-09-26 go-ahead
+%  (docs/workflows/connective_prose.md; audit
+%  docs/implementation/connective_prose_audit.md); prior text in git.
+%  DRAFT STATE, ratify on read.
+\subsection{Defence mechanisms and deployment strategies}
 \label{subsec:eff-under-defence}
 
 % REWORKED 2026-09-13 (stage-2 float audit, ch5 design handoff §18) --- grouped bars with no defence as the
@@ -8315,11 +8364,23 @@ keeping the most (\prelim{0.33} at 2\,000\,s against \prelim{0.16} and
 \prelim{0.17}); against the baseline attacker, IP shuffle gives more reduction
 than either topology shuffle at every interval. On the service layer, service
 diversity is the one mechanism that keeps a reduction against the baseline
-attacker at every interval (\prelim{0.30} at 2\,000\,s). Port shuffle matches it
-up to 200\,s and OS diversity up to 100\,s; from 500\,s neither is told apart from
-zero. User shuffle reduces neither attacker's NCR from 100\,s. The four attack
-profiles move together under every mechanism, with one exception: $c_3$ separates
-from the others under the host-layer mechanisms from 500\,s.
+% [CONNECTIVE-PROSE PASS 2026-09-26, S8 service layer] 'matches' named no
+%  test; the declared one is a shared Scott-Knott rank (numbers.json
+%  ranking.by_interval, baseline sk_esd: port shuffle rank 1 to 200 s, OS
+%  diversity rank 1 to 100 s). Marc 2026-09-26: 'sure'. SESSION-GENERATED
+%  on Marc's 2026-09-26 go-ahead (docs/workflows/connective_prose.md;
+%  audit docs/implementation/connective_prose_audit.md); prior text in
+%  git. DRAFT STATE, ratify on read.
+attacker at every interval (\prelim{0.30} at 2\,000\,s). Port shuffle is not told apart from it up to 200\,s, nor OS diversity up to 100\,s, since each shares its Scott--Knott rank there; from 500\,s neither is told apart from
+% [CONNECTIVE-PROSE PASS 2026-09-26, S8 profiles] 'move together' /
+%  'separates' named no test; replaced by the values (numbers.json
+%  sweep.by_interval[500].profile; c3 lower bounds 0.82-0.87 against the
+%  others' upper 0.76-0.86). The universal 'move together under every
+%  mechanism' is dropped: it had no test behind it. SESSION-GENERATED on
+%  Marc's 2026-09-26 go-ahead (docs/workflows/connective_prose.md; audit
+%  docs/implementation/connective_prose_audit.md); prior text in git.
+%  DRAFT STATE, ratify on read.
+zero. User shuffle reduces neither attacker's NCR from 100\,s. At 500\,s each host-layer mechanism keeps a larger reduction against $c_3$ than against the other attack profiles, \prelim{0.86} to \prelim{0.91} against \prelim{0.71} to \prelim{0.82}, and the intervals do not overlap.
 
 % ---- PARAGRAPH 2: between Figure fig:eff-suppression-profiles and Figure fig:eff-schemes-profiles ----
 % REWRITTEN 2026-09-26 on Marc's read ("very rhetorically inflated ... literally we
@@ -8328,14 +8389,35 @@ from the others under the host-layer mechanisms from 500\,s.
 %  float shows, the numbers that carry it, the APT property the metric records
 %  (Table 3.2 via Section 4.5), a by-construction reason only where Marc gave one.
 %  The agent draft it replaces is in git history (commit e83f280c). DRAFT STATE.
-Figure~\ref{fig:eff-schemes-profiles} shows the deployment strategies, for each
-attack profile. Against the APT attacker model, MTDShield stays within
-\prelim{0.12} of service diversity at every interval, which follows from its
-choice of service diversity at most decisions.
+% [CONNECTIVE-PROSE PASS 2026-09-26, S24 c_agg] c_agg was drawn in Figures
+%  5.5 and 5.6 and promised by the 5.3 preamble but read nowhere (Marc
+%  2026-09-26: 'that's an issue'). Values from numbers.json
+%  sweep.by_interval[200].profile; user shuffle is the one mechanism where
+%  c_agg (-0.11) sits above c1-c4 (-0.16 to -0.12). DRAFT plain
+%  description, numbers checked. SESSION-GENERATED on Marc's 2026-09-26
+%  go-ahead (docs/workflows/connective_prose.md; audit
+%  docs/implementation/connective_prose_audit.md); prior text in git.
+%  DRAFT STATE, ratify on read.
+Figure~\ref{fig:eff-schemes-profiles} shows the deployment strategies, for each attack profile. At 200\,s the NCR reduction against $c_{\mathrm{agg}}$ lies within the range of $c_1$ to $c_4$ under MTDShield and every defence mechanism except user shuffle. Under the random and alternative deployment strategies it lies below all four (\prelim{0.68} and \prelim{0.64}, against \prelim{0.69} to \prelim{0.82}). Against the APT attacker model, MTDShield stays within
+% [CONNECTIVE-PROSE PASS 2026-09-26, S7 MTDShield mechanism] Mechanism
+%  removed from the results (Marc 2026-09-26: 'that's my bet'). PARKED FOR
+%  CHAPTER 6: Marc's reading is that MTDShield tracks service diversity
+%  because it chooses service diversity at 70 to 76 % of its decisions
+%  (Appendix E.5) --- an interpretation, for the discussion.
+%  SESSION-GENERATED on Marc's 2026-09-26 go-ahead
+%  (docs/workflows/connective_prose.md; audit
+%  docs/implementation/connective_prose_audit.md); prior text in git.
+%  DRAFT STATE, ratify on read.
+\prelim{0.12} of service diversity at every interval.
 \owed{Replacing the near-periodic timing distribution with the exponential one
 at 200\,s changes the sign of no reduction for either attacker, and the APT
-attacker model keeps its order of the seven mechanisms and two execution
-schemes; against the baseline attacker service diversity stays first, but port
+% [CONNECTIVE-PROSE PASS 2026-09-26, DS 5.3.3 owed] Marc 2026-09-26:
+%  'deployment strategies is very clear ... change everything to
+%  deployment strategies' (registry row re-ruled). SESSION-GENERATED on
+%  Marc's 2026-09-26 go-ahead (docs/workflows/connective_prose.md; audit
+%  docs/implementation/connective_prose_audit.md); prior text in git.
+%  DRAFT STATE, ratify on read.
+attacker model keeps its order of the seven mechanisms and two deployment strategies; against the baseline attacker service diversity stays first, but port
 shuffle falls from \prelim{0.90} to \prelim{0.14}, below IP shuffle.}{Section
 5.3.3: the exponential timing distribution's values sit in no float, so an
 appendix table is owed (200 s, both attackers, nine conditions, with
@@ -8353,7 +8435,7 @@ raised in the regime runs is not yet investigated}
 \begin{figure}[htbp]
   \centering
   \includegraphics{fig_5-3-3c_interval_schemes}
-  \caption[NCR reduction by deployment strategy and attack profile, across the deployment interval]{NCR reduction against the deployment interval for each deployment strategy: the random execution scheme, MTDShield (Appendix~\ref{app:mtdshield}) and the alternative execution scheme (Table~\ref{tab:deployment-strategies}), for the attack profiles $c_1$ to $c_4$ and the aggregate $c_{\mathrm{agg}}$, with the baseline attacker dashed for comparison. Axes, zero and whiskers as in Figure~\ref{fig:eff-cross-arm}.}
+  \caption[NCR reduction by deployment strategy and attack profile, across the deployment interval]{NCR reduction against the deployment interval for each deployment strategy: the random deployment strategy, MTDShield (Appendix~\ref{app:mtdshield}) and the alternative deployment strategy (Table~\ref{tab:deployment-strategies}), for the attack profiles $c_1$ to $c_4$ and the aggregate $c_{\mathrm{agg}}$, with the baseline attacker dashed for comparison. Axes, zero and whiskers as in Figure~\ref{fig:eff-cross-arm}.}
   \label{fig:eff-schemes-profiles}
 \end{figure}
 
@@ -9322,7 +9404,13 @@ band ends separate from the centre by more than a host.
   \caption[Hosts reached against the low-and-slow family's dwell]{Distinct
   hosts reached as the low-and-slow family's dwell is moved across its band,
   as a multiple of its declared value, the other families held, with no
-  defence and under the random scheme mutating every 200\,s. Pooled over the
+% [CONNECTIVE-PROSE PASS 2026-09-26, DS appendix caption] Marc 2026-09-26:
+%  'deployment strategies is very clear ... change everything to
+%  deployment strategies' (registry row re-ruled). SESSION-GENERATED on
+%  Marc's 2026-09-26 go-ahead (docs/workflows/connective_prose.md; audit
+%  docs/implementation/connective_prose_audit.md); prior text in git.
+%  DRAFT STATE, ratify on read.
+  defence and under the random deployment strategy mutating every 200\,s. Pooled over the
   four profiles, 400 runs per point; intervals are 95\,\%.}
   \label{fig:sens-dwell-anchor}
 \end{figure}
