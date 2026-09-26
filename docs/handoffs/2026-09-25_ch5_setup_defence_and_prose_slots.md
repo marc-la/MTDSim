@@ -331,6 +331,28 @@ writing with relevance, clarity, without rhetorical flourish".
 
 **Still open from Part E:** F5, F6, F8, F10 and F13 (the owed marks above), F14 (the caption form), and F15 (Marc's read of the drafts). The drafts go next through the drafting pipeline's later passes (voice-pass on the assembled chapter).
 
+**Rewritten 2026-09-26 on Marc's read** ("very rhetorically inflated … literally
+we just need to describe what's happening"). His spoken walk through each float
+is the content. Every reading was checked against the tracked numbers, and each
+paragraph now does three things: it says what the float shows, gives the
+numbers that carry it, and names the APT property its metric records (§4.5).
+
+- **Three of his readings were corrected by the data:**
+  - Panel (c) of Figure 5.3: the host layer costs the *APT attacker model* the
+    most time (429–511 s). The baseline attacker's host-layer costs are not told
+    apart from zero.
+  - Random and alternative favour the APT attacker model. Of the seven
+    mechanisms at 200 s, three favour it and four the baseline attacker; the
+    reading was five and two.
+  - ρ = −0.03 is written as "close to zero", not "weak negative".
+- **Two of his by-construction points are now measured facts in §5.2:**
+  - 14–28 % of the model's dispatched actions fail on an unmet precondition
+    (`attack_rate_counting_blocked`), a consequence of reusing the simulator's
+    six actions.
+  - The pace comes from the declared dwell times.
+- **The owed marks are down to six.** The "what a rewrite takes" sentence is
+  dropped, because plain description does not need it.
+
 ## Validation gate
 
 - Table 5.1: every value cited, or argued in one clause of §5.1 (Part A's closing paragraph).

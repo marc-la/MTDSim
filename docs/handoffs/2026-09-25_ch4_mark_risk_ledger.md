@@ -674,3 +674,59 @@ which the applied paragraph now does.
 
 **Step 2 (the failure matrix) is next:** the draft above, the new nine-row rules
 table, and Figure 4.4b moved to Appendix B.6. It is not yet applied.
+
+## Walk-through state, round 3 (2026-09-26)
+
+**Step 1 test sentence SIMPLIFIED and applied** (Marc: "very hard to follow ...
+keep it simple and I can redraft it"). It now reads: "Appendix C varies these
+values one at a time and reports what changes. Section 5.x removes the failure
+matrix and reports what changes. Three values are not tested: the per-tactic
+dwell multipliers, $\sigma$, and the choice of one attack flow per operator."
+$\sigma$ is glossed at first use in the paragraph ("the share of weight given
+to the pre-intrusion tactics"). Marc will redraft.
+
+**Ruled (Marc):** Figure 4.4b moves to Appendix B.6, and the nine-row rules
+table replaces it in the body.
+
+**Marc's open question: "why nine rules, why not just a forward/backward
+rule?"** Answer, measured 2026-09-26 on the routing nets (`v4_failure_only`,
+the `operator_dedup` weights, synthetic overlay on):
+- *Why not forward/backward.* After intrusion, lateral moves (same stage) carry
+  0.58–0.71 of a post-intrusion tactic's base weight in every profile
+  (c1 0.58, c2 0.64, c3 0.67, c4 0.71, aggregate 0.66). Forward moves carry
+  0.05–0.20. A forward/backward rule would give no failure value to most of the
+  weight. The lateral rule governs 141 of the 323 base edges with weight.
+- *Why nine.* The rules come from two ideas, not nine separate choices. (1)
+  The relation of the move on the four stages: backward 0.9 (F), lateral 0.7
+  (G), forward 0.35 (H). (2) Whether the move needs a foothold the failure
+  denied, or gives up one the attacker holds. That idea yields the three
+  dependency gates (A: failed initial access → post-intrusion 0.02; B: failed
+  reconnaissance → initial access 0.4; C: failed reconnaissance →
+  post-intrusion 0.05), the forward split before a foothold (I, 0.3), and the
+  two exceptions to backward (D: post-intrusion → preparation 0.25; E: back to
+  execution on a held foothold 0.35).
+- *Pairs per rule, of 210:* lateral 65, H 35, D 35, backward 26, I 13, A 12,
+  C 12, E 11, B 1.
+- *Weak spot to own, not hide:* H versus I (0.35 against 0.30) is a
+  distinction of 0.05. It exists to mirror the foothold idea, and it is covered
+  by the ablation like every other value.
+
+**Marc's other question: what does the ablation conclude?** The ablation
+removes the failure matrix. Every reported response to disruption stays within
+the intervals (100 seeds, preliminary), because in MTDSim what follows a
+disruption is set by the actions: they fail until the attacker finds a host
+again. Where the token goes does not set it. Conclusion for chapter 6: no
+reported result depends on the nine values, and adaptivity in this model is
+bounded by the simulator's actions, the same ceiling §4.4 already names ("can
+only be as good as what we adopt"). This is a located limit, reported as such.
+It is not "we should have removed it".
+
+**The ablation's structure in chapter 5 (proposed).** One paragraph and one
+table in the response-to-disruption subsection:
+- what is removed: $F_{\text{failure}}$ set to the identity;
+- what is held: everything else, on the same seeds;
+- measures: time lost per MTD deployment and the NCR growth rate;
+- table: measure | APT attacker model | without the failure matrix |
+  difference [95 % CI];
+- one reading sentence.
+Chapter 6 carries the conclusion above.

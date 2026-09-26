@@ -5015,18 +5015,20 @@ come from the simulator: they are MTDSim's own costs. The order of the
 lifecycle stages the failure matrix reads (Section~\ref{subsec:failure-matrix})
 comes from the literature \citep{hutchins2011, alshamrani2019}. The remaining
 values are our judgement: the dwell times of the tactics no action prices, the
-tactic-to-action mapping, the nine failure rules, the pre-intrusion share
-$\sigma$, and the choice of one attack flow per operator.
-Appendix~\ref{app:movement} gives the reason for each
+tactic-to-action mapping, the nine failure rules, the share of weight given to
+the pre-intrusion tactics ($\sigma$), and the choice of one attack flow per
+operator. Appendix~\ref{app:movement} gives the reason for each
 (Tables~\ref{tab:dwell-derivation}, \ref{tab:controller-mapping}
-and~\ref{tab:overlay-failure-rules}). Appendix~\ref{app:sensitivity} reports a
-one-factor-at-a-time sensitivity analysis \citep{tenbroeke2016}: each dwell
-family and each scaling rate of the failure matrix is varied across a range
-with the other values at their nominal values, and the mapping is compared
-with a total mapping. Section~\ref{subsec:aio-disruption} reports an ablation
-of the failure matrix. The nine failure rules, the per-tactic multipliers
-within a dwell family, $\sigma$ and the choice of one attack flow per operator
-are fixed at their nominal values.
+and~\ref{tab:overlay-failure-rules}).
+% [2026-09-26 SIMPLIFIED (Marc: the one-factor-at-a-time sentence was "very
+%  hard to follow ... keep it simple and I can redraft it"). "Dwell family" and
+%  "scaling rate" were used here before 4.4.2 and 4.4.4 define them. Placeholder
+%  for Marc's redraft; DRAFT STATE.]
+Appendix~\ref{app:sensitivity} varies these values one at a time and reports
+what changes \citep{tenbroeke2016}. Section~\ref{subsec:aio-disruption} removes
+the failure matrix and reports what changes. Three values are not tested: the
+per-tactic dwell multipliers, $\sigma$, and the choice of one attack flow per
+operator.
 % INSERTION A APPLIED 2026-09-18 --- DRAFT STATE, ratify on read (Marc's
 %  green light this date: "swept is wrong, we kind of just chose them ... we
 %  chose them to our best of knowledge after consulting the literature").
@@ -5903,17 +5905,22 @@ reductions compares their rankings.
 %  "comparison" (not "reference") for the baseline attacker in S5, so that "reference" carries
 %   only the no-defence runs in this paragraph (conventions f2).
 %  Numbers: none.
+% REWRITTEN 2026-09-26 on Marc's read ("very rhetorically inflated ... literally we
+%  just need to describe what's happening"; his step-through of every float is
+%  the content, checked against the tracked numbers). Plain description: what the
+%  float shows, the numbers that carry it, the APT property the metric records
+%  (Table 3.2 via Section 4.5), a by-construction reason only where Marc gave one.
+%  The agent draft it replaces is in git history (commit e83f280c). DRAFT STATE.
 This chapter runs the APT attacker model of Chapter~\ref{ch:attacker-model}
-against MTD. The baseline attacker runs beside it under every condition. It is
-the attacker the MTDSim lineage evaluated MTD against
+against MTD, with the baseline attacker beside it under every condition. The
+baseline attacker is the attacker the MTDSim lineage evaluated MTD against
 (Section~\ref{subsec:recent-threat-models}), and \ref{sq:evaluate} asks how
-MTD's performance changes when the APT attacker model takes its place. After
-Section~\ref{sec:dimensions} declares the experiment once,
-Section~\ref{sec:attacker-in-operation} runs both attackers with no defence, so
-that each attacker is described apart from any defence and every later effect
-has its reference. Section~\ref{sec:effectiveness} then runs both under MTD,
-with the baseline attacker as the comparison. Chapter~\ref{ch:discussion}
-interprets the results of both sections.
+MTD's performance changes when the APT attacker model replaces it.
+Section~\ref{sec:dimensions} sets out the experiment.
+Section~\ref{sec:attacker-in-operation} compares the two attackers with no
+defence running, which gives the reference every later effect is measured from.
+Section~\ref{sec:effectiveness} compares them under MTD.
+Chapter~\ref{ch:discussion} interprets the results.
 
 % RESTRUCTURED 2026-09-08 (Marc's ruling, chat): "Experimental setup"
 % (3 units) and "Results" (9 units) MERGED into one 12-unit chapter. His
@@ -6980,9 +6987,14 @@ starts \citep{law2015}, so no warm-up period is needed \citep{currie2016}.
 %    ordering c3 > c2 > c1 > c4 on attack confidentiality in every bin, and the exact inverse on
 %        attack rate (11.7 < 15.0 < 18.3 < 20.7) <- numbers.json confidentiality_over_run.share; Table 5.2
 % --- P0: the head. Replaces the placeholder paragraph, before the long comment block.
-This section runs both attackers with no defence and reads how each acts
-(Section~\ref{subsec:metrics-behaviour}) and what it achieves
-(Section~\ref{subsec:metrics-outcome}).
+% REWRITTEN 2026-09-26 on Marc's read ("very rhetorically inflated ... literally we
+%  just need to describe what's happening"; his step-through of every float is
+%  the content, checked against the tracked numbers). Plain description: what the
+%  float shows, the numbers that carry it, the APT property the metric records
+%  (Table 3.2 via Section 4.5), a by-construction reason only where Marc gave one.
+%  The agent draft it replaces is in git history (commit e83f280c). DRAFT STATE.
+This section compares the APT attacker model with the baseline attacker with no
+defence running.
 
 % ~1 unit. What the model does with nothing opposing it: the campaign it
 % actually walks, and whether the four profiles are distinguishable.
@@ -7117,16 +7129,31 @@ This section runs both attackers with no defence and reads how each acts
 % caption, DRAFT STATE --- ratify on read.
 % --- P1: Figure 5.1. Placed BEFORE \begin{figure} of fig:aio-coverage (after the
 %     comment block that precedes it), so the first reference precedes the float.
-The APT attacker model spreads its steps over many tactics, \prelim{26} to
-\prelim{47}\,\% of them dwell-only; the baseline attacker's steps fall on its
-six actions (Figure~\ref{fig:aio-coverage}(a)). The attack profiles weight that
-campaign differently: the impact tactic takes \prelim{8} and \prelim{12}\,\% of
-the steps of $c_2$ and $c_3$, and under \prelim{1}\,\% of the steps of $c_1$.
-The APT attacker model's runs also part ways within a few steps
-(Figure~\ref{fig:aio-coverage}(b)); the baseline attacker's open alike up to
-four steps, the order its procedure fixes
-(Section~\ref{subsec:attacker-model}). The exception is $c_3$, whose runs vary
-as little as the baseline attacker's.
+% REWRITTEN 2026-09-26 on Marc's read ("very rhetorically inflated ... literally we
+%  just need to describe what's happening"; his step-through of every float is
+%  the content, checked against the tracked numbers). Plain description: what the
+%  float shows, the numbers that carry it, the APT property the metric records
+%  (Table 3.2 via Section 4.5), a by-construction reason only where Marc gave one.
+%  The agent draft it replaces is in git history (commit e83f280c). DRAFT STATE.
+Figure~\ref{fig:aio-coverage}(a) shows the share of each attacker's steps in
+each tactic. The baseline attacker's steps fall on its six actions, placed in the
+rows of the tactics that map to them (Section~\ref{subsec:tactic-verb-mapping}).
+The APT attacker model also takes \prelim{26} to \prelim{47}\,\% of its steps in
+seven tactics that map to no action, from resource development to impact, which
+the baseline attacker has no counterpart for. The four attack profiles divide
+their steps differently: impact, for example, takes \prelim{8}\,\% of the steps of
+$c_2$ and \prelim{12}\,\% of those of $c_3$, and almost none of $c_1$'s. This
+difference between profiles is what relative tactic occurrence records for
+objective conditioning (Section~\ref{subsec:metrics-behaviour}).
+
+Figure~\ref{fig:aio-coverage}(b) shows attack path variation. The baseline
+attacker's runs all open the same way for four steps, the order its procedure
+fixes (Section~\ref{subsec:attacker-model}), and \prelim{22}\,\% differ from five
+steps on. By four steps, $c_1$, $c_2$ and $c_4$ open differently in more than
+\prelim{70}\,\% of their runs; $c_3$ reaches at most \prelim{32}\,\%. Attack path
+variation records strategic plurality (Section~\ref{subsec:metrics-behaviour}), so
+three of the four profiles show more of it than the baseline attacker, and $c_3$
+shows about as little.
 
 \begin{figure}[tbp]
   \centering
@@ -7312,16 +7339,27 @@ as little as the baseline attacker's.
 % baseline attacker (numbers.json: attack_rate_counting_blocked); §4.5 states it.
 % --- P2: Table 5.2. Placed BEFORE \input{tables/tab_5-2-1a_unopposed_summary}
 %     (after the comment block that precedes it).
-On every profile, the APT attacker model takes a target in fewer runs,
-compromises fewer hosts, takes its first host later and acts at a lower attack
-rate than the baseline attacker (Table~\ref{tab:unopposed-summary}). Its pace is an input: each step lasts the
-dwell time declared for its tactic (Section~\ref{subsec:dwell-times}). A run
-ends when its attacker takes a target (Table~\ref{tab:experiment}), so only
-\prelim{40}\,\% of the baseline attacker's runs reach the time limit, against
-\prelim{83} to \prelim{95}\,\% of the APT attacker model's; the baseline
-attacker's NCR is the higher even so. Counted with the actions that fail on an
-unmet precondition, the attack rate of $c_4$ rises to \prelim{28.7} per
-1\,000\,s, level with the baseline attacker's.
+% REWRITTEN 2026-09-26 on Marc's read ("very rhetorically inflated ... literally we
+%  just need to describe what's happening"; his step-through of every float is
+%  the content, checked against the tracked numbers). Plain description: what the
+%  float shows, the numbers that carry it, the APT property the metric records
+%  (Table 3.2 via Section 4.5), a by-construction reason only where Marc gave one.
+%  The agent draft it replaces is in git history (commit e83f280c). DRAFT STATE.
+Table~\ref{tab:unopposed-summary} gives the attack outcome and the attack rate.
+On each of $c_1$ to $c_4$ the APT attacker model achieves less than the baseline
+attacker, and more slowly: its ASP is under a quarter of the baseline attacker's,
+its NCR at most two-fifths, and its MTTC about three times as long. Its pace is an
+input: each step lasts the dwell time declared for its tactic
+(Section~\ref{subsec:dwell-times}). Because a run ends when a target is taken,
+\prelim{40}\,\% of the baseline attacker's runs last to the time limit, against
+\prelim{87} to \prelim{95}\,\% of the APT attacker model's. Its attack rate is
+lower by less, \prelim{11.7} to \prelim{20.7} actions per 1\,000\,s against
+\prelim{28.4}. The model dispatches the simulator's actions in the order its
+tactics call them, so \prelim{14} to \prelim{28}\,\% of the actions it dispatches
+find a precondition unmet and fail before they run, and the attack rate does not
+count them (Section~\ref{subsec:metrics-behaviour}). This follows from a design
+choice of Chapter~\ref{ch:attacker-model}: the model reuses the simulator's six
+actions (Section~\ref{subsec:tactic-verb-mapping}).
 
 \input{tables/tab_5-2-1a_unopposed_summary}
 
@@ -7332,20 +7370,24 @@ unmet precondition, the attack rate of $c_4$ rises to \prelim{28.7} per
 % written caption, how-to-read only; DRAFT STATE --- ratify on read.
 % --- P3: Figure 5.2, closing on the hand-off. Placed BEFORE \begin{figure} of
 %     fig:aio-stealth; the \FloatBarrier before Section 5.3 keeps the float in 5.2.
-More of the APT attacker model's actions go unflagged than the baseline
-attacker's, in every 1\,500\,s bin (Figure~\ref{fig:aio-stealth}).
-The profiles hold level, in the reverse order of their attack rates ($c_3$
-highest, $c_4$ lowest), while the baseline attacker's falls from \prelim{67} to
-\prelim{43}\,\%. The detector alarms on the recent action rate
-(Section~\ref{subsec:metrics-behaviour}), so attack confidentiality and the
-attack rate record one behaviour. \owed{The margin rests on a dwell-only step
-dispatching no action (Section~\ref{subsec:tactic-verb-mapping}): counted as
-actions, the dwell-only steps close most of it}{Section 5.2: attack
-confidentiality with dwell-only steps counted as actions was measured in a dry
-run only; add it to the tracked no-defence analyser and to the appendix on the
-detector, or move the concession to the limitations of Chapter 6}. These
-no-defence runs are the reference for Section~\ref{sec:effectiveness}, where
-every effect of MTD is a change from them.
+% REWRITTEN 2026-09-26 on Marc's read ("very rhetorically inflated ... literally we
+%  just need to describe what's happening"; his step-through of every float is
+%  the content, checked against the tracked numbers). Plain description: what the
+%  float shows, the numbers that carry it, the APT property the metric records
+%  (Table 3.2 via Section 4.5), a by-construction reason only where Marc gave one.
+%  The agent draft it replaces is in git history (commit e83f280c). DRAFT STATE.
+Figure~\ref{fig:aio-stealth} shows attack confidentiality, the share of actions
+that a detector tuned on the baseline attacker does not flag. Every profile stays
+above the baseline attacker in every 1\,500\,s bin: \prelim{69} to \prelim{93}\,\%
+for the profiles, $c_4$ the lowest, against \prelim{67}\,\% falling to
+\prelim{43}\,\% for the baseline attacker. Attack rate and attack confidentiality
+together record stealth (Section~\ref{subsec:metrics-behaviour}), and the APT
+attacker model scores higher on both. The detector counts actions, so the two are
+one observation. \owed{Counting the dwell-only steps as actions removes most of
+the difference}{Section 5.2: attack confidentiality with dwell-only steps counted
+as actions was measured in a dry run only; track it, or move the point to the
+limitations in Chapter 6}. These no-defence runs are the reference for
+Section~\ref{sec:effectiveness}.
 
 \begin{figure}[tbp]
   \centering
@@ -7594,20 +7636,23 @@ every effect of MTD is a change from them.
 %  Terminology: "reference" kept for the no-defence runs only (§5.1; conventions §f2,
 %   coordinator correction); the baseline attacker is "beside it for comparison".
 %  Numbers: none typed (95\,\% is §4.5.4's declared level, not a result).
-The defences are now evaluated, each against the APT attacker model, with the
-baseline attacker beside it for comparison in every float. Each effect is the
-NCR reduction (Equation~\ref{eq:ncr-reduction}) from that attacker's
-no-defence runs (Section~\ref{sec:attacker-in-operation}). Drawn as one line
-or column, the APT attacker model is $c_1$ to $c_4$ pooled with equal weight,
-on four times the baseline attacker's runs; $c_{\mathrm{agg}}$ is its own profile, shown beside
-them in Section~\ref{subsec:eff-under-defence}. An effect is told apart from
-zero when its 95\,\% interval excludes zero, and defences that share a
-Scott--Knott rank are not told apart (Section~\ref{subsec:metrics-statistics}).
-The order runs from one deployment to the net effect to its parts: what one
-deployment does to each attacker (Section~\ref{subsec:aio-disruption});
-whether the two attackers agree on which defences work across the deployment
-interval (Section~\ref{subsec:eff-cross-arm}); and each defence by mechanism,
-attack profile and deployment strategy (Section~\ref{subsec:eff-under-defence}).
+% REWRITTEN 2026-09-26 on Marc's read ("very rhetorically inflated ... literally we
+%  just need to describe what's happening"; his step-through of every float is
+%  the content, checked against the tracked numbers). Plain description: what the
+%  float shows, the numbers that carry it, the APT property the metric records
+%  (Table 3.2 via Section 4.5), a by-construction reason only where Marc gave one.
+%  The agent draft it replaces is in git history (commit e83f280c). DRAFT STATE.
+This section runs both attackers under MTD. Every figure and table shows the APT
+attacker model beside the baseline attacker. Where the APT attacker model is one
+line or column, it pools $c_1$ to $c_4$ with equal weight; $c_{\mathrm{agg}}$
+appears separately in Section~\ref{subsec:eff-under-defence}. An effect is taken
+to differ from no effect when its 95\,\% interval excludes zero, and defences that
+share a Scott--Knott rank are not told apart
+(Section~\ref{subsec:metrics-statistics}).
+Section~\ref{subsec:aio-disruption} shows what a single deployment does to each
+attacker, Section~\ref{subsec:eff-cross-arm} the NCR reduction of each defence
+across the deployment interval, and Section~\ref{subsec:eff-under-defence} the
+same by mechanism, attack profile and deployment strategy.
 
 % ~1 unit. CARRIES PROPERTY 4 (adaptivity), which is the one property
 % that cannot be read from the unopposed arm, because it is definitionally
@@ -7739,17 +7784,20 @@ attack profile and deployment strategy (Section~\ref{subsec:eff-under-defence}).
 %  window (Section 4.5; Table 5.1).
 %
 % ---------------------------------------------------------------- PART 1 (head)
-Adaptivity (Table~\ref{tab:attacker-properties}) is the one property the
-no-defence runs cannot show, because it is the attacker's response to a
-deployment. Both attackers are read at 2\,000\,s, the deployment interval over which
-Section~\ref{subsec:metrics-effectiveness} reads the NCR growth rate. At 200\,s
-the next deployment lands before the attacker has recovered from the last: the APT attacker
-model's NCR growth rate before a host-layer deployment is \prelim{4}\,\% of its
-rate with no defence. The control, run under IP shuffle and OS diversity only, is the APT
-attacker model with no failure matrix, so that each next tactic is drawn on the
-base weights whatever its actions return. \owed{Over the five steps either side of
-each disruption, the share of its steps whose action has an unmet precondition
-stays within \prelim{0.025} of the APT attacker model's.}{Section 5.3.1: the
+% REWRITTEN 2026-09-26 on Marc's read ("very rhetorically inflated ... literally we
+%  just need to describe what's happening"; his step-through of every float is
+%  the content, checked against the tracked numbers). Plain description: what the
+%  float shows, the numbers that carry it, the APT property the metric records
+%  (Table 3.2 via Section 4.5), a by-construction reason only where Marc gave one.
+%  The agent draft it replaces is in git history (commit e83f280c). DRAFT STATE.
+Adaptivity, the attacker's response to a deployment
+(Table~\ref{tab:attacker-properties}), is the one property that needs a defence to
+be seen. The NCR growth rate and time lost per MTD deployment record it
+(Section~\ref{subsec:metrics-effectiveness}), read at the 2\,000\,s deployment
+interval, the window over which that section defines them; at 200\,s the next
+deployment arrives before the attacker has recovered from the last.
+\owed{A control, the APT attacker model with no failure matrix, run under IP
+shuffle and OS diversity, responds as the model does.}{Section 5.3.1: the
 control's result is on a measure Section 4.5 does not define; compute its time
 lost per MTD deployment on its two mechanisms, and add the control to the arms of
 Table 5.1}
@@ -7830,23 +7878,39 @@ Table 5.1}
 % ---------------------------------------------------------------- PART 2 (body)
 % Goes immediately after \end{figure} of fig:aio-adaptivity. DRAFT STATE 2026-09-25,
 % agent-drafted; ratify on read (provenance in the PART 1 comment).
-A deployment knocks each attacker down: its NCR growth rate drops when the
-deployment completes (Figure~\ref{fig:aio-adaptivity}a, b), under every mechanism
-except user shuffle, which knocks neither down. How long an attacker stays down
-follows the mechanism: after IP shuffle the APT attacker model stays down longer
-than the baseline attacker, and after service diversity the order reverses.
+% REWRITTEN 2026-09-26 on Marc's read ("very rhetorically inflated ... literally we
+%  just need to describe what's happening"; his step-through of every float is
+%  the content, checked against the tracked numbers). Plain description: what the
+%  float shows, the numbers that carry it, the APT property the metric records
+%  (Table 3.2 via Section 4.5), a by-construction reason only where Marc gave one.
+%  The agent draft it replaces is in git history (commit e83f280c). DRAFT STATE.
+Figure~\ref{fig:aio-adaptivity}(a) and (b) show the NCR growth rate around a
+deployment of IP shuffle, on the host layer, and of service diversity, on the
+service layer. After IP shuffle both attackers' rates drop: the APT attacker
+model's to \prelim{7}\,\% of its rate before and the baseline attacker's to
+\prelim{22}\,\%. The baseline attacker is back to its earlier rate within
+\prelim{125}\,s; the APT attacker model is still at \prelim{84}\,\% after
+\prelim{750}\,s. After service diversity the order reverses: the baseline attacker
+drops to \prelim{15}\,\% and is still at \prelim{72}\,\% after \prelim{1\,250}\,s,
+while the APT attacker model drops to \prelim{63}\,\% and is near its earlier
+rate by \prelim{625}\,s.
 
-The mechanism that costs one attacker most is not the one that costs the other
-most (Figure~\ref{fig:aio-adaptivity}c): the host-layer mechanisms cost the APT
-attacker model \prelim{429} to \prelim{511}\,s per deployment, and service
-diversity costs the baseline attacker \prelim{593}\,s, its only interval to
-exclude zero. \owed{Whichever the attacker, a host-layer rewrite takes the host
-it is on, and a service-layer rewrite only the service.}{Section 5.3.1: what a
-rewrite takes from each attacker rests on the Chapter 2 disruption paragraph
-(item (ii) of its placeholder) and the Chapter 4 runtime-mechanics paragraph,
-both not yet landed} One deployment's cost thus depends on the attacker as well
-as on the mechanism; Section~\ref{subsec:eff-cross-arm} asks whether that carries
-into NCR reduction across the deployment intervals.
+% REWRITTEN 2026-09-26 on Marc's read ("very rhetorically inflated ... literally we
+%  just need to describe what's happening"; his step-through of every float is
+%  the content, checked against the tracked numbers). Plain description: what the
+%  float shows, the numbers that carry it, the APT property the metric records
+%  (Table 3.2 via Section 4.5), a by-construction reason only where Marc gave one.
+%  The agent draft it replaces is in git history (commit e83f280c). DRAFT STATE.
+Figure~\ref{fig:aio-adaptivity}(c) gives the time lost per MTD deployment for
+each mechanism. The three host-layer mechanisms cost the APT attacker model
+\prelim{429} to \prelim{511}\,s per deployment; their cost to the baseline
+attacker is not told apart from zero. On the service layer, service diversity
+costs the baseline attacker \prelim{593}\,s and the APT attacker model
+\prelim{194}\,s. Port shuffle, OS diversity and user shuffle cost neither attacker
+an amount told apart from zero. The mechanisms that cost an attacker most
+therefore depend on the attacker: the host layer for the APT attacker model,
+service diversity for the baseline attacker. Section~\ref{subsec:eff-cross-arm}
+reads whether the same holds for NCR reduction across the deployment interval.
 
 % ~1 unit. THE THESIS'S OWN CLAIM, and the subsection Marc asked the
 % hardest question about: given both attackers share the SAME SIX VERBS,
@@ -7964,26 +8028,42 @@ into NCR reduction across the deployment intervals.
 %                          user shuffle is the only non-grey negative APT cell (50-500 s)
 %
 % --- P1 and P2: after \label{subsec:eff-cross-arm}, before Figure fig:eff-cross-arm. ---
-The two attackers reverse the order of the host and service layers (Figure~\ref{fig:eff-cross-arm};
-Table~\ref{tab:eff-interval-values}). Against the APT attacker model the
-host-layer mechanisms reduce NCR more than the service-layer mechanisms at every
-deployment interval; against the baseline attacker the service layer reduces it
-more, with the whiskers apart from 50 to 200\,s and, from 500\,s, the lead
-carried by service diversity alone. Every line falls as the interval grows,
-except user shuffle against the APT attacker model, which rises towards zero.
-Below 200\,s the layers saturate unequally, since a deployment takes 20 to
-110\,s and two on one layer cannot overlap
-(Section~\ref{subsec:defence-mechanisms}): at 50\,s the host and service
-mechanisms complete a third to a half of their scheduled deployments, user
-shuffle all of them.
+% REWRITTEN 2026-09-26 on Marc's read ("very rhetorically inflated ... literally we
+%  just need to describe what's happening"; his step-through of every float is
+%  the content, checked against the tracked numbers). Plain description: what the
+%  float shows, the numbers that carry it, the APT property the metric records
+%  (Table 3.2 via Section 4.5), a by-construction reason only where Marc gave one.
+%  The agent draft it replaces is in git history (commit e83f280c). DRAFT STATE.
+Figure~\ref{fig:eff-cross-arm} shows the NCR reduction of each defence, the
+share of the no-defence NCR it removes (Equation~\ref{eq:ncr-reduction}),
+against the deployment interval; Table~\ref{tab:eff-interval-values} gives the
+values. Against the APT attacker model the host layer gives the larger reduction,
+\prelim{0.96} or more up to 200\,s against \prelim{0.21} to \prelim{0.35} for the
+service layer. Against the baseline attacker the order is reversed:
+\prelim{0.82} to \prelim{0.97} for the service layer up to 200\,s, against
+\prelim{0.49} to \prelim{0.72} for the host layer. Every reduction falls as the
+interval grows. The APT attacker model's host-layer reduction holds up to 200\,s
+and falls to \prelim{0.22} at 2\,000\,s; the baseline attacker's service-layer
+reduction falls from \prelim{0.82} at 200\,s to \prelim{0.25} at 500\,s. User
+shuffle reduces neither attacker's NCR beyond 50\,s, and against the APT attacker
+model it is below zero up to 500\,s: more hosts are compromised than with no
+defence.
 
-MTDShield, which at 200\,s chooses service diversity at $\prelim{70}$ to
-$\prelim{76}$\,\% of its decisions (Appendix~\ref{app:mtdshield-observed}),
-follows the service layer: up to 1\,000\,s it reduces NCR less than either
-execution scheme against the APT attacker model and more than either against the baseline attacker. User
-shuffle is the exception: it is the one defence that helps the APT attacker
-model, below zero from 50 to 500\,s, yet it reduces the baseline attacker's NCR
-by $\prelim{0.47}$ [$\prelim{0.37}$, $\prelim{0.56}$] at 50\,s.
+% REWRITTEN 2026-09-26 on Marc's read ("very rhetorically inflated ... literally we
+%  just need to describe what's happening"; his step-through of every float is
+%  the content, checked against the tracked numbers). Plain description: what the
+%  float shows, the numbers that carry it, the APT property the metric records
+%  (Table 3.2 via Section 4.5), a by-construction reason only where Marc gave one.
+%  The agent draft it replaces is in git history (commit e83f280c). DRAFT STATE.
+The deployment strategies split the same way. The random and alternative
+execution schemes, which draw on all seven mechanisms, give the APT attacker model
+the larger reduction at every interval up to 1\,000\,s (at 200\,s, \prelim{0.75}
+and \prelim{0.72} against \prelim{0.33} and \prelim{0.39}). MTDShield gives the
+baseline attacker the larger reduction at every interval (\prelim{0.70} against
+\prelim{0.28} at 200\,s). It chooses service diversity at \prelim{70} to
+\prelim{76}\,\% of its decisions (Appendix~\ref{app:mtdshield-observed}), the
+mechanism that costs the baseline attacker the most time in
+Section~\ref{subsec:aio-disruption}.
 
 \begin{figure}[htbp]
   \centering
@@ -8034,18 +8114,22 @@ by $\prelim{0.47}$ [$\prelim{0.37}$, $\prelim{0.56}$] at 50\,s.
 %     (tab:eff-cross-arm). If Marc swaps the two tables (handoff B9/F12) so that the 200 s
 %     ranking moves to §5.3.3, P3's first two sentences move with it and the last
 %     sentence closes P2. ---
-At 200\,s, where the defences are ranked (Table~\ref{tab:eff-cross-arm}),
-Spearman's $\rho$ between the two attackers' NCR reductions over the ten defences
-is $\prelim{-0.03}$\owed{, and its 95\,\% interval includes zero, so the two
-orderings show no positive association}{Section 5.3.2: numbers.json gives rho
-over the ten reported defences with no interval; the only bootstrap interval tracked, -0.23 to 0.005, is over
-eleven conditions including random selection over MTDShield's four, which no float
-reports. Bootstrap rho over the ten, then keep this wording only if the interval
-includes zero}. The rank-1 defences leave a host compromised in $\prelim{24}$ to
-$\prelim{29}$\,\% of the APT attacker model's runs, about three times later than
-with no defence, and in $\prelim{71}$ to $\prelim{73}$\,\% of the baseline
-attacker's, no later. A layer's line averages mechanisms that do not always
-agree, and Section~\ref{subsec:eff-under-defence} reads them one at a time.
+% REWRITTEN 2026-09-26 on Marc's read ("very rhetorically inflated ... literally we
+%  just need to describe what's happening"; his step-through of every float is
+%  the content, checked against the tracked numbers). Plain description: what the
+%  float shows, the numbers that carry it, the APT property the metric records
+%  (Table 3.2 via Section 4.5), a by-construction reason only where Marc gave one.
+%  The agent draft it replaces is in git history (commit e83f280c). DRAFT STATE.
+Table~\ref{tab:eff-cross-arm} ranks the defences at 200\,s. The three host-layer
+mechanisms share rank 1 against the APT attacker model and take ranks 2 and 3
+against the baseline attacker; service diversity and port shuffle share rank 1
+against the baseline attacker and take ranks 3 and 5 against the APT attacker
+model. The order is not simply reversed: Spearman's $\rho$ between the two
+attackers' NCR reductions is \prelim{-0.03}\owed{, close to zero}{Section 5.3.2:
+numbers.json gives rho over the ten reported defences with no interval; the only
+bootstrap interval tracked is over eleven conditions, including random selection
+over MTDShield's four, which no float reports}. Section~\ref{subsec:eff-under-defence}
+shows each mechanism and attack profile separately.
 
 \input{tables/tab_5-3-2d_attacker_ranking}
 
@@ -8139,24 +8223,36 @@ agree, and Section~\ref{subsec:eff-under-defence} reads them one at a time.
 %    no sign change <- regime.rank_block.suppression.{movement,baseline}.*.point against sweep 200 s points
 
 % ---- PARAGRAPH 1: directly under \label{subsec:eff-under-defence}, before Figure fig:eff-suppression-profiles ----
-Against the APT attacker model the three host-layer mechanisms act as one effect
-up to 200\,s, while against the baseline attacker IP shuffle stands apart from
-the two topology shuffles at every interval
-(Figure~\ref{fig:eff-suppression-profiles}). Mechanisms that are level at
-200\,s part at the long intervals. Against the APT attacker model IP shuffle
-keeps \prelim{0.33} at 2\,000\,s and the topology shuffles half that; against
-the baseline attacker port shuffle, level with service diversity at 200\,s, has
-whiskers that include zero from 500\,s, while service diversity keeps an effect
-to 2\,000\,s (Table~\ref{tab:eff-interval-values}). The attack profiles move
-together under every mechanism, except $c_3$, which parts from them under the
-host-layer mechanisms from 500\,s.
+% REWRITTEN 2026-09-26 on Marc's read ("very rhetorically inflated ... literally we
+%  just need to describe what's happening"; his step-through of every float is
+%  the content, checked against the tracked numbers). Plain description: what the
+%  float shows, the numbers that carry it, the APT property the metric records
+%  (Table 3.2 via Section 4.5), a by-construction reason only where Marc gave one.
+%  The agent draft it replaces is in git history (commit e83f280c). DRAFT STATE.
+Figure~\ref{fig:eff-suppression-profiles} shows each mechanism separately, for
+each attack profile. On the host layer, all three mechanisms remove nearly all of
+the APT attacker model's NCR up to 200\,s and less at longer intervals, IP shuffle
+keeping the most (\prelim{0.33} at 2\,000\,s against \prelim{0.16} and
+\prelim{0.17}); against the baseline attacker, IP shuffle gives more reduction
+than either topology shuffle at every interval. On the service layer, service
+diversity is the one mechanism that keeps a reduction against the baseline
+attacker at every interval (\prelim{0.30} at 2\,000\,s). Port shuffle matches it
+up to 200\,s and OS diversity up to 100\,s; from 500\,s neither is told apart from
+zero. User shuffle reduces neither attacker's NCR from 100\,s. The four attack
+profiles move together under every mechanism, with one exception: $c_3$ separates
+from the others under the host-layer mechanisms from 500\,s.
 
 % ---- PARAGRAPH 2: between Figure fig:eff-suppression-profiles and Figure fig:eff-schemes-profiles ----
-Against the APT attacker model MTDShield, which chooses among four mechanisms,
-follows service diversity, never more than \prelim{0.12} below it at any
-interval (Figure~\ref{fig:eff-schemes-profiles}). The random and alternative
-execution schemes each deploy one mechanism per interval from all seven, three
-of which rewrite the host layer (Table~\ref{tab:deployment-strategies}).
+% REWRITTEN 2026-09-26 on Marc's read ("very rhetorically inflated ... literally we
+%  just need to describe what's happening"; his step-through of every float is
+%  the content, checked against the tracked numbers). Plain description: what the
+%  float shows, the numbers that carry it, the APT property the metric records
+%  (Table 3.2 via Section 4.5), a by-construction reason only where Marc gave one.
+%  The agent draft it replaces is in git history (commit e83f280c). DRAFT STATE.
+Figure~\ref{fig:eff-schemes-profiles} shows the deployment strategies, for each
+attack profile. Against the APT attacker model, MTDShield stays within
+\prelim{0.12} of service diversity at every interval, which follows from its
+choice of service diversity at most decisions.
 \owed{Replacing the near-periodic timing distribution with the exponential one
 at 200\,s changes the sign of no reduction for either attacker, and the APT
 attacker model keeps its order of the seven mechanisms and two execution
