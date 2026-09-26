@@ -1,7 +1,7 @@
 ---
 status: durable
 created: 2026-08-16
-updated: 2026-09-02
+updated: 2026-09-25
 ---
 
 # The drafting pipeline — how every unit of dissertation prose gets written
@@ -54,8 +54,10 @@ end: the first read of the section as one piece of writing.
 | 6 | **Voice pass** | session proposes, Marc rules | Three sweeps + the gate: (1) **register** — converge dictation residue onto academic register per [`academic_register.md`](academic_register.md), closer to academic than to speech, never through a voice.md licensed device; (2) **cuts** — vacuous / non-relevant sentences by the three-part survival test, plus cross-unit duplicates; (3) **terminology** — census against the living registry [`terminology.md`](terminology.md), ratified rows enforced as batch proposals, new clusters added to the registry as PROPOSED rows. Then the **voice.md §(f) gate**, all nine checks, reported per check. Returns one prioritised proposal ledger; applies nothing unratified. |
 
 Out of scope for pass 6, by design: flow, ordering, transitions between units
-— those belong to the **integration check** that follows it (not yet
-specified; pass 6 hands over one-line observations at most).
+— those belong to the **integration check** that follows it, specified for
+the connective units (chapter openers, section preambles, bridges) by
+[`connective_prose.md`](connective_prose.md) §e; pass 6 hands over one-line
+observations at most.
 
 ## Sequencing across units
 
