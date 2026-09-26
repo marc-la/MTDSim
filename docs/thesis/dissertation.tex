@@ -106,6 +106,34 @@
                                         % ruling 2026-09-02; body prose and
                                         % captions, not the generated figures
 
+% --- owed marks: text that is not yet defensible (Marc, 2026-09-25) ------
+% Convention: docs/workflows/evaluation_conventions.md §k8. \owed{text}{what
+% is owed} prints the text as it stands with a numbered red mark, and lists
+% the owed item, with its page, under "Owed before submission" after the list
+% of tables. The mark says the sentence or value stands in the draft but
+% cannot yet be defended; the second argument names what would defend it (a
+% citation, a run, a ruling). Resolve an item by deleting the wrapper. For
+% the submission build set \owedmarksfalse: any \owed still in the text then
+% stops the build. \prelim{n} wraps a number typed into prose from the
+% 100-seed corpus; it prints n unchanged and is the grep target for the
+% 1 000-seed swap (grep -n '\\prelim{' dissertation.tex).
+\newif\ifowedmarks \owedmarkstrue
+\newcounter{owed}
+\makeatletter
+\newcommand{\owed}[2]{%
+  \ifowedmarks
+    #1\refstepcounter{owed}\textsuperscript{\textcolor{red!70!black}{[\theowed]}}%
+    \addcontentsline{low}{owed}{\protect\numberline{\theowed}#2}%
+  \else
+    \PackageError{dissertation}{An owed mark is left in the text}{Resolve
+      every owed mark (listed under Owed before submission) or set
+      owedmarks back to true.}%
+  \fi}
+\newcommand*{\l@owed}{\@dottedtocline{1}{0em}{2.3em}}
+\newcommand{\listofowed}{\ifowedmarks\chapter*{Owed before submission}\@starttoc{low}\fi}
+\makeatother
+\newcommand{\prelim}[1]{#1}
+
 
 % --- front-matter metadata -------------------------------------------
 % PRELIMINARY title (Marc, 2026-09-21): the seminar title, inserted as the
@@ -168,6 +196,7 @@ against attacker models grounded in documented behaviour.
 \tableofcontents
 \listoffigures   % optional --- remove if you have no figures
 \listoftables    % optional --- remove if you have no tables
+\listofowed      % draft only: every \owed mark with its page (§k8)
 
 % =====================================================================
 \chapter{Introduction}
@@ -4823,10 +4852,35 @@ and the failure matrix, $F_{\text{failure}}$ of Equation~\ref{eq:vc-net}.
 %  says the controller is the join), "(the stochastic dwell times)" deleted
 %  (the parameter is the mean; the draw is what is stochastic).]
 These are the three inputs we had to declare to join the attack
-profiles to MTDSim. We chose each of them to the best of our judgement
-after consulting the literature; whether any conclusion of the evaluation
-depends on where a chosen value sits is the question
-Appendix~\ref{app:sensitivity} answers.
+profiles to MTDSim.
+% [2026-09-25 SUPERVISOR SCREEN, step 1 (Marc: "just push it in for now";
+%  conventional terms over descriptive ones). REPLACES "We chose each of them
+%  to the best of our judgement after consulting the literature; whether any
+%  conclusion of the evaluation depends on where a chosen value sits is the
+%  question Appendix~\ref{app:sensitivity} answers." The four bases are Marc's
+%  ruling; "one-factor-at-a-time" and "nominal values" are ten Broeke et al.'s
+%  terms (docs/sources/methodology/tenbroeke2016_abm_sa.md), which name what
+%  Appendix C does. Record: docs/handoffs/2026-09-25_ch4_mark_risk_ledger.md.
+%  DRAFT STATE, ratify on read.]
+Each value in the APT attacker model has one of four bases. The base weights
+$w_c$ and the membership of each attack profile come from the corpus. The
+scan-shaped and exploit-shaped dwell times and the 20-second confusion penalty
+come from the simulator: they are MTDSim's own costs. The order of the
+lifecycle stages the failure matrix reads (Section~\ref{subsec:failure-matrix})
+comes from the literature \citep{hutchins2011, alshamrani2019}. The remaining
+values are our judgement: the dwell times of the tactics no action prices, the
+tactic-to-action mapping, the nine failure rules, the pre-intrusion share
+$\sigma$, and the choice of one attack flow per operator.
+Appendix~\ref{app:movement} gives the reason for each
+(Tables~\ref{tab:dwell-derivation}, \ref{tab:controller-mapping}
+and~\ref{tab:overlay-failure-rules}). Appendix~\ref{app:sensitivity} reports a
+one-factor-at-a-time sensitivity analysis \citep{tenbroeke2016}: each dwell
+family and each scaling rate of the failure matrix is varied across a range
+with the other values at their nominal values, and the mapping is compared
+with a total mapping. Section~\ref{subsec:aio-disruption} reports an ablation
+of the failure matrix. The nine failure rules, the per-tactic multipliers
+within a dwell family, $\sigma$ and the choice of one attack flow per operator
+are fixed at their nominal values.
 % INSERTION A APPLIED 2026-09-18 --- DRAFT STATE, ratify on read (Marc's
 %  green light this date: "swept is wrong, we kind of just chose them ... we
 %  chose them to our best of knowledge after consulting the literature").
@@ -5661,13 +5715,28 @@ reductions compares their rankings.
 % scatter for a two-metric outcome space; stacked bars only with values printed.
 % Not drawn: survival curves and small-multiple claim panels (no corpus genre;
 % a table column and a comparison table instead).
-\noindent\emph{[Placeholder --- the chapter opening, Marc's dictation; delete on
-drafting. The roadmap paragraph (Tay's house pattern): Chapter~\ref{ch:attacker-model}
-declares the model. This chapter declares the experiment
-(Section~\ref{sec:dimensions}) and runs it in two phases: the APT attacker model
-beside the baseline attacker with no defence
-(Section~\ref{sec:attacker-in-operation}), then the APT attacker model under MTD,
-with the baseline attacker as the reference (Section~\ref{sec:effectiveness}).]}
+% DRAFT STATE 2026-09-25 --- agent-drafted on Marc's request ("each of the agents will
+%  do each of the prose elements"); slot plan: handoff 2026-09-25_ch5_setup_defence_and_prose_slots.md
+%  Part C D0 (chapter 5 preamble). Ratify on read.
+%  Replaces the \noindent\emph{[Placeholder --- the chapter opening ...]} block after \chapter{Evaluation}.
+%  Slots -> sentences: C1 -> S1; C2 -> S2, S3 (S2 the fact, S3 the reason: the lineage's
+%   attacker, ch3 subsec:recent-threat-models "carried unchanged through the lineage", and
+%   SQ3 by reference, paraphrased not restated); C3 -> S4 (5.1 and 5.2, merged to break three
+%   "Section ..." openers in a row), S5 (5.3); C4 -> S6.
+%  "comparison" (not "reference") for the baseline attacker in S5, so that "reference" carries
+%   only the no-defence runs in this paragraph (conventions f2).
+%  Numbers: none.
+This chapter runs the APT attacker model of Chapter~\ref{ch:attacker-model}
+against MTD. The baseline attacker runs beside it under every condition. It is
+the attacker the MTDSim lineage evaluated MTD against
+(Section~\ref{subsec:recent-threat-models}), and \ref{sq:evaluate} asks how
+MTD's performance changes when the APT attacker model takes its place. After
+Section~\ref{sec:dimensions} declares the experiment once,
+Section~\ref{sec:attacker-in-operation} runs both attackers with no defence, so
+that each attacker is described apart from any defence and every later effect
+has its reference. Section~\ref{sec:effectiveness} then runs both under MTD,
+with the baseline attacker as the comparison. Chapter~\ref{ch:discussion}
+interprets the results of both sections.
 
 % RESTRUCTURED 2026-09-08 (Marc's ruling, chat): "Experimental setup"
 % (3 units) and "Results" (9 units) MERGED into one 12-unit chapter. His
@@ -6071,9 +6140,10 @@ with the baseline attacker as the reference (Section~\ref{sec:effectiveness}).]}
 \textbf{Network.} The network has 50 hosts across four levels of depth, eight
 subnets and five exposed endpoints (Table~\ref{tab:experiment}), with the
 network regenerated for each seed and the two database hosts at the deepest
-level as the target. Every value is the simulator's own default
-(Section~\ref{subsec:network-model}, Figure~\ref{fig:network-model}) but one:
-the target set, narrowed from five database hosts to two. The hosts, levels
+level as the target. Every value is the configuration the simulator's released
+experiment code runs \citep{tay2024code}, which differs from the defaults of
+Section~\ref{subsec:network-model} (Figure~\ref{fig:network-model}) only in
+taking two database hosts as the target rather than five. The hosts, levels
 and endpoints are also the second of the four networks Zhang evaluated on
 \citep{zhang2023}, inside the 25 to 200 hosts the lineage has run
 (Table~\ref{tab:lineage-configurations}), and a database as the target
@@ -6133,15 +6203,21 @@ Section~\ref{sec:technique-graph} before it is partitioned into profiles. Both p
 %  range ... our results have the MTD interval along the x axis"). Zhang ran 50, 100,
 %  150 and 200 s (zhang2023.md l.418); Ho 200 s. DRAFT STATE --- ratify on read.
 \textbf{Defence.} Eleven conditions: no defence, each of the seven defence
-mechanisms under the single scheme, the random and alternative execution schemes,
+mechanisms under the single scheme, \owed{the random and alternative execution
+schemes}{Section 5.1: the simultaneous execution scheme listed in Chapter 2 is
+not run and no reason is given; run it or state why},
 which draw on the whole pool (Section~\ref{subsec:defence-mechanisms}), and
 MTDShield. MTDShield is run as released: Tay's highest-scoring agent, choosing its
 own action at every decision (Appendix~\ref{app:mtdshield}). Each defended
-condition runs at six deployment intervals, a range from 50\,s, the shortest the
-lineage has run, to 2\,000\,s (Table~\ref{tab:lineage-configurations}), so that
-every effect can be read against the interval; the timing distribution is varied
-separately (Table~\ref{tab:experiment}). The no-defence runs are the reference for
-every effect this chapter reports.
+condition runs at six deployment intervals, so that every effect can be read
+against the interval. They run from 50\,s, the shortest Zhang and Ho ran, to
+2\,000\,s, ten times the longest the lineage has run
+(Table~\ref{tab:lineage-configurations}), three to a decade so that they fall
+evenly on a logarithmic axis; the timing distribution is varied separately
+(Table~\ref{tab:experiment}). Where one interval is reported it is 200\,s, the
+longest Zhang ran, the interval of Ho's comparisons \citep{ho2024} and the one
+MTDShield was trained at (Appendix~\ref{app:mtdshield}). The no-defence runs are
+the reference for every effect this chapter reports.
 % STAGED 2026-09-25, APPLY WHEN THE MTDSHIELD CONDITION LANDS (handoff
 %  2026-09-22_ch5_defended_corpus_schemes_intervals_mtdshield.md §5.7 item 2;
 %  Marc: "one sentence ... details in appendix", and no judgement of the model
@@ -6259,10 +6335,9 @@ every effect this chapter reports.
 %  register: the selector would need retraining before it could trade cost
 %  against risk.
 
-\textbf{Metrics.} Both attackers are instrumented, with
-metrics either adapted from earlier evaluations or introduced here, which are
-outlined in Table~\ref{tab:metrics}. The defences are
-ranked on the NCR reduction.
+\textbf{Metrics.} Both attackers are measured on the ten metrics of
+Section~\ref{sec:evaluation-metrics} (Table~\ref{tab:metrics}), and the defences
+are ranked as Section~\ref{subsec:metrics-statistics} describes.
 % [TERM SWEEP 2026-09-24, DRAFT STATE: "They are grouped by effectiveness and
 %  efficiency, as Table 3.x groups the field's." CUT --- false since the metrics
 %  design (three classes of our own, defined in §4.5); "ranked on hosts reached,
@@ -6387,9 +6462,11 @@ ranked on the NCR reduction.
 %  state none --- Ho's 100 is training episodes (H-PAR-06), not runs, which the
 %  setup handoff had wrong. The clause compares; it does not claim a standard.
 \textbf{Runs.} Every combination in Table~\ref{tab:experiment} is run 1\,000
-times, ten times the 100 runs per condition of Zhang \citep{zhang2023}, on the
-same seeds, so every attacker starts on the same 1\,000 networks. Differences are reported as effect
-sizes with 95\,\% confidence intervals.
+times, ten times the 100 runs per condition of Zhang \citep{zhang2023};
+Section~\ref{subsec:metrics-statistics} gives the reason for the count, the seeds
+and the intervals reported. Each run is a terminating simulation: it ends at the
+first of the stopping events in Table~\ref{tab:experiment}, fixed before it
+starts \citep{law2015}, so no warm-up period is needed \citep{currie2016}.
 % REBUILT 2026-09-18 on Marc's read: "that reads like compaction for an LLM ...
 %  this is not thesis-ready". He is right, and the diagnosis is specific --- the
 %  unit was four sentences of which THREE were arguing, in a vocabulary he could
@@ -6424,6 +6501,18 @@ sizes with 95\,\% confidence intervals.
 %  no-pairing commitment belong at §5.4's claims, next to the numbers they
 %  govern, not in a setup that has no claims in front of it yet. This also
 %  discharges the [3b] that stood here: the floors are stated at the claims.
+% APPLIED 2026-09-25 (Marc: "your points about 5.1 that's right so please fix
+%  those in a defensible way and conventional way"; handoff
+%  2026-09-25_ch5_setup_defence_and_prose_slots.md Part A). Network: A3, the
+%  two-database target is the default of the released experiment code
+%  (experiments/run.py execute_simulation, total_database=2, at tay2024code's
+%  commits f13ed49 and e6c13c6) --- "narrowed" was wrong and is gone. Defence:
+%  A7b (Brown ran 1--5 s, so 50 s is Zhang's and Ho's shortest, not the
+%  lineage's), A7c (1--2--5 levels, top = ten times 200 s), B1 (200 s as the
+%  reference interval, three cited reasons), A15 marked owed. Metrics: A12,
+%  a pointer to §4.5. Runs: A11/A13 (the reason and the intervals are §4.5.4's;
+%  "effect sizes" was false), A16 (terminating, Law 2015 §3). DRAFT STATE ---
+%  ratify on read.
 % OWED ELSEWHERE, three things this unit handed on ---
 %  (1) WHY A THOUSAND. \citet{hoad2007} is the method: run replications until the
 %      interval around the cumulative mean sits inside a declared tolerance, which
@@ -6675,13 +6764,48 @@ sizes with 95\,\% confidence intervals.
 \section{APT attacker model versus baseline attacker}
 \label{sec:attacker-in-operation}
 
-\noindent\emph{[Placeholder --- delete on drafting. What the APT attacker model does
-when it is run with no defence, set beside the baseline attacker on the same
-networks: the campaign it walks, how many hosts it reaches and how fast, and the
-pace and spacing of its activity beside them. These are observations about the
-model, not yet a verdict on it; the verdict is Chapter~\ref{ch:discussion}'s.
-This section also fixes the no-defence reference that
-Section~\ref{sec:effectiveness} reports against.]}
+% DRAFT STATE 2026-09-25 --- agent-drafted on Marc's request ("each of the agents will
+%  do each of the prose elements"); slot plan: handoff 2026-09-25_ch5_setup_defence_and_prose_slots.md
+%  Part C D1 (Section 5.2). Ratify on read.
+%  Slots -> sentences:
+%    S2-h1 + S2-h2 -> P0 s1 (the question and what is read; the register clause
+%                     "chapter 6 draws the verdict" dropped: the chapter preamble's C4 does it)
+%    S2-a1 -> P1 s1    S2-a2 -> P1 s2    S2-a3 -> P1 s3 (the length-1 clause dropped:
+%                    panel (b) draws lengths 2-8 only)    S2-a4 -> P1 s4
+%    S2-b1 -> P2 s1 (the four columns named; no magnitude, the table carries them)
+%    S2-b2 -> P2 s2    S2-b3 -> P2 s3 (with the time-limit shares, STRESS 4.1 / Rossow C.4)
+%    S2-b4 -> P2 s4 (the rule itself is still live in the Section 4.5 attack-rate paragraph,
+%                    so this sentence states only its consequence here: c4 level on the rate)
+%    S2-b5 -> DROPPED (Section 5.1's Attacker unit already defines c_agg as the attack graph
+%                    before partition; the "not an average" clause belongs in Table 5.2's caption, D6)
+%    S2-c1 -> P3 s1-s3 (s3 is the one-observation clause, by construction from eq:detector)
+%    S2-c2 -> P3 s4 (\owed: the counts are not in a tracked artefact)
+%    S2-close -> P3 s5
+%  Numbers:
+%    26, 47 (dwell-only share of steps, c4 and c3) <- data/results/ch5_s531_unopposed/numbers.json:
+%        core.metrics.{objective_none_c2,objective_exfiltration_impact}.step_share summed over the
+%        seven dwell-only tactics (tools/ch5_unopposed_figures.py GROUPS; facts.step_share_dwell_only):
+%        0.261, 0.473
+%    8, 12, 1 (impact tactic, share of steps: c2, c3, c1) <- numbers.json:
+%        core.metrics.objective_impact.step_share.impact 0.082;
+%        core.metrics.objective_exfiltration_impact.step_share.impact 0.122;
+%        core.metrics.objective_exfiltration.step_share.impact 0.0018 (Figure 5.1a prints "<1")
+%    (no number typed) APV: baseline apv.1-4 = 0.0, apv.5-8 = 0.22; c3 apv.4-8 0.20-0.32;
+%        c1/c2/c4 apv.4 0.92/0.74/0.83 <- numbers.json core.metrics.*.apv
+%    40 (baseline runs ended by the time limit) <- numbers.json: core.table.baseline.ended.horizon 0.40
+%    83, 95 (APT attacker model runs ended by the time limit) <- numbers.json:
+%        core.table.aggregate.ended.horizon 0.83; core.table.objective_exfiltration_impact.ended.horizon 0.95
+%    28.7 (c4 attack rate counting actions that fail on an unmet precondition) <- numbers.json:
+%        core.metrics.objective_none_c2.attack_rate_counting_blocked.mean 28.65 (+-0.43);
+%        baseline attack_rate.mean 28.43 (+-0.80), Table 5.2
+%    67, 43 (baseline attack confidentiality, first and last 1 500 s bin) <- numbers.json:
+%        core.metrics.baseline.confidentiality_over_run.share[0] 0.675, [9] 0.43x
+%    ordering c3 > c2 > c1 > c4 on attack confidentiality in every bin, and the exact inverse on
+%        attack rate (11.7 < 15.0 < 18.3 < 20.7) <- numbers.json confidentiality_over_run.share; Table 5.2
+% --- P0: the head. Replaces the placeholder paragraph, before the long comment block.
+This section runs both attackers with no defence and reads how each acts
+(Section~\ref{subsec:metrics-behaviour}) and what it achieves
+(Section~\ref{subsec:metrics-outcome}).
 
 % ~1 unit. What the model does with nothing opposing it: the campaign it
 % actually walks, and whether the four profiles are distinguishable.
@@ -6814,10 +6938,23 @@ Section~\ref{sec:effectiveness} reports against.]}
 % opening with the baseline MEASURED. The caption only says how to read the
 % panels; what the reader should see goes in the body text. Session-written
 % caption, DRAFT STATE --- ratify on read.
+% --- P1: Figure 5.1. Placed BEFORE \begin{figure} of fig:aio-coverage (after the
+%     comment block that precedes it), so the first reference precedes the float.
+The APT attacker model spreads its steps over many tactics, \prelim{26} to
+\prelim{47}\,\% of them dwell-only; the baseline attacker's steps fall on its
+six actions (Figure~\ref{fig:aio-coverage}(a)). The attack profiles weight that
+campaign differently: the impact tactic takes \prelim{8} and \prelim{12}\,\% of
+the steps of $c_2$ and $c_3$, and under \prelim{1}\,\% of the steps of $c_1$.
+The APT attacker model's runs also part ways within a few steps
+(Figure~\ref{fig:aio-coverage}(b)); the baseline attacker's open alike up to
+four steps, the order its procedure fixes
+(Section~\ref{subsec:attacker-model}). The exception is $c_3$, whose runs vary
+as little as the baseline attacker's.
+
 \begin{figure}[tbp]
   \centering
   \includegraphics{fig_5-2-1a_campaign_openings}
-  \caption[Where each attacker's steps fall, and how often its runs start differently]{With no defence running, for the APT attacker model on each attack profile and for the baseline attacker. (a)~Relative tactic occurrence, the tactics grouped by the action each dispatches (Section~\ref{subsec:tactic-verb-mapping}); a dash marks a tactic the attacker does not have. (b)~Attack path variation by opening length. Section~\ref{sec:evaluation-metrics} defines each metric.}
+  \caption[Where each attacker's steps fall, and how often its runs start differently]{With no defence running, for the APT attacker model on the attack profiles $c_1$ to $c_4$ and for the baseline attacker. (a)~Relative tactic occurrence, the tactics grouped by the action each dispatches (Section~\ref{subsec:tactic-verb-mapping}); a dash marks a tactic the attacker does not have. (b)~Attack path variation by opening length. Section~\ref{sec:evaluation-metrics} defines each metric.}
   \label{fig:aio-coverage}
 \end{figure}
 
@@ -6996,6 +7133,19 @@ Section~\ref{sec:effectiveness} reports against.]}
 % pair, is a verb that runs: a blocked verb never touches the network
 % (movement/attacker.py:896), and counting it would put c_4 level with the
 % baseline attacker (numbers.json: attack_rate_counting_blocked); §4.5 states it.
+% --- P2: Table 5.2. Placed BEFORE \input{tables/tab_5-2-1a_unopposed_summary}
+%     (after the comment block that precedes it).
+On every profile, the APT attacker model takes a target in fewer runs,
+compromises fewer hosts, takes its first host later and acts at a lower attack
+rate than the baseline attacker (Table~\ref{tab:unopposed-summary}). Its pace is an input: each step lasts the
+dwell time declared for its tactic (Section~\ref{subsec:dwell-times}). A run
+ends when its attacker takes a target (Table~\ref{tab:experiment}), so only
+\prelim{40}\,\% of the baseline attacker's runs reach the time limit, against
+\prelim{83} to \prelim{95}\,\% of the APT attacker model's; the baseline
+attacker's NCR is the higher even so. Counted with the actions that fail on an
+unmet precondition, the attack rate of $c_4$ rises to \prelim{28.7} per
+1\,000\,s, level with the baseline attacker's.
+
 \input{tables/tab_5-2-1a_unopposed_summary}
 
 % SPLIT 2026-09-24 from Figure 5.1 (Marc: "attack confidentiality is a bit constrained
@@ -7003,10 +7153,27 @@ Section~\ref{sec:effectiveness} reports against.]}
 % (register E4) as its own float, full width. Generated by tools/ch5_unopposed_figures.py
 % (emit_fig_c) from numbers.json core.metrics[*].confidentiality_over_run. Session-
 % written caption, how-to-read only; DRAFT STATE --- ratify on read.
+% --- P3: Figure 5.2, closing on the hand-off. Placed BEFORE \begin{figure} of
+%     fig:aio-stealth; the \FloatBarrier before Section 5.3 keeps the float in 5.2.
+More of the APT attacker model's actions go unflagged than the baseline
+attacker's, in every 1\,500\,s bin (Figure~\ref{fig:aio-stealth}).
+The profiles hold level, in the reverse order of their attack rates ($c_3$
+highest, $c_4$ lowest), while the baseline attacker's falls from \prelim{67} to
+\prelim{43}\,\%. The detector alarms on the recent action rate
+(Section~\ref{subsec:metrics-behaviour}), so attack confidentiality and the
+attack rate record one behaviour. \owed{The margin rests on a dwell-only step
+dispatching no action (Section~\ref{subsec:tactic-verb-mapping}): counted as
+actions, the dwell-only steps close most of it}{Section 5.2: attack
+confidentiality with dwell-only steps counted as actions was measured in a dry
+run only; add it to the tracked no-defence analyser and to the appendix on the
+detector, or move the concession to the limitations of Chapter 6}. These
+no-defence runs are the reference for Section~\ref{sec:effectiveness}, where
+every effect of MTD is a change from them.
+
 \begin{figure}[tbp]
   \centering
   \includegraphics{fig_5-2-1b_attack_confidentiality}
-  \caption[How much of each attacker's activity stays below a detector's alarm, over the run]{Attack confidentiality over the run with no defence running, in 1\,500\,s bins, for the APT attacker model on each attack profile and for the baseline attacker, with the alarm tuned so that it flags half of the baseline attacker's actions. Section~\ref{sec:evaluation-metrics} defines the metric.}
+  \caption[How much of each attacker's activity stays below a detector's alarm, over the run]{Attack confidentiality over the run with no defence running, in 1\,500\,s bins, for the APT attacker model on the attack profiles $c_1$ to $c_4$ and for the baseline attacker, with the alarm tuned so that it flags half of the baseline attacker's actions. Section~\ref{sec:evaluation-metrics} defines the metric.}
   \label{fig:aio-stealth}
 \end{figure}
 
@@ -7237,12 +7404,33 @@ Section~\ref{sec:effectiveness} reports against.]}
 \section{APT attacker model versus MTD}
 \label{sec:effectiveness}
 
-\noindent\emph{[Placeholder --- delete on drafting. What MTD does to the APT
-attacker model, with the baseline attacker as the reference in every float: what
-one deployment does to each attacker (Section~\ref{subsec:aio-disruption}), which
-defences cost each attacker most across the deployment interval
-(Section~\ref{subsec:eff-cross-arm}), and then mechanism by mechanism, with the
-execution schemes (Section~\ref{subsec:eff-under-defence}).]}
+% DRAFT STATE 2026-09-25 --- agent-drafted on Marc's request ("each of the agents will
+%  do each of the prose elements"); slot plan: handoff 2026-09-25_ch5_setup_defence_and_prose_slots.md
+%  Part C D2 (the §5.3 preamble). Ratify on read.
+%  Slots -> sentences: P1 -> s1; P2 -> s2; P3 -> s3; P4 -> s4; roadmap (P5's order half;
+%   the 200 s half is carried by §5.1's Defence unit and not repeated) -> s5.
+%  Pooling verified: analyse.py _pool() concatenates the runs of FOUR = c1..c4 (equal
+%   run counts, so equal weight); the aggregate is never pooled. disruption.py load()
+%   skips profile "aggregate", so §5.3.1 (fig:aio-adaptivity, "four attack profiles
+%   pooled") pools the same way; c_agg appears only in fig:eff-suppression-profiles and
+%   fig:eff-schemes-profiles (§5.3.3), which draw each profile, not the pool.
+%  Terminology: "reference" kept for the no-defence runs only (§5.1; conventions §f2,
+%   coordinator correction); the baseline attacker is "beside it for comparison".
+%  Numbers: none typed (95\,\% is §4.5.4's declared level, not a result).
+The defences are now evaluated, each against the APT attacker model, with the
+baseline attacker beside it for comparison in every float. Each effect is the
+NCR reduction (Equation~\ref{eq:ncr-reduction}) from that attacker's
+no-defence runs (Section~\ref{sec:attacker-in-operation}). Drawn as one line
+or column, the APT attacker model is $c_1$ to $c_4$ pooled with equal weight,
+on four times the baseline attacker's runs; $c_{\mathrm{agg}}$ is its own profile, shown beside
+them in Section~\ref{subsec:eff-under-defence}. An effect is told apart from
+zero when its 95\,\% interval excludes zero, and defences that share a
+Scott--Knott rank are not told apart (Section~\ref{subsec:metrics-statistics}).
+The order runs from one deployment to the net effect to its parts: what one
+deployment does to each attacker (Section~\ref{subsec:aio-disruption});
+whether the two attackers agree on which defences work across the deployment
+interval (Section~\ref{subsec:eff-cross-arm}); and each defence by mechanism,
+attack profile and deployment strategy (Section~\ref{subsec:eff-under-defence}).
 
 % ~1 unit. CARRIES PROPERTY 4 (adaptivity), which is the one property
 % that cannot be read from the unopposed arm, because it is definitionally
@@ -7319,22 +7507,77 @@ execution schemes (Section~\ref{subsec:eff-under-defence}).]}
 \subsection{Response to disruption}
 \label{subsec:aio-disruption}
 
-% HEAD DECLARATION, session-drafted 2026-09-22 on Marc's ask ("please fix that
-% control declaration"): the §6 slots for this head --- (a) why the property
-% cannot be read without defence, (b) the layers and the interval read, (c)
-% the control declared where first used (results context §3, §8g). Connective
-% prose under the 2026-08 green light: ratify on read, reword freely.
-% DRAFT STATE.
-Adaptivity is the one property that cannot be read from the runs with no
-defence, because it is what changes when a defence reaches the attacker.
-This subsection reads it under the seven mechanisms
-deployed alone, grouped by the layer each rewrites, at the 2\,000\,s
-deployment interval; the 200\,s interval is reported in the text where it
-differs. Its control is the same attacker with the failure matrix replaced by
-the identity, so that the token routes on the base proportions of
-Section~\ref{subsec:failure-matrix} whatever verdict its actions return; the
-runs are otherwise identical.
+% DRAFT STATE 2026-09-25 --- agent-drafted on Marc's request ("each of the agents will
+%  do each of the prose elements"); slot plan: handoff 2026-09-25_ch5_setup_defence_and_prose_slots.md
+%  Part C D3 (S31-h ... S31-close), content = results-context §8g-5 takeaways R1-R3 as
+%  amended (the second table). Ratify on read.
+%  PLACEMENT: PART 1 replaces everything between \label{subsec:aio-disruption} and
+%  \begin{figure}[H] of fig:aio-adaptivity (the 2026-09-22 HEAD DECLARATION comment
+%  and its paragraph are retired; the figure-history comments are carried forward
+%  verbatim below the new head). PART 2 goes immediately after \end{figure} of
+%  fig:aio-adaptivity, before the "~1 unit. THE THESIS'S OWN CLAIM" comment block
+%  that belongs to subsec:eff-cross-arm.
+%  Head repairs (D3 i-iii): (i) the control declared with its true scope, IP shuffle
+%  and OS diversity only (run_corpus.py group "blind"), and its tracked result
+%  reported, on the measure it was read on (choice 3 of the element brief: no
+%  control result exists on the NCR growth rate or time lost; the tactic-level
+%  read in numbers.json s522 is tracked); (ii) no token / routes / identity: stated
+%  in chapter 4's words (failure matrix, base weights, verdict, step, precondition);
+%  (iii) "grouped by the layer each rewrites" dropped: panel (c) is per mechanism.
+%  Slots -> sentences:
+%    S31-h   head s1 (why here), s2 (which interval, pointed to Section 4.5),
+%            s3 (200 s, one sentence), s4-s5 (the control and its result)
+%    S31-a+b body 1 s1 (R1, the exception marked in its last clause, not explained)
+%    S31-c   body 1 s2 (R2, as an ordering)            S31-e  body 2 s1 (R3)
+%    S31-d   body 2 s2, \owed (ch2 placeholder item (ii) not landed)
+%    S31-close body 2 s3
+%  Coordinator correction applied: "reference" is not used (reserved for the no-defence runs).
+%  Numbers (100 seeds; every one \prelim):
+%    4 %   <- disruption_numbers.json reads["movement|host|200"].pre_rate_per_ksec 0.0240
+%             / none_rate_per_ksec.movement 0.5543 = 4.3 %
+%             (the baseline attacker's counterpart, 18 % before a service-layer
+%             deployment, reads["baseline|service|200"], was cut for budget)
+%    0.025 <- numbers.json s522.conditions["ip_shuffle|2000"|"os_diversity|2000"]
+%             .movement/.control.refused_by_offset[-5..+5].blocked; max |diff| 0.0234
+%             (IP shuffle), 0.0237 (OS diversity). At 200 s IP shuffle it is 0.029,
+%             so the sentence leans on the head's "read at 2 000 s"; the window is
+%             disruptions (interrupts), not every deployment, and the four profiles pooled.
+%    "every mechanism except user shuffle" (six of seven per attacker)
+%          <- reads[*|<mechanism>|2000].relative_pct[6] (first bin after): model
+%             7/10/10/64/81/63 %, baseline 22/56/44/25/32/15 %; user shuffle 113 % / 96 %
+%    R2 as an ordering (magnitudes cut for budget and the one-or-two-magnitudes rule;
+%    the figure's (a)/(b) carry them): IP shuffle, model still at 76 % in the bin
+%    +1 000..+1 125 s (reads["movement|ip_shuffle|2000"].relative_pct[14]) while the
+%    baseline is at 22 % then 101 % (reads["baseline|ip_shuffle|2000"].relative_pct[6..7]);
+%    "the order reverses" <- reads["baseline|service_diversity|2000"].relative_pct[15]
+%             = 72 % in the last bin (+1 125..+1 250 s); reads["movement|service_
+%             diversity|2000"].relative_pct[6..11] = 63, 74, 81, 72, 84, 97 %
+%             (the R2 magnitudes 72 % / ~700 s cut for budget; the figure shows them)
+%    429, 511 <- reads["movement|complete_topology|2000"].time_lost.seconds 428.6,
+%             reads["movement|ip_shuffle|2000"].time_lost.seconds 510.8
+%    593   <- reads["baseline|service_diversity|2000"].time_lost.seconds 592.8
+%    "its only interval to exclude zero" <- baseline time_lost.lo < 0 on the other six
+%             (IP -40, complete -13, host -28, port -126, OS -111, user -75)
+%  Constants, not corpus numbers (no \prelim): 2 000 s, 200 s, 125 s bin, 1 250 s
+%  window (Section 4.5; Table 5.1).
+%
+% ---------------------------------------------------------------- PART 1 (head)
+Adaptivity (Table~\ref{tab:attacker-properties}) is the one property the
+no-defence runs cannot show, because it is the attacker's response to a
+deployment. Both attackers are read at 2\,000\,s, the deployment interval over which
+Section~\ref{subsec:metrics-effectiveness} reads the NCR growth rate. At 200\,s
+the next deployment lands before the attacker has recovered from the last: the APT attacker
+model's NCR growth rate before a host-layer deployment is \prelim{4}\,\% of its
+rate with no defence. The control, run under IP shuffle and OS diversity only, is the APT
+attacker model with no failure matrix, so that each next tactic is drawn on the
+base weights whatever its actions return. \owed{Over the five steps either side of
+each disruption, the share of its steps whose action has an unmet precondition
+stays within \prelim{0.025} of the APT attacker model's.}{Section 5.3.1: the
+control's result is on a measure Section 4.5 does not define; compute its time
+lost per MTD deployment on its two mechanisms, and add the control to the arms of
+Table 5.1}
 
+% ---- Figure-history comments, carried forward verbatim (dissertation.tex l.7387-7450):
 % REWORKED 2026-09-13 (stage-2 float audit, ch5 design handoff §18) --- grouped bars in a 2 x 2 of lettered panels
 % (mechanism x tempo), the control as a series beside the treatment, legend
 % once. The spanning pair and two tempos are the ruled content of this
@@ -7399,12 +7642,34 @@ runs are otherwise identical.
 % (the quantity changed: the per-event wait to the next compromise failed on
 % censoring and on an unmatched reference) --- Marc's to overturn. Caption:
 % how to read it, no result. DRAFT STATE --- ratify on read.
-\begin{figure}[H]
+
+\begin{figure}[htbp]
   \centering
   \includegraphics{fig_5-2-2a_disruption_response}
   \caption[What an MTD deployment does to each attacker]{What an MTD deployment does to each attacker, at the 2\,000\,s deployment interval, for the APT attacker model on its four attack profiles pooled and for the baseline attacker. (a),~(b)~NCR growth rate around a deployment of the mechanism that, in~(c), costs the APT attacker model~(a) or the baseline attacker~(b) the most time; each panel shows both attackers, and the shaded band is the deployment running. (c)~Time lost per MTD deployment for each defence mechanism run alone: the area shaded in~(a) and~(b), read as seconds at the attacker's pre-deployment rate and net of the same area with no defence, with 95\,\% bootstrap intervals over runs. Section~\ref{sec:evaluation-metrics} defines both metrics.}
   \label{fig:aio-adaptivity}
 \end{figure}
+
+% ---------------------------------------------------------------- PART 2 (body)
+% Goes immediately after \end{figure} of fig:aio-adaptivity. DRAFT STATE 2026-09-25,
+% agent-drafted; ratify on read (provenance in the PART 1 comment).
+A deployment knocks each attacker down: its NCR growth rate drops when the
+deployment completes (Figure~\ref{fig:aio-adaptivity}a, b), under every mechanism
+except user shuffle, which knocks neither down. How long an attacker stays down
+follows the mechanism: after IP shuffle the APT attacker model stays down longer
+than the baseline attacker, and after service diversity the order reverses.
+
+The mechanism that costs one attacker most is not the one that costs the other
+most (Figure~\ref{fig:aio-adaptivity}c): the host-layer mechanisms cost the APT
+attacker model \prelim{429} to \prelim{511}\,s per deployment, and service
+diversity costs the baseline attacker \prelim{593}\,s, its only interval to
+exclude zero. \owed{Whichever the attacker, a host-layer rewrite takes the host
+it is on, and a service-layer rewrite only the service.}{Section 5.3.1: what a
+rewrite takes from each attacker rests on the Chapter 2 disruption paragraph
+(item (ii) of its placeholder) and the Chapter 4 runtime-mechanics paragraph,
+both not yet landed} One deployment's cost thus depends on the attacker as well
+as on the mechanism; Section~\ref{subsec:eff-cross-arm} asks whether that carries
+into NCR reduction across the deployment intervals.
 
 % ~1 unit. THE THESIS'S OWN CLAIM, and the subsection Marc asked the
 % hardest question about: given both attackers share the SAME SIX VERBS,
@@ -7484,12 +7749,75 @@ runs are otherwise identical.
 % two attackers as its two lines, drawn as the depth figures draw them, so the
 % swap is which line is on top; the attacker key on top; random over MTDShield's
 % four dropped from every float (Marc: "a bit vacuous"). DRAFT STATE.
-\begin{figure}[H]
+% DRAFT STATE 2026-09-25 --- agent-drafted on Marc's request ("each of the agents will
+%  do each of the prose elements"); slot plan: handoff 2026-09-25_ch5_setup_defence_and_prose_slots.md
+%  Part C D4 (S32-a ... S32-close), takeaways as amended in results context 8j-2/8j-3/8j-4.
+%  Ratify on read.
+%  Slots -> sentences:
+%   P1  S32-a  s1 (the reversal, both floats cited), s2 (the two layers per attacker; the
+%              scope: whiskers apart at 50-200 s for the baseline attacker, service
+%              diversity alone from 500 s)
+%       S32-b  s3 (every line falls, the one exception to the direction named)
+%       S32-c  s4 (saturation below 200 s, by construction: durations + one per layer)
+%   P2  S32-d  s5 (MTDShield's choice, App. E.5, and its line with the service layer,
+%              against the two execution schemes)
+%       S32-e  s6 (user shuffle, the exception, marked, not explained)
+%   P3  S32-f  s7 (the ranking at 200 s cited; Spearman's rho; \owed interval). The
+%              rank-1 clause per attacker was cut for budget: H1 already says it, the
+%              table bolds rank 1.
+%       S32-g  s8 (T9': runs with no host compromised; MTTC)
+%       S32-close s9
+%  Numbers:
+%   70 %, 76 %          <- numbers.json shield.by_interval.200.ledger.mtdshield.{movement,baseline}
+%                          .action_share.service_diversity (0.6995, 0.7615); App. E.5 prints the same
+%   0.47 [0.37, 0.56]   <- numbers.json sweep.by_interval.50.layer.baseline.credentials (point, lo, hi);
+%                          tab_5-3-2c row "user shuffle", baseline 50 s
+%   -0.03               <- numbers.json ranking.by_interval.200.spearman_points (the ten reported defences)
+%   24 to 29 %          <- tab_5-3-2d, APT attacker model MTTC brackets, the three rank-1 rows
+%   71 to 73 %          <- tab_5-3-2d, baseline attacker MTTC brackets, service diversity / port shuffle
+%   "about three times" <- tab_5-3-2d MTTC 6 423-7 059 s against 2 100 s with no defence
+%   "a third to a half" <- numbers.json sweep.by_interval.50.executions (host 99-132, service 148)
+%                          of ~297 scheduled (executions + suspended); user shuffle 297, 0 suspended;
+%                          sweep.by_interval.{200..2000}.suspended = 0 for every mechanism
+%   20 to 110 s         <- Table 5.1 deployment durations (declared, not measured)
+%   separation / zero   <- tab_5-3-2c grey cells; numbers.json sweep.by_interval.*.layer (lo, hi):
+%                          baseline host vs service at 50/100/200 s [0.68,0.76]/[0.95,0.98],
+%                          [0.48,0.57]/[0.96,0.98], [0.44,0.54]/[0.78,0.85]
+%   "helps the attacker" <- Section 4.5's own gloss of a negative NCR reduction (eq:ncr-reduction);
+%                          user shuffle is the only non-grey negative APT cell (50-500 s)
+%
+% --- P1 and P2: after \label{subsec:eff-cross-arm}, before Figure fig:eff-cross-arm. ---
+The two attackers reverse the order of the host and service layers (Figure~\ref{fig:eff-cross-arm};
+Table~\ref{tab:eff-interval-values}). Against the APT attacker model the
+host-layer mechanisms reduce NCR more than the service-layer mechanisms at every
+deployment interval; against the baseline attacker the service layer reduces it
+more, with the whiskers apart from 50 to 200\,s and, from 500\,s, the lead
+carried by service diversity alone. Every line falls as the interval grows,
+except user shuffle against the APT attacker model, which rises towards zero.
+Below 200\,s the layers saturate unequally, since a deployment takes 20 to
+110\,s and two on one layer cannot overlap
+(Section~\ref{subsec:defence-mechanisms}): at 50\,s the host and service
+mechanisms complete a third to a half of their scheduled deployments, user
+shuffle all of them.
+
+MTDShield, which at 200\,s chooses service diversity at $\prelim{70}$ to
+$\prelim{76}$\,\% of its decisions (Appendix~\ref{app:mtdshield-observed}),
+follows the service layer: up to 1\,000\,s it reduces NCR less than either
+execution scheme against the APT attacker model and more than either against the baseline attacker. User
+shuffle is the exception: it is the one defence that helps the APT attacker
+model, below zero from 50 to 500\,s, yet it reduces the baseline attacker's NCR
+by $\prelim{0.47}$ [$\prelim{0.37}$, $\prelim{0.56}$] at 50\,s.
+
+\begin{figure}[htbp]
   \centering
   \includegraphics{fig_5-3-2b_interval_headline}
   \caption[The same defences measured against each attacker, across the deployment interval]{NCR reduction against the deployment interval for each defence, measured against the APT attacker model, pooled over $c_1$ to $c_4$ (solid), and against the baseline attacker (dashed); higher is fewer hosts compromised, zero is as many as with no defence, and below zero is more. Panels~(a) to~(c): the defence mechanisms by the layer each rewrites (Table~\ref{tab:defence-mechanisms}), a layer's line being the mean over its mechanisms, each deployed alone (Table~\ref{tab:eff-interval-values} lists them). Panels~(d) to~(f): the random execution scheme, MTDShield (Appendix~\ref{app:mtdshield}) and the alternative execution scheme (Table~\ref{tab:deployment-strategies}). The interval axis is logarithmic; whiskers are 95\,\% percentile bootstrap intervals.}
   \label{fig:eff-cross-arm}
 \end{figure}
+
+% MOVED 2026-09-25 (handoff B9/F12): the headline's values table sits with the headline
+%  figure, whose caption points to it; it was input at the end of §5.3.3.
+\input{tables/tab_5-3-2c_attacker_values}
 
 % REMOVED 2026-09-13 (stage-2 audit): fig:eff-delay. Survival curves are no
 % corpus genre and ten conditions x two arms is twenty curves. Delay to first
@@ -7525,6 +7853,23 @@ runs are otherwise identical.
 % attackers ranked at 200 s on every metric of Table 4.3, ranks by Scott-Knott ESD
 % with ties shared (tools/ch5_sweep_figures.py --only ranking; the method is owed
 % to §4.5, Marc drafting). DRAFT STATE --- ratify on read. PRELIMINARY: 100 seeds.
+% --- P3: after Figure fig:eff-cross-arm, before \input{tables/tab_5-3-2d_attacker_ranking}
+%     (tab:eff-cross-arm). If Marc swaps the two tables (handoff B9/F12) so that the 200 s
+%     ranking moves to §5.3.3, P3's first two sentences move with it and the last
+%     sentence closes P2. ---
+At 200\,s, where the defences are ranked (Table~\ref{tab:eff-cross-arm}),
+Spearman's $\rho$ between the two attackers' NCR reductions over the ten defences
+is $\prelim{-0.03}$\owed{, and its 95\,\% interval includes zero, so the two
+orderings show no positive association}{Section 5.3.2: numbers.json gives rho
+over the ten reported defences with no interval; the only bootstrap interval tracked, -0.23 to 0.005, is over
+eleven conditions including random selection over MTDShield's four, which no float
+reports. Bootstrap rho over the ten, then keep this wording only if the interval
+includes zero}. The rank-1 defences leave a host compromised in $\prelim{24}$ to
+$\prelim{29}$\,\% of the APT attacker model's runs, about three times later than
+with no defence, and in $\prelim{71}$ to $\prelim{73}$\,\% of the baseline
+attacker's, no later. A layer's line averages mechanisms that do not always
+agree, and Section~\ref{subsec:eff-under-defence} reads them one at a time.
+
 \input{tables/tab_5-3-2d_attacker_ranking}
 
 % ~1 unit. The defence conditions against the movement attacker: the
@@ -7573,10 +7918,16 @@ runs are otherwise identical.
 % deployment intervals, profiles in the chapter's hues and the baseline attacker
 % dashed; the schemes follow as their own figure. Caption decode-only. DRAFT
 % STATE --- ratify on read. PRELIMINARY: 100 seeds.
-\begin{figure}[H]
+% DRAFT STATE 2026-09-25 --- agent-drafted on Marc's request ("each of the agents will
+%  do each of the prose elements"); slot plan: handoff 2026-09-25_ch5_setup_defence_and_prose_slots.md
+%  Part C D5 (S33-a ... S33-g), content = results-context 8j-2 amended D1-D4. Ratify on read.
+%  Replaces: nothing (the subsection has no body text today); pastes in two places,
+
+
+\begin{figure}[htbp]
   \centering
   \includegraphics{fig_5-3-3b_interval_mechanisms}
-  \caption[NCR reduction by defence mechanism and attack profile, across the deployment interval]{NCR reduction against the deployment interval for each defence mechanism deployed alone, in rows by the layer it rewrites (Table~\ref{tab:defence-mechanisms}), for the attack profiles $c_1$ to $c_4$ and the aggregate $c_{\mathrm{agg}}$, with the baseline attacker dashed for reference. Axes, zero and whiskers as in Figure~\ref{fig:eff-cross-arm}.}
+  \caption[NCR reduction by defence mechanism and attack profile, across the deployment interval]{NCR reduction against the deployment interval for each defence mechanism deployed alone, in rows by the layer it rewrites (Table~\ref{tab:defence-mechanisms}), for the attack profiles $c_1$ to $c_4$ and the aggregate $c_{\mathrm{agg}}$, with the baseline attacker dashed for comparison. Axes, zero and whiskers as in Figure~\ref{fig:eff-cross-arm}.}
   \label{fig:eff-suppression-profiles}
 \end{figure}
 
@@ -7584,10 +7935,73 @@ runs are otherwise identical.
 % execution schemes in the same form (tools/ch5_sweep_figures.py --only schemes).
 % DRAFT STATE --- ratify on read. PRELIMINARY: 100 seeds.
 % 2026-09-25: one row of three, random over MTDShield's four dropped (Marc).
-\begin{figure}[H]
+%  marked PARAGRAPH 1 and PARAGRAPH 2 below.
+%  Slots -> sentences:
+%    P1 s1 = S33-a (D1, the part that holds at every interval: host three one effect
+%            to 200 s against the model; IP shuffle apart from both topology shuffles
+%            against the baseline attacker at every interval) + float pointer
+%    P1 s2-s3 = S33-b (D3; carries D1's "part from 500 s" too, so it is said once)
+%    P1 s4 = S33-c (D2, the exception, marked and not explained)
+%    P2 s1 = S33-d (D4) + float pointer
+%    P2 s2 = S33-d (the by-construction sentence: one per interval, three of seven host-layer)
+%    P2 s3 = S33-f (the exponential timing distribution; \owed, see its second argument)
+%    S33-e DROPPED: Appendix C states hosts reached, not the range of the 200 s reduction
+%          (candidate wording kept as a comment at the foot, not live)
+%    S33-g not drafted (conditional on A15; the simultaneous execution scheme is not run)
+%    No chapter summary; no pointer to chapter 6 (the chapter ends on the last result).
+%  Numbers (100 seeds; every one wrapped \prelim):
+%    0.33  <- data/results/ch5_defended/numbers.json: sweep.by_interval["2000"].attacker.movement.ip_shuffle.point (0.33);
+%             "half that" <- same path, complete_topology 0.16, host_topology 0.17 (ratio 0.48, 0.52: RE-CHECK at 1 000 seeds)
+%             also printed in tab_5-3-2c_attacker_values.tex, IP shuffle row, APT 2 000 s
+%    port shuffle whiskers include zero from 500 s <- sweep.by_interval["500"|"1000"|"2000"].attacker.baseline.port_shuffle lo < 0
+%    service diversity keeps an effect to 2 000 s <- sweep.by_interval["2000"].attacker.baseline.service_diversity [0.22, 0.37]
+%    0.12  <- sweep.by_interval["100"].attacker.movement: service_diversity.point - mtdshield.point = 0.120 (the largest of the six gaps)
+%    0.90  <- sweep.by_interval["200"].attacker.baseline.port_shuffle.point (also tab_5-3-2c, 200 s)
+%    0.14  <- regime.rank_block.suppression.baseline.port_shuffle.point (0.136) [in no float]
+%    order unchanged (APT) <- regime.rank_block.ranks.movement against sweep.by_interval["200"].ranks.movement restricted to the nine
+%    no sign change <- regime.rank_block.suppression.{movement,baseline}.*.point against sweep 200 s points
+
+% ---- PARAGRAPH 1: directly under \label{subsec:eff-under-defence}, before Figure fig:eff-suppression-profiles ----
+Against the APT attacker model the three host-layer mechanisms act as one effect
+up to 200\,s, while against the baseline attacker IP shuffle stands apart from
+the two topology shuffles at every interval
+(Figure~\ref{fig:eff-suppression-profiles}). Mechanisms that are level at
+200\,s part at the long intervals. Against the APT attacker model IP shuffle
+keeps \prelim{0.33} at 2\,000\,s and the topology shuffles half that; against
+the baseline attacker port shuffle, level with service diversity at 200\,s, has
+whiskers that include zero from 500\,s, while service diversity keeps an effect
+to 2\,000\,s (Table~\ref{tab:eff-interval-values}). The attack profiles move
+together under every mechanism, except $c_3$, which parts from them under the
+host-layer mechanisms from 500\,s.
+
+% ---- PARAGRAPH 2: between Figure fig:eff-suppression-profiles and Figure fig:eff-schemes-profiles ----
+Against the APT attacker model MTDShield, which chooses among four mechanisms,
+follows service diversity, never more than \prelim{0.12} below it at any
+interval (Figure~\ref{fig:eff-schemes-profiles}). The random and alternative
+execution schemes each deploy one mechanism per interval from all seven, three
+of which rewrite the host layer (Table~\ref{tab:deployment-strategies}).
+\owed{Replacing the near-periodic timing distribution with the exponential one
+at 200\,s changes the sign of no reduction for either attacker, and the APT
+attacker model keeps its order of the seven mechanisms and two execution
+schemes; against the baseline attacker service diversity stays first, but port
+shuffle falls from \prelim{0.90} to \prelim{0.14}, below IP shuffle.}{Section
+5.3.3: the exponential timing distribution's values sit in no float, so an
+appendix table is owed (200 s, both attackers, nine conditions, with
+intervals); MTDShield was not run under it; the interrupt-tally sanity flag
+raised in the regime runs is not yet investigated}
+% ---- S33-e, DROPPED (not live). Candidate for Marc's ruling, if the analyser emits the
+%  reduction range with its interval (Appendix C tabulates hosts reached only;
+%  from tab_C-1a's cells the random execution scheme's reduction at 200 s is
+%  1 - 7.5/13.4 = 0.44, 1 - 2.1/8.1 = 0.74, 1 - 0.3/3.0 = 0.90 across the
+%  low-and-slow band; derived here, stated nowhere):
+%  "The size of the random execution scheme's reduction at 200\,s depends on the
+%   declared low-and-slow dwell time, from \prelim{0.44} to \prelim{0.90} across
+%   that family's band (Appendix~\ref{app:dwell-robustness})."
+
+\begin{figure}[htbp]
   \centering
   \includegraphics{fig_5-3-3c_interval_schemes}
-  \caption[NCR reduction by deployment strategy and attack profile, across the deployment interval]{NCR reduction against the deployment interval for each deployment strategy: the random execution scheme, MTDShield (Appendix~\ref{app:mtdshield}) and the alternative execution scheme (Table~\ref{tab:deployment-strategies}), for the attack profiles $c_1$ to $c_4$ and the aggregate $c_{\mathrm{agg}}$, with the baseline attacker dashed for reference. Axes, zero and whiskers as in Figure~\ref{fig:eff-cross-arm}.}
+  \caption[NCR reduction by deployment strategy and attack profile, across the deployment interval]{NCR reduction against the deployment interval for each deployment strategy: the random execution scheme, MTDShield (Appendix~\ref{app:mtdshield}) and the alternative execution scheme (Table~\ref{tab:deployment-strategies}), for the attack profiles $c_1$ to $c_4$ and the aggregate $c_{\mathrm{agg}}$, with the baseline attacker dashed for comparison. Axes, zero and whiskers as in Figure~\ref{fig:eff-cross-arm}.}
   \label{fig:eff-schemes-profiles}
 \end{figure}
 
@@ -7613,7 +8027,6 @@ runs are otherwise identical.
 % this table's intervals for each attacker. Fragment stays on disk.
 % MOVED HERE 2026-09-25 from §5.3.2: the NCR reduction per defence, attacker and
 % deployment interval, the backing for the interval sweep. DRAFT STATE.
-\input{tables/tab_5-3-2c_attacker_values}
 
 % RETIRED 2026-09-23 (Marc's rulings R3, R4; handoff
 % 2026-09-22_ch5_two_phase_restructure.md §6, in git history): the subsection "Comparison with

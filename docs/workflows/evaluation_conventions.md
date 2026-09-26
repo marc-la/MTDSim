@@ -1,7 +1,7 @@
 ---
 status: durable
 created: 2026-09-09
-updated: 2026-09-23   # §c: "held and why" answered by a cited prior run (register E5)
+updated: 2026-09-25   # §j prose around a results float, §k defending the setup (genre + reporting-standard searches); §e scope note for a mirrored discussion
 ---
 
 # Evaluation conventions — how the field builds and reports an MTD experiment
@@ -298,6 +298,18 @@ Two refinements worth adopting:
   ... and the nature of the system the defender is protecting." This is the
   clean way to report a real but small separation without inflating it.
 
+**Scope of the four moves (2026-09-25).** The papers these moves come from
+mostly have no separate discussion, so the reason has to sit in the results.
+In a thesis whose discussion chapter mirrors the results (§h, Tay, the ruled
+ch5/ch6 split), moves 2 and 4 **move to the discussion**. The results keep:
+- move 1;
+- a reason only where it is true by construction;
+- move 3, stated and not explained;
+- a hand-off.
+
+The genre literature supports the same line (§j3), and it is the rule in
+the retired results-context brief (§3).
+
 ## f) One run set, two questions — the funnel
 
 The structural problem of a thesis whose contribution is an *attacker* is that
@@ -459,3 +471,239 @@ bar to actually aim at is the journal corpus's.
 - **A stale roadmap** that names section numbers the paper does not have
   (Reti).
 - **Ranges with no rationale**, near-universally.
+
+## j) The prose around a results float
+
+Added 2026-09-25 from a genre-literature search (Marc: "seek guidance on how
+you structure evaluation prose"). The sources are writing-centre guidance and
+move analyses of results sections, read open-access on the date above, plus
+re-reads of the anatomies in `../implementation/evaluation_anatomies/`. §b
+and §e above still stand. This section covers the *text* that sits between
+floats, which neither of them does.
+
+**j1. The unit is data commentary: locate, highlight, then qualify.** Swales
+and Feak's three elements, in order, are the location element and summary,
+then the highlighting statement, then the implications, problems or
+exceptions: "do NOT simply repeat all the details in words, attempt to cover
+all the information, or claim more than is reasonable" (via HSLU's
+academic-writing text, ch. 4.5). Move analyses of results sections agree on
+what is obligatory:
+- Yang and Allison's dominant moves are preparatory information, reporting
+  results and summarising results.
+- Kanoksilapatham finds reporting results to be the only obligatory move.
+- Moskovitz (2023) finds that a results section always *announces*, usually
+  *orients* and *observes*, and only sometimes *explains*.
+
+So around each float the text owes one move that points the reader at it and
+one that selects the finding. It does not owe more than that.
+
+**j2. Point to the float before the observation, and let the finding hold
+the sentence.** Moskovitz: observing first and pointing afterwards "encourages
+them to try to understand details as they read without the aid of the
+visual"; "only novices believe that 'see Figure 1' is sufficient". UNC's
+four acceptable forms are:
+- "As shown in Table 1, …"
+- "Results are shown in Table 1."
+- "Table 1 shows that …"
+- "… (Table 1)."
+
+No source forbids "Figure X shows", but the working rule is this: **the
+finding is the subject of the sentence, or it sits in the *that*-clause, and
+it falls at the end of the sentence**. Gopen and Swan call that end position
+the stress position; the start of the sentence (the topic position) carries
+the link back to what came before. This thesis prefers the parenthesis form
+("… (Figure 5.4)"), Kim's "As shown in Fig. 8, …" is the corpus exemplar, and
+Hong's panel-by-panel narration ("Fig. 4a shows … Fig. 4b shows …") is the
+named anti-pattern.
+
+**j3. Where results end.** Three sources set the line:
+- UNC: "Nothing your readers can dispute should appear in the Results
+  section". Trends are allowed, because "no one can deny that these trends
+  do exist".
+- USC: "It is appropriate to highlight this finding in the results section.
+  However, speculating as to why this correlation exists … belongs in the
+  discussion section."
+- UNSW allows an honours thesis "a brief comment on the significance of key
+  results".
+
+So a results sentence may compare, and may give a reason that is true by
+construction. It may not give an unmeasured mechanism, a verdict or a
+recommendation (see §e's scope note). The test for a sentence: *could it be
+false while every number in the floats stayed the same?* If it could, the
+sentence is interpretation, and it moves to the discussion.
+
+**j4. The paragraph is context, then content, then the answer.** Mensh and
+Kording (2017), Rule 7: each results paragraph "starts with a sentence or two
+that set up the question that the paragraph answers … and the paragraph ends
+with a sentence that answers the question". Rule 4: "each subject should be
+covered in only one place"; "parallel messages should be communicated with
+parallel form". Their Rule 7 suggestion that subsection *headers* be
+declarative claims is **rejected**, because it conflicts with the ruled
+noun-phrase heading convention.
+
+**j5. Preambles.** Thomson (2023): the reader "may need to be told what the
+big point is. And context. And only a little about how the sections are
+organised". About a paragraph is enough. SJSU: open the results "with an
+introduction to connect the results with the research question(s)". Hong
+(§6.2.1) states at the head of each subsection what is held fixed in it,
+which is the local form of §i's held-defaults failure. The corpus fails in
+three ways:
+- **Previewing the payoff.** Masud §4: "The outcomes demonstrate that…".
+- **A stale roadmap.** Reti; Tay §4 promises a §4.3 that never comes.
+- **No preamble at all.** Ho §4.
+
+**j6. Closing and connecting.** SJSU and USC both recommend closing on a
+"narrative bridge" to the discussion. He §VI.B ends by pointing to the next
+section, and §VI.C opens by pointing back to it. Bunton (1999) found that
+metatext operating across chapters holds a long text together more than
+local signposts do. Two conventions follow:
+- Each section's last sentence hands the next section its question.
+- A back-reference names the exact subsection, not the chapter.
+
+**j7. Captions: decode, and let the text select.** The house rule stands:
+"a caption decodes, it does not narrate" (figure conventions §b2, §m), and
+chapter 5's captions say how to read the float, not what it shows (the
+2026-09-09 sweep). The literature allows it:
+- Rougier's Rule 4 says the caption "explains how to read the figure".
+- Nature's legend guidance: a brief title, then each panel and symbol; "All
+  error bars and statistics must be defined"; "no details of methods".
+
+The alternative is also attested:
+- Mensh and Kording: "the title of the figure should communicate the
+  conclusion".
+- Caltech lets the opening sentence be "a summary statement that highlights
+  the key finding".
+- Kim Table 5 is the corpus's only message caption.
+
+A message caption is a ruling Marc would have to make. It should never be
+made on a float whose numbers are still preliminary (the 2026-09-09 test:
+would the caption survive the result coming out the other way?).
+
+**j8. Pitfalls, each named in the sources above:**
+1. The float holds the topic position instead of the finding, or the text narrates the float panel by panel (Hong).
+2. The text observes before it points to the float, or points with a bare "see Figure 1" (Moskovitz).
+3. Data dumping: every number restated, none selected. UNC: "your readers appreciate discrimination more than your ability to recite facts". Tay's best/worst/percentage template is the corpus instance.
+4. A float the text never refers to (UNC: "you'll need to refer to each table or figure directly").
+5. A number in the text that disagrees with the float. This repo prevents it by generating numbers from tracked artefacts (`results_section_workflow.md`).
+6. An undefined interval, n or abbreviation in a caption; an acronym glossed three ways (Masud); methods detail in a caption (Nature).
+7. A claim beyond the evidence (HSLU; USC: "the results of a study do not prove anything").
+8. Over-hedging and vague modifiers ("appeared to be greater", "promising trends"; UNC, USC).
+9. A mechanism or verdict leaking into the results when a mirrored discussion exists (§e scope note).
+10. The same claim made in several subsections (Tay makes one claim three times).
+11. A preamble that previews the findings, or a roadmap gone stale.
+12. A reference to the wrong float (Ho, p. 32: "Figure 11" for Figure 10).
+13. A factor or control declared in the setup whose result appears in no float (Bland, §i). It belongs in this list because the absence shows up in the prose, not in the table.
+
+## k) Defending the setup — what a reporting standard asks of each value
+
+Added 2026-09-25. The MTD corpus barely justifies its values (§c), so the
+standard comes from simulation-reporting and security-evaluation
+methodology. Copies are under `docs/sources/methodology/`:
+- STRESS-DES (Monks et al. 2019, *J. Simulation*; checklist v1.1);
+- ODD (Grimm 2020);
+- Law 2015 (WSC);
+- Currie and Cheng 2016 (WSC);
+- Kleijnen 2005 and 2008;
+- Arcuri and Briand's technical report;
+- Rossow et al. 2012;
+- van der Kouwe et al. 2018.
+
+**k1. Every value has a basis, and the basis has a kind.** ODD §3.2: "provide
+the basis for all parameter values (e.g., taken from which literature, and
+why …)". STRESS-DES 3.3: list every input with its base-case value, "state
+the range of values that parameters can take", and, for any theoretical
+distribution, "state how these were selected and prioritised above other
+candidate distributions". STRESS 3.4 treats a value with no source as an
+*assumption*, to be declared as one. The paper's Table 5 gives each row a
+*Data source*, and those sources mix a citation, an observation and "expert
+opinion". **So a per-row source is the standard's own form.** E5's citation
+after the value, with the caption naming the other kinds of source, is the
+same thing in less space (§c).
+
+**k2. "Default" alone is not a basis.** It becomes one when it is traced to
+where it came from and pinned to a version (Rossow B.4: "presumptions about
+the 'standard' OS change with time"; van der Kouwe F2). The strongest form
+cites the released code. The one place where "default" is the justification
+by itself is the no-defence reference: "the proper baseline is usually the
+original system using default settings with no defenses enabled" (van der
+Kouwe D1).
+
+**k3. The run type, the stopping condition and the run length.** STRESS 4.1:
+"Report if the system modelled is terminating or non-terminating … For
+terminating systems state the stopping condition". Kurkowski et al. found
+that 58 % of network discrete-event-simulation studies did not say which
+(STRESS p. 57). Law 2015 §3: a terminating run's ending event "is specified
+before any runs are made", and no warm-up period is needed (Currie and Cheng
+§4). Rossow C.4: "describe why the analysis duration they chose suffices".
+The cheap evidence for that last point is the share of runs that reach the
+time limit.
+
+**k4. The run count and the seeds.**
+- **Run count.** Arcuri and Briand (TR 2011-13, §11, pp. 21–22): "run each
+  randomized algorithm at least n = 1,000 times", *on each artefact*, and
+  where artefacts are plentiful, "less runs per artifact (though at least
+  n = 10)". Report the count *and* its justification (STRESS 4.3).
+- **Seeds.** Common random numbers must be declared along with how the
+  streams are split (STRESS 5.2). They license paired differences, but they
+  violate the independence that a classic test assumes (Kleijnen 2008,
+  p. 479). Currie and Cheng §5.3: the same stream for every configuration is
+  not enough; the same draws must drive the same variables.
+
+**k5. Swept levels.** Spacing levels geometrically across orders of
+magnitude is the design-of-experiments convention for a factor whose effect
+is relative (Kleijnen 2005, p. 3, on a logarithmic transformation). The 1–2–5
+series is the usual rounding, but it is **not** an ISO series, so do not cite
+ISO 3 for it. The range should reach the region where the effect ends (van
+der Kouwe A3: "fail to test performance over an appropriate range of
+settings"; ten Broeke 2016 ¶4.3: choose a wide range so as not to "ignore
+interesting model behaviour").
+
+**k6. Subsets and comparators.** Van der Kouwe A2 names "subsetting without
+proper justification"; Rossow B.3 says authors should "describe how they
+selected the … subsets". Any scheme, mechanism or scenario the simulator
+offers and the experiment leaves out needs its reason in one clause. Van der
+Kouwe D3 adds that a comparator run away from its published configuration is
+an unfair benchmark, so each comparator runs at its own settings or the
+change is stated.
+
+**k7. What an examiner checks first**, drawn from the standards above:
+1. A value with no basis.
+2. A run count with no justification, or a misquoted recommendation.
+3. No terminating or steady-state statement, and no reason the run is long enough.
+4. A seed claim with no description of how the streams are split, or a paired claim beside a test that assumes independence.
+5. A sweep that stops before the effect ends, or levels with no spacing logic.
+6. An unexplained subset, or a comparator run away from its own settings.
+7. No version pin behind "default".
+8. Relative numbers only, with no absolute values and no variance (van der Kouwe F4, B4).
+
+**k8. The owed mark: text that is not yet defensible, kept visible (Marc,
+2026-09-25).** A value, clause or sentence that stands in the draft but that
+§k1–§k7 cannot yet defend is wrapped rather than deleted or left silent:
+
+```latex
+\owed{<the text as it stands>}{<what would defend it: a citation, a run, a ruling>}
+```
+
+- **What it does.** It prints the text with a numbered red mark and lists the
+  owed item, with its page, under *Owed before submission*, after the list
+  of tables. The macros are in the `dissertation.tex` preamble.
+- **When to use it.** Use it for:
+  - a declared level or control whose result is not yet reported;
+  - a subset left unexplained;
+  - a claim waiting on a ruling or a run;
+  - a number whose source is not yet tracked.
+
+  Do not use it for prose that is merely undrafted; that stays a
+  `[Placeholder …]`.
+- **The second argument is written for the reader who will resolve the item.**
+  Name the section, then what is missing. Do not use `\ref` or `\cite` in it.
+- **Resolving.** Delete the wrapper in the commit that supplies the defence.
+- **Submission.** The submission build sets `\owedmarksfalse`. Any `\owed`
+  left in the text then stops the build, so nothing undefended ships
+  unnoticed.
+- **Where else it applies.** The same mark goes in a table cell (Table 5.1's
+  exponential level) and in body prose (§5.1's execution schemes).
+- **Its companion, `\prelim{<number>}`.** Wrap every number typed into prose
+  from the 100-seed corpus. It prints the number unchanged and exists only as
+  the grep target for the 1 000-seed swap (`grep -n '\\prelim{'`). Floats need
+  no mark, because their generators regenerate them.
