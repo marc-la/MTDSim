@@ -1,0 +1,133 @@
+{
+ "scope": "four profiles pooled, targeted; IP shuffle and OS diversity; the corpus's seeds",
+ "arms": {
+  "core": "with the failure matrix",
+  "blind": "every factor set to one"
+ },
+ "reads": {
+  "none": {
+   "units": 400,
+   "seeds": 100,
+   "hosts_with": 8.13,
+   "hosts_without": 8.005,
+   "hosts_diff": 0.125,
+   "hosts_diff_ci95": [
+    -0.2174999999999994,
+    0.47999999999999954
+   ],
+   "cohen_d_per_seed": 0.04606135050616044,
+   "cohen_d_z_per_seed": 0.0711504388306684
+  },
+  "ip_shuffle|200": {
+   "units": 400,
+   "seeds": 100,
+   "hosts_with": 0.315,
+   "hosts_without": 0.295,
+   "hosts_diff": 0.020000000000000018,
+   "hosts_diff_ci95": [
+    -0.050000000000000044,
+    0.09000000000000002
+   ],
+   "cohen_d_per_seed": 0.05932958789676535,
+   "cohen_d_z_per_seed": 0.056949479745149946,
+   "ncr_reduction_with": 0.9612546125461254,
+   "ncr_reduction_without": 0.9631480324797002,
+   "ncr_reduction_diff": -0.0018934199335747248,
+   "ncr_reduction_diff_ci95": [
+    -0.01078564549435678,
+    0.006762407759938819
+   ]
+  },
+  "ip_shuffle|2000": {
+   "units": 400,
+   "seeds": 100,
+   "hosts_with": 5.4725,
+   "hosts_without": 5.1075,
+   "hosts_diff": 0.3650000000000002,
+   "hosts_diff_ci95": [
+    0.047437499999999445,
+    0.6999999999999993
+   ],
+   "cohen_d_per_seed": 0.17748456971258572,
+   "cohen_d_z_per_seed": 0.20440365039273609,
+   "ncr_reduction_with": 0.32687576875768765,
+   "ncr_reduction_without": 0.3619612742036228,
+   "ncr_reduction_diff": -0.03508550544593514,
+   "ncr_reduction_diff_ci95": [
+    -0.07727457787647773,
+    0.0070827315025035675
+   ],
+   "time_lost_with": 510.7611420347704,
+   "time_lost_with_ci95": [
+    415.50709294231615,
+    609.2866054665556
+   ],
+   "time_lost_without": 491.55534464200537,
+   "time_lost_without_ci95": [
+    399.82141879841424,
+    589.7599553940303
+   ],
+   "time_lost_diff": 19.20579739276502,
+   "time_lost_diff_ci95": [
+    -120.43524885756837,
+    162.3330692231569
+   ]
+  },
+  "os_diversity|200": {
+   "units": 400,
+   "seeds": 100,
+   "hosts_with": 7.56,
+   "hosts_without": 7.51,
+   "hosts_diff": 0.04999999999999982,
+   "hosts_diff_ci95": [
+    -0.28750000000000053,
+    0.4150624999999997
+   ],
+   "cohen_d_per_seed": 0.018566268355823173,
+   "cohen_d_z_per_seed": 0.02892234259427622,
+   "ncr_reduction_with": 0.07011070110701123,
+   "ncr_reduction_without": 0.0618363522798252,
+   "ncr_reduction_diff": 0.008274348827186029,
+   "ncr_reduction_diff_ci95": [
+    -0.0414736991369417,
+    0.05473169724508417
+   ]
+  },
+  "os_diversity|2000": {
+   "units": 400,
+   "seeds": 100,
+   "hosts_with": 8.2125,
+   "hosts_without": 8.125,
+   "hosts_diff": 0.08750000000000036,
+   "hosts_diff_ci95": [
+    -0.28756249999999967,
+    0.4449999999999994
+   ],
+   "cohen_d_per_seed": 0.031194391764069913,
+   "cohen_d_z_per_seed": 0.051955259128290986,
+   "ncr_reduction_with": -0.010147601476014678,
+   "ncr_reduction_without": -0.01499063085571506,
+   "ncr_reduction_diff": 0.004843029379700381,
+   "ncr_reduction_diff_ci95": [
+    -0.04526434853958633,
+    0.05230210540356299
+   ],
+   "time_lost_with": 55.43993526140216,
+   "time_lost_with_ci95": [
+    -45.1981224923892,
+    165.62615624207032
+   ],
+   "time_lost_without": 15.949375278139456,
+   "time_lost_without_ci95": [
+    -79.86295172670002,
+    109.6027012430331
+   ],
+   "time_lost_diff": 39.490559983262706,
+   "time_lost_diff_ci95": [
+    -90.3287974289698,
+    180.4763085998874
+   ]
+  }
+ },
+ "units_none": 400
+}
