@@ -372,7 +372,10 @@ def frag_body(out: dict) -> str:
             ("forward rate", "0.25", "0.1 to 0.5", decay_effect("gamma", "decay_gamma_0.1", "decay_gamma_0.5")),
             ("backward rate", "0.25", "0.1 to 0.5", decay_effect("delta", "decay_delta_0.1", "decay_delta_0.5")),
             ("floor", "0.1", "0, 0.05", decay_effect("z", "decay_z_0", "decay_z_0.05")),
-            ("the nine rules", "argued values", "held", "---"),
+            # 2026-09-26 (supervisor screen plan item 10): the rules are held one
+            # by one and removed together by the ablation of Section 5.4.
+            ("the rules", "declared", "removed: every factor set to one",
+             "negligible (Section~\\ref{sec:ablation})"),
         ]),
     ]
     L = [_hdr("data/results/ch5_s51_sensitivity/analyse.py")]
@@ -388,7 +391,7 @@ def frag_body(out: dict) -> str:
       r"The dwell ranges follow the evidence tiers of Appendix~\ref{app:dwell-derivation}; the failure-matrix ranges "
       r"bracket the declared value on both sides (Appendix~\ref{app:weight-sets}). The draw's shape and the mapping "
       r"have no range and are compared against the alternative that was tried; the nine failure rules are single argued "
-      r"values and are held. In the notation of Chapter~\ref{ch:attacker-model} the rows are $\mu_p$, $\tau_p$, "
+      r"values, held one by one and removed together by the ablation of Section~\ref{sec:ablation}. In the notation of Chapter~\ref{ch:attacker-model} the rows are $\mu_p$, $\tau_p$, "
       r"$\varphi$, $\gamma$, $\delta$, $z$ and $R$. Pooled over the four profiles, 400 runs per cell; the per-value "
       r"readings are the sections that follow.}")
     w(r"  \label{tab:parameter-register}")

@@ -730,3 +730,245 @@ table in the response-to-disruption subsection:
   difference [95 % CI];
 - one reading sentence.
 Chapter 6 carries the conclusion above.
+
+## Walk-through state, round 4 (2026-09-26): abstract the nine rules out of the body
+
+**Marc:** the nine-row table is "very hard to explain to a reader, very hard to
+defend": why nine, why those values, why is one judgement and another a
+dependency. He asks whether the nine values can be abstracted away, how to
+simplify the narrative, how to present the ablation properly, and what goes to
+the appendix. His own summary of the idea: success is encoded and failure is
+not; forward/backward misses the nuance because post-intrusion tactics group
+together; the matrix reweights on that basis and makes long jumps back
+(impact → reconnaissance) harder.
+
+**Proposal: the body states the principle, the appendix holds the rules.** This
+is the conventional handling of a model assumption with no data behind it:
+state it, give its reason, test whether the results depend on it, and report
+that. Once the ablation shows no reported result depends on the values, the
+body need not defend each value. The reader does not have to accept them.
+
+- **Body (§4.4.4), three short paragraphs, no rules table, no count of rules:**
+  1. *Why.* The corpus records only success (survivorship bias), so the base
+     weights are the success routing. The failure routing has no corpus basis
+     and is declared.
+  2. *The principle, in words.* After a failure, the attacker is more likely to
+     fall back, or to try another tactic of the same stage, than to press on.
+     Direction comes from the four lifecycle stages (literature). Moves within
+     the post-intrusion stage carry 0.58–0.71 of the base weight there, which
+     is why forward/backward is not enough. Two constraints come from the
+     foothold: a move that needs the foothold the failure denied is all but
+     ruled out, and a move across two stages is scaled down. The worked
+     example is Figure 4.3b (0.062 → 0.750). The rules and every value are in
+     Appendix B.6.
+  3. *Test.* The values were not fitted to any outcome. The ablation in chapter
+     5 sets every factor to one. Appendix C varies the two scaling rates.
+- **Appendix B.6 (already there):** the rules table (B.6a), the decomposition
+  figure (B.6a, panels a–c), the distance term, and the full matrix. Figure
+  4.4b's body copy is deleted, not moved: panel (c) of Figure B.6a is the same
+  matrix.
+- **Wording fix Marc spotted: "identity".** $F_v$ multiplies element by element,
+  so the *identity* of Eq. 4.4 is the all-ones matrix, not the identity matrix.
+  A mathematically trained examiner will read "identity" as the latter. Say
+  "every factor set to one" at each site: §4.3 ($F_{\text{success}}$,
+  $F_{\text{none}}$), the chapter 5 control sentence, and the new §4.4.4.
+- **Knock-on in the applied step 1 paragraph:** "the nine failure rules" →
+  "the values of the failure matrix".
+- **Chapter 5, the ablation, stated conventionally:** the question (does the
+  response to failure change how the attacker responds to disruption?), the
+  variant (every factor set to one, same seeds), the measures (time lost per
+  MTD deployment, NCR growth rate), a table (measure | APT attacker model |
+  without the failure matrix | difference, 95 % CI), and one reading sentence.
+  Chapter 6 gives the conclusion: no reported result depends on the values, and
+  the model's adaptivity is capped by the simulator's actions.
+
+## PLAN for Marc's approval (2026-09-26): the failure matrix, told frankly
+
+**The frame (Marc).** The failure matrix was an idea: a declared response to
+failure, since the corpus records none. We built it, then tested it with an
+ablation, and it changes little. What a disruption does to the attacker comes
+from the failure itself, which the simulator's actions produce when the APT
+attacker model drives them. It does not come from the reweighting afterwards.
+Reporting an idea that did not work is a result: anyone building the same
+mechanism on this kind of simulator should expect the same. The body keeps the
+principle and the frank test. The detail goes to the appendix, because the
+ablation is what makes it safe not to defend each value.
+
+**Facts found while planning.**
+- The ablation arm exists: `data/results/ch5_defended/run_corpus.py`, group
+  `blind`. It runs the four profiles, **IP shuffle and OS diversity only**, at
+  both intervals plus no defence, on 100 seeds.
+- It has so far been read only on the tactic-level failure share. **No
+  ablation result exists yet** on NCR reduction or time lost per MTD
+  deployment. The `disruption.py` path can compute them.
+- The parallel handoff `2026-09-25_ch5_setup_defence_and_prose_slots.md` B4
+  already flags this: the control is not in Table 5.1's Arm row, its scope is
+  misstated as "the seven mechanisms", it appears in no float, and it
+  recommends reporting it. **This plan is that item's option (a). Execute it
+  from one place and close B4 with it.**
+
+### Statistical judgement: how an ablation "shows no effect"
+
+Overlapping intervals do not show that there is no effect. Not detecting a
+difference is not the same as showing there is none. The conventional form is
+to report the **difference** between the two arms with its 95 % interval, and
+to call it negligible when its effect size falls below a threshold declared in
+advance. §4.5.4 already uses Cohen's $d < 0.2$ as "negligible" for the
+Scott–Knott ESD merge, so the same threshold serves here, with no new
+convention. At 1 000 seeds per cell the interval on the difference is tight,
+so "negligible, with a tight interval" is a strong statement. It is still
+stated as *negligible at this resolution*, not as *no effect*.
+
+### Where the ablation goes: last in chapter 5
+
+Recommendation: **a short final section, §5.4 "Ablation of the failure
+matrix"**, after the defence results. Main results come first, and then the
+ablation asks what one component contributed to them. This is the usual order
+in empirical papers. The section also tests a part of the model, not a
+defence, so placing it last keeps §5.2–§5.3's comparisons uninterrupted, and it
+can use metrics already read in §5.3. §5.3.1's control sentence is cut and
+replaced by nothing: §5.4 carries the control.
+
+### The changes, in order
+
+**Chapter 4**
+1. *§4.4.4 rewritten from the text it already has, three paragraphs.*
+   - **P1, why.** Keep: the completeness assumption (observed out-transitions
+     are all the choices open; a different corpus gives a different net), and
+     "these reports record only the steps that succeeded (survivorship bias)".
+     "Recurrence value" becomes "base weights". End on: the failure routing is
+     declared, and no value was fitted.
+   - **P2, the principle.** Keep the stage sentence with its four citations,
+     and "ATT&CK imposes no order ... imported from these lifecycle models".
+     Inject: after a failure, falling back or trying another tactic of the
+     same stage is more likely than pressing on; moves within the
+     post-intrusion stage carry 58–71 % of its base weight, so forward/backward
+     is not enough; the foothold constraint (a move that needs the foothold the
+     failure denied is all but ruled out); a move across two stages is scaled
+     down. Worked example: Figure 4.3b. Pointer: "the rules and every value
+     are in Appendix B.6". **Cut**: the 15-by-14 size, "two components", "nine
+     rules A to I", the rates-and-floor sentences.
+   - **P3, the test.** "We test whether any result depends on these values by
+     removing the matrix (Section 5.4); Appendix C varies the two scaling
+     rates." Keep the must-carry sentence: "These are threat-model parameters
+     for this simulator, not real-world values." **Cut**: "We judged these a
+     plausible set of values", and "this is what encodes direction".
+   - Chapter 4 **states the test and does not give its verdict** (the ch5
+     antecedent rule, mirrored). The frank "it changes little" belongs to §5.4
+     and chapter 6.
+2. *Delete Figure 4.4b* (`fig:failure-weight-matrix`). Figure B.6a(c) is the
+   same matrix. Fix B.6a's caption, which points to it ("panel (c) is the set
+   as it stands in the chapter").
+3. *"Identity" → "every factor set to one"* at §4.3 ($F_{\text{success}}$ and
+   $F_{\text{none}}$).
+4. *Figure 4.3's caption:* "the foothold-gate rule" → "the foothold constraint
+   of Section 4.4.4" (closes M15).
+5. *The step 1 paragraph:* "the nine failure rules" → "the values of the
+   failure matrix", and point the ablation at §5.4.
+
+**Chapter 5**
+6. *New §5.4 "Ablation of the failure matrix"*, one paragraph and one table.
+   - **Question:** does the failure matrix change the results?
+   - **Variant:** every factor set to one, the same seeds, everything else
+     held.
+   - **Scope, stated:** IP shuffle and OS diversity, at the 2 000 s interval.
+   - **Measures:** NCR reduction (does the headline change?) and time lost per
+     MTD deployment (does the response to disruption change?).
+   - **Table:** measure | mechanism | APT attacker model | without the failure
+     matrix | difference [95 % CI] | $d$.
+   - **Reading, one sentence:** negligible or not, against $d < 0.2$.
+   - **Why, one sentence, the mechanism already measured:** after a
+     disruption the attacker's actions fail until it finds a host again,
+     whichever tactic it routes to.
+7. *Cut §5.3.1's control sentence* (it moves to §5.4).
+8. *Table 5.1:* add the ablation arm to the Arm row, with its scope.
+
+**Chapter 6**
+9. *One frank paragraph* in the fidelity verdict or the adaptivity row: the
+   idea, the test, the negative result, and what it means. The model's
+   adaptivity is capped by the simulator's actions, which return one failure
+   verdict whatever the cause. A routing response to failure needs actions
+   whose failures differ in consequence. Say it as a finding for anyone
+   building the same.
+
+**Appendix C and §4.5.4**
+10. *Table C.0:* add a row, failure matrix | declared | removed (every factor
+    one) | §5.4. It is generated, so the change goes in the generator.
+11. *§4.5.4:* one sentence declaring how an ablation is judged (the difference
+    with its 95 % bootstrap interval; negligible if $d < 0.2$).
+
+**Runs**
+12. *Compute NCR reduction and time lost for the ablation arm* on the 100-seed
+    corpus now (`disruption.py`; the `none` cells exist for the NCR
+    denominator). Every value goes in `\prelim{}`. **Add the `blind` group to
+    the 1 000-seed overnight run.** Until then, the §5.4 table's values are
+    `\prelim`, and the verdict sentence is `\owed` if the 100-seed interval is
+    too wide to call.
+
+**Order of execution:** 12 first (the numbers decide §5.4's sentence), then
+1–5 (chapter 4, which needs no numbers), then 6–8, 10, 11, then 9 last.
+Each gets a build check and a commit. **Not done without approval.**
+
+## Round 5 (2026-09-26): the plan EXECUTED (Marc: "that's good ... as long as all clear")
+
+**A correction found while executing.** The principle drafted in rounds 2–4
+("after a failure, a move back is more likely") is **false for most of the
+net**. It was re-read from the routing nets (c1–c4, mean shares by relation,
+by the stage of the tactic that failed; printed by
+`tools/gspn_gadget_figure.py`, `stage_shares`):
+
+| failed tactic's stage | base (back / same / forward) | after failure |
+|---|---|---|
+| preparation | – / 0.25 / 0.75 | unchanged |
+| intrusion | 0.05 / 0.23 / 0.72 | 0.32 / 0.10 / 0.58 |
+| post-intrusion | 0.24 / 0.65 / 0.11 | 0.17 / 0.76 / 0.07 |
+| objective | 0.85 / 0.15 / – | unchanged |
+
+So the principle as applied is: **a failure without a foothold sends the
+attacker back to reconnaissance; a failure with one keeps it in its stage.**
+The two exceptions to backward (dampers D and E) cover most backward moves
+after intrusion, which is why backward *falls* there. "Lateral" is avoided in
+the prose because it collides with the tactic lateral movement.
+
+**Applied (DRAFT STATE throughout; build clean, no undefined refs):**
+1. §4.4.4 rewritten, three paragraphs: the assumption (survivorship), the
+   principle and the 58–71 % fact, and how it was tested. No rule count and
+   no rules table. Figure 4.4b deleted; Figure B.6a's caption re-pointed.
+2. Figure 4.3 gains **panel (c)**, credential access in c1, so both halves
+   of the principle are visible (Marc: the points must be visible in the
+   diagram we keep). Place labels break at spaces so the figure fits
+   \textwidth (448.8 pt). Caption rewritten; "gadget" and "foothold-gate
+   rule" gone (M14, M15).
+3. "The identity" → "every factor … is one" (§4.3). The step 1 paragraph now
+   says "the values of the failure matrix" and points to §5.4.
+4. §4.5.4: one paragraph on how an ablation is judged (the difference, a
+   paired bootstrap interval, negligible at Cohen's $d < 0.2$).
+5. **§5.4 "Ablation of the failure matrix"**, last in chapter 5: purpose,
+   variant, scope as run, Table 5.5 (generated:
+   `data/results/ch5_defended/ablation.py` →
+   `tables/tab_5-4a_ablation.tex`), and a plain description with every
+   number in `\prelim`.
+6. §5.3.1's `\owed` control sentence replaced by a pointer to §5.4. Table
+   5.1's Arm row lists the ablation arm with its scope.
+7. Table C.0: the failure-rules row now reads "removed: every factor set to
+   one | negligible (§5.4)", with the caption to match. Regenerated from the
+   saved `numbers.json`, not re-run.
+8. Chapter 6: a content placeholder after §6.2's placeholder (adaptivity,
+   told frankly). Marc dictates it.
+
+**100-seed ablation reading** (`ablation_numbers.json`): NCR differences all
+negligible ($d \le 0.18$; the largest, IP shuffle at 2 000 s, +0.007 of the
+network, with an interval excluding zero). NCR reduction and time lost
+differences are not told apart from zero, but time lost's intervals are
+±140 s.
+
+**Owed, not done:**
+- Add group `blind` to the **1 000-seed overnight run**. `run_corpus.py`
+  already builds it; rerun `ablation.py` after. The verdict sentence in §5.4
+  must be re-read against the 1 000-seed table: if IP shuffle's $d$ crosses
+  0.2, "negligible under every condition" is false.
+- Chapter 6 paragraph (Marc's dictation, from the placeholder).
+- Figure 4.4b's files (`fig_4-4b_failure_weight_matrix.*`) are no longer
+  referenced. Delete them on Marc's word, or keep them for the generator.
+- Not mine, flagged: chapter 6's fidelity-verdict table
+  (`tab:fidelity-verdict`, l.~8657) is 14.7 pt overfull.

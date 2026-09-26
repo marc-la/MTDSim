@@ -6,7 +6,7 @@
 \begin{table}[htbp]
   \centering
   % CAPTION DRAFT STATE 2026-09-17 --- voice pass owed.
-  \caption[The declared inputs and what moved]{Each value the attacker model was given rather than derived, grouped by the three inputs of Section~\ref{sec:execution}: the value declared, the range it was moved across with the other inputs held at their declared values, and what happened to distinct hosts reached, read against the interval at the declared value under no defence and under the random scheme at both intervals. The dwell ranges follow the evidence tiers of Appendix~\ref{app:dwell-derivation}; the failure-matrix ranges bracket the declared value on both sides (Appendix~\ref{app:weight-sets}). The draw's shape and the mapping have no range and are compared against the alternative that was tried; the nine failure rules are single argued values and are held. In the notation of Chapter~\ref{ch:attacker-model} the rows are $\mu_p$, $\tau_p$, $\varphi$, $\gamma$, $\delta$, $z$ and $R$. Pooled over the four profiles, 400 runs per cell; the per-value readings are the sections that follow.}
+  \caption[The declared inputs and what moved]{Each value the attacker model was given rather than derived, grouped by the three inputs of Section~\ref{sec:execution}: the value declared, the range it was moved across with the other inputs held at their declared values, and what happened to distinct hosts reached, read against the interval at the declared value under no defence and under the random scheme at both intervals. The dwell ranges follow the evidence tiers of Appendix~\ref{app:dwell-derivation}; the failure-matrix ranges bracket the declared value on both sides (Appendix~\ref{app:weight-sets}). The draw's shape and the mapping have no range and are compared against the alternative that was tried; the nine failure rules are single argued values, held one by one and removed together by the ablation of Section~\ref{sec:ablation}. In the notation of Chapter~\ref{ch:attacker-model} the rows are $\mu_p$, $\tau_p$, $\varphi$, $\gamma$, $\delta$, $z$ and $R$. Pooled over the four profiles, 400 runs per cell; the per-value readings are the sections that follow.}
   \label{tab:parameter-register}
   \tablestyle\setlength{\tabcolsep}{4pt}
   \begin{tabular}{@{}P{1.6cm}P{2.8cm}P{1.9cm}P{2.5cm}P{6.4cm}@{}}
@@ -24,7 +24,7 @@
     \emph{Failure matrix} & forward rate & 0.25 & 0.1 to 0.5 & inert \\
      & backward rate & 0.25 & 0.1 to 0.5 & inert \\
      & floor & 0.1 & 0, 0.05 & zero by structure: no Petri net carries a jump of three stages \\
-     & the nine rules & argued values & held & --- \\
+     & the rules & declared & removed: every factor set to one & negligible (Section~\ref{sec:ablation}) \\
     \bottomrule
   \end{tabular}
 \end{table}

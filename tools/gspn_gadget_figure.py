@@ -35,7 +35,8 @@ Words live in the caption, not the panel (Marc, 2026-09-08): the figure
 carries symbols, names, numbers and the legend only.
 
 Usage: ``python tools/gspn_gadget_figure.py [--profile objective_exfiltration]
-[--place initial-access] [--overlay v4_failure_only] [--no-compile]``
+[--place initial-access] [--place-c credential-access] [--overlay v4_failure_only]
+[--no-compile]``
 -> ``docs/thesis/figures/fig_4-3a_gspn_gadget.{tex,pdf}``. Prints every
 number the caption quotes.
 """
@@ -54,7 +55,8 @@ sys.path.insert(0, str(REPO / "tools"))
 
 from _tactic_axis import load_axis  # noqa: E402
 from mtdsim.l3_simulation.controller.outcome import load_outcome_overlay  # noqa: E402
-from mtdsim.l3_simulation.movement.net import load_routing_net  # noqa: E402
+from mtdsim.l3_simulation.movement.measures import load_stage_of  # noqa: E402
+from mtdsim.l3_simulation.movement.net import PROFILES, load_routing_net  # noqa: E402
 
 OUT_DIR = REPO / "docs" / "thesis" / "figures"
 STEM = "fig_4-3a_gspn_gadget"
@@ -130,34 +132,75 @@ def panel_a() -> list[str]:
 
 
 def panel_b(place: str, rows: list[tuple[str, float, float]], mu: float,
-            axis, profile_label: str, attack_id: str) -> list[str]:
+            axis, profile_label: str, attack_id: str, letter: str = "b",
+            y_top: float = -2.3) -> list[str]:
+    """One real place of one profile net with its two ledger columns. Drawn
+    twice (2026-09-26, Marc: the principle must be visible in the figure the
+    chapter keeps): (b) a tactic without a foothold (initial access), where a
+    failure sends the token back; (c) a post-intrusion tactic, where a failure
+    keeps it in its stage. Node names carry the panel letter."""
     n = len(rows)
-    y_top = -2.3
     y_mid = y_top - ROW * (n - 1) / 2
+    k = letter
     out = [
-        rf"\node[head,anchor=west] at ({X_P-0.6},{y_top+0.9}) {{(b)\enspace The same gadget on \emph{{{tex_escape(axis.label[place].lower())}}} in the {tex_escape(profile_label)} profile}};",
-        rf"\node[place] (bp) at ({X_P},{y_mid}) {{}}; \fill (bp) circle (0.9mm);",
-        rf"\node[below=2pt of bp,lab,align=center] {{{tex_escape(axis.label[place])}\\{attack_id}}};",
-        rf"\node[timed] (btau) at ({X_TAU},{y_mid}) {{}};",
-        rf"\node[above=2pt of btau,lab] {{$\tau_p$}};",
-        rf"\node[below=2pt of btau,lab] {{$\mu_p = {mu:g}$\,s}};",
-        rf"\node[vplace] (bph) at ({X_PHAT},{y_mid}) {{}};",
-        rf"\node[below=2pt of bph,lab] {{$\hat{{p}}$}};",
-        r"\draw[arc] (bp) -- (btau); \draw[arc] (btau) -- (bph);",
+        rf"\node[head,anchor=west] at ({X_P-0.6},{y_top+0.9}) {{({k})\enspace The same gadget on \emph{{{tex_escape(axis.label[place].lower())}}} in the {tex_escape(profile_label)} profile}};",
+        rf"\node[place] ({k}p) at ({X_P},{y_mid}) {{}}; \fill ({k}p) circle (0.9mm);",
+        # the tactic name broken at its spaces so that a long name (credential
+        # access) does not widen the figure past \textwidth
+        rf"\node[below=2pt of {k}p,lab,align=center] {{{tex_escape(axis.label[place]).replace(' ', chr(92) * 2)}\\{attack_id}}};",
+        rf"\node[timed] ({k}tau) at ({X_TAU},{y_mid}) {{}};",
+        rf"\node[above=2pt of {k}tau,lab] {{$\tau_p$}};",
+        rf"\node[below=2pt of {k}tau,lab] {{$\mu_p = {mu:g}$\,s}};",
+        rf"\node[vplace] ({k}ph) at ({X_PHAT},{y_mid}) {{}};",
+        rf"\node[below=2pt of {k}ph,lab] {{$\hat{{p}}$}};",
+        rf"\draw[arc] ({k}p) -- ({k}tau); \draw[arc] ({k}tau) -- ({k}ph);",
         rf"\node[lab,anchor=west] at ({X_W},{y_top+0.5}) {{$w_c(p,q)$}};",
         rf"\node[lab,anchor=west,accent] at ({X_WF},{y_top+0.5}) {{$W_c(t_{{pq}}\mid\mathrm{{failure}})$}};",
     ]
     for i, (q, w, wf) in enumerate(rows, 1):
         y = y_top - ROW * (i - 1)
         out += [
-            rf"\node[imm] (bt{i}) at ({X_BAR},{y}) {{}};",
-            rf"\node[place] (bq{i}) at ({X_Q},{y}) {{}};",
+            rf"\node[imm] ({k}t{i}) at ({X_BAR},{y}) {{}};",
+            rf"\node[place] ({k}q{i}) at ({X_Q},{y}) {{}};",
             rf"\node[lab,anchor=west] at ({X_NAME},{y}) {{{tex_escape(axis.label[q])}}};",
             rf"\node[lab,anchor=west] at ({X_W},{y}) {{{w:.3f}}};",
             rf"\node[lab,anchor=west,accent] at ({X_WF},{y}) {{{wf:.3f}}};",
-            rf"\draw[arc] (bph) -- (bt{i}); \draw[arc] (bt{i}) -- (bq{i});",
+            rf"\draw[arc] ({k}ph) -- ({k}t{i}); \draw[arc] ({k}t{i}) -- ({k}q{i});",
         ]
     return out
+
+
+def stage_shares(overlay) -> None:
+    """The numbers section 4.4.4 quotes for the principle (2026-09-26): per
+    attack profile, the mean share of a post-intrusion tactic's base weight on
+    moves to another post-intrusion tactic; and, over c1-c4, the mean base and
+    failure-routed shares by relation (back / same stage / forward), per stage
+    of the tactic that failed. Stages from the ratified lifecycle consensus."""
+    stage = load_stage_of()
+    rel = lambda p, q: "back" if stage[q] < stage[p] else "same" if stage[q] == stage[p] else "forward"
+    pooled = {s: {"n": 0} for s in range(4)}
+    for prof in PROFILES:
+        net = load_routing_net(prof, with_synthetic_overlay=True)
+        shares = []
+        for p in net.places:
+            base = {q: w for q, w in net.base_out_weights(p).items() if w > 0}
+            if not base:
+                continue
+            if stage[p] == 2:
+                shares.append(sum(w for q, w in base.items() if stage[q] == 2))
+            if prof == "aggregate":
+                continue
+            routed = overlay.compose(p, "failure", base)
+            acc = pooled[stage[p]]
+            acc["n"] += 1
+            for q, w in base.items():
+                acc[f"base_{rel(p, q)}"] = acc.get(f"base_{rel(p, q)}", 0.0) + w
+                acc[f"fail_{rel(p, q)}"] = acc.get(f"fail_{rel(p, q)}", 0.0) + routed.get(q, 0.0)
+        print(f"  same-stage share of a post-intrusion tactic's base weight, {prof}: "
+              f"{sum(shares) / len(shares):.2f} over {len(shares)} tactics")
+    for s_, acc in pooled.items():
+        n = acc.pop("n")
+        print(f"  stage {s_} ({n} places, c1-c4): " + ", ".join(f"{k} {v / n:.2f}" for k, v in sorted(acc.items())))
 
 
 def main() -> None:
@@ -165,6 +208,8 @@ def main() -> None:
                                  formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--profile", default="objective_exfiltration")
     ap.add_argument("--place", default="initial-access")
+    ap.add_argument("--place-c", default="credential-access",
+                    help="the post-intrusion tactic panel (c) draws")
     ap.add_argument("--overlay", default="v4_failure_only",
                     help="outcome-overlay version from the registry")
     ap.add_argument("--no-compile", action="store_true")
@@ -172,26 +217,30 @@ def main() -> None:
 
     axis = load_axis()
     net = load_routing_net(args.profile, with_synthetic_overlay=True)
-    if args.place not in net.places:
-        raise SystemExit(f"{args.place!r} is not a place of {args.profile}")
-    base = net.base_out_weights(args.place)
     overlay = load_outcome_overlay(version=args.overlay)
-    routed = overlay.compose(args.place, "failure", base)
-
-    # R7: T_I is the positive-weight pair set; zero-weight pairs are not drawn.
-    dropped = sorted(q for q, w in base.items() if w <= 0)
-    positive = {q: w for q, w in base.items() if w > 0}
-    rows = sorted(((q, w, routed.get(q, 0.0)) for q, w in positive.items()),
-                  key=lambda r: (-r[1], axis.matrix_order.index(r[0])))
-
     durations = json.loads(DURATIONS.read_text())["tactics"]
-    mu = float(durations[args.place]["duration_s"])
-    attack_id = durations[args.place]["attack_tactic_id"]
     profile_label = args.profile.removeprefix("objective_").replace("_", " + ")
+
+    def ledger(place):
+        if place not in net.places:
+            raise SystemExit(f"{place!r} is not a place of {args.profile}")
+        base = net.base_out_weights(place)
+        routed = overlay.compose(place, "failure", base)
+        # R7: T_I is the positive-weight pair set; zero-weight pairs are not drawn.
+        dropped = sorted(q for q, w in base.items() if w <= 0)
+        positive = {q: w for q, w in base.items() if w > 0}
+        rows = sorted(((q, w, routed.get(q, 0.0)) for q, w in positive.items()),
+                      key=lambda r: (-r[1], axis.matrix_order.index(r[0])))
+        return base, rows, dropped, float(durations[place]["duration_s"]), durations[place]["attack_tactic_id"]
+
+    base, rows, dropped, mu, attack_id = ledger(args.place)
+    base_c, rows_c, dropped_c, mu_c, attack_id_c = ledger(args.place_c)
 
     body = PREAMBLE.splitlines()
     body += panel_a()
-    body += panel_b(args.place, rows, mu, axis, profile_label, attack_id)
+    body += panel_b(args.place, rows, mu, axis, profile_label, attack_id, "b", -2.3)
+    y_top_c = -2.3 - ROW * (len(rows) - 1) - 2.0
+    body += panel_b(args.place_c, rows_c, mu_c, axis, profile_label, attack_id_c, "c", y_top_c)
     body += [r"\end{tikzpicture}", r"\end{document}", ""]
 
     OUT_DIR.mkdir(parents=True, exist_ok=True)
@@ -210,6 +259,12 @@ def main() -> None:
     top = max(rows, key=lambda r: r[2])
     print(f"failure verdict: mass to {axis.label[top[0]]} = {top[2]:.3f} "
           f"(base {top[1]:.3f})")
+    print("the principle's numbers (section 4.4.4):")
+    stage_shares(overlay)
+    print(f"panel (c): place={args.place_c}  mu={mu_c:g} s  drawn {len(rows_c)}; "
+          f"zero-weight, not drawn: {len(dropped_c)}")
+    for q, w, wf in rows_c:
+        print(f"  {axis.label[q]:22s} w_c={w:.3f}  W_c|failure={wf:.3f}")
 
     if not args.no_compile:
         r = subprocess.run(["pdflatex", "-interaction=nonstopmode", "-halt-on-error",

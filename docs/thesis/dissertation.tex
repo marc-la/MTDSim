@@ -4761,7 +4761,11 @@ the immediate transitions out of $\hat{p}$ fire with weights
        {\sum_{q'} w_c(p, q')\, F_v(p, q')}.
   \label{eq:routing}
 \end{equation}
-$F_{\text{success}}$ and $F_{\text{none}}$ are the identity, so on a
+% [2026-09-26: "are the identity" -> "every factor ... is one": the factors
+%  multiply element by element, so the neutral element is the all-ones matrix,
+%  not the identity matrix a mathematically trained reader would take the word
+%  for (Marc: "is identity the right word here?").]
+Every factor of $F_{\text{success}}$ and $F_{\text{none}}$ is one, so on a
 success, or at a tactic that dispatches no action, the token routes on
 the base weights $w_c$; $F_{\text{failure}}$ is the failure matrix of
 Section~\ref{subsec:failure-matrix}. Success needs no factor of its own:
@@ -4825,15 +4829,15 @@ Figure~\ref{fig:gspn-gadget} draws one tactic of one Petri net.
   ones; the dashed circle is the decision place $\hat{p}$, left in zero
   time. The hollow bar is the timed transition $\tau_p$, firing after an
   exponential delay of mean $\mu_p$; the solid bars are the immediate
-  transitions $t_{pq}$, each carrying its weight. (a)~The gadget in
-  general. (b)~The same gadget on initial access in $c_1$, the exfiltration
-  profile: the eight successors are the pairs with $w_c > 0$
-  (Equation~\ref{eq:base-weight}), listed by weight, and the column in
-  blue is $W_c(t_{pq} \mid \mathrm{failure})$ of
-  Equation~\ref{eq:routing}. Under a success verdict the base weights
-  stand; under failure the mass moves to reconnaissance, from 0.062 to
-  0.750, which is the foothold-gate rule of
-  Section~\ref{subsec:failure-matrix} acting on the net.}
+  transitions $t_{pq}$, each carrying its weight. (a)~One tactic in
+  general. (b)~Initial access in $c_1$, the exfiltration profile, and
+  (c)~credential access in the same profile: the successors are the pairs
+  with $w_c > 0$ (Equation~\ref{eq:base-weight}), listed by weight, and the
+  column in blue is $W_c(t_{pq} \mid \mathrm{failure})$ of
+  Equation~\ref{eq:routing}. Under a success verdict the base weights stand.
+  Under failure, (b)~without a foothold, the weight moves back to
+  reconnaissance, from 0.062 to 0.750; (c)~with a foothold, it moves to the
+  other post-intrusion tactics (Section~\ref{subsec:failure-matrix}).}
   \label{fig:gspn-gadget}
 \end{figure}
 
@@ -5040,7 +5044,7 @@ come from the simulator: they are MTDSim's own costs. The order of the
 lifecycle stages the failure matrix reads (Section~\ref{subsec:failure-matrix})
 comes from the literature \citep{hutchins2011, alshamrani2019}. The remaining
 values are our judgement: the dwell times of the tactics no action prices, the
-tactic-to-action mapping, the nine failure rules, the share of weight given to
+tactic-to-action mapping, the values of the failure matrix, the share of weight given to
 the pre-intrusion tactics ($\sigma$), and the choice of one attack flow per
 operator. Appendix~\ref{app:movement} gives the reason for each
 (Tables~\ref{tab:dwell-derivation}, \ref{tab:controller-mapping}
@@ -5050,7 +5054,7 @@ and~\ref{tab:overlay-failure-rules}).
 %  "scaling rate" were used here before 4.4.2 and 4.4.4 define them. Placeholder
 %  for Marc's redraft; DRAFT STATE.]
 Appendix~\ref{app:sensitivity} varies these values one at a time and reports
-what changes \citep{tenbroeke2016}. Section~\ref{subsec:aio-disruption} removes
+what changes \citep{tenbroeke2016}. Section~\ref{sec:ablation} removes
 the failure matrix and reports what changes. Three values are not tested: the
 per-tactic dwell multipliers, $\sigma$, and the choice of one attack flow per
 operator.
@@ -5442,162 +5446,64 @@ Caldera~\citep{applebaum2016}, but this would introduce too much overhead.
 \subsection{The failure matrix}
 \label{subsec:failure-matrix}
 
-The base weights are the recurrence values in the attack profiles
-as the proportions $w_c$ of Equation~\ref{eq:base-weight}, and we assume the
-observed out-transitions are the complete set of choices open to the token
---- an explicit assumption, since the Attack Flow corpus is all we have to
-draw on, and a different corpus would give a different net. But a recurrence value does not reflect an attacker, because an
-attacker can succeed or fail, and these reports record only the steps
-that succeeded --- there is survivorship bias.
-% [2026-09-08: w_c bound --- the re-key §4.3's comment demands (the L1 weight
-%  is a count, the net weight a proportion); ", and a different corpus would
-%  give different transitions and weightings" deleted (the corpus-variant
-%  column of the sensitivity analysis carries the counterfactual). "These
-%  values are necessary, but they are not sufficient ..." CUT (the next
-%  sentence and Eq. 4.4 carry it).]
+% [REWRITTEN 2026-09-26, supervisor screen step 2 (Marc: "how we present and
+%  defend it is key"; "clear ... each sentence motivated, relevant and
+%  defensible"). State the assumption, give its reason, name its test; the
+%  rules and every value live in Appendix B.6 and are not defended one by one,
+%  because the ablation of Section 5.4 tests whether any result depends on them.
+%  Kept from the text it replaces: the completeness assumption, survivorship,
+%  independence of the input, the stage sentence and its four citations, the
+%  imported-order sentence, the must-carry caveat. Cut: the 15-by-14 size, "two
+%  components", the nine rules A to I, the rates-and-floor sentences (the floor
+%  never binds: no net carries a three-stage move, Table C.0), "we judged these
+%  a plausible set of values", "this is what encodes direction", and Figure
+%  4.4b (fig:failure-weight-matrix), which duplicated Figure B.6a(c). The
+%  principle was RE-READ from the nets before drafting (ledger, round 5): a
+%  failure moves weight BACK only where there is no foothold (intrusion:
+%  back 0.05 -> 0.32); after intrusion it moves weight to the same stage
+%  (0.65 -> 0.76) and away from both directions. "Lateral" is avoided: it
+%  collides with the tactic lateral movement. The 58-71 per cent figure is the
+%  per-profile mean share of a post-intrusion tactic's base weight on moves
+%  within post-intrusion operations (c1 0.58, c2 0.64, c3 0.67, c4 0.71),
+%  printed by tools/gspn_gadget_figure.py (stage_shares), stages from the
+%  lifecycle consensus; the same run prints the stage-by-stage shift.
+%  Previous text in git (commit 3379daa4). DRAFT STATE, ratify on read.]
+The base weights $w_c$ of Equation~\ref{eq:base-weight} are the proportions
+of a profile's attack flows that take each out-transition, and we assume the
+observed out-transitions are the complete set of choices open to the attacker:
+the Attack Flow corpus is all we have to draw on, and a different corpus would
+give a different net. These reports record only the steps that succeeded
+(survivorship bias), so the base weights say where an attacker goes after a
+success and nothing about where it goes after a failure. The failure matrix,
+$F_{\text{failure}}$ of Equation~\ref{eq:vc-net}, supplies the failure routing.
+It is a separate input, independent of the nets and of the simulator's actions,
+and every value in it is our judgement.
 
-We employed a failure matrix, $F_{\text{failure}}$ of
-Equation~\ref{eq:vc-net}, because this is the blind spot of the CTI. This
-is a separate input, independent from the nets and from the simulator's actions:
-we did not reverse-engineer any of these values. We needed a 15-by-14
-tactic-to-tactic failure weight matrix (excluding self-loops), shaped by two
-components. The first is the failure rules, $R$, independently decided:
-each tactic-to-tactic transition was placed into a given shape (the nine
-rules A to I of Figure~\ref{fig:failure-weight-decomposition}(a),
-Appendix~\ref{app:weight-sets}). The second is distance, $d$:
-we used the literature and overlaid the attack
-stages~\citep{hutchins2011, alshamrani2019, mandiant2013, chemat2024},
-which gave the four broad stages of an attack --- preparation, intrusion,
-post-intrusion operations, and objective. ATT\&CK imposes no order on its
-tactics, so the order the distance term reads is imported from these
-lifecycle models rather than observed in the corpus. Distance is the number
-of stages a transition crosses. A move to the adjacent stage is not
-penalised; a jump across two stages is scaled down by a rate, one for a
-forward jump and one for a fall back, declared equal; and a jump of three stages falls
-below a floor, which is where we treat a transition as too far to happen at
-all and zero it out. The two rates and the floor are the only numbers in the
-distance term.
-% INSERTION C APPLIED 2026-09-18 --- DRAFT STATE, ratify on read (your green
-%  light this date: the floor "is an issue that we should account for", and
-%  your own framing is the content --- distance is how far away, the floor is
-%  where too far away gets zeroed out). Why: §5.1 ¶3 moves the two rates and
-%  the floor, and this was the only place a reader could learn what they do;
-%  the 2026-09-08 front-loading ruling had cut the kernel-value sentence and
-%  App. B.6 alone carried it.
-%  ONE CHANGE from the 2026-09-17 proposal, on your reading this date: it now
-%  says "the same rate whether the jump is forward or a fall back" rather than
-%  "one rate forward and another for a fall back". Verified against
-%  DistanceKernel (rules.py:80-112) and the declared point
-%  (lifecycle_consensus.json): forward is gamma^(delta-1), backward is
-%  delta_ratio^(-delta-1), and the DECLARED values are gamma = delta = 0.25 --
-%  adjacent 1, two stages 0.25 either way, three stages 0.0625, which the
-%  floor 0.1 cuts to zero. The directional split is a capability of the code
-%  that the declared model does not exercise, which is your point that
-%  ATT&CK has no forward or backward. Fig. B.6(b) already prints
-%  "gamma = delta = 0.25", so the appendix agrees.
-%  "Distance term" replaces "kernel" in the body here and in the sentence
-%  above; the appendix keeps "kernel".
-% [2026-09-13: A8 sentence landed on Marc's ratification of the fourteen-item
-%  proposal (chat, this date); source register: handoff 2026-09-08_ch4_s43_gspn_formalism.md
-%  §7.2. Ratify-on-read.]
-This can be found in
-Appendix~\ref{app:weight-sets}, along with the full set of tactic-to-tactic
-failure weights; the two rates and the floor are moved in
-Appendix~\ref{app:sensitivity}, and the rules are not. These are
-threat-model parameters for this simulator, not real-world values.
-% REWORD C2 APPLIED 2026-09-18 --- DRAFT STATE, ratify on read. Replaces "the
-%  kernel's parameters are swept in the sensitivity analysis (Section 5.1)",
-%  so the pointer uses the words the reader has just met in insertion C and
-%  stops claiming the nine rules are swept (they are held). Prior wording in
-%  git (32e309bb).
-% [2026-09-08, front-loading ruling: the kernel-value sentence ("within the
-%  same phase ... a quarter ... zero"), the 0.1-floor sentence and the
-%  reconnaissance-to-impact example CUT --- App. B.6 declares gamma, delta,
-%  z and the rule ledger; the sensitivity analysis sweeps them. The overfit
-%  sentence ("One concern was trying to overfit ...") and "They can be
-%  justified; they can be defended." CUT (the independence sentence and the
-%  close carry them). ": the CTI naturally encodes success, so the failures
-%  are what is not encoded, and that is what we are trying to encode here"
-%  deleted (the survivorship sentence carries it). R and d bound; "phase" ->
-%  "stage" (two sites) for the lifecycle. The sweep clause after ";" is
-%  session glue [3b].]
-% [figure slot --- four-phase overlay, placeholder] candidate: the
-%   lifecycle/CKC overlay viz (data/misc/_viz/ckc_lifecycle/); figures pass.
-%   [2026-08-20, wiring pass] PARTLY SERVED by panel (b) of the appendix's
-%   decomposition figure. Whether a separate lifecycle pipeline figure (genre
-%   conventions d1) is still wanted beside it is YOURS to rule --- the slot
-%   is left open, not closed.
+The failure matrix encodes one principle: a failure without a foothold sends
+the attacker back to reconnaissance, and a failure with a foothold keeps it in
+its current stage. The stages are the four that lifecycle models of an attack
+share~\citep{hutchins2011, alshamrani2019, mandiant2013, chemat2024}:
+preparation, intrusion, post-intrusion operations and objective. ATT\&CK
+imposes no order on its tactics, so this order is imported from those models
+and not observed in the corpus. A rule of forward and backward alone does not
+fit these stages. Eight of the 15 tactics fall in post-intrusion operations,
+and in every attack profile a move to another tactic of that stage carries 58
+to 71 per cent of a post-intrusion tactic's base weight.
+Figure~\ref{fig:gspn-gadget} shows both halves of the principle in $c_1$.
+After a failed initial access, which leaves no foothold, the weight on
+reconnaissance rises from 0.062 to 0.750 and each move that needs a foothold
+falls to about a quarter of its weight. After a failed credential access, the
+moves to other post-intrusion tactics gain weight, and the moves on to the
+objective and back to intrusion lose it.
 
-% FIGURE (2026-08-20 wiring, on your dictation: "the decomposition ... put it
-% in as is"). Generated by tools/failure_weight_decomposition_figure.py
-% --layout decomposition from data/ogasp/controller/{outcome_rules,
-% lifecycle_consensus}.json through the tracked compiler (overlay version
-% v4_failure_only). Regenerate, never hand-edit; re-check the caption numbers
-% if a rule value or a kernel parameter is re-declared. Record:
-% docs/implementation/pipeline/ogasp/failure_weight_decomposition.md §1, §5.2.
-% Caption is SESSION-DRAFTED (adapted from that record's block ii) and owed
-% your voice pass. The residue --- fig:distance-kernel-bands, the A--I ledger
-% with each rule's rationale and tier, the kernel table and the full weight
-% set --- is in app:weight-sets, per your ruling that the bands figure does
-% not belong in the argument.
-% [prose slot --- Marc] the must-carry caveat beside this float: these are
-%   threat-model parameters for this simulator, not real-world values. One
-%   sentence, yours to word; deliberately not drafted here.
-\begin{figure}[tbp]
-  \centering
-  % Included at natural size (no width macro): the generator packs the matrix
-  % under \textwidth at \scriptsize, so 8pt in the tool is 8pt on the page
-  % (conventions h). The three-panel decomposition this set is the product of
-  % is Appendix~\ref{app:weight-sets}, Figure~\ref{fig:failure-weight-decomposition}.
-  \includegraphics{fig_4-4b_failure_weight_matrix}
-  % Caption pared 2026-09-05 (Marc): the decode only; the distance factor
-  % and the rule rationale live in the appendix. 2026-09-08 (Marc, pass 5
-  % read: "state facts for a general CS student ... takes up a lot of
-  % space"): the figure is regenerated PLAIN --- values only, no rule
-  % letters, no in-figure title, no key (the letters and the key stay on
-  % the appendix's decomposition figure); the caption drops the letter
-  % decode, names the object by the registry term and binds F_failure;
-  % "phases" -> "stages" (registry row). Ratify-on-read.
-  \caption[The committed failure matrix]{The failure matrix
-  $F_{\text{failure}}$ as committed (\texttt{v4\_failure\_only}). Rows are
-  the tactic whose action returned the failure verdict, columns the candidate
-  next tactic, grouped into the four lifecycle stages; each cell is the
-  multiplier applied to the token's out-transition weight, to two
-  significant figures, shaded from 0 (white) to 1; the diagonal is not a
-  pair. The exact set, the rules that set each cell and their composition
-  cell by cell are Appendix~\ref{app:weight-sets}.}
-  \label{fig:failure-weight-matrix}
-\end{figure}
-
-% [CONNECTIVE-PROSE PASS 2026-09-26, P12 4.4 close] Nouns named ('This is
-%  ... this is' three paragraphs from the failure matrix).
-%  SESSION-GENERATED on Marc's 2026-09-26 go-ahead
-%  (docs/workflows/connective_prose.md; audit
-%  docs/implementation/connective_prose_audit.md); prior text in git.
-%  RATIFIED 2026-09-26 (Marc: 'I accept all this').
-% [CONNECTIVE-PROSE PASS 2026-09-26, P12b 4.4 close] Noun named;
-%  'plausible' kept (2026-09-18). SESSION-GENERATED on Marc's 2026-09-26
-%  go-ahead (docs/workflows/connective_prose.md; audit
-%  docs/implementation/connective_prose_audit.md); prior text in git.
-%  RATIFIED 2026-09-26 (Marc: 'I accept all this').
-The failure matrix enters the routing as verdict-conditioned re-weighting (Equation~\ref{eq:routing}); it is what encodes direction. We judged its values a plausible set to
-feed into the APT attacker model, and Appendix~\ref{app:sensitivity} reports what
-it would cost to be wrong about them.
-% CLOSE RESCOPED 2026-09-18 --- DRAFT STATE, ratify on read. Was "a plausible,
-%  literature-bounded and sensitivity-swept (Section 5.1) set of values", on
-%  your reading this date: "literature-bounded with no citation reads as
-%  dangerous ... sensitivity-swept, that's a stretch". Both dropped. The triad
-%  claimed over ALL these values what only parts of them carry --- the stage
-%  ORDERING is cited (hutchins2011, alshamrani2019, mandiant2013, chemat2024,
-%  above), but the nine rule magnitudes are declared judgement and carry no
-%  citation; and after insertion A and reword C2 the section no longer claims
-%  the rules are swept. "Plausible" is kept, per your reading. The ruled
-%  one-sentence shape (2026-08-20, "this is basically our attack model") is
-%  preserved.
-% [2026-09-08: the two "This is ..." sentences moved here from the old
-%  mechanics unit, merged at ";" with the equation pointer; the close is the
-%  ruled promoted close (2026-08-20: "this is basically our attack model",
-%  one sentence at the end) with the sweep pointer bound.]
+The values are set by rules that apply this principle, and a move across two
+stages is scaled down by a declared rate; Appendix~\ref{app:weight-sets} gives
+each rule, its value and its reason, and the full matrix. No value was fitted
+to the corpus or to an evaluation outcome. Section~\ref{sec:ablation} tests
+whether any result depends on these values, by running the same attacker with
+every factor of the failure matrix set to one; Appendix~\ref{app:sensitivity}
+varies the rate. These are threat-model parameters for this simulator, not
+real-world values.
 
 \section{Evaluation metrics}
 \label{sec:evaluation-metrics}
@@ -5872,6 +5778,13 @@ Defences in one group share a rank, 1 being the fewest hosts compromised. The
 test assumes equal variances and independent runs; the defences share seeds,
 which makes it conservative. Spearman's $\rho$ between the two attackers' NCR
 reductions compares their rankings.
+% [2026-09-26, supervisor screen plan item 11: how an ablation is judged, on the
+%  threshold this paragraph already uses. Overlapping intervals do not show an
+%  absence of effect; a difference below a declared effect size does. DRAFT STATE.]
+An ablation runs an attacker with and without one of its inputs on the same
+seeds. The difference between the two is reported with its 95\,\% percentile
+bootstrap interval over runs paired by seed, and is negligible when Cohen's $d$
+on hosts compromised per seed is below 0.2, the threshold above.
 
 % =====================================================================
 \chapter{Evaluation}
@@ -7896,11 +7809,12 @@ Adaptivity, the attacker's response to a deployment
 %  docs/implementation/connective_prose_audit.md); prior text in git.
 %  RATIFIED 2026-09-26 (Marc: 'I accept all this').
 interval, the window over which that section defines them; at 200\,s the next deployment falls inside the 1\,250\,s over which the rate is read.
-\owed{A control, the APT attacker model with no failure matrix, run under IP
-shuffle and OS diversity, responds as the model does.}{Section 5.3.1: the
-control's result is on a measure Section 4.5 does not define; compute its time
-lost per MTD deployment on its two mechanisms, and add the control to the arms of
-Table 5.1}
+% [2026-09-26: the owed control sentence RESOLVED by Section 5.4, which reports
+%  the control on the metrics Section 4.5 defines (time lost per MTD deployment
+%  among them) and is listed in Table 5.1's Arm row. Closes handoff
+%  2026-09-25_ch5_setup_defence_and_prose_slots.md item B4, option (a).]
+Section~\ref{sec:ablation} tests whether the failure matrix contributes to this
+response.
 
 % ---- Figure-history comments, carried forward verbatim (dissertation.tex l.7387-7450):
 % REWORKED 2026-09-13 (stage-2 float audit, ch5 design handoff §18) --- grouped bars in a 2 x 2 of lettered panels
@@ -8471,6 +8385,41 @@ raised in the regime runs is not yet investigated}
 % The comment blocks and floats are in git history at the parent of this commit;
 % the generated fragments stay on disk, struck through in FLOATS.md.
 % =====================================================================
+\section{Ablation of the failure matrix}
+\label{sec:ablation}
+
+% [NEW 2026-09-26, supervisor screen plan item 6 (Marc: "we tried it and it
+%  didn't work, here's the ablation study"; "present the ablation study in a
+%  very clear manner"). Plain description of the float, per conventions §j2 as
+%  amended 2026-09-26; the interpretation, why the failure matrix changes
+%  little, is chapter 6's. Numbers: data/results/ch5_defended/ablation_numbers.json
+%  (100 seeds, every one \prelim); table generated by ablation.py. The verdict
+%  uses Section 4.5.4's threshold only. Scope as run: run_corpus.py group
+%  "blind". DRAFT STATE, ratify on read.]
+Every value of the failure matrix is our judgement
+(Section~\ref{subsec:failure-matrix}). This section tests whether any result of
+this chapter depends on those values. The APT attacker model was run on $c_1$ to
+$c_4$ with every factor of the failure matrix set to one, so that a failure no
+longer changes the weights on the next tactic, on the same seeds as the model.
+It was run with no defence and under two mechanisms, IP shuffle on the host
+layer and OS diversity on the service layer, at the 200\,s and 2\,000\,s
+deployment intervals (Table~\ref{tab:experiment}). Table~\ref{tab:ablation}
+compares the two on NCR, NCR reduction and time lost per MTD deployment.
+
+\input{tables/tab_5-4a_ablation}
+
+With no defence, the model compromises \prelim{0.163} of the network with the
+failure matrix and \prelim{0.160} without it. Under every condition the
+difference in NCR is negligible, with $d$ at most \prelim{0.18}. The largest
+difference is under IP shuffle at 2\,000\,s, where the model with the failure
+matrix compromises \prelim{0.007} more of the network, an interval that
+excludes zero; its NCR reduction is \prelim{0.035} lower, an interval that
+includes zero. Time lost per MTD deployment differs by \prelim{19}\,s under IP
+shuffle and \prelim{39}\,s under OS diversity, and neither difference is told
+apart from zero. Removing the failure matrix therefore changes NCR by a
+negligible amount, and changes NCR reduction and time lost by amounts not told
+apart from zero.
+
 \chapter{Discussion}
 \label{ch:discussion}
 
@@ -8671,6 +8620,22 @@ properties fixed before the model was scored), then the walk through
 Table~\ref{tab:fidelity-verdict}: for each property, what the APT attacker
 model does and where (Chapter~\ref{ch:attacker-model} for the
 mechanism, Chapter~\ref{ch:experiments} for the measurement).]}
+
+% [2026-09-26, supervisor screen plan item 9: placeholder on Marc's ruling ("just
+%  put a placeholder in"). The content points, not prose; Marc dictates.]
+\noindent\emph{[Placeholder --- adaptivity, told frankly. The failure matrix was
+the model's response to failure, declared because the corpus records only
+success (Section~\ref{subsec:failure-matrix}). The ablation of
+Section~\ref{sec:ablation} finds that removing it changes NCR by a negligible
+amount and NCR reduction and time lost by amounts not told apart from zero. The
+likely reason, to be stated as the explanation and not as a measurement: what a
+deployment does to the attacker is set by the simulator's actions, which fail
+until the attacker holds a host again whichever tactic comes next, and which
+return one failure verdict whatever the cause. What it means: the model's
+adaptivity is capped by the actions it adopts (Section~\ref{subsec:runtime-mechanics});
+a response to failure in the routing needs actions whose failures differ in
+consequence. An idea tested and found not to matter here, reported so that
+others need not repeat it.]}
 
 \begin{table}[htbp]
   \centering
@@ -9186,9 +9151,9 @@ March 2026, with its own reference list.
   \setlength{\abovecaptionskip}{6pt}
   \includegraphics[width=\textwidth]{fig_B-6a_failure_weight_decomposition}
   \caption[The failure weight set decomposed into its two declared
-  kernels]{The failure weight set decomposed, then aggregated
-  (\texttt{v4\_failure\_only}); panel~(c) is the set as it stands in the
-  chapter, Figure~\ref{fig:failure-weight-matrix}. All three panels share one axis --- rows the
+  kernels]{The failure weight set decomposed, then aggregated;
+  panel~(c) is the failure matrix $F_{\text{failure}}$ of
+  Section~\ref{subsec:failure-matrix}, cell by cell. All three panels share one axis --- rows the
   source tactic $a$ on a failure verdict, columns the candidate next tactic
   $b$, grouped into the four consensus phases with the ATT\&CK reading order
   inside a phase --- and one grey scale from 0 to 1.
