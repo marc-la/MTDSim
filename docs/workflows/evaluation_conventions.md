@@ -516,6 +516,17 @@ the link back to what came before. This thesis prefers the parenthesis form
 Hong's panel-by-panel narration ("Fig. 4a shows … Fig. 4b shows …") is the
 named anti-pattern.
 
+**Amended 2026-09-26 (Marc, on the first drafts: "very rhetorically inflated …
+literally we just need to describe what's happening").** For this thesis the
+plain form wins over the stress-position rule above. Each paragraph:
+- opens by saying what the float shows ("Figure 5.3(a) and (b) show …");
+- gives the numbers that carry the observation;
+- names the APT property the metric records.
+
+No metaphor, no inversion openers ("The two attackers reverse …"), and no
+sentence that talks about the result instead of showing it. The finding-first
+form is still fine where it is the plainest sentence.
+
 **j3. Where results end.** Three sources set the line:
 - UNC: "Nothing your readers can dispute should appear in the Results
   section". Trends are allowed, because "no one can deny that these trends
