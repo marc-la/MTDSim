@@ -4869,18 +4869,20 @@ come from the simulator: they are MTDSim's own costs. The order of the
 lifecycle stages the failure matrix reads (Section~\ref{subsec:failure-matrix})
 comes from the literature \citep{hutchins2011, alshamrani2019}. The remaining
 values are our judgement: the dwell times of the tactics no action prices, the
-tactic-to-action mapping, the nine failure rules, the pre-intrusion share
-$\sigma$, and the choice of one attack flow per operator.
-Appendix~\ref{app:movement} gives the reason for each
+tactic-to-action mapping, the nine failure rules, the share of weight given to
+the pre-intrusion tactics ($\sigma$), and the choice of one attack flow per
+operator. Appendix~\ref{app:movement} gives the reason for each
 (Tables~\ref{tab:dwell-derivation}, \ref{tab:controller-mapping}
-and~\ref{tab:overlay-failure-rules}). Appendix~\ref{app:sensitivity} reports a
-one-factor-at-a-time sensitivity analysis \citep{tenbroeke2016}: each dwell
-family and each scaling rate of the failure matrix is varied across a range
-with the other values at their nominal values, and the mapping is compared
-with a total mapping. Section~\ref{subsec:aio-disruption} reports an ablation
-of the failure matrix. The nine failure rules, the per-tactic multipliers
-within a dwell family, $\sigma$ and the choice of one attack flow per operator
-are fixed at their nominal values.
+and~\ref{tab:overlay-failure-rules}).
+% [2026-09-26 SIMPLIFIED (Marc: the one-factor-at-a-time sentence was "very
+%  hard to follow ... keep it simple and I can redraft it"). "Dwell family" and
+%  "scaling rate" were used here before 4.4.2 and 4.4.4 define them. Placeholder
+%  for Marc's redraft; DRAFT STATE.]
+Appendix~\ref{app:sensitivity} varies these values one at a time and reports
+what changes \citep{tenbroeke2016}. Section~\ref{subsec:aio-disruption} removes
+the failure matrix and reports what changes. Three values are not tested: the
+per-tactic dwell multipliers, $\sigma$, and the choice of one attack flow per
+operator.
 % INSERTION A APPLIED 2026-09-18 --- DRAFT STATE, ratify on read (Marc's
 %  green light this date: "swept is wrong, we kind of just chose them ... we
 %  chose them to our best of knowledge after consulting the literature").
