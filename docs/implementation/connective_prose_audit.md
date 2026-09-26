@@ -1,11 +1,11 @@
 ---
 status: durable
 created: 2026-09-25
-updated: 2026-09-25
-topic: "The first run of the connective-prose check (connective_prose.md §e) over chapters 2–4: every chapter opener, section preamble and bridge, with the eleven-item check per unit, verdicts, and proposed revisions"
+updated: 2026-09-26
+topic: "The first run of the connective-prose check (connective_prose.md §e) over chapters 2–5: every chapter opener, section preamble and bridge, with the eleven-item check per unit, verdicts, and proposed revisions"
 ---
 
-# Connective-prose audit, chapters 2–4 (2026-09-25)
+# Connective-prose audit, chapters 2–5 (2026-09-25/26)
 
 **Status:** investigation record — immutable history; annotate, don't rewrite.
 Three independent reviewers, one per chapter, each loaded
@@ -15,6 +15,17 @@ Three independent reviewers, one per chapter, each loaded
 tex read-only. Nothing here has been applied to `dissertation.tex`. The
 decisions it needs, and the proposals in priority order, are in the handoff
 [`../handoffs/2026-09-25_connective_prose_rulings.md`](../handoffs/2026-09-25_connective_prose_rulings.md).
+
+**Annotation (2026-09-26).** Marc ruled R1–R4 and the chapter 2–4 proposals
+were applied the same day (commit 4b97216e), with the §4.4 preamble change
+narrowed to leave the 2026-09-25 "four bases" paragraph untouched. Chapter 5
+was added on Marc's ask the same day. Its first critique ran against a draft
+that a parallel session rewrote an hour later (commit 28cab9ca, "plain
+description"), so the chapter 5 record below is the **second** critique, of
+the rewritten text; it records which first-critique findings survived.
+Applied from it: the six connective units and the non-held mark-costing items
+(the false statements S1, S2, S3, S5, S12; S4; S6). Held for Marc: see the
+rulings handoff.
 
 **Line numbers** are those of `docs/thesis/dissertation.tex` on
 `chore/ch5-setup-defence-and-prose` after commit 452008d5 (which added 29
@@ -1049,3 +1060,313 @@ A close would repeat both the signpost and Chapter 5's link.
 All interventions are T2 suggestions. None has been applied to the repo.
 
 **tier audit: clean** (after the withdrawals above).
+
+
+---
+
+## Chapter 5 (Evaluation), second critique: connective prose, flourish and accuracy
+
+Text: `/home/marc/GitHub/MTDSim-preambles/docs/thesis/dissertation.tex` (branch `chore/preamble-interstitial-guidance` at 4ed41907, which carries the plain-description rewrite 28cab9ca). Chapter 5 runs from l.5852 to l.8312. All line numbers below are that file's. Read-only: no repo file was edited.
+
+Loaded in this order: `connective_prose.md` (§a, §b, §e, §f), `critique_protocol.md`, `voice.md` §c/§d/§h, `academic_register.md` §b/§c/§e/§i, `evaluation_conventions.md` §e/§f2/§j/§k, and `terminology.md`. One more rule is in force on `dev` but has not reached this branch: the **§j2 amendment of 2026-09-26**, commit 53937cc4. Under it, each results paragraph opens on the float, gives its numbers and names the property. It also bans metaphor and inversion openers ("The two attackers reverse …"). This critique applies it.
+
+Context read: ch1 SQ3 (l.343), contribution 3 and the thesis overview (l.444–505), the ch4 opener with the 2026-09-24 relation ruling (l.4285–4331), the §4.5 preamble through §4.5.4 (l.5608–5849), and the ch6 plan comments (l.8313 on).
+
+**Numbers were checked against the tracked artefacts:**
+- `data/results/ch5_s531_unopposed/numbers.json`;
+- `data/results/ch5_defended/{numbers,disruption_numbers}.json`;
+- the generated tables `tab_5-2-1a`, `tab_5-3-2c` and `tab_5-3-2d`.
+
+---
+
+### 1. Status of the earlier findings (critique_ch5.md)
+
+**Connective units**
+- **U1 opener, "takes its place"**: still present and now **worse**. The text now says "replaces it" outright (l.5918), which is the word Marc ruled wrong on 2026-09-24.
+- **U1, topic link (the metrics are not picked up)**: still present (l.5914).
+- **U1, comparison stated twice**: fixed. It is now stated once ("beside it under every condition", l.5915). The roadmap has turned into four one-clause sentences in a row, though (new, see §2).
+- **U2, §5.1 Runs (keep)**: unchanged (l.6648–6653).
+- **U3, §5.2 head repeats the opener**: still present, reworded (l.6996–6997). It has also lost its ties to §4.5.1 and §4.5.2.
+- **U4, §5.2 close (the reference said again)**: still present, shortened (l.7389–7390).
+- **U5(a), the false "Each effect is the NCR reduction"**: fixed (the sentence is gone).
+- **U5(b), colon-then-list roadmap**: fixed. The roadmap is now one sentence with the verb elided.
+- **U5(c), heading says "execution schemes" while the preamble says "deployment strategy"**: still present (heading l.8153, preamble l.7655).
+- **U5, scale**: improved from 150 to 108 words, still over the 90-word range.
+- **U6, §5.3.1 close ("thus", a restatement, an unclear "that")**: "thus" has become "therefore" and the restatement stays (l.7910–7911). The referent is fixed ("the same").
+- **U7, §5.3.2 close (teaser)**: the teaser is fixed. Its replacement is a bare preview that repeats the preamble and §5.3.3's first sentence (l.8131–8132). New defect.
+- **U8, no chapter close (keep)**: unchanged. The chapter still ends on the `\owed` timing-distribution sentence (l.8256).
+
+**Sweep items**
+- **F1, the "with …" tail in Network**: still present (l.6324–6327).
+- **F2, "rather than five"**: still present (l.6330).
+- **F3, three-clause lineage sentence (ruled)**: still present (l.6330–6334).
+- **F4, "Eleven conditions:"**: still present (l.6389).
+- **F5, "run as released: … choosing"**: still present (l.6394–6395).
+- **F6, "Where one interval is reported it is 200 s"**: still present (l.6401). §5.3.1 now states outright that it reads 2 000 s (l.7796), so the contradiction is sharper.
+- **F7, "ten times the 100 runs … of Zhang" (ruled)**: still present (l.6648–6649).
+- **F8, "many" / ambiguous "them"**: fixed ("26 to 47 % of its steps", l.7141).
+- **F9, "that campaign" with no antecedent**: fixed.
+- **F10, "part ways / open alike"**: fixed.
+- **F11, booster "only"**: fixed. The sentence was rewritten with a "Because …" reason (see S13).
+- **F12, "the one property the no-defence runs cannot show"**: still present in new words, "the one property that needs a defence to be seen" (l.7793–7795).
+- **F13, "has recovered from the last"**: moved into the head's interval clause (l.7797–7798). Still present.
+- **F14, "knocks each attacker down"**: fixed.
+- **F15, "stays down"**: fixed.
+- **F16, "whiskers apart"**: fixed.
+- **F17, "Every line falls … except user shuffle"**: over-corrected. The exception was dropped and the universal is now **false** (l.8044, see S2).
+- **F18, "saturate"**: fixed (sentence cut).
+- **F19, MTDShield sentence**: moved to l.8063–8066. The split fixed the subject–verb gap. The juxtaposition still implies the mechanism.
+- **F20, "User shuffle is the exception"**: fixed. User shuffle is now one sentence (l.8047–8050), repeated in §5.3.3.
+- **F21, rank-1 antithesis**: fixed (the MTTC sentence was cut).
+- **F22, decision-rule synonym drift**: partly fixed. "matches", "move together" and "separates" remain (l.8239–8243). A new drift appears in the preamble: "taken to differ from no effect" (l.7648–7649).
+- **F23, MTDShield claim in two subsections**: moved. The service-diversity choice now appears in §5.3.2 (l.8063) and again as a reason in §5.3.3 (l.8254–8255).
+- **F24, construction reason attached to no observation**: the sentence is fixed (cut). No sentence reads Figure 5.6's two execution schemes.
+
+**Chapter-view items**
+- **Stale ch6 plan comments** (`subsec:aio-capabilities`; stealth "nothing"; adaptivity from "action mix"): still present (l.8335–8350).
+- **Ch1 contribution 3, "in two phases … two new measures of disruption"**: still present (l.455–456).
+
+Of the earlier findings, **16 survive or have moved, and 3 of those are worse** (U1 "replaces", F6, and F17 now false). Another **16 are fixed**.
+
+---
+
+### 2. Connective units
+
+### Inventory
+
+| # | Unit | Lines | Words | Binding ruling |
+|---|---|---|---|---|
+| U1 | Chapter opener | 5914–5923 | 86 | DRAFT STATE (rewrite 2026-09-26). **Marc 2026-09-24 (l.4285):** "replaces" and "built beside" are wrong; "MTDSim runs either under identical conditions". Connective R1: ch4 has no close, so this opener carries the ch4→ch5 link. |
+| U2 | §5.1 (no preamble, by ruling) | n/a | 0 | Marc 2026-09-18: no lead sentence ("it reads like a caption … just cut it"). §5.1 has no subsections. |
+| U3 | §5.2 head | 6996–6997 | 15 | DRAFT STATE (rewrite). §5.2 has no subsections (Marc 2026-09-23). |
+| U4 | §5.2 close | 7389–7390 | 10 | DRAFT STATE; no Marc wording ruling. |
+| U5 | §5.3 preamble | 7645–7655 | 108 | DRAFT STATE (rewrite). "Reference" is reserved for the no-defence runs (conventions §f2). |
+| U6 | §5.3.1 close | 7910–7913 | 40 | DRAFT STATE (rewrite). |
+| U7 | §5.3.2 close | 8131–8132 | 9 | DRAFT STATE (rewrite). |
+| U8 | Chapter end | 8252–8264 | n/a | Slot plan: "No chapter summary; no pointer to chapter 6". R1: a close only where the next chapter depends on a result. |
+
+Verbatim prose, with comments stripped:
+
+- **U1:** "This chapter runs the APT attacker model of Chapter 4 against MTD, with the baseline attacker beside it under every condition. The baseline attacker is the attacker the MTDSim lineage evaluated MTD against (Section 3.3.2), and SQ3 asks how MTD's performance changes when the APT attacker model replaces it. Section 5.1 sets out the experiment. Section 5.2 compares the two attackers with no defence running, which gives the reference every later effect is measured from. Section 5.3 compares them under MTD. Chapter 6 interprets the results."
+- **U3:** "This section compares the APT attacker model with the baseline attacker with no defence running."
+- **U4:** "These no-defence runs are the reference for Section 5.3."
+- **U5:** "This section runs both attackers under MTD. Every figure and table shows the APT attacker model beside the baseline attacker. Where the APT attacker model is one line or column, it pools c1 to c4 with equal weight; c_agg appears separately in Section 5.3.3. An effect is taken to differ from no effect when its 95 % interval excludes zero, and defences that share a Scott–Knott rank are not told apart (Section 4.5.4). Section 5.3.1 shows what a single deployment does to each attacker, Section 5.3.2 the NCR reduction of each defence across the deployment interval, and Section 5.3.3 the same by mechanism, attack profile and deployment strategy."
+- **U6:** "The mechanisms that cost an attacker most therefore depend on the attacker: the host layer for the APT attacker model, service diversity for the baseline attacker. Section 5.3.2 reads whether the same holds for NCR reduction across the deployment interval."
+- **U7:** "Section 5.3.3 shows each mechanism and attack profile separately."
+- **U8** (last live sentences): "…MTDShield stays within 0.12 of service diversity at every interval, which follows from its choice of service diversity at most decisions. [\owed: the exponential timing distribution at 200 s …]"
+
+**Missing units: none.** Only §5.3 has subsections, and it has a preamble.
+
+#### U1, chapter opener: **rework**
+
+| §e | Y/N | Reason for N |
+|---|---|---|
+| 1 exists | Y | |
+| 2 link carries a finding | **N** | "the APT attacker model of Chapter 4" is a topic link. The ch4 opener hands over two things, the model and "the metrics with which Chapter 5 answers SQ3" (l.4322), and "Chapter 5 takes the model as given". The opener picks up only the model. Under R1, ch4 has no close, so this is the only hand-over. |
+| 3 aim as a job | **N** | The aim reaches the reader through an SQ3 paraphrase that changes the question. SQ3 (l.343) asks "how does MTD perform … compared with the simulator's baseline attacker"; the paraphrase asks what changes when the model "replaces it". The opener also starts "This chapter …" before any context (§b opener 2). |
+| 4 roles | Y | "sets out", though, is a writer act. |
+| 5 dependency | Y | "which gives the reference every later effect is measured from" |
+| 6 no flourish | Y | |
+| 7 no duplication | Y | |
+| 8 tense/person/agent | Y | |
+| 9 refs + terms | **N** | "replaces" breaches the 2026-09-24 ruling word for word. "beside it" echoes the ruled-out "built beside". "under every condition" uses *condition* before §5.1 defines the 11 conditions. |
+| 10 scale | Y | 86 words |
+| 11 varied | **N** | Four one-clause sentences in a row ("Section 5.1 sets out… Section 5.2 compares… Section 5.3 compares… Chapter 6 interprets…") are the §a laundry-list skeleton and voice §h symmetric openers. The "This chapter + verb; Section + verb" frame is ch3's skeleton (l.1264). Ch2 and ch4 open on context. |
+
+Findings:
+1. **§e9, the ruling breach.** "SQ3 asks how MTD's performance changes when the APT attacker model replaces it" reinstates, verbatim, the relation Marc overturned on 2026-09-24. It is the first description of the design an examiner reads in the chapter. Ch2's opener already uses the ruled form ("compared with the simulator's baseline attacker", l.537), and the abstract does too ("run under identical conditions", l.182).
+2. **§e2.** The link names chapter 4's object instead of what chapter 4 fixed, the model and its metrics. Ch1's overview says it in one clause: "defines the metrics that measure MTD's performance. With those metrics, Chapter 5 runs…" (l.496–498).
+3. **§e11 / §a.** The roadmap is a run of identical "Section X verb" sentences.
+
+Proposal (T2, 85 words). It is built from ch4's hand-over, SQ3 verbatim, Marc's ruled relation, and the draft's own S2, S4 and S6. Only two sentences open on "Section".
+
+> Chapter~\ref{ch:attacker-model} builds the APT attacker model and defines the metrics that measure MTD's performance. \ref{sq:evaluate} asks how MTD performs against the APT attacker model compared with the simulator's baseline attacker, the attacker the MTDSim lineage evaluated MTD against (Section~\ref{subsec:recent-threat-models}). MTDSim runs either attacker under identical conditions, which Section~\ref{sec:dimensions} sets out. Section~\ref{sec:attacker-in-operation} compares the two attackers with no defence running, which gives the reference every later effect is measured from. Section~\ref{sec:effectiveness} compares them under MTD, and Chapter~\ref{ch:discussion} interprets the results.
+
+#### U2, §5.1: **keep (no preamble, no bridge)**
+
+A setup declares and stops (conventions §a). No lead sentence, by Marc's ruling of 2026-09-18. §5.2 depends on no *result* of §5.1, so §b bridge 1 licenses no bridge. The Defence unit's closing sentence, "The no-defence runs are the reference for every effect this chapter reports" (l.6403), is the setup's own declaration of the reference and is the right home for it.
+
+#### U3, §5.2 head: **tighten**
+
+| §e | Y/N | Reason |
+|---|---|---|
+| 1 | n/a | no subsections |
+| 3 | Y | |
+| 4 | Y | "compares" |
+| 6 | Y | |
+| 7 | **N** | The opener's S4 ("compares the two attackers with no defence running") and the heading ("APT attacker model versus baseline attacker") already say all of it. The one word the heading lacks, *no defence*, the opener already gave. |
+| 8, 9, 10 | Y | 15 words |
+
+Findings:
+1. **§e7.** The sentence says nothing the reader has not just read. It also doubles *with* ("with the baseline attacker with no defence").
+2. **Lost content.** The pre-rewrite head tied the section to the two §4.5 metric classes ("how each acts … what it achieves"). Those are §4.5's own glosses (l.5616, l.5708), and they are what the four paragraphs below walk.
+
+Proposal (T2, 19 words; the draft's verb and the earlier draft's two reads):
+
+> With no defence running, this section compares how each attacker acts (Section~\ref{subsec:metrics-behaviour}) and what it achieves (Section~\ref{subsec:metrics-outcome}).
+
+#### U4, §5.2 close: **cut, and move its link into U5**
+
+| §e | Y/N | Reason |
+|---|---|---|
+| 2 | **N** | It restates a design fact, not what §5.2 established. |
+| 7 | **N** | This is the third statement of the reference: the opener's S4, the §5.1 Defence unit (l.6403), and here. |
+| others | Y | |
+
+Findings:
+1. **§d, the "nagging GPS" problem, and conventions §j8.10.** The same claim appears in three places.
+2. **Placement.** The sentence follows an `\owed` about counting dwell-only steps as actions, so it has nothing to do with the sentence before it.
+3. **§5.3 still needs the link at its head.** The rewrite dropped the old preamble's "from that attacker's no-defence runs (Section 5.2)". U5's proposal below restores it there, where the reader meets the effects.
+
+Proposal (T1): "…in Chapter 6}. These no-defence runs are the reference for Section~\ref{sec:effectiveness}." → "…in Chapter 6}." (10 → 0 words.)
+
+#### U5, §5.3 preamble: **tighten**
+
+| §e | Y/N | Reason |
+|---|---|---|
+| 1 | Y | |
+| 2 | **N** | Nothing links the effects to §5.2's runs, and that clause was lost in the rewrite. S1 only restates the heading. |
+| 3 | Y | S1, plainly |
+| 4 | Y | "shows" |
+| 5 | Y | "the same by …" (weak) |
+| 6 | Y | |
+| 7 | **N** | S1 repeats the opener's S5 and the heading. S2 ("Every figure and table shows the APT attacker model beside the baseline attacker") talks about float layout, which every caption already states ("with the baseline attacker dashed for comparison"). |
+| 8 | Y | |
+| 9 | **N** | (a) The decision rule is declared as "taken to differ from no effect", but the body tests it as "told apart from zero" (l.7907, l.7910, l.8240). That is two phrasings of the one rule. (b) The preamble correctly says "deployment strategy", but the §5.3.3 heading says "execution schemes", and §5.3.3 carries MTDShield (Figure 5.6). The ratified row (Marc 2026-09-02) says *scheme* is never applied to MTDShield. |
+| 10 | **N** | 108 words and five sentences, against 30–90 words and two to four sentences. The pooling rule and the decision rule are the shared frame §b preamble 3 licenses; S1 and S2 are not. |
+| 11 | n/a | |
+
+Findings:
+1. **§e2 / §e7.** Replace S1 and S2 with the one frame fact §5.3 needs, that every effect is taken against §5.2's no-defence runs. This carries U4's link, so U4 can go.
+2. **§e9(a).** Declare the rule in the word the body uses: "told apart from zero".
+3. **§e9(b), the heading.** Rename §5.3.3 "Defence mechanisms and deployment strategies". **HOLD-FOR-MARC:** this overturns the 2026-09-20 heading ruling ("Mechanisms and schemes" → "Defence mechanisms and execution schemes"). That ruling predates MTDShield joining the subsection on 2026-09-25, and the ratified *deployment strategy* row is the covering term.
+
+Proposal (T2, 99 words; S1 is ch4's §4.5.3 frame "each against the same attacker's runs with no defence" (l.5760), and S2 to S4 are the draft's words):
+
+> Every effect is taken against the same attacker's no-defence runs of Section~\ref{sec:attacker-in-operation}. Where the APT attacker model is one line or column, it pools $c_1$ to $c_4$ with equal weight; $c_{\mathrm{agg}}$ appears separately in Section~\ref{subsec:eff-under-defence}. An effect is told apart from zero when its 95\,\% interval excludes zero, and defences that share a Scott--Knott rank are not told apart (Section~\ref{subsec:metrics-statistics}). Section~\ref{subsec:aio-disruption} shows what a single deployment does to each attacker, Section~\ref{subsec:eff-cross-arm} the NCR reduction of each defence across the deployment interval, and Section~\ref{subsec:eff-under-defence} the same by mechanism, attack profile and deployment strategy.
+
+The 9 words over 90 are the shared frame. The roadmap stays one sentence because it lists three parts, which is an enumeration and not a decorative triplet.
+
+#### U6, §5.3.1 close: **tighten**
+
+§e: 1 Y; 2 Y (states the result); 4 Y; 5 Y (the same attacker-dependence, tested again on NCR reduction); **6 N**; **7 N**; 8 Y; 9 Y; 10 Y (40 words).
+
+Findings:
+1. **§e6.** "therefore" presents as a derivation what is a restatement of the three sentences before it. The sentence is also a colon-then-list.
+2. **§e7 is licensed here.** Mensh and Kording (conventions §j4) want the paragraph to end on its answer, so the summary sentence earns its place. Only its form needs changing.
+
+Proposal (T2, 34 words; the second sentence is unchanged):
+
+> The host layer costs the APT attacker model the most time, and service diversity costs the baseline attacker the most. Section~\ref{subsec:eff-cross-arm} reads whether the same holds for NCR reduction across the deployment interval.
+
+#### U7, §5.3.2 close: **cut**
+
+§e: **2 N** (it states nothing established; a writer act only); 4 Y; **7 N**; 8 Y; 9 Y; 10 Y.
+
+Findings:
+1. **§e7.** The sentence says the same thing three times across the text:
+   - the preamble roadmap ("Section 5.3.3 the same by mechanism, attack profile …");
+   - this close;
+   - §5.3.3's first sentence ("Figure 5.5 shows each mechanism separately, for each attack profile").
+
+   It also leaves out the deployment strategies that §5.3.3 carries.
+2. **§b bridge 1.** §5.3.3 depends on no result that this sentence hands over. The preamble has already given §5.3.3 its object.
+
+Proposal (T1): "…close to zero}. Section~\ref{subsec:eff-under-defence} shows each mechanism and attack profile separately." → "…close to zero}." (9 → 0 words.) §5.3.2 then ends on its last observation, which conventions §e allows.
+
+#### U8, chapter end: **keep, no close needed**
+
+Under R1 a close is owed only where chapter 6 depends on a result that the last section does not hand over. The ch6 plan draws on results from all three sections. The opener's "Chapter 6 interprets the results" carries the hand-over.
+
+Two cautions sit outside the close question:
+- **The last live sentence is an attribution (S7).** If the `\owed` timing sentence moves to the appendix, as its note suggests, the chapter ends on "which follows from its choice of service diversity at most decisions".
+- **The ch6 plan still maps properties to retired sections.** Properties 6 and 7 point to `subsec:aio-capabilities`, stealth reads "nothing; blank by ruling", and adaptivity reads "action mix … recovery time". Ch5 now reports stealth (§5.2 P4) and reads adaptivity on the NCR growth rate and time lost. Re-point these before the ch6 opener is drafted.
+
+---
+
+### 3. Sweep (body prose)
+
+Connective units are excluded (§2). Captions and `\owed` second arguments are not swept.
+
+**Mark-costing**
+
+| # | Line | Sentence (verbatim) | Defect | Edit |
+|---|---|---|---|---|
+| S1 | 7383–7385 | "Attack rate and attack confidentiality together record stealth (Section 4.5.1), and the APT attacker model scores higher on both." | **False by the section's own table.** The APT attacker model's attack rate is *lower* (11.7–20.7 against 28.4, l.7356; tab:unopposed-summary). | T2: "…record stealth (Section~\ref{subsec:metrics-behaviour}), and the APT attacker model has the lower attack rate and the higher attack confidentiality." |
+| S2 | 8044–8045 | "Every reduction falls as the interval grows." | **False universal.** In tab:eff-interval-values, user shuffle against the APT attacker model rises from −0.14 at 50 s to −0.04 at 2 000 s. The pre-rewrite draft carried this exception; the rewrite dropped it. | T2 (the earlier draft's clause): "Every reduction falls as the interval grows, except user shuffle's against the APT attacker model, which rises towards zero." |
+| S3 | 7793–7795 | "Adaptivity, the attacker's response to a deployment (Table 3.2), is the one property that needs a defence to be seen." | **False by Table 3.2.** Property 7 (learning, "retained across deployments") and property 8 (scheme awareness) also need a defence (F12). | T1: "is the one property" → "is a property" |
+| S4 | 7797–7798 | "…; at 200 s the next deployment arrives before the attacker has recovered from the last." | **Attribution beyond measurement, contradicted by the chapter's own number.** After IP shuffle the baseline attacker "is back to its earlier rate within 125 s" (l.7891), which is inside 200 s. The true reason for reading at 2 000 s is by construction: §4.5.3's 1 250 s window (F13). | T2, using §4.5.3's words (l.5800–5802): "…; at 200\,s the next deployment falls inside the 1\,250\,s over which the rate is read." |
+| S5 | 6401–6403 | "Where one interval is reported it is 200 s, the longest Zhang ran, …" | **A false claim the chapter makes about itself.** §5.3.1 reports one interval, and it is 2 000 s (l.7796) (F6). | T2 (the slot plan's word): "Where one interval is tabled it is 200\,s, …". Alternatively, add "; Section~\ref{subsec:aio-disruption} reads 2\,000\,s". |
+| S6 | 6389 | "Eleven conditions: no defence, each of the seven defence mechanisms …, and MTDShield." | A number is spelt out at the start of a sentence to dodge the numerals rule (register §b8, supervisor E5). It is also a colon-then-list (F4). | T2: "The 11 defence conditions are no defence, each of the seven defence mechanisms under the single scheme, …, and MTDShield." |
+| S7 | 8253–8255 | "Against the APT attacker model, MTDShield stays within 0.12 of service diversity at every interval, which follows from its choice of service diversity at most decisions." | **A mechanism in the results.** It fails §j3's test: the gap could stand with the other 24–30 % of MTDShield's choices doing the work. It also compares across floats (service diversity is in Figure 5.5) and repeats §5.3.2's choice-share fact (l.8063). The handoff's record of Marc's by-construction points lists only the dwell pace and the unmet preconditions. **HOLD-FOR-MARC** if this was his reading. | T1: delete ", which follows from its choice of service diversity at most decisions". |
+| S8 | 8239–8243 | "Port shuffle matches it up to 200 s and OS diversity up to 100 s; … The four attack profiles move together under every mechanism, with one exception: $c_3$ separates from the others under the host-layer mechanisms from 500 s." | **Undeclared separation criterion.** The preamble declares two tests: an interval that excludes zero, and a shared Scott–Knott rank. *matches*, *move together* and *separates* use neither. At 200 s, port shuffle shares service diversity's rank (tab:eff-cross-arm), but OS diversity at 50–100 s (0.92–0.93 against 0.99) and $c_3$'s split have no stated test (F22 residue). | **T3, HOLD-FOR-MARC:** state each separation by its rank or interval, which needs per-interval ranks and per-profile intervals not in the text. Then use "told apart" / "not told apart". |
+
+**Minor**
+
+| # | Line | Sentence (verbatim) | Defect | Edit |
+|---|---|---|---|---|
+| S9 | 7893; 8042; 8127 | "After service diversity the order reverses: …"; "Against the baseline attacker the order is reversed: …"; "The order is not simply reversed: Spearman's ρ …" | The reversal frame appears three times. The §j2 amendment bans inversion openers, and the third instance is a *not X* lead-in. | T1 at l.7893: "After service diversity the order reverses: the baseline attacker drops" → "After service diversity the baseline attacker drops". T1 at l.8127: delete "The order is not simply reversed:" and start "Spearman's $\rho$ …". T2 at l.8042, in the parallel form of the sentence before: "Against the baseline attacker the service layer gives the larger reduction, 0.82 to 0.97 up to 200\,s, against 0.49 to 0.72 for the host layer." |
+| S10 | 8058 | "The deployment strategies split the same way." | Figurative, with an unclear referent: which way? The next two sentences state the split. | T1: delete the sentence. |
+| S11 | 8047–8050 with 8241 | "User shuffle reduces neither attacker's NCR beyond 50 s, and …" / "User shuffle reduces neither attacker's NCR from 100 s." | The same claim appears in two subsections (conventions §j8.10). "beyond 50 s" also implies it reduces the APT attacker model's NCR at 50 s, where it is −0.14. | T1 at l.8241: delete "User shuffle reduces neither attacker's NCR from 100\,s." T2 at l.8047: "User shuffle reduces the baseline attacker's NCR only at 50\,s (0.47), and against the APT attacker model it is below zero up to 500\,s: …" |
+| S12 | 7349–7351 | "…: its ASP is under a quarter of the baseline attacker's, its NCR at most two-fifths, and its MTTC about three times as long." | "at most two-fifths" is false by a hair ($c_2$: 0.20/0.49 = 0.41). It is also a colon-then-list of three. | T2: "On each of $c_1$ to $c_4$ the APT attacker model achieves less than the baseline attacker, and more slowly. Its ASP is under a quarter of the baseline attacker's, its NCR 0.14 to 0.20 against 0.49, and its MTTC about three times as long." |
+| S13 | 7353–7355 | "Because a run ends when a target is taken, 40 % of the baseline attacker's runs last to the time limit, against 87 to 95 % …" | The reason is incomplete: 2 % of baseline runs end at NCR 0.8 (§4.5.2, l.5735). The "because" explains the other 60 %, not the 40 %. | T2: "The time limit ends \prelim{40}\,\% of the baseline attacker's runs, against \prelim{87} to \prelim{95}\,\% of the APT attacker model's." |
+| S14 | 7355–7357 | "Its attack rate is lower by less, 11.7 to 20.7 actions per 1 000 s against 28.4." | "Its" is ambiguous after a sentence naming both attackers, and "lower by less" is a comparative with a hidden referent. | T2: "The APT attacker model's attack rate is \prelim{11.7} to \prelim{20.7} actions per 1\,000\,s, against \prelim{28.4}." |
+| S15 | 7357–7362 | "The model dispatches … so 14 to 28 % … fail before they run, and the attack rate does not count them (…). This follows from a design choice of Chapter 4: the model reuses the simulator's six actions (…)." | Bare *the model* twice (a watched variant in the registry). Four propositions in S1. "This" has no clear referent. Two reasons are given for one fact. The by-construction content is Marc's (handoff, 2026-09-26); only the form is flagged. | T2: "The APT attacker model reuses the simulator's six actions (Section~\ref{subsec:tactic-verb-mapping}) and dispatches them in the order its tactics call them. As a result, 14 to 28\,\% of the actions it dispatches find a precondition unmet and fail before they run; the attack rate does not count them (Section~\ref{subsec:metrics-behaviour})." |
+| S16 | 7141–7143 | "…takes 26 to 47 % of its steps in seven tactics that map to no action, from resource development to impact, which the baseline attacker has no counterpart for." | Three stacked post-modifiers. The referent of "which" is unclear (the tactics or the steps). | T1, split at "which": "…from resource development to impact. The baseline attacker has no counterpart for these seven tactics." |
+| S17 | 7891–7896 | "…back to its earlier rate within 125 s; … still at 72 % after 1 250 s, …" | The two sentences use different 125 s bin conventions. The first bin after IP shuffle is 22 % and the recovery is in the second (125–250 s). The 72 % is the last bin (1 125–1 250 s), and nothing is read "after 1 250 s" (disruption_numbers.json, relative_pct[6..7], [15]). | T2: "within 250\,s"; "still at 72\,\% at the end of the 1\,250\,s window". |
+| S18 | 6650–6651 | "Section 4.5.4 gives the reason for the count, the seeds and the intervals reported." | One word, two senses (register §i4). Two units above, "Where one interval is reported" means a deployment interval; here *intervals* means the 95 % intervals. | T1: "the intervals reported" → "the 95\,\% intervals" |
+| S19 | 7907–7910 | "On the service layer, service diversity costs … Port shuffle, OS diversity and user shuffle cost neither attacker …" | User shuffle is not a service-layer mechanism (tab:eff-interval-values groups it under *credentials*), but the sentence follows "On the service layer". | T2: "The other three, port shuffle, OS diversity and user shuffle, cost neither attacker an amount told apart from zero." |
+| S20 | 8061–8066 | "MTDShield gives the baseline attacker the larger reduction at every interval (…). It chooses service diversity at 70 to 76 % of its decisions (Appendix E), the mechanism that costs the baseline attacker the most time in Section 5.3.1." | Setting the two facts side by side implies the mechanism (F19 residue). At 2 000 s, neither of MTDShield's cells is told apart from zero (0.06 and 0.03, grey). **HOLD-FOR-MARC** if it is his reading. | T1: delete ", the mechanism that costs the baseline attacker the most time in Section~\ref{subsec:aio-disruption}". T1: "at every interval" → "at every interval to 1\,000\,s". |
+| S21 | 8233–8235 | "…and less at longer intervals, IP shuffle keeping the most (0.33 at 2 000 s against 0.16 and 0.17); against the baseline attacker, …" | A tacked-on *-ing* clause. | T2: "…and less at longer intervals. IP shuffle keeps the most (\prelim{0.33} at 2\,000\,s against \prelim{0.16} and \prelim{0.17}); against the baseline attacker, …" |
+| S22 | 6324–6327; 6330; 6330–6334; 6394–6395 | F1 "…, with the network regenerated for each seed and the two database hosts … as the target."; F2 "…rather than five."; F3 the three-clause lineage sentence (ruled 2026-09-23); F5 "run as released: …, choosing its own action …" | Unchanged since the first critique: a *with* tail, *X rather than Y*, three clauses, a colon plus an *-ing* tail. | As proposed in critique_ch5.md F1, F2, F3 (flag only) and F5. |
+| S23 | 6648–6649 | "…run 1 000 times, ten times the 100 runs per condition of Zhang [11]; …" | A decorative comparison. §4.5.4 now grounds the count (Arcuri and Briand). **Ruled** (E5, 2026-09-23). | **HOLD-FOR-MARC:** T1 delete ", ten times the 100 runs per condition of Zhang \citep{zhang2023}". This overturns the E5 clause, which was added when no basis for the count was cited. |
+| S24 | 8232–8264 | (Figures 5.5 and 5.6) | Floats not read (conventions §j8.4). The preamble promises "$c_{\mathrm{agg}}$ appears separately in Section 5.3.3", but no sentence reads $c_{\mathrm{agg}}$. No sentence reads Figure 5.6's two execution schemes by profile either. | T3: one observation each is Marc's to state. Otherwise drop the preamble's $c_{\mathrm{agg}}$ clause. |
+
+**Counts:** 8 mark-costing (S1–S8) and 16 minor rows (S9–S24; S22 groups four carried-over items). HOLD-FOR-MARC: S7, S8, S20 and S23, plus the U5 heading rename.
+
+**Clean categories:**
+- no hype adjectives;
+- no *Moreover/Furthermore* chains;
+- no em-dash interpolations;
+- no *substrate*, no L-labels, no US spellings;
+- no sentence opening on a numeral except S6;
+- *reference* is used only for the no-defence runs (conventions §f2 holds).
+
+**What is left after the rewrite** is accuracy, not rhetoric. The rewrite removed the metaphor (knock-down, part ways, saturate, whiskers), but four sentences now state something the tables contradict (S1, S2, S3, S12), and two carry an unmeasured mechanism (S4, S7).
+
+---
+
+### 4. Priority (at most three moves)
+
+1. **Remove "replaces" from the opener and give it chapter 4's hand-over** (U1). State the link as the model and its metrics, give SQ3 in ch1's words, and add "MTDSim runs either attacker under identical conditions". This is the one breach of a standing Marc ruling in the chapter, and it sits in the chapter's second sentence. Proposal in §2, 85 words.
+2. **Fix the four sentences the tables contradict, and the one false self-description.**
+   - S1: "scores higher on both" (the model's attack rate is lower).
+   - S2: "Every reduction falls" (user shuffle against the model rises).
+   - S3: "the one property" (learning and scheme awareness also need a defence).
+   - S12: "at most two-fifths" (the ratio is 0.41).
+   - S5: "Where one interval is reported it is 200 s" (§5.3.1 reads 2 000 s).
+
+   All five are T1 or T2 edits.
+3. **Remove the two unmeasured mechanisms and tidy the §5.3 frame.**
+   - S4: replace "before the attacker has recovered" with the by-construction window reason.
+   - S7: delete "which follows from its choice …" (HOLD if the reading is Marc's).
+   - Cut U4 and U7, and move U4's link into the U5 preamble. Declare the rule as "told apart from zero", the word the body uses.
+   - Put the §5.3.3 heading rename ("deployment strategies") to Marc.
+
+---
+
+### 5. Tell audit
+
+Tier audit: two suggestions withdrawn and rebuilt; the rest clean.
+- The first U6 proposal kept a colon-then-list ("…depend on the attacker: the host layer …, service diversity …"). It was withdrawn and rebuilt as two coordinated clauses.
+- The first S1 suggestion ("…is the stealthier on both: a lower attack rate and a higher attack confidentiality") kept a colon-list. It was withdrawn and rebuilt without the colon.
+
+Every remaining T1/T2 was re-scanned against critique §f and the author's list. None contains:
+- *not X but Y* or *rather than*;
+- a rule-of-three flourish (the U5 roadmap's three parts are a real enumeration of three subsections, kept from the draft);
+- *serves as*, significance words or era vocabulary;
+- an *-ing* tail, an em-dash, or brackets in an opening sentence;
+- a sentence opening on a numeral;
+- content beyond the chapter, ch1, ch4 or the tracked tables.
+
+The colons in S11's T2 ("…below zero up to 500 s: more hosts …") and in the S9 rebuilds are the author's own.

@@ -5911,15 +5911,23 @@ reductions compares their rankings.
 %  float shows, the numbers that carry it, the APT property the metric records
 %  (Table 3.2 via Section 4.5), a by-construction reason only where Marc gave one.
 %  The agent draft it replaces is in git history (commit e83f280c). DRAFT STATE.
-This chapter runs the APT attacker model of Chapter~\ref{ch:attacker-model}
-against MTD, with the baseline attacker beside it under every condition. The
-baseline attacker is the attacker the MTDSim lineage evaluated MTD against
-(Section~\ref{subsec:recent-threat-models}), and \ref{sq:evaluate} asks how
-MTD's performance changes when the APT attacker model replaces it.
-Section~\ref{sec:dimensions} sets out the experiment.
+% [CONNECTIVE-PROSE PASS 2026-09-26, ch5 U1 opener] 'replaces it' breached
+%  Marc's 2026-09-24 ruling (MTDSim runs either attacker under identical
+%  conditions); SQ3 now in ch1's words; the link picks up both things ch4
+%  hands over (the model and the metrics); the run of four 'Section X
+%  verb' sentences broken. SESSION-GENERATED on Marc's 2026-09-26 go-ahead
+%  (docs/workflows/connective_prose.md; audit
+%  docs/implementation/connective_prose_audit.md); prior text in git.
+%  DRAFT STATE, ratify on read.
+Chapter~\ref{ch:attacker-model} builds the APT attacker model and defines
+the metrics that measure MTD's performance. \ref{sq:evaluate} asks how MTD
+performs against the APT attacker model compared with the simulator's
+baseline attacker, the attacker the MTDSim lineage evaluated MTD against
+(Section~\ref{subsec:recent-threat-models}). MTDSim runs either attacker
+under identical conditions, which Section~\ref{sec:dimensions} sets out.
 Section~\ref{sec:attacker-in-operation} compares the two attackers with no
-defence running, which gives the reference every later effect is measured from.
-Section~\ref{sec:effectiveness} compares them under MTD.
+defence running, which gives the reference every later effect is measured
+from. Section~\ref{sec:effectiveness} compares them under MTD, and
 Chapter~\ref{ch:discussion} interprets the results.
 
 % RESTRUCTURED 2026-09-08 (Marc's ruling, chat): "Experimental setup"
@@ -6386,7 +6394,13 @@ Section~\ref{sec:technique-graph} before it is partitioned into profiles. Both p
 %  sweep rewrite in Marc's ruled words (2026-09-23: "50 seconds to 2000 seconds as a
 %  range ... our results have the MTD interval along the x axis"). Zhang ran 50, 100,
 %  150 and 200 s (zhang2023.md l.418); Ho 200 s. DRAFT STATE --- ratify on read.
-\textbf{Defence.} Eleven conditions: no defence, each of the seven defence
+% [CONNECTIVE-PROSE PASS 2026-09-26, ch5 S6 Eleven] Numerals rule
+%  (register b8, supervisor E5): the number was spelt out to dodge it;
+%  colon-list removed. SESSION-GENERATED on Marc's 2026-09-26 go-ahead
+%  (docs/workflows/connective_prose.md; audit
+%  docs/implementation/connective_prose_audit.md); prior text in git.
+%  DRAFT STATE, ratify on read.
+\textbf{Defence.} The 11 defence conditions are no defence, each of the seven defence
 mechanisms under the single scheme, \owed{the random and alternative execution
 schemes}{Section 5.1: the simultaneous execution scheme listed in Chapter 2 is
 not run and no reason is given; run it or state why},
@@ -6398,7 +6412,13 @@ against the interval. They run from 50\,s, the shortest Zhang and Ho ran, to
 2\,000\,s, ten times the longest the lineage has run
 (Table~\ref{tab:lineage-configurations}), three to a decade so that they fall
 evenly on a logarithmic axis; the timing distribution is varied separately
-(Table~\ref{tab:experiment}). Where one interval is reported it is 200\,s, the
+% [CONNECTIVE-PROSE PASS 2026-09-26, ch5 S5 interval] False
+%  self-description: Section 5.3.1 reports one interval and it is 2 000 s;
+%  200 s is the interval tabled (the slot plan's word). SESSION-GENERATED
+%  on Marc's 2026-09-26 go-ahead (docs/workflows/connective_prose.md;
+%  audit docs/implementation/connective_prose_audit.md); prior text in
+%  git. DRAFT STATE, ratify on read.
+(Table~\ref{tab:experiment}). Where one interval is tabled it is 200\,s, the
 longest Zhang ran, the interval of Ho's comparisons \citep{ho2024} and the one
 MTDShield was trained at (Appendix~\ref{app:mtdshield}). The no-defence runs are
 the reference for every effect this chapter reports.
@@ -6993,8 +7013,15 @@ starts \citep{law2015}, so no warm-up period is needed \citep{currie2016}.
 %  float shows, the numbers that carry it, the APT property the metric records
 %  (Table 3.2 via Section 4.5), a by-construction reason only where Marc gave one.
 %  The agent draft it replaces is in git history (commit e83f280c). DRAFT STATE.
-This section compares the APT attacker model with the baseline attacker with no
-defence running.
+% [CONNECTIVE-PROSE PASS 2026-09-26, ch5 U3 5.2 head] Repeated the opener
+%  and the heading; now ties the section to the two metric classes its
+%  paragraphs walk (4.5's own glosses). SESSION-GENERATED on Marc's
+%  2026-09-26 go-ahead (docs/workflows/connective_prose.md; audit
+%  docs/implementation/connective_prose_audit.md); prior text in git.
+%  DRAFT STATE, ratify on read.
+With no defence running, this section compares how each attacker acts
+(Section~\ref{subsec:metrics-behaviour}) and what it achieves
+(Section~\ref{subsec:metrics-outcome}).
 
 % ~1 unit. What the model does with nothing opposing it: the campaign it
 % actually walks, and whether the four profiles are distinguishable.
@@ -7348,7 +7375,13 @@ shows about as little.
 Table~\ref{tab:unopposed-summary} gives the attack outcome and the attack rate.
 On each of $c_1$ to $c_4$ the APT attacker model achieves less than the baseline
 attacker, and more slowly: its ASP is under a quarter of the baseline attacker's,
-its NCR at most two-fifths, and its MTTC about three times as long. Its pace is an
+% [CONNECTIVE-PROSE PASS 2026-09-26, ch5 S12 two-fifths] 'at most
+%  two-fifths' was false (c2: 0.199/0.487 = 0.41, numbers.json); the
+%  numbers stated instead. SESSION-GENERATED on Marc's 2026-09-26 go-ahead
+%  (docs/workflows/connective_prose.md; audit
+%  docs/implementation/connective_prose_audit.md); prior text in git.
+%  DRAFT STATE, ratify on read.
+its NCR \prelim{0.14} to \prelim{0.20} against \prelim{0.49}, and its MTTC about three times as long. Its pace is an
 input: each step lasts the dwell time declared for its tactic
 (Section~\ref{subsec:dwell-times}). Because a run ends when a target is taken,
 \prelim{40}\,\% of the baseline attacker's runs last to the time limit, against
@@ -7381,13 +7414,23 @@ that a detector tuned on the baseline attacker does not flag. Every profile stay
 above the baseline attacker in every 1\,500\,s bin: \prelim{69} to \prelim{93}\,\%
 for the profiles, $c_4$ the lowest, against \prelim{67}\,\% falling to
 \prelim{43}\,\% for the baseline attacker. Attack rate and attack confidentiality
-together record stealth (Section~\ref{subsec:metrics-behaviour}), and the APT
-attacker model scores higher on both. The detector counts actions, so the two are
+% [CONNECTIVE-PROSE PASS 2026-09-26, ch5 S1 stealth] 'scores higher on
+%  both' was false: the APT attacker model's attack rate is lower
+%  (11.7-20.7 against 28.4, the paragraph above). SESSION-GENERATED on
+%  Marc's 2026-09-26 go-ahead (docs/workflows/connective_prose.md; audit
+%  docs/implementation/connective_prose_audit.md); prior text in git.
+%  DRAFT STATE, ratify on read.
+together record stealth (Section~\ref{subsec:metrics-behaviour}), and the APT attacker model has the lower attack rate and the higher attack confidentiality. The detector counts actions, so the two are
 one observation. \owed{Counting the dwell-only steps as actions removes most of
 the difference}{Section 5.2: attack confidentiality with dwell-only steps counted
 as actions was measured in a dry run only; track it, or move the point to the
-limitations in Chapter 6}. These no-defence runs are the reference for
-Section~\ref{sec:effectiveness}.
+% [CONNECTIVE-PROSE PASS 2026-09-26, ch5 U4 cut] Cut: the third statement
+%  of the reference (opener, 5.1 Defence); the link moves into the 5.3
+%  preamble, where the effects are met. SESSION-GENERATED on Marc's
+%  2026-09-26 go-ahead (docs/workflows/connective_prose.md; audit
+%  docs/implementation/connective_prose_audit.md); prior text in git.
+%  DRAFT STATE, ratify on read.
+limitations in Chapter 6}. 
 
 \begin{figure}[tbp]
   \centering
@@ -7642,11 +7685,21 @@ Section~\ref{sec:effectiveness}.
 %  float shows, the numbers that carry it, the APT property the metric records
 %  (Table 3.2 via Section 4.5), a by-construction reason only where Marc gave one.
 %  The agent draft it replaces is in git history (commit e83f280c). DRAFT STATE.
-This section runs both attackers under MTD. Every figure and table shows the APT
-attacker model beside the baseline attacker. Where the APT attacker model is one
+% [CONNECTIVE-PROSE PASS 2026-09-26, ch5 U5 5.3 preamble] S1 restated the
+%  heading, S2 the float layout every caption states; replaced by the one
+%  frame fact 5.3 needs (4.5.3's own wording), which carries the link cut
+%  from the 5.2 close. SESSION-GENERATED on Marc's 2026-09-26 go-ahead
+%  (docs/workflows/connective_prose.md; audit
+%  docs/implementation/connective_prose_audit.md); prior text in git.
+%  DRAFT STATE, ratify on read.
+Every effect is taken against the same attacker's no-defence runs of Section~\ref{sec:attacker-in-operation}. Where the APT attacker model is one
 line or column, it pools $c_1$ to $c_4$ with equal weight; $c_{\mathrm{agg}}$
-appears separately in Section~\ref{subsec:eff-under-defence}. An effect is taken
-to differ from no effect when its 95\,\% interval excludes zero, and defences that
+% [CONNECTIVE-PROSE PASS 2026-09-26, ch5 U5b rule] The decision rule
+%  declared in the word the body uses ('told apart'). SESSION-GENERATED on
+%  Marc's 2026-09-26 go-ahead (docs/workflows/connective_prose.md; audit
+%  docs/implementation/connective_prose_audit.md); prior text in git.
+%  DRAFT STATE, ratify on read.
+appears separately in Section~\ref{subsec:eff-under-defence}. An effect is told apart from zero when its 95\,\% interval excludes zero, and defences that
 share a Scott--Knott rank are not told apart
 (Section~\ref{subsec:metrics-statistics}).
 Section~\ref{subsec:aio-disruption} shows what a single deployment does to each
@@ -7791,11 +7844,22 @@ same by mechanism, attack profile and deployment strategy.
 %  (Table 3.2 via Section 4.5), a by-construction reason only where Marc gave one.
 %  The agent draft it replaces is in git history (commit e83f280c). DRAFT STATE.
 Adaptivity, the attacker's response to a deployment
-(Table~\ref{tab:attacker-properties}), is the one property that needs a defence to
-be seen. The NCR growth rate and time lost per MTD deployment record it
+% [CONNECTIVE-PROSE PASS 2026-09-26, ch5 S3 one property] 'the one
+%  property' was false by Table 3.2: learning and scheme awareness also
+%  need a defence. SESSION-GENERATED on Marc's 2026-09-26 go-ahead
+%  (docs/workflows/connective_prose.md; audit
+%  docs/implementation/connective_prose_audit.md); prior text in git.
+%  DRAFT STATE, ratify on read.
+(Table~\ref{tab:attacker-properties}), is a property that needs a defence to be seen. The NCR growth rate and time lost per MTD deployment record it
 (Section~\ref{subsec:metrics-effectiveness}), read at the 2\,000\,s deployment
-interval, the window over which that section defines them; at 200\,s the next
-deployment arrives before the attacker has recovered from the last.
+% [CONNECTIVE-PROSE PASS 2026-09-26, ch5 S4 recovered] Attribution beyond
+%  measurement, contradicted by the chapter's own number (the baseline
+%  attacker is back to its rate within 250 s); the by-construction reason
+%  (4.5.3's window) stated instead. SESSION-GENERATED on Marc's 2026-09-26
+%  go-ahead (docs/workflows/connective_prose.md; audit
+%  docs/implementation/connective_prose_audit.md); prior text in git.
+%  DRAFT STATE, ratify on read.
+interval, the window over which that section defines them; at 200\,s the next deployment falls inside the 1\,250\,s over which the rate is read.
 \owed{A control, the APT attacker model with no failure matrix, run under IP
 shuffle and OS diversity, responds as the model does.}{Section 5.3.1: the
 control's result is on a measure Section 4.5 does not define; compute its time
@@ -7907,9 +7971,13 @@ each mechanism. The three host-layer mechanisms cost the APT attacker model
 attacker is not told apart from zero. On the service layer, service diversity
 costs the baseline attacker \prelim{593}\,s and the APT attacker model
 \prelim{194}\,s. Port shuffle, OS diversity and user shuffle cost neither attacker
-an amount told apart from zero. The mechanisms that cost an attacker most
-therefore depend on the attacker: the host layer for the APT attacker model,
-service diversity for the baseline attacker. Section~\ref{subsec:eff-cross-arm}
+% [CONNECTIVE-PROSE PASS 2026-09-26, ch5 U6 close] 'therefore' presented a
+%  restatement as a derivation; colon-list removed. The closing summary is
+%  kept (the paragraph ends on its answer). SESSION-GENERATED on Marc's
+%  2026-09-26 go-ahead (docs/workflows/connective_prose.md; audit
+%  docs/implementation/connective_prose_audit.md); prior text in git.
+%  DRAFT STATE, ratify on read.
+an amount told apart from zero. The host layer costs the APT attacker model the most time, and service diversity costs the baseline attacker the most. Section~\ref{subsec:eff-cross-arm}
 reads whether the same holds for NCR reduction across the deployment interval.
 
 % ~1 unit. THE THESIS'S OWN CLAIM, and the subsection Marc asked the
@@ -8041,8 +8109,14 @@ values. Against the APT attacker model the host layer gives the larger reduction
 \prelim{0.96} or more up to 200\,s against \prelim{0.21} to \prelim{0.35} for the
 service layer. Against the baseline attacker the order is reversed:
 \prelim{0.82} to \prelim{0.97} for the service layer up to 200\,s, against
-\prelim{0.49} to \prelim{0.72} for the host layer. Every reduction falls as the
-interval grows. The APT attacker model's host-layer reduction holds up to 200\,s
+% [CONNECTIVE-PROSE PASS 2026-09-26, ch5 S2 every reduction] False
+%  universal: user shuffle against the APT attacker model rises from -0.14
+%  at 50 s to -0.04 at 2 000 s (tab:eff-interval-values); the pre-rewrite
+%  exception restored. SESSION-GENERATED on Marc's 2026-09-26 go-ahead
+%  (docs/workflows/connective_prose.md; audit
+%  docs/implementation/connective_prose_audit.md); prior text in git.
+%  DRAFT STATE, ratify on read.
+\prelim{0.49} to \prelim{0.72} for the host layer. Every reduction except user shuffle's falls as the interval grows; against the APT attacker model user shuffle's rises towards zero. The APT attacker model's host-layer reduction holds up to 200\,s
 and falls to \prelim{0.22} at 2\,000\,s; the baseline attacker's service-layer
 reduction falls from \prelim{0.82} at 200\,s to \prelim{0.25} at 500\,s. User
 shuffle reduces neither attacker's NCR beyond 50\,s, and against the APT attacker
@@ -8128,8 +8202,13 @@ model. The order is not simply reversed: Spearman's $\rho$ between the two
 attackers' NCR reductions is \prelim{-0.03}\owed{, close to zero}{Section 5.3.2:
 numbers.json gives rho over the ten reported defences with no interval; the only
 bootstrap interval tracked is over eleven conditions, including random selection
-over MTDShield's four, which no float reports}. Section~\ref{subsec:eff-under-defence}
-shows each mechanism and attack profile separately.
+% [CONNECTIVE-PROSE PASS 2026-09-26, ch5 U7 cut] Cut: the third statement
+%  of 5.3.3's object (preamble roadmap; 5.3.3's first sentence), stating
+%  nothing established. SESSION-GENERATED on Marc's 2026-09-26 go-ahead
+%  (docs/workflows/connective_prose.md; audit
+%  docs/implementation/connective_prose_audit.md); prior text in git.
+%  DRAFT STATE, ratify on read.
+over MTDShield's four, which no float reports}. 
 
 \input{tables/tab_5-3-2d_attacker_ranking}
 
