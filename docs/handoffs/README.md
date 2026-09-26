@@ -40,9 +40,9 @@ The §4.5 drafting records stay tracked in
 - [`2026-09-15_ch6_discussion_affinity_board.md`](2026-09-15_ch6_discussion_affinity_board.md)
   — the discussion board; rulings on the unit split and heading set owed.
 - [`2026-09-25_connective_prose_rulings.md`](2026-09-25_connective_prose_rulings.md)
-  — ch1–5 connective prose applied 2026-09-26 on Marc's rulings; ratify on read,
-  then the held ch5 items (heading rename, two mechanisms, an undeclared test);
-  blocks nothing.
+  — ch1–5 connective prose shipped and ratified 2026-09-26; left: fourteen minor
+  ch5 wording items, ch5 S20, flagged content, re-check the ch1 overview when
+  ch6–8 are drafted; blocks nothing.
 - [`2026-09-25_ch4_mark_risk_ledger.md`](2026-09-25_ch4_mark_risk_ledger.md)
   — chapter 4's minor (M) entries beyond C1, for a later pass.
 - [`2026-09-25_ch5_setup_defence_and_prose_slots.md`](2026-09-25_ch5_setup_defence_and_prose_slots.md)

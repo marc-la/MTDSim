@@ -4,7 +4,7 @@ created: 2026-09-25
 updated: 2026-09-26
 ---
 
-# Ratify the applied connective prose (ch1–5), and rule the held items
+# Connective prose ch1–5: shipped and ratified; the minor ch5 items and flagged content remain
 
 ## State of play
 
@@ -35,34 +35,17 @@ updated: 2026-09-26
 
 ## What is left
 
-### 1. Marc reads and ratifies (or reverts) the applied units
+### 1–2. Ratified and ruled (2026-09-26)
 
-Grep `CONNECTIVE-PROSE PASS 2026-09-26` in `dissertation.tex` (40 sites). On
-ratification, replace the comment with `RATIFIED <date>`; on rejection, revert
-from git and record the rejection in the unit's comment so no pass re-flags it.
-
-### 2. Held for Marc's ruling (not applied)
-
-- **§5.3.3 heading** "Defence mechanisms and execution schemes" →
-  "…and deployment strategies": MTDShield is in the subsection and the
-  ratified row never calls it a scheme. Overturns the 2026-09-20 heading
-  ruling. Recommend: rename.
-- **ch5 S7** "MTDShield stays within 0.12 of service diversity …, which follows
-  from its choice of service diversity at most decisions": a mechanism in the
-  results. Recommend: delete the *which* clause unless it is Marc's reading.
-- **ch5 S20** the MTDShield choice-share sentence beside its result (implies
-  the mechanism); at 2 000 s neither MTDShield cell is told apart from zero.
-- **ch5 S8** "matches / move together / separates" in §5.3.3 use neither
-  declared test (interval excludes zero; shared Scott–Knott rank). Needs the
-  per-interval ranks and per-profile intervals — T3.
-- **ch5 S23 / §5.1 Runs** "ten times the 100 runs per condition of Zhang":
-  decorative now that §4.5.4 grounds the count; overturns E5 (2026-09-23).
-- **ch5 S24** no sentence reads $c_{\mathrm{agg}}$ or Figure 5.6's execution
-  schemes, though the §5.3 preamble promises $c_{\mathrm{agg}}$ in §5.3.3 —
-  one observation each, or drop the preamble clause.
-- **§4.4 preamble length.** With the 2026-09-25 "four bases" paragraph it is
-  still well over a preamble's scale; whether that paragraph moves into a
-  subsection is a structure call.
+Marc ratified every applied unit ("I accept all this"); the tex comments now read
+`RATIFIED 2026-09-26`. His second rulings the same day were applied and ratified
+with them: *deployment strategy* is the one term (Zhang's *execution scheme*
+named once, in Table 2.4's caption; §5.3.3 renamed); the MTDShield
+service-diversity mechanism left the results and is parked in a tex comment for
+chapter 6 ("that's my bet"); §5.3.3's undeclared comparisons restated by the
+Scott–Knott rank and the values; "ten times Zhang" cut; $c_{\mathrm{agg}}$ read
+at 200 s. Still unruled from the held list: **ch5 S20** (the MTDShield
+choice-share sentence beside its §5.3.2 result).
 
 ### 3. Minor ch5 items (T1/T2 in the audit, §3 S9–S22; apply on a blanket accept)
 
