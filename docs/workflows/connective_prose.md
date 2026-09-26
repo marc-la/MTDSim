@@ -1,7 +1,7 @@
 ---
 status: durable
 created: 2026-09-25
-updated: 2026-09-25
+updated: 2026-09-26
 provenance: distilled from two surveys run 2026-09-25 — the published guidance on thesis metatext (handbooks, applied-linguistics corpus studies, examiner-report studies, UWA guidance) and the chapter/section preambles of the four MTDSim lineage documents plus the supervisor's own papers; sources at the foot, access status marked
 ---
 
@@ -203,29 +203,30 @@ Yes/no, per unit. A *no* is a finding; cite the item.
 11. **Varied?** Set the chapter openers side by side: the same skeleton three
     times is a redraft signal (§d; voice.md §h symmetric openers).
 
-## (f) Open questions for Marc's ruling
+## (f) Rulings (Marc, 2026-09-26)
 
-The sources and the lineage disagree on three points; each is Marc's call, not
-a session's.
+The sources and the lineage disagreed on three points; Marc ruled each on
+2026-09-26, and these rulings bind every later connective unit.
 
-1. **Chapter-closing bridges.** The prescriptive sources want every chapter to
-   close by stating what it established and linking forward (Evans et al.
-   2014, p. 50; Dunleavy, LSE 2014; Thomson 2023: about a paragraph). None of
-   the four lineage documents closes a single body chapter this way — they link
-   at the head of the next unit instead, and at the close of review sections
-   (a gap-then-this-work paragraph). Options: (a) one to two sentences closing
-   each body chapter; (b) closes only where the next chapter depends on a
-   result (for example, the literature review's gap into the model chapter); (c)
-   none, with the next opener's link carrying it.
-2. **The thesis-structure overview in chapter 1.** Outlining the thesis's
-   structure is an obligatory move in thesis introductions (Bunton 2002, via
-   Paltridge & Starfield 2007, p. 83; Swales & Feak 2012, p. 360). The lineage
-   theses instead close the introduction on a contribution list whose items
-   track the chapters. Chapter 1 does the latter, but its list points only at
-   the chapters that carry contributions.
-3. **Section-as-agent or author-as-agent in chapters 4–5.** *Section 4.2
-   derives…* and *We derive… (Section 4.2)* are both conventional; UWA marks
-   consistency. One form per chapter.
+1. **Chapter-closing bridges: only where the next chapter depends on a
+   result.** The prescriptive sources want every chapter to close on what it
+   established (Evans et al. 2014, p. 50; Dunleavy, LSE 2014; Thomson 2023);
+   no lineage document does. Ruled middle course: chapter 2 closes on one
+   sentence handing its baseline attacker to chapter 3's scoring; chapter 3
+   closes on the gap chapter 4 answers; chapter 4 has no close, because
+   chapter 5's opener carries the link. A close is one sentence, and "as long
+   as it's clear".
+2. **Chapter 1 carries a thesis-structure overview**, placed last in the
+   introduction, after the contributions. The structure step is the final
+   move of a thesis introduction (Bunton 2002, via Paltridge & Starfield 2007,
+   p. 83; Swales & Feak 2012, p. 360); after the contribution list it need not
+   repeat what the contributions say of the chapters they point at. It is
+   written as a synopsis of the storyline, not a table of contents (Evans et
+   al. 2014, p. 67): each chapter by what it does, and the dependency carried
+   between them. A clause describing an undrafted chapter is re-checked when
+   that chapter is drafted (§c4).
+3. **Section or chapter as the subject of a preview** (*Section 4.2
+   partitions…*); *we* is kept for decisions (*We chose…*), per §c3.
 
 ## Sources
 

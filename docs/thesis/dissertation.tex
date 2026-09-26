@@ -473,6 +473,36 @@ documented in 38 attacks, not from any one group such as Volt Typhoon.
 \noindent The source code for the simulator is publicly available at
 \url{https://github.com/marc-la/MTDSim}.
 
+% [CONNECTIVE-PROSE PASS 2026-09-26, ch1 overview] Thesis-structure
+%  overview (R2, Marc 2026-09-26: 'that's something that we do need').
+%  Placed LAST in the introduction, after the contributions: the structure
+%  step is the final move of a thesis introduction (Bunton 2002 via
+%  Paltridge & Starfield p. 83; Swales & Feak p. 360), and after the list
+%  it need not repeat what contributions 1-3 already say of chapters 4 and
+%  5. Written as a synopsis of the storyline, not a table of contents
+%  (Evans, Gruba & Zobel p. 67): each chapter by what it does, with the
+%  dependency carried ('toward those properties', 'with those metrics').
+%  Chapter as subject (R3). CHAPTERS 6-8 ARE UNDRAFTED: their clauses
+%  describe the planned job (ch6 plan comments; the discussion's section
+%  headings) --- re-check them against the drafted chapters (stale-roadmap
+%  risk, connective_prose.md c4). SESSION-GENERATED on Marc's 2026-09-26
+%  go-ahead (docs/workflows/connective_prose.md; audit
+%  docs/implementation/connective_prose_audit.md); prior text in git.
+%  DRAFT STATE, ratify on read.
+\medskip
+\noindent Chapter~\ref{ch:background} describes MTD and MTDSim, the simulator in which
+the APT attacker model runs. The literature review of
+Chapter~\ref{ch:litreview} scores the attacker models of recent MTD
+evaluations against eight properties of a sophisticated attacker, and
+Chapter~\ref{ch:attacker-model} builds the APT attacker model toward those
+properties and defines the metrics that measure MTD's performance. With
+those metrics, Chapter~\ref{ch:experiments} runs the APT attacker model and
+the baseline attacker with no defence and then under MTD.
+Chapter~\ref{ch:discussion} reads the results against the eight properties
+and draws out what they change for MTD evaluation.
+Chapter~\ref{ch:futurework} sets out the work that would extend the model,
+and Chapter~\ref{ch:conclusion} answers the research question.
+
 % =====================================================================
 \chapter{Background}
 \label{ch:background}
@@ -495,11 +525,21 @@ documented in 38 attacks, not from any one group such as Volt Typhoon.
 % named verbatim) and keeps one flourish, the inherit/build opposition
 % (placement test 2, not the asymmetry sentence, which stays ruled to
 % ch1/ch3).
-This chapter sets out the background the rest of this dissertation assumes.
+% [CONNECTIVE-PROSE PASS 2026-09-26, P13 ch2 opener] Opener linked to
+%  SQ2/SQ3 in their own words; the heading-restating first sentence cut;
+%  the dependency of 2.2 on 2.1's questions stated. The DRAFT STATE above
+%  is stale (it claims an inherit/build opposition the prose no longer
+%  has). SESSION-GENERATED on Marc's 2026-09-26 go-ahead
+%  (docs/workflows/connective_prose.md; audit
+%  docs/implementation/connective_prose_audit.md); prior text in git.
+%  DRAFT STATE, ratify on read.
+The APT attacker model is executed inside MTDSim, the MTD simulator this
+dissertation inherits, and compared with the simulator's baseline attacker.
+This chapter describes MTDSim and the defence it models.
 Section~\ref{sec:mtd-concept} defines moving target defence and its
 organising questions (what to move, how to move it, and when);
-Section~\ref{sec:mtdsim} describes MTDSim, the simulator this dissertation
-inherits, in which the evaluation runs.
+Section~\ref{sec:mtdsim} describes the simulator's modules and classifies
+its defence mechanisms by the same questions.
 
 % Unit (250 w): the field's vocabulary, cited as definitions --- attack
 % surface; what / how / when to move; shuffle--diversity--redundancy;
@@ -610,15 +650,23 @@ should be.
 % integration flag: both commented-out openers in that unit stay cut.
 MTDSim is a discrete-event simulator built to evaluate defence mechanisms
 singly and in combination \citep{brown2023}.
-Figure~\ref{fig:mtdsim-model} draws its three modules, and the
-subsections describe them in turn: what network is being defended
-(Section~\ref{subsec:network-model}), what defence mechanisms are
-implemented and how their deployment is orchestrated
-(Section~\ref{subsec:defence-mechanisms}), and what attacker the
-defence is evaluated against (Section~\ref{subsec:attacker-model}). The
-simulator is the product of four studies over one evolving codebase;
-Table~\ref{tab:mtdsim-lineage} lists what each work added to the
-codebase, and each addition is described where it is used.
+% [CONNECTIVE-PROSE PASS 2026-09-26, P14 2.2 preamble] The what/what/what
+%  question list (a run of three and a colon-list, naming topics) turned
+%  into a declarative walk; 2026-09-02 placement and content kept, its
+%  interrogative form overturned; 'deployment strategy' is the registry
+%  term; 'to the codebase' cut (the caption carries it). The Table 2.2
+%  sentence (ratified 2026-09-23) is untouched. SESSION-GENERATED on
+%  Marc's 2026-09-26 go-ahead (docs/workflows/connective_prose.md; audit
+%  docs/implementation/connective_prose_audit.md); prior text in git.
+%  DRAFT STATE, ratify on read.
+Figure~\ref{fig:mtdsim-model} draws its three modules and the couplings
+between them. Section~\ref{subsec:network-model} describes the network,
+Section~\ref{subsec:defence-mechanisms} the defence mechanisms and the
+deployment strategies that schedule them, and
+Section~\ref{subsec:attacker-model} the baseline attacker they are evaluated
+against. The simulator is the product of four studies over one evolving
+codebase; Table~\ref{tab:mtdsim-lineage} lists what each work added, and
+each addition is described where it is used.
 % RATIFIED 2026-09-23 (Marc: "that's fine") --- the sentence below is session-written on
 % register E5 (every setup number needs a source; Jin: "a summary table in
 % the background of what prior studies ran"), Marc's direction the same day
@@ -913,9 +961,13 @@ seven values are Zhang's \citep{zhang2023} and the rest are the simulator's.
 %  MTD_DURATION; provenance.md IS-TIM-03 (Zhang's table covers four). Ratify on read.]
 Two mechanisms rewriting the
 same layer cannot operate concurrently \citep{zhang2023}. There are no
-purely reactive deployment strategies in the simulator: no detection
-channel is encoded, so a detection-triggered strategy, such as an
-IDS-based scheme, is not possible.
+% [CONNECTIVE-PROSE PASS 2026-09-26, T1 2.2.2 close] ', such as an
+%  IDS-based scheme,' cut: an example tail and a one-use unexpanded
+%  acronym. SESSION-GENERATED on Marc's 2026-09-26 go-ahead
+%  (docs/workflows/connective_prose.md; audit
+%  docs/implementation/connective_prose_audit.md); prior text in git.
+%  DRAFT STATE, ratify on read.
+purely reactive deployment strategies in the simulator: no detection channel is encoded, so a detection-triggered strategy is not possible.
 
 % Unit (250 w): the scripted six-phase attacker the whole dissertation
 % benchmarks against --- its two scenarios, its RoA-ordered exploit
@@ -1080,6 +1132,18 @@ and credentials.]}
 % ports / exploit / brute force (mtd_operation.py:223-236; Zhang Fig 7).
 % Wording yours.
 
+% [CONNECTIVE-PROSE PASS 2026-09-26, P15 ch2 close] Chapter close ruled by
+%  Marc 2026-09-26 ('one sentence at the end of chapter two ... as long as
+%  it's clear'): chapter 3 scores the attacker this chapter describes.
+%  Sits after the disruption placeholder; keep it last when the
+%  placeholder is drafted. SESSION-GENERATED on Marc's 2026-09-26 go-ahead
+%  (docs/workflows/connective_prose.md; audit
+%  docs/implementation/connective_prose_audit.md); prior text in git.
+%  DRAFT STATE, ratify on read.
+Chapter~\ref{ch:litreview} scores the scripted baseline attacker and the
+attacker models of recent MTD evaluations against the properties of a
+sophisticated attacker.
+
 
 
 % =====================================================================
@@ -1190,14 +1254,21 @@ and credentials.]}
 % instruments are scored over. The chapter surveys the three in turn.
 % ..." Connective prose, session-drafted under the green light; RATIFY
 % ON READ. DRAFT STATE (2026-09-09).
-This chapter surveys the literature on evaluating MTD against APT
-attackers, along the three sub-questions of
-Chapter~\ref{ch:intro}. Section~\ref{sec:apt-survey} surveys how APT
-attacker behaviour is recovered (\ref{sq:capture});
-Section~\ref{sec:mtd-evaluation-survey} how the field evaluates a
-defence mechanism (\ref{sq:evaluate}); Section~\ref{sec:mtd-attacker-models}
-how the attacker is modelled in those evaluations (\ref{sq:model}),
-last because it closes on the gap that motivates
+% [CONNECTIVE-PROSE PASS 2026-09-26, P6 ch3 opener] The three section
+%  clauses given what each section delivers (they were topics under one
+%  verb); S1 and the 'last because' dependency unchanged.
+%  SESSION-GENERATED on Marc's 2026-09-26 go-ahead
+%  (docs/workflows/connective_prose.md; audit
+%  docs/implementation/connective_prose_audit.md); prior text in git.
+%  DRAFT STATE, ratify on read.
+This chapter surveys the literature on evaluating MTD against APT attackers,
+along the three sub-questions of Chapter~\ref{ch:intro}.
+Section~\ref{sec:apt-survey} surveys how APT attacker behaviour is recovered
+from CTI (\ref{sq:capture}); Section~\ref{sec:mtd-evaluation-survey} how the
+field evaluates a defence mechanism, and where the attacker model enters
+that evaluation (\ref{sq:evaluate}); Section~\ref{sec:mtd-attacker-models}
+scores the attacker models of recent evaluations (\ref{sq:model}), last
+because that scoring states the gap that motivates
 Chapter~\ref{ch:attacker-model}.
 
 % ------------------------------------------------------- 3.1 capture --
@@ -1230,7 +1301,12 @@ specification of an APT campaign can be produced from it, and which
 elements such a specification still lacks. Section~\ref{subsec:apt}
 defines the APT attacker and its lifecycle; Section~\ref{subsec:attack}
 the knowledge base its behaviour is recorded in;
-Section~\ref{subsec:profiling} the methods that reconstruct that
+% [CONNECTIVE-PROSE PASS 2026-09-26, T1 3.1 preamble] 3.1.3's heading term
+%  named in the preview. SESSION-GENERATED on Marc's 2026-09-26 go-ahead
+%  (docs/workflows/connective_prose.md; audit
+%  docs/implementation/connective_prose_audit.md); prior text in git.
+%  DRAFT STATE, ratify on read.
+Section~\ref{subsec:profiling} the attack-profiling methods that reconstruct that
 behaviour as structured representations, and their current limitations.
 
 % 1 unit. Review Sec. III-C, tightened. [Flag resolved 2026-09-02, Marc's
@@ -1959,8 +2035,13 @@ remaining 16 are inferred from its prose.
 % cut (duplicated the stitch sentence) and ", the exact intended home
 % for this data" cut. Pass 6: "And what neither strand supplies is
 % tempo" fused into this sentence's head at a colon (V8).]
-The curated record supplies order and dependency, not tempo: the
-Attack Flow schema defines optional per-action start and end
+% [CONNECTIVE-PROSE PASS 2026-09-26, P7a 3.1 close] Split at the ruled
+%  colon so the verdict stands as its own short sentence (the ruled 'not
+%  tempo' kept). SESSION-GENERATED on Marc's 2026-09-26 go-ahead
+%  (docs/workflows/connective_prose.md; audit
+%  docs/implementation/connective_prose_audit.md); prior text in git.
+%  DRAFT STATE, ratify on read.
+The curated record supplies order and dependency, not tempo. The Attack Flow schema defines optional per-action start and end
 timestamps, but the public corpus leaves them all but empty, because
 breach reports
 rarely contain machine-usable timestamps; ATT\&CK campaign records
@@ -1968,7 +2049,12 @@ carry only month-granularity first- and last-seen dates
 \citep{ctid2025attackflow, mitre2026attackkb}.
 The apparatus for reconstructing behaviour from CTI, automated and
 manual alike, sits within the threat-intelligence and
-incident-response literature, not within MTD evaluation.
+% [CONNECTIVE-PROSE PASS 2026-09-26, P7b 3.1 close] Second consecutive
+%  X-not-Y made a plain locative. SESSION-GENERATED on Marc's 2026-09-26
+%  go-ahead (docs/workflows/connective_prose.md; audit
+%  docs/implementation/connective_prose_audit.md); prior text in git.
+%  DRAFT STATE, ratify on read.
+incident-response literature, outside MTD evaluation.
 
 % ------------------------------------------------------ 3.2 evaluate --
 % Feeds evaluate: the instruments are mature, and every one of them is
@@ -2035,9 +2121,15 @@ incident-response literature, not within MTD evaluation.
 % mechanisms, and assesses the result against a metric set using one of
 % several validation methods \citep{cho2020}." Reorder ruled 2026-09-02
 % (metrics before methods, Cho's Sec. VII -> VIII order) stands.
-This section surveys how the field evaluates a defence mechanism and
-the steps involved in such an evaluation. A defence mechanism is designed
-under a defence modelling approach
+% [CONNECTIVE-PROSE PASS 2026-09-26, P5 3.2 preamble] Opens on the
+%  three-step frame ('involves ... steps' is Marc's dictated phrase); S1
+%  repeated the ch3 opener and was the third of four 'surveys' openers.
+%  The 2026-09-07 rulings (no citation, no synthesis) hold.
+%  SESSION-GENERATED on Marc's 2026-09-26 go-ahead
+%  (docs/workflows/connective_prose.md; audit
+%  docs/implementation/connective_prose_audit.md); prior text in git.
+%  DRAFT STATE, ratify on read.
+Evaluating a defence mechanism involves three steps. The mechanism is designed under a defence modelling approach
 (Section~\ref{subsec:defence-modelling-approaches}), instrumented with
 metrics (Section~\ref{subsec:mtd-metrics}), and evaluated under an
 evaluation method (Section~\ref{subsec:evaluation-methods}).
@@ -3278,13 +3370,28 @@ masud2025, tay2024, kim2026}.
 % \citep{jalowski2026} document it again in 2026." and the stitch "This
 % section draws the properties of a sophisticated attacker from the
 % literature the surveys themselves draw on, and then measures."
-This section surveys the attacker model that MTD evaluation is scored
-over, which both MTD surveys name as a primary limitation of the field
-\citep{cho2020, jalowski2026}.
-Section~\ref{subsec:attacker-criterion} derives the properties of a
-sophisticated attacker from the literature;
+% [CONNECTIVE-PROSE PASS 2026-09-26, P3 3.3 preamble] The cited survey
+%  clause cut (it broke the 2026-09-05 'diagnosis stated once, in the
+%  criterion' ruling and put a citation in a signpost); the 3.2-to-3.3
+%  hinge carried by a pointer instead. SESSION-GENERATED on Marc's
+%  2026-09-26 go-ahead (docs/workflows/connective_prose.md; audit
+%  docs/implementation/connective_prose_audit.md); prior text in git.
+%  DRAFT STATE, ratify on read.
+This section surveys the attacker model that the effectiveness metrics of Section~\ref{subsec:mtd-metrics} are computed over.
+% [CONNECTIVE-PROSE PASS 2026-09-26, P3b 3.3 preamble] The properties' two
+%  sources named (checked against 3.3.1's first sentence).
+%  SESSION-GENERATED on Marc's 2026-09-26 go-ahead
+%  (docs/workflows/connective_prose.md; audit
+%  docs/implementation/connective_prose_audit.md); prior text in git.
+%  DRAFT STATE, ratify on read.
+Section~\ref{subsec:attacker-criterion} derives the properties of a sophisticated attacker from two MTD surveys and the APT definition of Section~\ref{subsec:apt};
 Section~\ref{subsec:recent-threat-models} scores recent evaluations
-against them; Section~\ref{subsec:research-gap} states the gap.
+% [CONNECTIVE-PROSE PASS 2026-09-26, P3c 3.3 preamble] The last part given
+%  its dependency on the one before. SESSION-GENERATED on Marc's
+%  2026-09-26 go-ahead (docs/workflows/connective_prose.md; audit
+%  docs/implementation/connective_prose_audit.md); prior text in git.
+%  DRAFT STATE, ratify on read.
+against them; Section~\ref{subsec:research-gap} draws the research gap from that scoring.
 
 % 1 unit. The eight properties DERIVED here as the literature's
 % characterisation (port plan CONFIRM 2); ch4 cites them here (§4.1
@@ -3915,9 +4022,14 @@ cannot sequence, adapt, or remember.
 % [3b] RESOLVED 2026-09-08 (Marc accepted both): Cho Sec. VI-A (Game
 % Theory-Based MTD; the decision-utility pro, source l.502) on the
 % game-theoretic sentence; the passive kept. Raw in the handoff §11.
-The assumptions about the attacker are baked into the logic of the
-defender (Section~\ref{subsec:mtd-metrics}). Over the
-effectiveness metrics the attacker is the weakest link: with a weak
+% [CONNECTIVE-PROSE PASS 2026-09-26, P4 3.3.3 back-link] Mis-aimed ref
+%  fixed: the 'logic' claim is 3.2.1's, the metrics claim 3.2.2's; 3.2.1's
+%  own noun used. 'baked into' and 'weakest link' stay as ruled.
+%  SESSION-GENERATED on Marc's 2026-09-26 go-ahead
+%  (docs/workflows/connective_prose.md; audit
+%  docs/implementation/connective_prose_audit.md); prior text in git.
+%  DRAFT STATE, ratify on read.
+The assumptions about the attacker are baked into the logic of the defence mechanisms (Section~\ref{subsec:defence-modelling-approaches}). Over the effectiveness metrics the attacker is the weakest link (Section~\ref{subsec:mtd-metrics}): with a weak
 attacker model the defence mechanisms cannot be evaluated,
 because the metrics are intertwined and computed
 over the attacker model.
@@ -3938,9 +4050,15 @@ evaluations surveyed here. The claim is about MTD evaluation as
 sampled, not about the field's attacker models at large; the
 field-level diagnosis rests on the two surveys.
 
-The literature does not formally define its attacker models
-\citep[p.~8]{jalowski2026}; this research gap motivates the attacker
-model defined in Chapter~\ref{ch:attacker-model}.
+% [CONNECTIVE-PROSE PASS 2026-09-26, P2 ch3 close] The close hands chapter
+%  4 the gap this section derived ('this research gap' pointed at the
+%  Jalowski clause); registry term APT attacker model. The Jalowski clause
+%  stays (pass-5 C20). Paired with the ch4 opener, which restates the
+%  finding without a second 'motivates'. SESSION-GENERATED on Marc's
+%  2026-09-26 go-ahead (docs/workflows/connective_prose.md; audit
+%  docs/implementation/connective_prose_audit.md); prior text in git.
+%  DRAFT STATE, ratify on read.
+The literature does not formally define its attacker models \citep[p.~8]{jalowski2026}; that absence and the unmeasured performance of MTD against an attacker with a foothold motivate the APT attacker model defined in Chapter~\ref{ch:attacker-model}.
 
 % =====================================================================
 \chapter{APT attacker model}
@@ -4164,9 +4282,6 @@ model defined in Chapter~\ref{ch:attacker-model}.
 %  naming sentence replaces it. The two later "movement attacker" in this
 %  paragraph became "it". DRAFT STATE, ratify on read: the run of "It"
 %  openers is the sweep's residue and is Marc's to reshape.]
-The APT attacker model that we have produced is the model that the
-research gap motivated; it aims to meet the axes from
-Section~\ref{subsec:attacker-criterion}.
 % 2026-09-24 (Marc): "replaces" and "built beside" were both wrong --- the
 % two are different attackers with different jobs (the baseline attacker
 % is the reference); the relation is that MTDSim runs either under
@@ -4174,26 +4289,40 @@ Section~\ref{subsec:attacker-criterion}.
 % "Instrumenting the baseline attacker with it" dropped. OPEN (flagged,
 % not ruled): "and by the attacker model at runtime" reads circular inside
 % the model's own introduction --- "the runtime loop" if that is the sense.
-MTDSim can run either the APT attacker model or the baseline attacker of
-Section~\ref{subsec:attacker-model}, on the same network and under the
-same defences, so that the two can be compared. The APT attacker model
-shares the baseline attacker's actions, but its choice of the next tactic is
-set at runtime by the Petri net of its attack profile. This is a proof of concept, testing whether behavioural fidelity changes
-existing MTD evaluation.
-
 % [2026-09-04, Marc: the identifiers appeared twice in P2 and did not
 %  read right] the section key FOLDED into the three spine clauses ---
 %  each identifier once, paired with the sections that answer it; the
 %  figure sentence closes the paragraph. Deletion and merge of the
 %  ruled text only.
-We are grounding it in CTI to recover the behaviour of APT attackers in
-the real world (\ref{sq:capture}, Sections~\ref{sec:technique-graph}
-and~\ref{sec:attack-profiles}). We are distilling that behaviour into
-attack profiles and their Petri nets, which we join to our
-existing simulator (\ref{sq:model}, Sections~\ref{sec:petri-formalism}
-and~\ref{sec:execution}), to evaluate our defence mechanisms
-(\ref{sq:evaluate}, Chapter~\ref{ch:experiments}).
-Figure~\ref{fig:pipeline} is the pipeline that answers them.
+% [CONNECTIVE-PROSE PASS 2026-09-26, P1 ch4 opener] Roadmap re-keyed to
+%  all five sections (4.5 was missing; the profiles moved to SQ1 as ch1's
+%  contribution 1 has them; 'our defence mechanisms' dropped); the link
+%  states ch3's finding instead of a third 'the gap motivated'; axes ->
+%  properties (R4, Marc 2026-09-26); section-as-subject previews (R3); the
+%  stray 'it' named; the ruled 2026-09-13 SIGNPOST SLOT landed in its own
+%  words. The either-or sentence (2026-09-24) moved out: Figure 4.1's
+%  caption and 4.4.1 carry it. SESSION-GENERATED on Marc's 2026-09-26
+%  go-ahead (docs/workflows/connective_prose.md; audit
+%  docs/implementation/connective_prose_audit.md); prior text in git.
+%  DRAFT STATE, ratify on read.
+The MTD evaluations surveyed in Chapter~\ref{ch:litreview} leave the
+performance of MTD against an attacker with a foothold unmeasured. The APT
+attacker model this chapter defines aims to meet the eight properties of
+Section~\ref{subsec:attacker-criterion}. The APT attacker model shares the
+baseline attacker's actions, but its choice of the next tactic is set at
+runtime by the Petri net of its attack profile. It is a proof of concept,
+testing whether behavioural fidelity changes existing MTD evaluation.
+
+Sections~\ref{sec:technique-graph} and~\ref{sec:attack-profiles} ground the
+model in CTI to recover the behaviour of APT attackers in the real world
+(\ref{sq:capture}). Sections~\ref{sec:petri-formalism}
+and~\ref{sec:execution} make that behaviour executable as Petri nets and
+join them to our existing simulator (\ref{sq:model}).
+Figure~\ref{fig:pipeline} draws each step, and
+Section~\ref{sec:evaluation-metrics} defines the metrics with which
+Chapter~\ref{ch:experiments} answers \ref{sq:evaluate}. Every assumption the
+model makes is stated where the symbol it constrains is declared, and
+Chapter~\ref{ch:experiments} takes the model as given.
 
 % 1 unit (L0--L1). The campaign corpus and its snapshot; aggregating
 % flows into tactic dependencies. Answers capture. Disclosures: what
@@ -4316,11 +4445,16 @@ sparse compared to the rest of the corpus. Pre-intrusion activity
 typically happens on the attacker's infrastructure --- infrastructure
 setup, passive recon --- and is not detectable on the defender's side.
 Hence, in the corpus, reconnaissance only has a mention in 10 out of
-the 38 attack flows. But since we are producing an attacker model for
-defender evaluation, we will later have to draw these edges in
-(Section~\ref{sec:petri-formalism}).
-This is persistent across CTI, so we
-would have to address it regardless of our input.
+the 38 attack flows. 
+% [CONNECTIVE-PROSE PASS 2026-09-26, P11 4.1 close] Reason before pointer;
+%  future tense and the dangling 'This' fixed; Marc's words otherwise.
+%  SESSION-GENERATED on Marc's 2026-09-26 go-ahead
+%  (docs/workflows/connective_prose.md; audit
+%  docs/implementation/connective_prose_audit.md); prior text in git.
+%  DRAFT STATE, ratify on read.
+The sparsity is persistent across CTI, so we would have to address it
+regardless of our input. Because we are producing an attacker model for
+defender evaluation, Section~\ref{sec:petri-formalism} draws these edges in.
 % [RULED (Marc, 2026-08-16), do not re-flag: the defender-validity
 %  sentence and the observability-boundary naming stay OUT --- the "so
 %  what" is the synthetic pre-intrusion structure, the L3 unit's
@@ -4744,12 +4878,19 @@ activity anyway.
 %   fragment repaired by deletion only ("and these" removed).
 % [APPLIED 2026-08-18] M6 justification sentence.
 
-But there are limits to what the Petri net can provide: parameters (the
-timings $\mu_p$ of how long the attacker dwells at a tactic; the
-exponential defence of the dwell times; the mapping $\varphi$; the failure
-matrix $F_{\text{failure}}$) and mechanics (the verdict $v$ by which $F_v$
-reweights the out-transitions a token may choose at runtime, based on
-the success of the APT attacker model in the simulator; sink retrace policy).
+% [CONNECTIVE-PROSE PASS 2026-09-26, P10 4.3 close] Terms matched to 4.4
+%  and the notation table ('declared inputs', 'mean dwell'); 'the
+%  exponential defence of the dwell times' dropped (a justification, not
+%  something the join supplies); the gloss repeating v cut. Marc's colon
+%  and parentheses kept. SESSION-GENERATED on Marc's 2026-09-26 go-ahead
+%  (docs/workflows/connective_prose.md; audit
+%  docs/implementation/connective_prose_audit.md); prior text in git.
+%  DRAFT STATE, ratify on read.
+But there are limits to what the Petri net can provide: the declared inputs
+(the mean dwell $\mu_p$ of each tactic, the mapping $\varphi$, the failure
+matrix $F_{\text{failure}}$) and the mechanics (the verdict $v$ by which
+$F_v$ reweights the token's out-transitions at runtime; the sink-retrace
+policy).
 Section~\ref{sec:execution} supplies these through the join.
 % [RE-KEYED 2026-09-08 with §4.4's four units: phi and F_failure are
 %  declared values (§4.4.2--4.4.4), the verdict v the mechanic (§4.4.1).
@@ -4814,12 +4955,20 @@ Section~\ref{sec:execution} supplies these through the join.
 \section{Integration with MTDSim}
 \label{sec:execution}
 
-This section integrates the Petri nets $\mathcal{N}_c$ of
-Equation~\ref{eq:gspn} with MTDSim through the join, which supplies what the
-nets cannot. The Petri nets can act as inputs, but like source code they
-cannot run against the simulator without a join. A Petri net run on its own
-produces a timeline of what the attacker did; such a run is one-way, with no
-input from the simulator. The join is therefore two-way.
+% [CONNECTIVE-PROSE PASS 2026-09-26, P8 4.4 preamble] Connective part only
+%  (P8, narrowed: the 2026-09-25 'four bases' paragraph below is ruled and
+%  untouched). 'which supplies what the nets cannot' repeated the 4.3
+%  bridge; the source-code simile cut; the subsections given roles. The
+%  recap paragraph below is removed by the next edit. SESSION-GENERATED on
+%  Marc's 2026-09-26 go-ahead (docs/workflows/connective_prose.md; audit
+%  docs/implementation/connective_prose_audit.md); prior text in git.
+%  DRAFT STATE, ratify on read.
+This section integrates the Petri nets $\mathcal{N}_c$ with MTDSim through
+the join. A Petri net run on its own produces a timeline of what the
+attacker did, with no input from the simulator; the join makes the run
+two-way. Section~\ref{subsec:runtime-mechanics} gives the runtime mechanics
+of the join, and Sections~\ref{subsec:dwell-times}
+to~\ref{subsec:failure-matrix} declare the three inputs the join carries.
 % [CUT 2026-09-08, both streams] the mutation example ("Suppose, for
 %  example, the attacker is thwarted ... follow the next tactic. This was not
 %  representative ..."): §4.3 carries the argument ("needs them to depend on
@@ -4831,28 +4980,25 @@ input from the simulator. The join is therefore two-way.
 %  What L0--L3 produce is the profile net; what MTDSim has is the baseline
 %  attacker's verbs; what L4 declares is the join --- this section's own
 %  heading. DRAFT STATE, ratify on read.]
-Sections~\ref{sec:technique-graph} to~\ref{sec:petri-formalism} produce the Petri net: the token is moving
-through all these tactics. Within the simulator, MTDSim, the baseline
-attacker has its actions and has six phases, as outlined in
-Chapter~\ref{ch:background}. To produce results, we have to join the two.
-We scoped it down: for this dissertation we adopt the existing actions from the
-simulator. The APT attacker model and the baseline attacker are two different
-attackers, built for different purposes, with the baseline attacker as the
-reference: neither replaces the other. MTDSim runs either one, on the same
-network and under the same defences, so that the defence mechanisms can be
-evaluated against each attack profile and compared across the two attackers.
 % [rephrase applied per your ruling: the two "beside MTDSim" sentences folded
 %   into one, "beside" carried once.]
-The join carries three things: the dwell times, the mean dwell
-$\mu_p$ of Equation~\ref{eq:gspn}; the tactic-to-action mapping, $\varphi$;
-and the failure matrix, $F_{\text{failure}}$ of Equation~\ref{eq:vc-net}.
 % [spine sentence --- Marc's dictation 2026-08-19; moved up 2026-09-08 as
 %  the section's contract, bound to the three symbols; "is the join between
 %  the Petri nets and our simulator, and it" deleted (the sentence above
 %  says the controller is the join), "(the stochastic dwell times)" deleted
 %  (the parameter is the mean; the draw is what is stochastic).]
-These are the three inputs we had to declare to join the attack
-profiles to MTDSim.
+% [CONNECTIVE-PROSE PASS 2026-09-26, P8b 4.4 preamble] Removed: the recap
+%  of 4.1-4.3 and chapter 2, 'We scoped it down' (the 4.4.1 ceiling
+%  paragraph carries the scope; drop its pointer to 'the preamble's scoped
+%  it down'), the either-or design (fifth statement; ch1, Figure 4.1's
+%  caption and 4.4.1 keep it), and the spine sentence's colon-list (the
+%  4.3 bridge lists the inputs with their symbols one line earlier; the
+%  Equation 4.1 pointer for mu_p was wrong anyway). Overturns the
+%  2026-08-19 spine sentence on merit. SESSION-GENERATED on Marc's
+%  2026-09-26 go-ahead (docs/workflows/connective_prose.md; audit
+%  docs/implementation/connective_prose_audit.md); prior text in git.
+%  DRAFT STATE, ratify on read.
+
 % [2026-09-25 SUPERVISOR SCREEN, step 1 (Marc: "just push it in for now";
 %  conventional terms over descriptive ones). REPLACES "We chose each of them
 %  to the best of our judgement after consulting the literature; whether any
@@ -5064,6 +5210,8 @@ actions can be built that operationalises all of MITRE's tactics.
 %  can look into changing the underlying action layer, but this has been
 %  scoped out for this thesis" cut (the preamble's "scoped it down" and this
 %  sentence carry it; ch7 has the future work).]
+% [2026-09-26 connective-prose pass: the preamble's "scoped it down" is
+%  removed (P8b); this sentence and the ch4 opener now carry the scope.]
 
 \subsection{The dwell times}
 \label{subsec:dwell-times}
@@ -5394,8 +5542,18 @@ threat-model parameters for this simulator, not real-world values.
   \label{fig:failure-weight-matrix}
 \end{figure}
 
-This is verdict-conditioned re-weighting (Equation~\ref{eq:routing}); this
-is what encodes direction. We judged these a plausible set of values to
+% [CONNECTIVE-PROSE PASS 2026-09-26, P12 4.4 close] Nouns named ('This is
+%  ... this is' three paragraphs from the failure matrix).
+%  SESSION-GENERATED on Marc's 2026-09-26 go-ahead
+%  (docs/workflows/connective_prose.md; audit
+%  docs/implementation/connective_prose_audit.md); prior text in git.
+%  DRAFT STATE, ratify on read.
+% [CONNECTIVE-PROSE PASS 2026-09-26, P12b 4.4 close] Noun named;
+%  'plausible' kept (2026-09-18). SESSION-GENERATED on Marc's 2026-09-26
+%  go-ahead (docs/workflows/connective_prose.md; audit
+%  docs/implementation/connective_prose_audit.md); prior text in git.
+%  DRAFT STATE, ratify on read.
+The failure matrix enters the routing as verdict-conditioned re-weighting (Equation~\ref{eq:routing}); it is what encodes direction. We judged its values a plausible set to
 feed into the APT attacker model, and Appendix~\ref{app:sensitivity} reports what
 it would cost to be wrong about them.
 % CLOSE RESCOPED 2026-09-18 --- DRAFT STATE, ratify on read. Was "a plausible,
@@ -5434,9 +5592,18 @@ it would cost to be wrong about them.
 % handoff, "Drafted 2026-09-25". DRAFT STATE --- ratify on read.
 \input{tables/tab_4-5a_metrics}
 
-This section defines the ten metrics that Chapter~\ref{ch:experiments} reports
-(Table~\ref{tab:metrics}). A metric the field defines is used as defined; where
-this thesis adapts or introduces a metric, its definition states the change and
+% [CONNECTIVE-PROSE PASS 2026-09-26, P9 4.5 preamble] Linked to SQ3, and
+%  the dependency between the behaviour and effectiveness metrics stated
+%  in the lead-ins' own words. SESSION-GENERATED on Marc's 2026-09-26
+%  go-ahead (docs/workflows/connective_prose.md; audit
+%  docs/implementation/connective_prose_audit.md); prior text in git.
+%  DRAFT STATE, ratify on read.
+% [CONNECTIVE-PROSE PASS 2026-09-26, T1 4.5 this-thesis a] 'this thesis'
+%  -> 'this dissertation' (ratified row, 2026-09-24). SESSION-GENERATED on
+%  Marc's 2026-09-26 go-ahead (docs/workflows/connective_prose.md; audit
+%  docs/implementation/connective_prose_audit.md); prior text in git.
+%  DRAFT STATE, ratify on read.
+This section defines the ten metrics with which Chapter~\ref{ch:experiments} answers \ref{sq:evaluate} (Table~\ref{tab:metrics}). The behaviour metrics of Section~\ref{subsec:metrics-behaviour} are read with no defence running, and the effectiveness metrics of Section~\ref{subsec:metrics-effectiveness} compare each defence with those no-defence runs. A metric the field defines is used as defined; where this dissertation adapts or introduces a metric, its definition states the change and
 why it is needed. Every metric is computed over a \emph{cell} $\mathcal{R}$, the
 runs of one attacker under one condition at one deployment interval, with
 $r \in \mathcal{R}$ one run.
@@ -5502,7 +5669,12 @@ aggressive attack \citep{pendleton2016}.
 Attack confidentiality, adapted from Zaffarano et al.\ \citep{zaffarano2015}, is
 the share of the attacker's actions that a detector does not flag. Zaffarano et
 al.\ judge exposure by what is visible in network traffic; MTDSim models no
-detection, so this thesis declares a \emph{detector} that alarms on the
+% [CONNECTIVE-PROSE PASS 2026-09-26, T1 4.5 this-thesis b] 'this thesis'
+%  -> 'this dissertation' (ratified row, 2026-09-24). SESSION-GENERATED on
+%  Marc's 2026-09-26 go-ahead (docs/workflows/connective_prose.md; audit
+%  docs/implementation/connective_prose_audit.md); prior text in git.
+%  DRAFT STATE, ratify on read.
+detection, so this dissertation declares a \emph{detector} that alarms on the
 attacker's recent action rate, the signal a slow attacker evades
 \citep{jafarian2015, ward2018}. At the attacker's $j$th action the detector
 holds
@@ -5572,7 +5744,12 @@ compromised host, over the runs $\mathcal{R}_1$ that compromise one:
 \end{equation}
 where $t_r$ is the time of run $r$'s first compromise. Larger is better for the
 defender. Zhang reads MTTC when 80\,\% of the hosts have fallen; a targeted run
-ends at its target, so this thesis reads it at the first host and reports it
+% [CONNECTIVE-PROSE PASS 2026-09-26, T1 4.5 this-thesis c] 'this thesis'
+%  -> 'this dissertation' (ratified row, 2026-09-24). SESSION-GENERATED on
+%  Marc's 2026-09-26 go-ahead (docs/workflows/connective_prose.md; audit
+%  docs/implementation/connective_prose_audit.md); prior text in git.
+%  DRAFT STATE, ratify on read.
+ends at its target, so this dissertation reads it at the first host and reports it
 with the share of runs it covers, $|\mathcal{R}_1|/|\mathcal{R}|$.
 
 \subsection{MTD effectiveness}
