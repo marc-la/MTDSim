@@ -1,5 +1,5 @@
 ---
-status: open — design; Marc's rulings owed on the post-results macrostructure and heading set (§10, 2026-09-28 — supersedes §2 and §3) and the disposition of every board item marked FOUNDATION (§6). Feeds ch6 drafting; nothing here is prose.
+status: open — design; macrostructure RULED 2026-09-28 (§10: Discussion → Conclusion with future work; supersedes §2 and §3); ch6/ch7 microstructure proposed (§11), Marc's rulings owed on its four open items (§11.6) and the disposition of every board item marked FOUNDATION (§6). Feeds ch6 drafting; nothing here is prose.
 created: 2026-09-15
 updated: 2026-09-28
 topic: "The discussion chapter's affinity board: every discussion-shaped idea on disk (six inventories over the notes, the criterion, the L3 investigation records, the ch5 design pass, the ratified ch1/ch3/ch4 prose, the lineage extractions and the field's discussion-section conventions), affinity-grouped into themes, stated as mini-hypotheses, forward-joined to the ch5 measurement that earns each one, and flagged where the foundation may move. Marc's three reads of §6.1–§6.3 tested against the record. Session-proposed compositions kept apart from the inventory."
@@ -918,7 +918,7 @@ Both cite the restructured chapter (landed 2026-09-23): set-up 1 reads §5.2
 
 ## 10. Post-results macrostructure and headings — conventions survey and proposal (2026-09-28)
 
-**Supersedes §2 and §3.** Marc's question: 6.3 *What changes for MTD evaluation*
+**Supersedes §2 and §3. RULED 2026-09-28** (Marc: "as a macro structure I will accept that … I'll go with option A"; confirmed the same day: Discussion 6.1–6.5, Conclusion with contributions and future work). Marc's question: 6.3 *What changes for MTD evaluation*
 and ch7 *Future work* read as the same thing, and future work usually sits
 inside the discussion or conclusion; the placeholder headings predate the
 narrative. Three read-only passes: (i) the lineage and the 25 evaluation
@@ -1122,3 +1122,277 @@ handoff flagged as claimed but untrue of the current ch6).
   changes.
 - Unchanged: the ch6 budget, the total, Table 3.3's return, every §4 board item
   (each re-homes by the table in §10.3).
+
+## 11. Microstructure of ch6 and ch7 (2026-09-28, proposed)
+
+Three read-only passes on 2026-09-28: (i) the internal moves of the lineage's
+and the field's discussions plus the applied-linguistics move models; (ii) the
+threats-to-validity literature, general and simulation-specific; (iii) an
+inventory of every assumption, ceiling and concession in the tex (34 rows).
+Numbers below are as the ch5 prose states them (100 seeds, `\prelim`); the
+drafting session re-reads them from the 1 000-seed corpus.
+
+### 11.1 What the conventions fix
+
+- **One move cycle per finding.** A discussion is "recycled sequences" of
+  reporting a result and commenting on it, "inside out", major findings first
+  (Swales & Feak 2012, Fig. 18 p. 368, p. 369, p. 324); the statement of the
+  result is the obligatory "head" of each cycle (Hopkins & Dudley-Evans 1988,
+  secondary via Boonyuen 2018). In CS the cycle runs result → explanation or
+  deduction more than result → literature (Posteguillo 1999, secondary). The
+  lineage does exactly this: Tay §6 one subsection per §5 result
+  (tay2024.md:350–388); Ho one paragraph per metric, result → "because"
+  (ho2024.md:517–549).
+- **The cycle, as this chapter uses it:** (a) restate the result with a
+  back-reference, no new numbers or floats (Tay :356; Alavizadeh p. 14);
+  (b) account for it by mechanism; (c) compare — the two attackers, or what the
+  lineage expected; (d) bound it — hypotheses labelled as such (Tay :374 "We
+  hypothesize"), negatives stated plainly (Alavizadeh p. 14; Tay :380);
+  (e) deduction.
+- **No headings below the section.** Discussion subsections in the lineage and
+  field run 1–5 paragraphs and never carry a third level (Brown 3/1/1/1, Hong
+  1–2, Tay 3/3/1/2/1, Zhang 3/1/1/1); Evans et al. 2014 p. 116: three or four
+  groups, no more than three sub-headings in a section. Run-in labels (Kim,
+  He, Alavizadeh) where a section needs internal signage.
+- **Hedging is the discussion's register** (Hyland 1995: 36 hedges per 1 000
+  words in discussions against 20 in results), "confidently uncertain"
+  (Swales & Feak pp. 156–157), never over-hedged to "saying almost nothing"
+  (p. 163).
+- **Threats to validity** (full evidence in the pass-(ii) record, sources
+  listed below): the four types come from Cook & Campbell via Wohlin et al.
+  2012; de França & Travassos 2015 (*CLEI EJ* 18(1)) catalogue 28 threats
+  specific to simulation studies in those four types, and name "simulation
+  model simplifications (assumptions) forcing the desired outcomes" the most
+  recurrent, and "the simulation model itself … the main threat to the study
+  validity" (§4.2, §5); the ACM SIGSOFT Simulation standard expects typed
+  threats "considering the supporting data and the simulation model", and lists
+  as an *invalid* criticism "the mere presence of assumptions … as long as the
+  assumptions are documented and justified". What makes the section defensible
+  rather than boilerplate: each threat paired with the mitigation already
+  carried out and the residual it leaves (Feldt & Magazinius 2010: 0.49
+  mitigations per threat, 26.5 % "just mentioned as future work"; Lago et al.
+  2024: 61.5 % of ICSE distinguished papers report none); no "laundry list"
+  (Verdecchia et al. 2023); and the limitations *of the artefact* kept apart
+  from the threats *to the investigation* (Verdecchia P7: "TTV are the
+  consequences of the choices made due to the limitations"). No MTD paper in
+  the 25 uses the typed form (0/25); security venues say "Limitations" by
+  habit, with typed sections a recommended minority (Schloegel et al. 2024:
+  20 % of 150 fuzzing papers). Placement: implications before threats
+  (Runeson & Höst 2009 Table 9; ACM General Standard), with the antipattern
+  "implications and conclusions [written] as though the limitations don't
+  exist" answered by each implication carrying its own bound.
+- **Name clash to avoid:** Sargent's model-validation technique called
+  "internal validity" is not Cook and Campbell's (de França & Travassos §6).
+  The thesis uses the Cook and Campbell sense only.
+
+### 11.2 Chapter 6 — Discussion, section by section
+
+**Opener** (no heading; connective_prose.md §b, ~100 words): the chapter reads
+the two phases in turn, scores the model on the eight properties, draws what
+follows for MTD evaluation, and bounds it.
+
+**6.1 Attacker behaviour without defence** — reads §5.2; the E10 set-up (i).
+Three cycles, major first:
+
+1. *Less success, more slowly* (NCR 0.14–0.20 against 0.49; first compromise
+   about three times later) → mechanism: seven of fifteen tactics have no
+   action and hold the attacker in dwell (26–47 % of steps); 14–28 % of
+   dispatched actions fail a precondition → compare: an APT is defined by
+   persistence toward an objective, not by speed (Alshamrani) → bound: pace is
+   a declared input (the low-and-slow family) → deduction: the model is not a
+   competitor to the baseline (`refusing_the_baseline_race.md`).
+2. *Quieter* (lower attack rate; attack confidentiality 69–93 % against 67 %
+   falling to 43 %) → mechanism: dwell spaces the actions the detector counts
+   → compare: the field's outcome metrics cannot see it, which is why an APT
+   attacker model is needed (E10 i) → bound: one observation, a declared
+   detector tuned on the baseline, property 5 stays blank.
+3. *Behaviour differs by objective*; openings differ in over 70 % of runs
+   except $c_3$; $c_3$ stalls → mechanism for $c_3$ (Marc's, ruled
+   2026-09-21 as ch6's) → bound: the corpus-size confound (C4 below).
+
+**6.2 MTD performance against the APT attacker model** — reads §5.3; the E10
+set-up (ii). Four cycles:
+
+1. *The layer reversal* (the host layer holds back the APT attacker model most,
+   service diversity the baseline) → mechanism: a defence can destroy only the
+   state an attacker carries — position against exploit
+   (`state_bounds_measurable_disruption.md`) → compare: the lineage's own
+   disagreement (Zhang favours shuffle, Ho diversity) read as the same
+   phenomenon (MH-E.1) → bound: the disruption channels are not symmetric
+   between the two attackers (S2) and fidelity is a bundle no control
+   separates (E5).
+2. *Time lost per MTD deployment* (host mechanisms cost the model 429–511 s,
+   the baseline nothing measurable; service diversity the reverse) → mechanism:
+   severance of the foothold against a retry of the same exploit (Brown's own
+   "simply needs to reconnect", MH-E.4).
+3. *User shuffle helps the attacker* (reduction below zero up to 500 s) →
+   mechanism, or labelled as unexplained.
+4. *Deployment strategies and MTDShield* (random and alternative favour the
+   model; MTDShield the baseline; ρ ≈ 0 across mechanisms) → mechanism:
+   MTDShield chooses service diversity at 70–76 % of decisions and was trained
+   against the baseline (Marc's 2026-09-26 bet, stated as a hypothesis) →
+   bound: MTDShield outside its training conditions (S4).
+   Deduction closing the section: no single defence performs best against both
+   attackers — handed to 6.4.
+
+**6.3 Properties of the APT attacker model** — reads ch4 and §5.2–§5.4.
+
+- ¶1 *The discipline*: the eight properties were fixed in §3.3.1 before the
+  model was scored; Table 3.3 returns with the APT attacker model as a fourth
+  row; the row's decode differs from Table 3.3's and the caption says so.
+- ¶2–4 *The walk, grouped by verdict, not eight paragraphs* (the field's
+  honest self-row is Torquato's Table VII, not Masud's all-ticks Table 5;
+  run-in labels): **shown to change an outcome** (2 objective conditioning;
+  3 plurality if §5.2's openings carry it); **implemented, no advantage shown
+  on this simulator** (1 persistence; 4 adaptivity — the ablation told
+  frankly, the staged placeholder); **not met** (5 stealth — the behaviour is
+  measured, the detector is missing; 8 scheme awareness, ruled out). Properties
+  6 and 7: see §11.6.
+- ¶5 *What the capture licenses*: 38 flows give an envelope of documented
+  behaviour, not one actor; the model can only be as good as the actions it
+  adopts (ch4 l.5232), which points back to §3.3.3's "weakest link" as the
+  ch3 comment asks.
+
+**6.4 Implications for MTD evaluation** — present tense, for anyone running an
+MTD evaluation now. Opens by scoping what transfers: the dependence and the
+method, not the numbers (Tay :348 form). Each implication: source finding →
+who it changes practice for → conditional recommendation → its bound (Hong
+§7.1 :643; Brown §V.D :205).
+
+1. *The attacker model is a variable of the evaluation*: a recommendation
+   drawn against one attacker does not transfer (6.2) — evaluate against more
+   than one attacker model, and name the one used.
+2. *Outcome metrics alone misread a slow, quiet attacker* (6.1) — report
+   attacker-behaviour metrics beside the outcome.
+3. *Declare the attacker model against the eight properties*: closes the first
+   half of ch3's gap ("the literature does not formally define its attacker
+   models", l.4086) with the instrument the dissertation used — Table 3.3 as a
+   reporting device any evaluation can fill in.
+4. *Show the metric can discriminate at the chosen operating point* (ASP near
+   its floor, E2; `operating_point_discrimination.md`).
+
+The E10 hook splits here: "no single solution" is implication 1; "more
+research is needed" is §7.2.
+
+**6.5 Threats to validity** — the last section, handing its residuals to §7.2.
+
+- ¶1 *Scope, then the four types.* The artefact's limitations by design —
+  the six adopted actions, the frozen defender, no scheme awareness or
+  learning across runs, one network, the simulation rung — stated once as
+  scope, each paired forward with its §7.2 item (Verdecchia P7; He's
+  limitation-with-future-work form). The four types defined in one sentence
+  each, cited to Wohlin et al. 2012 and, for simulation, de França & Travassos
+  2015.
+- ¶2 **Internal** (first, because the headline is causal: the attacker model
+  changes which defence wins). Threats: fidelity is a bundle of order, timing
+  and failure response that no control separates (E5); the disruption channels
+  reach the two attackers differently (S2); profiles may separate on corpus
+  size rather than objective, the size-matched control unrun (C4); the
+  inherited 20 s confusion penalty (S1). Mitigations: same network, defences,
+  actions and seeds for both attackers; §5.4 isolates the failure matrix.
+  Residual: the claim is "the APT attacker model changes the answer", not
+  "behavioural fidelity does" (the 2026-09-25 mark-risk ledger's wording).
+- ¶3 **Construct.** The declared inputs — the tactic-to-action mapping with no
+  interval (the standing bound; one root with the action ceiling, the
+  adaptivity cap and the precondition failures — consolidate, do not list four
+  times), the dwell times and the low-and-slow family, the failure matrix;
+  attack confidentiality read through a declared detector; time lost per MTD
+  deployment as a lower bound in a window; objective classification by one
+  coder (Runeson & Höst's reliability, filed here). Mitigations: Appendix C's
+  robustness analyses, §5.4, the cross-check of App. B.2. Residual: the
+  magnitudes at 200 s move across the low-and-slow band (44–89 % against 75 %);
+  the orderings are what the chapter claims.
+- ¶4 **External.** 38 flows, detected and published campaigns only, sparse
+  before intrusion, 16 sharing an operator; one network of 50 hosts; MTDShield
+  outside its training conditions; no numeric comparison with the lineage
+  papers. Sargent's unobservable-system ceiling cited as the discipline's own
+  prescription (explore the model's behaviour as thoroughly as possible), and
+  de França & Travassos's "reduces the findings only to the simulation model".
+- ¶5 **Conclusion.** 1 000 seeds; negligible below $d = 0.2$ (§4.5.4);
+  Scott-Knott ranking; no correction across about 160 comparisons; ρ without
+  an interval. Short, because it is the best-mitigated.
+
+### 11.3 Chapter 7 — Conclusion
+
+- **Opener** — the research question answered in the introduction's words, in
+  two or three sentences; the introduction–conclusion link examiners check
+  (Mullins & Kiley 2002, p. 385).
+- **7.1 Contributions** — three paragraphs, one per ch1 contribution, each
+  stated as the answer to its sub-question (SQ1 → contribution 1, …) with its
+  impact on the field, not a recap (Evans p. 122). The strengths and the
+  bounds of 6.3 and 6.5 travel with each claim (the ACM antipattern).
+- **7.2 Future work** — run-in paragraphs, ordered as 6.5's scope paragraph
+  names them, each opening on the limitation it lifts: a richer action set
+  (ch4 l.5232; the binding constraint); stealth against a detector (property
+  5 — the observer, not the behaviour); scheme awareness and learning across
+  runs (property 8; ch4 l.5224); MTD selected or optimised against the APT
+  attacker model (E1's declined third phase; MTDShield retrained); other
+  network sizes and the emulation rung. The dissertation's last sentence names
+  the next step (the writing guide's job for the conclusion).
+
+### 11.4 Budget
+
+| Unit | Words | Units |
+|---|---|---|
+| ch6 opener + 6.1 | 500 | 2 |
+| 6.2 | 500 | 2 |
+| 6.3 (+ Table 3.3's return, outside the count) | 500 | 2 |
+| 6.4 | 500 | 2 |
+| 6.5 | 750 | 3 |
+| **ch6** | **2 750** | **11** (was 9) |
+| ch7 opener + 7.1 | 500 | 2 |
+| 7.2 | 750 | 3 |
+| **ch7** | **1 250** | **5** |
+
+The threats section's floor is about 700–900 words (pass (ii); no source sets a
+norm) against the one unit §10.3 gave it; the two extra units are proposed
+against the float (3 → 1), which the ledger's conservation rule requires naming.
+
+### 11.5 Heading audit
+
+*Threats to validity* is a field term new to the dissertation's surface; the
+no-invented-terms rule is met by citing it (Wohlin et al. 2012; de França &
+Travassos 2015) in 6.5's first paragraph, and neither is yet in
+`references.bib` (Wohlin's section and page to be checked from the book, not
+from secondary paraphrase). The other four headings stand as audited in §10.3.
+*Limitations* remains the fallback heading if Marc prefers the MTD corpus's
+word: the internal organisation above survives either way.
+
+### 11.6 Open — Marc's rulings
+
+1. **6.5's heading**: *Threats to validity*, typed (recommended), or
+   *Limitations*, grouped by the claim each bounds.
+2. **Two float units** to 6.5 (recommended), or 6.5 held at one unit and
+   6.4 cut to one.
+3. **Properties 6 and 7** in `tab:fidelity-verdict`: ticked, with no ch5
+   result or ch4 mechanism behind them (§5, §6; R3). Drop to blank with a
+   sentence in the walk ("built in earlier versions, not part of the evaluated
+   model"), or restore an antecedent. Any structure inherits this.
+4. **The order of 6.4 and 6.5**: implications then threats (recommended; the
+   SE standards, and 6.5 hands straight to §7.2), or threats first (Swales &
+   Feak's order; the implications then read already bounded).
+
+### 11.7 Checks before drafting (flagged, not actioned)
+
+- **E4 contradiction**: ch4 l.5641–5642 says the outcome metrics are
+  "comparable with the field's"; `metrics_semantics.md` says cross-paper
+  numeric comparison is invalid. A ch4 fix, not a ch6 concession.
+- **S2 / D-35**: the disruption-channel asymmetry rests on the 2026-09-09
+  record; check it against the ch4 l.4779–4781 claim that a deployment
+  interrupts an action in flight before 6.2 or 6.5 states it.
+- **Deployment count**: the ch5 setup handoff notes every mechanism logs
+  exactly 75 deployments with zero spread — uninvestigated, and time lost per
+  MTD deployment divides by it.
+- **Six high-severity threats appear in no prose** (C4, M2's reach into
+  outcomes, M4 as the standing bound, S2, E5, E7 while `\prelim` stands): 6.5
+  is their first and only statement, which is why it needs the words.
+
+Sources for §11 (read by the passes unless marked): Swales & Feak 2012;
+Evans, Gruba & Zobel 2014; Hyland 1995 (*HKPLLT* 18); Yang & Allison 2003,
+Hopkins & Dudley-Evans 1988, Posteguillo 1999 (secondary, via Amnuai &
+Wannaruk 2013 and Boonyuen 2018); Runeson & Höst 2009; Feldt & Magazinius
+2010; de França & Travassos 2015 (2016 *EMSE* paper unread); Verdecchia et al.
+2023 (*IST* 164); Lago et al. 2024 (ESEM); Schloegel et al. 2024 (S&P);
+ACM SIGSOFT Empirical Standards (General; Simulation); Sargent 2011; Law 2015;
+Rossow et al. 2012; van der Kouwe et al. 2018; Wohlin et al. 2012 (via Feldt
+& Magazinius — **not read**).
