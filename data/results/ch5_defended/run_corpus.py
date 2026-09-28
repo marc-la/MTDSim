@@ -36,6 +36,11 @@ from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
 OUT = HERE / "runs.jsonl"
+# §5.4's ablation cells at the reported seed count (Marc 2026-09-28): seeds
+# 100-999 of the core and blind arms, written beside the corpus so the shared
+# stream is never rewritten; ablation.py reads both.
+OUT_ABLATION = HERE / "runs_ablation.jsonl"
+ABLATION_SEEDS = tuple(range(100, 1_000))
 
 PROFILES = (
     "objective_exfiltration",
@@ -362,23 +367,40 @@ def build_shield_jobs(conditions=SHIELD, intervals=INTERVALS) -> list[dict]:
             for seed in SEEDS for arm, profile in arms for interval in intervals for c in conditions]
 
 
+def build_ablation_jobs(seeds=ABLATION_SEEDS) -> list[dict]:
+    """The §5.4 cells, both arms: the four profiles, targeted, under no
+    defence and the spanning pair at both intervals."""
+    jobs: list[dict] = []
+    for seed in seeds:
+        for group, overlay in (("core", OVERLAY), ("blind", "verdict_blind")):
+            for p in FOUR:
+                jobs.append(_job(group, "movement", p, "targeted", "none", 0, "shifted", overlay, seed))
+                for interval in INTERVALS:
+                    for c in SPANNING:
+                        jobs.append(_job(group, "movement", p, "targeted", c, interval, "shifted", overlay, seed))
+    return jobs
+
+
 def main() -> int:
     # SHIELD=1 appends MTDShield, random over its four, and the training-builder
     # check to the existing runs.jsonl; the default rebuilds the 2026-09-17 corpus.
     # SWEEP=1 appends every defended condition at SWEEP_INTERVALS (core group only).
     shield = os.environ.get("SHIELD") == "1"
     sweep = os.environ.get("SWEEP") == "1"
-    if sweep:
+    ablation = os.environ.get("ABLATION") == "1"
+    if ablation:  # ABLATION=1 writes runs_ablation.jsonl, never runs.jsonl
+        jobs = build_ablation_jobs()
+    elif sweep:
         jobs = build_shield_jobs(DEFENDED + SHIELD, SWEEP_INTERVALS)
     else:
         jobs = (build_shield_jobs() + build_shield_jobs(SHIELD_CHECK)) if shield else build_jobs()
     if os.environ.get("LIMIT"):  # timing probe: the first N jobs, printed, not written
         jobs = jobs[: int(os.environ["LIMIT"])]
     workers = int(os.environ.get("WORKERS", min(7, os.cpu_count() or 4)))
-    print(f"{len(jobs)} runs on {workers} workers -> {OUT}", flush=True)
+    print(f"{len(jobs)} runs on {workers} workers -> {OUT_ABLATION if ablation else OUT}", flush=True)
     started = time.time()
     done = errors = 0
-    out = os.devnull if os.environ.get("LIMIT") else OUT
+    out = os.devnull if os.environ.get("LIMIT") else (OUT_ABLATION if ablation else OUT)
     with open(out, "a" if (shield or sweep) else "w", encoding="utf-8") as fh, ProcessPoolExecutor(workers) as pool:
         for row in pool.map(dispatch, jobs, chunksize=16):
             fh.write(json.dumps(row) + "\n")
