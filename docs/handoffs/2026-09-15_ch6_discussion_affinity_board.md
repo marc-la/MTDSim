@@ -1396,3 +1396,83 @@ Wannaruk 2013 and Boonyuen 2018); Runeson & Höst 2009; Feldt & Magazinius
 ACM SIGSOFT Empirical Standards (General; Simulation); Sargent 2011; Law 2015;
 Rossow et al. 2012; van der Kouwe et al. 2018; Wohlin et al. 2012 (via Feldt
 & Magazinius — **not read**).
+
+### 11.8 Rulings, 2026-09-28 (Marc, spoken, on §11)
+
+- **6.1–6.5 and the conclusion's shape: ACCEPTED** as §11.2–§11.3 set them out
+  — the contributions answer the sub-questions; future work answers the
+  threats.
+- **6.5 heading: *Threats to validity*** — the term Marc and Jin have already
+  discussed; *Limitations* stays the fallback, the internal organisation is the
+  same either way.
+- **Budget (§11.6 item 2): no ruling needed** — "I'll just write and then I'll
+  just cut later". The float proposal is withdrawn; §11.4 stands as a guide,
+  not a claim.
+- **Order (§11.6 item 4): implications before threats.**
+- **E4 (§11.7): agreed wrong** — "comparable with the field's" does the work an
+  injustice even within the lineage, since this dissertation's own two attackers
+  do not compare one to one. Marc picks up the ch4 l.5641–5642 fix.
+- **S2 (§11.7): holds by design, not a gap.** How disruption reaches each
+  attacker, directly and indirectly, was modelled on purpose to make the
+  comparison fair, and §5.3.1 *Response to disruption* reports it. 6.5's internal
+  paragraph cites that design as the mitigation, rather than raising S2 as a new
+  threat.
+- **The 75-deployment flag (§11.7): retired.** 75 × 200 s is the 15 000 s time
+  limit, so a fixed count at a near-periodic interval is expected.
+
+### 11.9 Properties 6 and 7, and the vulnerability memory (2026-09-28)
+
+Marc asked whether the attacker's vulnerability memory belongs in the method
+with an ablation in the results. His recollections were that property 7 is the
+memory, that a memorising attacker would be more successful, and possibly that
+small networks were tested. What the code and the record hold:
+
+- **The vulnerability memory is property 7.** `mtdnetwork/component/adversary.py`
+  (l.92–100) keeps a count of prior *successful* exploits per vulnerability
+  type, carried across hosts and never decayed across MTD, which raises the
+  odds of re-exploiting a familiar type (λ). It is **off by default**. A second
+  learner, the APT attacker model's within-run belief about which destinations
+  pay (`src/mtdsim/l3_simulation/movement/learning.py`), forgets a fraction ρ on
+  every deployment. Property 6 is the cost model (the utility modulator λ; the
+  disengagement frontier).
+- **"Memorises everything, so more successful" is the reverse of the record.**
+  - The exploit memory operates, but moves no outcome: a *perfect* exploit adds
+    about 0 hosts at every time limit, because breadth on this simulator is not
+    gated by exploit success (`exploit_learning_findings.md` §(a)).
+  - The routing learner that never forgets does *worse* under MTD: ρ = 0 was
+    CI-worse than ρ = 0.5 (MH-C.7), and learning lowered breadth because the
+    reward is not progress (criterion §(g)).
+- **Neither is in the dissertation as it stands.** The ch4 prose defines no
+  learning, memory, cost or utility mechanism; every reported run is the
+  modulators-off configuration. The numbers also predate the substrate
+  restoration: D-19 reinstated the OS gate, so the perfect-exploit ceiling
+  behind the null may have dropped (the ch5 comment blocker at l.~7462).
+- **No small-network run exists in the record.** The pre-registered sweep moved
+  the vulnerability pool (`services_per_os`) and the time limit, never the
+  network size. Marc's intuition has a mechanism in the record ("pool-mediated:
+  a constrained pool grants re-encounters; diversity denies them", §(d)), but
+  network size and pool size are different levers, and the one that matters is
+  how often a vulnerability type recurs across the hosts the attacker reaches.
+
+**Recommendation.** Keep the memory out of the method and results. Blank
+properties 6 and 7 in `tab:fidelity-verdict`, each with one sentence in 6.3
+("not part of the evaluated model"), and name the memory in §7.2 as a specified
+next experiment: whether an attacker that remembers the vulnerability types it
+has exploited gains where types recur more often (a smaller network, a narrower
+pool, less diversity), measured by attempts per host taken as well as by
+breadth. That fits Marc's own rule ("if there's nothing we can talk about,
+there's nothing we can talk about"), keeps the ch5 antecedent rule, and costs
+no runs three weeks before submission.
+
+**If Marc wants it in instead**, the cheapest deciding step first: measure the
+APT attacker model's exploit-success rate in one no-defence cell on the restored
+simulator.
+
+- If the OS gate refuses few exploits, the ceiling stands, the null stands, and
+  the recommendation above holds.
+- If it refuses many, the memory has headroom it lacked when measured. Then a
+  ch4 insertion (one mechanism paragraph and its λ), a ch5 ablation (on/off ×
+  pool or network size) and a float follow, about 370 runs.
+
+Owed either way: the ch5 blocker comment and the orphaned "cost and memory"
+scaffolding (l.~7400–7470) get a status line saying which way it went.
