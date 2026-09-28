@@ -5028,6 +5028,12 @@ attacker did, with no input from the simulator; the join makes the run
 two-way. Section~\ref{subsec:runtime-mechanics} gives the runtime mechanics
 of the join, and Sections~\ref{subsec:dwell-times}
 to~\ref{subsec:failure-matrix} declare the three inputs the join carries.
+% [OWED 2026-09-28: with Section~\ref{subsec:vulnerability-memory} this
+%  sentence needs the memory: "three inputs the join carries" plus "and
+%  Section~\ref{subsec:vulnerability-memory} the attacker's memory of the
+%  vulnerabilities it has exploited" (the memory sits in the exploit action, not
+%  in the join's routing); and the bases list below gains $\lambda$ among the
+%  values that are our judgement. Marc's wording.]
 % [CUT 2026-09-08, both streams] the mutation example ("Suppose, for
 %  example, the attacker is thwarted ... follow the next tactic. This was not
 %  representative ..."): §4.3 carries the argument ("needs them to depend on
@@ -5164,6 +5170,9 @@ ends when a target is compromised.
   base weights stand and the join is bypassed; (6)~the token fires
   the chosen immediate transition and the loop repeats.}
   \label{fig:runtime-loop}
+% [OWED 2026-09-28: the vulnerability memory sits in the MTDSim band's exploit
+%  action (Section~\ref{subsec:vulnerability-memory}); the figure and its caption
+%  ("three declared inputs") need it on the next regeneration.]
 \end{figure}
 
 Success or failure at runtime, the verdict $v \in V$ of
@@ -5253,6 +5262,10 @@ the defence: the attacker does not hold the deployment schedule, learns nothing
 about it within a run, and carries nothing from one run into the next. That
 is the scheme-aware attacker Jalowski et al.\ \citep{jalowski2026} ask for, and this model
 is not one; Section~\ref{sec:future-work} returns to it.
+% [OWED 2026-09-28: still true of the DEFENCE, but the attacker now does learn
+%  within a run --- which vulnerability types have worked for it
+%  (Section~\ref{subsec:vulnerability-memory}). One clause so the two do not
+%  read as contradicting: "learns nothing about the defence within a run".]
 % [2026-09-13: A12 paragraph landed on Marc's ratification of the fourteen-item
 %  proposal (chat, this date); source register: handoff 2026-09-08_ch4_s43_gspn_formalism.md
 %  §7.2. Verified 2026-09-13:
@@ -5534,6 +5547,31 @@ whether any result depends on these values, by running the same attacker with
 every factor of the failure matrix set to one; Appendix~\ref{app:sensitivity}
 varies the rate. These are threat-model parameters for this simulator, not
 real-world values.
+
+\subsection{Vulnerability memory}
+\label{subsec:vulnerability-memory}
+
+% [NEW 2026-09-28, Marc's ruling: the memory is ON in the evaluated APT
+%  attacker model, as the failure matrix is, and ablated beside it in
+%  Section~\ref{sec:ablation}. One paragraph. Heading is Marc's working name;
+%  the first sentence says what it does. Handoff
+%  2026-09-28_vulnerability_memory_on.md; evidence §11.11 of the ch6 board.
+%  Code: mtdnetwork/component/adversary.py (the per-type success count and
+%  lambda). No vocabulary ch2--ch4 lacks: "vulnerability", "exploit",
+%  "OS" are ch2's.]
+\noindent\emph{[Placeholder --- Marc to dictate. What it does: the APT
+attacker model remembers each vulnerability type it has exploited
+successfully, on any host, and each earlier success raises its odds of
+exploiting that type again by a declared factor $\lambda$; the memory lasts the
+run and no deployment erases it (a diversity mechanism works on it by changing
+which types sit on which hosts). Why: an APT attacker reuses what has worked
+for it, becoming more likely to succeed as the attack progresses (property 7,
+Section~\ref{subsec:attacker-criterion}); the lineage's precedent is Zhang's
+attacker, whose exploit time halves on a vulnerability it has used before
+\citep{zhang2023}. The baseline attacker keeps none, as in the lineage. The
+value of $\lambda$ is our judgement, declared with its reason in
+Appendix~\ref{app:movement}; Section~\ref{sec:ablation} switches the memory
+off.]}
 
 \section{Evaluation metrics}
 \label{sec:evaluation-metrics}
@@ -6321,6 +6359,9 @@ attacker's or the defence's.
 %  exactly what a reader checks.
 
 \input{tables/tab_5-1a_experiment}
+% [OWED 2026-09-28: the generated table needs the vulnerability memory as a
+%  fixed setting --- on ($\lambda$ declared) for the APT attacker model, off for
+%  the baseline attacker --- once the 1 000-seed corpus runs with it on.]
 
 % POINTER PROPOSED 2026-09-20 (Marc to dictate or drop): one clause in this unit
 % that the movement attacker's chosen values (Section~\ref{sec:execution}) are held
@@ -8450,6 +8491,20 @@ apart from zero. Removing the failure matrix therefore changes NCR by a
 negligible amount, and changes NCR reduction and time lost by amounts not told
 apart from zero.
 
+% [NEW 2026-09-28: the second ablation (Marc's ruling; handoff
+%  2026-09-28_vulnerability_memory_on.md). OPEN, Marc's: this section's heading
+%  once it holds two ablations (e.g. "Ablations"). Pre-check at 20 seeds, no
+%  defence, §11.11 of the ch6 board: the memory operates (22--39 types
+%  re-exploited per run) and moves no hosts; a perfect exploit adds about
+%  none; the OS check refuses about half of all exploit attempts, and removing
+%  it adds about two hosts. Report whatever the 1 000 seeds show.]
+\noindent\emph{[Placeholder --- the vulnerability memory ablated. Four arms
+on $c_1$ to $c_4$, no defence and the two mechanisms of the first ablation:
+memory on (the model as evaluated); memory off; every exploit roll
+succeeding; and, as a diagnostic of the simulator and not a configuration,
+the OS check switched off. A table beside Table~\ref{tab:ablation}; the same
+reading by Section~\ref{sec:evaluation-metrics}'s threshold.]}
+
 \chapter{Discussion}
 \label{ch:discussion}
 
@@ -8719,9 +8774,13 @@ consequence. An idea tested and found not to matter here, reported so that
 others need not repeat it.]}
 
 
-\noindent\emph{[Placeholder --- properties 6 and 7: what the walk says of
-each depends on the ruling above; if blank, one sentence each (built in
-earlier versions, not part of the evaluated model).]}
+\noindent\emph{[Placeholder --- property 7 read like property 4: the
+vulnerability memory (Section~\ref{subsec:vulnerability-memory}) is part of the
+evaluated model, operates, and confers no advantage, because the simulator's
+exploit action, not the attacker's odds, limits what it can take
+(Section~\ref{sec:ablation}). Property 6: blank, with one sentence (a cost
+model is not part of the evaluated model) --- the mark in the table changes
+only on Marc's ruling.]}
 
 \noindent\emph{[Placeholder --- what the capture licenses: 38 attack flows
 give an envelope of documented behaviour, not one named group; the model can
@@ -9022,9 +9081,10 @@ with each claim.]}
 % sentence names the next step.
 \noindent\emph{[Placeholder --- a richer set of actions (the binding
 constraint); stealth against a detector (property 5: the observer, not the
-behaviour); scheme awareness and learning across runs (property 8); an
-attacker that remembers the vulnerability types it has exploited, where
-types recur more often (a smaller network, a narrower pool); MTD selected or
+behaviour); scheme awareness and learning across runs (property 8); a
+richer exploit action for the vulnerability memory to act on (the memory
+operates and is blocked by the simulator's exploit action,
+Section~\ref{sec:ablation}), and where vulnerability types recur more often; MTD selected or
 optimised against the APT attacker model; other network sizes and
 emulation.]}
 
