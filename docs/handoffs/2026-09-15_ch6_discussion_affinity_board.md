@@ -1,6 +1,7 @@
 ---
-status: open — design; Marc's rulings owed on the section shape (§2), the heading set (§3) and the disposition of every board item marked FOUNDATION (§6). Feeds ch6 drafting; nothing here is prose.
+status: open — design; macrostructure RULED 2026-09-28 (§10: Discussion → Conclusion with future work; supersedes §2 and §3); ch6/ch7 microstructure proposed (§11), Marc's rulings owed on its four open items (§11.6) and the disposition of every board item marked FOUNDATION (§6). Feeds ch6 drafting; nothing here is prose.
 created: 2026-09-15
+updated: 2026-09-28
 topic: "The discussion chapter's affinity board: every discussion-shaped idea on disk (six inventories over the notes, the criterion, the L3 investigation records, the ch5 design pass, the ratified ch1/ch3/ch4 prose, the lineage extractions and the field's discussion-section conventions), affinity-grouped into themes, stated as mini-hypotheses, forward-joined to the ch5 measurement that earns each one, and flagged where the foundation may move. Marc's three reads of §6.1–§6.3 tested against the record. Session-proposed compositions kept apart from the inventory."
 ---
 
@@ -914,3 +915,630 @@ now the supervisor's spine, not a session's composition.
 Both cite the restructured chapter (landed 2026-09-23): set-up 1 reads §5.2
 *APT attacker model versus baseline attacker*, set-up 2 the headline §5.3.2
 *Effect of the attacker model*.
+
+## 10. Post-results macrostructure and headings — conventions survey and proposal (2026-09-28)
+
+**Supersedes §2 and §3. RULED 2026-09-28** (Marc: "as a macro structure I will accept that … I'll go with option A"; confirmed the same day: Discussion 6.1–6.5, Conclusion with contributions and future work). Marc's question: 6.3 *What changes for MTD evaluation*
+and ch7 *Future work* read as the same thing, and future work usually sits
+inside the discussion or conclusion; the placeholder headings predate the
+narrative. Three read-only passes: (i) the lineage and the 25 evaluation
+anatomies, (ii) the thesis-writing literature, (iii) a map of every promise
+ch1–ch5 make to ch6–ch8. Awaiting Marc's ruling; nothing applied to the tex.
+
+### 10.1 Evidence
+
+**The field and the lineage** (`sources/lit_review/`, `implementation/evaluation_anatomies/`):
+
+- Conclusion 25/25. A heading containing "Discussion" 11/25 (6 top-level).
+  Future work **inside the conclusion 13/25** (7 name it in the heading:
+  chobenasher, maleki, manadhatawing, torquato, venkatesan, ho, cho), inside
+  the discussion 5/25 (alavizadeh, brown, hong, kim, masud), its own section
+  4/25 (bland, zhang, tay, he), none 3/25. "Limitation" in a heading 5/25;
+  "Threats to validity" 0/25.
+- **Discussion → Future work → Conclusion as three siblings: Tay only, 1/25.**
+  `evaluation_conventions.md` §h calls Tay's split "the ruled shape of this
+  dissertation's ch5/ch6/ch7"; that records the 2026-09-08 choice, not a
+  convention.
+- Lineage: Brown §V *Discussion* (A. Attacker capabilities and realism; B.
+  Regaining access…; C. Attacker limitations; D. Need for multiple MTD
+  techniques) → §VI *Conclusion*, limitations and future work inside the
+  discussion (brown2023.md:178–209). Hong §7 *Discussion* (7.1 Comparing MTD
+  techniques; 7.2 MTD techniques and threats; …) → §8 *Conclusion*
+  (1_2_hong2018dynamic.md:625–678). Zhang (Masters) *6 Scope for Future Work*
+  → *7 Conclusion*, future work restated in 7 (zhang2023.md:497–532). Ho
+  *5 Future Works and Conclusion*, 5.1–5.5 limitation-shaped, 5.6 Conclusion
+  (ho2024.md:491–596). Tay *6 Discussion* mirroring §5 one to one → *7 Future
+  Works* → *8 Conclusion* (tay2024.md:346–407). None states research questions;
+  none's conclusion answers one.
+- Heading shape: discussion subsections are topic noun phrases everywhere
+  (Brown, Hong, Tay); none is a question; claim-shaped headings only in Cho's
+  survey (bold run-in labels).
+
+**The thesis-writing literature** (full texts read online; *secondary* marked):
+
+- Discussion moves: report and comment on key results (obligatory), then
+  limitations, then recommendations for future research (optional) — Swales &
+  Feak 2012, Fig. 18, p. 368; Paltridge & Starfield 2007, ch. 10, pp. 145–147.
+- Conclusion moves: restate purpose, consolidate the research space, recommend
+  future research, implications — Bunton 2005, *JEAP* 4(3) (abstract; the 82 %
+  thesis-oriented figure is secondary). Paltridge & Starfield Table 10.2,
+  p. 152, groups future research with limitations under "recommendations and
+  implications".
+- **Computer science specifically** (Soler-Monreal 2016, *Ibérica* 32, 48 CS
+  PhD theses): future research in **93.75 %** of conclusion chapters,
+  limitations in 64.58 %, paired limitation-then-future-work; titles
+  "Conclusion(s)" 56.25 %, "Conclusion(s) and future work" 37.5 %; two final
+  chapters (future work + conclusion) 12.5 %, whose moves "match" the
+  conclusion's — the genre reads a future-work chapter as a split conclusion.
+- Evans, Gruba & Zobel 2014: "a separate chapter of conclusions is much
+  preferable"; "only minimal discussion in the conclusions chapter";
+  "summaries are not conclusions"; two or three pages (pp. 121–123); too many
+  chapters means "some are really only sections" (p. 13); group the discussion
+  and head each group — the headings become the discussion's sections (p. 116);
+  examiners "particularly impressed by candidates who are alert to
+  shortcomings" (p. 115). Zobel: headings need not be sentences (p. 30);
+  conclusions are where limitations may be restated and the work looks beyond
+  itself (2nd ed., p. 148).
+- Software-engineering reporting standard (Jedlitschka, Ciolkowski & Pfahl
+  2008, §§3.10–3.11): *Discussion* = evaluation of results and implications,
+  threats to validity, lessons learned; then *Conclusions and future work* =
+  summary, impact (incl. limitations), future work. ACM SIGSOFT Empirical
+  Standards: the discussion states implications and discloses limitations; the
+  anti-pattern is conclusions written "as though the limitations don't exist".
+- **UWA CITS4001 marking guide** (CSSE, 2019): the *Discussion* criterion asks
+  whether shortcomings are recognised, improvements suggested for future
+  studies, further work or loose ends named; no separate conclusion criterion.
+  A marking rubric, not a chapter prescription — any structure meeting it
+  passes, but limitations and further work must both be visible.
+- Examiners read abstract, introduction and conclusion first and "check
+  carefully for the link between the introduction … and the conclusions"
+  (Mullins & Kiley 2002, pp. 376, 385).
+- Implications versus future work are distinct moves (Bunton; Jedlitschka;
+  Rudestam & Newton via Paltridge & Starfield), but sources blur them (Evans
+  p. 121 folds "impact on future work" into implications; Swales & Feak Move 5
+  joins future implementation and future research). The overlap Marc feels is
+  a known seam in the genre; the fix is a stated boundary, not a new chapter.
+
+**What ch1–ch5 already commit** (dissertation.tex as of `cc358fe5`):
+
+- ch1 outline, l.501–504: ch6 "reads the results against the eight properties
+  and draws out what they change for MTD evaluation"; ch7 "sets out the work
+  that would extend the model"; ch8 "answers the research question". The
+  connective-prose ruling (§c4) makes this re-checkable.
+- ch4 l.5224–5225: "Chapter~\ref{ch:futurework} returns to it" (scheme
+  awareness, retention across runs); l.5232–5236: the action-set ceiling and
+  "a richer set of actions" — both future-work obligations.
+- ch5 hands the discussion: why the unopposed gap is this size, why c3 stalls
+  (Marc 2026-09-21), why the failure matrix changes little (§5.4), MTDShield's
+  service-diversity bet (Marc 2026-09-26), the owed low-and-slow and dwell-only
+  concessions (l.6121, l.7373), the one-terrain limitation (l.8560 block).
+- Supervisor E10 (2026-09-22): the discussion is set up by the two phases —
+  (i) slower and less successful on the field's metrics, quieter on the
+  stealth readings; (ii) the effective defence differs with the attacker, "no
+  single solution", more research needed.
+- Two ticks in `tab:fidelity-verdict` (properties 6, 7) rest on no current
+  ch5 result and no ch4 mechanism (§5, §6 above; R3) — a structural risk
+  whatever the headings.
+
+### 10.2 Diagnosis of the placeholders
+
+1. **The discussion is organised on the wrong axis.** The writing guide's
+   discussion column (capture → what it licenses; model → fidelity verdict;
+   evaluate → what changes) assigns one section per sub-question. Answering the
+   sub-questions is the *conclusion's* move (Bunton: restate purpose,
+   consolidate; Mullins & Kiley: the introduction–conclusion link). Organising
+   ch6 by sub-question makes ch6 and ch8 do the same job, and leaves ch6
+   without the discussion's own obligatory move — comment on the key results
+   (Swales & Feak). The capture sub-question has no measurement of its own
+   (the matrix's own empty cell), so 6.1 had nothing to interpret.
+2. **6.1 and 6.2 are one section.** Both are the walk of the eight properties
+   (the two comment blocks drifted into each other's jobs, §1 above).
+3. **6.3 and ch7 overlap because nothing separates implication from
+   future work.** 6.3's verb-shaped heading ("What changes…") reads forward.
+4. **Future work is a section's worth (750 words, 3 units) standing as a
+   chapter** — the form 1 of 25 field documents uses and Evans warns against.
+5. **No home for limitations** — the charter's second movement
+   (`ch7_discussion/README.md`) and six ch5 hand-offs.
+6. **"Fidelity verdict" introduces two words ch1–ch5 never define** (*fidelity*
+   appears once, in the ch4 opener; *verdict* nowhere) — the no-invented-terms
+   rule (E2/E3).
+
+### 10.3 Proposal
+
+Two organising axes, one per chapter: **ch6 is organised by the results** (the
+two phases, then the appraisal of the model, then what follows, then its
+limits — the Swales & Feak order); **ch7 is organised by the research
+question** (the answer, sub-question by sub-question, then the next step).
+Future work becomes the last section of the conclusion — the modal form in
+the field (13/25) and in CS theses (93.75 %), and the placement that lets the
+dissertation end on the E10 hook.
+
+**Chapter 6 — Discussion** (2 250 words, 9 units; unchanged)
+
+| § | Heading | Job | Reads | Units |
+|---|---|---|---|---|
+| — | (opener) | the two phases in one sentence each; roadmap | — | — |
+| 6.1 | Attacker behaviour without defence | interprets phase one: fewer hosts and slower on the field's outcome metrics, quieter on attack rate and confidentiality (E10 set-up i); why the gap is this size; why c3 stalls; not a race with the baseline (`refusing_the_baseline_race.md`) | §5.2 | 2 |
+| 6.2 | MTD performance against the APT attacker model | interprets phase two: the layer reversal and its mechanism (a defence destroys only the state the attacker carries — position against exploit; `state_bounds_measurable_disruption.md`); user shuffle helping the attacker; MTDShield; ρ ≈ 0 (E10 set-up ii) | §5.3 | 2 |
+| 6.3 | Properties of the APT attacker model | the return of Table 3.3 (`tab:fidelity-verdict`): the scoring discipline, then the walk property by property; adaptivity told frankly from the ablation (the staged placeholder); what the 38 flows license (the capture thread's ceiling) | §5.2–§5.4, ch4 | 2 |
+| 6.4 | Implications for MTD evaluation | present-tense consequences for anyone running an MTD evaluation now: the attacker model is a variable of the evaluation; a recommendation against one attacker does not transfer ("no single solution"); success metrics alone misread a slow, quiet attacker; operating-point discrimination; re-validate instruments on an attacker change | §5.2, §5.3 | 2 |
+| 6.5 | Limitations | owned in one place: one terrain; the action-set ceiling; declared parameters (the failure matrix, the low-and-slow exposure); single-analyst coding; 38 flows and the observability boundary; no cross-paper comparison; the frozen defender (Jalowski's third guideline); the simulation rung | ch4, ch5 | 1 |
+
+**Chapter 7 — Conclusion** (500 + 750 = 1 250 words, 5 units; the future-work
+chapter's budget moves here)
+
+| § | Heading | Job | Units |
+|---|---|---|---|
+| — | (opener) | the research question answered directly, in the introduction's words | — |
+| 7.1 | Contributions | each of ch1's three contributions restated as the answer to its sub-question, with its impact — not a recap (Evans: "summaries are not conclusions") | 2 |
+| 7.2 | Future work | each item paired with the limitation (6.5) or unmet property (6.3) it would lift: a richer action set (ch4 l.5232); stealth against a detector (property 5 — the observer, not the behaviour); scheme awareness and retention across runs (property 8; ch4 l.5224); MTD selected or optimised against the APT attacker model (E1's declined third phase; MTDShield); other network sizes and the emulation rung. Run-in paragraphs, no subsections (the ledger: a heading is a 250-word claim) | 3 |
+
+**The boundary between 6.4 and 7.2**, stated so a draft sentence can be sorted
+mechanically: an *implication* rests on a ch5 result and says what an
+evaluation should do now with the tools that exist; a *future-work item* rests
+on a limitation or an unmet property and says what should be built next. The
+E10 hook splits along it — "no single defence performs best against both
+attackers" is 6.4; "more research is needed" is 7.2.
+
+**Heading audit** (Marc's rules; `feedback_thesis_heading_conventions`):
+sentence case; noun-phrase labels, the claim in each first sentence; APT
+visible (6.2, 6.3); no acronym beyond APT and MTD; every noun already met in
+ch1–ch5 — *attacker behaviour* is §4.5.1's metric class, *MTD performance*
+echoes the research question ("How does MTD perform…"), *properties* echoes
+§3.3.1 *Properties of a sophisticated attacker*, *MTD evaluation* is §3.2's
+heading; four grammatical shapes across the five siblings, so no repeated
+scaffold. *Limitations*, *Contributions*, *Future work* are the generic labels
+the CS corpus uses (Soler-Monreal §4.2: generic headings, topic-specific
+subheadings). 6.1–6.2 mirror §5.2–§5.3 in order (Tay's form, the one ch5 setup
+handoff flagged as claimed but untrue of the current ch6).
+
+### 10.4 Alternatives weighed
+
+- **B — limitations and future work closing the discussion** (6.5 *Limitations
+  and future work*, He's heading; a two-unit conclusion). Keeps each limitation
+  beside the work that lifts it and matches the UWA guide's *Discussion*
+  criterion literally. Not recommended: ch6 grows to 12 units, the conclusion
+  shrinks to a recap, and the dissertation ends on a summary rather than the
+  next step the writing guide asks the conclusion to name.
+- **C — keep three chapters** (Tay). The 1-in-25 form; a 750-word chapter; the
+  6.3/ch7 overlap persists and needs the boundary above anyway.
+- **Chapter title "Conclusion and future work"** (37.5 % in CS; Ho's local
+  inversion). Equivalent in substance; the section heading already puts future
+  work in the contents page, and `ch:conclusion` stays.
+
+### 10.5 What a ruling changes (not done here)
+
+- tex: the ch6 headings and labels; `ch:futurework` → a section label under the
+  conclusion; ch4 l.5224 re-pointed; ch1 outline l.501–504 rewritten (ch6's
+  sentence can stand; ch7/ch8's two become one). The ch6 comment blocks re-keyed
+  to the new sections; stale labels in them (§8) fixed in the same pass.
+- `_writing_guide.md`: the matrix's discussion column (the sub-question threads
+  close in the conclusion, not the discussion); the one-line-job rows; the
+  ledger (Future work 3 → Conclusion 2 + 3; chapter count 8 → 7).
+- `evaluation_conventions.md` §h: "the ruled shape" sentence overturned on the
+  §10.1 census.
+- `docs_map.md` and `notes/ch8_future_work/README.md`: the notes dir can stay
+  (it names a body of ideas, not a chapter) but its README's "chapter" wording
+  changes.
+- Unchanged: the ch6 budget, the total, Table 3.3's return, every §4 board item
+  (each re-homes by the table in §10.3).
+
+## 11. Microstructure of ch6 and ch7 (2026-09-28, proposed)
+
+Three read-only passes on 2026-09-28: (i) the internal moves of the lineage's
+and the field's discussions plus the applied-linguistics move models; (ii) the
+threats-to-validity literature, general and simulation-specific; (iii) an
+inventory of every assumption, ceiling and concession in the tex (34 rows).
+Numbers below are as the ch5 prose states them (100 seeds, `\prelim`); the
+drafting session re-reads them from the 1 000-seed corpus.
+
+### 11.1 What the conventions fix
+
+- **One move cycle per finding.** A discussion is "recycled sequences" of
+  reporting a result and commenting on it, "inside out", major findings first
+  (Swales & Feak 2012, Fig. 18 p. 368, p. 369, p. 324); the statement of the
+  result is the obligatory "head" of each cycle (Hopkins & Dudley-Evans 1988,
+  secondary via Boonyuen 2018). In CS the cycle runs result → explanation or
+  deduction more than result → literature (Posteguillo 1999, secondary). The
+  lineage does exactly this: Tay §6 one subsection per §5 result
+  (tay2024.md:350–388); Ho one paragraph per metric, result → "because"
+  (ho2024.md:517–549).
+- **The cycle, as this chapter uses it:** (a) restate the result with a
+  back-reference, no new numbers or floats (Tay :356; Alavizadeh p. 14);
+  (b) account for it by mechanism; (c) compare — the two attackers, or what the
+  lineage expected; (d) bound it — hypotheses labelled as such (Tay :374 "We
+  hypothesize"), negatives stated plainly (Alavizadeh p. 14; Tay :380);
+  (e) deduction.
+- **No headings below the section.** Discussion subsections in the lineage and
+  field run 1–5 paragraphs and never carry a third level (Brown 3/1/1/1, Hong
+  1–2, Tay 3/3/1/2/1, Zhang 3/1/1/1); Evans et al. 2014 p. 116: three or four
+  groups, no more than three sub-headings in a section. Run-in labels (Kim,
+  He, Alavizadeh) where a section needs internal signage.
+- **Hedging is the discussion's register** (Hyland 1995: 36 hedges per 1 000
+  words in discussions against 20 in results), "confidently uncertain"
+  (Swales & Feak pp. 156–157), never over-hedged to "saying almost nothing"
+  (p. 163).
+- **Threats to validity** (full evidence in the pass-(ii) record, sources
+  listed below): the four types come from Cook & Campbell via Wohlin et al.
+  2012; de França & Travassos 2015 (*CLEI EJ* 18(1)) catalogue 28 threats
+  specific to simulation studies in those four types, and name "simulation
+  model simplifications (assumptions) forcing the desired outcomes" the most
+  recurrent, and "the simulation model itself … the main threat to the study
+  validity" (§4.2, §5); the ACM SIGSOFT Simulation standard expects typed
+  threats "considering the supporting data and the simulation model", and lists
+  as an *invalid* criticism "the mere presence of assumptions … as long as the
+  assumptions are documented and justified". What makes the section defensible
+  rather than boilerplate: each threat paired with the mitigation already
+  carried out and the residual it leaves (Feldt & Magazinius 2010: 0.49
+  mitigations per threat, 26.5 % "just mentioned as future work"; Lago et al.
+  2024: 61.5 % of ICSE distinguished papers report none); no "laundry list"
+  (Verdecchia et al. 2023); and the limitations *of the artefact* kept apart
+  from the threats *to the investigation* (Verdecchia P7: "TTV are the
+  consequences of the choices made due to the limitations"). No MTD paper in
+  the 25 uses the typed form (0/25); security venues say "Limitations" by
+  habit, with typed sections a recommended minority (Schloegel et al. 2024:
+  20 % of 150 fuzzing papers). Placement: implications before threats
+  (Runeson & Höst 2009 Table 9; ACM General Standard), with the antipattern
+  "implications and conclusions [written] as though the limitations don't
+  exist" answered by each implication carrying its own bound.
+- **Name clash to avoid:** Sargent's model-validation technique called
+  "internal validity" is not Cook and Campbell's (de França & Travassos §6).
+  The thesis uses the Cook and Campbell sense only.
+
+### 11.2 Chapter 6 — Discussion, section by section
+
+**Opener** (no heading; connective_prose.md §b, ~100 words): the chapter reads
+the two phases in turn, scores the model on the eight properties, draws what
+follows for MTD evaluation, and bounds it.
+
+**6.1 Attacker behaviour without defence** — reads §5.2; the E10 set-up (i).
+Three cycles, major first:
+
+1. *Less success, more slowly* (NCR 0.14–0.20 against 0.49; first compromise
+   about three times later) → mechanism: seven of fifteen tactics have no
+   action and hold the attacker in dwell (26–47 % of steps); 14–28 % of
+   dispatched actions fail a precondition → compare: an APT is defined by
+   persistence toward an objective, not by speed (Alshamrani) → bound: pace is
+   a declared input (the low-and-slow family) → deduction: the model is not a
+   competitor to the baseline (`refusing_the_baseline_race.md`).
+2. *Quieter* (lower attack rate; attack confidentiality 69–93 % against 67 %
+   falling to 43 %) → mechanism: dwell spaces the actions the detector counts
+   → compare: the field's outcome metrics cannot see it, which is why an APT
+   attacker model is needed (E10 i) → bound: one observation, a declared
+   detector tuned on the baseline, property 5 stays blank.
+3. *Behaviour differs by objective*; openings differ in over 70 % of runs
+   except $c_3$; $c_3$ stalls → mechanism for $c_3$ (Marc's, ruled
+   2026-09-21 as ch6's) → bound: the corpus-size confound (C4 below).
+
+**6.2 MTD performance against the APT attacker model** — reads §5.3; the E10
+set-up (ii). Four cycles:
+
+1. *The layer reversal* (the host layer holds back the APT attacker model most,
+   service diversity the baseline) → mechanism: a defence can destroy only the
+   state an attacker carries — position against exploit
+   (`state_bounds_measurable_disruption.md`) → compare: the lineage's own
+   disagreement (Zhang favours shuffle, Ho diversity) read as the same
+   phenomenon (MH-E.1) → bound: the disruption channels are not symmetric
+   between the two attackers (S2) and fidelity is a bundle no control
+   separates (E5).
+2. *Time lost per MTD deployment* (host mechanisms cost the model 429–511 s,
+   the baseline nothing measurable; service diversity the reverse) → mechanism:
+   severance of the foothold against a retry of the same exploit (Brown's own
+   "simply needs to reconnect", MH-E.4).
+3. *User shuffle helps the attacker* (reduction below zero up to 500 s) →
+   mechanism, or labelled as unexplained.
+4. *Deployment strategies and MTDShield* (random and alternative favour the
+   model; MTDShield the baseline; ρ ≈ 0 across mechanisms) → mechanism:
+   MTDShield chooses service diversity at 70–76 % of decisions and was trained
+   against the baseline (Marc's 2026-09-26 bet, stated as a hypothesis) →
+   bound: MTDShield outside its training conditions (S4).
+   Deduction closing the section: no single defence performs best against both
+   attackers — handed to 6.4.
+
+**6.3 Properties of the APT attacker model** — reads ch4 and §5.2–§5.4.
+
+- ¶1 *The discipline*: the eight properties were fixed in §3.3.1 before the
+  model was scored; Table 3.3 returns with the APT attacker model as a fourth
+  row; the row's decode differs from Table 3.3's and the caption says so.
+- ¶2–4 *The walk, grouped by verdict, not eight paragraphs* (the field's
+  honest self-row is Torquato's Table VII, not Masud's all-ticks Table 5;
+  run-in labels): **shown to change an outcome** (2 objective conditioning;
+  3 plurality if §5.2's openings carry it); **implemented, no advantage shown
+  on this simulator** (1 persistence; 4 adaptivity — the ablation told
+  frankly, the staged placeholder); **not met** (5 stealth — the behaviour is
+  measured, the detector is missing; 8 scheme awareness, ruled out). Properties
+  6 and 7: see §11.6.
+- ¶5 *What the capture licenses*: 38 flows give an envelope of documented
+  behaviour, not one actor; the model can only be as good as the actions it
+  adopts (ch4 l.5232), which points back to §3.3.3's "weakest link" as the
+  ch3 comment asks.
+
+**6.4 Implications for MTD evaluation** — present tense, for anyone running an
+MTD evaluation now. Opens by scoping what transfers: the dependence and the
+method, not the numbers (Tay :348 form). Each implication: source finding →
+who it changes practice for → conditional recommendation → its bound (Hong
+§7.1 :643; Brown §V.D :205).
+
+1. *The attacker model is a variable of the evaluation*: a recommendation
+   drawn against one attacker does not transfer (6.2) — evaluate against more
+   than one attacker model, and name the one used.
+2. *Outcome metrics alone misread a slow, quiet attacker* (6.1) — report
+   attacker-behaviour metrics beside the outcome.
+3. *Declare the attacker model against the eight properties*: closes the first
+   half of ch3's gap ("the literature does not formally define its attacker
+   models", l.4086) with the instrument the dissertation used — Table 3.3 as a
+   reporting device any evaluation can fill in.
+4. *Show the metric can discriminate at the chosen operating point* (ASP near
+   its floor, E2; `operating_point_discrimination.md`).
+
+The E10 hook splits here: "no single solution" is implication 1; "more
+research is needed" is §7.2.
+
+**6.5 Threats to validity** — the last section, handing its residuals to §7.2.
+
+- ¶1 *Scope, then the four types.* The artefact's limitations by design —
+  the six adopted actions, the frozen defender, no scheme awareness or
+  learning across runs, one network, the simulation rung — stated once as
+  scope, each paired forward with its §7.2 item (Verdecchia P7; He's
+  limitation-with-future-work form). The four types defined in one sentence
+  each, cited to Wohlin et al. 2012 and, for simulation, de França & Travassos
+  2015.
+- ¶2 **Internal** (first, because the headline is causal: the attacker model
+  changes which defence wins). Threats: fidelity is a bundle of order, timing
+  and failure response that no control separates (E5); the disruption channels
+  reach the two attackers differently (S2); profiles may separate on corpus
+  size rather than objective, the size-matched control unrun (C4); the
+  inherited 20 s confusion penalty (S1). Mitigations: same network, defences,
+  actions and seeds for both attackers; §5.4 isolates the failure matrix.
+  Residual: the claim is "the APT attacker model changes the answer", not
+  "behavioural fidelity does" (the 2026-09-25 mark-risk ledger's wording).
+- ¶3 **Construct.** The declared inputs — the tactic-to-action mapping with no
+  interval (the standing bound; one root with the action ceiling, the
+  adaptivity cap and the precondition failures — consolidate, do not list four
+  times), the dwell times and the low-and-slow family, the failure matrix;
+  attack confidentiality read through a declared detector; time lost per MTD
+  deployment as a lower bound in a window; objective classification by one
+  coder (Runeson & Höst's reliability, filed here). Mitigations: Appendix C's
+  robustness analyses, §5.4, the cross-check of App. B.2. Residual: the
+  magnitudes at 200 s move across the low-and-slow band (44–89 % against 75 %);
+  the orderings are what the chapter claims.
+- ¶4 **External.** 38 flows, detected and published campaigns only, sparse
+  before intrusion, 16 sharing an operator; one network of 50 hosts; MTDShield
+  outside its training conditions; no numeric comparison with the lineage
+  papers. Sargent's unobservable-system ceiling cited as the discipline's own
+  prescription (explore the model's behaviour as thoroughly as possible), and
+  de França & Travassos's "reduces the findings only to the simulation model".
+- ¶5 **Conclusion.** 1 000 seeds; negligible below $d = 0.2$ (§4.5.4);
+  Scott-Knott ranking; no correction across about 160 comparisons; ρ without
+  an interval. Short, because it is the best-mitigated.
+
+### 11.3 Chapter 7 — Conclusion
+
+- **Opener** — the research question answered in the introduction's words, in
+  two or three sentences; the introduction–conclusion link examiners check
+  (Mullins & Kiley 2002, p. 385).
+- **7.1 Contributions** — three paragraphs, one per ch1 contribution, each
+  stated as the answer to its sub-question (SQ1 → contribution 1, …) with its
+  impact on the field, not a recap (Evans p. 122). The strengths and the
+  bounds of 6.3 and 6.5 travel with each claim (the ACM antipattern).
+- **7.2 Future work** — run-in paragraphs, ordered as 6.5's scope paragraph
+  names them, each opening on the limitation it lifts: a richer action set
+  (ch4 l.5232; the binding constraint); stealth against a detector (property
+  5 — the observer, not the behaviour); scheme awareness and learning across
+  runs (property 8; ch4 l.5224); MTD selected or optimised against the APT
+  attacker model (E1's declined third phase; MTDShield retrained); other
+  network sizes and the emulation rung. The dissertation's last sentence names
+  the next step (the writing guide's job for the conclusion).
+
+### 11.4 Budget
+
+| Unit | Words | Units |
+|---|---|---|
+| ch6 opener + 6.1 | 500 | 2 |
+| 6.2 | 500 | 2 |
+| 6.3 (+ Table 3.3's return, outside the count) | 500 | 2 |
+| 6.4 | 500 | 2 |
+| 6.5 | 750 | 3 |
+| **ch6** | **2 750** | **11** (was 9) |
+| ch7 opener + 7.1 | 500 | 2 |
+| 7.2 | 750 | 3 |
+| **ch7** | **1 250** | **5** |
+
+The threats section's floor is about 700–900 words (pass (ii); no source sets a
+norm) against the one unit §10.3 gave it; the two extra units are proposed
+against the float (3 → 1), which the ledger's conservation rule requires naming.
+
+### 11.5 Heading audit
+
+*Threats to validity* is a field term new to the dissertation's surface; the
+no-invented-terms rule is met by citing it (Wohlin et al. 2012; de França &
+Travassos 2015) in 6.5's first paragraph, and neither is yet in
+`references.bib` (Wohlin's section and page to be checked from the book, not
+from secondary paraphrase). The other four headings stand as audited in §10.3.
+*Limitations* remains the fallback heading if Marc prefers the MTD corpus's
+word: the internal organisation above survives either way.
+
+### 11.6 Open — Marc's rulings
+
+1. **6.5's heading**: *Threats to validity*, typed (recommended), or
+   *Limitations*, grouped by the claim each bounds.
+2. **Two float units** to 6.5 (recommended), or 6.5 held at one unit and
+   6.4 cut to one.
+3. **Properties 6 and 7** in `tab:fidelity-verdict`: ticked, with no ch5
+   result or ch4 mechanism behind them (§5, §6; R3). Drop to blank with a
+   sentence in the walk ("built in earlier versions, not part of the evaluated
+   model"), or restore an antecedent. Any structure inherits this.
+4. **The order of 6.4 and 6.5**: implications then threats (recommended; the
+   SE standards, and 6.5 hands straight to §7.2), or threats first (Swales &
+   Feak's order; the implications then read already bounded).
+
+### 11.7 Checks before drafting (flagged, not actioned)
+
+- **E4 contradiction**: ch4 l.5641–5642 says the outcome metrics are
+  "comparable with the field's"; `metrics_semantics.md` says cross-paper
+  numeric comparison is invalid. A ch4 fix, not a ch6 concession.
+- **S2 / D-35**: the disruption-channel asymmetry rests on the 2026-09-09
+  record; check it against the ch4 l.4779–4781 claim that a deployment
+  interrupts an action in flight before 6.2 or 6.5 states it.
+- **Deployment count**: the ch5 setup handoff notes every mechanism logs
+  exactly 75 deployments with zero spread — uninvestigated, and time lost per
+  MTD deployment divides by it.
+- **Six high-severity threats appear in no prose** (C4, M2's reach into
+  outcomes, M4 as the standing bound, S2, E5, E7 while `\prelim` stands): 6.5
+  is their first and only statement, which is why it needs the words.
+
+Sources for §11 (read by the passes unless marked): Swales & Feak 2012;
+Evans, Gruba & Zobel 2014; Hyland 1995 (*HKPLLT* 18); Yang & Allison 2003,
+Hopkins & Dudley-Evans 1988, Posteguillo 1999 (secondary, via Amnuai &
+Wannaruk 2013 and Boonyuen 2018); Runeson & Höst 2009; Feldt & Magazinius
+2010; de França & Travassos 2015 (2016 *EMSE* paper unread); Verdecchia et al.
+2023 (*IST* 164); Lago et al. 2024 (ESEM); Schloegel et al. 2024 (S&P);
+ACM SIGSOFT Empirical Standards (General; Simulation); Sargent 2011; Law 2015;
+Rossow et al. 2012; van der Kouwe et al. 2018; Wohlin et al. 2012 (via Feldt
+& Magazinius — **not read**).
+
+### 11.8 Rulings, 2026-09-28 (Marc, spoken, on §11)
+
+- **6.1–6.5 and the conclusion's shape: ACCEPTED** as §11.2–§11.3 set them out
+  — the contributions answer the sub-questions; future work answers the
+  threats.
+- **6.5 heading: *Threats to validity*** — the term Marc and Jin have already
+  discussed; *Limitations* stays the fallback, the internal organisation is the
+  same either way.
+- **Budget (§11.6 item 2): no ruling needed** — "I'll just write and then I'll
+  just cut later". The float proposal is withdrawn; §11.4 stands as a guide,
+  not a claim.
+- **Order (§11.6 item 4): implications before threats.**
+- **E4 (§11.7): agreed wrong** — "comparable with the field's" does the work an
+  injustice even within the lineage, since this dissertation's own two attackers
+  do not compare one to one. Marc picks up the ch4 l.5641–5642 fix.
+- **S2 (§11.7): holds by design, not a gap.** How disruption reaches each
+  attacker, directly and indirectly, was modelled on purpose to make the
+  comparison fair, and §5.3.1 *Response to disruption* reports it. 6.5's internal
+  paragraph cites that design as the mitigation, rather than raising S2 as a new
+  threat.
+- **The 75-deployment flag (§11.7): retired.** 75 × 200 s is the 15 000 s time
+  limit, so a fixed count at a near-periodic interval is expected.
+
+### 11.9 Properties 6 and 7, and the vulnerability memory (2026-09-28)
+
+Marc asked whether the attacker's vulnerability memory belongs in the method
+with an ablation in the results. His recollections were that property 7 is the
+memory, that a memorising attacker would be more successful, and possibly that
+small networks were tested. What the code and the record hold:
+
+- **The vulnerability memory is property 7.** `mtdnetwork/component/adversary.py`
+  (l.92–100) keeps a count of prior *successful* exploits per vulnerability
+  type, carried across hosts and never decayed across MTD, which raises the
+  odds of re-exploiting a familiar type (λ). It is **off by default**. A second
+  learner, the APT attacker model's within-run belief about which destinations
+  pay (`src/mtdsim/l3_simulation/movement/learning.py`), forgets a fraction ρ on
+  every deployment. Property 6 is the cost model (the utility modulator λ; the
+  disengagement frontier).
+- **"Memorises everything, so more successful" is the reverse of the record.**
+  - The exploit memory operates, but moves no outcome: a *perfect* exploit adds
+    about 0 hosts at every time limit, because breadth on this simulator is not
+    gated by exploit success (`exploit_learning_findings.md` §(a)).
+  - The routing learner that never forgets does *worse* under MTD: ρ = 0 was
+    CI-worse than ρ = 0.5 (MH-C.7), and learning lowered breadth because the
+    reward is not progress (criterion §(g)).
+- **Neither is in the dissertation as it stands.** The ch4 prose defines no
+  learning, memory, cost or utility mechanism; every reported run is the
+  modulators-off configuration. The numbers also predate the substrate
+  restoration: D-19 reinstated the OS gate, so the perfect-exploit ceiling
+  behind the null may have dropped (the ch5 comment blocker at l.~7462).
+- **No small-network run exists in the record.** The pre-registered sweep moved
+  the vulnerability pool (`services_per_os`) and the time limit, never the
+  network size. Marc's intuition has a mechanism in the record ("pool-mediated:
+  a constrained pool grants re-encounters; diversity denies them", §(d)), but
+  network size and pool size are different levers, and the one that matters is
+  how often a vulnerability type recurs across the hosts the attacker reaches.
+
+**Recommendation.** Keep the memory out of the method and results. Blank
+properties 6 and 7 in `tab:fidelity-verdict`, each with one sentence in 6.3
+("not part of the evaluated model"), and name the memory in §7.2 as a specified
+next experiment: whether an attacker that remembers the vulnerability types it
+has exploited gains where types recur more often (a smaller network, a narrower
+pool, less diversity), measured by attempts per host taken as well as by
+breadth. That fits Marc's own rule ("if there's nothing we can talk about,
+there's nothing we can talk about"), keeps the ch5 antecedent rule, and costs
+no runs three weeks before submission.
+
+**If Marc wants it in instead**, the cheapest deciding step first: measure the
+APT attacker model's exploit-success rate in one no-defence cell on the restored
+simulator.
+
+- If the OS gate refuses few exploits, the ceiling stands, the null stands, and
+  the recommendation above holds.
+- If it refuses many, the memory has headroom it lacked when measured. Then a
+  ch4 insertion (one mechanism paragraph and its λ), a ch5 ablation (on/off ×
+  pool or network size) and a float follow, about 370 runs.
+
+Owed either way: the ch5 blocker comment and the orphaned "cost and memory"
+scaffolding (l.~7400–7470) get a status line saying which way it went.
+
+### 11.10 Applied, 2026-09-28 (Marc: "I accept all the changes in terms of heading … put any other placeholders where they need to be")
+
+- **tex**: ch6 re-headed 6.1–6.5 as §11.2 sets them out (labels
+  `sec:disc-behaviour`, `sec:disc-mtd-performance`, `sec:fidelity-verdict`
+  kept for 6.3, `sec:evaluation-implications` kept for 6.4, `sec:threats`); the
+  Future work chapter folded into the Conclusion as §7.2 (`sec:future-work`)
+  beside §7.1 *Contributions* (`sec:contributions`); `ch:futurework` and
+  `sec:captured` retired (a label map heads ch6). Every old comment block moved
+  under the section that now owns it (verified: only the retired headings,
+  labels and one re-pointed comment reference are gone). Placeholders carry
+  §11.2's cycles for every section, the chapter opener and the conclusion's
+  opener. Re-pointed: ch4's "Section~\ref{sec:future-work} returns to it"; the
+  ch1 outline's last two sentences merged (Marc's words kept, ratify on read).
+  Build clean, 101 pages, no undefined references.
+- **Not changed**: the property 6 and 7 marks (§11.9, open); ch5 §5.4's heading
+  and any exploit-memory placeholder (waiting on the pre-check); the ch4
+  comparability sentence (E4 — Marc's fix).
+- **Docs**: `_writing_guide.md` (matrix gains a Conclusion column — the threads
+  close there; job rows; ledger), `evaluation_conventions.md` §h (the "ruled
+  shape" overturned on the census), `docs_map.md` (the `ch8_future_work/` row).
+
+### 11.11 Exploit-memory pre-check on the restored simulator (2026-09-28)
+
+Run on HEAD `4ecabb69`, the §5.3.1 unopposed configuration (50 hosts, no
+defence, targeted objective, 15 000 s), seeds 0–19 shared across arms; 800
+runs, no errors; the control arm reproduces the corpus on those seeds (baseline
+24.6 hosts, $c_{\mathrm{agg}}$ 8.95). 20 seeds, **preliminary**. The runner,
+the analysis script and the raw rows sit in the session scratchpad
+(`precheck/ceiling.py`, `analyse.py`, `*.jsonl`), not tracked. The 2026-08
+"perfect exploit" arm was never in `tools/exploit_learning_sweep.py`, so it was
+rebuilt as a wrapper around `Vulnerability.network` for this check.
+
+- **Exploit success**: about 0.70 of rolls succeed. The restored OS gate
+  refuses 0.49–0.57 of the APT attacker model's exploit attempts (0.41 of the
+  baseline's) with no defence at all.
+- **A perfect roll, gate kept, still adds about 0 hosts** to every profile, for
+  both objectives and in a narrow pool (`services_per_os` = 3). Winning the
+  roll is not the binding constraint.
+- **Gate removed: about +2 hosts** (CI excludes zero for $c_{\mathrm{agg}}$ and
+  $c_4$), with attempts per host falling from about 50 to about 28. The gate
+  is the binding exploit-side limit on the restored simulator.
+- **The memory (λ = 2) operates**: 22–39 vulnerability types per run are
+  re-exploited on a second host, and success per roll rises 0.71 → 0.74 (0.85
+  in the narrow pool). **But it moves breadth in no cell for the APT attacker
+  model**, because it acts on the roll and a refused attempt never rolls.
+- **Baseline attacker**: the only non-null is the general objective (memory
+  +0.95 hosts, CI [+0.14, +1.76]; perfect roll +1.3), bounded by the 80 % stop.
+  Under the targeted objective the dissertation evaluates, it is null.
+
+**What this licenses.** The August null stands for the dissertation's
+configuration, for a different reason than the record gives: the simulator's
+OS-gated exploit action, not the roll, bounds what the attacker can take. That
+is the adopted-actions threat (§11.2, 6.5) shown directly: a capability built
+into the attacker cannot act on the constraint that binds. It is reportable
+as a second ablation beside the failure matrix, and 6.3 can then read property
+7 as "operates, no advantage, blocked by the actions", like property 4.
+
+**What a §5.4 ablation needs before it is written.**
+- A tracked runner with the perfect-roll and gate-off arms built into `tools/`,
+  not the scratchpad wrapper.
+- A ch4 mechanism paragraph for the memory and its λ (the antecedent rule).
+- 100 seeds, then 1 000 per the seed-count protocol.
+- The gate-off arm framed as a diagnostic of the simulator, never as an attacker
+  configuration.
+- Marc's ruling on §5.4's heading (two ablations).

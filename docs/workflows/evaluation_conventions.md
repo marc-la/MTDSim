@@ -427,8 +427,15 @@ examiner has seen before.
 *Discussion* carries the interpretation, **mirroring §5 subsection for
 subsection in the same order**; §7 *Future Works* carries the limitations,
 framed forward. Every result gets a mechanism paragraph by construction, and no
-interpretation leaks into the results narration. **This is the ruled shape of
-this dissertation's ch5/ch6/ch7**, so the local precedent is exact.
+interpretation leaks into the results narration. This was the ruled shape of
+this dissertation's ch5/ch6/ch7 until 2026-09-28, when it was **overturned on
+the field census**: Tay is the only one of 25 lineage and field documents with
+a separate future-work chapter between discussion and conclusion (future work
+sits inside the conclusion in 13 of 25, and in 93.75 % of CS thesis
+conclusions; Soler-Monreal 2016). The dissertation now runs Discussion →
+Conclusion, with future work the conclusion's last section (the ch6 handoff
+§10). Tay's mirroring of the results in the discussion's order still holds for
+6.1–6.2.
 
 **Ho** takes the other option: one *Results and Discussion* chapter whose
 per-factor blocks each close with a titled discussion subsection, with the

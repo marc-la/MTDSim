@@ -1,7 +1,7 @@
 ---
 status: durable
 created: 2026-07-13
-updated: 2026-09-25
+updated: 2026-09-28
 ---
 
 # Docs map — where every document lives, and why
@@ -102,7 +102,7 @@ The subdirs track the **ratified chapter structure** (supervisor register V-seri
 | `ch5_experimental_setup/` | Experimental setup (ch5) | experimental design: the burden of proof, the grading instrument, operating-point discrimination — what the evaluation must show before a result is read |
 | `ch6_results/` | Results (ch6) | sensitivity-analysis and results framing — how a found result is stated and bounded |
 | `ch7_discussion/` | Discussion (ch7) | interpretation, limitations synthesis |
-| `ch8_future_work/` | Future work (ch8) | the named successor programme; only future-work arguments that are self-contained ideas (smaller candidates ride *Revisit conditions*) |
+| `ch8_future_work/` | Future work (§7.2, the conclusion's last section since 2026-09-28; the dir keeps its name — it holds a body of ideas, not a chapter) | the named successor programme; only future-work arguments that are self-contained ideas (smaller candidates ride *Revisit conditions*) |
 
 The Introduction and Conclusion chapters deliberately have **no** notes subdir: both are syntheses written last from the other chapters' material (the introduction's motivation is compressed from `ch3_lit_review/`'s gap statement and the ch4–ch6 contributions). If a note genuinely fits neither maintained chapter, that is a placement smell — re-run the criterion above before inventing a new subdir. Section/subsection structure *below* chapter level is emergent — it will crystallise from the notes themselves, so do not encode sub-chapter numbering into filenames or dirs. Files named with a leading underscore (`_template.md`, `_rubric.md`) are process scaffolding, exempt from the prose register; each chapter dir carries a `README.md` opening with *what that chapter does* (its rhetorical job in the dissertation) and what belongs in it. Whole-document writing guidance — the job of each part including title/abstract/introduction/conclusion, the drafting order, and the refine–forget cycle — is [`../notes/_writing_guide.md`](../notes/_writing_guide.md); load it before drafting chapter prose.
 
