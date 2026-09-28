@@ -8405,18 +8405,22 @@ raised in the regime runs is not yet investigated}
 %  I'm doubting the narrative"): prediction, manipulation check, outcome, with
 %  fig:ablation. The so-what is Marc's: the failure matrix "changes where the
 %  attacker goes but doesn't change what it achieves". Plain description; why
-%  is chapter 6's. Numbers: ablation_numbers.json, 100 seeds, every one \prelim;
-%  the 1 000-seed rerun of these cells (runs_ablation.jsonl) replaces them.
-%  RULING OWED: "negligible" on the point d (Section 4.5.4 as written) or on its
-%  interval (recommended); the third paragraph states both. DRAFT STATE,
-%  ratify on read.]
+%  is chapter 6's. Numbers: ablation_numbers.json at 1 000 seeds (seeds 0-99
+%  from the corpus, 100-999 from runs_ablation.jsonl, the same code; seeds 0
+%  and 3 re-ran bit-identical). The verdict is the point reading Section 4.5.4
+%  declares; every interval also lies inside +-0.2, the IP shuffle 200 s one
+%  only just (upper end 0.1999 of a 2 000-resample percentile), so the prose
+%  says it reaches the edge of the band. RULING owed on point vs interval
+%  reading (recommended: the interval, declared in 4.5.4). Context critic
+%  re-review 2026-09-28: every number checked against the JSON and raw runs.
+%  DRAFT STATE, ratify on read.]
 Every value of the failure matrix is our judgement
 (Section~\ref{subsec:failure-matrix}), so this section tests whether any result
 of this chapter depends on it. Without the failure matrix, a failure routes as a
 success does. If the failure matrix matters, the attacker without it should move
 on after a failure as though it had succeeded, and compromise more of the
 network. The APT attacker model was run on $c_1$ to $c_4$ with the failure
-matrix and with every factor of it set to one, on the same seeds, with no
+matrix and with every factor of it set to one, on the same 1\,000 seeds, with no
 defence and under IP shuffle and OS diversity at the 200\,s and 2\,000\,s
 deployment intervals (Table~\ref{tab:experiment}).
 
@@ -8425,7 +8429,7 @@ deployment intervals (Table~\ref{tab:experiment}).
   \includegraphics{fig_5-4a_ablation}
   \caption[What removing the failure matrix changes]{The APT attacker model with
   the failure matrix (with) and with every factor of it set to one (without), on
-  the same seeds. (a)~After a failed initial access with no defence, the
+  the same 1\,000 seeds. (a)~After a failed initial access with no defence, the
   attacker's next action, as a share of the $n$ failed initial accesses on
   $c_1$, $c_3$ and $c_4$: back to reconnaissance; an action that fails before
   it runs, its precondition unmet; one that runs and fails; one that succeeds
@@ -8440,43 +8444,38 @@ deployment intervals (Table~\ref{tab:experiment}).
 
 Removing the failure matrix changes where the attacker goes after a failure
 (Figure~\ref{fig:ablation}a). After a failed initial access, the model with the
-failure matrix goes back to reconnaissance in \prelim{0.75} to \prelim{0.83}
-of cases on $c_1$, $c_3$ and $c_4$, and the model without it in \prelim{0.07}
-to \prelim{0.13}. The model without it moves on instead, and the actions it
-moves on to mostly fail: on $c_1$, \prelim{0.31} fail before they run,
-\prelim{0.33} run and fail, and \prelim{0.27} succeed without compromising a
-host. With or without the failure matrix, a host is compromised on at most
-\prelim{0.01} of these actions. On $c_2$ the two models are the same after a
-failed initial access, because its net has no move from initial access back to
-reconnaissance for the failure matrix to weight. After every other failure, the
-failure matrix keeps the attacker in its stage, where most of the base weight
-already lies, and at most \prelim{0.19} of the next tactics differ between the
-two models.
+failure matrix goes back to reconnaissance in 0.75 to 0.83 of cases on $c_1$,
+$c_3$ and $c_4$ (on $c_1$, the weight of 0.750 that Figure~\ref{fig:gspn-gadget}
+draws), and the model without it in 0.08 to 0.10. The model without it
+moves on instead, and the actions it moves on to mostly fail: on $c_1$, 0.30
+fail before they run, 0.32 run and fail, and 0.29 succeed without compromising
+a host. With or without the failure matrix, a host is compromised on at most
+0.01 of these actions. On $c_2$ the model goes back to reconnaissance after
+no failed initial access, with or without the failure matrix, and the other
+shares differ by at most 0.03. After every other failure, at most 0.21 of the
+next tactics differ between the two models.
 
 \input{tables/tab_5-4a_ablation}
 
 Removing the failure matrix does not change what the attacker achieves
 (Figure~\ref{fig:ablation}b, Table~\ref{tab:ablation}). With no defence, the
-model compromises \prelim{0.163} of the network with the failure matrix and
-\prelim{0.160} without it. Under every condition $d$ is below 0.2. Its interval
-lies inside the negligible band with no defence and under OS diversity; under
-IP shuffle at 200\,s, where the model compromises \prelim{0.006} of the
-network, it reaches \prelim{0.27}. The largest difference is under IP shuffle
-at 2\,000\,s, where the model with the failure matrix compromises
-\prelim{0.007} more of the network, $d = \prelim{0.18}$ with an interval from
-\prelim{0.01} to \prelim{0.35}: the opposite direction to the prediction. By
-profile, it compromises more on $c_1$ to $c_3$ and less on $c_4$. The NCR
-reduction of each defence differs by at most \prelim{0.035} between the two
-models. Under IP shuffle at 2\,000\,s, time lost per MTD deployment is
-\prelim{511}\,s with the failure matrix and \prelim{492}\,s without it, a
-difference of \prelim{19}\,s with an interval from \prelim{$-121$} to
-\prelim{152}\,s.
+model compromises 0.169 of the network with the failure matrix and 0.165
+without it. Under every condition $d$ is below 0.2. The largest is 0.13, under
+IP shuffle at 200\,s, where the model compromises 0.007 of the network; there
+its interval reaches the edge of the negligible band, and under every other
+condition it lies inside it. In four of the five conditions the model with the
+failure matrix compromises more, the opposite direction to the prediction,
+though not on every profile: under OS diversity at 200\,s it compromises 0.34
+more hosts on $c_2$ and 0.38 fewer on $c_3$.
+The NCR reduction of each defence differs by at most 0.020 between the two
+models. Under IP shuffle at 2\,000\,s, time lost per MTD deployment is 494\,s
+with the failure matrix and 505\,s without it, a difference of $-11$\,s with an
+interval from $-53$ to 31\,s.
 
 The ablation covers two of the seven defence mechanisms, both deployment
 intervals and $c_1$ to $c_4$; the other mechanisms, the execution schemes and
 $c_{\mathrm{agg}}$ were not run without the failure matrix. Within that scope,
-removing the failure matrix moves no result of this chapter by more than a
-small effect, and the one that moves goes against the prediction.
+the results of this chapter do not depend on the failure matrix.
 Chapter~\ref{ch:discussion} discusses why.
 
 \chapter{Discussion}

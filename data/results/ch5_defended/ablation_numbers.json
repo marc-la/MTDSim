@@ -1,527 +1,529 @@
 {
- "scope": "four profiles, targeted; no defence, IP shuffle and OS diversity at 200 s and 2 000 s; seeds 0-99 (100)",
+ "scope": "four profiles, targeted; no defence, IP shuffle and OS diversity at 200 s and 2 000 s; seeds 0-999 (1000)",
  "arms": {
   "core": "with the failure matrix",
   "blind": "every factor set to one"
  },
- "units_none": 400,
- "seeds": 100,
+ "units_none": 4000,
+ "seeds": 1000,
  "behaviour": {
   "objective_exfiltration": {
    "core": {
-    "failed_initial_access": 1415,
-    "failures": 13102,
+    "failed_initial_access": 13830,
+    "failures": 127258,
     "after_failed_initial_access": {
-     "reconnaissance": 0.7491166077738516,
-     "fails": 0.16466431095406361,
-     "succeeds": 0.08409893992932863,
-     "compromises": 0.0021201413427561835,
-     "fails_unmet": 0.0862190812720848
+     "reconnaissance": 0.7537237888647867,
+     "fails": 0.16572668112798264,
+     "succeeds": 0.07903109182935647,
+     "compromises": 0.0015184381778741865,
+     "fails_unmet": 0.08553868402024584
     }
    },
    "blind": {
-    "failed_initial_access": 1480,
-    "failures": 13669,
+    "failed_initial_access": 14837,
+    "failures": 135194,
     "after_failed_initial_access": {
-     "reconnaissance": 0.08445945945945946,
-     "fails": 0.6351351351351351,
-     "succeeds": 0.2682432432432432,
-     "compromises": 0.012162162162162163,
-     "fails_unmet": 0.30945945945945946
+     "reconnaissance": 0.08141807643054526,
+     "fails": 0.6200714430140865,
+     "succeeds": 0.2918379726359776,
+     "compromises": 0.006672507919390712,
+     "fails_unmet": 0.30498079126508054
     }
    },
    "next_tactic_changed_after_other_failures": {
     "by_tactic": {
-     "command-and-control": 0.11360678151490294,
-     "credential-access": 0.19417663792256673,
-     "execution": 0.08810698735227038,
-     "privilege-escalation": 0.10207492252190652
+     "command-and-control": 0.11923179952129039,
+     "credential-access": 0.18338312412875302,
+     "discovery": 0.15249881652803138,
+     "execution": 0.08939108428454284,
+     "lateral-movement": 0.21468716552821165,
+     "privilege-escalation": 0.10420081739771983
     },
-    "max": 0.19417663792256673,
-    "weighted_mean": 0.14006659281836967
+    "max": 0.21468716552821165,
+    "weighted_mean": 0.13802140216495043
    }
   },
   "objective_impact": {
    "core": {
-    "failed_initial_access": 2867,
-    "failures": 13774,
+    "failed_initial_access": 28256,
+    "failures": 138581,
     "after_failed_initial_access": {
      "reconnaissance": 0.0,
-     "fails": 0.8855946982908964,
-     "succeeds": 0.10638297872340426,
-     "compromises": 0.008022322985699337,
-     "fails_unmet": 0.49075688873386814
+     "fails": 0.891031993204983,
+     "succeeds": 0.10277463193657985,
+     "compromises": 0.006193374858437146,
+     "fails_unmet": 0.4961070215175538
     }
    },
    "blind": {
-    "failed_initial_access": 3177,
-    "failures": 13425,
+    "failed_initial_access": 30850,
+    "failures": 134121,
     "after_failed_initial_access": {
      "reconnaissance": 0.0,
-     "fails": 0.8995908089392509,
-     "succeeds": 0.09474346868114573,
-     "compromises": 0.0056657223796034,
-     "fails_unmet": 0.5140069247717973
+     "fails": 0.9042787682333874,
+     "succeeds": 0.09030794165316046,
+     "compromises": 0.005413290113452188,
+     "fails_unmet": 0.5258995137763371
     }
    },
    "next_tactic_changed_after_other_failures": {
     "by_tactic": {
-     "command-and-control": 0.14680985568027632,
+     "command-and-control": 0.14355367186354911,
      "credential-access": 0.0,
-     "discovery": 0.12293822213683893,
-     "execution": 0.18870174064920545,
-     "lateral-movement": 0.15228578753525132,
-     "privilege-escalation": 0.0019587396144848945
+     "discovery": 0.10211933322983202,
+     "execution": 0.19017372428678833,
+     "lateral-movement": 0.16105141439155718,
+     "privilege-escalation": 0.0010391957184119616
     },
-    "max": 0.18870174064920545,
-    "weighted_mean": 0.12849647033046097
+    "max": 0.19017372428678833,
+    "weighted_mean": 0.12796383626075925
    }
   },
   "objective_exfiltration_impact": {
    "core": {
-    "failed_initial_access": 542,
-    "failures": 11884,
+    "failed_initial_access": 5782,
+    "failures": 120699,
     "after_failed_initial_access": {
-     "reconnaissance": 0.8154981549815498,
-     "fails": 0.18450184501845018,
+     "reconnaissance": 0.827049463853338,
+     "fails": 0.17295053614666206,
      "succeeds": 0.0,
      "compromises": 0.0,
-     "fails_unmet": 0.18450184501845018
+     "fails_unmet": 0.17295053614666206
     }
    },
    "blind": {
-    "failed_initial_access": 108,
-    "failures": 11037,
+    "failed_initial_access": 1107,
+    "failures": 112779,
     "after_failed_initial_access": {
-     "reconnaissance": 0.07407407407407407,
-     "fails": 0.9259259259259259,
+     "reconnaissance": 0.0966576332429991,
+     "fails": 0.9033423667570009,
      "succeeds": 0.0,
      "compromises": 0.0,
-     "fails_unmet": 0.9259259259259259
+     "fails_unmet": 0.9033423667570009
     }
    },
    "next_tactic_changed_after_other_failures": {
     "by_tactic": {
-     "command-and-control": 0.13986784140969166,
+     "command-and-control": 0.1473784917403622,
      "credential-access": 0.0,
-     "discovery": 0.1434929618653172,
-     "execution": 0.16925060333371564,
-     "lateral-movement": 0.1758845234789289,
-     "privilege-escalation": 0.006491640543364693
+     "discovery": 0.15657304365826105,
+     "execution": 0.17576887829841625,
+     "lateral-movement": 0.16369681336806285,
+     "privilege-escalation": 0.00458682353389768
     },
-    "max": 0.1758845234789289,
-    "weighted_mean": 0.11381188505711594
+    "max": 0.17576887829841625,
+    "weighted_mean": 0.11816811576173218
    }
   },
   "objective_none_c2": {
    "core": {
-    "failed_initial_access": 203,
-    "failures": 23008,
+    "failed_initial_access": 1858,
+    "failures": 229582,
     "after_failed_initial_access": {
-     "reconnaissance": 0.8325123152709359,
-     "fails": 0.16748768472906403,
+     "reconnaissance": 0.8159311087190527,
+     "fails": 0.18191603875134554,
      "succeeds": 0.0,
-     "compromises": 0.0,
-     "fails_unmet": 0.11330049261083744
+     "compromises": 0.002152852529601722,
+     "fails_unmet": 0.12378902045209902
     }
    },
    "blind": {
-    "failed_initial_access": 225,
-    "failures": 21977,
+    "failed_initial_access": 1941,
+    "failures": 220646,
     "after_failed_initial_access": {
-     "reconnaissance": 0.1288888888888889,
-     "fails": 0.8666666666666667,
+     "reconnaissance": 0.09685729005667182,
+     "fails": 0.8979907264296755,
      "succeeds": 0.0,
-     "compromises": 0.0044444444444444444,
-     "fails_unmet": 0.5866666666666667
+     "compromises": 0.005151983513652756,
+     "fails_unmet": 0.6367851622874807
     }
    },
    "next_tactic_changed_after_other_failures": {
     "by_tactic": {
-     "command-and-control": 0.10080359581046677,
-     "credential-access": 0.0010997630274049985,
-     "discovery": 0.13023120715696523,
-     "execution": 0.12273419206376127,
-     "lateral-movement": 0.1528212139866139,
-     "privilege-escalation": 0.007417243732077028
+     "command-and-control": 0.09730082823386102,
+     "credential-access": 0.0011146307960998442,
+     "discovery": 0.14176428515785516,
+     "execution": 0.12324425701210158,
+     "lateral-movement": 0.16545702810736085,
+     "privilege-escalation": 0.012305675612951456
     },
-    "max": 0.1528212139866139,
-    "weighted_mean": 0.08432656141944478
+    "max": 0.16545702810736085,
+    "weighted_mean": 0.08599506858402797
    }
   }
  },
  "reads": {
   "none": {
-   "units": 400,
-   "seeds": 100,
-   "hosts_with": 8.13,
-   "hosts_without": 8.005,
-   "hosts_diff": 0.125,
+   "units": 4000,
+   "seeds": 1000,
+   "hosts_with": 8.42625,
+   "hosts_without": 8.2725,
+   "hosts_diff": 0.15374999999999872,
    "hosts_diff_ci95": [
-    -0.22249999999999928,
-    0.4800000000000004
+    0.05124374999999959,
+    0.2607499999999998
    ],
-   "cohen_d_per_seed": 0.04606135050616044,
+   "cohen_d_per_seed": 0.055263005900615995,
    "cohen_d_ci95": [
-    -0.07816981995907074,
-    0.17528498394858463
+    0.01775187696936886,
+    0.0935053045292363
    ],
-   "cohen_d_z_per_seed": 0.0711504388306684,
+   "cohen_d_z_per_seed": 0.08995659684663038,
    "hosts_with_ci95": [
-    7.7174375,
-    8.565124999999998
+    8.2972,
+    8.5595125
    ],
    "hosts_without_ci95": [
-    7.6024375,
-    8.41
+    8.14375,
+    8.39453125
    ],
    "per_profile": {
     "objective_exfiltration": {
-     "hosts_with": 7.44,
-     "hosts_without": 7.24,
-     "hosts_diff": 0.20000000000000018,
+     "hosts_with": 7.386,
+     "hosts_without": 7.338,
+     "hosts_diff": 0.04800000000000004,
      "hosts_diff_ci95": [
-      -0.3200000000000003,
-      0.75
+      -0.12802499999999922,
+      0.2280499999999995
      ]
     },
     "objective_impact": {
-     "hosts_with": 9.95,
-     "hosts_without": 10.02,
-     "hosts_diff": -0.07000000000000028,
+     "hosts_with": 10.367,
+     "hosts_without": 9.713,
+     "hosts_diff": 0.6540000000000017,
      "hosts_diff_ci95": [
-      -0.8399999999999999,
-      0.6799999999999997
+      0.4209499999999994,
+      0.8680250000000002
      ]
     },
     "objective_exfiltration_impact": {
-     "hosts_with": 7.92,
-     "hosts_without": 7.57,
-     "hosts_diff": 0.34999999999999964,
+     "hosts_with": 8.37,
+     "hosts_without": 8.565,
+     "hosts_diff": -0.19500000000000028,
      "hosts_diff_ci95": [
-      -0.34000000000000075,
-      0.9900000000000002
+      -0.44904999999999984,
+      0.04804999999999979
      ]
     },
     "objective_none_c2": {
-     "hosts_with": 7.21,
-     "hosts_without": 7.19,
-     "hosts_diff": 0.019999999999999574,
+     "hosts_with": 7.582,
+     "hosts_without": 7.474,
+     "hosts_diff": 0.10799999999999965,
      "hosts_diff_ci95": [
-      -0.7299999999999995,
-      0.7902499999999987
+      -0.09399999999999945,
+      0.32099999999999973
      ]
     }
    }
   },
   "ip_shuffle|200": {
-   "units": 400,
-   "seeds": 100,
-   "hosts_with": 0.315,
-   "hosts_without": 0.295,
-   "hosts_diff": 0.020000000000000018,
+   "units": 4000,
+   "seeds": 1000,
+   "hosts_with": 0.35075,
+   "hosts_without": 0.30425,
+   "hosts_diff": 0.046499999999999986,
    "hosts_diff_ci95": [
-    -0.05250000000000005,
-    0.08999999999999997
+    0.02349375000000002,
+    0.07001249999999994
    ],
-   "cohen_d_per_seed": 0.05932958789676535,
+   "cohen_d_per_seed": 0.13154652035460845,
    "cohen_d_ci95": [
-    -0.1579068009084816,
-    0.26637008143247376
+    0.06347757201494912,
+    0.19991597543496245
    ],
-   "cohen_d_z_per_seed": 0.056949479745149946,
+   "cohen_d_z_per_seed": 0.1210817475113522,
    "hosts_with_ci95": [
-    0.2575,
-    0.3775
+    0.3305,
+    0.37325
    ],
    "hosts_without_ci95": [
-    0.24,
-    0.3525
+    0.28575,
+    0.32275
    ],
    "per_profile": {
     "objective_exfiltration": {
-     "hosts_with": 0.54,
-     "hosts_without": 0.42,
-     "hosts_diff": 0.12000000000000005,
+     "hosts_with": 0.547,
+     "hosts_without": 0.401,
+     "hosts_diff": 0.14600000000000002,
      "hosts_diff_ci95": [
-      -0.06,
-      0.30000000000000004
+      0.08700000000000002,
+      0.20399999999999996
      ]
     },
     "objective_impact": {
-     "hosts_with": 0.38,
-     "hosts_without": 0.35,
-     "hosts_diff": 0.030000000000000027,
+     "hosts_with": 0.423,
+     "hosts_without": 0.354,
+     "hosts_diff": 0.069,
      "hosts_diff_ci95": [
-      -0.11024999999999997,
-      0.17024999999999868
+      0.017974999999999963,
+      0.123
      ]
     },
     "objective_exfiltration_impact": {
-     "hosts_with": 0.2,
-     "hosts_without": 0.11,
-     "hosts_diff": 0.09000000000000001,
+     "hosts_with": 0.198,
+     "hosts_without": 0.192,
+     "hosts_diff": 0.006000000000000005,
      "hosts_diff_ci95": [
-      -0.010000000000000009,
-      0.19
+      -0.028999999999999998,
+      0.04000000000000001
      ]
     },
     "objective_none_c2": {
-     "hosts_with": 0.14,
-     "hosts_without": 0.3,
-     "hosts_diff": -0.15999999999999998,
+     "hosts_with": 0.235,
+     "hosts_without": 0.27,
+     "hosts_diff": -0.03500000000000003,
      "hosts_diff_ci95": [
-      -0.28,
-      -0.04000000000000001
+      -0.07699999999999999,
+      0.009000000000000008
      ]
     }
    },
-   "ncr_reduction_with": 0.9612546125461254,
-   "ncr_reduction_without": 0.9631480324797002,
-   "ncr_reduction_diff": -0.0018934199335747248,
+   "ncr_reduction_with": 0.9583741284675864,
+   "ncr_reduction_without": 0.9632215170746449,
+   "ncr_reduction_diff": -0.004847388607058467,
    "ncr_reduction_diff_ci95": [
-    -0.010798571462516884,
-    0.007102643863611228
+    -0.007828369009228908,
+    -0.0020327860362122346
    ]
   },
   "ip_shuffle|2000": {
-   "units": 400,
-   "seeds": 100,
-   "hosts_with": 5.4725,
-   "hosts_without": 5.1075,
-   "hosts_diff": 0.3650000000000002,
+   "units": 4000,
+   "seeds": 1000,
+   "hosts_with": 5.61575,
+   "hosts_without": 5.4065,
+   "hosts_diff": 0.20924999999999994,
    "hosts_diff_ci95": [
-    0.04743750000000031,
-    0.6900625
+    0.10123750000000027,
+    0.31576250000000033
    ],
-   "cohen_d_per_seed": 0.17748456971258572,
+   "cohen_d_per_seed": 0.09766965733811947,
    "cohen_d_ci95": [
-    0.014180672931761194,
-    0.34542659637290885
+    0.04685013329860028,
+    0.14807497243104906
    ],
-   "cohen_d_z_per_seed": 0.20440365039273609,
+   "cohen_d_z_per_seed": 0.11808111200310313,
    "hosts_with_ci95": [
-    5.12,
-    5.83
+    5.50974375,
+    5.7220125
    ],
    "hosts_without_ci95": [
-    4.7899375,
-    5.42
+    5.3049937499999995,
+    5.5102625
    ],
    "per_profile": {
     "objective_exfiltration": {
-     "hosts_with": 5.57,
-     "hosts_without": 4.88,
-     "hosts_diff": 0.6900000000000004,
+     "hosts_with": 5.526,
+     "hosts_without": 5.211,
+     "hosts_diff": 0.3149999999999995,
      "hosts_diff_ci95": [
-      0.17000000000000082,
-      1.2199999999999998
+      0.14499999999999957,
+      0.49804999999999994
      ]
     },
     "objective_impact": {
-     "hosts_with": 7.21,
-     "hosts_without": 6.7,
-     "hosts_diff": 0.5099999999999998,
+     "hosts_with": 7.289,
+     "hosts_without": 6.925,
+     "hosts_diff": 0.3639999999999999,
      "hosts_diff_ci95": [
-      -0.11000000000000032,
-      1.1399999999999997
+      0.15300000000000044,
+      0.5890000000000004
      ]
     },
     "objective_exfiltration_impact": {
-     "hosts_with": 4.18,
-     "hosts_without": 3.35,
-     "hosts_diff": 0.8299999999999996,
+     "hosts_with": 4.335,
+     "hosts_without": 3.986,
+     "hosts_diff": 0.34899999999999975,
      "hosts_diff_ci95": [
-      0.06000000000000005,
-      1.5599999999999996
+      0.08594999999999942,
+      0.6030249999999996
      ]
     },
     "objective_none_c2": {
-     "hosts_with": 4.93,
-     "hosts_without": 5.5,
-     "hosts_diff": -0.5700000000000003,
+     "hosts_with": 5.313,
+     "hosts_without": 5.504,
+     "hosts_diff": -0.19099999999999984,
      "hosts_diff_ci95": [
-      -1.21,
-      0.1299999999999999
+      -0.3879999999999999,
+      0.006025000000000077
      ]
     }
    },
-   "ncr_reduction_with": 0.32687576875768765,
-   "ncr_reduction_without": 0.3619612742036228,
-   "ncr_reduction_diff": -0.03508550544593514,
+   "ncr_reduction_with": 0.3335410176531671,
+   "ncr_reduction_without": 0.34644907827138116,
+   "ncr_reduction_diff": -0.012908060618214034,
    "ncr_reduction_diff_ci95": [
-    -0.08000902827360953,
-    0.005269382173830464
+    -0.026500531132049886,
+    0.00034940159704389284
    ],
-   "time_lost_with": 510.7611420347704,
+   "time_lost_with": 494.20091321419335,
    "time_lost_with_ci95": [
-    418.1019793311457,
-    604.9088160858051
+    461.18720345814245,
+    524.9592563054005
    ],
-   "time_lost_without": 491.55534464200537,
+   "time_lost_without": 504.937215137855,
    "time_lost_without_ci95": [
-    399.6968084752147,
-    584.6351346160412
+    474.4754623969378,
+    533.8624287480719
    ],
-   "time_lost_diff": 19.20579739276502,
+   "time_lost_diff": -10.736301923661642,
    "time_lost_diff_ci95": [
-    -120.79029822502348,
-    152.1923093518549
+    -52.91575866143037,
+    30.93218503773461
    ]
   },
   "os_diversity|200": {
-   "units": 400,
-   "seeds": 100,
-   "hosts_with": 7.56,
-   "hosts_without": 7.51,
-   "hosts_diff": 0.04999999999999982,
+   "units": 4000,
+   "seeds": 1000,
+   "hosts_with": 7.8125,
+   "hosts_without": 7.833,
+   "hosts_diff": -0.020500000000000185,
    "hosts_diff_ci95": [
-    -0.3224999999999998,
-    0.3900625000000002
+    -0.12524999999999942,
+    0.09000624999999982
    ],
-   "cohen_d_per_seed": 0.018566268355823173,
+   "cohen_d_per_seed": -0.008392723476667478,
    "cohen_d_ci95": [
-    -0.10969314803835345,
-    0.15296820846920345
+    -0.05321590837513558,
+    0.034642216020781644
    ],
-   "cohen_d_z_per_seed": 0.02892234259427622,
+   "cohen_d_z_per_seed": -0.011851846456568841,
    "hosts_with_ci95": [
-    7.167375000000001,
-    7.940125
+    7.6967437499999996,
+    7.9255125
    ],
    "hosts_without_ci95": [
-    7.1,
-    7.895
+    7.72374375,
+    7.94775625
    ],
    "per_profile": {
     "objective_exfiltration": {
-     "hosts_with": 6.96,
-     "hosts_without": 6.53,
-     "hosts_diff": 0.4299999999999997,
+     "hosts_with": 6.728,
+     "hosts_without": 6.875,
+     "hosts_diff": -0.14700000000000024,
      "hosts_diff_ci95": [
-      -0.1402500000000005,
-      1.0199999999999996
+      -0.3200250000000003,
+      0.02400000000000002
      ]
     },
     "objective_impact": {
-     "hosts_with": 8.99,
-     "hosts_without": 8.96,
-     "hosts_diff": 0.02999999999999936,
+     "hosts_with": 9.666,
+     "hosts_without": 9.324,
+     "hosts_diff": 0.3420000000000005,
      "hosts_diff_ci95": [
-      -0.7202500000000006,
-      0.8499999999999996
+      0.1219749999999999,
+      0.5580249999999997
      ]
     },
     "objective_exfiltration_impact": {
-     "hosts_with": 7.65,
-     "hosts_without": 8.25,
-     "hosts_diff": -0.5999999999999996,
+     "hosts_with": 8.236,
+     "hosts_without": 8.612,
+     "hosts_diff": -0.37599999999999945,
      "hosts_diff_ci95": [
-      -1.3099999999999996,
-      0.08999999999999986
+      -0.6200250000000009,
+      -0.12100000000000044
      ]
     },
     "objective_none_c2": {
-     "hosts_with": 6.64,
-     "hosts_without": 6.3,
-     "hosts_diff": 0.33999999999999986,
+     "hosts_with": 6.62,
+     "hosts_without": 6.521,
+     "hosts_diff": 0.0990000000000002,
      "hosts_diff_ci95": [
-      -0.33000000000000007,
-      1.0499999999999998
+      -0.0990000000000002,
+      0.30502500000000043
      ]
     }
    },
-   "ncr_reduction_with": 0.07011070110701123,
-   "ncr_reduction_without": 0.0618363522798252,
-   "ncr_reduction_diff": 0.008274348827186029,
+   "ncr_reduction_with": 0.07283785788458685,
+   "ncr_reduction_without": 0.053127833182230355,
+   "ncr_reduction_diff": 0.0197100247023565,
    "ncr_reduction_diff_ci95": [
-    -0.03966464360447974,
-    0.05641545913063961
+    0.0046128107154280425,
+    0.03503133155657576
    ]
   },
   "os_diversity|2000": {
-   "units": 400,
-   "seeds": 100,
-   "hosts_with": 8.2125,
-   "hosts_without": 8.125,
-   "hosts_diff": 0.08750000000000036,
+   "units": 4000,
+   "seeds": 1000,
+   "hosts_with": 8.5105,
+   "hosts_without": 8.3975,
+   "hosts_diff": 0.11299999999999955,
    "hosts_diff_ci95": [
-    -0.2425624999999997,
-    0.4500625000000007
+    -0.0045062500000002,
+    0.22578124999999952
    ],
-   "cohen_d_per_seed": 0.031194391764069913,
+   "cohen_d_per_seed": 0.04201138601234078,
    "cohen_d_ci95": [
-    -0.0899958819194725,
-    0.14696600786816202
+    -0.0006748516094355774,
+    0.08352256538500243
    ],
-   "cohen_d_z_per_seed": 0.051955259128290986,
+   "cohen_d_z_per_seed": 0.06101283157829945,
    "hosts_with_ci95": [
-    7.8023750000000005,
-    8.6475
+    8.38149375,
+    8.6415
    ],
    "hosts_without_ci95": [
-    7.74,
-    8.525
+    8.273981249999999,
+    8.5270125
    ],
    "per_profile": {
     "objective_exfiltration": {
-     "hosts_with": 7.37,
-     "hosts_without": 7.01,
-     "hosts_diff": 0.3600000000000003,
+     "hosts_with": 7.266,
+     "hosts_without": 7.347,
+     "hosts_diff": -0.0810000000000004,
      "hosts_diff_ci95": [
-      -0.16999999999999993,
-      0.8700000000000001
+      -0.2760249999999998,
+      0.11702499999999984
      ]
     },
     "objective_impact": {
-     "hosts_with": 10.03,
-     "hosts_without": 10.03,
-     "hosts_diff": 0.0,
+     "hosts_with": 10.328,
+     "hosts_without": 9.982,
+     "hosts_diff": 0.3460000000000001,
      "hosts_diff_ci95": [
-      -0.8399999999999999,
-      0.7802499999999998
+      0.10695000000000109,
+      0.5880250000000008
      ]
     },
     "objective_exfiltration_impact": {
-     "hosts_with": 8.17,
-     "hosts_without": 8.32,
-     "hosts_diff": -0.15000000000000036,
+     "hosts_with": 8.897,
+     "hosts_without": 8.847,
+     "hosts_diff": 0.05000000000000071,
      "hosts_diff_ci95": [
-      -0.9602499999999999,
-      0.6602499999999988
+      -0.20710000000000073,
+      0.30602499999999905
      ]
     },
     "objective_none_c2": {
-     "hosts_with": 7.28,
-     "hosts_without": 7.14,
-     "hosts_diff": 0.14000000000000057,
+     "hosts_with": 7.551,
+     "hosts_without": 7.414,
+     "hosts_diff": 0.13700000000000045,
      "hosts_diff_ci95": [
-      -0.46999999999999975,
-      0.7700000000000005
+      -0.07400000000000073,
+      0.341025
      ]
     }
    },
-   "ncr_reduction_with": -0.010147601476014678,
-   "ncr_reduction_without": -0.01499063085571506,
-   "ncr_reduction_diff": 0.004843029379700381,
+   "ncr_reduction_with": -0.00999851654057271,
+   "ncr_reduction_without": -0.015110305228165588,
+   "ncr_reduction_diff": 0.0051117886875928775,
    "ncr_reduction_diff_ci95": [
-    -0.04372735644816372,
-    0.05308041022029047
+    -0.01081021565771687,
+    0.02090175819709941
    ],
-   "time_lost_with": 55.43993526140216,
+   "time_lost_with": 27.549329896711672,
    "time_lost_with_ci95": [
-    -43.048765246365726,
-    152.52289276408803
+    -3.722178431252349,
+    56.59907781120919
    ],
-   "time_lost_without": 15.949375278139456,
+   "time_lost_without": -1.9497450680301665,
    "time_lost_without_ci95": [
-    -81.08547078504805,
-    108.76337739969398
+    -31.879540410246396,
+    26.97027836752533
    ],
-   "time_lost_diff": 39.490559983262706,
+   "time_lost_diff": 29.499074964741837,
    "time_lost_diff_ci95": [
-    -91.1106325329945,
-    176.2996213549321
+    -13.40002405426644,
+    70.75984112258531
    ]
   }
  }

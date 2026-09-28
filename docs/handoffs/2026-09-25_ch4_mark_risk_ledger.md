@@ -991,7 +991,16 @@ figure (`fig:ablation`, `tools/ch5_ablation_figure.py`) and the table slimmed.
   (`ABLATION=1 python run_corpus.py`); seeds 0 and 3 re-run bit-identical to
   the corpus first.
 
-**Ruling owed (Marc): how "negligible" is read.** §4.5.4 says negligible when
+**1 000-seed result (2026-09-28, 36 000 runs, 0 errors; §5.4 final, not
+\prelim).** Every $d$ below 0.2 (largest 0.13, IP shuffle 200 s); every
+interval inside ±0.2, the IP shuffle 200 s one only just (0.1999). Four of five
+conditions have the model *with* the failure matrix compromising more, against
+the prediction. Time lost under IP shuffle 2 000 s: 494 s with, 505 s without,
+−11 s [−53, 31]. Fresh cold reader arrived at the takeaways unprompted; context
+critic re-verified every §5.4 number from the raw runs.
+
+**Ruling owed (Marc): how "negligible" is read.** (No longer blocking: at
+1 000 seeds the verdict holds on either reading.) §4.5.4 says negligible when
 the point $d$ is below 0.2. The examiner's reading, and the equivalence-testing
 convention (Lakens 2017), is that the *interval* of $d$ must lie inside ±0.2.
 Panel (b) draws both, so the figure stands either way; the §5.4 sentence and
