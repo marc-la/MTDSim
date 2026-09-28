@@ -364,10 +364,13 @@ research question of this dissertation:
 % ONE CHAPTER MAP (Marc, 2026-09-28): the chapter and section pointers that
 % stood here (ch4, ch5, sec. 4.5) are CUT --- the overview closing the
 % chapter is the only map, so P5 reads as the approach and not as a second
-% roadmap. The last two sentences are P6's scope sentences, MOVED here (they
-% fence the approach, not the results); "the behaviour documented in 38
-% attacks" became "the attack flows together" to avoid a third "38" in one
-% paragraph. Ratify on read.
+% roadmap. P6's two scope sentences were moved here and then CUT the same
+% day (Marc, 2026-09-28: appended, not integrated). "Built from the attack
+% flows together, not any one group" restated "We combine the 38 attack
+% flows into one graph"; "evaluates existing defences in simulation"
+% restated "each of MTDSim's defences". "Proposes no new defence" is the
+% one residue: nothing in ch1 implies a new defence, so it is not needed
+% here. Ratify on read.
 We recover the behaviour of APT attackers from cyber threat intelligence
 (CTI), the threat reports that security firms and government agencies
 publish on attacks they have investigated. Our source is 38 attack flows,
@@ -385,10 +388,7 @@ same defences. We first run both with no defence, to test whether the APT
 attacker model behaves differently. We
 then run both under each of MTDSim's defences at different deployment
 intervals. We measure MTD's performance by how much it holds back each
-attacker's progress through the network. This dissertation evaluates
-existing defences in simulation, and proposes no new defence. The APT
-attacker model is built from the attack flows together, not from any one
-group such as Volt Typhoon.
+attacker's progress through the network.
 
 % P6, PRELIMINARY FINDINGS + VALUE + SCOPE --- floated 2026-09-24 (Marc:
 % "it's just a placeholder"). Sentences 1-5 are PRELIMINARY (100-seed
@@ -409,8 +409,8 @@ would recommend a different defence. The results make a case for
 evaluating MTD against attacker models grounded in documented behaviour.
 \emph{[Placeholder: re-check the results above against the 1\,000-seed
 corpus.]}
-% [2026-09-28: the two scope sentences that closed P6 moved to the end of
-%  P5 (Marc's ruling).]
+% [2026-09-28: the two scope sentences that closed P6 were moved to P5, then
+%  cut (see the P5 comment).]
 
 % Both blocks below are visible placeholders (Marc's rulings 2026-08-20;
 % conventions + corpus exemplars in literature_conventions.md (g)). Marc
@@ -450,50 +450,52 @@ corpus.]}
 % RESHAPED 2026-09-28 (Marc): K1 ("one item per SQ") OVERTURNED --- it made
 % the list a third telling of the recover/execute/evaluate chain after the
 % SQs and P5. The SQs ask, P5 says what was done, and each item here names
-% what exists or is known afterwards: the artefact, the measures, the
-% finding. Noun-phrase items, ~20 words each (brown2023, tay2024 form). The
-% method is folded into item 1 ("recovered from published threat reports"),
-% not listed apart. No pointers: the overview is the one chapter map.
-% "Tested for robustness" (App. C) CUT: it supports item 1, it is not a
-% contribution. Ceilings: item 1 claims the one DEMONSTRATED axis (the
-% objective changes behaviour), never "realistic" or "reproduces APT
-% behaviour"; item 2 is introduced and defined (sec. 4.5: NCR growth rate,
-% time lost per MTD deployment), not validated elsewhere; item 3 is
-% direction only and PRELIMINARY with P6. Session-drafted on Marc's ask;
-% ratify on read.
-\noindent This dissertation makes three contributions:
-\begin{enumerate}[label=\arabic*), align=left, leftmargin=3em,
-                  labelwidth=2.5em, labelsep=0.5em, topsep=0.5\baselineskip,
-                  partopsep=0pt]
-  \item An APT attacker model for MTDSim, recovered from published threat
-  reports, whose behaviour changes with its operational objective.
-  \item Two measures of what one MTD deployment costs the attacker: its
-  pace of compromise afterwards, and the progress it loses in seconds.
-  \item A comparison of MTD against the APT attacker model and the baseline
-  attacker, which finds that different defences hold back each attacker
-  most. \emph{[Placeholder: re-check against the 1\,000-seed corpus.]}
-\end{enumerate}
+% what exists or is known afterwards. No pointers: the overview is the one
+% chapter map. "Tested for robustness" (App. C) CUT: support, not a
+% contribution.
+% SECOND PASS 2026-09-28 (Marc: "you write contributions without thinking
+% about what existed before, what the reader already has"). Bullets, not
+% numbers (Marc: numbering reads tacky; the items have no order); lead-in in
+% Marc's words. Each item gives the reader what P1--P6 have NOT already said:
+%   1. the model is REUSABLE, a drop-in for the baseline attacker (P5 said
+%      only that it shares the baseline's actions); the recovery ("from
+%      published threat reports") and the objective clause CUT as P5's.
+%   2. the new metrics in ch1's own term: P3's "adaptation to the defender",
+%      the gap P3 names, is what sec. 4.5 says they record ("this response is
+%      adaptivity"). Named by what they measure, no NCR (undefined in ch1).
+%      Only the two "this thesis" rows of Table 4.x: an ADAPTED cited metric
+%      is not claimed as a contribution.
+%   3. the finding as its consequence for the field, the "so what". When P6
+%      is rewritten, P6 carries the defences and this item the claim; P6's
+%      "would recommend a different defence" and this item must not both
+%      stand as they are.
+% Ceilings: 1 is BUILT (never "realistic" or "reproduces APT behaviour");
+% 2 is introduced and defined, not validated elsewhere; 3 is scoped to
+% MTDSim and PRELIMINARY with P6. Availability: a footnote on item 1, so no
+% line hangs between the list and the overview.
+% Session-drafted on Marc's ask; ratify on read.
 % Availability sentence executed 2026-08-21 (Marc's ask). Boilerplate /
 % citation-mechanics register, not argumentative prose --- reword in your
-% voice if wanted. OPEN DECISION, deliberately not resolved here: the public
-% main branch is the standalone simulator (dev/main split), so the link
-% currently lands a reader on the simulator, NOT the attack-model pipeline.
-% If the pipeline is to be reproducible, push a thesis release tag/branch and
-% extend this sentence to name it; as written it claims only what main shows.
-% K4 RULED 2026-09-24 (Marc accepted the recommendation): a frozen thesis
-% release tag holding the pipeline, the corpus and the result tables; this
-% sentence names it once the tag exists (Marc's action --- the session never
-% pushes). Until then it claims only what main shows.
-% RE-POINTED 2026-09-28 (Marc: "we're just releasing the attacker model"):
-% the sentence now names the attacker model and closes the list, with no
-% \medskip between (literature_conventions.md (g)3). The link goes to the
-% public dev branch, which holds src/mtdsim and the data/results run
-% scripts; main is the simulator alone. AT SUBMISSION: replace tree/dev with
-% the thesis release tag (a frozen tag on the dev commit that produced the
-% reported tables), so the link keeps showing what the dissertation reports
-% after dev moves on. Ratify on read.
-\noindent The APT attacker model and the experiment scripts are publicly
-available at \url{https://github.com/marc-la/MTDSim/tree/dev}.
+% voice if wanted. K4 RULED 2026-09-24 (Marc accepted the recommendation): a
+% frozen thesis release tag holding the pipeline, the corpus and the result
+% tables. RE-POINTED 2026-09-28 (Marc: "we're just releasing the attacker
+% model"): it names the attacker model and the experiment scripts, and is
+% now item 1's footnote. The link is the bare repo: Marc will merge the
+% attacker model into main, which retires the dev/main open decision.
+\noindent This dissertation makes the following contributions:
+\begin{itemize}[align=left, leftmargin=3em, labelwidth=2.5em,
+                labelsep=0.5em, topsep=0.5\baselineskip, partopsep=0pt]
+  \item We build an APT attacker model that any MTD evaluation in MTDSim
+  can run in place of the baseline attacker.\footnote{The APT attacker
+  model and the experiment scripts are publicly available at
+  \url{https://github.com/marc-la/MTDSim}.}
+  \item We define two metrics of the attacker's adaptation to the
+  defender: the rate at which it compromises hosts after each MTD
+  deployment, and the time each deployment costs it.
+  \item We find that the attacker model changes which defence an MTD
+  evaluation in MTDSim recommends. \emph{[Placeholder: re-check against
+  the 1\,000-seed corpus.]}
+\end{itemize}
 
 % [CONNECTIVE-PROSE PASS 2026-09-26, ch1 overview] Thesis-structure
 %  overview (R2, Marc 2026-09-26: 'that's something that we do need').
