@@ -500,8 +500,12 @@ those metrics, Chapter~\ref{ch:experiments} runs the APT attacker model and
 the baseline attacker with no defence and then under MTD.
 Chapter~\ref{ch:discussion} reads the results against the eight properties
 and draws out what they change for MTD evaluation.
-Chapter~\ref{ch:futurework} sets out the work that would extend the model,
-and Chapter~\ref{ch:conclusion} answers the research question.
+Chapter~\ref{ch:conclusion} answers the research question and sets out the
+work that would extend the model.
+% [2026-09-28: the Future work chapter became a section of the conclusion
+%  (Marc's macrostructure ruling; handoff 2026-09-15 §10); the two sentences
+%  on it and the conclusion merged, Marc's words kept. Re-check when chapters 6
+%  and 7 are drafted (connective_prose.md §c4). Ratify on read.]
 
 % =====================================================================
 \chapter{Background}
@@ -5222,7 +5226,7 @@ Nothing carries between runs. Each run starts from $M_0$ knowing nothing of
 the defence: the attacker does not hold the deployment schedule, learns nothing
 about it within a run, and carries nothing from one run into the next. That
 is the scheme-aware attacker Jalowski et al.\ \citep{jalowski2026} ask for, and this model
-is not one; Chapter~\ref{ch:futurework} returns to it.
+is not one; Section~\ref{sec:future-work} returns to it.
 % [2026-09-13: A12 paragraph landed on Marc's ratification of the fourteen-item
 %  proposal (chat, this date); source register: handoff 2026-09-08_ch4_s43_gspn_formalism.md
 %  §7.2. Verified 2026-09-13:
@@ -8423,6 +8427,25 @@ apart from zero.
 \chapter{Discussion}
 \label{ch:discussion}
 
+% RESTRUCTURED 2026-09-28 (Marc's rulings; handoff
+% 2026-09-15_ch6_discussion_affinity_board.md §10--§11). The chapter is
+% organised by the RESULTS, not by the three sub-questions: the sub-questions
+% are answered in Chapter~\ref{ch:conclusion} (the introduction--conclusion
+% link examiners check), so the discussion does the discussion's own move ---
+% comment on the key results --- and the conclusion does the conclusion's.
+% The former separate Future work chapter is now a section of the conclusion
+% (13 of 25 field papers; 93.75 % of CS thesis conclusions). Headings ACCEPTED
+% 2026-09-28. Microstructure (§11.1): one cycle per finding, major first ---
+% restate the result with a back-reference and no new numbers; account for it
+% by mechanism; compare (the two attackers, or what the lineage expected);
+% bound it (hypotheses labelled, negatives stated plainly); deduce. No
+% headings below the section; run-in labels where a section needs signage.
+% Implications BEFORE threats (Marc, 2026-09-28).
+% LABEL MAP for the older comments in chapters 3--5: sec:captured (retired)
+% -> sec:disc-behaviour / sec:fidelity-verdict; sec:fidelity-verdict = 6.3
+% (label kept); sec:evaluation-implications = 6.4 (label kept);
+% ch:futurework (retired) -> sec:future-work.
+
 % RENUMBERED 2026-09-08: ch6 (was ch7) after the Experiments merge. The
 % fidelity verdict is READ from the results here, never defended from the
 % model's design (Marc's ruling: the model is a hypothesis; the results
@@ -8431,6 +8454,74 @@ apart from zero.
 % question. Placeholder structure; interrogative working titles from the
 % planning pass are rendered declarative (thesis headings state their
 % topic --- the interrogative form is out of register here).
+
+
+\noindent\emph{[Placeholder --- chapter opener (about 100 words): the
+chapter reads the two phases of Chapter~\ref{ch:experiments} in turn, scores
+the APT attacker model on the eight properties, draws out what follows for MTD
+evaluation, and bounds it.]}
+
+% =====================================================================
+\section{Attacker behaviour without defence}
+\label{sec:disc-behaviour}
+
+% Reads Section~\ref{sec:attacker-in-operation} (phase one); supervisor E10
+% set-up (i). Three cycles, major first (handoff §11.2). Owed here from ch5:
+% why the unopposed gap is this size; why c3 stalls (Marc 2026-09-21,
+% "chapter 6's to discuss"). Notes: refusing_the_baseline_race.md (parked
+% point D below), persistence_duration_premise.md (G).
+\noindent\emph{[Placeholder --- (1) Less success, more slowly: NCR and the
+first compromise against the baseline attacker's; the mechanism (seven of
+fifteen tactics hold the attacker in dwell; dispatched actions failing a
+precondition); an APT is defined by persistence toward an objective, not by
+speed; pace is a declared input; the model is not competing with the baseline
+attacker. (2) Quieter: lower attack rate, higher attack confidentiality; dwell
+spaces the actions the detector counts; the field's outcome metrics cannot see
+this, which is why an APT attacker model is needed; one observation against a
+declared detector, property 5 stays blank. (3) Behaviour differs by
+objective: openings differ between profiles; why $c_3$ stalls; bounded by the
+corpus-size confound (Section~\ref{sec:threats}).]}
+
+% =====================================================================
+\section{MTD performance against the APT attacker model}
+\label{sec:disc-mtd-performance}
+
+% Reads Section 5.3 (phase two); supervisor E10 set-up (ii). Four cycles
+% (handoff §11.2). Notes: state_bounds_measurable_disruption.md (parked
+% point C below), pure_interrupt_pair.md (F). Owed here from ch5: MTDShield's
+% service-diversity bet (Marc 2026-09-26: "that's my bet", stated as a
+% hypothesis); the SDR taxonomy is not the partition the attacker feels
+% (ch5 comment ~l.7707). How disruption reaches each attacker, directly and
+% indirectly, was modelled on purpose for a fair comparison (Marc
+% 2026-09-28) and is reported in Section~\ref{subsec:aio-disruption}
+% --- cite it, do not re-raise it.
+\noindent\emph{[Placeholder --- (1) The layer reversal: the host layer holds
+back the APT attacker model most, service diversity the baseline attacker; a
+defence can destroy only the state an attacker carries (position against
+exploit); the lineage's own disagreement (Zhang favours shuffle, Ho
+diversity) read as the same phenomenon. (2) Time lost per MTD deployment:
+severance of the foothold against a retry of the same exploit (Brown's
+``simply needs to reconnect''). (3) User shuffle helps the attacker ---
+mechanism, or stated as unexplained. (4) Deployment strategies and MTDShield:
+MTDShield chose service diversity at most decisions and was trained against
+the baseline attacker (a hypothesis); outside its training conditions.
+Close: no single defence performs best against both attackers, handed to
+Section~\ref{sec:evaluation-implications}.]}
+
+% =====================================================================
+\section{Properties of the APT attacker model}
+\label{sec:fidelity-verdict}
+
+% The return of Table 3.3 (handoff §11.2). Walk GROUPED BY VERDICT, not eight
+% paragraphs, with run-in labels: shown to change an outcome; implemented, no
+% advantage shown on this simulator; not met. Closes on what the capture
+% licenses (38 flows: an envelope of documented behaviour, not one actor; the
+% model is only as good as the actions it adopts, ch4 --- pointing back to
+% §3.3.3's "weakest link" as the ch3 comment asks). OPEN (§11.6 item 3,
+% §11.9): properties 6 and 7 are ticked with no ch4 mechanism and no ch5
+% result behind them --- blank each with a sentence, or restore an
+% antecedent (the exploit-memory ablation, pending the pre-check). The marks
+% below are NOT changed until Marc rules.
 
 % Capture + model converge: what of APT behaviour the movement attacker
 % carries, against the fidelity criterion's axes.
@@ -8470,8 +8561,7 @@ apart from zero.
 % advantage on this terrain (1, 3, 4, 6, 7). The measured negatives are
 % among the most credible things the work owns --- report them as
 % findings, not as apologies.
-\section{What the APT attacker model has captured}
-\label{sec:captured}
+
 
 % The criterion scored honestly, badges and all; the structural
 % limitations owned here: the proof-of-concept boundary, the
@@ -8497,42 +8587,6 @@ apart from zero.
 % explored as thoroughly as possible. That is a discipline's prescription,
 % not our hedge --- docs/sources/methodology/sargent2011_vv.md, and the
 % bib entry needs activating.
-\section{Fidelity verdict}
-\label{sec:fidelity-verdict}
-
-% PROPOSED INSERTION 2026-09-17 --- RELOCATED FROM §5.2 (critique handoff §I).
-% Two concessions were standing in the experimental setup, where the corpus puts
-% none (evaluation_conventions.md §g: Brown owns its attacker's unrealism in §V,
-% Zhang in future work, He pairs each limitation with the future work that lifts
-% it). They are content this section owes, not content §5.2 owed, and they are
-% dropped here for Marc to accept item by item; §5.2 no longer carries either.
-%
-% (1) JALOWSKI'S THIRD GUIDELINE. His four guidelines ask, third, that a metric
-%     "compare the MTD scheme to a state-of-the-art system, protected using the
-%     best available methods" \citep{jalowski2026}. This evaluation compares
-%     mechanisms against each other and against no defence, with the defender
-%     frozen. Most MTD evaluations do not meet the guideline either; owning it
-%     is cheaper than being caught by it.
-% (2) WHICH HALF OF THE ATTACKER-REALISM DEMAND IS ANSWERED. The same critique
-%     demands attackers that are "smart, adaptive ... who understand the MTD
-%     scheme". This thesis answers the half grounded in threat intelligence,
-%     conditioned on an objective and routed by outcome; it does not answer the
-%     half that reasons about the scheme itself. The unanswered half is
-%     Chapter~\ref{ch:futurework}'s, and pairing it there is He's form.
-%
-% (3) ONE TERRAIN --- RELOCATED FROM §5.2 2026-09-18 (Marc: "is that a necessary
-%     qualification?"). §5.2 closed its network unit with "nothing reported here
-%     speaks to how these results would move with network size or density". It is
-%     a true and worth-stating limitation, and it was in the wrong place three
-%     times over: Table~\ref{tab:experiment} already declares the geometry held,
-%     so the sentence restated the table in an apologetic register; a setup
-%     declares and does not concede, which is the principle the whole section was
-%     rebuilt on; and voice.md §c6 wants negative scope as a section or a closing
-%     move, which is where the corpus puts it too (Reti flags its step limit in
-%     the conclusion). It is owed here: every result in Chapter~\ref{ch:results}
-%     is taken on one network of one size and one density, and scale was a
-%     planned factor that was not run --- so no claim about how these effects
-%     scale is available, in either direction.
 
 % PLACEHOLDER STAGED 2026-09-07 (Marc's ruling: "put a placeholder just
 % with the table for future reference in the discussion"). This is the
@@ -8621,6 +8675,7 @@ Table~\ref{tab:fidelity-verdict}: for each property, what the APT attacker
 model does and where (Chapter~\ref{ch:attacker-model} for the
 mechanism, Chapter~\ref{ch:experiments} for the measurement).]}
 
+
 % [2026-09-26, supervisor screen plan item 9: placeholder on Marc's ruling ("just
 %  put a placeholder in"). The content points, not prose; Marc dictates.]
 \noindent\emph{[Placeholder --- adaptivity, told frankly. The failure matrix was
@@ -8636,6 +8691,16 @@ adaptivity is capped by the actions it adopts (Section~\ref{subsec:runtime-mecha
 a response to failure in the routing needs actions whose failures differ in
 consequence. An idea tested and found not to matter here, reported so that
 others need not repeat it.]}
+
+
+\noindent\emph{[Placeholder --- properties 6 and 7: what the walk says of
+each depends on the ruling above; if blank, one sentence each (built in
+earlier versions, not part of the evaluated model).]}
+
+\noindent\emph{[Placeholder --- what the capture licenses: 38 attack flows
+give an envelope of documented behaviour, not one named group; the model can
+only be as good as the actions it adopts
+(Section~\ref{subsec:runtime-mechanics}).]}
 
 \begin{table}[htbp]
   \centering
@@ -8667,6 +8732,9 @@ others need not repeat it.]}
   \end{tabular}
 \end{table}
 
+% =====================================================================
+
+
 % The evaluate sub-question's implication --- what changes for how MTD
 % is evaluated; interpretation against the field.
 %
@@ -8693,22 +8761,30 @@ others need not repeat it.]}
 %     metric guideline (compare against a state-of-the-art protected
 %     system) is not met by this evaluation or by most of the corpus.
 %     ch5 owns it in a sentence; here is where it is weighed.
-\section{What changes for MTD evaluation}
+\section{Implications for MTD evaluation}
 \label{sec:evaluation-implications}
 
-% PROPOSED INSERTION 2026-09-17 --- RELOCATED FROM §5.2 (critique handoff §I).
-% THE COVERAGE HEADLINE. It sat in the experimental setup, where it read as a
-% concession before a number had been reported; it is a verdict about the work
-% and belongs here. On the field's own taxonomy (Table~\ref{tab:mtd-metrics})
-% this evaluation is strong on cost from both sides, adequate on containment and
-% delay, and silent on the attack surface, on payoff and on service to users ---
-% five of the ten families. The silence is the simulator's: it has no workload
-% model and no detection channel. Marc's own framing, 2026-09-09: "what do we
-% have in our simulator, what do we not --- we just need to be frank and open."
-% One or two sentences, not the audit table; the audit is the ch5 design
-% handoff's. Proposed for acceptance; §5.2 no longer carries it.
+% Present tense, for anyone running an MTD evaluation now. Each implication:
+% source finding -> who it changes practice for -> conditional
+% recommendation -> its own bound (handoff §11.2; the ACM antipattern:
+% implications written as though the limitations do not exist). The E10
+% hook splits here: "no single solution" is implication 1; "more research is
+% needed" is Section~\ref{sec:future-work}.
+\noindent\emph{[Placeholder --- opens by scoping what transfers: the
+dependence and the method, not the numbers. (1) The attacker model is a
+variable of the evaluation: a recommendation drawn against one attacker does
+not transfer; evaluate against more than one attacker model and name it.
+(2) Outcome metrics alone misread a slow, quiet attacker: report attacker
+behaviour beside the outcome. (3) Declare the attacker model against the
+eight properties (Table~\ref{tab:attacker-cross-section} as a reporting
+device), closing the first half of the gap of
+Section~\ref{subsec:research-gap}. (4) Show the metric can discriminate at the
+chosen operating point.]}
 
-% ---------------------------------------------------------------------
+% MAP of the parked points below to the new sections (2026-09-28): A -> 6.4
+% (implication 4); B -> 6.4 / 6.5 (construct); C -> 6.2; D -> 6.1; E -> 6.3
+% and Section~\ref{sec:future-work}; F -> 6.2; G -> 6.3 (property 1).
+
 % PARKED DISCUSSION POINTS (2026-09-09, third review pass; Marc's ask:
 % "forward pointers into the discussion, or placeholder points in the
 % discussion, are fine --- it helps flesh out the experimental setup").
@@ -8781,9 +8857,152 @@ others need not repeat it.]}
 % ---------------------------------------------------------------------
 
 
+
 % =====================================================================
-\chapter{Future work}
-\label{ch:futurework}
+\section{Threats to validity}
+\label{sec:threats}
+
+% Heading RULED 2026-09-28 (Marc: discussed with Jin; Limitations is the
+% fallback, the organisation is the same either way). Handoff §11.1--§11.2 and
+% the 34-row inventory: scope first, then one paragraph per type, internal
+% first because the headline is causal. Each threat: the mitigation already
+% carried out (with a cross-reference) and the residual it leaves (the claim
+% it caps). No mitigation that exists only as future work (Feldt and
+% Magazinius 2010). Cite the four types to Wohlin et al. 2012 (page to check
+% from the book) and, for simulation, de Fran\c{c}a and Travassos 2015 ---
+% neither is yet in references.bib. Sargent's internal-validity technique is
+% NOT Cook and Campbell's: use the latter sense only. The biggest threat, in
+% Marc's words (2026-09-28): "literally the underlying attack phases that
+% we're adopting" --- the adopted actions are one root with four
+% consequences (the mapping with no interval, the outcome ceiling, the
+% adaptivity cap, the precondition failures); consolidate, never list four
+% times.
+\noindent\emph{[Placeholder --- scope: the model's limits by design (the six
+adopted actions, the defender held to its schedule, no scheme awareness, one
+network, simulation only), each paired forward with
+Section~\ref{sec:future-work}; the four types defined once, cited.]}
+
+\noindent\emph{[Placeholder --- internal validity: the attacker model is a
+bundle of order, timing and failure response that no control separates; the
+profiles may separate on corpus size rather than objective; the inherited
+confusion penalty. Mitigations: same network, defences, actions and seeds for
+both attackers; the fair-fight disruption design
+(Section~\ref{subsec:aio-disruption}); the ablation of
+Section~\ref{sec:ablation}. Residual: the claim is that the APT attacker model
+changes the answer, not which of its parts does.]}
+
+\noindent\emph{[Placeholder --- construct validity: the adopted actions and
+the tactic-to-action mapping (the standing bound); the declared dwell times and
+the low-and-slow family; the failure matrix; attack confidentiality read
+through a declared detector; time lost per MTD deployment as a lower bound;
+objective classification by one coder. Mitigations: the robustness analyses of
+Appendix~\ref{app:sensitivity}, Section~\ref{sec:ablation}, the cross-check of
+Appendix~\ref{app:movement}. Residual: magnitudes move across the low-and-slow
+band; the orderings are what is claimed.]}
+
+\noindent\emph{[Placeholder --- external validity: 38 attack flows of
+detected, published campaigns, sparse before intrusion, several sharing an
+operator; one network of 50 hosts; MTDShield outside its training conditions;
+no numeric comparison with the lineage papers. Sargent's ceiling for a system
+that cannot be observed: explore the model's behaviour as thoroughly as
+possible.]}
+
+\noindent\emph{[Placeholder --- conclusion validity: 1\,000 seeds; negligible
+below $d = 0.2$ (Section~\ref{sec:evaluation-metrics}); Scott--Knott ranking;
+no correction across the comparisons; Spearman's $\rho$ without an interval.]}
+
+
+
+% PROPOSED INSERTION 2026-09-17 --- RELOCATED FROM §5.2 (critique handoff §I).
+% Two concessions were standing in the experimental setup, where the corpus puts
+% none (evaluation_conventions.md §g: Brown owns its attacker's unrealism in §V,
+% Zhang in future work, He pairs each limitation with the future work that lifts
+% it). They are content this section owes, not content §5.2 owed, and they are
+% dropped here for Marc to accept item by item; §5.2 no longer carries either.
+%
+% (1) JALOWSKI'S THIRD GUIDELINE. His four guidelines ask, third, that a metric
+%     "compare the MTD scheme to a state-of-the-art system, protected using the
+%     best available methods" \citep{jalowski2026}. This evaluation compares
+%     mechanisms against each other and against no defence, with the defender
+%     frozen. Most MTD evaluations do not meet the guideline either; owning it
+%     is cheaper than being caught by it.
+% (2) WHICH HALF OF THE ATTACKER-REALISM DEMAND IS ANSWERED. The same critique
+%     demands attackers that are "smart, adaptive ... who understand the MTD
+%     scheme". This thesis answers the half grounded in threat intelligence,
+%     conditioned on an objective and routed by outcome; it does not answer the
+%     half that reasons about the scheme itself. The unanswered half is
+%     Section~\ref{sec:future-work}'s, and pairing it there is He's form.
+%
+% (3) ONE TERRAIN --- RELOCATED FROM §5.2 2026-09-18 (Marc: "is that a necessary
+%     qualification?"). §5.2 closed its network unit with "nothing reported here
+%     speaks to how these results would move with network size or density". It is
+%     a true and worth-stating limitation, and it was in the wrong place three
+%     times over: Table~\ref{tab:experiment} already declares the geometry held,
+%     so the sentence restated the table in an apologetic register; a setup
+%     declares and does not concede, which is the principle the whole section was
+%     rebuilt on; and voice.md §c6 wants negative scope as a section or a closing
+%     move, which is where the corpus puts it too (Reti flags its step limit in
+%     the conclusion). It is owed here: every result in Chapter~\ref{ch:results}
+%     is taken on one network of one size and one density, and scale was a
+%     planned factor that was not run --- so no claim about how these effects
+%     scale is available, in either direction.
+
+
+% PROPOSED INSERTION 2026-09-17 --- RELOCATED FROM §5.2 (critique handoff §I).
+% THE COVERAGE HEADLINE. It sat in the experimental setup, where it read as a
+% concession before a number had been reported; it is a verdict about the work
+% and belongs here. On the field's own taxonomy (Table~\ref{tab:mtd-metrics})
+% this evaluation is strong on cost from both sides, adequate on containment and
+% delay, and silent on the attack surface, on payoff and on service to users ---
+% five of the ten families. The silence is the simulator's: it has no workload
+% model and no detection channel. Marc's own framing, 2026-09-09: "what do we
+% have in our simulator, what do we not --- we just need to be frank and open."
+% One or two sentences, not the audit table; the audit is the ch5 design
+% handoff's. Proposed for acceptance; §5.2 no longer carries it.
+
+% ---------------------------------------------------------------------
+
+
+% =====================================================================
+\chapter{Conclusion}
+\label{ch:conclusion}
+
+
+
+% Not the abstract in past tense: the impact of the specific technical
+% move, and the next step in the line of research.
+
+% RESTRUCTURED 2026-09-28 (handoff §10--§11): organised by the research
+% question. Evans et al. 2014: "summaries are not conclusions"; the
+% contributions are stated as answers with their impact, not recapped.
+\noindent\emph{[Placeholder --- the research question answered directly, in
+the introduction's words, in two or three sentences.]}
+
+\section{Contributions}
+\label{sec:contributions}
+
+\noindent\emph{[Placeholder --- one paragraph per contribution of
+Chapter~\ref{ch:intro}, each stated as the answer to its sub-question
+(\ref{sq:capture}, \ref{sq:model}, \ref{sq:evaluate}) with its impact; the
+bounds of Sections~\ref{sec:fidelity-verdict} and~\ref{sec:threats} travel
+with each claim.]}
+
+\section{Future work}
+\label{sec:future-work}
+
+% Was Chapter 7 (ch:futurework) until 2026-09-28. Each item opens on the
+% limitation it lifts (Section~\ref{sec:threats}'s scope paragraph, in the
+% same order); run-in paragraphs, no subsections. The dissertation's last
+% sentence names the next step.
+\noindent\emph{[Placeholder --- a richer set of actions (the binding
+constraint); stealth against a detector (property 5: the observer, not the
+behaviour); scheme awareness and learning across runs (property 8); an
+attacker that remembers the vulnerability types it has exploited, where
+types recur more often (a smaller network, a narrower pool); MTD selected or
+optimised against the APT attacker model; other network sizes and
+emulation.]}
+
+
 
 % The ruled-out directions, each with its reason: stealth semantics
 % (blocked three independent ways), MTD-scheme awareness (ruled out of
@@ -8822,12 +9041,6 @@ others need not repeat it.]}
 %    carries up the evaluation ladder and what must be re-derived.
 
 
-% =====================================================================
-\chapter{Conclusion}
-\label{ch:conclusion}
-
-% Not the abstract in past tense: the impact of the specific technical
-% move, and the next step in the line of research.
 
 
 % ---------------------------------------------------------------------

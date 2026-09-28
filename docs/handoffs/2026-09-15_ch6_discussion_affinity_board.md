@@ -1476,3 +1476,24 @@ simulator.
 
 Owed either way: the ch5 blocker comment and the orphaned "cost and memory"
 scaffolding (l.~7400–7470) get a status line saying which way it went.
+
+### 11.10 Applied, 2026-09-28 (Marc: "I accept all the changes in terms of heading … put any other placeholders where they need to be")
+
+- **tex**: ch6 re-headed 6.1–6.5 as §11.2 sets them out (labels
+  `sec:disc-behaviour`, `sec:disc-mtd-performance`, `sec:fidelity-verdict`
+  kept for 6.3, `sec:evaluation-implications` kept for 6.4, `sec:threats`); the
+  Future work chapter folded into the Conclusion as §7.2 (`sec:future-work`)
+  beside §7.1 *Contributions* (`sec:contributions`); `ch:futurework` and
+  `sec:captured` retired (a label map heads ch6). Every old comment block moved
+  under the section that now owns it (verified: only the retired headings,
+  labels and one re-pointed comment reference are gone). Placeholders carry
+  §11.2's cycles for every section, the chapter opener and the conclusion's
+  opener. Re-pointed: ch4's "Section~\ref{sec:future-work} returns to it"; the
+  ch1 outline's last two sentences merged (Marc's words kept, ratify on read).
+  Build clean, 101 pages, no undefined references.
+- **Not changed**: the property 6 and 7 marks (§11.9, open); ch5 §5.4's heading
+  and any exploit-memory placeholder (waiting on the pre-check); the ch4
+  comparability sentence (E4 — Marc's fix).
+- **Docs**: `_writing_guide.md` (matrix gains a Conclusion column — the threads
+  close there; job rows; ledger), `evaluation_conventions.md` §h (the "ruled
+  shape" overturned on the census), `docs_map.md` (the `ch8_future_work/` row).
