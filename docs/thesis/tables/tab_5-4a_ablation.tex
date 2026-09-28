@@ -2,7 +2,7 @@
 % never hand-edit. Section 5.4; the outcome read of fig:ablation(b).
 \begin{table}[htbp]
   \centering
-  \caption[The APT attacker model with and without the failure matrix]{The APT attacker model on $c_1$ to $c_4$ pooled, with the failure matrix and without it, on the same 100 seeds: NCR, Cohen's $d$ on hosts compromised per seed, and NCR reduction (Section~\ref{sec:evaluation-metrics}). Each difference is with minus without, with its 95\,\% bootstrap interval over runs paired by seed (Section~\ref{subsec:metrics-statistics}).}
+  \caption[The APT attacker model with and without the failure matrix]{The APT attacker model on $c_1$ to $c_4$ pooled, with the failure matrix and without it, on the same 1\,000 seeds: NCR, Cohen's $d$ on hosts compromised per seed, and NCR reduction (Section~\ref{sec:evaluation-metrics}). Each difference is with minus without, with its 95\,\% bootstrap interval over runs paired by seed (Section~\ref{subsec:metrics-statistics}).}
   \label{tab:ablation}
   \tablestyle\scriptsize\setlength{\tabcolsep}{3pt}
   \begin{tabular}{@{}P{2.4cm}cc>{\centering\arraybackslash}p{2.4cm}>{\centering\arraybackslash}p{2.2cm}cc>{\centering\arraybackslash}p{2.4cm}@{}}
@@ -11,11 +11,11 @@
     \cmidrule(lr){2-5}\cmidrule(lr){6-8}
     Condition & with & without & difference & $d$ & with & without & difference \\
     \midrule
-    no defence & 0.163 & 0.160 & $+0.003$\newline [$-0.004$, $+0.010$] & $+0.05$\newline [$-0.08$, $+0.18$] & --- & --- & --- \\
-    IP shuffle, 200\,s & 0.006 & 0.006 & $0.000$\newline [$-0.001$, $+0.002$] & $+0.06$\newline [$-0.16$, $+0.27$] & $0.961$ & $0.963$ & $-0.002$\newline [$-0.011$, $+0.007$] \\
-    IP shuffle, 2\,000\,s & 0.109 & 0.102 & $+0.007$\newline [$+0.001$, $+0.014$] & $+0.18$\newline [$+0.01$, $+0.35$] & $0.327$ & $0.362$ & $-0.035$\newline [$-0.080$, $+0.005$] \\
-    OS diversity, 200\,s & 0.151 & 0.150 & $+0.001$\newline [$-0.006$, $+0.008$] & $+0.02$\newline [$-0.11$, $+0.15$] & $0.070$ & $0.062$ & $+0.008$\newline [$-0.040$, $+0.056$] \\
-    OS diversity, 2\,000\,s & 0.164 & 0.163 & $+0.002$\newline [$-0.005$, $+0.009$] & $+0.03$\newline [$-0.09$, $+0.15$] & $-0.010$ & $-0.015$ & $+0.005$\newline [$-0.044$, $+0.053$] \\
+    no defence & 0.169 & 0.165 & $+0.003$\newline [$+0.001$, $+0.005$] & $+0.06$\newline [$+0.02$, $+0.09$] & --- & --- & --- \\
+    IP shuffle, 200\,s & 0.007 & 0.006 & $+0.001$\newline [$0.000$, $+0.001$] & $+0.13$\newline [$+0.06$, $+0.20$] & $0.958$ & $0.963$ & $-0.005$\newline [$-0.008$, $-0.002$] \\
+    IP shuffle, 2\,000\,s & 0.112 & 0.108 & $+0.004$\newline [$+0.002$, $+0.006$] & $+0.10$\newline [$+0.05$, $+0.15$] & $0.334$ & $0.346$ & $-0.013$\newline [$-0.027$, $0.000$] \\
+    OS diversity, 200\,s & 0.156 & 0.157 & $0.000$\newline [$-0.003$, $+0.002$] & $-0.01$\newline [$-0.05$, $+0.03$] & $0.073$ & $0.053$ & $+0.020$\newline [$+0.005$, $+0.035$] \\
+    OS diversity, 2\,000\,s & 0.170 & 0.168 & $+0.002$\newline [$0.000$, $+0.005$] & $+0.04$\newline [$0.00$, $+0.08$] & $-0.010$ & $-0.015$ & $+0.005$\newline [$-0.011$, $+0.021$] \\
     \bottomrule
   \end{tabular}
 \end{table}
