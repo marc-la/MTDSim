@@ -962,11 +962,44 @@ network, with an interval excluding zero). NCR reduction and time lost
 differences are not told apart from zero, but time lost's intervals are
 ±140 s.
 
+**2026-09-28 reshape (Marc, chat: "I don't doubt the validity of the data but
+I'm doubting the narrative"; the so-what, his words: the failure matrix
+"changes where the attacker goes but doesn't change what it achieves").**
+§5.4 is now prediction → manipulation check → outcome, with a two-panel
+figure (`fig:ablation`, `tools/ch5_ablation_figure.py`) and the table slimmed.
+- *Prediction* in §4.4.4 (one new sentence): without the failure matrix a
+  failure routes as a success does, and an attacker that fails moves on as
+  though it had succeeded.
+- *Manipulation check*, panel (a): the next action after a failed initial
+  access, per profile, no defence. c1 matches Figure 4.3(b) (0.749 back to
+  reconnaissance against the drawn 0.750). c2 is left out: its net has no
+  initial access → reconnaissance move, so a multiplicative matrix cannot
+  raise it (the pooled 0.33 of the first critique was this mixture, not a
+  discrepancy). Without the matrix, the moves after a failed initial access
+  fail (most before they run, precondition unmet) or succeed without
+  compromising a host; a host is compromised on at most 0.01 of them.
+- *Outcome*, panel (b): Cohen's d with its seed-paired interval against the
+  ±0.2 band, per condition. Per-arm bars were dropped: they overlapped at IP
+  shuffle 2 000 s while the paired interval excluded zero.
+- Time lost left the table (its interval has no declared bound; OS diversity
+  hardly deploys a response to read); it stays in the JSON and gets one
+  sentence under IP shuffle 2 000 s, because §5.3.1 points to §5.4 for the
+  failure matrix's part in the response to a deployment.
+- Scrutinised (cold reader, context critic, sceptical examiner): record of
+  what each found and what was changed is in the generator's docstring.
+- Seeds 100–999 of the ablation cells run into `runs_ablation.jsonl`
+  (`ABLATION=1 python run_corpus.py`); seeds 0 and 3 re-run bit-identical to
+  the corpus first.
+
+**Ruling owed (Marc): how "negligible" is read.** §4.5.4 says negligible when
+the point $d$ is below 0.2. The examiner's reading, and the equivalence-testing
+convention (Lakens 2017), is that the *interval* of $d$ must lie inside ±0.2.
+Panel (b) draws both, so the figure stands either way; the §5.4 sentence and
+§4.5.4's paragraph follow the ruling. Recommendation: the interval reading.
+
 **Owed, not done:**
-- Add group `blind` to the **1 000-seed overnight run**. `run_corpus.py`
-  already builds it; rerun `ablation.py` after. The verdict sentence in §5.4
-  must be re-read against the 1 000-seed table: if IP shuffle's $d$ crosses
-  0.2, "negligible under every condition" is false.
+- ~~Add group `blind` to the 1 000-seed overnight run~~ done 2026-09-28 for
+  the ablation cells (above).
 - Chapter 6 paragraph (Marc's dictation, from the placeholder).
 - Figure 4.4b's files (`fig_4-4b_failure_weight_matrix.*`) are no longer
   referenced. Delete them on Marc's word, or keep them for the generator.

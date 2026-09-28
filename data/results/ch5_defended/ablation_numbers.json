@@ -1,8 +1,154 @@
 {
- "scope": "four profiles pooled, targeted; IP shuffle and OS diversity; the corpus's seeds",
+ "scope": "four profiles, targeted; no defence, IP shuffle and OS diversity at 200 s and 2 000 s; seeds 0-99 (100)",
  "arms": {
   "core": "with the failure matrix",
   "blind": "every factor set to one"
+ },
+ "units_none": 400,
+ "seeds": 100,
+ "behaviour": {
+  "objective_exfiltration": {
+   "core": {
+    "failed_initial_access": 1415,
+    "failures": 13102,
+    "after_failed_initial_access": {
+     "reconnaissance": 0.7491166077738516,
+     "fails": 0.16466431095406361,
+     "succeeds": 0.08409893992932863,
+     "compromises": 0.0021201413427561835,
+     "fails_unmet": 0.0862190812720848
+    }
+   },
+   "blind": {
+    "failed_initial_access": 1480,
+    "failures": 13669,
+    "after_failed_initial_access": {
+     "reconnaissance": 0.08445945945945946,
+     "fails": 0.6351351351351351,
+     "succeeds": 0.2682432432432432,
+     "compromises": 0.012162162162162163,
+     "fails_unmet": 0.30945945945945946
+    }
+   },
+   "next_tactic_changed_after_other_failures": {
+    "by_tactic": {
+     "command-and-control": 0.11360678151490294,
+     "credential-access": 0.19417663792256673,
+     "execution": 0.08810698735227038,
+     "privilege-escalation": 0.10207492252190652
+    },
+    "max": 0.19417663792256673,
+    "weighted_mean": 0.14006659281836967
+   }
+  },
+  "objective_impact": {
+   "core": {
+    "failed_initial_access": 2867,
+    "failures": 13774,
+    "after_failed_initial_access": {
+     "reconnaissance": 0.0,
+     "fails": 0.8855946982908964,
+     "succeeds": 0.10638297872340426,
+     "compromises": 0.008022322985699337,
+     "fails_unmet": 0.49075688873386814
+    }
+   },
+   "blind": {
+    "failed_initial_access": 3177,
+    "failures": 13425,
+    "after_failed_initial_access": {
+     "reconnaissance": 0.0,
+     "fails": 0.8995908089392509,
+     "succeeds": 0.09474346868114573,
+     "compromises": 0.0056657223796034,
+     "fails_unmet": 0.5140069247717973
+    }
+   },
+   "next_tactic_changed_after_other_failures": {
+    "by_tactic": {
+     "command-and-control": 0.14680985568027632,
+     "credential-access": 0.0,
+     "discovery": 0.12293822213683893,
+     "execution": 0.18870174064920545,
+     "lateral-movement": 0.15228578753525132,
+     "privilege-escalation": 0.0019587396144848945
+    },
+    "max": 0.18870174064920545,
+    "weighted_mean": 0.12849647033046097
+   }
+  },
+  "objective_exfiltration_impact": {
+   "core": {
+    "failed_initial_access": 542,
+    "failures": 11884,
+    "after_failed_initial_access": {
+     "reconnaissance": 0.8154981549815498,
+     "fails": 0.18450184501845018,
+     "succeeds": 0.0,
+     "compromises": 0.0,
+     "fails_unmet": 0.18450184501845018
+    }
+   },
+   "blind": {
+    "failed_initial_access": 108,
+    "failures": 11037,
+    "after_failed_initial_access": {
+     "reconnaissance": 0.07407407407407407,
+     "fails": 0.9259259259259259,
+     "succeeds": 0.0,
+     "compromises": 0.0,
+     "fails_unmet": 0.9259259259259259
+    }
+   },
+   "next_tactic_changed_after_other_failures": {
+    "by_tactic": {
+     "command-and-control": 0.13986784140969166,
+     "credential-access": 0.0,
+     "discovery": 0.1434929618653172,
+     "execution": 0.16925060333371564,
+     "lateral-movement": 0.1758845234789289,
+     "privilege-escalation": 0.006491640543364693
+    },
+    "max": 0.1758845234789289,
+    "weighted_mean": 0.11381188505711594
+   }
+  },
+  "objective_none_c2": {
+   "core": {
+    "failed_initial_access": 203,
+    "failures": 23008,
+    "after_failed_initial_access": {
+     "reconnaissance": 0.8325123152709359,
+     "fails": 0.16748768472906403,
+     "succeeds": 0.0,
+     "compromises": 0.0,
+     "fails_unmet": 0.11330049261083744
+    }
+   },
+   "blind": {
+    "failed_initial_access": 225,
+    "failures": 21977,
+    "after_failed_initial_access": {
+     "reconnaissance": 0.1288888888888889,
+     "fails": 0.8666666666666667,
+     "succeeds": 0.0,
+     "compromises": 0.0044444444444444444,
+     "fails_unmet": 0.5866666666666667
+    }
+   },
+   "next_tactic_changed_after_other_failures": {
+    "by_tactic": {
+     "command-and-control": 0.10080359581046677,
+     "credential-access": 0.0010997630274049985,
+     "discovery": 0.13023120715696523,
+     "execution": 0.12273419206376127,
+     "lateral-movement": 0.1528212139866139,
+     "privilege-escalation": 0.007417243732077028
+    },
+    "max": 0.1528212139866139,
+    "weighted_mean": 0.08432656141944478
+   }
+  }
  },
  "reads": {
   "none": {
@@ -12,11 +158,61 @@
    "hosts_without": 8.005,
    "hosts_diff": 0.125,
    "hosts_diff_ci95": [
-    -0.2174999999999994,
-    0.47999999999999954
+    -0.22249999999999928,
+    0.4800000000000004
    ],
    "cohen_d_per_seed": 0.04606135050616044,
-   "cohen_d_z_per_seed": 0.0711504388306684
+   "cohen_d_ci95": [
+    -0.07816981995907074,
+    0.17528498394858463
+   ],
+   "cohen_d_z_per_seed": 0.0711504388306684,
+   "hosts_with_ci95": [
+    7.7174375,
+    8.565124999999998
+   ],
+   "hosts_without_ci95": [
+    7.6024375,
+    8.41
+   ],
+   "per_profile": {
+    "objective_exfiltration": {
+     "hosts_with": 7.44,
+     "hosts_without": 7.24,
+     "hosts_diff": 0.20000000000000018,
+     "hosts_diff_ci95": [
+      -0.3200000000000003,
+      0.75
+     ]
+    },
+    "objective_impact": {
+     "hosts_with": 9.95,
+     "hosts_without": 10.02,
+     "hosts_diff": -0.07000000000000028,
+     "hosts_diff_ci95": [
+      -0.8399999999999999,
+      0.6799999999999997
+     ]
+    },
+    "objective_exfiltration_impact": {
+     "hosts_with": 7.92,
+     "hosts_without": 7.57,
+     "hosts_diff": 0.34999999999999964,
+     "hosts_diff_ci95": [
+      -0.34000000000000075,
+      0.9900000000000002
+     ]
+    },
+    "objective_none_c2": {
+     "hosts_with": 7.21,
+     "hosts_without": 7.19,
+     "hosts_diff": 0.019999999999999574,
+     "hosts_diff_ci95": [
+      -0.7299999999999995,
+      0.7902499999999987
+     ]
+    }
+   }
   },
   "ip_shuffle|200": {
    "units": 400,
@@ -25,17 +221,67 @@
    "hosts_without": 0.295,
    "hosts_diff": 0.020000000000000018,
    "hosts_diff_ci95": [
-    -0.050000000000000044,
-    0.09000000000000002
+    -0.05250000000000005,
+    0.08999999999999997
    ],
    "cohen_d_per_seed": 0.05932958789676535,
+   "cohen_d_ci95": [
+    -0.1579068009084816,
+    0.26637008143247376
+   ],
    "cohen_d_z_per_seed": 0.056949479745149946,
+   "hosts_with_ci95": [
+    0.2575,
+    0.3775
+   ],
+   "hosts_without_ci95": [
+    0.24,
+    0.3525
+   ],
+   "per_profile": {
+    "objective_exfiltration": {
+     "hosts_with": 0.54,
+     "hosts_without": 0.42,
+     "hosts_diff": 0.12000000000000005,
+     "hosts_diff_ci95": [
+      -0.06,
+      0.30000000000000004
+     ]
+    },
+    "objective_impact": {
+     "hosts_with": 0.38,
+     "hosts_without": 0.35,
+     "hosts_diff": 0.030000000000000027,
+     "hosts_diff_ci95": [
+      -0.11024999999999997,
+      0.17024999999999868
+     ]
+    },
+    "objective_exfiltration_impact": {
+     "hosts_with": 0.2,
+     "hosts_without": 0.11,
+     "hosts_diff": 0.09000000000000001,
+     "hosts_diff_ci95": [
+      -0.010000000000000009,
+      0.19
+     ]
+    },
+    "objective_none_c2": {
+     "hosts_with": 0.14,
+     "hosts_without": 0.3,
+     "hosts_diff": -0.15999999999999998,
+     "hosts_diff_ci95": [
+      -0.28,
+      -0.04000000000000001
+     ]
+    }
+   },
    "ncr_reduction_with": 0.9612546125461254,
    "ncr_reduction_without": 0.9631480324797002,
    "ncr_reduction_diff": -0.0018934199335747248,
    "ncr_reduction_diff_ci95": [
-    -0.01078564549435678,
-    0.006762407759938819
+    -0.010798571462516884,
+    0.007102643863611228
    ]
   },
   "ip_shuffle|2000": {
@@ -45,32 +291,82 @@
    "hosts_without": 5.1075,
    "hosts_diff": 0.3650000000000002,
    "hosts_diff_ci95": [
-    0.047437499999999445,
-    0.6999999999999993
+    0.04743750000000031,
+    0.6900625
    ],
    "cohen_d_per_seed": 0.17748456971258572,
+   "cohen_d_ci95": [
+    0.014180672931761194,
+    0.34542659637290885
+   ],
    "cohen_d_z_per_seed": 0.20440365039273609,
+   "hosts_with_ci95": [
+    5.12,
+    5.83
+   ],
+   "hosts_without_ci95": [
+    4.7899375,
+    5.42
+   ],
+   "per_profile": {
+    "objective_exfiltration": {
+     "hosts_with": 5.57,
+     "hosts_without": 4.88,
+     "hosts_diff": 0.6900000000000004,
+     "hosts_diff_ci95": [
+      0.17000000000000082,
+      1.2199999999999998
+     ]
+    },
+    "objective_impact": {
+     "hosts_with": 7.21,
+     "hosts_without": 6.7,
+     "hosts_diff": 0.5099999999999998,
+     "hosts_diff_ci95": [
+      -0.11000000000000032,
+      1.1399999999999997
+     ]
+    },
+    "objective_exfiltration_impact": {
+     "hosts_with": 4.18,
+     "hosts_without": 3.35,
+     "hosts_diff": 0.8299999999999996,
+     "hosts_diff_ci95": [
+      0.06000000000000005,
+      1.5599999999999996
+     ]
+    },
+    "objective_none_c2": {
+     "hosts_with": 4.93,
+     "hosts_without": 5.5,
+     "hosts_diff": -0.5700000000000003,
+     "hosts_diff_ci95": [
+      -1.21,
+      0.1299999999999999
+     ]
+    }
+   },
    "ncr_reduction_with": 0.32687576875768765,
    "ncr_reduction_without": 0.3619612742036228,
    "ncr_reduction_diff": -0.03508550544593514,
    "ncr_reduction_diff_ci95": [
-    -0.07727457787647773,
-    0.0070827315025035675
+    -0.08000902827360953,
+    0.005269382173830464
    ],
    "time_lost_with": 510.7611420347704,
    "time_lost_with_ci95": [
-    415.50709294231615,
-    609.2866054665556
+    418.1019793311457,
+    604.9088160858051
    ],
    "time_lost_without": 491.55534464200537,
    "time_lost_without_ci95": [
-    399.82141879841424,
-    589.7599553940303
+    399.6968084752147,
+    584.6351346160412
    ],
    "time_lost_diff": 19.20579739276502,
    "time_lost_diff_ci95": [
-    -120.43524885756837,
-    162.3330692231569
+    -120.79029822502348,
+    152.1923093518549
    ]
   },
   "os_diversity|200": {
@@ -80,17 +376,67 @@
    "hosts_without": 7.51,
    "hosts_diff": 0.04999999999999982,
    "hosts_diff_ci95": [
-    -0.28750000000000053,
-    0.4150624999999997
+    -0.3224999999999998,
+    0.3900625000000002
    ],
    "cohen_d_per_seed": 0.018566268355823173,
+   "cohen_d_ci95": [
+    -0.10969314803835345,
+    0.15296820846920345
+   ],
    "cohen_d_z_per_seed": 0.02892234259427622,
+   "hosts_with_ci95": [
+    7.167375000000001,
+    7.940125
+   ],
+   "hosts_without_ci95": [
+    7.1,
+    7.895
+   ],
+   "per_profile": {
+    "objective_exfiltration": {
+     "hosts_with": 6.96,
+     "hosts_without": 6.53,
+     "hosts_diff": 0.4299999999999997,
+     "hosts_diff_ci95": [
+      -0.1402500000000005,
+      1.0199999999999996
+     ]
+    },
+    "objective_impact": {
+     "hosts_with": 8.99,
+     "hosts_without": 8.96,
+     "hosts_diff": 0.02999999999999936,
+     "hosts_diff_ci95": [
+      -0.7202500000000006,
+      0.8499999999999996
+     ]
+    },
+    "objective_exfiltration_impact": {
+     "hosts_with": 7.65,
+     "hosts_without": 8.25,
+     "hosts_diff": -0.5999999999999996,
+     "hosts_diff_ci95": [
+      -1.3099999999999996,
+      0.08999999999999986
+     ]
+    },
+    "objective_none_c2": {
+     "hosts_with": 6.64,
+     "hosts_without": 6.3,
+     "hosts_diff": 0.33999999999999986,
+     "hosts_diff_ci95": [
+      -0.33000000000000007,
+      1.0499999999999998
+     ]
+    }
+   },
    "ncr_reduction_with": 0.07011070110701123,
    "ncr_reduction_without": 0.0618363522798252,
    "ncr_reduction_diff": 0.008274348827186029,
    "ncr_reduction_diff_ci95": [
-    -0.0414736991369417,
-    0.05473169724508417
+    -0.03966464360447974,
+    0.05641545913063961
    ]
   },
   "os_diversity|2000": {
@@ -100,34 +446,83 @@
    "hosts_without": 8.125,
    "hosts_diff": 0.08750000000000036,
    "hosts_diff_ci95": [
-    -0.28756249999999967,
-    0.4449999999999994
+    -0.2425624999999997,
+    0.4500625000000007
    ],
    "cohen_d_per_seed": 0.031194391764069913,
+   "cohen_d_ci95": [
+    -0.0899958819194725,
+    0.14696600786816202
+   ],
    "cohen_d_z_per_seed": 0.051955259128290986,
+   "hosts_with_ci95": [
+    7.8023750000000005,
+    8.6475
+   ],
+   "hosts_without_ci95": [
+    7.74,
+    8.525
+   ],
+   "per_profile": {
+    "objective_exfiltration": {
+     "hosts_with": 7.37,
+     "hosts_without": 7.01,
+     "hosts_diff": 0.3600000000000003,
+     "hosts_diff_ci95": [
+      -0.16999999999999993,
+      0.8700000000000001
+     ]
+    },
+    "objective_impact": {
+     "hosts_with": 10.03,
+     "hosts_without": 10.03,
+     "hosts_diff": 0.0,
+     "hosts_diff_ci95": [
+      -0.8399999999999999,
+      0.7802499999999998
+     ]
+    },
+    "objective_exfiltration_impact": {
+     "hosts_with": 8.17,
+     "hosts_without": 8.32,
+     "hosts_diff": -0.15000000000000036,
+     "hosts_diff_ci95": [
+      -0.9602499999999999,
+      0.6602499999999988
+     ]
+    },
+    "objective_none_c2": {
+     "hosts_with": 7.28,
+     "hosts_without": 7.14,
+     "hosts_diff": 0.14000000000000057,
+     "hosts_diff_ci95": [
+      -0.46999999999999975,
+      0.7700000000000005
+     ]
+    }
+   },
    "ncr_reduction_with": -0.010147601476014678,
    "ncr_reduction_without": -0.01499063085571506,
    "ncr_reduction_diff": 0.004843029379700381,
    "ncr_reduction_diff_ci95": [
-    -0.04526434853958633,
-    0.05230210540356299
+    -0.04372735644816372,
+    0.05308041022029047
    ],
    "time_lost_with": 55.43993526140216,
    "time_lost_with_ci95": [
-    -45.1981224923892,
-    165.62615624207032
+    -43.048765246365726,
+    152.52289276408803
    ],
    "time_lost_without": 15.949375278139456,
    "time_lost_without_ci95": [
-    -79.86295172670002,
-    109.6027012430331
+    -81.08547078504805,
+    108.76337739969398
    ],
    "time_lost_diff": 39.490559983262706,
    "time_lost_diff_ci95": [
-    -90.3287974289698,
-    180.4763085998874
+    -91.1106325329945,
+    176.2996213549321
    ]
   }
- },
- "units_none": 400
+ }
 }
