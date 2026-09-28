@@ -1,6 +1,7 @@
 ---
-status: open — design; Marc's rulings owed on the section shape (§2), the heading set (§3) and the disposition of every board item marked FOUNDATION (§6). Feeds ch6 drafting; nothing here is prose.
+status: open — design; Marc's rulings owed on the post-results macrostructure and heading set (§10, 2026-09-28 — supersedes §2 and §3) and the disposition of every board item marked FOUNDATION (§6). Feeds ch6 drafting; nothing here is prose.
 created: 2026-09-15
+updated: 2026-09-28
 topic: "The discussion chapter's affinity board: every discussion-shaped idea on disk (six inventories over the notes, the criterion, the L3 investigation records, the ch5 design pass, the ratified ch1/ch3/ch4 prose, the lineage extractions and the field's discussion-section conventions), affinity-grouped into themes, stated as mini-hypotheses, forward-joined to the ch5 measurement that earns each one, and flagged where the foundation may move. Marc's three reads of §6.1–§6.3 tested against the record. Session-proposed compositions kept apart from the inventory."
 ---
 
@@ -914,3 +915,210 @@ now the supervisor's spine, not a session's composition.
 Both cite the restructured chapter (landed 2026-09-23): set-up 1 reads §5.2
 *APT attacker model versus baseline attacker*, set-up 2 the headline §5.3.2
 *Effect of the attacker model*.
+
+## 10. Post-results macrostructure and headings — conventions survey and proposal (2026-09-28)
+
+**Supersedes §2 and §3.** Marc's question: 6.3 *What changes for MTD evaluation*
+and ch7 *Future work* read as the same thing, and future work usually sits
+inside the discussion or conclusion; the placeholder headings predate the
+narrative. Three read-only passes: (i) the lineage and the 25 evaluation
+anatomies, (ii) the thesis-writing literature, (iii) a map of every promise
+ch1–ch5 make to ch6–ch8. Awaiting Marc's ruling; nothing applied to the tex.
+
+### 10.1 Evidence
+
+**The field and the lineage** (`sources/lit_review/`, `implementation/evaluation_anatomies/`):
+
+- Conclusion 25/25. A heading containing "Discussion" 11/25 (6 top-level).
+  Future work **inside the conclusion 13/25** (7 name it in the heading:
+  chobenasher, maleki, manadhatawing, torquato, venkatesan, ho, cho), inside
+  the discussion 5/25 (alavizadeh, brown, hong, kim, masud), its own section
+  4/25 (bland, zhang, tay, he), none 3/25. "Limitation" in a heading 5/25;
+  "Threats to validity" 0/25.
+- **Discussion → Future work → Conclusion as three siblings: Tay only, 1/25.**
+  `evaluation_conventions.md` §h calls Tay's split "the ruled shape of this
+  dissertation's ch5/ch6/ch7"; that records the 2026-09-08 choice, not a
+  convention.
+- Lineage: Brown §V *Discussion* (A. Attacker capabilities and realism; B.
+  Regaining access…; C. Attacker limitations; D. Need for multiple MTD
+  techniques) → §VI *Conclusion*, limitations and future work inside the
+  discussion (brown2023.md:178–209). Hong §7 *Discussion* (7.1 Comparing MTD
+  techniques; 7.2 MTD techniques and threats; …) → §8 *Conclusion*
+  (1_2_hong2018dynamic.md:625–678). Zhang (Masters) *6 Scope for Future Work*
+  → *7 Conclusion*, future work restated in 7 (zhang2023.md:497–532). Ho
+  *5 Future Works and Conclusion*, 5.1–5.5 limitation-shaped, 5.6 Conclusion
+  (ho2024.md:491–596). Tay *6 Discussion* mirroring §5 one to one → *7 Future
+  Works* → *8 Conclusion* (tay2024.md:346–407). None states research questions;
+  none's conclusion answers one.
+- Heading shape: discussion subsections are topic noun phrases everywhere
+  (Brown, Hong, Tay); none is a question; claim-shaped headings only in Cho's
+  survey (bold run-in labels).
+
+**The thesis-writing literature** (full texts read online; *secondary* marked):
+
+- Discussion moves: report and comment on key results (obligatory), then
+  limitations, then recommendations for future research (optional) — Swales &
+  Feak 2012, Fig. 18, p. 368; Paltridge & Starfield 2007, ch. 10, pp. 145–147.
+- Conclusion moves: restate purpose, consolidate the research space, recommend
+  future research, implications — Bunton 2005, *JEAP* 4(3) (abstract; the 82 %
+  thesis-oriented figure is secondary). Paltridge & Starfield Table 10.2,
+  p. 152, groups future research with limitations under "recommendations and
+  implications".
+- **Computer science specifically** (Soler-Monreal 2016, *Ibérica* 32, 48 CS
+  PhD theses): future research in **93.75 %** of conclusion chapters,
+  limitations in 64.58 %, paired limitation-then-future-work; titles
+  "Conclusion(s)" 56.25 %, "Conclusion(s) and future work" 37.5 %; two final
+  chapters (future work + conclusion) 12.5 %, whose moves "match" the
+  conclusion's — the genre reads a future-work chapter as a split conclusion.
+- Evans, Gruba & Zobel 2014: "a separate chapter of conclusions is much
+  preferable"; "only minimal discussion in the conclusions chapter";
+  "summaries are not conclusions"; two or three pages (pp. 121–123); too many
+  chapters means "some are really only sections" (p. 13); group the discussion
+  and head each group — the headings become the discussion's sections (p. 116);
+  examiners "particularly impressed by candidates who are alert to
+  shortcomings" (p. 115). Zobel: headings need not be sentences (p. 30);
+  conclusions are where limitations may be restated and the work looks beyond
+  itself (2nd ed., p. 148).
+- Software-engineering reporting standard (Jedlitschka, Ciolkowski & Pfahl
+  2008, §§3.10–3.11): *Discussion* = evaluation of results and implications,
+  threats to validity, lessons learned; then *Conclusions and future work* =
+  summary, impact (incl. limitations), future work. ACM SIGSOFT Empirical
+  Standards: the discussion states implications and discloses limitations; the
+  anti-pattern is conclusions written "as though the limitations don't exist".
+- **UWA CITS4001 marking guide** (CSSE, 2019): the *Discussion* criterion asks
+  whether shortcomings are recognised, improvements suggested for future
+  studies, further work or loose ends named; no separate conclusion criterion.
+  A marking rubric, not a chapter prescription — any structure meeting it
+  passes, but limitations and further work must both be visible.
+- Examiners read abstract, introduction and conclusion first and "check
+  carefully for the link between the introduction … and the conclusions"
+  (Mullins & Kiley 2002, pp. 376, 385).
+- Implications versus future work are distinct moves (Bunton; Jedlitschka;
+  Rudestam & Newton via Paltridge & Starfield), but sources blur them (Evans
+  p. 121 folds "impact on future work" into implications; Swales & Feak Move 5
+  joins future implementation and future research). The overlap Marc feels is
+  a known seam in the genre; the fix is a stated boundary, not a new chapter.
+
+**What ch1–ch5 already commit** (dissertation.tex as of `cc358fe5`):
+
+- ch1 outline, l.501–504: ch6 "reads the results against the eight properties
+  and draws out what they change for MTD evaluation"; ch7 "sets out the work
+  that would extend the model"; ch8 "answers the research question". The
+  connective-prose ruling (§c4) makes this re-checkable.
+- ch4 l.5224–5225: "Chapter~\ref{ch:futurework} returns to it" (scheme
+  awareness, retention across runs); l.5232–5236: the action-set ceiling and
+  "a richer set of actions" — both future-work obligations.
+- ch5 hands the discussion: why the unopposed gap is this size, why c3 stalls
+  (Marc 2026-09-21), why the failure matrix changes little (§5.4), MTDShield's
+  service-diversity bet (Marc 2026-09-26), the owed low-and-slow and dwell-only
+  concessions (l.6121, l.7373), the one-terrain limitation (l.8560 block).
+- Supervisor E10 (2026-09-22): the discussion is set up by the two phases —
+  (i) slower and less successful on the field's metrics, quieter on the
+  stealth readings; (ii) the effective defence differs with the attacker, "no
+  single solution", more research needed.
+- Two ticks in `tab:fidelity-verdict` (properties 6, 7) rest on no current
+  ch5 result and no ch4 mechanism (§5, §6 above; R3) — a structural risk
+  whatever the headings.
+
+### 10.2 Diagnosis of the placeholders
+
+1. **The discussion is organised on the wrong axis.** The writing guide's
+   discussion column (capture → what it licenses; model → fidelity verdict;
+   evaluate → what changes) assigns one section per sub-question. Answering the
+   sub-questions is the *conclusion's* move (Bunton: restate purpose,
+   consolidate; Mullins & Kiley: the introduction–conclusion link). Organising
+   ch6 by sub-question makes ch6 and ch8 do the same job, and leaves ch6
+   without the discussion's own obligatory move — comment on the key results
+   (Swales & Feak). The capture sub-question has no measurement of its own
+   (the matrix's own empty cell), so 6.1 had nothing to interpret.
+2. **6.1 and 6.2 are one section.** Both are the walk of the eight properties
+   (the two comment blocks drifted into each other's jobs, §1 above).
+3. **6.3 and ch7 overlap because nothing separates implication from
+   future work.** 6.3's verb-shaped heading ("What changes…") reads forward.
+4. **Future work is a section's worth (750 words, 3 units) standing as a
+   chapter** — the form 1 of 25 field documents uses and Evans warns against.
+5. **No home for limitations** — the charter's second movement
+   (`ch7_discussion/README.md`) and six ch5 hand-offs.
+6. **"Fidelity verdict" introduces two words ch1–ch5 never define** (*fidelity*
+   appears once, in the ch4 opener; *verdict* nowhere) — the no-invented-terms
+   rule (E2/E3).
+
+### 10.3 Proposal
+
+Two organising axes, one per chapter: **ch6 is organised by the results** (the
+two phases, then the appraisal of the model, then what follows, then its
+limits — the Swales & Feak order); **ch7 is organised by the research
+question** (the answer, sub-question by sub-question, then the next step).
+Future work becomes the last section of the conclusion — the modal form in
+the field (13/25) and in CS theses (93.75 %), and the placement that lets the
+dissertation end on the E10 hook.
+
+**Chapter 6 — Discussion** (2 250 words, 9 units; unchanged)
+
+| § | Heading | Job | Reads | Units |
+|---|---|---|---|---|
+| — | (opener) | the two phases in one sentence each; roadmap | — | — |
+| 6.1 | Attacker behaviour without defence | interprets phase one: fewer hosts and slower on the field's outcome metrics, quieter on attack rate and confidentiality (E10 set-up i); why the gap is this size; why c3 stalls; not a race with the baseline (`refusing_the_baseline_race.md`) | §5.2 | 2 |
+| 6.2 | MTD performance against the APT attacker model | interprets phase two: the layer reversal and its mechanism (a defence destroys only the state the attacker carries — position against exploit; `state_bounds_measurable_disruption.md`); user shuffle helping the attacker; MTDShield; ρ ≈ 0 (E10 set-up ii) | §5.3 | 2 |
+| 6.3 | Properties of the APT attacker model | the return of Table 3.3 (`tab:fidelity-verdict`): the scoring discipline, then the walk property by property; adaptivity told frankly from the ablation (the staged placeholder); what the 38 flows license (the capture thread's ceiling) | §5.2–§5.4, ch4 | 2 |
+| 6.4 | Implications for MTD evaluation | present-tense consequences for anyone running an MTD evaluation now: the attacker model is a variable of the evaluation; a recommendation against one attacker does not transfer ("no single solution"); success metrics alone misread a slow, quiet attacker; operating-point discrimination; re-validate instruments on an attacker change | §5.2, §5.3 | 2 |
+| 6.5 | Limitations | owned in one place: one terrain; the action-set ceiling; declared parameters (the failure matrix, the low-and-slow exposure); single-analyst coding; 38 flows and the observability boundary; no cross-paper comparison; the frozen defender (Jalowski's third guideline); the simulation rung | ch4, ch5 | 1 |
+
+**Chapter 7 — Conclusion** (500 + 750 = 1 250 words, 5 units; the future-work
+chapter's budget moves here)
+
+| § | Heading | Job | Units |
+|---|---|---|---|
+| — | (opener) | the research question answered directly, in the introduction's words | — |
+| 7.1 | Contributions | each of ch1's three contributions restated as the answer to its sub-question, with its impact — not a recap (Evans: "summaries are not conclusions") | 2 |
+| 7.2 | Future work | each item paired with the limitation (6.5) or unmet property (6.3) it would lift: a richer action set (ch4 l.5232); stealth against a detector (property 5 — the observer, not the behaviour); scheme awareness and retention across runs (property 8; ch4 l.5224); MTD selected or optimised against the APT attacker model (E1's declined third phase; MTDShield); other network sizes and the emulation rung. Run-in paragraphs, no subsections (the ledger: a heading is a 250-word claim) | 3 |
+
+**The boundary between 6.4 and 7.2**, stated so a draft sentence can be sorted
+mechanically: an *implication* rests on a ch5 result and says what an
+evaluation should do now with the tools that exist; a *future-work item* rests
+on a limitation or an unmet property and says what should be built next. The
+E10 hook splits along it — "no single defence performs best against both
+attackers" is 6.4; "more research is needed" is 7.2.
+
+**Heading audit** (Marc's rules; `feedback_thesis_heading_conventions`):
+sentence case; noun-phrase labels, the claim in each first sentence; APT
+visible (6.2, 6.3); no acronym beyond APT and MTD; every noun already met in
+ch1–ch5 — *attacker behaviour* is §4.5.1's metric class, *MTD performance*
+echoes the research question ("How does MTD perform…"), *properties* echoes
+§3.3.1 *Properties of a sophisticated attacker*, *MTD evaluation* is §3.2's
+heading; four grammatical shapes across the five siblings, so no repeated
+scaffold. *Limitations*, *Contributions*, *Future work* are the generic labels
+the CS corpus uses (Soler-Monreal §4.2: generic headings, topic-specific
+subheadings). 6.1–6.2 mirror §5.2–§5.3 in order (Tay's form, the one ch5 setup
+handoff flagged as claimed but untrue of the current ch6).
+
+### 10.4 Alternatives weighed
+
+- **B — limitations and future work closing the discussion** (6.5 *Limitations
+  and future work*, He's heading; a two-unit conclusion). Keeps each limitation
+  beside the work that lifts it and matches the UWA guide's *Discussion*
+  criterion literally. Not recommended: ch6 grows to 12 units, the conclusion
+  shrinks to a recap, and the dissertation ends on a summary rather than the
+  next step the writing guide asks the conclusion to name.
+- **C — keep three chapters** (Tay). The 1-in-25 form; a 750-word chapter; the
+  6.3/ch7 overlap persists and needs the boundary above anyway.
+- **Chapter title "Conclusion and future work"** (37.5 % in CS; Ho's local
+  inversion). Equivalent in substance; the section heading already puts future
+  work in the contents page, and `ch:conclusion` stays.
+
+### 10.5 What a ruling changes (not done here)
+
+- tex: the ch6 headings and labels; `ch:futurework` → a section label under the
+  conclusion; ch4 l.5224 re-pointed; ch1 outline l.501–504 rewritten (ch6's
+  sentence can stand; ch7/ch8's two become one). The ch6 comment blocks re-keyed
+  to the new sections; stale labels in them (§8) fixed in the same pass.
+- `_writing_guide.md`: the matrix's discussion column (the sub-question threads
+  close in the conclusion, not the discussion); the one-line-job rows; the
+  ledger (Future work 3 → Conclusion 2 + 3; chapter count 8 → 7).
+- `evaluation_conventions.md` §h: "the ruled shape" sentence overturned on the
+  §10.1 census.
+- `docs_map.md` and `notes/ch8_future_work/README.md`: the notes dir can stay
+  (it names a body of ideas, not a chapter) but its README's "chapter" wording
+  changes.
+- Unchanged: the ch6 budget, the total, Table 3.3's return, every §4 board item
+  (each re-homes by the table in §10.3).
