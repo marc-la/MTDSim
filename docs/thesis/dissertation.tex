@@ -5573,7 +5573,9 @@ which types sit on which hosts). Why: an APT attacker reuses what has worked
 for it, becoming more likely to succeed as the attack progresses (property 7,
 Section~\ref{subsec:attacker-criterion}); the lineage's precedent is Zhang's
 attacker, whose exploit time halves on a vulnerability it has used before
-\citep{zhang2023}. The baseline attacker keeps none, as in the lineage. The
+\citep{zhang2023}. The baseline attacker keeps only the simulator's own:
+exploit time halves on a vulnerability instance it has exploited before
+(Zhang's per-type halving is not in the released code). The
 value of $\lambda$ is our judgement, declared with its reason in
 Appendix~\ref{app:movement}; Section~\ref{sec:ablation} switches the memory
 off.]}
@@ -8461,8 +8463,21 @@ raised in the regime runs is not yet investigated}
 % The comment blocks and floats are in git history at the parent of this commit;
 % the generated fragments stay on disk, struck through in FLOATS.md.
 % =====================================================================
-\section{Ablation of the failure matrix}
+\section{Ablation studies}
 \label{sec:ablation}
+
+% RESTRUCTURED 2026-09-28 (Marc: "5.4 structure I accept"): one section, a
+% subsection per ablated component, named as in chapter 4 (4.4.4 -> 5.4.1,
+% 4.4.5 -> 5.4.2); Tay's "6.5 Ablation Studies" the local precedent. The shared
+% design (c1 to c4; no defence, IP shuffle and OS diversity at 200 s and
+% 2 000 s; the same seeds; Section 4.5.4's threshold) is declared once here and
+% not repeated below. Handoff 2026-09-28_vulnerability_memory_on.md, Part B.
+\noindent\emph{[Placeholder --- section preamble: every component tested here
+is our judgement; each is removed in turn on the same design, which this
+paragraph declares once.]}
+
+\subsection{Failure matrix}
+\label{subsec:ablation-failure-matrix}
 
 % [NEW 2026-09-26, supervisor screen plan item 6 (Marc: "we tried it and it
 %  didn't work, here's the ablation study"; "present the ablation study in a
@@ -8496,9 +8511,11 @@ apart from zero. Removing the failure matrix therefore changes NCR by a
 negligible amount, and changes NCR reduction and time lost by amounts not told
 apart from zero.
 
+\subsection{Vulnerability memory}
+\label{subsec:ablation-vulnerability-memory}
+
 % [NEW 2026-09-28: the second ablation (Marc's ruling; handoff
-%  2026-09-28_vulnerability_memory_on.md). OPEN, Marc's: this section's heading
-%  once it holds two ablations (e.g. "Ablations"). Pre-check at 20 seeds, no
+%  2026-09-28_vulnerability_memory_on.md). Heading ruled 2026-09-28. Pre-check at 20 seeds, no
 %  defence, §11.11 of the ch6 board: the memory operates (22--39 types
 %  re-exploited per run) and moves no hosts; a perfect exploit adds about
 %  none; the OS check refuses about half of all exploit attempts, and removing
@@ -8786,6 +8803,13 @@ consequence. An idea tested and found not to matter here, reported so that
 others need not repeat it.]}
 
 
+% [RULING OWED (handoff 2026-09-28_vulnerability_memory_on.md, B0): Table 3.2
+%  defines property 7 as "the defender's patterns learned over time and retained
+%  across deployments". The vulnerability memory learns the NETWORK, not the
+%  defender --- the same kind as Zhang's halving, for which Table 3.3 marks the
+%  lineage PARTIAL (ch3 l.~3931). Consistency says partial here too, with the
+%  walk saying why; the 2026-09-07 "implemented = met" ruling would otherwise
+%  mark our mechanism met and the lineage's like one partial.]
 \noindent\emph{[Placeholder --- property 7 read like property 4: the
 vulnerability memory (Section~\ref{subsec:vulnerability-memory}) is part of the
 evaluated model, operates, and confers no advantage, because the simulator's
