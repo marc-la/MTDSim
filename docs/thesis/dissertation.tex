@@ -361,6 +361,13 @@ research question of this dissertation:
 % would describe ASP only, not NCR).
 % Design + cold-read record: handoff 2026-09-24_ch1_introduction_design.md
 % sec. 16.
+% ONE CHAPTER MAP (Marc, 2026-09-28): the chapter and section pointers that
+% stood here (ch4, ch5, sec. 4.5) are CUT --- the overview closing the
+% chapter is the only map, so P5 reads as the approach and not as a second
+% roadmap. The last two sentences are P6's scope sentences, MOVED here (they
+% fence the approach, not the results); "the behaviour documented in 38
+% attacks" became "the attack flows together" to avoid a third "38" in one
+% paragraph. Ratify on read.
 We recover the behaviour of APT attackers from cyber threat intelligence
 (CTI), the threat reports that security firms and government agencies
 publish on attacks they have investigated. Our source is 38 attack flows,
@@ -370,17 +377,18 @@ graph, then split it into attack profiles by operational objective, such
 as stealing data. Each attack profile records the steps taken by
 attackers with that objective, and how often each step led to the next.
 We execute each profile in MTDSim, an existing MTD simulator
-\citep{brown2023}, as the APT attacker model
-(Chapter~\ref{ch:attacker-model}). The APT attacker model shares the
+\citep{brown2023}, as the APT attacker model. The APT attacker model shares the
 actions of MTDSim's original scripted attacker, the baseline attacker,
 but its profile decides which action comes next, when, and what to do
 after one fails. Both attackers run on the same network and under the
 same defences. We first run both with no defence, to test whether the APT
-attacker model behaves differently (Chapter~\ref{ch:experiments}). We
+attacker model behaves differently. We
 then run both under each of MTDSim's defences at different deployment
 intervals. We measure MTD's performance by how much it holds back each
-attacker's progress through the network
-(Section~\ref{sec:evaluation-metrics}).
+attacker's progress through the network. This dissertation evaluates
+existing defences in simulation, and proposes no new defence. The APT
+attacker model is built from the attack flows together, not from any one
+group such as Volt Typhoon.
 
 % P6, PRELIMINARY FINDINGS + VALUE + SCOPE --- floated 2026-09-24 (Marc:
 % "it's just a placeholder"). Sentences 1-5 are PRELIMINARY (100-seed
@@ -400,9 +408,9 @@ baseline attacker most. An evaluation against the baseline attacker alone
 would recommend a different defence. The results make a case for
 evaluating MTD against attacker models grounded in documented behaviour.
 \emph{[Placeholder: re-check the results above against the 1\,000-seed
-corpus.]} This dissertation evaluates existing defences in simulation, and
-proposes no new defence. The APT attacker model is built from the behaviour
-documented in 38 attacks, not from any one group such as Volt Typhoon.
+corpus.]}
+% [2026-09-28: the two scope sentences that closed P6 moved to the end of
+%  P5 (Marc's ruling).]
 
 % Both blocks below are visible placeholders (Marc's rulings 2026-08-20;
 % conventions + corpus exemplars in literature_conventions.md (g)). Marc
@@ -439,26 +447,32 @@ documented in 38 attacks, not from any one group such as Volt Typhoon.
 % first draft ran 40-75 with lead phrases and "so that" explanations. Now one
 % sentence per item: claim + key, chapter-level pointers; the "how" lives in
 % P5 and the chapters.
+% RESHAPED 2026-09-28 (Marc): K1 ("one item per SQ") OVERTURNED --- it made
+% the list a third telling of the recover/execute/evaluate chain after the
+% SQs and P5. The SQs ask, P5 says what was done, and each item here names
+% what exists or is known afterwards: the artefact, the measures, the
+% finding. Noun-phrase items, ~20 words each (brown2023, tay2024 form). The
+% method is folded into item 1 ("recovered from published threat reports"),
+% not listed apart. No pointers: the overview is the one chapter map.
+% "Tested for robustness" (App. C) CUT: it supports item 1, it is not a
+% contribution. Ceilings: item 1 claims the one DEMONSTRATED axis (the
+% objective changes behaviour), never "realistic" or "reproduces APT
+% behaviour"; item 2 is introduced and defined (sec. 4.5: NCR growth rate,
+% time lost per MTD deployment), not validated elsewhere; item 3 is
+% direction only and PRELIMINARY with P6. Session-drafted on Marc's ask;
+% ratify on read.
 \noindent This dissertation makes three contributions:
 \begin{enumerate}[label=\arabic*), align=left, leftmargin=3em,
                   labelwidth=2.5em, labelsep=0.5em, topsep=0.5\baselineskip,
                   partopsep=0pt]
-  \item We recover attack profiles by operational objective from 38
-  hand-drawn attack flows, and show that the objective changes how the
-  attacker behaves (\ref{sq:capture}; Chapter~\ref{ch:attacker-model},
-  Section~\ref{sec:attacker-in-operation}).
-  \item We execute the profiles as an APT attacker model inside MTDSim, on
-  the baseline attacker's actions, with its declared inputs tested for
-  robustness (\ref{sq:model}; Chapter~\ref{ch:attacker-model},
-  Appendices~\ref{app:movement}--\ref{app:sensitivity}).
-  \item We evaluate MTD against both attackers in two phases, with two new
-  measures of disruption, and find in preliminary results that the two
-  attackers are held back most by different defences (\ref{sq:evaluate};
-  Chapter~\ref{ch:experiments}). \emph{[Placeholder: re-check against the
-  1\,000-seed corpus.]}
+  \item An APT attacker model for MTDSim, recovered from published threat
+  reports, whose behaviour changes with its operational objective.
+  \item Two measures of what one MTD deployment costs the attacker: its
+  pace of compromise afterwards, and the progress it loses in seconds.
+  \item A comparison of MTD against the APT attacker model and the baseline
+  attacker, which finds that different defences hold back each attacker
+  most. \emph{[Placeholder: re-check against the 1\,000-seed corpus.]}
 \end{enumerate}
-
-\medskip
 % Availability sentence executed 2026-08-21 (Marc's ask). Boilerplate /
 % citation-mechanics register, not argumentative prose --- reword in your
 % voice if wanted. OPEN DECISION, deliberately not resolved here: the public
@@ -470,8 +484,16 @@ documented in 38 attacks, not from any one group such as Volt Typhoon.
 % release tag holding the pipeline, the corpus and the result tables; this
 % sentence names it once the tag exists (Marc's action --- the session never
 % pushes). Until then it claims only what main shows.
-\noindent The source code for the simulator is publicly available at
-\url{https://github.com/marc-la/MTDSim}.
+% RE-POINTED 2026-09-28 (Marc: "we're just releasing the attacker model"):
+% the sentence now names the attacker model and closes the list, with no
+% \medskip between (literature_conventions.md (g)3). The link goes to the
+% public dev branch, which holds src/mtdsim and the data/results run
+% scripts; main is the simulator alone. AT SUBMISSION: replace tree/dev with
+% the thesis release tag (a frozen tag on the dev commit that produced the
+% reported tables), so the link keeps showing what the dissertation reports
+% after dev moves on. Ratify on read.
+\noindent The APT attacker model and the experiment scripts are publicly
+available at \url{https://github.com/marc-la/MTDSim/tree/dev}.
 
 % [CONNECTIVE-PROSE PASS 2026-09-26, ch1 overview] Thesis-structure
 %  overview (R2, Marc 2026-09-26: 'that's something that we do need').
@@ -489,15 +511,19 @@ documented in 38 attacks, not from any one group such as Volt Typhoon.
 %  go-ahead (docs/workflows/connective_prose.md; audit
 %  docs/implementation/connective_prose_audit.md); prior text in git.
 %  RATIFIED 2026-09-26 (Marc: 'I accept all this').
+% [2026-09-28, Marc: one chapter map, tighter] Now the introduction's only
+%  map (P5's and the contributions' pointers cut), so it no longer restates
+%  P5: MTDSim's gloss cut (P5 carries it), chapter 3 as subject (R3), and
+%  chapter 5 by its operation, since P5 already gives the two phases.
+%  Ratify on read.
 \medskip
-\noindent Chapter~\ref{ch:background} describes MTD and MTDSim, the simulator in which
-the APT attacker model runs. The literature review of
+\noindent Chapter~\ref{ch:background} describes MTD and MTDSim.
 Chapter~\ref{ch:litreview} scores the attacker models of recent MTD
 evaluations against eight properties of a sophisticated attacker, and
 Chapter~\ref{ch:attacker-model} builds the APT attacker model toward those
 properties and defines the metrics that measure MTD's performance. With
-those metrics, Chapter~\ref{ch:experiments} runs the APT attacker model and
-the baseline attacker with no defence and then under MTD.
+those metrics, Chapter~\ref{ch:experiments} evaluates MTD against both
+attackers.
 Chapter~\ref{ch:discussion} reads the results against the eight properties
 and draws out what they change for MTD evaluation.
 Chapter~\ref{ch:conclusion} answers the research question and sets out the
