@@ -1497,3 +1497,48 @@ scaffolding (l.~7400–7470) get a status line saying which way it went.
 - **Docs**: `_writing_guide.md` (matrix gains a Conclusion column — the threads
   close there; job rows; ledger), `evaluation_conventions.md` §h (the "ruled
   shape" overturned on the census), `docs_map.md` (the `ch8_future_work/` row).
+
+### 11.11 Exploit-memory pre-check on the restored simulator (2026-09-28)
+
+Run on HEAD `4ecabb69`, the §5.3.1 unopposed configuration (50 hosts, no
+defence, targeted objective, 15 000 s), seeds 0–19 shared across arms; 800
+runs, no errors; the control arm reproduces the corpus on those seeds (baseline
+24.6 hosts, $c_{\mathrm{agg}}$ 8.95). 20 seeds, **preliminary**. The runner,
+the analysis script and the raw rows sit in the session scratchpad
+(`precheck/ceiling.py`, `analyse.py`, `*.jsonl`), not tracked. The 2026-08
+"perfect exploit" arm was never in `tools/exploit_learning_sweep.py`, so it was
+rebuilt as a wrapper around `Vulnerability.network` for this check.
+
+- **Exploit success**: about 0.70 of rolls succeed. The restored OS gate
+  refuses 0.49–0.57 of the APT attacker model's exploit attempts (0.41 of the
+  baseline's) with no defence at all.
+- **A perfect roll, gate kept, still adds about 0 hosts** to every profile, for
+  both objectives and in a narrow pool (`services_per_os` = 3). Winning the
+  roll is not the binding constraint.
+- **Gate removed: about +2 hosts** (CI excludes zero for $c_{\mathrm{agg}}$ and
+  $c_4$), with attempts per host falling from about 50 to about 28. The gate
+  is the binding exploit-side limit on the restored simulator.
+- **The memory (λ = 2) operates**: 22–39 vulnerability types per run are
+  re-exploited on a second host, and success per roll rises 0.71 → 0.74 (0.85
+  in the narrow pool). **But it moves breadth in no cell for the APT attacker
+  model**, because it acts on the roll and a refused attempt never rolls.
+- **Baseline attacker**: the only non-null is the general objective (memory
+  +0.95 hosts, CI [+0.14, +1.76]; perfect roll +1.3), bounded by the 80 % stop.
+  Under the targeted objective the dissertation evaluates, it is null.
+
+**What this licenses.** The August null stands for the dissertation's
+configuration, for a different reason than the record gives: the simulator's
+OS-gated exploit action, not the roll, bounds what the attacker can take. That
+is the adopted-actions threat (§11.2, 6.5) shown directly: a capability built
+into the attacker cannot act on the constraint that binds. It is reportable
+as a second ablation beside the failure matrix, and 6.3 can then read property
+7 as "operates, no advantage, blocked by the actions", like property 4.
+
+**What a §5.4 ablation needs before it is written.**
+- A tracked runner with the perfect-roll and gate-off arms built into `tools/`,
+  not the scratchpad wrapper.
+- A ch4 mechanism paragraph for the memory and its λ (the antecedent rule).
+- 100 seeds, then 1 000 per the seed-count protocol.
+- The gate-off arm framed as a diagnostic of the simulator, never as an attacker
+  configuration.
+- Marc's ruling on §5.4's heading (two ablations).
