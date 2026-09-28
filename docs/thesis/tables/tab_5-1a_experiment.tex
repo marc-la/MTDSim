@@ -1,3 +1,7 @@
+% 2026-09-28: the VULNERABILITY MEMORY row added (Marc: "we can add a column now to
+% the table"): a setting a replicator must make, on for the APT attacker model and
+% none for the baseline attacker, in chapter 4's word (Section 4.4.5); its ablation
+% arms join the Arm row beside the failure matrix's. Both marked owed until run.
 % NEW 2026-09-18 (§5.2 readability pass; handoff 2026-09-17_ch5_s52_setup_critique.md
 % §V3, §W). REPLACES tab_5-1a_factors_varied and tab_5-1b_factors_fixed, which are
 % deleted: two tables became one because this repo's own evaluation conventions §c
@@ -111,8 +115,9 @@
     & Exposed endpoints & 5 \citep{zhang2023} \\
     \multirow{-5}{*}[-0.30cm]{\smash{\rotatebox{90}{\emph{Network}}}} & Target & the two database hosts, at the deepest level \citep{tay2024code} \\
     \midrule
-    & Arm & the baseline attacker; the APT attacker model on each of the four attack profiles $c_1$ to $c_4$; the APT attacker model on the aggregate $c_{\mathrm{agg}}$; the APT attacker model on $c_1$ to $c_4$ with every factor of the failure matrix set to one, with no defence and under IP shuffle and OS diversity at 200\,s and 2\,000\,s (Section~\ref{sec:ablation}) \\
-    \multirow{-2}{*}[-0.46cm]{\smash{\rotatebox{90}{\emph{Attacker}}}} & Attack scenario & targeted \citep{brown2023} \\
+    & Arm & the baseline attacker; the APT attacker model on each of the four attack profiles $c_1$ to $c_4$; the APT attacker model on the aggregate $c_{\mathrm{agg}}$; the APT attacker model on $c_1$ to $c_4$ with every factor of the failure matrix set to one, \owed{and, separately, with the vulnerability memory off, with every exploit succeeding, and with exploits no longer OS-specific (a diagnostic of the simulator)}{Table 5.1: the vulnerability-memory ablation arms are specified, not yet run (handoff 2026-09-28\_vulnerability\_memory\_on)}, with no defence and under IP shuffle and OS diversity at 200\,s and 2\,000\,s (Section~\ref{sec:ablation}) \\
+    & Attack scenario & targeted \citep{brown2023} \\
+    \multirow{-3}{*}[-0.46cm]{\smash{\rotatebox{90}{\emph{Attacker}}}} & Vulnerability memory & on for the APT attacker model, \owed{$\lambda = 2$}{Table 5.1: $\lambda$ is a pre-check value, to be declared with its reason (Section 4.4.5, Appendix B)}; none for the baseline attacker (Section~\ref{subsec:vulnerability-memory}) \\
     \midrule
     & Condition & no defence; each of the seven defence mechanisms alone \citep{brown2023}; the random deployment strategy; the alternative deployment strategy \citep{zhang2023}; MTDShield, as released \citep{tay2024} \\
     & Deployment interval & 50\,s \citep{zhang2023, ho2024}; 100\,s \citep{zhang2023, ho2024}; 200\,s \citep{zhang2023, ho2024}; 500\,s; 1\,000\,s; 2\,000\,s \\

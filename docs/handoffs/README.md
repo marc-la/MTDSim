@@ -37,8 +37,13 @@ The §4.5 drafting records stay tracked in
 
 ## Open work
 
+- [`2026-09-28_vulnerability_memory_on.md`](2026-09-28_vulnerability_memory_on.md)
+  — the vulnerability memory on for the APT attacker model and ablated in §5.4;
+  **must land before the 1 000-seed corpus runs**.
 - [`2026-09-15_ch6_discussion_affinity_board.md`](2026-09-15_ch6_discussion_affinity_board.md)
-  — the discussion board; rulings on the unit split and heading set owed.
+  — the discussion board; macrostructure ruled and applied 2026-09-28 (§10–§11);
+  open: the 6.1/6.2 headings, the property 6 mark, the §4.4 subsection headings,
+  and the FOUNDATION items (§6).
 - [`2026-09-25_connective_prose_rulings.md`](2026-09-25_connective_prose_rulings.md)
   — ch1–5 connective prose shipped and ratified 2026-09-26; left: fourteen minor
   ch5 wording items, ch5 S20, flagged content, re-check the ch1 overview when

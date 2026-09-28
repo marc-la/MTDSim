@@ -190,6 +190,9 @@ against attacker models grounded in documented behaviour.
 
 % ---------------------------------------------------------------------
 \begin{acknowledgements}
+Thank you, Jin, for the many ideas I have explored, such as aggregating
+threat intelligence, for keeping me from falling down many rabbit holes
+(not that it never happened), and for your frank and honest feedback.
 \end{acknowledgements}
 
 % ---------------------------------------------------------------------
@@ -361,6 +364,16 @@ research question of this dissertation:
 % would describe ASP only, not NCR).
 % Design + cold-read record: handoff 2026-09-24_ch1_introduction_design.md
 % sec. 16.
+% ONE CHAPTER MAP (Marc, 2026-09-28): the chapter and section pointers that
+% stood here (ch4, ch5, sec. 4.5) are CUT --- the overview closing the
+% chapter is the only map, so P5 reads as the approach and not as a second
+% roadmap. P6's two scope sentences were moved here and then CUT the same
+% day (Marc, 2026-09-28: appended, not integrated). "Built from the attack
+% flows together, not any one group" restated "We combine the 38 attack
+% flows into one graph"; "evaluates existing defences in simulation"
+% restated "each of MTDSim's defences". "Proposes no new defence" is the
+% one residue: nothing in ch1 implies a new defence, so it is not needed
+% here. Ratify on read.
 We recover the behaviour of APT attackers from cyber threat intelligence
 (CTI), the threat reports that security firms and government agencies
 publish on attacks they have investigated. Our source is 38 attack flows,
@@ -370,17 +383,15 @@ graph, then split it into attack profiles by operational objective, such
 as stealing data. Each attack profile records the steps taken by
 attackers with that objective, and how often each step led to the next.
 We execute each profile in MTDSim, an existing MTD simulator
-\citep{brown2023}, as the APT attacker model
-(Chapter~\ref{ch:attacker-model}). The APT attacker model shares the
+\citep{brown2023}, as the APT attacker model. The APT attacker model shares the
 actions of MTDSim's original scripted attacker, the baseline attacker,
 but its profile decides which action comes next, when, and what to do
 after one fails. Both attackers run on the same network and under the
 same defences. We first run both with no defence, to test whether the APT
-attacker model behaves differently (Chapter~\ref{ch:experiments}). We
+attacker model behaves differently. We
 then run both under each of MTDSim's defences at different deployment
 intervals. We measure MTD's performance by how much it holds back each
-attacker's progress through the network
-(Section~\ref{sec:evaluation-metrics}).
+attacker's progress through the network.
 
 % P6, PRELIMINARY FINDINGS + VALUE + SCOPE --- floated 2026-09-24 (Marc:
 % "it's just a placeholder"). Sentences 1-5 are PRELIMINARY (100-seed
@@ -400,9 +411,9 @@ baseline attacker most. An evaluation against the baseline attacker alone
 would recommend a different defence. The results make a case for
 evaluating MTD against attacker models grounded in documented behaviour.
 \emph{[Placeholder: re-check the results above against the 1\,000-seed
-corpus.]} This dissertation evaluates existing defences in simulation, and
-proposes no new defence. The APT attacker model is built from the behaviour
-documented in 38 attacks, not from any one group such as Volt Typhoon.
+corpus.]}
+% [2026-09-28: the two scope sentences that closed P6 were moved to P5, then
+%  cut (see the P5 comment).]
 
 % Both blocks below are visible placeholders (Marc's rulings 2026-08-20;
 % conventions + corpus exemplars in literature_conventions.md (g)). Marc
@@ -439,39 +450,55 @@ documented in 38 attacks, not from any one group such as Volt Typhoon.
 % first draft ran 40-75 with lead phrases and "so that" explanations. Now one
 % sentence per item: claim + key, chapter-level pointers; the "how" lives in
 % P5 and the chapters.
-\noindent This dissertation makes three contributions:
-\begin{enumerate}[label=\arabic*), align=left, leftmargin=3em,
-                  labelwidth=2.5em, labelsep=0.5em, topsep=0.5\baselineskip,
-                  partopsep=0pt]
-  \item We recover attack profiles by operational objective from 38
-  hand-drawn attack flows, and show that the objective changes how the
-  attacker behaves (\ref{sq:capture}; Chapter~\ref{ch:attacker-model},
-  Section~\ref{sec:attacker-in-operation}).
-  \item We execute the profiles as an APT attacker model inside MTDSim, on
-  the baseline attacker's actions, with its declared inputs tested for
-  robustness (\ref{sq:model}; Chapter~\ref{ch:attacker-model},
-  Appendices~\ref{app:movement}--\ref{app:sensitivity}).
-  \item We evaluate MTD against both attackers in two phases, with two new
-  measures of disruption, and find in preliminary results that the two
-  attackers are held back most by different defences (\ref{sq:evaluate};
-  Chapter~\ref{ch:experiments}). \emph{[Placeholder: re-check against the
-  1\,000-seed corpus.]}
-\end{enumerate}
-
-\medskip
+% RESHAPED 2026-09-28 (Marc): K1 ("one item per SQ") OVERTURNED --- it made
+% the list a third telling of the recover/execute/evaluate chain after the
+% SQs and P5. The SQs ask, P5 says what was done, and each item here names
+% what exists or is known afterwards. No pointers: the overview is the one
+% chapter map. "Tested for robustness" (App. C) CUT: support, not a
+% contribution.
+% SECOND PASS 2026-09-28 (Marc: "you write contributions without thinking
+% about what existed before, what the reader already has"). Bullets, not
+% numbers (Marc: numbering reads tacky; the items have no order); lead-in in
+% Marc's words. Each item gives the reader what P1--P6 have NOT already said:
+%   1. the model is REUSABLE, a drop-in for the baseline attacker (P5 said
+%      only that it shares the baseline's actions); the recovery ("from
+%      published threat reports") and the objective clause CUT as P5's.
+%   2. the new metrics in ch1's own term: P3's "adaptation to the defender",
+%      the gap P3 names, is what sec. 4.5 says they record ("this response is
+%      adaptivity"). Named by what they measure, no NCR (undefined in ch1).
+%      Only the two "this thesis" rows of Table 4.x: an ADAPTED cited metric
+%      is not claimed as a contribution.
+%   3. the finding as its consequence for the field, the "so what". When P6
+%      is rewritten, P6 carries the defences and this item the claim; P6's
+%      "would recommend a different defence" and this item must not both
+%      stand as they are.
+% Ceilings: 1 is BUILT (never "realistic" or "reproduces APT behaviour");
+% 2 is introduced and defined, not validated elsewhere; 3 is scoped to
+% MTDSim and PRELIMINARY with P6. Availability: a footnote on item 1, so no
+% line hangs between the list and the overview.
+% Session-drafted on Marc's ask; ratify on read.
 % Availability sentence executed 2026-08-21 (Marc's ask). Boilerplate /
 % citation-mechanics register, not argumentative prose --- reword in your
-% voice if wanted. OPEN DECISION, deliberately not resolved here: the public
-% main branch is the standalone simulator (dev/main split), so the link
-% currently lands a reader on the simulator, NOT the attack-model pipeline.
-% If the pipeline is to be reproducible, push a thesis release tag/branch and
-% extend this sentence to name it; as written it claims only what main shows.
-% K4 RULED 2026-09-24 (Marc accepted the recommendation): a frozen thesis
-% release tag holding the pipeline, the corpus and the result tables; this
-% sentence names it once the tag exists (Marc's action --- the session never
-% pushes). Until then it claims only what main shows.
-\noindent The source code for the simulator is publicly available at
-\url{https://github.com/marc-la/MTDSim}.
+% voice if wanted. K4 RULED 2026-09-24 (Marc accepted the recommendation): a
+% frozen thesis release tag holding the pipeline, the corpus and the result
+% tables. RE-POINTED 2026-09-28 (Marc: "we're just releasing the attacker
+% model"): it names the attacker model and the experiment scripts, and is
+% now item 1's footnote. The link is the bare repo: Marc will merge the
+% attacker model into main, which retires the dev/main open decision.
+\noindent This dissertation makes the following contributions:
+\begin{itemize}[align=left, leftmargin=3em, labelwidth=2.5em,
+                labelsep=0.5em, topsep=0.5\baselineskip, partopsep=0pt]
+  \item We build an APT attacker model that any MTD evaluation in MTDSim
+  can run in place of the baseline attacker.\footnote{The APT attacker
+  model and the experiment scripts are publicly available at
+  \url{https://github.com/marc-la/MTDSim}.}
+  \item We define two metrics of the attacker's adaptation to the
+  defender: the rate at which it compromises hosts after each MTD
+  deployment, and the time each deployment costs it.
+  \item We find that the attacker model changes which defence an MTD
+  evaluation in MTDSim recommends. \emph{[Placeholder: re-check against
+  the 1\,000-seed corpus.]}
+\end{itemize}
 
 % [CONNECTIVE-PROSE PASS 2026-09-26, ch1 overview] Thesis-structure
 %  overview (R2, Marc 2026-09-26: 'that's something that we do need').
@@ -489,15 +516,19 @@ documented in 38 attacks, not from any one group such as Volt Typhoon.
 %  go-ahead (docs/workflows/connective_prose.md; audit
 %  docs/implementation/connective_prose_audit.md); prior text in git.
 %  RATIFIED 2026-09-26 (Marc: 'I accept all this').
+% [2026-09-28, Marc: one chapter map, tighter] Now the introduction's only
+%  map (P5's and the contributions' pointers cut), so it no longer restates
+%  P5: MTDSim's gloss cut (P5 carries it), chapter 3 as subject (R3), and
+%  chapter 5 by its operation, since P5 already gives the two phases.
+%  Ratify on read.
 \medskip
-\noindent Chapter~\ref{ch:background} describes MTD and MTDSim, the simulator in which
-the APT attacker model runs. The literature review of
+\noindent Chapter~\ref{ch:background} describes MTD and MTDSim.
 Chapter~\ref{ch:litreview} scores the attacker models of recent MTD
 evaluations against eight properties of a sophisticated attacker, and
 Chapter~\ref{ch:attacker-model} builds the APT attacker model toward those
 properties and defines the metrics that measure MTD's performance. With
-those metrics, Chapter~\ref{ch:experiments} runs the APT attacker model and
-the baseline attacker with no defence and then under MTD.
+those metrics, Chapter~\ref{ch:experiments} evaluates MTD against both
+attackers.
 Chapter~\ref{ch:discussion} reads the results against the eight properties
 and draws out what they change for MTD evaluation.
 Chapter~\ref{ch:conclusion} answers the research question and sets out the
@@ -5002,6 +5033,12 @@ attacker did, with no input from the simulator; the join makes the run
 two-way. Section~\ref{subsec:runtime-mechanics} gives the runtime mechanics
 of the join, and Sections~\ref{subsec:dwell-times}
 to~\ref{subsec:failure-matrix} declare the three inputs the join carries.
+% [OWED 2026-09-28: with Section~\ref{subsec:vulnerability-memory} this
+%  sentence needs the memory: "three inputs the join carries" plus "and
+%  Section~\ref{subsec:vulnerability-memory} the attacker's memory of the
+%  vulnerabilities it has exploited" (the memory sits in the exploit action, not
+%  in the join's routing); and the bases list below gains $\lambda$ among the
+%  values that are our judgement. Marc's wording.]
 % [CUT 2026-09-08, both streams] the mutation example ("Suppose, for
 %  example, the attacker is thwarted ... follow the next tactic. This was not
 %  representative ..."): §4.3 carries the argument ("needs them to depend on
@@ -5073,7 +5110,7 @@ operator.
 %  Source register: handoff 2026-09-17_ch5_s51_sensitivity_overhaul.md D5
 %  insertion A + S5 defect D-4.
 
-\subsection{The runtime mechanics}
+\subsection{Runtime loop}
 \label{subsec:runtime-mechanics}
 
 The join calls each MTDSim action on its own, outside the baseline
@@ -5138,6 +5175,9 @@ ends when a target is compromised.
   base weights stand and the join is bypassed; (6)~the token fires
   the chosen immediate transition and the loop repeats.}
   \label{fig:runtime-loop}
+% [OWED 2026-09-28: the vulnerability memory sits in the MTDSim band's exploit
+%  action (Section~\ref{subsec:vulnerability-memory}); the figure and its caption
+%  ("three declared inputs") need it on the next regeneration.]
 \end{figure}
 
 Success or failure at runtime, the verdict $v \in V$ of
@@ -5227,6 +5267,10 @@ the defence: the attacker does not hold the deployment schedule, learns nothing
 about it within a run, and carries nothing from one run into the next. That
 is the scheme-aware attacker Jalowski et al.\ \citep{jalowski2026} ask for, and this model
 is not one; Section~\ref{sec:future-work} returns to it.
+% [OWED 2026-09-28: still true of the DEFENCE, but the attacker now does learn
+%  within a run --- which vulnerability types have worked for it
+%  (Section~\ref{subsec:vulnerability-memory}). One clause so the two do not
+%  read as contradicting: "learns nothing about the defence within a run".]
 % [2026-09-13: A12 paragraph landed on Marc's ratification of the fourteen-item
 %  proposal (chat, this date); source register: handoff 2026-09-08_ch4_s43_gspn_formalism.md
 %  §7.2. Verified 2026-09-13:
@@ -5248,7 +5292,7 @@ actions can be built that operationalises all of MITRE's tactics.
 % [2026-09-26 connective-prose pass: the preamble's "scoped it down" is
 %  removed (P8b); this sentence and the ch4 opener now carry the scope.]
 
-\subsection{The dwell times}
+\subsection{Tactic dwell times}
 \label{subsec:dwell-times}
 
 Each tactic consumes some time in the simulator, of mean $\mu_p$
@@ -5390,7 +5434,7 @@ not real-world measurements.
 %   Generated by tools/dwell_catalogue_tables.py --- regenerate, never edit.
 \input{tables/tab_4-4a_dwell_catalogue}
 
-\subsection{The tactic-to-action mapping}
+\subsection{Tactic-to-action mapping}
 \label{subsec:tactic-verb-mapping}
 
 The tactic-to-action mapping $\varphi$ sends each tactic, a place of the
@@ -5447,7 +5491,7 @@ Caldera~\citep{applebaum2016}, but this would introduce too much overhead.
 %   experiment_01_findings.md into Table~\ref{tab:experiment-one}. Its
 %   framing prose is a flagged slot there, yours to write.
 
-\subsection{The failure matrix}
+\subsection{Failure matrix}
 \label{subsec:failure-matrix}
 
 % [REWRITTEN 2026-09-26, supervisor screen step 2 (Marc: "how we present and
@@ -5513,6 +5557,33 @@ whether any result depends on these values, by running the same attacker with
 every factor of the failure matrix set to one; Appendix~\ref{app:sensitivity}
 varies the rate. These are threat-model parameters for this simulator, not
 real-world values.
+
+\subsection{Vulnerability memory}
+\label{subsec:vulnerability-memory}
+
+% [NEW 2026-09-28, Marc's ruling: the memory is ON in the evaluated APT
+%  attacker model, as the failure matrix is, and ablated beside it in
+%  Section~\ref{sec:ablation}. One paragraph. Heading is Marc's working name;
+%  the first sentence says what it does. Handoff
+%  2026-09-28_vulnerability_memory_on.md; evidence §11.11 of the ch6 board.
+%  Code: mtdnetwork/component/adversary.py (the per-type success count and
+%  lambda). No vocabulary ch2--ch4 lacks: "vulnerability", "exploit",
+%  "OS" are ch2's.]
+\noindent\emph{[Placeholder --- Marc to dictate. What it does: the APT
+attacker model remembers each vulnerability type it has exploited
+successfully, on any host, and each earlier success raises its odds of
+exploiting that type again by a declared factor $\lambda$; the memory lasts the
+run and no deployment erases it (a diversity mechanism works on it by changing
+which types sit on which hosts). Why: an APT attacker reuses what has worked
+for it, becoming more likely to succeed as the attack progresses (property 7,
+Section~\ref{subsec:attacker-criterion}); the lineage's precedent is Zhang's
+attacker, whose exploit time halves on a vulnerability it has used before
+\citep{zhang2023}. The baseline attacker keeps only the simulator's own:
+exploit time halves on a vulnerability instance it has exploited before
+(Zhang's per-type halving is not in the released code). The
+value of $\lambda$ is our judgement, declared with its reason in
+Appendix~\ref{app:movement}; Section~\ref{sec:ablation} switches the memory
+off.]}
 
 \section{Evaluation metrics}
 \label{sec:evaluation-metrics}
@@ -6300,6 +6371,9 @@ attacker's or the defence's.
 %  exactly what a reader checks.
 
 \input{tables/tab_5-1a_experiment}
+% [OWED 2026-09-28: the generated table needs the vulnerability memory as a
+%  fixed setting --- on ($\lambda$ declared) for the APT attacker model, off for
+%  the baseline attacker --- once the 1 000-seed corpus runs with it on.]
 
 % POINTER PROPOSED 2026-09-20 (Marc to dictate or drop): one clause in this unit
 % that the movement attacker's chosen values (Section~\ref{sec:execution}) are held
@@ -8394,8 +8468,21 @@ raised in the regime runs is not yet investigated}
 % The comment blocks and floats are in git history at the parent of this commit;
 % the generated fragments stay on disk, struck through in FLOATS.md.
 % =====================================================================
-\section{Ablation of the failure matrix}
+\section{Ablation studies}
 \label{sec:ablation}
+
+% RESTRUCTURED 2026-09-28 (Marc: "5.4 structure I accept"): one section, a
+% subsection per ablated component, named as in chapter 4 (4.4.4 -> 5.4.1,
+% 4.4.5 -> 5.4.2); Tay's "6.5 Ablation Studies" the local precedent. The shared
+% design (c1 to c4; no defence, IP shuffle and OS diversity at 200 s and
+% 2 000 s; the same seeds; Section 4.5.4's threshold) is declared once here and
+% not repeated below. Handoff 2026-09-28_vulnerability_memory_on.md, Part B.
+\noindent\emph{[Placeholder --- section preamble: every component tested here
+is our judgement; each is removed in turn on the same design, which this
+paragraph declares once.]}
+
+\subsection{Failure matrix}
+\label{subsec:ablation-failure-matrix}
 
 % [NEW 2026-09-26, supervisor screen plan item 6 (Marc: "we tried it and it
 %  didn't work, here's the ablation study"; "present the ablation study in a
@@ -8482,6 +8569,22 @@ $c_{\mathrm{agg}}$ were not run without the failure matrix. Within that scope,
 the results of this chapter do not depend on the failure matrix.
 Chapter~\ref{ch:discussion} discusses why.
 
+\subsection{Vulnerability memory}
+\label{subsec:ablation-vulnerability-memory}
+
+% [NEW 2026-09-28: the second ablation (Marc's ruling; handoff
+%  2026-09-28_vulnerability_memory_on.md). Heading ruled 2026-09-28. Pre-check at 20 seeds, no
+%  defence, §11.11 of the ch6 board: the memory operates (22--39 types
+%  re-exploited per run) and moves no hosts; a perfect exploit adds about
+%  none; the OS check refuses about half of all exploit attempts, and removing
+%  it adds about two hosts. Report whatever the 1 000 seeds show.]
+\noindent\emph{[Placeholder --- the vulnerability memory ablated. Four arms
+on $c_1$ to $c_4$, no defence and the two mechanisms of the first ablation:
+memory on (the model as evaluated); memory off; every exploit roll
+succeeding; and, as a diagnostic of the simulator and not a configuration,
+the OS check switched off. A table beside Table~\ref{tab:ablation}; the same
+reading by Section~\ref{sec:evaluation-metrics}'s threshold.]}
+
 \chapter{Discussion}
 \label{ch:discussion}
 
@@ -8499,6 +8602,13 @@ Chapter~\ref{ch:discussion} discusses why.
 % bound it (hypotheses labelled, negatives stated plainly); deduce. No
 % headings below the section; run-in labels where a section needs signage.
 % Implications BEFORE threats (Marc, 2026-09-28).
+% HEADINGS 6.1--6.2 MIRROR CHAPTER 5 VERBATIM (Marc, 2026-09-28: the
+% convention between chapters 4 and 5 applies here too; Tay's discussion
+% mirrors its results in order). The opener says so.
+% §4.4 SUBSECTIONS RE-HEADED the same day (Marc: "the proposed set is very
+% strong"): Runtime loop (Figure 4.4's own name), Tactic dwell times,
+% Tactic-to-action mapping, Failure matrix, Vulnerability memory; articles
+% dropped to match chapter 4's section headings.
 % LABEL MAP for the older comments in chapters 3--5: sec:captured (retired)
 % -> sec:disc-behaviour / sec:fidelity-verdict; sec:fidelity-verdict = 6.3
 % (label kept); sec:evaluation-implications = 6.4 (label kept);
@@ -8520,7 +8630,7 @@ the APT attacker model on the eight properties, draws out what follows for MTD
 evaluation, and bounds it.]}
 
 % =====================================================================
-\section{Attacker behaviour without defence}
+\section{APT attacker model versus baseline attacker}
 \label{sec:disc-behaviour}
 
 % Reads Section~\ref{sec:attacker-in-operation} (phase one); supervisor E10
@@ -8541,7 +8651,7 @@ objective: openings differ between profiles; why $c_3$ stalls; bounded by the
 corpus-size confound (Section~\ref{sec:threats}).]}
 
 % =====================================================================
-\section{MTD performance against the APT attacker model}
+\section{APT attacker model versus MTD}
 \label{sec:disc-mtd-performance}
 
 % Reads Section 5.3 (phase two); supervisor E10 set-up (ii). Four cycles
@@ -8761,9 +8871,20 @@ the routing needs actions whose failures differ in consequence. An idea tested
 and found not to matter here, reported so that others need not repeat it.]}
 
 
-\noindent\emph{[Placeholder --- properties 6 and 7: what the walk says of
-each depends on the ruling above; if blank, one sentence each (built in
-earlier versions, not part of the evaluated model).]}
+% [RULING OWED (handoff 2026-09-28_vulnerability_memory_on.md, B0): Table 3.2
+%  defines property 7 as "the defender's patterns learned over time and retained
+%  across deployments". The vulnerability memory learns the NETWORK, not the
+%  defender --- the same kind as Zhang's halving, for which Table 3.3 marks the
+%  lineage PARTIAL (ch3 l.~3931). Consistency says partial here too, with the
+%  walk saying why; the 2026-09-07 "implemented = met" ruling would otherwise
+%  mark our mechanism met and the lineage's like one partial.]
+\noindent\emph{[Placeholder --- property 7 read like property 4: the
+vulnerability memory (Section~\ref{subsec:vulnerability-memory}) is part of the
+evaluated model, operates, and confers no advantage, because the simulator's
+exploit action, not the attacker's odds, limits what it can take
+(Section~\ref{sec:ablation}). Property 6: blank, with one sentence (a cost
+model is not part of the evaluated model) --- the mark in the table changes
+only on Marc's ruling.]}
 
 \noindent\emph{[Placeholder --- what the capture licenses: 38 attack flows
 give an envelope of documented behaviour, not one named group; the model can
@@ -9064,9 +9185,10 @@ with each claim.]}
 % sentence names the next step.
 \noindent\emph{[Placeholder --- a richer set of actions (the binding
 constraint); stealth against a detector (property 5: the observer, not the
-behaviour); scheme awareness and learning across runs (property 8); an
-attacker that remembers the vulnerability types it has exploited, where
-types recur more often (a smaller network, a narrower pool); MTD selected or
+behaviour); scheme awareness and learning across runs (property 8); a
+richer exploit action for the vulnerability memory to act on (the memory
+operates and is blocked by the simulator's exploit action,
+Section~\ref{sec:ablation}), and where vulnerability types recur more often; MTD selected or
 optimised against the APT attacker model; other network sizes and
 emulation.]}
 
