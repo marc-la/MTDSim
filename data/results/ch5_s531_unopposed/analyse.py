@@ -335,8 +335,16 @@ def baseline_row(rows: list[dict]) -> dict:
 # ACTIVE TIME runs from the start of the run to the end of its last record: in the
 # targeted attack scenario the baseline attacker stops when it takes the target.
 
-TAU = 60.0                                   # the detector's memory (s); swept in app:detector-memory
-THETA = [round(1.0 + 0.1 * i, 1) for i in range(51)]   # alarm levels 1.0 .. 6.0
+# THE DETECTOR (ruling C, 2026-09-29, handoff 2026-09-29_s45_equation_clarity.md):
+# the count-in-a-window alarm of Snort and Suricata --- an action is flagged when
+# the attacker has taken at least THETA actions in the WINDOW seconds up to and
+# including it. 60 s is those detectors' common default (record 14). It replaced
+# an exponentially fading count with a 60 s memory, whose alarm could be set to
+# flag exactly half of the baseline attacker's actions; a whole count cannot, so
+# the rule is now the baseline attacker's median count. Ties in start time count
+# in record order (the first does not count the second), as before.
+WINDOW = 60.0                                # the detector's window (s); swept in app:detector-memory
+THETA = list(range(1, 11))                   # alarm counts 1 .. 10
 NET_HOSTS = 50
 
 
@@ -363,21 +371,18 @@ def _actions_baseline(row: dict) -> tuple[list, float]:
 
 
 def _rate(starts: list, end: float) -> float | None:
-    return 1000.0 * len(starts) / end if end > 0 else None
+    """Actions per minute of active time (ruling B, 2026-09-29: a minute, the
+    detector's own window, in place of the 1 000 s scale)."""
+    return 60.0 * len(starts) / end if end > 0 else None
 
 
 def _confidentiality_curve(starts: list) -> list | None:
-    """Share of actions taken with the detector below each alarm level: the
-    detector is D(t) = sum_i exp(-(t - t_i)/TAU) over past actions, each counting
-    one; an action is exposed when D, counting it, reaches the level."""
+    """Share of actions taken with the detector's count below each alarm count:
+    an action is exposed when the actions in the WINDOW up to and including it
+    reach the count."""
     if not starts:
         return None
-    d, last, level = 0.0, None, []
-    for t in starts:
-        d = (d * float(np.exp(-(t - last) / TAU)) if last is not None else 0.0) + 1.0
-        level.append(d)
-        last = t
-    lv = np.asarray(level)
+    lv = np.asarray([d for _, d in _detector_levels(starts)])
     return [float((lv < th).mean()) for th in THETA]
 
 
@@ -388,16 +393,18 @@ def _curve_summary(curves: list) -> dict:
             "n": int(arr.shape[0])}
 
 
-BIN = 1500.0                                  # the over-the-run reading's time bins (s)
+BIN = 1000.0                                  # the over-the-run slices (s): the one 1 000 s grain of every reading over time (2026-09-29)
 
 
-def _detector_levels(starts: list) -> list:
-    """(t, D) at each action, D counting the action itself (the detector above)."""
-    d, last, out = 0.0, None, []
-    for t in starts:
-        d = (d * float(np.exp(-(t - last) / TAU)) if last is not None else 0.0) + 1.0
-        out.append((t, d))
-        last = t
+def _detector_levels(starts: list, window: float = WINDOW) -> list:
+    """(t, D) at each action: D is the number of actions in the ``window``
+    seconds up to and including this one (the detector above). ``starts`` is in
+    record order, which is start-time order."""
+    out, i = [], 0
+    for j, t in enumerate(starts):
+        while starts[i] < t - window:
+            i += 1
+        out.append((t, j - i + 1))
     return out
 
 
@@ -778,11 +785,13 @@ def main() -> int:
         "step_share": rows[p]["tactic_visit_share"],
         **stealth_movement(movement[("targeted", CORE, p)]),
     } for p in PROFILES}
-    # The alarm for the over-the-run reading is set by one rule, not chosen: it
-    # flags half of the baseline attacker's actions (the median of D over them),
-    # a detector tuned on the attacker the defences were built against.
+    # The alarm for the over-the-run reading is set by one rule, not chosen: the
+    # baseline attacker's median count (ruling C, 2026-09-29), a detector tuned on
+    # the attacker the defences were built against. With whole counts it flags
+    # more than half of that attacker's actions; the share is recorded.
     base_levels = [d for row in baseline[CORE] for _, d in _detector_levels(_actions_baseline(row)[0])]
     theta_b = float(np.median(base_levels))
+    base_flagged = float(np.mean(np.asarray(base_levels) >= theta_b))
     for p in PROFILES:
         metrics[p]["confidentiality_over_run"] = confidentiality_over_run(
             [_actions_movement(r)[0] for r in movement[("targeted", CORE, p)]], theta_b)
@@ -798,8 +807,9 @@ def main() -> int:
     out["core"] = {
         "horizon": CORE,
         "metrics": metrics,
-        "detector": {"tau": TAU, "theta": THETA, "net_hosts": NET_HOSTS,
-                     "alarm_tuned_to_baseline": theta_b, "rule": "flags half the baseline attacker's actions"},
+        "detector": {"window": WINDOW, "theta": THETA, "net_hosts": NET_HOSTS,
+                     "alarm_tuned_to_baseline": theta_b, "baseline_flagged_share": base_flagged,
+                     "rule": "the baseline attacker's median count of actions in the window"},
         "coverage": cov,
         "table": rows,
         "divergence": div,

@@ -15,12 +15,13 @@ handoff §8g-5). The takeaways it is built to carry, and nothing else:
 
   (a), (b) NCR growth rate around a deployment of the mechanism that costs
       each attacker most (chosen by rule from (c), never typed): hosts
-      compromised per unit of live time, 750 s before to 1 250 s after the
-      deployment completes, as a percentage of the attacker's own rate before;
+      compromised per unit of live time, 1 000 s before to 1 000 s after the
+      deployment completes (half the interval each side, ruling A 2026-09-29), as a percentage of the attacker's own rate before;
       both attackers in each panel; the shaded band is the deployment running
       (its median duration), 0 is when it completes.
   (c) Time lost per MTD deployment (the name ruled 2026-09-24), per mechanism, both attackers, with seeded
-      bootstrap intervals (the area of the dip, as seconds at the attacker's
+      bootstrap intervals (the window after times the share of pace lost over
+      it --- the area of the dip in one slice --- as seconds at the attacker's
       own pace, less the same read at the same moments with no defence).
 
 Both at the 2 000 s deployment interval (at 200 s the next deployment lands
@@ -87,7 +88,7 @@ def emit(d: dict) -> tuple[str, list[str]]:
             return AY0 + max(0.0, min(v, YMAX)) / YMAX * AH
 
         axes(w, x0, x1, AY0, ay1,
-             xticks=[(t, xa(t)) for t in range(-500, 1001, 500)],
+             xticks=[(t, xa(t)) for t in range(int(tmin) + 500, int(tmax), 500)],  # inner ticks only: the panels' end labels collided at the join (2026-09-29)
              yticks=[(v, ya(v)) for v in (0, 25, 50, 75, 100, 125)],
              xlabel="", ylabel="", ylabels=(k == 0), xfmt=signed)
         dur = R[f"movement|{m}|{INTERVAL}"]["deployment_seconds_median"]
@@ -96,8 +97,11 @@ def emit(d: dict) -> tuple[str, list[str]]:
         # to its left read as "the deployment happens before the band")
         w(r"\node[anchor=south,text=black!60] at (%.3f,%.3f) {MTD deployment};" % (xa(-dur / 2), ay1 + 0.04))
         w(r"\draw[black!55,line width=0.4pt,dash pattern=on 1pt off 1.5pt] (%.3f,%.3f) -- (%.3f,%.3f);" % (x0, ya(100), x1, ya(100)))
-        panel_letter(w, x0 - (1.35 if k == 0 else 0.5), ay1 + 0.02, letter)
-        w(r"\node[anchor=south east] at (%.3f,%.3f) {%s};" % (x1, ay1 + 0.04, LONG[m]))
+        panel_letter(w, x0 - (1.35 if k == 0 else 0.5), ay1 + 0.44, letter)
+        # the mechanism's name is the panel's title, a row above the band label:
+        # on the half-interval window the band sits mid-panel and no alignment
+        # kept the two apart on one row (2026-09-29)
+        w(r"\node[anchor=south west] at (%.3f,%.3f) {%s};" % (x0, ay1 + 0.46, LONG[m]))
         # the dip, shaded under the 100 % line from the moment the deployment
         # completes: (c)'s bar is this area (Marc 2026-09-24: read as a point on the
         # time axis, the seconds in (c) did not match anything in (a)/(b)). Drawn
@@ -122,7 +126,7 @@ def emit(d: dict) -> tuple[str, list[str]]:
                 marker(w, mk, col, x, y, r=0.06)
             after = [v for t, v in zip(mids, c["relative_pct"]) if t > 0]
             facts.append(f"({letter}) {LONG[m]:18s} {arm:9s} deployments {c['deployments']:5d}  first 125 s {after[0]:.0f} %  "
-                         f"at 1 000-1 250 s {after[-1]:.0f} %  rate before {c['pre_rate_per_ksec']:.2f} per 1 000 s  "
+                         f"in the last 125 s {after[-1]:.0f} %  rate before {c['pre_rate_per_ksec']:.2f} per 1 000 s  "
                          f"(deployment runs {dur:.0f} s)")
     w(r"\node[anchor=north] at (%.3f,%.3f) {time since the MTD deployment completed (s)};" % ((X0 + X1) / 2, AY0 - 0.42))
     w(r"\node[rotate=90,anchor=south,align=center] at (%.3f,%.3f) {NCR growth rate (\%% of\\pre-deployment rate)};" % (X0 - 0.85, (AY0 + ay1) / 2))
