@@ -17,6 +17,16 @@ All six, in order. If you read only one for orientation, read **`project_context
 5. [`docs/workflows/notes_rubric.md`](docs/workflows/notes_rubric.md) — the quality gate for anything written into `docs/notes/`. Load in full before writing or editing a note.
 6. [`docs/implementation/apt_model_criterion.md`](docs/implementation/apt_model_criterion.md) — the APT-attacker-model criterion (supervisor S6): the literature-derived rubric this model is scored against, with the honest per-axis badges. Loaded every session by supervisor direction; it is the yardstick for all current L3 work and the ceiling on what may be claimed.
 
+## Writing: five checks, every session, every sentence
+
+Marc's standing rule, 2026-09-29. The full text is [`voice.md` §(0)](docs/workflows/voice.md). It holds for all dissertation-bound prose, reviews included.
+
+1. **Purpose.** What motivates the section, and do its few words deliver it?
+2. **Context.** What was done, written one level above the implementation.
+3. **Audience.** A fourth-year CS student and the examiner.
+4. **Clarity.** Earned by choosing and cutting. Never add sentences until every nuance is stated: implicit nuance stays off the page.
+5. **Relevance.** Specific terms by default, never vague. One term per thing, defined once and repeated verbatim. Repetitive beats vague.
+
 ## The docs system, in one paragraph
 
 Everything in `docs/` feeds one of two consumers: **the dissertation** ([`docs/thesis/dissertation.tex`](docs/thesis/dissertation.tex)) or **future sessions**. Dissertation-bound prose lives in [`docs/notes/`](docs/notes/), organised by dissertation *chapter* (ch1–ch7 subdirs) and gated by the notes rubric — every note is aimed at the chapter it will land in. Codebase-shaped truth (schemas, dispositions, decision registers, investigation records) lives in [`docs/implementation/`](docs/implementation/), with per-stage detail under `implementation/pipeline/{gap,gasp,ogasp}/`. Open work briefs live in [`docs/handoffs/`](docs/handoffs/); literature in [`docs/sources/`](docs/sources/) (gitignored) with tracked extracts in `docs/sources/extractions/`. When creating any document, run the placement criterion in `docs_map.md`. Dissertation-bound prose additionally carries a voice contract — [`docs/workflows/voice.md`](docs/workflows/voice.md): default for `notes/`, hard gate for `thesis/`; load it before drafting either.

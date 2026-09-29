@@ -1,13 +1,28 @@
 ---
 status: durable
 created: 2026-07-13
-updated: 2026-09-18   # §(d)/§(h) carve-out: bold run-in labels licensed in declarative passages only (Marc, at the §5.2 restructure); the corpus attests the device for setup and model declarations
+updated: 2026-09-29   # §(0) the five checks (Marc, on §4.5): purpose, context, audience, clarity, relevance; §(c)4 scoped to the steps the reader needs; §(f) check 0
 provenance: codified from the ratified prose corpus (dissertation-bound prose Marc kept or reworked under review), Marc's typed prompt history (argumentation layer only), and unit assessor feedback; maintained per §(g)
 ---
 
 # Voice — the prose contract for dissertation-bound writing
 
 **Status:** durable. Load in full before drafting or editing any prose destined for the dissertation, whether it is staged (`docs/notes/`) or final (`docs/thesis/`).
+
+## (0) The five checks — before every sentence
+
+Marc's standing rule (2026-09-29). It outranks every other section of this file: a sentence that passes §(c)–§(h) and fails one of these is still cut or redrafted. Run the five checks in order.
+
+1. **Purpose.** What motivates this section? A section exists only because something motivates it. If its few words do not deliver that motivation, it has failed, whatever is on the page.
+2. **Context.** What was actually done, written one abstraction level *above* the implementation. The repository and its records are the source of context, not its register. Prose that narrates the implementation reads as documentation, not as a dissertation.
+3. **Audience.** A fourth-year computer science student who knows some of the terms and not all, and the examiner. Where only the examiner reads a section, write only what the examiner needs.
+4. **Clarity.** Clarity comes from hard work: choosing, integrating and cutting. It never comes from adding sentences until every nuance is present. Stating each implicit nuance aloud makes the text *less* clear to a human reader, even when it feels clearer to write. A nuance the reader does not need stays off the page.
+5. **Relevance.** Specific by default, never vague.
+   - Name the specific object the reader has been given, never its generic parent. Name the specific mechanism class, not "the defence"; name the defined model, not "a sophisticated attacker".
+   - Use one term for one thing, defined once and then repeated verbatim. Being repetitive is acceptable; being vague is not.
+   - Never pre-define a term in a lead-in that its own definition then repeats.
+
+A metric, symbol or equation passes check 4 only when a reader who meets it cold, from a results float, can say what is counted, over what, and in what unit, and when the float presents it the way the definition does.
 
 ## (a) Force — where this applies, and how hard
 
@@ -35,7 +50,7 @@ The failure mode this file exists against has been named by an assessor of the p
 1. **Claim first, unpack after.** The first sentence of a paragraph states what the paragraph establishes; everything after is support. (Headings are the deliberate exception — see §d.)
 2. **Enumerate, then walk.** Announce the count, then take the items in order: *"Three constraints fix the design. First, … Second, … Third, …"* Never announce three and deliver two; never bullet what should be walked.
 3. **Alternatives are ranked and dismissed with reasons.** When a choice is defended, name the live options on an explicit axis (*cheapest to most faithful; coarsest to finest*), give each its genuine strength, and justify the selection from both directions — why not the cheaper, why not the dearer.
-4. **Mechanism, not assertion — and every inferential step walked.** A claim earns its place by carrying its *why*; if the cause can't be named, the claim is flagged as open, not asserted with a hedge. When the text moves from a definition to a chosen number, shape, or classification, the route between them is on the page — a leap the reader must reconstruct is a defect, however obvious it felt to write.
+4. **Mechanism, not assertion — the steps the reader needs, and no more.** A claim earns its place by carrying its *why*; if the cause can't be named, the claim is flagged as open, not asserted with a hedge. When the text moves from a definition to a chosen number, shape, or classification, the route between them is on the page — a leap the reader must reconstruct is a defect. *Scoped 2026-09-29 (§(0) check 4; overturns the earlier "every inferential step walked"):* walk only the step the reader could not take alone; a caveat, a justification of the obvious, or a nuance the reader does not need is cut, not walked.
 5. **Concessions are made up front and owned.** Weaknesses are disclosed as design facts, in the same breath as the strength they trade against — the strongest form notes when *the strength and the limitation are the same fact*, and the standing register is *accepted and disclosed rather than corrected*. Never let an examiner discover a limitation the text could have named.
 6. **Negative scope is explicit.** Say what the argument does *not* claim, as a section or a closing move, before someone else says it.
 7. **The modest-claim ceiling.** Claims stop at what the evidence carries: *designed* is not *demonstrated* is not *true* — say which one the text has earned. No claim outranks its experiment.
@@ -66,6 +81,7 @@ The failure mode this file exists against has been named by an assessor of the p
 
 ## (f) The hard gate for `thesis/` — run per section, before committing LaTeX
 
+0. **The five checks (§0).** Purpose, context, audience, clarity and relevance, run on every sentence. Any vague noun phrase and any nuance the reader does not need is cut.
 1. **Claim-first check.** Does each paragraph's opening sentence state what the paragraph establishes?
 2. **Enumeration check.** Every announced count walked to completion; every "First" has its "Second".
 3. **Citation check.** Every empirical claim carries `\citep`/`\citet`; zero unresolved anchors, zero "to reconcile" residue.
