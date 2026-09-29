@@ -5569,21 +5569,49 @@ real-world values.
 %  Code: mtdnetwork/component/adversary.py (the per-type success count and
 %  lambda). No vocabulary ch2--ch4 lacks: "vulnerability", "exploit",
 %  "OS" are ch2's.]
-\noindent\emph{[Placeholder --- Marc to dictate. What it does: the APT
-attacker model remembers each vulnerability type it has exploited
-successfully, on any host, and each earlier success multiplies its odds of
-exploiting that type again by $(1+\lambda)$, $\lambda$ declared; the memory lasts the
-run and no deployment erases it (a diversity mechanism works on it by changing
-which types sit on which hosts). Why: an APT attacker reuses what has worked
-for it, becoming more likely to succeed as the attack progresses (property 7,
-Section~\ref{subsec:attacker-criterion}); the lineage's precedent is Zhang's
-attacker, whose exploit time halves on a vulnerability it has used before
-\citep{zhang2023}. The baseline attacker keeps only the simulator's own:
-exploit time halves on a vulnerability instance it has exploited before
-(Zhang's per-type halving is not in the released code). The
-value of $\lambda$ is our judgement, declared with its reason in
-Appendix~\ref{app:movement}; Section~\ref{sec:ablation} switches the memory
-off.]}
+% [DRAFT STATE 2026-09-29: dictated by Marc; pass 2+3a repaired, 3b walked,
+%  pass 4 scrutinised, pass 5 full set (items 1--9) ruled and applied,
+%  248 -> ~190 words. Session-written clauses Marc accepted: the precondition
+%  sentence, the EXPLOIT_VULN sentence (from Table 2.x), the equation's
+%  "where" clause, the section pointer. Rulings: property 7 framed as reuse
+%  of what worked, not mutation patterns (property 8's ground); Zhang's time
+%  halving is the lineage the memory extends; the diversity-pool hypothesis
+%  stays and Section 5.4.2 tests it with a pool dimension (handoff Part A).
+%  Symbol: k, the odds factor per earlier success (code: k = 1 + lambda;
+%  lambda is the attack rate, eq:attack-rate). Cut in pass 5, do not
+%  re-flag: Cho's "under-modelled" clause (carried by §3.3.1 and Table 3.2),
+%  "let alone an APT attacker", "exploits and tools", the re-encounter
+%  clause (the equation carries it), "by return on attack" (Table 2.x
+%  carries it), the shuffle image. Left out by ruling: how long the memory
+%  lasts; the baseline's per-instance time discount (optional [S] clause,
+%  not taken). Next: pass 6 on §4.4 assembled.]
+Learning is a property of any attacker; it is property 7
+(Section~\ref{subsec:attacker-criterion}).
+An attacker learns what has succeeded before, the vulnerabilities that
+worked, and reuses them.
+Zhang's attacker already does this for time: exploitation time is halved on
+a vulnerability exploited on an earlier host \citep{zhang2023}.
+We extend it from a saving in time to a vulnerability memory: the APT
+attacker model saves the vulnerabilities it has successfully exploited.
+Hosts that run the same service version carry the same vulnerabilities.
+The \texttt{EXPLOIT\_VULN} action (Table~\ref{tab:attacker-states})
+attempts each service's top vulnerabilities, and each succeeds with its
+CVSS complexity, $p_0$ (Section~\ref{subsec:network-model}).
+We increase it by this equation, which scales it closer to one:
+\begin{equation}
+  \frac{p_n}{1-p_n} = k^n \, \frac{p_0}{1-p_0},
+  \label{eq:vulnerability-memory}
+\end{equation}
+where $n$ is the attacker's earlier successful exploits of that
+vulnerability on any host, and the factor $k$ is declared in
+Appendix~\ref{app:movement}.
+We do not change time: dwell times still come from
+Section~\ref{subsec:dwell-times}.
+The idea is that the attacker moves through the network more optimally in
+terms of compromising it.
+We hypothesise that the effect amplifies with a constrained diversity pool,
+where vulnerabilities repeat across hosts, and occurs less with a large
+pool; Section~\ref{subsec:ablation-vulnerability-memory} tests both.
 
 \section{Evaluation metrics}
 \label{sec:evaluation-metrics}
