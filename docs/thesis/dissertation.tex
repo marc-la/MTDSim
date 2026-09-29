@@ -387,7 +387,7 @@ We execute each profile in MTDSim, an existing MTD simulator
 actions of MTDSim's original scripted attacker, the baseline attacker,
 but its profile decides which action comes next, when, and what to do
 after one fails. Both attackers run on the same network and under the
-same defences. We first run both with no defence, to test whether the APT
+same defences. We first run both with no MTD, to test whether the APT
 attacker model behaves differently. We
 then run both under each of MTDSim's defences at different deployment
 intervals. We measure MTD's performance by how much it holds back each
@@ -403,7 +403,7 @@ attacker's progress through the network.
 % Sentences 6-7 (scope) are final. Ceiling: never "weak"/"realistic"/
 % "inverts"; direction only, no ranks or numbers. Design + cold read:
 % handoff 2026-09-24_ch1_introduction_design.md sec. 17.
-Our results are preliminary. With no defence, the APT attacker model
+Our results are preliminary. With no MTD, the APT attacker model
 compromises fewer hosts than the baseline attacker, and each one more
 slowly. Under MTD, shuffling the network's addresses and layout holds back
 the APT attacker model most, while changing its software holds back the
@@ -524,7 +524,7 @@ corpus.]}
 \medskip
 \noindent Chapter~\ref{ch:background} describes MTD and MTDSim.
 Chapter~\ref{ch:litreview} scores the attacker models of recent MTD
-evaluations against eight properties of a sophisticated attacker, and
+evaluations against eight properties of an APT attacker, and
 Chapter~\ref{ch:attacker-model} builds the APT attacker model toward those
 properties and defines the metrics that measure MTD's performance. With
 those metrics, Chapter~\ref{ch:experiments} evaluates MTD against both
@@ -1201,8 +1201,8 @@ and credentials.]}
 %  docs/implementation/connective_prose_audit.md); prior text in git.
 %  RATIFIED 2026-09-26 (Marc: 'I accept all this').
 Chapter~\ref{ch:litreview} scores the scripted baseline attacker and the
-attacker models of recent MTD evaluations against the properties of a
-sophisticated attacker.
+attacker models of recent MTD evaluations against the properties of an
+APT attacker.
 
 
 
@@ -3444,7 +3444,7 @@ This section surveys the attacker model that the effectiveness metrics of Sectio
 %  (docs/workflows/connective_prose.md; audit
 %  docs/implementation/connective_prose_audit.md); prior text in git.
 %  RATIFIED 2026-09-26 (Marc: 'I accept all this').
-Section~\ref{subsec:attacker-criterion} derives the properties of a sophisticated attacker from two MTD surveys and the APT definition of Section~\ref{subsec:apt};
+Section~\ref{subsec:attacker-criterion} derives the properties of an APT attacker from two MTD surveys and the APT definition of Section~\ref{subsec:apt};
 Section~\ref{subsec:recent-threat-models} scores recent evaluations
 % [CONNECTIVE-PROSE PASS 2026-09-26, P3c 3.3 preamble] The last part given
 %  its dependency on the one before. SESSION-GENERATED on Marc's
@@ -3481,7 +3481,7 @@ against them; Section~\ref{subsec:research-gap} draws the research gap from that
 % section locator is the convention for a section-specific claim from
 % a long survey (Cho is 37 pages) --- whole-paper claims carry none.
 % That is the rule the tex already follows (seven locator cites).
-\subsection{Properties of a sophisticated attacker}
+\subsection{Properties of an APT attacker}
 \label{subsec:attacker-criterion}
 
 % P1 --- diagnosis. Q: what do the surveys say the attacker model lacks?
@@ -3504,8 +3504,8 @@ against them; Section~\ref{subsec:research-gap} draws the research gap from that
 % walk so the reader knows the table is coming. The close keeps only
 % the ownership flag so the two do not repeat (Marc: "it's kind of
 % repetitive").
-Table~\ref{tab:attacker-properties} lists the eight properties of a
-sophisticated attacker, drawn from what the two surveys say MTD's
+Table~\ref{tab:attacker-properties} lists the eight properties of an
+APT attacker, drawn from what the two surveys say MTD's
 attacker models lack and from the APT definition of
 Section~\ref{subsec:apt}.
 Cho et al.\ name three under-developed dimensions of the attacker model
@@ -3625,8 +3625,8 @@ enumeration are this dissertation's own synthesis.
 % scoring provenance (ch7's), the word "criterion".
 \begin{table}[tbp]
   \centering
-  \caption[The eight properties of a sophisticated attacker]{The eight
-  properties of a sophisticated attacker and their sources.}
+  \caption[The eight properties of an APT attacker]{The eight
+  properties of an APT attacker and their sources.}
   \label{tab:attacker-properties}
   \tablestyle
   \begin{tabular}{@{}rP{3.2cm}P{5.9cm}P{5.3cm}@{}}
@@ -4886,28 +4886,33 @@ Figure~\ref{fig:gspn-gadget} draws one tactic of one Petri net.
 % [3b] "Declared in" as the third head, or "Section".
 \begin{table}[htbp]
   \centering
+  % ROUND 2026-09-29 (Marc: "why do we have secondary definitions in 4.1?"): the
+  % Meaning column names each symbol and no longer re-defines it; the definition
+  % is where the third column points. A table for lookup at a glance. Prior
+  % glosses in git. DRAFT STATE --- ratify on read.
   \caption[Symbols of the attacker model]{Symbols of the attacker model
   and where each is declared.}
   \label{tab:gspn-notation}
   \tablestyle
-  \begin{tabular}{@{}lP{8.6cm}l@{}}
+  \begin{tabular}{@{}lP{7.4cm}l@{}}
     \toprule
     Symbol & Meaning & Declared in \\
     \midrule
-    $c$ & an attack profile: $c_1$ exfiltration, $c_2$ impact, $c_3$ double extortion, $c_4$ no realised objective; $c_{\mathrm{agg}}$ the aggregate before partition & \S\ref{sec:attack-profiles} \\
-    $\mathcal{N}_c$ & the Petri net of profile $c$, a GSPN & Eq.~\ref{eq:gspn} \\
-    $p$, $\hat{p}$ & a tactic place and its decision place & \S\ref{sec:petri-formalism} \\
-    $\tau_p$ & the timed transition: execution of tactic $p$ & \S\ref{sec:petri-formalism} \\
-    $t_{pq}$ & the immediate transition: the choice of $q$ after $p$ & \S\ref{sec:petri-formalism} \\
-    $\mu_p$ & the declared mean dwell of tactic $p$, in seconds & \S\ref{subsec:dwell-times}, Table~\ref{tab:dwell-catalogue} \\
-    $w_c(p,q)$ & the base weight: the profile's flow proportion for $p \to q$ & Eq.~\ref{eq:base-weight} \\
-    $\sigma$ & the share a synthetic pre-intrusion transition takes of a place's out-mass & \S\ref{sec:petri-formalism} \\
-    $M_0$ & the initial marking: one token at the entry tactic & \S\ref{sec:petri-formalism} \\
-    $v \in V$ & the verdict the simulator returns for a dispatched action & \S\ref{subsec:runtime-mechanics} \\
-    $F_v$ & the conditioning factor under verdict $v$; $F_{\text{failure}}$ is the failure matrix & Eq.~\ref{eq:vc-net}, \S\ref{subsec:failure-matrix} \\
-    $\varphi$ & the tactic-to-action mapping, at most one action per tactic & \S\ref{subsec:tactic-verb-mapping} \\
-    $R$, $d$ & the rule kernel and the lifecycle-distance kernel whose product is $F_{\text{failure}}$ & \S\ref{subsec:failure-matrix}, App.~\ref{app:weight-sets} \\
-    $\gamma$, $\delta$, $z$ & the distance kernel's forward decay, backward decay and floor & App.~\ref{app:weight-sets} \\
+    $c$ & an attack profile & \S\ref{sec:attack-profiles} \\
+    $\mathcal{N}_c$ & the Petri net of profile $c$ & Eq.~\ref{eq:gspn} \\
+    $p$, $\hat{p}$ & a tactic place; its decision place & \S\ref{sec:petri-formalism} \\
+    $\tau_p$ & the timed transition of tactic $p$ & \S\ref{sec:petri-formalism} \\
+    $t_{pq}$ & the immediate transition from $p$ to $q$ & \S\ref{sec:petri-formalism} \\
+    $\mu_p$ & the mean dwell of tactic $p$ & \S\ref{subsec:dwell-times}, Table~\ref{tab:dwell-catalogue} \\
+    $w_c(p,q)$ & the base weight of $p \to q$ & Eq.~\ref{eq:base-weight} \\
+    $\sigma$ & the pre-intrusion overlay's share & \S\ref{sec:petri-formalism} \\
+    $M_0$ & the initial marking & \S\ref{sec:petri-formalism} \\
+    $v \in V$ & a verdict & \S\ref{subsec:runtime-mechanics} \\
+    $F_v$ & the factor under verdict $v$ & Eq.~\ref{eq:vc-net} \\
+    $F_{\text{failure}}$ & the failure matrix & \S\ref{subsec:failure-matrix} \\
+    $\varphi$ & the tactic-to-action mapping & \S\ref{subsec:tactic-verb-mapping} \\
+    $R$, $d$ & the rule kernel; the distance kernel & \S\ref{subsec:failure-matrix}, App.~\ref{app:weight-sets} \\
+    $\gamma$, $\delta$, $z$ & the distance kernel's parameters & App.~\ref{app:weight-sets} \\
     \bottomrule
   \end{tabular}
 \end{table}
@@ -5631,34 +5636,34 @@ tests both.
 \section{Evaluation metrics}
 \label{sec:evaluation-metrics}
 
-% ROUND 3, 2026-09-29 (Marc's read: vague terms, nuance stated aloud, equations
-% a supervisor could not follow from a results float; voice.md §(0), the five
-% checks). Number-preserving rewrite of the preamble, the three lead-ins,
-% relative tactic occurrence, APV, attack rate (now per minute, Marc's ruling
-% of the same day; Table 5.2 regenerated), the attack-outcome metrics, NCR
-% reduction and the statistical analysis. Equations in named quantities, no
-% per-metric symbols. Relative tactic occurrence and APV are defined as the
-% percentages Figure 5.1 draws (Rodriguez tabulate "Occur. (rel.)" as a
-% percentage). HELD AS ROUND 2 pending their redesign: attack confidentiality,
-% NCR growth rate, time lost per MTD deployment (handoff
-% 2026-09-29_s45_equation_clarity.md, rulings E-G). Round 2 is in git
-% (commit b163afad). DRAFT STATE --- ratify on read.
-\input{tables/tab_4-5a_metrics}
-
+% ROUND 4, 2026-09-29 (Marc's second read; voice.md §(0), "say more with
+% less"). Applied rulings: attack confidentiality on Snort's default scan rule
+% (E); the compromise rate after an MTD deployment and time lost per MTD
+% deployment on the half interval (F, folding in A); no MTD for no defence
+% (G1); APV replaced by distinct attack paths, the count Marc asked for; the
+% targeted scenario stated; the cell defined in 4.5.4; statistics signposted.
+% OPEN: ruling H (MTTC at the target, and the general scenario's 80 % stop
+% inside targeted runs) in handoff 2026-09-29_ch4_consolidation.md; the MTTC
+% and run-end sentences below state the corpus as it stands. Chapter 5 is
+% stale against this section by Marc's ruling (ch4 first); the owed list is
+% in the same handoff. Rounds 2-3 in git. DRAFT STATE --- ratify on read.
 Chapter~\ref{ch:experiments} answers \ref{sq:evaluate} with the metrics of
-Table~\ref{tab:metrics}. Each metric is computed over a \emph{cell}: the runs of
-one attacker under one condition at one deployment interval
-(Table~\ref{tab:experiment}). A run ends when the attacker compromises a target
-host, when it has compromised 80\,\% of the network's hosts, or at the time
-limit.
+Table~\ref{tab:metrics}. Every run follows the targeted attack scenario
+(Section~\ref{subsec:attacker-model}): the attacker aims at a target host, and
+the run ends when it compromises one or at the time limit. The simulator also
+keeps the general scenario's stop, at 80\,\% of the network's hosts. Each metric
+is computed over the runs of one attacker under one condition
+(Section~\ref{subsec:metrics-statistics}).
+
+\input{tables/tab_4-5a_metrics}
 
 \subsection{Attacker behaviour}
 \label{subsec:metrics-behaviour}
 
 The attacker behaviour metrics record three properties of an APT attacker
 (Table~\ref{tab:attacker-properties}): relative tactic occurrence records
-objective conditioning, APV strategic plurality, and attack rate and attack
-confidentiality stealth.
+objective conditioning, distinct attack paths strategic plurality, and attack
+rate and attack confidentiality stealth.
 
 \paragraph{Relative tactic occurrence.}
 Relative tactic occurrence is the percentage of an attacker's steps taken in
@@ -5666,36 +5671,34 @@ each tactic, the quantity Rodr\'{\i}guez et al.\ tabulate for the tactics of an
 attack log \citep[Table~3]{rodriguez2024}. A \emph{step} is one tactic executed
 by the Petri net (Section~\ref{sec:execution}). The baseline attacker has no
 tactics: its step is one action, with consecutive repeats of an action counted
-once, and its percentages are per action. Counting over every run of the cell,
+once, and its percentages are per action. Counting over every run,
 \begin{equation}
   \text{relative tactic occurrence}(p) =
   100 \times \frac{\text{steps in tactic } p}{\text{all steps}}.
   \label{eq:rto}
 \end{equation}
 
-\paragraph{Attack path variation (APV).}
-APV is the percentage of an attacker's runs whose opening differs from its most
-common opening. The \emph{opening} of a run is its first $k$ steps, and $k$ is
-the opening length:
+\paragraph{Distinct attack paths.}
+An attacker's \emph{attack path} in a run is the sequence of its steps.
+Distinct attack paths is the number of different attack paths among an
+attacker's runs, compared over their first $k$ steps:
 \begin{equation}
-  \mathrm{APV}(k) = 100 \times \left( 1 -
-  \frac{\text{runs that open with the most common first } k \text{ steps}}
-       {\text{runs}} \right).
+  \text{distinct attack paths}(k) =
+  \text{number of different first-}k\text{-step sequences}.
   \label{eq:apv}
 \end{equation}
-APV is 0 when every run opens alike and rises towards 100 as the openings
-diversify. Hong et al.\ define APV over successive network states, as the mean
-share of attack paths that change from one state to the next
-\citep[Eq.~2]{hong2018}; the runs of a cell have no order, so each run is
-compared with the most common opening instead.
+It is 1 when every run opens alike, and at most the number of runs. Hong et
+al.\ count the attack paths a network offers \citep{hong2018}; here the paths
+are the ones an attacker takes.
 
 \paragraph{Attack rate.}
 Attack rate is ``the number of attacks that arrive at unit time''
 \citep[Sec.~III-B]{zhan2013}. Here it is the number of an attacker's actions
-per minute of its run, from the start of the run to the end of its last step:
+per minute. Each run gives one rate, its actions over its length in minutes,
+from its start to the end of its last step; the attack rate is their mean:
 \begin{equation}
   \text{attack rate} = \operatorname*{mean}_{\text{runs}}
-  \left( \frac{\text{actions}}{\text{minutes to the end of the last step}} \right).
+  \left( \frac{\text{actions}}{\text{run length in minutes}} \right).
   \label{eq:attack-rate}
 \end{equation}
 An \emph{action} counts when it runs on the network. An action whose
@@ -5704,43 +5707,22 @@ and is not counted, and the baseline attacker's consecutive exploit attempts
 count as one action. A higher rate is a more aggressive attack
 \citep{pendleton2016}.
 
-% HELD AS ROUND 2, pending ruling E (the detector) in the handoff
-% 2026-09-29_s45_equation_clarity.md; only \mathcal{R} is replaced by words,
-% since the preamble no longer defines it.
 \paragraph{Attack confidentiality.}
-Attack confidentiality, adapted from Zaffarano et al.\ \citep{zaffarano2015}, is
-the share of the attacker's actions that a detector does not flag. Zaffarano et
-al.\ judge exposure by what is visible in network traffic; MTDSim models no
-% [CONNECTIVE-PROSE PASS 2026-09-26, T1 4.5 this-thesis b] 'this thesis'
-%  -> 'this dissertation' (ratified row, 2026-09-24). SESSION-GENERATED on
-%  Marc's 2026-09-26 go-ahead (docs/workflows/connective_prose.md; audit
-%  docs/implementation/connective_prose_audit.md); prior text in git.
-%  RATIFIED 2026-09-26 (Marc: 'I accept all this').
-detection, so this dissertation declares a \emph{detector} that alarms on the
-attacker's recent action rate, the signal a slow attacker evades
-\citep{jafarian2015, ward2018}. At the attacker's $j$th action the detector
-holds
+Attack confidentiality is ``how much attacker activity may be visible by
+detection mechanisms'' \citep[Table~4]{zaffarano2015}, the share of the
+attacker's actions that are not exposed. MTDSim has no detection mechanism, so
+an action is exposed here when a standard scan detector would flag it. Scan
+detectors flag ``N events within a time interval of T seconds''
+\citep[Sec.~2]{jung2004}, and Snort's default flags a source that contacts five
+addresses within 60\,s \citep[Sec.~6]{jung2004}. An action is flagged when it is
+at least the attacker's fifth action within one minute:
 \begin{equation}
-  D_r(j) = \sum_{i=1}^{j} e^{-(a_j - a_i)/\kappa},
-  \label{eq:detector}
-\end{equation}
-a count of the actions so far in which each fades with the detector's memory
-$\kappa = 60$\,s; $D_r(j)/\kappa$ is an exponentially weighted moving average of
-the action rate, a standard intrusion-detection statistic \citep{cisar2010ewma}.
-Action $j$ is flagged when $D_r(j)$ reaches the \emph{alarm level} $\theta$, set
-at the median of $D$ over the baseline attacker's actions so that the alarm
-flags half of the known attacker's activity. Over a stretch $b$ of the run,
-\begin{equation}
-  \text{attack confidentiality}(b) =
-  \frac{\sum_{\text{runs}} \lvert \{\, j : a_j \in b,\ D_r(j) < \theta \,\} \rvert}
-       {\sum_{\text{runs}} \lvert \{\, j : a_j \in b \,\} \rvert},
+  \text{attack confidentiality} =
+  \frac{\text{actions not flagged}}{\text{actions}},
   \label{eq:confidentiality}
 \end{equation}
-read in ten 1\,500\,s bins of the time limit. It lies in $[0, 1]$; lower is
-better for the defender. The reading holds only for a detector that counts
-actions; one that counts time on the network would favour the faster attacker
-\citep{hong2018}. Appendix~\ref{app:detector-memory} varies $\kappa$ and the
-share the alarm flags.
+counting over every run. A slower attacker leaves more of its actions
+unflagged. Appendix~\ref{app:detector-memory} varies the count and the window.
 
 \subsection{Attack outcome}
 \label{subsec:metrics-outcome}
@@ -5751,8 +5733,8 @@ MTD simulation studies repeat each experiment over many randomised runs
 
 \paragraph{Attack success probability (ASP).}
 ASP is ``the probability that attacks are successfully performed''
-\citep[Sec.~VII-A]{cho2020}. An attack succeeds here when the attacker
-compromises a target host:
+\citep[Sec.~VII-A]{cho2020}. In the targeted scenario an attack succeeds when the
+attacker compromises a target host:
 \begin{equation}
   \mathrm{ASP} = \frac{\text{runs that compromise a target host}}{\text{runs}}.
   \label{eq:asp}
@@ -5766,7 +5748,9 @@ network'' \citep[p.~32]{zhang2023}, read at the end of each run:
   \left( \frac{\text{hosts compromised}}{50} \right),
   \label{eq:ncr}
 \end{equation}
-where 50 is the network's hosts (Section~\ref{subsec:network-model}).
+where 50 is the network's hosts (Section~\ref{subsec:network-model}). In the
+targeted scenario it counts the hosts the attacker compromises on the way to a
+target.
 
 \paragraph{Mean time to compromise (MTTC).}
 MTTC is the mean time from the start of a run to its first compromised host,
@@ -5776,19 +5760,18 @@ over the runs that compromise one:
   \left( \text{time of the first compromise} \right).
   \label{eq:mttc}
 \end{equation}
-Zhang reads MTTC when 80\,\% of the hosts have fallen \citep{zhang2023}, after
-McQueen et al.\ \citep{mcqueen2006}. A run here usually ends at its target
-first, so MTTC is read at the first host and reported with the share of runs
-that compromise one.
+Zhang reads MTTC when 80\,\% of the hosts have fallen, the goal of the general
+scenario \citep{zhang2023}. Few targeted runs reach it, so MTTC is read at the
+first host and reported with the share of runs that compromise one.
 
 \subsection{MTD effectiveness}
 \label{subsec:metrics-effectiveness}
 
 The MTD effectiveness metrics compare an attacker's runs under a condition with
-its runs on the same seeds with no defence. NCR reduction ranks the defence
-mechanisms. The NCR growth rate and time lost per MTD deployment record
-adaptivity (Table~\ref{tab:attacker-properties}), the attacker's response to
-each deployment.
+its runs on the same seeds with no MTD. NCR reduction ranks the defence
+mechanisms. The compromise rate after an MTD deployment and time lost per MTD
+deployment record adaptivity (Table~\ref{tab:attacker-properties}), the
+attacker's response to each deployment.
 
 \paragraph{NCR reduction.}
 NCR reduction is the share of an attacker's NCR that a condition removes. It
@@ -5797,78 +5780,73 @@ takes the form of the mitigation factor of Alavizadeh et al.\
 expectancy:
 \begin{equation}
   \text{NCR reduction} = 1 -
-  \frac{\text{NCR under the condition}}{\text{NCR with no defence}}.
+  \frac{\text{NCR under the condition}}{\text{NCR with no MTD}}.
   \label{eq:ncr-reduction}
 \end{equation}
 It is 0 for no effect and 1 when no host is compromised. The mitigation factor
 is floored at 0; NCR reduction is not, so a condition that helps the attacker
 shows as negative.
 
-% HELD AS ROUND 2, pending rulings F and G in the handoff
-% 2026-09-29_s45_equation_clarity.md.
-\paragraph{NCR growth rate.}
-We define the NCR growth rate to measure how fast the attacker compromises hosts
-after a deployment, relative to its pace before. It is the derivative of the
-run's NCR, divided by its mean over the 750\,s before a deployment that completes
-at $t_d$:
+\paragraph{Compromise rate after an MTD deployment.}
+The compromise rate after an MTD deployment is the attacker's rate of
+compromising hosts in the half interval after a deployment completes, as a
+percentage of its rate in the half interval before it:
 \begin{equation}
-  g(t) = \frac{\mathrm{d}\,\mathrm{NCR}_r(t)}{\mathrm{d}t},
-  \qquad
-  \tilde{g}(t) = \frac{g(t_d + t)}{\bar{g}_{-}},
+  \text{compromise rate after an MTD deployment} =
+  100 \times \frac{\text{rate after}}{\text{rate before}},
   \label{eq:ncr-growth}
 \end{equation}
-where $\mathrm{NCR}_r(t)$ is run $r$'s NCR at time $t$ and $\bar{g}_{-}$ the mean
-of $g$ over $[t_d - 750, t_d)$. $\tilde{g}$ is 1 at the attacker's earlier pace
-and below 1 while the deployment slows it. As NCR rises in steps of $1/N$, $g$ is
-estimated as compromises per second in 125\,s bins, pooled over every deployment
-of every run in the cell, a run that has ended adding no time. The form is the
-resilience curve of Bruneau et al.\ \citep{bruneau2003}, a system's quality after
-a disruption relative to its level before; here the quality is the attacker's
-pace. The window is one 2\,000\,s deployment interval, split at the deployment:
-1\,250\,s after, where the next deployment's 750\,s before begins, so the
-growth rate is read at that interval only.
-Appendix~\ref{app:timelost-window} varies the split and the bin width.
+where each rate is the hosts compromised over the seconds of run time, both
+summed over every deployment of every run; a run that has ended adds no
+seconds. It is 100 when a deployment leaves the
+attacker's pace unchanged and 0 when the attacker compromises nothing after it.
+An attacker's pace also changes over a run with no MTD, so the rate is read as
+well at the same moments of the same seeds' no-MTD runs.
 
 \paragraph{Time lost per MTD deployment.}
-We define time lost per MTD deployment to measure the progress one deployment
-costs the attacker, in seconds at its own pace. Its form is the loss of
-resilience of Bruneau et al.\ \citep{bruneau2003}, the area between a system's
-quality after a disruption and its level before:
+Time lost per MTD deployment is the attack time one deployment costs the
+attacker. An attacker that compromises hosts at 60\,\% of its earlier rate for
+the 1\,000\,s after a deployment, where with no MTD it would have kept its rate,
+makes 600\,s of progress in 1\,000\,s and loses 400\,s:
 \begin{equation}
-  L = \int_{0}^{1250} \bigl(1 - \tilde{g}(t)\bigr)\,\mathrm{d}t \;-\; L_{\text{none}},
+  \text{time lost per MTD deployment} = \frac{I}{2} \times
+  \frac{r_{\text{no MTD}} - r_{\text{MTD}}}{100},
   \label{eq:time-lost}
 \end{equation}
-where $L_{\text{none}}$ is the same area on the same seed's no-defence run at
-the same moments, which removes the drift in the attacker's pace within a run. A
-deployment that halts the attacker for 300\,s and then lets it resume at its
-former pace costs 300\,s; a negative value means the attacker ran faster
-afterwards. NCR reduction reads a defence's net effect over the run; time lost
-reads the cost of one deployment, and the two differ in sign when a defence
-speeds the attacker up between deployments. A dip not recovered within 1\,250\,s
-is cut off there, so its time lost is a lower bound.
+where $I$ is the deployment interval, $r_{\text{MTD}}$ is the compromise rate
+after an MTD deployment under the condition, and $r_{\text{no MTD}}$ is the same
+rate at the same moments with no MTD. It is negative when the attacker runs
+faster after a deployment. Its form is the loss of resilience of Bruneau et al.\
+\citep{bruneau2003}, the area between a system's quality after a disruption and
+its level before, with the attacker's pace as the quality.
 
 \subsection{Statistical analysis}
 \label{subsec:metrics-statistics}
 
-% ROUND 3, 2026-09-29: cut to what the examiner needs (Marc). Round 2's
-% "which orders them as NCR reduction does" and the merge step's walk-through
-% are in git. VARIANT B (by seed) is still owed: once the analyser resamples
-% by seed, "over runs" becomes "over seeds".
-Each cell has 1\,000 runs, one per seed, the number Arcuri and Briand
-\citep{arcuri2014hitchhiker} recommend for randomised algorithms. Every cell uses
-the same seeds, and a seed fixes the network. A mean is reported with a
-95\,\% normal-approximation interval over runs; NCR reduction and time lost are
-reported with 95\,\% percentile bootstrap intervals from 2\,000 resamples
+% ROUND 4, 2026-09-29: one run-in label per step (Marc: "more signposting ...
+% bold and then just ranking"), licensed by voice.md §(d) for a declarative
+% passage. VARIANT B (by seed) is still owed: once the analyser resamples by
+% seed, "over runs" becomes "over seeds".
+\textbf{Runs.} A \emph{cell} is the runs of one attacker under one condition at
+one deployment interval: 1\,000 runs, one per seed, the number Arcuri and Briand
+\citep{arcuri2014hitchhiker} recommend for randomised algorithms. Every cell
+uses the same seeds, and a seed fixes the network.
+
+\textbf{Intervals.} A mean is reported with a 95\,\% normal-approximation
+interval over runs. NCR reduction and time lost per MTD deployment are reported
+with 95\,\% percentile bootstrap intervals from 2\,000 resamples
 \citep{efron1994introduction}.
 
-The conditions are ranked, per attacker and deployment interval, by the
-Scott--Knott effect size difference test \citep{tantithamthavorn2017empirical}
-on hosts compromised per seed. Two conditions share a rank unless their means
-differ significantly ($\alpha = 0.05$) \citep{scott1974cluster} and by at least
-a small effect (Cohen's $d \geq 0.2$) \citep{cohen1988statistical}; rank 1 is the
-fewest hosts compromised. Spearman's $\rho$ compares the two attackers'
-rankings. An ablation's difference is reported with a 95\,\% bootstrap interval
-over runs paired by seed, and is negligible when Cohen's $d < 0.2$.
+\textbf{Ranking.} The conditions are ranked, per attacker and deployment
+interval, by the Scott--Knott effect size difference test
+\citep{tantithamthavorn2017empirical} on hosts compromised per seed. Two
+conditions share a rank unless their means differ significantly
+($\alpha = 0.05$) \citep{scott1974cluster} and by at least a small effect
+(Cohen's $d \geq 0.2$) \citep{cohen1988statistical}; rank 1 is the fewest hosts
+compromised. Spearman's $\rho$ compares the two attackers' rankings.
+
+\textbf{Ablations.} An ablation's difference is reported with a 95\,\% bootstrap
+interval over runs paired by seed, and is negligible when Cohen's $d < 0.2$.
 
 
 % =====================================================================
@@ -6426,7 +6404,7 @@ Section~\ref{sec:technique-graph} before it is partitioned into profiles. Both p
 %  (docs/workflows/connective_prose.md; audit
 %  docs/implementation/connective_prose_audit.md); prior text in git.
 %  RATIFIED 2026-09-26 (Marc: 'I accept all this').
-\textbf{Defence.} The 11 defence conditions are no defence, each of the seven defence
+\textbf{Defence.} The 11 defence conditions are no MTD, each of the seven defence
 % [CONNECTIVE-PROSE PASS 2026-09-26, DS 5.1 Defence] Marc 2026-09-26:
 %  'deployment strategies is very clear ... change everything to
 %  deployment strategies' (registry row re-ruled). SESSION-GENERATED on
@@ -6451,7 +6429,7 @@ evenly on a logarithmic axis; the timing distribution is varied separately
 %  git. RATIFIED 2026-09-26 (Marc: 'I accept all this').
 (Table~\ref{tab:experiment}). Where one interval is tabled it is 200\,s, the
 longest Zhang ran, the interval of Ho's comparisons \citep{ho2024} and the one
-MTDShield was trained at (Appendix~\ref{app:mtdshield}). The no-defence runs are
+MTDShield was trained at (Appendix~\ref{app:mtdshield}). The no-MTD runs are
 the reference for every effect this chapter reports.
 % STAGED 2026-09-25, APPLY WHEN THE MTDSHIELD CONDITION LANDS (handoff
 %  2026-09-22_ch5_defended_corpus_schemes_intervals_mtdshield.md §5.7 item 2;
@@ -7056,7 +7034,7 @@ starts \citep{law2015}, so no warm-up period is needed \citep{currie2016}.
 %  2026-09-26 go-ahead (docs/workflows/connective_prose.md; audit
 %  docs/implementation/connective_prose_audit.md); prior text in git.
 %  RATIFIED 2026-09-26 (Marc: 'I accept all this').
-With no defence running, this section compares how each attacker acts
+With no MTD running, this section compares how each attacker acts
 (Section~\ref{subsec:metrics-behaviour}) and what it achieves
 (Section~\ref{subsec:metrics-outcome}).
 
@@ -7222,7 +7200,7 @@ shows about as little.
 \begin{figure}[tbp]
   \centering
   \includegraphics{fig_5-2-1a_campaign_openings}
-  \caption[Where each attacker's steps fall, and how often its runs start differently]{With no defence running, for the APT attacker model on the attack profiles $c_1$ to $c_4$ and for the baseline attacker. (a)~Relative tactic occurrence, the tactics grouped by the action each dispatches (Section~\ref{subsec:tactic-verb-mapping}); a dash marks a tactic the attacker does not have. (b)~Attack path variation by opening length. Section~\ref{sec:evaluation-metrics} defines each metric.}
+  \caption[Where each attacker's steps fall, and how often its runs start differently]{With no MTD running, for the APT attacker model on the attack profiles $c_1$ to $c_4$ and for the baseline attacker. (a)~Relative tactic occurrence, the tactics grouped by the action each dispatches (Section~\ref{subsec:tactic-verb-mapping}); a dash marks a tactic the attacker does not have. (b)~Attack path variation by opening length. Section~\ref{sec:evaluation-metrics} defines each metric.}
   \label{fig:aio-coverage}
 \end{figure}
 
@@ -7472,7 +7450,7 @@ limitations in Chapter 6}.
 \begin{figure}[tbp]
   \centering
   \includegraphics{fig_5-2-1b_attack_confidentiality}
-  \caption[How much of each attacker's activity stays below a detector's alarm, over the run]{Attack confidentiality over the run with no defence running, in 1\,500\,s bins, for the APT attacker model on the attack profiles $c_1$ to $c_4$ and for the baseline attacker, with the alarm tuned so that it flags half of the baseline attacker's actions. Section~\ref{sec:evaluation-metrics} defines the metric.}
+  \caption[How much of each attacker's activity stays below a detector's alarm, over the run]{Attack confidentiality over the run with no MTD running, in 1\,500\,s bins, for the APT attacker model on the attack profiles $c_1$ to $c_4$ and for the baseline attacker, with the alarm tuned so that it flags half of the baseline attacker's actions. Section~\ref{sec:evaluation-metrics} defines the metric.}
   \label{fig:aio-stealth}
 \end{figure}
 
@@ -7729,7 +7707,7 @@ limitations in Chapter 6}.
 %  (docs/workflows/connective_prose.md; audit
 %  docs/implementation/connective_prose_audit.md); prior text in git.
 %  RATIFIED 2026-09-26 (Marc: 'I accept all this').
-Every effect is taken against the same attacker's no-defence runs of Section~\ref{sec:attacker-in-operation}. Where the APT attacker model is one
+Every effect is taken against the same attacker's no-MTD runs of Section~\ref{sec:attacker-in-operation}. Where the APT attacker model is one
 line or column, it pools $c_1$ to $c_4$ with equal weight; $c_{\mathrm{agg}}$
 % [CONNECTIVE-PROSE PASS 2026-09-26, ch5 U5b rule] The decision rule
 %  declared in the word the body uses ('told apart'). SESSION-GENERATED on
@@ -7973,7 +7951,7 @@ response.
 \begin{figure}[htbp]
   \centering
   \includegraphics{fig_5-2-2a_disruption_response}
-  \caption[What an MTD deployment does to each attacker]{What an MTD deployment does to each attacker, at the 2\,000\,s deployment interval, for the APT attacker model on its four attack profiles pooled and for the baseline attacker. (a),~(b)~NCR growth rate around a deployment of the mechanism that, in~(c), costs the APT attacker model~(a) or the baseline attacker~(b) the most time; each panel shows both attackers, and the shaded band is the deployment running. (c)~Time lost per MTD deployment for each defence mechanism run alone: the area shaded in~(a) and~(b), read as seconds at the attacker's pre-deployment rate and net of the same area with no defence, with 95\,\% bootstrap intervals over runs. Section~\ref{sec:evaluation-metrics} defines both metrics.}
+  \caption[What an MTD deployment does to each attacker]{What an MTD deployment does to each attacker, at the 2\,000\,s deployment interval, for the APT attacker model on its four attack profiles pooled and for the baseline attacker. (a),~(b)~NCR growth rate around a deployment of the mechanism that, in~(c), costs the APT attacker model~(a) or the baseline attacker~(b) the most time; each panel shows both attackers, and the shaded band is the deployment running. (c)~Time lost per MTD deployment for each defence mechanism run alone: the area shaded in~(a) and~(b), read as seconds at the attacker's pre-deployment rate and net of the same area with no MTD, with 95\,\% bootstrap intervals over runs. Section~\ref{sec:evaluation-metrics} defines both metrics.}
   \label{fig:aio-adaptivity}
 \end{figure}
 
@@ -8141,7 +8119,7 @@ reads whether the same holds for NCR reduction across the deployment interval.
 %  (Table 3.2 via Section 4.5), a by-construction reason only where Marc gave one.
 %  The agent draft it replaces is in git history (commit e83f280c). DRAFT STATE.
 Figure~\ref{fig:eff-cross-arm} shows the NCR reduction of each defence, the
-share of the no-defence NCR it removes (Equation~\ref{eq:ncr-reduction}),
+share of the no-MTD NCR it removes (Equation~\ref{eq:ncr-reduction}),
 against the deployment interval; Table~\ref{tab:eff-interval-values} gives the
 values. Against the APT attacker model the host layer gives the larger reduction,
 \prelim{0.96} or more up to 200\,s against \prelim{0.21} to \prelim{0.35} for the
@@ -8185,7 +8163,7 @@ Section~\ref{subsec:aio-disruption}.
 \begin{figure}[htbp]
   \centering
   \includegraphics{fig_5-3-2b_interval_headline}
-  \caption[The same defences measured against each attacker, across the deployment interval]{NCR reduction against the deployment interval for each defence, measured against the APT attacker model, pooled over $c_1$ to $c_4$ (solid), and against the baseline attacker (dashed); higher is fewer hosts compromised, zero is as many as with no defence, and below zero is more. Panels~(a) to~(c): the defence mechanisms by the layer each rewrites (Table~\ref{tab:defence-mechanisms}), a layer's line being the mean over its mechanisms, each deployed alone (Table~\ref{tab:eff-interval-values} lists them). Panels~(d) to~(f): the random deployment strategy, MTDShield (Appendix~\ref{app:mtdshield}) and the alternative deployment strategy (Table~\ref{tab:deployment-strategies}). The interval axis is logarithmic; whiskers are 95\,\% percentile bootstrap intervals.}
+  \caption[The same defences measured against each attacker, across the deployment interval]{NCR reduction against the deployment interval for each defence, measured against the APT attacker model, pooled over $c_1$ to $c_4$ (solid), and against the baseline attacker (dashed); higher is fewer hosts compromised, zero is as many as with no MTD, and below zero is more. Panels~(a) to~(c): the defence mechanisms by the layer each rewrites (Table~\ref{tab:defence-mechanisms}), a layer's line being the mean over its mechanisms, each deployed alone (Table~\ref{tab:eff-interval-values} lists them). Panels~(d) to~(f): the random deployment strategy, MTDShield (Appendix~\ref{app:mtdshield}) and the alternative deployment strategy (Table~\ref{tab:deployment-strategies}). The interval axis is logarithmic; whiskers are 95\,\% percentile bootstrap intervals.}
   \label{fig:eff-cross-arm}
 \end{figure}
 
@@ -8525,7 +8503,7 @@ deployment intervals (Table~\ref{tab:experiment}).
   \includegraphics{fig_5-4a_ablation}
   \caption[What removing the failure matrix changes]{The APT attacker model with
   the failure matrix (with) and with every factor of it set to one (without), on
-  the same 1\,000 seeds. (a)~After a failed initial access with no defence, the
+  the same 1\,000 seeds. (a)~After a failed initial access with no MTD, the
   attacker's next action, as a share of the $n$ failed initial accesses on
   $c_1$, $c_3$ and $c_4$: back to reconnaissance; an action that fails before
   it runs, its precondition unmet; one that runs and fails; one that succeeds
@@ -8554,7 +8532,7 @@ next tactics differ between the two models.
 \input{tables/tab_5-4a_ablation}
 
 Removing the failure matrix does not change what the attacker achieves
-(Figure~\ref{fig:ablation}b, Table~\ref{tab:ablation}). With no defence, the
+(Figure~\ref{fig:ablation}b, Table~\ref{tab:ablation}). With no MTD, the
 model compromises 0.169 of the network with the failure matrix and 0.165
 without it. Under every condition $d$ is below 0.2. The largest is 0.13, under
 IP shuffle at 200\,s, where the model compromises 0.007 of the network; there
@@ -8584,7 +8562,7 @@ Chapter~\ref{ch:discussion} discusses why.
 %  none; the OS check refuses about half of all exploit attempts, and removing
 %  it adds about two hosts. Report whatever the 1 000 seeds show.]
 \noindent\emph{[Placeholder --- the vulnerability memory ablated. Four arms
-on $c_1$ to $c_4$, no defence and the two mechanisms of the first ablation:
+on $c_1$ to $c_4$, no MTD and the two mechanisms of the first ablation:
 memory on (the model as evaluated); memory off; every exploit roll
 succeeding; and, as a diagnostic of the simulator and not a configuration,
 the OS check switched off. A table beside Table~\ref{tab:ablation}; the same
@@ -9997,7 +9975,7 @@ changed to run it and its known limitations.
 Tay trained 38 agents in three hyperparameter sweeps
 (Table~\ref{tab:mtdshield-sweeps}) and scored each by summing five metrics,
 attack success rate, mean time to compromise, attack path exposure, return on
-attack and risk, each as a multiple of its value with no defence
+attack and risk, each as a multiple of its value with no MTD
 \citep[Section~5.1]{tay2024}. The agent run here is the one he scored highest:
 initial exploration rate 0.5, decayed by 0.99 per episode, score 11.00
 \citep[Section~5.2.2]{tay2024}. His report gives the sweep ranges but not every

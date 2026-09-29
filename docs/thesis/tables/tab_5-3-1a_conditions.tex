@@ -14,7 +14,7 @@
 %   MTTC is taken over. DRAFT STATE --- ratify on read.
 \begin{table}[H]
   \centering
-  \caption[Defence conditions against the APT attacker model]{Each defence condition against the APT attacker model pooled over $c_1$ to $c_4$, deployed every 200\,s, on the attack-outcome and MTD-effectiveness metrics of Table~\ref{tab:metrics}, ordered by NCR reduction; the first row is the no-defence reference. MTTC is over the runs that compromise a host, and its parenthesis is their share of all runs. Brackets: a 95\,\% percentile bootstrap interval; $\pm$: a 95\,\% interval on the mean (normal approximation).}
+  \caption[Defence conditions against the APT attacker model]{Each defence condition against the APT attacker model pooled over $c_1$ to $c_4$, deployed every 200\,s, on the attack-outcome and MTD-effectiveness metrics of Table~\ref{tab:metrics}, ordered by NCR reduction; the first row is the no-MTD reference. MTTC is over the runs that compromise a host, and its parenthesis is their share of all runs. Brackets: a 95\,\% percentile bootstrap interval; $\pm$: a 95\,\% interval on the mean (normal approximation).}
   \label{tab:eff-conditions}
   \tablestyle\scriptsize\setlength{\tabcolsep}{4pt}\rowcolors{3}{black!5}{}
   \begin{tabular}{@{}cP{3.5cm}>{\centering\arraybackslash}p{1.3cm}>{\centering\arraybackslash}p{1.7cm}>{\centering\arraybackslash}p{2.6cm}>{\centering\arraybackslash}p{2.8cm}>{\centering\arraybackslash}p{2.08cm}@{}}
@@ -23,7 +23,7 @@
     \cmidrule(lr){3-5}\cmidrule(lr){6-7}
     & Condition & ASP & NCR & MTTC (s) & NCR reduction & Attack actions blocked \\
     \midrule
-    & no defence & 0.09 & $0.16 \pm 0.01$ & $2100 \pm 195$ (96\,\%) & --- & $0.24 \pm 0.01$ \\
+    & no MTD & 0.09 & $0.16 \pm 0.01$ & $2100 \pm 195$ (96\,\%) & --- & $0.24 \pm 0.01$ \\
     \midrule
      & IP shuffle & 0.00 & $0.01 \pm 0.00$ & $6423 \pm 950$ (24\,\%) & $0.96$ [$0.95$, $0.97$] & $0.83 \pm 0.01$ \\
      & host topology shuffle & 0.00 & $0.01 \pm 0.00$ & $6571 \pm 845$ (29\,\%) & $0.96$ [$0.95$, $0.96$] & $0.80 \pm 0.01$ \\

@@ -99,7 +99,7 @@ class Panel:
             if ylabels:
                 w(r"\node[anchor=east] at (%.3f,%.3f) {%.1f};" % (x0 - 0.1, y, v))
             k += 1
-        if self.ymin < 0:  # zero is the no-defence reference
+        if self.ymin < 0:  # zero is the no-MTD reference
             w(r"\draw[black!60,line width=0.4pt] (%.3f,%.3f) -- (%.3f,%.3f);" % (x0, self.yv(0), x1, self.yv(0)))
         for iv in ivs:
             x = self.xv(iv)
@@ -332,7 +332,7 @@ def emit_value_table(sweep) -> tuple[str, list]:
     w("%   read): the values themselves, grouped as Figure 5.4's panels. DRAFT STATE --- ratify on read.")
     w(r"\begin{table}[H]")
     w(r"  \centering")
-    w(r"  \caption[NCR reduction under each attacker, by defence and deployment interval]{NCR reduction for each defence against the APT attacker model, pooled over $c_1$ to $c_4$, and against the baseline attacker, at each deployment interval; 1 is no host compromised, 0 is as many as with no defence, and a negative value is more hosts compromised than with no defence. Rows grouped as the panels of Figure~\ref{fig:eff-cross-arm}; a layer's row gives the mean it plots. Grey text: the 95\,\% percentile bootstrap interval includes zero; the APT attacker model's cells pool four times as many runs as the baseline attacker's.}")
+    w(r"  \caption[NCR reduction under each attacker, by defence and deployment interval]{NCR reduction for each defence against the APT attacker model, pooled over $c_1$ to $c_4$, and against the baseline attacker, at each deployment interval; 1 is no host compromised, 0 is as many as with no MTD, and a negative value is more hosts compromised than with no MTD. Rows grouped as the panels of Figure~\ref{fig:eff-cross-arm}; a layer's row gives the mean it plots. Grey text: the 95\,\% percentile bootstrap interval includes zero; the APT attacker model's cells pool four times as many runs as the baseline attacker's.}")
     w(r"  \label{tab:eff-interval-values}")
     w(r"  \tablestyle\scriptsize\setlength{\tabcolsep}{3pt}\rowcolors{1}{}{}")  # the groups' rules separate rows; zebra would stripe the headers
     w(r"  \begin{tabular}{@{}P{3.75cm}*{%d}{>{\centering\arraybackslash}p{0.78cm}}@{}}" % (2 * n))
@@ -403,7 +403,7 @@ def emit_ranking_table(ranking) -> tuple[str, list]:
     w("%   the two attackers side by side at one interval, all of Table 4.3's metrics. DRAFT STATE --- ratify on read.")
     w(r"\begin{table}[H]")
     w(r"  \centering")
-    w(r"  \caption[The defences ranked against each attacker]{Each defence deployed every %s\,s against the APT attacker model, pooled over $c_1$ to $c_4$, and against the baseline attacker, each ranked by Scott--Knott ESD on the mean hosts compromised per seed (Section~\ref{subsec:metrics-statistics}). Rank~1, in bold, is the fewest hosts compromised; defences that share a rank are not told apart; no defence is not ranked. Rows in the APT attacker model's order. Metrics as Table~\ref{tab:metrics}; MTTC is over the runs that compromise a host, with their percentage of all runs in brackets. Every value's interval is in Appendix~\ref{app:supplementary-results}.}" % fmt_thousands(int(iv)))
+    w(r"  \caption[The defences ranked against each attacker]{Each defence deployed every %s\,s against the APT attacker model, pooled over $c_1$ to $c_4$, and against the baseline attacker, each ranked by Scott--Knott ESD on the mean hosts compromised per seed (Section~\ref{subsec:metrics-statistics}). Rank~1, in bold, is the fewest hosts compromised; defences that share a rank are not told apart; no MTD is not ranked. Rows in the APT attacker model's order. Metrics as Table~\ref{tab:metrics}; MTTC is over the runs that compromise a host, with their percentage of all runs in brackets. Every value's interval is in Appendix~\ref{app:supplementary-results}.}" % fmt_thousands(int(iv)))
     w(r"  \label{tab:eff-cross-arm}")
     # the stripes restart at row 4 so neither header row is shaded (as Table 5.4 was)
     w(r"  \tablestyle\scriptsize\setlength{\tabcolsep}{2.6pt}\rowcolors{4}{black!5}{}")
@@ -426,7 +426,7 @@ def emit_ranking_table(ranking) -> tuple[str, list]:
                _mttc(row["delay"]), "---" if none else _num(row["point"])]
         return out
 
-    w("    no defence & %s & %s \\\\" % (" & ".join(cells("movement", blk["movement"]["none"], True)),
+    w("    no MTD & %s & %s \\\\" % (" & ".join(cells("movement", blk["movement"]["none"], True)),
                                          " & ".join(cells("baseline", blk["baseline"]["none"], True))))
     w(r"    \midrule")
     for c in order:
@@ -452,7 +452,7 @@ def emit_full_table(ranking, arm) -> str:
     w("%   Do not hand-edit. DRAFT STATE --- ratify on read.")
     w(r"\begin{table}[H]")
     w(r"  \centering")
-    w(r"  \caption[Defence conditions against %s, with intervals]{Each defence deployed every %s\,s against %s, with the rank of Table~\ref{tab:eff-cross-arm}, on the metrics of Table~\ref{tab:metrics}; the first row is the no-defence reference. MTTC is over the runs that compromise a host, with their percentage of all runs in brackets. Brackets on NCR reduction: a 95\,\%% percentile bootstrap interval; $\pm$: a 95\,\%% interval on the mean (normal approximation).}" % (LABEL[arm], fmt_thousands(int(iv)), who))
+    w(r"  \caption[Defence conditions against %s, with intervals]{Each defence deployed every %s\,s against %s, with the rank of Table~\ref{tab:eff-cross-arm}, on the metrics of Table~\ref{tab:metrics}; the first row is the no-MTD reference. MTTC is over the runs that compromise a host, with their percentage of all runs in brackets. Brackets on NCR reduction: a 95\,\%% percentile bootstrap interval; $\pm$: a 95\,\%% interval on the mean (normal approximation).}" % (LABEL[arm], fmt_thousands(int(iv)), who))
     w(r"  \label{tab:full-%s}" % arm)
     w(r"  \tablestyle\scriptsize\setlength{\tabcolsep}{4pt}")
     C = r">{\centering\arraybackslash}p{%s}"
@@ -473,7 +473,7 @@ def emit_full_table(ranking, arm) -> str:
                                       round(100 * (1 - delay["censored_share"])))
 
     n = blk["none"]
-    w("    no defence & --- & %.2f & %s & %s & ---%s \\\\" % (n["asp"], pm(n["hosts"], scale=N_HOSTS), mttc(n["delay"]),
+    w("    no MTD & --- & %.2f & %s & %s & ---%s \\\\" % (n["asp"], pm(n["hosts"], scale=N_HOSTS), mttc(n["delay"]),
                                                          (" & " + pm(n["blocked"])) if extra else ""))
     w(r"    \midrule")
     for c in order:

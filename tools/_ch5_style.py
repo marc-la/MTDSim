@@ -88,7 +88,7 @@ SHORT = {
     "alternative": "alternative", "random_four": "random (four)", "mtdshield": "MTDShield",
 }
 LONG = {
-    "none": "no defence", "ip_shuffle": "IP shuffle", "complete_topology": "complete topology shuffle",
+    "none": "no MTD", "ip_shuffle": "IP shuffle", "complete_topology": "complete topology shuffle",
     "host_topology": "host topology shuffle", "port_shuffle": "port shuffle", "user_shuffle": "user shuffle",
     "os_diversity": "OS diversity", "service_diversity": "service diversity",
     "random": "random", "alternative": "alternative",

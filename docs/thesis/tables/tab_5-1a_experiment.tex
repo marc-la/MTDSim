@@ -78,7 +78,7 @@
 % argued in §5.1. Sources, all read from data/misc/lineage_configurations.yaml
 % (Table 2.2, tab:lineage-configurations): 50 hosts / 4 levels / 5 endpoints are
 % Zhang's second network exactly (Table 2, p.33); targeted with a database target
-% is Brown's Scenario 2 (p.4); singles against no defence are Brown's design
+% is Brown's Scenario 2 (p.4); singles against no MTD are Brown's design
 % (p.6), the schemes Zhang's (§4.3.2); 200 s is the top of Zhang's 50--200 s and
 % Ho's comparison interval (Table 8, p.24); exponential is Zhang's (§4.3.4); four
 % durations are Zhang's Table 3, the other three the simulator's (provenance.md,
@@ -115,18 +115,18 @@
     & Exposed endpoints & 5 \citep{zhang2023} \\
     \multirow{-5}{*}[-0.30cm]{\smash{\rotatebox{90}{\emph{Network}}}} & Target & the two database hosts, at the deepest level \citep{tay2024code} \\
     \midrule
-    & Arm & the baseline attacker; the APT attacker model on each of the four attack profiles $c_1$ to $c_4$; the APT attacker model on the aggregate $c_{\mathrm{agg}}$; the APT attacker model on $c_1$ to $c_4$ with every factor of the failure matrix set to one, \owed{and, separately, with the vulnerability memory off, with every exploit succeeding, and with exploits no longer OS-specific (a diagnostic of the simulator)}{Table 5.1: the vulnerability-memory ablation arms are specified, not yet run (handoff 2026-09-28\_vulnerability\_memory\_on)}, with no defence and under IP shuffle and OS diversity at 200\,s and 2\,000\,s (Section~\ref{sec:ablation}) \\
+    & Arm & the baseline attacker; the APT attacker model on each of the four attack profiles $c_1$ to $c_4$; the APT attacker model on the aggregate $c_{\mathrm{agg}}$; the APT attacker model on $c_1$ to $c_4$ with every factor of the failure matrix set to one, \owed{and, separately, with the vulnerability memory off, with every exploit succeeding, and with exploits no longer OS-specific (a diagnostic of the simulator)}{Table 5.1: the vulnerability-memory ablation arms are specified, not yet run (handoff 2026-09-28\_vulnerability\_memory\_on)}, with no MTD and under IP shuffle and OS diversity at 200\,s and 2\,000\,s (Section~\ref{sec:ablation}) \\
     & Attack scenario & targeted \citep{brown2023} \\
     \multirow{-3}{*}[-0.46cm]{\smash{\rotatebox{90}{\emph{Attacker}}}} & Vulnerability memory & on for the APT attacker model, \owed{$\lambda = 2$}{Table 5.1: $\lambda$ is a pre-check value, to be declared with its reason (Section 4.4.5, Appendix B)}; none for the baseline attacker (Section~\ref{subsec:vulnerability-memory}) \\
     \midrule
-    & Condition & no defence; each of the seven defence mechanisms alone \citep{brown2023}; the random deployment strategy; the alternative deployment strategy \citep{zhang2023}; MTDShield, as released \citep{tay2024} \\
+    & Condition & no MTD; each of the seven defence mechanisms alone \citep{brown2023}; the random deployment strategy; the alternative deployment strategy \citep{zhang2023}; MTDShield, as released \citep{tay2024} \\
     & Deployment interval & 50\,s \citep{zhang2023, ho2024}; 100\,s \citep{zhang2023, ho2024}; 200\,s \citep{zhang2023, ho2024}; 500\,s; 1\,000\,s; 2\,000\,s \\
     & Timing distribution & near-periodic (Section~\ref{subsec:defence-mechanisms}) \citep{tay2024code}; \owed{exponential, same means \citep{zhang2023}}{Table 5.1: the exponential timing distribution is run, but its result is reported nowhere; report it or remove the level} \\
     \multirow{-4}{*}[-0.55cm]{\smash{\rotatebox{90}{\emph{Defence}}}} & Deployment duration & complete topology shuffle 110\,s, IP shuffle 100\,s, OS diversity 80\,s, service diversity 70\,s \citep{zhang2023}, and the simulator's host topology shuffle 100\,s, port shuffle 70\,s, user shuffle 20\,s \citep{tay2024code} \\
     \midrule
     & Time limit & 15\,000\,s \citep{ho2024}; a run ends earlier if the attacker compromises a target, or more than 80\,\% of the hosts \citep{zhang2023} \\
     & Seeds & 1\,000 per combination \citep{arcuri2014hitchhiker}, the same set on every arm \\
-    \multirow{-3}{*}[-0.45cm]{\smash{\rotatebox{90}{\emph{Runs}}}} & Metrics & attacker behaviour: relative tactic occurrence, attack path variation (APV), attack rate, attack confidentiality; attack outcome: attack success probability (ASP), network compromise ratio (NCR), mean time to compromise (MTTC); MTD effectiveness: NCR reduction, NCR growth rate, time lost per MTD deployment (Table~\ref{tab:metrics}) \\
+    \multirow{-3}{*}[-0.45cm]{\smash{\rotatebox{90}{\emph{Runs}}}} & Metrics & attacker behaviour: relative tactic occurrence, distinct attack paths, attack rate, attack confidentiality; attack outcome: attack success probability (ASP), network compromise ratio (NCR), mean time to compromise (MTTC); MTD effectiveness: NCR reduction, compromise rate after an MTD deployment, time lost per MTD deployment (Table~\ref{tab:metrics}) \\
     \bottomrule
   \end{tabular}
 \end{table}

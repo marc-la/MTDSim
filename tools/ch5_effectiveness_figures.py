@@ -258,7 +258,7 @@ def emit_tab55(s541: dict) -> str:
     w("%   MTTC is taken over. DRAFT STATE --- ratify on read.")
     w(r"\begin{table}[H]")
     w(r"  \centering")
-    w(r"  \caption[Defence conditions against the APT attacker model]{Each defence condition against the APT attacker model pooled over $c_1$ to $c_4$, deployed every %s\,s, on the attack-outcome and MTD-effectiveness metrics of Table~\ref{tab:metrics}, ordered by NCR reduction; the first row is the no-defence reference. MTTC is over the runs that compromise a host, and its parenthesis is their share of all runs. Brackets: a 95\,\%% percentile bootstrap interval; $\pm$: a 95\,\%% interval on the mean (normal approximation).}" % fmt_thousands(int(TAB55_INTERVALS[0])))
+    w(r"  \caption[Defence conditions against the APT attacker model]{Each defence condition against the APT attacker model pooled over $c_1$ to $c_4$, deployed every %s\,s, on the attack-outcome and MTD-effectiveness metrics of Table~\ref{tab:metrics}, ordered by NCR reduction; the first row is the no-MTD reference. MTTC is over the runs that compromise a host, and its parenthesis is their share of all runs. Brackets: a 95\,\%% percentile bootstrap interval; $\pm$: a 95\,\%% interval on the mean (normal approximation).}" % fmt_thousands(int(TAB55_INTERVALS[0])))
     w(r"  \label{tab:eff-conditions}")
     # widths fill \textwidth (455.24 pt) at 4 pt colsep: 14.28 cm of columns +
     # 6 interior gutters at 8 pt + the rotated key. Two header rows: the
@@ -284,10 +284,10 @@ def emit_tab55(s541: dict) -> str:
         pooled = blk["pooled"]
         none = pooled["none"]
         if interval == TAB55_INTERVALS[0]:
-            # pooled no-defence target reach: the four profiles' cells are equal-sized
+            # pooled no-MTD target reach: the four profiles' cells are equal-sized
             four = [q for q in blk["per_profile"] if q != "aggregate"]
             none_tr = sum(blk["per_profile"][q]["none"]["target_reach"] for q in four) / len(four)
-            w("    & no defence & %.2f & %s & %s & --- & %s \\\\" % (
+            w("    & no MTD & %.2f & %s & %s & --- & %s \\\\" % (
                 none_tr, pm_ncr(none["hosts"]), mttc(none["delay"]), pm(none["blocked"], 2)))
             w(r"    \midrule")
         rows = [(c, pooled[c]) for c in blk["order_pooled"] if c not in UNREPORTED]
@@ -420,7 +420,7 @@ def emit_tab57(s543: dict) -> tuple[str, list]:
         facts.append((key, vb, db, vm, dm, agreement))
     w(r"    \bottomrule")
     w(r"    \addlinespace[2pt]")
-    w(r"    \multicolumn{5}{@{}p{0.96\textwidth}@{}}{\scriptsize Direction is read on NCR reduction ($1 - $ hosts / hosts with no defence, on cell means) over the seven single mechanisms and the two schemes, 100 seeds per cell, the model pooled over its four profiles; ``higher'' means the family's mean suppression is larger, and where the source names a pair the pair is read beside the family. The published evaluations reported mean time to compromise, or a composite of it, on a different network, pool and horizon, so no cell here is a numerical replication: only the direction of each comparison is compared. \textsuperscript{v}~the claim as attributed in the chapter's design record; the source's own statement of it is to be verified against the paper before submission.}\\")
+    w(r"    \multicolumn{5}{@{}p{0.96\textwidth}@{}}{\scriptsize Direction is read on NCR reduction ($1 - $ hosts / hosts with no MTD, on cell means) over the seven single mechanisms and the two schemes, 100 seeds per cell, the model pooled over its four profiles; ``higher'' means the family's mean suppression is larger, and where the source names a pair the pair is read beside the family. The published evaluations reported mean time to compromise, or a composite of it, on a different network, pool and horizon, so no cell here is a numerical replication: only the direction of each comparison is compared. \textsuperscript{v}~the claim as attributed in the chapter's design record; the source's own statement of it is to be verified against the paper before submission.}\\")
     w(r"  \end{tabular}")
     w(r"\end{table}")
     return "\n".join(L) + "\n", facts

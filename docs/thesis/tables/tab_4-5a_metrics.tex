@@ -6,6 +6,10 @@
 % chapter 5 float goes straight to its definition. The dagger is gone. "this
 % thesis" -> "this dissertation" (the ratified row). Earlier rounds below.
 % DRAFT STATE --- ratify on read.
+% ROUND 4, 2026-09-29 (Marc: "careful the formatting of 4.3, can you fix that
+% up"): the zebra rows are off here, since alternating shading ran across the
+% group heading rows and read as noise; the groups carry the structure. Rows
+% renamed on rulings F and the APV replacement.
 % ROUND 2, 2026-09-25 (Marc: "is it conventional to have description, source and
 % equation as a table ... a big table, hard to follow ... what is needed for a
 % headline table of evaluation metrics"). The EQUATION column is CUT: only one
@@ -42,7 +46,7 @@
 %     455.2 pt. DRAFT STATE --- ratify on read.
 % CUT 2026-09-25 (Marc: "all the metrics need to be there for a purpose ... if they're not,
 % we have to cut it"): ATTACK ACTIONS BLOCKED. It served one float (Table 5.3) for one
-% attacker (structurally zero on the baseline), read 0.24 with no defence (a failed
+% attacker (structurally zero on the baseline), read 0.24 with no MTD (a failed
 % precondition, not an MTD block), and its Brown attribution was already disputed
 % (Brown's metric is our interrupt). Ten metrics remain.
 % 2026-09-24 (Figure 5.3 rebuild, results context §8g-5): recovery time -> TIME LOST (the
@@ -103,7 +107,7 @@
 %     on the self-scoring question: calling them validation is a claim of proof a
 %     self-chosen instrument set cannot carry ("you can be selective about it ---
 %     that's the whole issue"). Evaluation conventions §f has the honest word:
-%     attacker-property claims are taken from the no-defence arm and reported as
+%     attacker-property claims are taken from the no-MTD arm and reported as
 %     OBSERVATIONS, and the verdict they add up to belongs in the discussion. They
 %     are therefore declared in §5.3, where they are first used (conventions §a),
 %     and this table holds only what evaluates a defence. Twelve rows became eight.
@@ -132,7 +136,7 @@
 %   (evaluation.py:126, compromised_num / host_num), and Zhang's NCR is the
 %   checkpoint metric that ends the run and fixes where MTTC is read; ours is the
 %   distinct hosts reached across a whole run, and the number actually REPORTED
-%   is its suppression against the no-defence arm (analyse.py:227). On a fixed
+%   is its suppression against the no-MTD arm (analyse.py:227). On a fixed
 %   50-host network a count and a ratio differ by a constant, but a difference
 %   from a control is neither. (ii) NEITHER PAPER REPORTS IT AS A RESULT: Ho
 %   declares eleven selector FEATURES and four EVALUATION metrics (ASR, RoA, APE,
@@ -168,7 +172,7 @@
 % (4) ADAPTED FROM answers adopted-against-new in the float.
 % (5) DEPLOYMENT TEMPO is out: it reads one over the declared interval on every
 %     defended condition at both intervals (numbers.json, s55/by_interval), so it
-%     checks the manipulation and judges no defence. The caption's declared
+%     checks the manipulation and judges no MTD. The caption's declared
 %     divergence from Table 3.1 existed only for that row and leaves with it.
 % (6) ONE QUANTITY PER ROW; two reported quantities that had no row are declared.
 % (7) DEFINITIONS USE ONLY WORDS THE READER HAS MET: objective (Table 2.5),
@@ -204,14 +208,14 @@
   \centering
   \caption[The evaluation metrics]{The evaluation metrics and their sources.}
   \label{tab:metrics}
-  \tablestyle
+  \tablestyle\rowcolors{1}{}{}
   \begin{tabular}{@{}P{9.2cm}P{4.2cm}@{}}
     \toprule
     Metric & Source \\
     \midrule
     \multicolumn{2}{@{}l}{\emph{Attacker behaviour} (Section~\ref{subsec:metrics-behaviour})} \\
     \quad Relative tactic occurrence & \citep{rodriguez2024} \\
-    \quad Attack path variation (APV) & \citep{hong2018} \\
+    \quad Distinct attack paths & \citep{hong2018} \\
     \quad Attack rate & \citep{zhan2013} \\
     \quad Attack confidentiality & \citep{zaffarano2015} \\
     \addlinespace
@@ -222,7 +226,7 @@
     \addlinespace
     \multicolumn{2}{@{}l}{\emph{MTD effectiveness} (Section~\ref{subsec:metrics-effectiveness})} \\
     \quad NCR reduction & \citep{alavizadeh2022} \\
-    \quad NCR growth rate & this dissertation \\
+    \quad Compromise rate after an MTD deployment & this dissertation \\
     \quad Time lost per MTD deployment & this dissertation \\
     \bottomrule
   \end{tabular}

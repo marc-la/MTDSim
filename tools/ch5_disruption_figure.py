@@ -21,7 +21,7 @@ handoff §8g-5). The takeaways it is built to carry, and nothing else:
       (its median duration), 0 is when it completes.
   (c) Time lost per MTD deployment (the name ruled 2026-09-24), per mechanism, both attackers, with seeded
       bootstrap intervals (the area of the dip, as seconds at the attacker's
-      own pace, less the same read at the same moments with no defence).
+      own pace, less the same read at the same moments with no MTD).
 
 Both at the 2 000 s deployment interval (at 200 s the next deployment lands
 inside the window; that interval is a body sentence, printed below).
@@ -211,14 +211,14 @@ def main() -> None:
         for a, _, _ in ARMS:
             c = R[f"{a}|{key}|{INTERVAL}"]
             print(f"  body: {a:9s} {key:8s} first 125 s {c['relative_pct'][n_before]:.0f} %")
-    print("  no-defence compromise rate per 1 000 s: " + ", ".join(f"{a} {v:.2f}" for a, v in d["none_rate_per_ksec"].items()))
+    print("  no-MTD compromise rate per 1 000 s: " + ", ".join(f"{a} {v:.2f}" for a, v in d["none_rate_per_ksec"].items()))
     if "movement|host|200" in R:
-        print("  at 200 s (body sentence: the rate before each deployment, against no defence):")
+        print("  at 200 s (body sentence: the rate before each deployment, against no MTD):")
         for a, _, _ in ARMS:
             for key in ("host", "service"):
                 c = R[f"{a}|{key}|200"]
                 print(f"    {a:9s} {key:8s} {c['pre_rate_per_ksec']:.2f} per 1 000 s "
-                      f"({100 * c['pre_rate_per_ksec'] / d['none_rate_per_ksec'][a]:.0f} % of no defence)")
+                      f"({100 * c['pre_rate_per_ksec'] / d['none_rate_per_ksec'][a]:.0f} % of no MTD)")
     if not args.no_compile:
         compile_fig(STEM)
 

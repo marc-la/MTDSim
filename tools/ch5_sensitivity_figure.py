@@ -88,7 +88,7 @@ def emit(g: pd.DataFrame, anchor_name: str, reference_interval: float) -> str:
         return Y0 + v / ytop * (Y1 - Y0)
 
     series = [
-        ("none", "black!70", "circle", "no defence"),
+        ("none", "black!70", "circle", "no MTD"),
         ("reference", "accent", "square", "defence, mutating every %d\\,s" % reference_interval),
     ]
 

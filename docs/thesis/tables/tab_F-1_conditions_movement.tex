@@ -2,14 +2,14 @@
 %   Do not hand-edit. DRAFT STATE --- ratify on read.
 \begin{table}[H]
   \centering
-  \caption[Defence conditions against APT attacker model, with intervals]{Each defence deployed every 200\,s against the APT attacker model, pooled over $c_1$ to $c_4$, with the rank of Table~\ref{tab:eff-cross-arm}, on the metrics of Table~\ref{tab:metrics}; the first row is the no-defence reference. MTTC is over the runs that compromise a host, with their percentage of all runs in brackets. Brackets on NCR reduction: a 95\,\% percentile bootstrap interval; $\pm$: a 95\,\% interval on the mean (normal approximation).}
+  \caption[Defence conditions against APT attacker model, with intervals]{Each defence deployed every 200\,s against the APT attacker model, pooled over $c_1$ to $c_4$, with the rank of Table~\ref{tab:eff-cross-arm}, on the metrics of Table~\ref{tab:metrics}; the first row is the no-MTD reference. MTTC is over the runs that compromise a host, with their percentage of all runs in brackets. Brackets on NCR reduction: a 95\,\% percentile bootstrap interval; $\pm$: a 95\,\% interval on the mean (normal approximation).}
   \label{tab:full-movement}
   \tablestyle\scriptsize\setlength{\tabcolsep}{4pt}
   \begin{tabular}{@{}P{3.4cm}>{\centering\arraybackslash}p{0.7cm}>{\centering\arraybackslash}p{1.0cm}>{\centering\arraybackslash}p{1.6cm}>{\centering\arraybackslash}p{2.8cm}>{\centering\arraybackslash}p{2.9cm}@{}}
     \toprule
     Defence & Rank & ASP & NCR & MTTC (s) & NCR reduction \\
     \midrule
-    no defence & --- & 0.09 & $0.16 \pm 0.01$ & $2\,100 \pm 195$ (96) & --- \\
+    no MTD & --- & 0.09 & $0.16 \pm 0.01$ & $2\,100 \pm 195$ (96) & --- \\
     \midrule
     IP shuffle & 1 & 0.00 & $0.01 \pm 0.00$ & $6\,423 \pm 950$ (24) & $0.96$ [$0.95$, $0.97$] \\
     host topology shuffle & 1 & 0.00 & $0.01 \pm 0.00$ & $6\,571 \pm 845$ (29) & $0.96$ [$0.95$, $0.96$] \\

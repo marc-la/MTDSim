@@ -59,7 +59,7 @@ KINDS = (  # key, legend label, fill, text colour on the fill
 PRINT_FLOOR = 0.06  # segments narrower than this share carry no printed value (0.05 does not fit its text)
 BAND = 0.2          # section 4.5.4: negligible below Cohen's d of 0.2
 CONDS = (
-    ("none", r"no defence"),
+    ("none", r"no MTD"),
     ("ip_shuffle|200", r"IP shuffle\\200\,s"),
     ("ip_shuffle|2000", r"IP shuffle\\2\,000\,s"),
     ("os_diversity|200", r"OS diversity\\200\,s"),
@@ -134,7 +134,7 @@ def main() -> None:
         xx = X0 + v * (X1 - X0)
         w(r"\draw[black!60,line width=0.3pt] (%.3f,%.3f) -- (%.3f,%.3f);" % (xx, ybot, xx, ybot - 0.07))
         w(r"\node[anchor=north] at (%.3f,%.3f) {%g};" % (xx, ybot - 0.1, v))
-    w(r"\node[anchor=north] at (%.3f,%.3f) {share of the next actions after a failed initial access, no defence};"
+    w(r"\node[anchor=north] at (%.3f,%.3f) {share of the next actions after a failed initial access, no MTD};"
       % ((X0 + X1) / 2, ybot - 0.5))
     panel_letter(w, 0.0, top + 0.42, "a")
 
