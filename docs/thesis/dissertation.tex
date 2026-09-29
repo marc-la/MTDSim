@@ -5631,96 +5631,82 @@ tests both.
 \section{Evaluation metrics}
 \label{sec:evaluation-metrics}
 
-% ROUND 2, 2026-09-25 (Marc on round 1: "clarity is probably my biggest piece of
-% feedback"; "rhetorical inflation ... not cutting to the chase"; "the clarity is
-% lost in trying to convey so much nuance"; audience "general computer science
-% and the supervisor"; "every time you see a number ... is this defensible, is
-% this strictly conventional"). What changed from round 1 (commit 07150a0c):
-% each definition is cut to what the metric is, its equation, its range and
-% direction, and the one difference from its source; every number now carries
-% its source or its reason, or points to where it is varied (the time-lost
-% window: new Appendix table tab:timelost-window). Cut to chapter 5 or the
-% handoff: the attack-rate concession on unmet preconditions (owed to §5.2's
-% body where the rate is read), the APV monotonicity clause (owed to Figure
-% 5.1's caption), the growth-rate estimator display (in words now), the
-% version-2.0 and lineage remarks in 4.5.4 (below, commented). Record per
-% metric: docs/sources/extractions/s45_metric_definitions/; rulings: the s45
-% handoff, "Drafted 2026-09-25". DRAFT STATE --- ratify on read.
+% ROUND 3, 2026-09-29 (Marc's read: vague terms, nuance stated aloud, equations
+% a supervisor could not follow from a results float; voice.md §(0), the five
+% checks). Number-preserving rewrite of the preamble, the three lead-ins,
+% relative tactic occurrence, APV, attack rate (now per minute, Marc's ruling
+% of the same day; Table 5.2 regenerated), the attack-outcome metrics, NCR
+% reduction and the statistical analysis. Equations in named quantities, no
+% per-metric symbols. Relative tactic occurrence and APV are defined as the
+% percentages Figure 5.1 draws (Rodriguez tabulate "Occur. (rel.)" as a
+% percentage). HELD AS ROUND 2 pending their redesign: attack confidentiality,
+% NCR growth rate, time lost per MTD deployment (handoff
+% 2026-09-29_s45_equation_clarity.md, rulings E-G). Round 2 is in git
+% (commit b163afad). DRAFT STATE --- ratify on read.
 \input{tables/tab_4-5a_metrics}
 
-% [CONNECTIVE-PROSE PASS 2026-09-26, P9 4.5 preamble] Linked to SQ3, and
-%  the dependency between the behaviour and effectiveness metrics stated
-%  in the lead-ins' own words. SESSION-GENERATED on Marc's 2026-09-26
-%  go-ahead (docs/workflows/connective_prose.md; audit
-%  docs/implementation/connective_prose_audit.md); prior text in git.
-%  RATIFIED 2026-09-26 (Marc: 'I accept all this').
-% [CONNECTIVE-PROSE PASS 2026-09-26, T1 4.5 this-thesis a] 'this thesis'
-%  -> 'this dissertation' (ratified row, 2026-09-24). SESSION-GENERATED on
-%  Marc's 2026-09-26 go-ahead (docs/workflows/connective_prose.md; audit
-%  docs/implementation/connective_prose_audit.md); prior text in git.
-%  RATIFIED 2026-09-26 (Marc: 'I accept all this').
-This section defines the ten metrics with which Chapter~\ref{ch:experiments} answers \ref{sq:evaluate} (Table~\ref{tab:metrics}). The behaviour metrics of Section~\ref{subsec:metrics-behaviour} are read with no defence running, and the effectiveness metrics of Section~\ref{subsec:metrics-effectiveness} compare each defence with those no-defence runs. A metric the field defines is used as defined; where this dissertation adapts or introduces a metric, its definition states the change and
-why it is needed. Every metric is computed over a \emph{cell} $\mathcal{R}$, the
-runs of one attacker under one condition at one deployment interval, with
-$r \in \mathcal{R}$ one run.
+Chapter~\ref{ch:experiments} answers \ref{sq:evaluate} with the metrics of
+Table~\ref{tab:metrics}. Each metric is computed over a \emph{cell}: the runs of
+one attacker under one condition at one deployment interval
+(Table~\ref{tab:experiment}). A run ends when the attacker compromises a target
+host, when it has compromised 80\,\% of the network's hosts, or at the time
+limit.
 
 \subsection{Attacker behaviour}
 \label{subsec:metrics-behaviour}
 
-Three properties of a sophisticated attacker concern how it acts, which the
-outcome metrics of Section~\ref{subsec:metrics-outcome} do not record: objective
-conditioning, strategic plurality and stealth
-(Table~\ref{tab:attacker-properties}). Relative tactic occurrence records the
-first, APV the second, and attack rate and attack confidentiality the third, each
-with no defence running.
+The attacker behaviour metrics record three properties of an APT attacker
+(Table~\ref{tab:attacker-properties}): relative tactic occurrence records
+objective conditioning, APV strategic plurality, and attack rate and attack
+confidentiality stealth.
 
 \paragraph{Relative tactic occurrence.}
-Relative tactic occurrence, adapted from Rodr\'{\i}guez et al.\
-\citep{rodriguez2024}, is the share of an attacker's steps taken in each
-tactic. A \emph{step} is one tactic executed, a firing of $\tau_p$; for the
-baseline attacker, which has no tactics, it is one action, with consecutive
-repeats of an action counted once. Then
+Relative tactic occurrence is the percentage of an attacker's steps taken in
+each tactic, the quantity Rodr\'{\i}guez et al.\ tabulate for the tactics of an
+attack log \citep[Table~3]{rodriguez2024}. A \emph{step} is one tactic executed
+by the Petri net (Section~\ref{sec:execution}). The baseline attacker has no
+tactics: its step is one action, with consecutive repeats of an action counted
+once, and its percentages are per action. Counting over every run of the cell,
 \begin{equation}
-  o(p) = \frac{\sum_{r \in \mathcal{R}} n_r(p)}
-              {\sum_{r \in \mathcal{R}} \sum_{q} n_r(q)},
+  \text{relative tactic occurrence}(p) =
+  100 \times \frac{\text{steps in tactic } p}{\text{all steps}}.
   \label{eq:rto}
 \end{equation}
-where $n_r(p)$ is the number of steps run $r$ takes in tactic $p$.
-Rodr\'{\i}guez et al.\ count every logged event, repeats included; the Petri net
-records a tactic once each time it is executed, so a step is the finest unit it
-has.
 
 \paragraph{Attack path variation (APV).}
-APV, adapted from Hong et al.\ \citep[Eq.~2]{hong2018}, measures how often an
-attacker's runs begin differently. The \emph{opening} $\pi_k(r)$ of run $r$ is
-its first $k$ steps, and APV is the share of runs whose opening differs from the
-most common one:
+APV is the percentage of an attacker's runs whose opening differs from its most
+common opening. The \emph{opening} of a run is its first $k$ steps, and $k$ is
+the opening length:
 \begin{equation}
-  \mathrm{APV}_k = 1 - \max_{\pi}\,
-  \frac{\lvert\{\, r \in \mathcal{R} : \pi_k(r) = \pi \,\}\rvert}{\lvert\mathcal{R}\rvert}.
+  \mathrm{APV}(k) = 100 \times \left( 1 -
+  \frac{\text{runs that open with the most common first } k \text{ steps}}
+       {\text{runs}} \right).
   \label{eq:apv}
 \end{equation}
-APV is 0 when every run opens alike and approaches 1 as openings diversify.
-Hong et al.\ compare the attack paths a network offers from one network state to
-the next; here the paths are those one attacker takes, compared across its runs,
-because strategic plurality is a property of the attacker and not of the network.
+APV is 0 when every run opens alike and rises towards 100 as the openings
+diversify. Hong et al.\ define APV over successive network states, as the mean
+share of attack paths that change from one state to the next
+\citep[Eq.~2]{hong2018}; the runs of a cell have no order, so each run is
+compared with the most common opening instead.
 
 \paragraph{Attack rate.}
-Attack rate, adapted from Zhan et al.\ \citep{zhan2013}, is the number of the
-attacker's actions per 1\,000\,s of its active time:
+Attack rate is ``the number of attacks that arrive at unit time''
+\citep[Sec.~III-B]{zhan2013}. Here it is the number of an attacker's actions
+per minute of its run, from the start of the run to the end of its last step:
 \begin{equation}
-  \lambda = \frac{1}{|\mathcal{R}|} \sum_{r \in \mathcal{R}} \frac{1000\,|A_r|}{T_r},
+  \text{attack rate} = \operatorname*{mean}_{\text{runs}}
+  \left( \frac{\text{actions}}{\text{minutes to the end of the last step}} \right).
   \label{eq:attack-rate}
 \end{equation}
-where $A_r$ is the start times of run $r$'s actions and $T_r$ its active time,
-from the start of the run to the end of its last step. An \emph{action} is one
-that runs on the network: a tactic with no mapped action adds time only, and an
-action whose precondition is unmet fails before it runs
-(Section~\ref{subsec:runtime-mechanics}). Zhan et al.\ count attacks arriving at
-a honeypot from many attackers; here the count is one attacker's own actions,
-over its active time because an attacker stops once it takes its target. A higher rate is a more
-aggressive attack \citep{pendleton2016}.
+An \emph{action} counts when it runs on the network. An action whose
+precondition is unmet fails before it runs (Section~\ref{subsec:runtime-mechanics})
+and is not counted, and the baseline attacker's consecutive exploit attempts
+count as one action. A higher rate is a more aggressive attack
+\citep{pendleton2016}.
 
+% HELD AS ROUND 2, pending ruling E (the detector) in the handoff
+% 2026-09-29_s45_equation_clarity.md; only \mathcal{R} is replaced by words,
+% since the preamble no longer defines it.
 \paragraph{Attack confidentiality.}
 Attack confidentiality, adapted from Zaffarano et al.\ \citep{zaffarano2015}, is
 the share of the attacker's actions that a detector does not flag. Zaffarano et
@@ -5746,8 +5732,8 @@ at the median of $D$ over the baseline attacker's actions so that the alarm
 flags half of the known attacker's activity. Over a stretch $b$ of the run,
 \begin{equation}
   \text{attack confidentiality}(b) =
-  \frac{\sum_{r \in \mathcal{R}} \lvert \{\, j : a_j \in b,\ D_r(j) < \theta \,\} \rvert}
-       {\sum_{r \in \mathcal{R}} \lvert \{\, j : a_j \in b \,\} \rvert},
+  \frac{\sum_{\text{runs}} \lvert \{\, j : a_j \in b,\ D_r(j) < \theta \,\} \rvert}
+       {\sum_{\text{runs}} \lvert \{\, j : a_j \in b \,\} \rvert},
   \label{eq:confidentiality}
 \end{equation}
 read in ten 1\,500\,s bins of the time limit. It lies in $[0, 1]$; lower is
@@ -5759,80 +5745,67 @@ share the alarm flags.
 \subsection{Attack outcome}
 \label{subsec:metrics-outcome}
 
-Three metrics record what the attacker achieves: ASP whether it takes a
-target, NCR how much of the network it takes, and MTTC how soon it takes its
-first host. All three are established in MTD evaluation
-(Table~\ref{tab:mtd-metrics}), so the results are comparable with the field's.
+MTD simulation studies repeat each experiment over many randomised runs
+\citep{zhang2023} and report the attack outcome in established metrics
+(Table~\ref{tab:mtd-metrics}). This dissertation reports three of them.
 
 \paragraph{Attack success probability (ASP).}
 ASP is ``the probability that attacks are successfully performed''
-\citep[Sec.~VII-A]{cho2020}. Here an attack succeeds when the attacker
-compromises a target host before the time limit, and ASP is the share of runs
-that succeed:
+\citep[Sec.~VII-A]{cho2020}. An attack succeeds here when the attacker
+compromises a target host:
 \begin{equation}
-  \mathrm{ASP} = \frac{1}{|\mathcal{R}|} \sum_{r \in \mathcal{R}}
-  \mathbf{1}\bigl[\, r \text{ compromises a target host} \,\bigr].
+  \mathrm{ASP} = \frac{\text{runs that compromise a target host}}{\text{runs}}.
   \label{eq:asp}
 \end{equation}
-It lies in $[0, 1]$; lower is better for the defender.
 
 \paragraph{Network compromise ratio (NCR).}
-NCR, as defined by Zhang~\citep[p.~32]{zhang2023}, is the share of the network's
-hosts the attacker has compromised (Ho~\citep[Eq.~10]{ho2024} calls it the host
-compromise ratio):
+NCR is ``the ratio of compromised hosts to the total number of hosts in the
+network'' \citep[p.~32]{zhang2023}, read at the end of each run:
 \begin{equation}
-  \mathrm{NCR}(\mathcal{R}) = \frac{1}{|\mathcal{R}|} \sum_{r \in \mathcal{R}} \frac{|H_r|}{N},
+  \mathrm{NCR} = \operatorname*{mean}_{\text{runs}}
+  \left( \frac{\text{hosts compromised}}{50} \right),
   \label{eq:ncr}
 \end{equation}
-where $H_r$ is the hosts run $r$ has compromised by its end and $N = 50$ is the
-network's hosts. It lies in $[0, 1]$; lower is better for the defender. Zhang
-ends a run once NCR exceeds 0.8, the goal of the general attack scenario; MTDSim
-keeps that stop under the targeted scenario, so a run ends on a target, at an NCR
-of 0.8, or at the time limit (Table~\ref{tab:experiment}).
+where 50 is the network's hosts (Section~\ref{subsec:network-model}).
 
 \paragraph{Mean time to compromise (MTTC).}
-MTTC, adapted from Zhang~\citep{zhang2023} after McQueen et al.\
-\citep{mcqueen2006}, is the mean time from the start of a run to its first
-compromised host, over the runs $\mathcal{R}_1$ that compromise one:
+MTTC is the mean time from the start of a run to its first compromised host,
+over the runs that compromise one:
 \begin{equation}
-  \mathrm{MTTC} = \frac{1}{|\mathcal{R}_1|} \sum_{r \in \mathcal{R}_1} t_r,
+  \mathrm{MTTC} = \operatorname*{mean}_{\text{runs with a compromise}}
+  \left( \text{time of the first compromise} \right).
   \label{eq:mttc}
 \end{equation}
-where $t_r$ is the time of run $r$'s first compromise. Larger is better for the
-defender. Zhang reads MTTC when 80\,\% of the hosts have fallen; a targeted run
-% [CONNECTIVE-PROSE PASS 2026-09-26, T1 4.5 this-thesis c] 'this thesis'
-%  -> 'this dissertation' (ratified row, 2026-09-24). SESSION-GENERATED on
-%  Marc's 2026-09-26 go-ahead (docs/workflows/connective_prose.md; audit
-%  docs/implementation/connective_prose_audit.md); prior text in git.
-%  RATIFIED 2026-09-26 (Marc: 'I accept all this').
-ends at its target, so this dissertation reads it at the first host and reports it
-with the share of runs it covers, $|\mathcal{R}_1|/|\mathcal{R}|$.
+Zhang reads MTTC when 80\,\% of the hosts have fallen \citep{zhang2023}, after
+McQueen et al.\ \citep{mcqueen2006}. A run here usually ends at its target
+first, so MTTC is read at the first host and reported with the share of runs
+that compromise one.
 
 \subsection{MTD effectiveness}
 \label{subsec:metrics-effectiveness}
 
-Three metrics record what a defence changes, each against the same attacker's
-runs with no defence. NCR reduction records the net change over a run and ranks
-the defences. The NCR growth rate and time lost record the attacker's response to
-each deployment, which a net measure cannot show: this response is adaptivity
-(Table~\ref{tab:attacker-properties}), and no cited metric records it for the
-attacker.
+The MTD effectiveness metrics compare an attacker's runs under a condition with
+its runs on the same seeds with no defence. NCR reduction ranks the defence
+mechanisms. The NCR growth rate and time lost per MTD deployment record
+adaptivity (Table~\ref{tab:attacker-properties}), the attacker's response to
+each deployment.
 
 \paragraph{NCR reduction.}
-NCR reduction, adapted from the mitigation factor of Alavizadeh et al.\
-\citep{alavizadeh2022}, is the share of the no-defence NCR that a defence
-removes:
+NCR reduction is the share of an attacker's NCR that a condition removes. It
+takes the form of the mitigation factor of Alavizadeh et al.\
+\citep[Eq.~13]{alavizadeh2022}, with NCR in place of their annual loss
+expectancy:
 \begin{equation}
-  \text{NCR reduction} = 1 - \frac{\mathrm{NCR}(\mathcal{R}_m)}{\mathrm{NCR}(\mathcal{R}_0)},
+  \text{NCR reduction} = 1 -
+  \frac{\text{NCR under the condition}}{\text{NCR with no defence}}.
   \label{eq:ncr-reduction}
 \end{equation}
-where $\mathcal{R}_m$ is the attacker's runs under defence $m$ and
-$\mathcal{R}_0$ its runs with no defence on the same seeds. It is 0 for no
-effect and 1 when no host is compromised; higher is better for the defender. The
-mitigation factor is floored at zero; NCR reduction is not, so that a defence
-that helps the attacker shows as negative. Section~\ref{subsec:metrics-statistics} ranks
-the defences by it.
+It is 0 for no effect and 1 when no host is compromised. The mitigation factor
+is floored at 0; NCR reduction is not, so a condition that helps the attacker
+shows as negative.
 
+% HELD AS ROUND 2, pending rulings F and G in the handoff
+% 2026-09-29_s45_equation_clarity.md.
 \paragraph{NCR growth rate.}
 We define the NCR growth rate to measure how fast the attacker compromises hosts
 after a deployment, relative to its pace before. It is the derivative of the
@@ -5877,37 +5850,26 @@ is cut off there, so its time lost is a lower bound.
 \subsection{Statistical analysis}
 \label{subsec:metrics-statistics}
 
-% Round 2 cut from round 1 (in commit 07150a0c): the step-by-step of the split
-% test; "we keep the significance step, which version 2.0 drops
-% \citep{tantithamthavorn2019impact}, and omit their log transform"; "no MTD
-% evaluation in the lineage tests a ranking" (a positioning point for §5.3 or
-% the discussion). VARIANT B (by seed) is still owed: once the analyser
-% resamples by seed, "over runs" becomes "over seeds" and the bootstrap
-% "resamples seeds, keeping each seed's defended and no-defence runs together".
+% ROUND 3, 2026-09-29: cut to what the examiner needs (Marc). Round 2's
+% "which orders them as NCR reduction does" and the merge step's walk-through
+% are in git. VARIANT B (by seed) is still owed: once the analyser resamples
+% by seed, "over runs" becomes "over seeds".
 Each cell has 1\,000 runs, one per seed, the number Arcuri and Briand
-\citep{arcuri2014hitchhiker} recommend for randomised algorithms; every cell uses
-the same seeds, and a seed fixes the network. A mean is reported with a 95\,\%
-normal-approximation interval over runs. NCR reduction, a ratio of two means,
-and time lost are reported with 95\,\% percentile bootstrap intervals from
-2\,000 resamples \citep{efron1994introduction}.
+\citep{arcuri2014hitchhiker} recommend for randomised algorithms. Every cell uses
+the same seeds, and a seed fixes the network. A mean is reported with a
+95\,\% normal-approximation interval over runs; NCR reduction and time lost are
+reported with 95\,\% percentile bootstrap intervals from 2\,000 resamples
+\citep{efron1994introduction}.
 
-Defences are ranked, per attacker and interval, by the Scott--Knott effect size
-difference (ESD) test \citep{tantithamthavorn2017empirical}, on mean hosts
-compromised per seed, which orders them as NCR reduction does. The test splits
-the sorted defences into groups whose means differ significantly
-($\alpha = 0.05$) \citep{scott1974cluster}, then merges adjacent groups whose
-difference is negligible (Cohen's $d < 0.2$) \citep{cohen1988statistical}.
-Defences in one group share a rank, 1 being the fewest hosts compromised. The
-test assumes equal variances and independent runs; the defences share seeds,
-which makes it conservative. Spearman's $\rho$ between the two attackers' NCR
-reductions compares their rankings.
-% [2026-09-26, supervisor screen plan item 11: how an ablation is judged, on the
-%  threshold this paragraph already uses. Overlapping intervals do not show an
-%  absence of effect; a difference below a declared effect size does. DRAFT STATE.]
-An ablation runs an attacker with and without one of its inputs on the same
-seeds. The difference between the two is reported with its 95\,\% percentile
-bootstrap interval over runs paired by seed, and is negligible when Cohen's $d$
-on hosts compromised per seed is below 0.2, the threshold above.
+The conditions are ranked, per attacker and deployment interval, by the
+Scott--Knott effect size difference test \citep{tantithamthavorn2017empirical}
+on hosts compromised per seed. Two conditions share a rank unless their means
+differ significantly ($\alpha = 0.05$) \citep{scott1974cluster} and by at least
+a small effect (Cohen's $d \geq 0.2$) \citep{cohen1988statistical}; rank 1 is the
+fewest hosts compromised. Spearman's $\rho$ compares the two attackers'
+rankings. An ablation's difference is reported with a 95\,\% bootstrap interval
+over runs paired by seed, and is negligible when Cohen's $d < 0.2$.
+
 
 % =====================================================================
 \chapter{Evaluation}

@@ -5,7 +5,190 @@ created: 2026-09-29
 
 # §4.5 Evaluation metrics: equations a reader can follow, and every number with a basis
 
-## State of play
+## Update, 2026-09-29 (second session): Marc's read, the round 3 rewrite and rulings E–G
+
+Marc's read of §4.5, his words condensed:
+
+- The terms are vague ("the defence", "a sophisticated attacker", "the field defines").
+- Nuance is stated aloud ("with no defence running", "adapted from", "used as defined").
+- Table 4.3's Measures column cannot be specific in one line.
+- His supervisor could not answer "why is APV a percentage", "how is relative tactic occurrence computed" or "why 1 minus".
+- Attack confidentiality drew "did you make this up".
+- The NCR growth rate is "completely lost" (NCR is per run end, averaged over the cell; a growth rate within one run confuses the two), and time lost per MTD deployment carries no confidence.
+
+His writing rule is now durable in [`voice.md` §(0)](../workflows/voice.md) and in CLAUDE.md: purpose, context, audience, clarity, relevance.
+
+### Done in this session (round 3, number-preserving except the attack-rate unit)
+
+- **Table 4.3** has two columns, metric and source. Each group is a heading row naming its section, and the dagger is gone.
+- **Preamble:** one paragraph. It gives SQ3, defines a cell in words, and states the three ways a run ends. The metric count, "used as defined" and $\mathcal{R}$ are gone.
+- **Lead-ins:** the behaviour lead-in is one sentence mapping each metric to its APT property. The outcome lead-in carries Marc's content: simulation studies repeat over many randomised runs and report established metrics.
+- **Equations:** in named quantities ("steps in tactic $p$ / all steps"; "mean over runs"). There are no per-metric symbols, and the τ_p, q, a_j and λ clash is gone.
+- **Relative tactic occurrence and APV** are defined as the percentages Figure 5.1 draws. Rodríguez tabulate "Occur. (rel.)" as a percentage (Table 3: 45.01 %), so the figure was always faithful to the source; the definition was not. APV's "1 −" is now the definition itself: "the percentage of runs whose opening differs from the most common one". The change from Hong's Eq. 2 is one sentence. Ruling D is closed as recommended.
+- **Attack rate per minute:** Marc's ruling, which closes B. `analyse.py _rate` was changed at source and `numbers.json` regenerated. Only the 22 attack-rate values moved, each by exactly ×0.06 (checked). Table 5.2 was regenerated: APT 0.70–1.24 against baseline 1.71 per minute. The honeypot sentence is cut.
+- **Statistical analysis:** cut to what the examiner needs.
+- **Term:** *defence mechanism* is the ratified row (terminology.md, 2026-09-07; *MTD mechanism* deprecated). §4.5 uses it and Table 5.1's condition names.
+
+**Owed from the round 3 rewrite:** the §5.2 prose still says "\prelim{11.7} to \prelim{20.7} actions per 1\,000\,s against \prelim{28.4}" (l.~7464). That is Marc's dictated prose, so it is left for him: per minute it is 0.70 to 1.24 against 1.71.
+
+### Ruling E — attack confidentiality: a standard scan-detector rule replaces the declared EWMA detector. Supersedes C.
+
+The detector is what made the metric unreadable:
+- an exponential kernel;
+- a memory κ with no source;
+- an alarm tuned to the median of a quantity with no unit;
+- 1 500 s bins.
+
+The thesis also concedes that "the detector counts actions, so the two are one observation" (with attack rate).
+
+What the literature fixes:
+- Jung, Paxson, Berger and Balakrishnan 2004 (IEEE S&P; open access; `docs/sources/s45_fetched/trw.pdf`, §2, PDF p. 3): "Historically most scan detection has been in the simple form of detecting N events within a time interval of T seconds". They add: "once the window size is known it is easy for attackers to evade detection by simply increasing their scanning interval".
+- The same paper states Snort's default (§6, PDF p. 11): "it flags a source IP address that has sent connections to 5 different IP addresses within 60 seconds".
+
+**Recommended definition:** an action is flagged when it is at least the fifth of the attacker's actions within the 60 s up to and including it. Attack confidentiality is the share of actions not flagged, over every run of the cell.
+- Both numbers are the field's.
+- Nothing is tuned on the baseline attacker.
+- One stated adaptation: actions stand in for connections to distinct addresses.
+
+**Dry run** (no-defence corpus, 100 seeds; `data/results/s45_metric_redesign/stealth_count.py`). Percentage of actions not flagged:
+
+| rule | $c_1$ | $c_2$ | $c_3$ | $c_4$ | baseline |
+|---|---|---|---|---|---|
+| **5 in 60 s (Snort default, recommended)** | **92** | **96** | **98** | **89** | **83** |
+| 3 in 60 s | 63 | 73 | 79 | 57 | 36 |
+| 4 in 60 s | 82 | 90 | 93 | 78 | 58 |
+| 5 in 90 s (Snort medium window) | 84 | 91 | 95 | 79 | 68 |
+| 5 in 600 s (Snort high window) | 3 | 5 | 11 | 2 | 1 |
+| 10 in 60 s | 100 | 100 | 100 | 100 | 100 |
+
+- The order $c_3 > c_2 > c_1 > c_4 >$ baseline holds under every rule that flags anything and does not flag almost everything.
+- At the default, 2–11 % of the APT attacker model's actions are flagged, against 17 % of the baseline attacker's.
+- The margin is smaller than under the retired detector (50 % flagged by construction), because that detector was tuned to the baseline.
+
+**Presentation:**
+- **Recommend** one whole-run value per attacker, as a Table 5.2 column beside attack rate, with the N × T sweep as Appendix C.4 (`app:detector-memory`, now a real sweep).
+- **Retire Figure 5.2** (confidentiality over the run in 1 500 s bins). That removes the last unsourced constant.
+- **Alternative:** keep Figure 5.2 with bins of one tenth of the time limit.
+
+**Proposed tex:**
+
+```latex
+\paragraph{Attack confidentiality.}
+Attack confidentiality is ``how much attacker activity may be visible by
+detection mechanisms'' \citep[Table~4]{zaffarano2015}, computed as the share of
+the attacker's actions not exposed. MTDSim has no detection mechanism, so an
+action here is exposed when a standard scan detector would flag it. Scan
+detectors flag ``N events within a time interval of T seconds''
+\citep{jung2004}, and Snort's default flags a source that contacts five
+addresses within 60\,s. An action is flagged when it is at least the fifth of
+the attacker's actions in the 60\,s up to and including it:
+\begin{equation}
+  \text{attack confidentiality} =
+  \frac{\text{actions not flagged}}{\text{actions}},
+\end{equation}
+counting over every run of the cell. Appendix~\ref{app:detector-memory} varies
+the count and the window.
+```
+
+**Alternatives:**
+- (E2) Keep the old detector. Rejected: it is the formula Marc and his supervisor could not read.
+- (E3) Drop attack confidentiality and report Zhan's own secondary statistic, the inter-arrival time between actions. Median gap: $c_1$ 31 s, $c_2$ 42 s, $c_3$ 53 s, $c_4$ 26 s, baseline 20 s. It is zero-parameter and cited, but it is attack rate restated, and it loses the only stealth metric the MTD literature names (Zaffarano).
+
+**Blast radius:**
+- `analyse.py`: replace `_detector_levels`, `confidentiality_over_run` and the θ median with the count rule.
+- `tools/ch5_unopposed_figures.py`: add a Table 5.2 column; `emit_fig_c` retired or re-binned.
+- The §5.2 prose (the \prelim 69–93 % and 43 %).
+- Appendix C.4 (a real sweep).
+- The bib: `jung2004` (Marc's call on placing the PDF in `docs/sources/`).
+
+### Ruling F — the deployment response: one ratio, named for what it counts, and time lost from it. Folds in A.
+
+Why the NCR growth rate fails:
+- Its name says NCR, a cell-level end-of-run ratio.
+- Its equation takes a derivative of one run's step function.
+- The code actually pools counts over live seconds (found in round 2).
+
+**Recommended:** rename it and define it as what the code computes, with the window $I/2$ each side (ruling A):
+
+- **Compromise rate after an MTD deployment:** the attacker's hosts compromised per second in the $I/2$ after a deployment completes, as a percentage of its rate in the $I/2$ before. It is pooled over every deployment of every run in the cell, and a run that has ended adds no seconds. It is 100 when the attacker's pace is unchanged and 0 when it is stopped. It is read beside the same ratio at the same moments on the same seed's run with no defence (pace drifts within a run). Figure 5.3(a, b) draws it in slices of time since the deployment: the drop and the bounce-back Marc described.
+- **Time lost per MTD deployment** $= \tfrac{I}{2} \times$ (the ratio with no defence − the ratio under the defence mechanism) / 100. In seconds. The name is the supervisor's form, kept. **This is exactly Bruneau's area**: the integral of $(1 - \text{relative pace})$ over a window is the window times $(1 - \text{its mean})$. The integral, the derivative and the bins leave the definition. Worked example: at 60 % of its earlier rate for the 1 000 s after, where it would be at 100 % with no defence, the attacker loses 400 s.
+
+**Dry run** (2 000 s interval, $I/2$ = 1 000 s each side; `data/results/s45_metric_redesign/rate_ratio.py`). It reproduces the "$I/2$, one slice" column of ruling A exactly:
+
+| cell | rate before (hosts/h) | ratio under defence | ratio, no defence | time lost (s) |
+|---|---|---|---|---|
+| APT, IP shuffle | 1.77 | 0.53 | 1.01 | 475 |
+| APT, host topology | 2.15 | 0.57 | 1.01 | 434 |
+| APT, complete topology | 2.16 | 0.58 | 1.00 | 423 |
+| APT, service diversity | 2.14 | 0.84 | 1.00 | 161 |
+| APT, OS diversity | 2.13 | 0.97 | 1.00 | 38 |
+| APT, port shuffle | 2.07 | 0.97 | 1.01 | 38 |
+| APT, user shuffle | 2.12 | 1.02 | 1.00 | −25 |
+| baseline, service diversity | 5.32 | 0.49 | 0.95 | 461 |
+| baseline, complete topology | 7.35 | 0.83 | 0.95 | 112 |
+| baseline, host topology | 6.86 | 0.86 | 0.94 | 82 |
+| baseline, user shuffle | 6.85 | 0.91 | 0.98 | 63 |
+| baseline, IP shuffle | 5.11 | 0.92 | 0.94 | 24 |
+| baseline, OS diversity | 6.21 | 0.95 | 0.96 | 18 |
+| baseline, port shuffle | 5.82 | 0.96 | 0.95 | −4 |
+
+A side benefit: an $I/2$ window is defined at 200 s too, where the fixed 750/1 250 s window was not. That lifts §5.3.1's "read at 2 000 s only".
+
+**Alternative tried and rejected: time to the next compromise after a deployment** (Marc's "time to the next viable tactic"). The dry run is `data/results/s45_metric_redesign/next_compromise.py`.
+- With **no defence**, the APT attacker model compromises no host in the 2 000 s after 42 % of deployment moments. Its median wait is therefore about 1 450 s, set by its own slow pace, and under IP shuffle the median is censored beyond the interval.
+- The baseline's topology shuffles come out *faster* than no defence (443 s against 510 s). This is the same phase confound that retired the estimator on 2026-09-24 (`disruption.py` docstring).
+- The before/after ratio holds each attacker to its own pace, and that is why it survives.
+
+**Proposed tex:**
+
+```latex
+\paragraph{Compromise rate after an MTD deployment.}
+The compromise rate after an MTD deployment is the attacker's rate of
+compromising hosts in the half interval after a deployment completes, as a
+percentage of its rate in the half interval before:
+\begin{equation}
+  \text{compromise rate after an MTD deployment} = 100 \times
+  \frac{\text{hosts compromised after} \,/\, \text{seconds after}}
+       {\text{hosts compromised before} \,/\, \text{seconds before}},
+\end{equation}
+counting over every deployment of every run in the cell; a run that has ended
+adds no seconds. It is 100 when a deployment leaves the attacker's pace
+unchanged and 0 when it stops the attacker. An attacker's pace drifts within a
+run with no defence, so the same ratio is read at the same moments on the same
+seed's run with no defence.
+
+\paragraph{Time lost per MTD deployment.}
+Time lost per MTD deployment is the attack progress one deployment costs the
+attacker, in seconds at its own pace:
+\begin{equation}
+  \text{time lost per MTD deployment} = \frac{I}{2} \times
+  \frac{\text{rate after, no defence} - \text{rate after, under the condition}}{100},
+\end{equation}
+where $I$ is the deployment interval and each rate is the compromise rate after
+an MTD deployment. If an attacker compromises hosts at 60\,\% of its earlier
+rate for the 1\,000\,s after a deployment, where with no defence it would keep
+its rate, the deployment costs it 400\,s. This is the loss of resilience of
+Bruneau et al.\ \citep{bruneau2003}, the area between a system's quality after
+a disruption and its level before, with the attacker's pace as the quality.
+```
+
+**Blast radius:**
+- `disruption.py`: `EDGES` becomes interval-relative, and `_time_lost` takes the one-slice form (identical to the ratio).
+- `ablation.py` imports it.
+- Figure 5.3 (y-axis label; slices kept for the curve only).
+- Table C.5, re-based on the split.
+- The §5.3.1 numbers (l.~8027–8050) and §5.4's "494 s".
+- Table 4.3 and Table 5.1 rows (the name).
+- The effectiveness lead-in.
+
+### Ruling G — smaller items, one line each
+
+- **G1. The null condition's name.** Table 5.1 says *no defence*, and §4.5 now uses it only as that condition's name. Marc's "what defence? we're talking about MTD" could re-key it to *no MTD* dissertation-wide (ch5 captions, Table 5.1, generators). **Recommend:** keep *no defence* as the condition name, since it pairs with the ratified *defence mechanism*, and cut every other generic "defence" (done in §4.5).
+- **G2. Table 3.2's caption** says "properties of a sophisticated attacker". Marc: "why do we say sophisticated? standardise". **Recommend:** "an APT attacker", the ratified ch3 class term. This is out of this session's scope (ch3), so it is flagged, not changed.
+- **G3. Table 5.2 omits the MTTC coverage share** that §4.5 promises. Add a column, "runs with a compromise", or a caption clause. This was carried from the state of play below.
+- **G4. A list of symbols:** not recommended. With the equations in named quantities, §4.5 has two symbols ($p$, $k$), each defined where it is used. Knuth's rule of words over shorthand makes a symbol list unnecessary, and Table 4.2 already lists the Petri-net notation.
+
+## State of play (round 2 session, before Marc's second read)
 
 Marc's read of §4.5 (2026-09-29): the prose is tight, but the equations read as
 decoration. The causes are:

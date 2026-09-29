@@ -363,7 +363,8 @@ def _actions_baseline(row: dict) -> tuple[list, float]:
 
 
 def _rate(starts: list, end: float) -> float | None:
-    return 1000.0 * len(starts) / end if end > 0 else None
+    # actions per minute (Marc, 2026-09-29: a minute is a standard unit, 1 000 s a scale)
+    return 60.0 * len(starts) / end if end > 0 else None
 
 
 def _confidentiality_curve(starts: list) -> list | None:

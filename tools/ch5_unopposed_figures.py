@@ -389,7 +389,7 @@ def emit_table(core: dict) -> str:
     w(r"  \tablestyle\setlength{\tabcolsep}{3pt}")
     w(r"  \begin{tabular}{@{}P{3.4cm}>{\centering\arraybackslash}p{2.3cm}>{\centering\arraybackslash}p{2.6cm}>{\centering\arraybackslash}p{2.8cm}>{\centering\arraybackslash}p{4.1cm}@{}}")
     w(r"    \toprule")
-    w(r"    Attacker & ASP & NCR & MTTC (s) & Attack rate (per 1\,000\,s) \\")
+    w(r"    Attacker & ASP & NCR & MTTC (s) & Attack rate (per minute) \\")
     w(r"    \midrule")
 
     def row(name: str, p: str) -> str:
@@ -397,7 +397,7 @@ def emit_table(core: dict) -> str:
         n = t[p]["n"]  # a 95 % interval on a share of runs (normal approximation), as on the other columns
         asp = {"mean": o["asp"], "ci95": 1.96 * (o["asp"] * (1 - o["asp"]) / n) ** 0.5}
         return "    %s & %s & %s & %s & %s \\\\" % (
-            name, _pm(asp, 2), _pm(o["ncr"], 2), _pm(o["mttc"]["observed"], 0), _pm(m[p]["attack_rate"], 1))
+            name, _pm(asp, 2), _pm(o["ncr"], 2), _pm(o["mttc"]["observed"], 0), _pm(m[p]["attack_rate"], 2))
 
     w(r"    \emph{%s} & & & & \\" % LABEL["movement"])
     for p in PROFILES:
@@ -462,7 +462,7 @@ def main() -> None:
         o = m[p]["outcome"]
         print(f"  {LABEL[p].strip('$'):18s} ASP {o['asp']:.2f}  NCR {o['ncr']['mean']:.3f}  "
               f"MTTC {o['mttc']['observed']['mean']:.0f}  none {o['no_compromise_share']:.2f}  "
-              f"rate {m[p]['attack_rate']['mean']:.1f}")
+              f"rate {m[p]['attack_rate']['mean']:.2f}")
     if not args.no_compile:
         compile_fig(STEM_A)
         compile_fig(STEM_C)
