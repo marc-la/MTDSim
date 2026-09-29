@@ -5613,17 +5613,26 @@ its scope.
 Hosts that run the same service version carry the same vulnerabilities.
 The \texttt{EXPLOIT\_VULN} action (Table~\ref{tab:attacker-states})
 attempts each service's top vulnerabilities, and an exploit of each
-succeeds with probability $p_0$, its CVSS complexity
+succeeds with a probability set by its CVSS complexity
 (Section~\ref{subsec:network-model}).
-We increase $p_0$ by this equation, which multiplies its odds by $k$ for
-each earlier success and so scales it closer to one:
+% 2026-09-29 (Marc: "can we explain the equation in 4.4.5 using words, to
+% simplify it"): the odds equation in named quantities, p_0 and p_n retired,
+% with a worked example on an illustrative k (k is not yet declared). Prior
+% form in git (b163afad). DRAFT STATE --- ratify on read.
+Each earlier success on a vulnerability multiplies the odds that the next
+exploit of it succeeds by a factor $k$, where the odds are the chance of
+success over the chance of failure:
 \begin{equation}
-  \frac{p_n}{1-p_n} = k^n \, \frac{p_0}{1-p_0},
+  \text{odds of success after } n \text{ successes} =
+  k^n \times \text{odds of success with none},
   \label{eq:vulnerability-memory}
 \end{equation}
 where $n$ is the number of the attacker's earlier successful exploits of
-that vulnerability on any host, and the factor $k$ is declared in
-Appendix~\ref{app:movement}.
+that vulnerability on any host, and $k$ is declared in
+Appendix~\ref{app:movement}. With $k = 2$, an exploit that succeeds one time
+in two (odds 1) succeeds two times in three after one success (odds 2) and
+four times in five after two (odds 4): the chance rises towards one and never
+reaches it.
 We do not change dwell times: they still come from
 Section~\ref{subsec:dwell-times}.
 The idea is that the attacker compromises more of the network.

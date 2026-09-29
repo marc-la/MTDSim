@@ -30,6 +30,7 @@ The writing rule for everything below is `voice.md` §(0): the five checks and "
   - Census after: 0 in live text. Comments keep the history.
 - **"sophisticated attacker" → "APT attacker"** at 7 own-voice sites, the §3.3.1 heading and the Table 3.2 caption included. Cho's cited phrase (l.~3533) stays.
 - **Bib:** `jung2004` added. The venue was verified by the detector record; **the pages and DOI are unverified**, so add them on read.
+- **§4.4.5 vulnerability memory:** the odds equation is now in named quantities ("odds of success after $n$ successes = $k^n$ × odds of success with none"), with $p_0$ and $p_n$ retired and a worked example at an **illustrative $k = 2$** (1 in 2 → 2 in 3 → 4 in 5). **Owed:** $k$ is still undeclared in Appendix B (`adversary.py` l.100, `_exploit_learning_rate = 0.0`, where $k = 1 + \lambda$). Once it is declared, either keep $k = 2$ as a labelled illustration or swap in the declared value.
 - **`voice.md` §(0)** gains the mantra, the worked case and "symbols only where they work". The same is in CLAUDE.md and memory.
 
 ## 2. Open rulings (recommendation first)
