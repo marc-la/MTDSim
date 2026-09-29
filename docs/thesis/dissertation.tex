@@ -3918,7 +3918,7 @@ eight properties of Section~\ref{subsec:attacker-criterion}.
 % CVSS expanded here (ch2 uses it bare from l.463 --- FLAG, out of scope).
 MTDSim's attacker model is the baseline attacker of
 Section~\ref{subsec:attacker-model}, carried unchanged through the
-lineage (Table~\ref{tab:mtdsim-lineage}) except for Zhang et al.'s
+lineage (Table~\ref{tab:mtdsim-lineage}) except for Zhang's
 exploitation-time rule \citep{zhang2023}. Brown et al.\ state that
 ``all attacker agents in the simulation will always follow the attack
 procedure'' \citep[p.~7]{brown2023}. Six cells are partial. The
@@ -5571,47 +5571,62 @@ real-world values.
 %  "OS" are ch2's.]
 % [DRAFT STATE 2026-09-29: dictated by Marc; pass 2+3a repaired, 3b walked,
 %  pass 4 scrutinised, pass 5 full set (items 1--9) ruled and applied,
-%  248 -> ~190 words. Session-written clauses Marc accepted: the precondition
-%  sentence, the EXPLOIT_VULN sentence (from Table 2.x), the equation's
-%  "where" clause, the section pointer. Rulings: property 7 framed as reuse
-%  of what worked, not mutation patterns (property 8's ground); Zhang's time
-%  halving is the lineage the memory extends; the diversity-pool hypothesis
-%  stays and Section 5.4.2 tests it with a pool dimension (handoff Part A).
-%  Symbol: k, the odds factor per earlier success (code: k = 1 + lambda;
-%  lambda is the attack rate, eq:attack-rate). Cut in pass 5, do not
-%  re-flag: Cho's "under-modelled" clause (carried by §3.3.1 and Table 3.2),
-%  "let alone an APT attacker", "exploits and tools", the re-encounter
-%  clause (the equation carries it), "by return on attack" (Table 2.x
-%  carries it), the shuffle image. Left out by ruling: how long the memory
+%  248 -> ~190 words; pass 6 (voice pass) V1--V9 accepted by Marc and applied
+%  ("I accept all"), V5 as option (a), hosts compromised, the measure
+%  Section 5.4.2 reads. Session-written clauses Marc accepted: the
+%  precondition sentence, the EXPLOIT_VULN sentence (from Table 2.x), the
+%  equation's "where" clause, the section pointer, the V1--V9 wordings.
+%  SESSION-DRAFTED, RATIFY ON READ: the sentence "It learns the network ...
+%  out of its scope" (pass-6 gate 6: Table 3.2 defines property 7 as the
+%  defender's patterns; B0 ruled partial, handoff). Rulings: property 7
+%  framed as reuse of what worked, not mutation patterns (property 8's
+%  ground); Zhang's time halving is the lineage the memory extends; the
+%  diversity-pool hypothesis stays and Section 5.4.2 tests it with a pool
+%  dimension (handoff Part A). Symbol: k, the odds factor per earlier
+%  success (code: k = 1 + lambda; lambda is the attack rate,
+%  eq:attack-rate). Cut in pass 5, do not re-flag: Cho's "under-modelled"
+%  clause (carried by §3.3.1 and Table 3.2), "let alone an APT attacker",
+%  "exploits and tools", the re-encounter clause (the equation carries it),
+%  "by return on attack" (Table 2.x carries it; "top" held vague by that
+%  ruling), the shuffle image. Left out by ruling: how long the memory
 %  lasts; the baseline's per-instance time discount (optional [S] clause,
-%  not taken). Next: pass 6 on §4.4 assembled.]
-Learning is a property of any attacker; it is property 7
+%  not taken). Open: gate 1 (the paragraph opens on motivation, not on what
+%  the memory does) goes to the integration check; once k is declared, one
+%  worked number (e.g. p_0 = 0.5, k = 2, one success -> 0.67) would ground
+%  the equation (gate 8).]
+Any attacker learns; learning is property 7
 (Section~\ref{subsec:attacker-criterion}).
 An attacker learns what has succeeded before, the vulnerabilities that
 worked, and reuses them.
 Zhang's attacker already does this for time: exploitation time is halved on
 a vulnerability exploited on an earlier host \citep{zhang2023}.
-We extend it from a saving in time to a vulnerability memory: the APT
-attacker model saves the vulnerabilities it has successfully exploited.
+We extend the halving from a saving in time to a vulnerability memory: the
+APT attacker model saves the vulnerabilities it has successfully exploited.
+It learns the network; the defender's patterns that
+Table~\ref{tab:attacker-properties} also names under property 7 are out of
+its scope.
 Hosts that run the same service version carry the same vulnerabilities.
 The \texttt{EXPLOIT\_VULN} action (Table~\ref{tab:attacker-states})
-attempts each service's top vulnerabilities, and each succeeds with its
-CVSS complexity, $p_0$ (Section~\ref{subsec:network-model}).
-We increase it by this equation, which scales it closer to one:
+attempts each service's top vulnerabilities, and an exploit of each
+succeeds with probability $p_0$, its CVSS complexity
+(Section~\ref{subsec:network-model}).
+We increase $p_0$ by this equation, which multiplies its odds by $k$ for
+each earlier success and so scales it closer to one:
 \begin{equation}
   \frac{p_n}{1-p_n} = k^n \, \frac{p_0}{1-p_0},
   \label{eq:vulnerability-memory}
 \end{equation}
-where $n$ is the attacker's earlier successful exploits of that
-vulnerability on any host, and the factor $k$ is declared in
+where $n$ is the number of the attacker's earlier successful exploits of
+that vulnerability on any host, and the factor $k$ is declared in
 Appendix~\ref{app:movement}.
-We do not change time: dwell times still come from
+We do not change dwell times: they still come from
 Section~\ref{subsec:dwell-times}.
-The idea is that the attacker moves through the network more optimally in
-terms of compromising it.
-We hypothesise that the effect amplifies with a constrained diversity pool,
-where vulnerabilities repeat across hosts, and occurs less with a large
-pool; Section~\ref{subsec:ablation-vulnerability-memory} tests both.
+The idea is that the attacker compromises more of the network.
+We hypothesise that the memory's effect is amplified with a constrained
+diversity pool (few services and operating systems for a diversity
+mechanism to draw from), where vulnerabilities repeat across hosts, and is
+weaker with a large pool; Section~\ref{subsec:ablation-vulnerability-memory}
+tests both.
 
 \section{Evaluation metrics}
 \label{sec:evaluation-metrics}
