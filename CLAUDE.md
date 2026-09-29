@@ -27,6 +27,8 @@ Marc's standing rule, 2026-09-29. The full text is [`voice.md` §(0)](docs/workf
 4. **Clarity.** Earned by choosing and cutting. Never add sentences until every nuance is stated: implicit nuance stays off the page.
 5. **Relevance.** Specific terms by default, never vague. One term per thing, defined once and repeated verbatim. Repetitive beats vague.
 
+The mantra: **say more with less.** Equations use named quantities, and a symbol is used only where the prose needs it.
+
 ## The docs system, in one paragraph
 
 Everything in `docs/` feeds one of two consumers: **the dissertation** ([`docs/thesis/dissertation.tex`](docs/thesis/dissertation.tex)) or **future sessions**. Dissertation-bound prose lives in [`docs/notes/`](docs/notes/), organised by dissertation *chapter* (ch1–ch7 subdirs) and gated by the notes rubric — every note is aimed at the chapter it will land in. Codebase-shaped truth (schemas, dispositions, decision registers, investigation records) lives in [`docs/implementation/`](docs/implementation/), with per-stage detail under `implementation/pipeline/{gap,gasp,ogasp}/`. Open work briefs live in [`docs/handoffs/`](docs/handoffs/); literature in [`docs/sources/`](docs/sources/) (gitignored) with tracked extracts in `docs/sources/extractions/`. When creating any document, run the placement criterion in `docs_map.md`. Dissertation-bound prose additionally carries a voice contract — [`docs/workflows/voice.md`](docs/workflows/voice.md): default for `notes/`, hard gate for `thesis/`; load it before drafting either.

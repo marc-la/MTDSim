@@ -22,6 +22,12 @@ Marc's standing rule (2026-09-29). It outranks every other section of this file:
    - Use one term for one thing, defined once and then repeated verbatim. Being repetitive is acceptable; being vague is not.
    - Never pre-define a term in a lead-in that its own definition then repeats.
 
+**The mantra: say more with less.** Marc called this "the main game of this dissertation" (2026-09-29): every idea, with its context, conveyed in the fewest words that still carry it.
+
+*Worked case (Marc: "that's a case study right there").* The attack-outcome lead-in in its first form pre-defined its three metrics before their own definitions and claimed comparability: *"Three metrics record what the attacker achieves: ASP whether it takes a target, NCR how much of the network it takes, and MTTC how soon it takes its first host. All three are established in MTD evaluation, so the results are comparable with the field's."* Rewritten, it says what the field does and that this work uses it: *"MTD simulation studies repeat each experiment over many randomised runs and report the attack outcome in established metrics. This dissertation reports three of them."*
+
+**Symbols only where they work.** An equation is written in named quantities. A symbol enters only when the prose needs a handle it will reuse, such as an opening length $k$ or a deployment interval $I$, never for decoration.
+
 A metric, symbol or equation passes check 4 only when a reader who meets it cold, from a results float, can say what is counted, over what, and in what unit, and when the float presents it the way the definition does.
 
 ## (a) Force — where this applies, and how hard
