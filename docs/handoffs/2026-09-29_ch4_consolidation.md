@@ -102,6 +102,119 @@ The order holds in every row.
 
 It is not time-resolved: one rate per run (actions over run length), then the mean over runs. §4.5 now says so.
 
+## 2b. Marc's third read (2026-09-29): new rulings F′, L, J′
+
+**Applied:**
+- §4.4.5 now says why the odds form never caps: "the odds have no upper limit, and the chance is the odds over one plus the odds".
+- Distinct attack paths counts the paths the runs **realise**, "not the paths the attack graph allows".
+- Snort is named as an intrusion detection system, and its port-scan rule is the detector (the overlap is deliberate).
+- Attack confidentiality states its direction: "a higher attack confidentiality is a stealthier attacker".
+- `voice.md` §(0) has the **inverted U**: too short is as vague as too long; restore the referent, not the nuance.
+
+### F′. Replace the compromise rate after an MTD deployment and time lost per MTD deployment. Supersedes F.
+
+Marc: "structurally lost … what rate? … I don't think anyone can replicate that". His model of the cost is the time between successful tactics. After a deployment the action fails, and the Petri net retraces until a tactic dispatches the equivalent action again.
+
+The census (`mtd_metric_catalogue.md` §(a), §(b)4) has **no attacker-side recovery metric in the field**. It does have **Brown 2023's attack actions blocked** (§IV-A p.5, Fig. 4, "total actions blocked"; §III-D defines a block as the MTD cutting off something the action needed). In MTDSim a block is the interrupt: an action a deployment cuts off while it runs.
+
+**Recommended pair, both event-based and replicable:**
+
+1. **Attack actions blocked** (Brown's, cited): the attacker's actions an MTD deployment interrupts, per run.
+2. **Time to resume a blocked action** (introduced; the name says what it does): the time from the end of a blocked action to the start of the attacker's next run of the same action. The median is taken over the cell's blocked actions, beside the attacker's usual gap between two runs of the same action with no MTD. A blocked action never run again counts as longer than every resumed one.
+
+**Dry run** (2 000 s, 100 seeds; `data/results/s45_metric_redesign/blocked_resume.py`):
+
+| cell | blocked per run | deployments that block an action | resume median | resumed before run end |
+|---|---|---|---|---|
+| APT, IP shuffle | 2.81 | 35 % | 444 s | 92 % |
+| APT, complete topology | 3.07 | 38 % | 373 s | 94 % |
+| APT, host topology | 3.10 | 39 % | 367 s | 96 % |
+| APT, port shuffle | 1.24 | 15 % | 147 s | 99 % |
+| APT, OS diversity | 1.18 | 15 % | 141 s | 98 % |
+| APT, service diversity | 1.21 | 15 % | 136 s | 98 % |
+| APT, user shuffle | 0.09 | 1 % | 149 s | 97 % |
+| baseline, IP / complete / host topology | 5.3–6.4 | 67–81 % | 55 s | 98–99 % |
+| baseline, port / OS / service | 5.4–6.9 | 68–87 % | 45 s | 100 % |
+| baseline, user shuffle | 0.41 | 5 % | 93 s | 100 % |
+
+The usual gap between two runs of the same action with no MTD is 136 s for the APT model and 93 s for the baseline.
+
+**How the table reads:**
+- A deployment catches the APT model in flight far less often: it is in dwell-only tactics much of the time.
+- When a host-layer deployment does catch it, the APT model takes about three times its usual gap to run the action again (the retrace).
+- The baseline restarts at once, sooner than its usual gap.
+
+**Known limit, to state:** resume time records the interruption, not its downstream consequence. The baseline's service-diversity cost (time lost 461 s under the old metric) comes from exploits failing *after* it resumes, so NCR reduction carries it.
+
+**Draft tex, for ruling:**
+
+```latex
+\paragraph{Attack actions blocked.}
+Attack actions blocked is Brown's count of the attacker's actions that MTD
+blocks \citep[Sec.~IV-A]{brown2023}: here, the actions an MTD deployment
+interrupts while they run (Section~\ref{subsec:runtime-mechanics}), per run:
+\begin{equation}
+  \text{attack actions blocked} = \operatorname*{mean}_{\text{runs}}
+  \left( \text{actions interrupted by an MTD deployment} \right).
+\end{equation}
+
+\paragraph{Time to resume a blocked action.}
+Time to resume a blocked action is the time from the end of a blocked action
+to the start of the attacker's next run of the same action. After a block the
+APT attacker model's Petri net routes on a failure
+(Section~\ref{subsec:failure-matrix}) until a tactic dispatches that action
+again; the baseline attacker restarts its procedure. It is the median over the
+blocked actions of every run, reported beside the attacker's usual gap between
+two runs of the same action with no MTD:
+\begin{equation}
+  \text{time to resume} = \operatorname*{median}_{\text{blocked actions}}
+  \left( \text{start of the next run of the action} -
+         \text{end of the blocked action} \right).
+\end{equation}
+A blocked action the attacker does not run again before its run ends counts as
+longer than every resumed one.
+```
+
+**Blast radius (chapter 5, stale anyway):**
+- `disruption.py` retires; the dry-run script becomes the reader.
+- Figure 5.3 is redrawn: bars of resume time per mechanism per attacker, the usual gap as a reference line, and blocked per run as a panel or table column.
+- Table C.5 (the window sweep) is deleted, since the new metrics have no window.
+- The prose at §5.3.1 (l.~7868, 7967ff.) and §5.4's "494 s" change.
+- The Table 4.3 and Table 5.1 rows are renamed.
+- `ablation.py` imports.
+
+### L. ASP reduction or NCR reduction?
+
+Marc: ASP is the targeted scenario's own outcome, so should effectiveness be ASP reduction? 100-seed dry run, 2 000 s:
+
+| mechanism | APT: ASP reduction | APT: NCR reduction | baseline: ASP reduction | baseline: NCR reduction |
+|---|---|---|---|---|
+| host topology | +1.00 | +0.17 | −0.08 | −0.07 |
+| complete topology | +0.89 | +0.16 | −0.15 | −0.13 |
+| IP shuffle | +0.56 | +0.33 | −0.08 | +0.16 |
+| port shuffle | +0.22 | +0.01 | +0.02 | +0.03 |
+| service diversity | +0.22 | +0.04 | +0.67 | +0.30 |
+| OS diversity | 0.00 | −0.01 | −0.12 | −0.02 |
+| user shuffle | 0.00 | −0.03 | −0.20 | −0.08 |
+
+**It does change the calculus in places:**
+- For the APT model the same three host-layer mechanisms lead under both, but the order inside that group flips: ASP puts host topology first, NCR puts IP shuffle first.
+- For the baseline, ASP says only service diversity stops it reaching a target. IP shuffle cuts the hosts it takes (+0.16) but not its success (−0.08).
+
+**Resolution:** APT successes are few, e.g. 0 of 400 under host topology, so a reduction of exactly 1.00 has no interval. At 1 000 seeds, no MTD gives about 360 successes of 4 000.
+
+The Scott–Knott ESD ranking assumes a continuous measure (hosts per seed). A binary success would need a proportions test instead.
+
+**Recommend:** define **ASP reduction** in §4.5.3 as the scenario's effectiveness metric (same Alavizadeh form, ASP in place of NCR). Keep **NCR reduction** beside it as the ranking basis, read as "how much of the network MTD keeps the attacker from on the way". Chapter 5 then reports whether MTD stops the target (ASP reduction) and how much of the network it saves (NCR reduction).
+
+The alternative is to rank on ASP reduction with a proportions test. It is more aligned, but its resolution is poor for the APT model and it changes the statistics section.
+
+On *define both scenarios' ASP?* No: define the one run (targeted). NCR already reads in targeted terms.
+
+### J′. Appendix C.4: drop it. Supersedes J.
+
+Snort's default has precedent (Jung 2004 §6), so no sweep appendix is needed. One sentence in §5.2 can say the ordering holds from 3 to 6 actions per minute; the evidence is in `stealth_count.py`. Then delete `app:detector-memory` and §4.5's pointer to it.
+
 ## 3. §4.3 formalism review (from paragraph two): proposals, none applied
 
 **What a formalism section needs:**

@@ -5629,10 +5629,11 @@ success over the chance of failure:
 \end{equation}
 where $n$ is the number of the attacker's earlier successful exploits of
 that vulnerability on any host, and $k$ is declared in
-Appendix~\ref{app:movement}. With $k = 2$, an exploit that succeeds one time
-in two (odds 1) succeeds two times in three after one success (odds 2) and
-four times in five after two (odds 4): the chance rises towards one and never
-reaches it.
+Appendix~\ref{app:movement}. The odds have no upper limit, and the chance is
+the odds over one plus the odds, so the chance rises towards one and never
+reaches it. With $k = 2$, an exploit that succeeds one time in two (odds 1)
+succeeds two times in three after one success (odds 2) and four times in five
+after two (odds 4).
 We do not change dwell times: they still come from
 Section~\ref{subsec:dwell-times}.
 The idea is that the attacker compromises more of the network.
@@ -5688,9 +5689,10 @@ once, and its percentages are per action. Counting over every run,
 \end{equation}
 
 \paragraph{Distinct attack paths.}
-An attacker's \emph{attack path} in a run is the sequence of its steps.
-Distinct attack paths is the number of different attack paths among an
-attacker's runs, compared over their first $k$ steps:
+An attacker's \emph{attack path} in a run is the sequence of steps the run
+takes. Distinct attack paths is the number of different attack paths an
+attacker's runs take, compared over their first $k$ steps; it counts the paths
+the runs realise, not the paths the attack graph allows:
 \begin{equation}
   \text{distinct attack paths}(k) =
   \text{number of different first-}k\text{-step sequences}.
@@ -5722,16 +5724,17 @@ detection mechanisms'' \citep[Table~4]{zaffarano2015}, the share of the
 attacker's actions that are not exposed. MTDSim has no detection mechanism, so
 an action is exposed here when a standard scan detector would flag it. Scan
 detectors flag ``N events within a time interval of T seconds''
-\citep[Sec.~2]{jung2004}, and Snort's default flags a source that contacts five
-addresses within 60\,s \citep[Sec.~6]{jung2004}. An action is flagged when it is
-at least the attacker's fifth action within one minute:
+\citep[Sec.~2]{jung2004}; the default port-scan rule of the Snort intrusion
+detection system flags a source that connects to five addresses within 60\,s
+\citep[Sec.~6]{jung2004}. An action is flagged when it is at least the
+attacker's fifth action within one minute:
 \begin{equation}
   \text{attack confidentiality} =
   \frac{\text{actions not flagged}}{\text{actions}},
   \label{eq:confidentiality}
 \end{equation}
-counting over every run. A slower attacker leaves more of its actions
-unflagged. Appendix~\ref{app:detector-memory} varies the count and the window.
+counting over every run. A higher attack confidentiality is a stealthier
+attacker: a slower attacker leaves more of its actions unflagged. Appendix~\ref{app:detector-memory} varies the count and the window.
 
 \subsection{Attack outcome}
 \label{subsec:metrics-outcome}

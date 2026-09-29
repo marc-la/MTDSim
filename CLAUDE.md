@@ -27,7 +27,7 @@ Marc's standing rule, 2026-09-29. The full text is [`voice.md` §(0)](docs/workf
 4. **Clarity.** Earned by choosing and cutting. Never add sentences until every nuance is stated: implicit nuance stays off the page.
 5. **Relevance.** Specific terms by default, never vague. One term per thing, defined once and repeated verbatim. Repetitive beats vague.
 
-The mantra: **say more with less.** Equations use named quantities, and a symbol is used only where the prose needs it.
+The mantra: **say more with less**, and stop at the peak. Clarity is an inverted U: too short is as vague as too long. Equations use named quantities, and a symbol is used only where the prose needs it.
 
 ## The docs system, in one paragraph
 

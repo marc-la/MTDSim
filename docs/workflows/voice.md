@@ -26,6 +26,10 @@ Marc's standing rule (2026-09-29). It outranks every other section of this file:
 
 *Worked case (Marc: "that's a case study right there").* The attack-outcome lead-in in its first form pre-defined its three metrics before their own definitions and claimed comparability: *"Three metrics record what the attacker achieves: ASP whether it takes a target, NCR how much of the network it takes, and MTTC how soon it takes its first host. All three are established in MTD evaluation, so the results are comparable with the field's."* Rewritten, it says what the field does and that this work uses it: *"MTD simulation studies repeat each experiment over many randomised runs and report the attack outcome in established metrics. This dissertation reports three of them."*
 
+**Clarity is an inverted U (Marc, 2026-09-29).** Clarity rises as words are cut, peaks, then falls again. Too long is vague: nuance and unnecessary facts bury the idea. Too short is vague too: a term like "rate after" or "rate before" names nothing a reader could compute or replicate. Say more with less, and stop at the peak.
+
+The test at the short end: can a reader who meets the definition cold say what is counted, over what, and between which two moments? If not, the text was cut past the peak. Restore the missing referent, not the nuance. His case was the compromise rate after an MTD deployment, which an equation of "rate after" over "rate before" left undefined.
+
 **Symbols only where they work.** An equation is written in named quantities. A symbol enters only when the prose needs a handle it will reuse, such as an opening length $k$ or a deployment interval $I$, never for decoration.
 
 A metric, symbol or equation passes check 4 only when a reader who meets it cold, from a results float, can say what is counted, over what, and in what unit, and when the float presents it the way the definition does.
