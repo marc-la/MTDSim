@@ -305,8 +305,9 @@ def emit_fig_a(core: dict) -> tuple[str, dict]:
 def emit_fig_c(core: dict) -> tuple[str, dict]:
     """Figure 5.2 (split from Figure 5.1, 2026-09-24, so the stealth reading has the
     room it needs): attack confidentiality over the run, the alarm set by one rule
-    --- it flags half of the baseline attacker's actions (core.detector) --- each
-    point one time bin, pooled over runs."""
+    --- the baseline attacker's median count of actions in the detector's window
+    (core.detector; ruling C, 2026-09-29) --- each point one 1 000 s slice, pooled
+    over runs."""
     m = core["metrics"]
     SERIES = (*FOUR, "baseline")
     BASE_STYLE = "cbase,line width=0.9pt,dash pattern=on 2.5pt off 1.5pt"
@@ -356,7 +357,8 @@ def emit_fig_c(core: dict) -> tuple[str, dict]:
     facts = {
         "confidentiality_over_run": {LABEL[p]: [None if v is None else round(v, 3) for v in over[p]["share"]] for p in SERIES},
         "runs_active": {LABEL[p]: over[p]["runs_active"] for p in SERIES},
-        "alarm_tuned_to_baseline": core["detector"]["alarm_tuned_to_baseline"], "tau": core["detector"]["tau"],
+        "alarm_tuned_to_baseline": core["detector"]["alarm_tuned_to_baseline"], "window": core["detector"]["window"],
+        "baseline_flagged_share": core["detector"]["baseline_flagged_share"],
     }
     return "\n".join(L) + "\n", facts
 
@@ -382,14 +384,14 @@ def emit_table(core: dict) -> str:
     w("% Caption session-written, how-to-read only. DRAFT STATE --- ratify on read.")
     w(r"\begin{table}[htbp]")
     w(r"  \centering")
-    w(r"  \caption[Both attackers with no defence running]{The attack outcome and the attack rate (Table~\ref{tab:metrics}) with no defence running, for the baseline attacker and for the APT attacker model on each attack profile and on the aggregate $c_{\mathrm{agg}}$, under the setup of Table~\ref{tab:experiment}. Means with a 95\,\% interval.}")
+    w(r"  \caption[Both attackers with no defence running]{The attack outcome and the attack rate (Table~\ref{tab:metrics}) with no defence running, for the baseline attacker and for the APT attacker model on each attack profile and on the aggregate $c_{\mathrm{agg}}$, under the setup of Table~\ref{tab:experiment}. MTTC is over the runs that compromise a host, and its parenthesis is their share of all runs. Means with a 95\,\% interval.}")
     w(r"  \label{tab:unopposed-summary}")
     # one header row (2026-09-24, Marc: the class headers read loose; Table 4.3
     # carries the classes), full text width
     w(r"  \tablestyle\setlength{\tabcolsep}{3pt}")
-    w(r"  \begin{tabular}{@{}P{3.4cm}>{\centering\arraybackslash}p{2.3cm}>{\centering\arraybackslash}p{2.6cm}>{\centering\arraybackslash}p{2.8cm}>{\centering\arraybackslash}p{4.1cm}@{}}")
+    w(r"  \begin{tabular}{@{}P{3.4cm}>{\centering\arraybackslash}p{2.3cm}>{\centering\arraybackslash}p{2.6cm}>{\centering\arraybackslash}p{3.8cm}>{\centering\arraybackslash}p{3.1cm}@{}}")
     w(r"    \toprule")
-    w(r"    Attacker & ASP & NCR & MTTC (s) & Attack rate (per 1\,000\,s) \\")
+    w(r"    Attacker & ASP & NCR & MTTC (s) & Attack rate (per minute) \\")
     w(r"    \midrule")
 
     def row(name: str, p: str) -> str:
@@ -397,7 +399,9 @@ def emit_table(core: dict) -> str:
         n = t[p]["n"]  # a 95 % interval on a share of runs (normal approximation), as on the other columns
         asp = {"mean": o["asp"], "ci95": 1.96 * (o["asp"] * (1 - o["asp"]) / n) ** 0.5}
         return "    %s & %s & %s & %s & %s \\\\" % (
-            name, _pm(asp, 2), _pm(o["ncr"], 2), _pm(o["mttc"]["observed"], 0), _pm(m[p]["attack_rate"], 1))
+            name, _pm(asp, 2), _pm(o["ncr"], 2),
+            r"%s (%d\,\%%)" % (_pm(o["mttc"]["observed"], 0), round(100 * (1 - o["no_compromise_share"]))),
+            _pm(m[p]["attack_rate"], 2))
 
     w(r"    \emph{%s} & & & & \\" % LABEL["movement"])
     for p in PROFILES:

@@ -14,31 +14,38 @@ exactly; the APT attacker model's ends 20 s later, its record carrying the
 confusion penalty). Both attackers are aligned on the completion of every
 deployment, whether or not the record flags an interrupt: flagging selects each
 attacker on the state it happened to be in, and a deployment that misses is
-part of what the defence does. Only deployments with a full 750 s before them
+part of what the defence does. Only deployments with a full window before them
 count (the first lands about 100 s into a run, before anything is compromised,
 and its "before" is empty).
 
-THE WINDOW. 750 s before to 1 250 s after. At the 2 000 s interval the 750 s
-before one deployment are the 1 250-2 000 s after the previous one, so the
-window stops at 1 250 s: beyond it, "back to its level before" would be true
-by construction.
+THE WINDOW. Half the deployment interval each side of the deployment: 1 000 s
+before and 1 000 s after at the 2 000 s interval (Marc's ruling 2026-09-29,
+handoff 2026-09-29_s45_equation_clarity.md, ruling A; it replaced 750 s before
+and 1 250 s after, whose 750 s had no basis). The window before one deployment
+is then the second half of the interval after the previous one, and no window
+overlaps another.
 
 (a) COMPROMISE RATE AROUND A DEPLOYMENT (NCR growth rate). Hosts compromised
-    per unit of live time, in 125 s bins, as a percentage of the same
-    attacker's rate in the 750 s before (its own level, so a slower attacker
+    per unit of live time, in 125 s bins (the figure's resolution only), as a
+    percentage of the same attacker's rate in the window before (its own level, so a slower attacker
     does not read as a damaged one). Live time: a bin counts only the part of
     it before the run ended, so a run that took its target does not read as a
     stalled one; the compromise that ends a run is counted. Kept per mechanism,
     per layer and pooled; the placebo (the same read on the same seed's
     no-defence run at the same moments) beside each.
-(b) TIME LOST PER DEPLOYMENT, per mechanism: the area of (a)'s dip, over the
-    1 250 s after, as seconds at the attacker's own pace (a deployment that
-    stopped it dead for 300 s and then let it resume at full pace reads 300),
-    LESS the same area on the placebo (not zero: the attacker's own pace drifts
-    within a run). Can be negative: a catch-up above its level cancels a dip.
-    Interval: seeded bootstrap, runs resampled with their placebo pairs. Also
-    reported in hosts per deployment (seconds x the rate before), for the
-    reader who asks what the normalisation by pace does.
+(b) TIME LOST PER DEPLOYMENT, per mechanism: the window after, times the share
+    of the attacker's pace lost over it --- W_after x (1 - rate after / rate
+    before), both rates pooled over every deployment of every run in the cell
+    and counted per live second --- LESS the same on the placebo (not zero: the
+    attacker's own pace drifts within a run). This is the area of (a)'s dip in
+    one slice (Bruneau's loss of resilience: the integral of 1 - relative pace
+    over the window is the window times 1 - its mean); it replaced the sum over
+    125 s bins on 2026-09-29, which it matched within 13 s on every cell, so
+    that the bin width is no part of the metric. Can be negative: a catch-up
+    above its level cancels a dip. Interval: seeded bootstrap, runs resampled
+    with their placebo pairs. Also reported in hosts per deployment (seconds x
+    the rate before), for the reader who asks what the normalisation by pace
+    does.
 
 Rejected estimators, 2026-09-24 (numbers in the record): the per-event wait to
 the next compromise (drops the deployments never followed by a compromise, a
@@ -64,7 +71,7 @@ COMPROMISE = {("BRUTE_FORCE", "TRUE"), ("SCAN_PORT", "TRUE"), ("EXPLOIT_VULN", "
 HOST = ("ip_shuffle", "complete_topology", "host_topology")
 SERVICE = ("port_shuffle", "os_diversity", "service_diversity")
 MECHANISMS = HOST + SERVICE + ("user_shuffle",)
-EDGES = np.arange(-750, 1251, 125)
+EDGES = np.arange(-1000, 1001, 125)   # half the 2 000 s interval each side; 125 s bins draw the curve only
 PRE = EDGES[:-1] < 0
 N_BOOT = 2_000
 SEED = 20260924
@@ -136,10 +143,12 @@ def _relative(num: np.ndarray, den: np.ndarray) -> np.ndarray:
 
 
 def _time_lost(num: np.ndarray, den: np.ndarray) -> float:
+    """W_after x (1 - rate after / rate before), rates per live second pooled
+    over the cell: the metric as Section 4.5 defines it, in one slice."""
     pre = num[PRE].sum() / den[PRE].sum()
     post = ~PRE
-    rate = num[post] / np.where(den[post] > 0, den[post], np.nan)
-    return float(np.nansum((1 - rate / pre) * np.diff(EDGES)[post]))
+    after = num[post].sum() / den[post].sum()
+    return float((EDGES[-1] - 0.0) * (1 - after / pre))
 
 
 def read(runs: list[dict], none: dict, rng: np.random.Generator | None) -> dict:
