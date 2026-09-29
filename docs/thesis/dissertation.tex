@@ -5571,8 +5571,8 @@ real-world values.
 %  "OS" are ch2's.]
 \noindent\emph{[Placeholder --- Marc to dictate. What it does: the APT
 attacker model remembers each vulnerability type it has exploited
-successfully, on any host, and each earlier success raises its odds of
-exploiting that type again by a declared factor $\lambda$; the memory lasts the
+successfully, on any host, and each earlier success multiplies its odds of
+exploiting that type again by $(1+\lambda)$, $\lambda$ declared; the memory lasts the
 run and no deployment erases it (a diversity mechanism works on it by changing
 which types sit on which hosts). Why: an APT attacker reuses what has worked
 for it, becoming more likely to succeed as the attack progresses (property 7,

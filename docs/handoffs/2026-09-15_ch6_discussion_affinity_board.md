@@ -1542,3 +1542,73 @@ as a second ablation beside the failure matrix, and 6.3 can then read property
 - The gate-off arm framed as a diagnostic of the simulator, never as an attacker
   configuration.
 - Marc's ruling on §5.4's heading (two ablations).
+
+### 11.12 Why the memory moves no hosts: the missing link is the hop, not the roll (2026-09-29)
+
+Probes on HEAD `fc008c8d`, the §5.3.1 unopposed configuration (no defence,
+targeted objective, 15 000 s), 20 seeds × {aggregate, exfiltration}, one process
+per run; **preliminary, scratch-grade** (monkeypatched exploit core). Runners and
+`numbers.json` in `data/results/vulnerability_memory_mechanism/` (raw rows
+untracked; `summarise.py` rebuilds the numbers). A first pass reused worker
+processes, stacked its patches across arms and was discarded; every number
+below is from the clean re-run.
+
+**The four steps a two-hop host takes** (the narrative Marc ruled for §5.4.2 and
+§6.3, 2026-09-29):
+
+1. **Exploit visit 1 usually wins and opens a service**, but the host does not
+   fall: a host falls only when a compromised service (exploited impact past 7)
+   sits next to its internal target node in the service graph, and for 71 % of
+   the hosts attacked that node is two services in (`host.py` `check_compromised`,
+   `get_services`). MTDSim returns a **failure verdict** — the host's, not the
+   rolls'. Precision for the prose: exploit 1 does not "typically fail" its
+   rolls (0.70 of rolls win); it fails to take the host.
+2. **The failure matrix routes the token away.**
+3. **A later port scan** is the only way the attacker sees the next hop: the scan
+   reveals the exposed services and the neighbours of compromised ones only
+   (`host.py` `port_scan`), and an exploit action's candidates are fixed at its
+   start.
+4. **Exploit visit 2 takes the host.**
+
+Exploit visits to take a host: **2.52 off, 2.41 memory on (λ = 2), 2.40 with
+every roll won**. The memory already captures almost all that better odds can
+give; the floor is the hop structure. A multi-visit host takes a median 653 s
+from first exploit visit to its fall, against ≈ 34 s per exploit action: the
+expensive part is step 2's detour, which the roll cannot shorten.
+
+What an exploit action that runs ends in (≈ 35 per run), memory off: host taken
+21 %; opened a service, target a hop further 30 %; host cannot fall by exploit
+even winning every roll the OS check allows 26 %; won, no service past 7 12 %;
+takeable, won nothing 10 %. A perfect roll leaves "taken" at 22 % and moves the
+won-some share into "all refused by the OS check" (21 % → 36 %): won instances
+are never re-offered, so the next visit meets only the refused ones.
+
+**Marc's ruling (2026-09-29).** Keep the memory as built (raised odds only), on in
+the evaluated model per the 2026-09-28 ruling; no mechanism change before
+submission. The four steps are the ablation's and the discussion's account of
+why it confers no advantage: the adopted attack phases produce this two-visit
+chain, and it persists for as long as the model drives MTDSim's actions
+(§4.4.1's ceiling, now measured). §4.4.5 stays method-only.
+
+**Future work (§7.2), with its dry-run evidence.** A memory that acts on the hop:
+when a visit opens a service, the attacker uses a vulnerability it recognises on
+the next hop within the same visit. Dry run (no extra time charged): hosts
+**+3.55 [+2.22, +4.88]**, target reached 14/40 against 9/40, visits per host
+1.48, multi-visit fall time 181 s. Chaining on every vulnerability (no memory)
+bounds it at +4.85. Not in the evaluated model; it changes how the APT attacker
+model uses the exploit action, which §4.4.1 holds identical for both attackers.
+
+**Open, Marc's call: the exploit-shaped dwell's unit.** §4.4.2 anchors it at the
+median time of *one* vulnerability attempt (4.5 s), but an exploit action tries
+≈ 13 candidates and pays it once (S3-R, commit `8f2e34ad`: one draw per action).
+Table C.1 sweeps the family ×0.5–×2 (inert); per-attempt pricing is ≈ ×13 on the
+exploit action and costs ≈ 1.2 hosts (9.15 → 7.95; target reached 9/40 → 4/40).
+Neither per-attempt pricing nor the pre-S3-R stacking lets the memory act (+0.07,
+−0.12 hosts). Session recommendation: keep S3-R, say in §4.4.2 that the dwell
+prices one exploit action, add per-attempt pricing as one robustness condition
+beside Table C.1, and name it in §6.5's construct paragraph.
+
+**Discrepancy for Part A to settle.** §11.11 found the OS check off adds about two
+hosts (CI excluding zero for $c_{\mathrm{agg}}$, $c_4$); this probe finds +0.35
+[−0.34, +1.04] on aggregate + exfiltration. Different profiles and a different
+wrapper; the tracked runner decides.
