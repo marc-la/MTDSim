@@ -215,6 +215,44 @@ On *define both scenarios' ASP?* No: define the one run (targeted). NCR already 
 
 Snort's default has precedent (Jung 2004 §6), so no sweep appendix is needed. One sentence in §5.2 can say the ordering holds from 3 to 6 actions per minute; the evidence is in `stealth_count.py`. Then delete `app:detector-memory` and §4.5's pointer to it.
 
+## 2c. Marc's fourth read (2026-09-29): round 5 applied
+
+**Applied to chapter 4** (DRAFT STATE):
+- **§4.4.5 odds, for a CS reader:** "the odds are the number of successes expected for each failure". The example does the arithmetic: odds 1 → 2 → 4 is 1 in 2 → 2 in 3 → 4 in 5. The "no upper limit / odds over one plus the odds" wording is cut.
+  - **Alternative, not applied:** replace the odds rule with "each earlier success divides the chance of *failure* by $k$" (1 − p₀ becomes (1 − p₀)/kⁿ). It parallels Zhang's halving of exploitation time, needs no odds, and also never passes certainty.
+  - It changes `adversary.py`'s learning rule. No reported number moves, since the memory is off in every run so far.
+  - **Marc's call.**
+- **ASP reduction is the headline and the ranking basis.** Marc: "we're running the targeted scenario … NCR is a backup metric". This rules L in its "all the way" form.
+  - The ranking is Scott–Knott ESD on each run's success (1 or 0), with Cohen's $h$ (his effect size for two proportions, same book) in place of $d$.
+  - NCR reduction is kept as "the same comparison on NCR".
+  - The attack-outcome lead-in now says ASP is the targeted scenario's outcome, with NCR and MTTC beside it.
+- **Time lost per MTD deployment retired.** Its content is the depth of the same curve, and Marc could not follow it. This supersedes F and F′.
+- **One metric backs Figure 5.3:** the compromise rate after an MTD deployment, re-defined with every referent:
+  - the compromise rate is "hosts compromised per hour";
+  - $I$ is the deployment interval (Table 5.1), and the time between two deployments is split in half;
+  - why the counts are totalled: compromises are rare, and one deployment's window seldom holds one;
+  - direction: 100 means unchanged, falling towards 0 the more the deployment slows the attacker;
+  - the no-MTD reference;
+  - eight equal slices of $I/2$ trace the drop and the recovery (125 s at 2 000 s, derived rather than chosen).
+  - Marc's calculus question: a count of compromised hosts is a step function, so its derivative is zero except at the jumps. A rate therefore has to be counted over a window. This is why the "before" and "after" exist.
+- **Attack actions blocked** (Brown 2023) added. Marc: "that's fine".
+- **Run count and seeds moved** from §4.5.4 to §5.1 Runs (Marc: they duplicated each other). §4.5.4 keeps Intervals, Ranking and Ablations; the cell is defined in the §4.5 preamble.
+- **Table 4.3 and Table 5.1** list ASP reduction, NCR reduction, attack actions blocked, and the compromise rate after an MTD deployment.
+
+**Chapter 5 owed, added by round 5:**
+- Analysers:
+  - ASP reduction with bootstrap intervals;
+  - Scott–Knott on per-run success with Cohen's $h$ (`sk_esd.py`), then re-derive Table 5.3's rank grid;
+  - attack actions blocked per run (`blocked_resume.py` has the counting rule).
+- `disruption.py`: the before window becomes $I/2$ (was 750 s), after-slices $I/16$, and `_time_lost` is retired.
+- Figure 5.3:
+  - (a, b) keep the curve;
+  - (c) becomes the compromise rate after an MTD deployment over the whole $I/2$, per mechanism per attacker, beside its no-MTD value. Dry run: APT 53 % under IP shuffle against 101 % with no MTD; baseline 49 % under service diversity against 95 %.
+- Delete Appendix C.5 (`app:timelost-window`), whose window sweep no longer applies.
+- The prose at §5.3.1, §5.4's "494 s" and chapter 6 mentions of time lost.
+- **H1 is now narrower:** MTTC is a secondary metric beside ASP. Whether it reads at the first host or the target is still open.
+- **J′ is still open:** "Appendix C.4 varies the count and the window" stays in §4.5 until it is ruled.
+
 ## 3. §4.3 formalism review (from paragraph two): proposals, none applied
 
 **What a formalism section needs:**
