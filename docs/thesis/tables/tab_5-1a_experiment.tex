@@ -97,6 +97,10 @@
 %   clause then the arms as semicolon levels; the memory row states the factor as
 %   its value (was lambda = 2: lambda is the attack rate, k the opening length).
 %   The pool levels of Section 5.4.2 are not listed until Marc rules them in.
+%   Later 2026-09-30: the memory arms as RUN (run_memory_ablation.py): its own
+%   conditions and pool levels; the OS-check-off diagnostic was not run and is
+%   gone from the row. 20 services per OS is the simulator default and every
+%   other result's network.
 % 2026-09-25 (handoff 2026-09-25_ch5_setup_defence_and_prose_slots.md A2, A3,
 %   A7a, A8c, A9, A11, A17; Marc: "fix those in a defensible way and conventional
 %   way"): tay2024code on subnets, target, the near-periodic draw and the three
@@ -121,7 +125,7 @@
     \multirow{-5}{*}[-0.30cm]{\smash{\rotatebox{90}{\emph{Network}}}} & Target & the two database hosts, at the deepest level \citep{tay2024code} \\
     \midrule
     & Arm & the baseline attacker; the APT attacker model on each attack profile $c_1$ to $c_4$; the APT attacker model on the aggregate $c_{\mathrm{agg}}$ \\
-    & Ablation & the APT attacker model on $c_1$ to $c_4$, with no MTD and under IP shuffle and OS diversity at 200\,s and 2\,000\,s (Section~\ref{sec:ablation}): every factor of the failure matrix set to one; \owed{the vulnerability memory off; every exploit succeeding; exploits no longer OS-specific, a diagnostic of the simulator}{Table 5.1: the vulnerability-memory ablation arms are specified, not yet run (handoff 2026-09-28\_vulnerability\_memory\_on)} \\
+    & Ablation & the APT attacker model on $c_1$ to $c_4$ (Section~\ref{sec:ablation}): every factor of the failure matrix set to one, with no MTD and under IP shuffle and OS diversity at 200\,s and 2\,000\,s; the vulnerability memory off, and every exploit succeeding, with no MTD and under service diversity and OS diversity at 200\,s, at 1, 2, 3, 5, 10 and 20 services per operating system \\
     & Attack scenario & targeted \citep{brown2023} \\
     \multirow{-4}{*}[-0.60cm]{\smash{\rotatebox{90}{\emph{Attacker}}}} & Vulnerability memory & on for the APT attacker model, each earlier success tripling the odds (Section~\ref{subsec:vulnerability-memory}); none for the baseline attacker \\
     \midrule
