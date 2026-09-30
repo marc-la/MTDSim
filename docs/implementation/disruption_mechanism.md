@@ -440,3 +440,17 @@ The script re-establishes every precondition, so nothing afterwards fails for la
 9. Baseline only: attempts burned on the give-up counter per host-layer interrupt.
 
 The scratch scripts and trace logs behind this audit were session-local and are not kept; section E's excerpts are the evidence, and the trace tool reproduces them.
+
+## 7. Update, Marc's read (2026-09-30)
+
+Marc kept attack actions blocked **per run** and re-defined **time lost per MTD
+deployment** as the extra time to the attacker's next compromise, against the same
+moment of the no-MTD run. The dry run (`time_to_next_compromise.py`) confirms
+section 1:
+- The APT model loses 206–313 s per host-layer deployment and about nothing on the
+  service layer.
+- The baseline loses about nothing on the host layer, and 518 s per
+  service-diversity deployment.
+
+The rulings, the table and what to apply are in
+[`../handoffs/2026-09-30_disruption_metrics.md`](../handoffs/2026-09-30_disruption_metrics.md).
