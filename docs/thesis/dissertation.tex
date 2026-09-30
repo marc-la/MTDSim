@@ -5669,9 +5669,10 @@ rate and attack confidentiality stealth.
 
 \paragraph{Relative tactic occurrence.}
 Relative tactic occurrence is the percentage of an attacker's steps taken in
-each tactic, the quantity Rodr\'{\i}guez et al.\ tabulate for the tactics of an
-attack log \citep[Table~3]{rodriguez2024}. A \emph{step} is one tactic executed
-by the Petri net (Section~\ref{sec:execution}). The baseline attacker has no
+each tactic. Rodr\'{\i}guez et al.\ tabulate the same percentage over the events
+of an attack log \citep[Table~3]{rodriguez2024}, where one tactic executed can
+log many events. A \emph{step} counts it once: one tactic executed by the Petri
+net (Section~\ref{sec:execution}). The baseline attacker has no
 tactics: its step is one action, with consecutive repeats of an action counted
 once, and its percentages are per action. Counting over every run,
 \begin{equation}
@@ -5691,13 +5692,14 @@ the runs realise, not the paths the attack graph allows:
   \label{eq:apv}
 \end{equation}
 It is 1 when every run opens alike, and at most the number of runs. Hong et
-al.\ count the attack paths a network offers \citep{hong2018}; here the paths
-are the ones an attacker takes.
+al.\ measure how the attack paths a network offers, sequences of hosts, change
+from one network state to the next \citep[Eqs.~1--5]{hong2018}; here a path is
+the sequence of steps one attacker takes, counted across its runs.
 
 \paragraph{Attack rate.}
 Attack rate is ``the number of attacks that arrive at unit time''
-\citep[Sec.~III-B]{zhan2013}. Here it is the number of an attacker's actions
-per minute. Each run gives one rate, its actions over its length in minutes,
+\citep[Sec.~III-B]{zhan2013}, counted there over the attacks many attackers make
+on a honeypot. Here it is the number of one attacker's actions per minute. Each run gives one rate, its actions over its length in minutes,
 from its start to the end of its last step; the attack rate is their mean:
 \begin{equation}
   \text{attack rate} = \operatorname*{mean}_{\text{runs}}
@@ -5713,13 +5715,16 @@ count as one action. A higher rate is a more aggressive attack
 \paragraph{Attack confidentiality.}
 Attack confidentiality is ``how much attacker activity may be visible by
 detection mechanisms'' \citep[Table~4]{zaffarano2015}, the share of the
-attacker's actions that are not exposed. MTDSim has no detection mechanism, so
-an action is exposed here when a standard scan detector would flag it. Scan
-detectors flag ``N events within a time interval of T seconds''
+attacker's actions that are not exposed. Zaffarano et al.\ judge an action
+exposed when it is visible in plaintext in network traffic
+\citep[Sec.~4.3]{zaffarano2015}; MTDSim has no traffic and no detection
+mechanism, so an action is exposed here when a standard scan detector would flag
+it. Scan detectors flag ``N events within a time interval of T seconds''
 \citep[Sec.~2]{jung2004}; the default port-scan rule of the Snort intrusion
-detection system flags a source that connects to five addresses within 60\,s
-\citep[Sec.~6]{jung2004}. An action is flagged when it is at least the
-attacker's fifth action within one minute:
+detection system at the time flagged a source that connected to five different
+addresses within 60\,s \citep[Sec.~5.2]{jung2004}. Here an action is flagged
+when it is at least the attacker's fifth action within one minute, whatever its
+target:
 \begin{equation}
   \text{attack confidentiality} =
   \frac{\text{actions not flagged}}{\text{actions}},
@@ -5758,15 +5763,16 @@ targeted scenario it counts the hosts the attacker compromises on the way to a
 target.
 
 \paragraph{Mean time to compromise (MTTC).}
-MTTC is the mean time from the start of a run to its first compromised host,
-over the runs that compromise one:
+MTTC, after the time to compromise of McQueen et al.\ \citep{mcqueen2006}, is
+the mean time from the start of a run to its first compromised host, over the
+runs that compromise one:
 \begin{equation}
   \mathrm{MTTC} = \operatorname*{mean}_{\text{runs with a compromise}}
   \left( \text{time of the first compromise} \right).
   \label{eq:mttc}
 \end{equation}
 Zhang reads MTTC when 80\,\% of the hosts have fallen, the goal of the general
-scenario \citep{zhang2023}. Few targeted runs reach it, so MTTC is read at the
+scenario \citep[pp.~32--33]{zhang2023}. Few targeted runs reach it, so MTTC is read at the
 first host and reported with the share of runs that compromise one.
 
 \subsection{MTD effectiveness}
@@ -5822,7 +5828,7 @@ NCR reduction is the same comparison on NCR:
 %  "interrupts" (4.4.1's); "next compromise" (MTTC's "first compromise").]
 \paragraph{Attack actions blocked.}
 Attack actions blocked is Brown's count of the attacker's actions that MTD blocks
-\citep[Sec.~IV-A]{brown2023}: here, the actions a deployment interrupts
+\citep[Secs.~III-D, IV-A]{brown2023}: here, the actions a deployment interrupts
 (Section~\ref{subsec:runtime-mechanics}).
 \begin{equation}
   \text{attack actions blocked} = \operatorname*{mean}_{\text{runs}}
@@ -5845,8 +5851,10 @@ that completes at 6\,000\,s, with the next compromise at 6\,900\,s against
   \label{eq:time-lost}
 \end{multline}
 Each time is counted up to the next deployment, so a deployment is charged only
-its own cost; a mean of such times is a restricted mean
-\citep[Methods, Eq.~1]{royston2013}.
+its own cost; a mean of such times is a restricted mean, and time lost is the
+difference of two \citep[Methods, Eq.~1]{royston2013}. A deployment that
+completes after the no-MTD run has ended has no time to compare with and is left
+out.
 
 
 
