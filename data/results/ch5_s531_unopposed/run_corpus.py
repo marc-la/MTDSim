@@ -24,6 +24,15 @@ from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
 OUT = HERE / "runs.jsonl"
+# The reported corpus (REPORTED=1; seed-count protocol, Marc 2026-09-30): 1 000
+# seeds, the APT attacker model with the vulnerability memory on
+# (Table 5.1: each earlier success triples the odds; code rate 2, factor 1 + 2)
+# and the baseline attacker with none, on the cells §5.2's floats read (the
+# targeted objective at 15 000 s; the 60 000 s extension and the general
+# diagnostic are in no float). runs.jsonl stays the 100-seed record.
+OUT_REPORTED = HERE / "runs_reported.jsonl"
+REPORTED_SEEDS = 1_000
+MEMORY_RATE = 2.0
 
 PROFILES = (
     "objective_exfiltration",
@@ -53,6 +62,9 @@ def _movement(job: dict) -> dict:
         mtd_interval=None,
         attack_objective=job["objective"],
         target_layer=None,
+        # the vulnerability memory (Section 4.4.5); absent from the 100-seed
+        # corpus's jobs, so those re-run byte-identical with it off
+        exploit_learning_rate=job.get("exploit_learning_rate"),
     )
     return {
         **job,
@@ -133,16 +145,25 @@ def dispatch(job: dict) -> dict:
         return {"error": f"{type(exc).__name__}: {exc}", **job}
 
 
-def build_jobs() -> list[dict]:
+def build_jobs(seeds=SEEDS, memory: bool = False) -> list[dict]:
+    """``memory`` builds the reported corpus: the core cells only, the
+    vulnerability memory's rate on every APT attacker model job. The 100-seed
+    corpus's jobs carry none."""
+    if memory:
+        return [{"arm": "baseline", "profile": "baseline", "objective": "targeted", "horizon": 15_000, "seed": s}
+                if p == "baseline" else
+                {"arm": "movement", "profile": p, "objective": "targeted", "horizon": 15_000, "seed": s,
+                 "exploit_learning_rate": MEMORY_RATE}
+                for s in seeds for p in ("baseline",) + PROFILES]
     jobs: list[dict] = []
     for horizon in HORIZONS:
-        for seed in SEEDS:
+        for seed in seeds:
             jobs.append({"arm": "baseline", "profile": "baseline", "objective": "targeted",
                          "horizon": horizon, "seed": seed})
             for p in PROFILES:
                 jobs.append({"arm": "movement", "profile": p, "objective": "targeted",
                              "horizon": horizon, "seed": seed})
-    for seed in SEEDS:  # the diagnostic arm
+    for seed in seeds:  # the diagnostic arm
         for p in PROFILES:
             jobs.append({"arm": "movement", "profile": p, "objective": "general",
                          "horizon": 15_000, "seed": seed})
@@ -150,12 +171,15 @@ def build_jobs() -> list[dict]:
 
 
 def main() -> int:
-    jobs = build_jobs()
+    reported = os.environ.get("REPORTED") == "1"
+    out = Path(os.environ.get("OUT", OUT_REPORTED if reported else OUT))
+    jobs = (build_jobs(range(int(os.environ.get("SEEDS", REPORTED_SEEDS))), memory=True)
+            if reported else build_jobs())
     workers = int(os.environ.get("WORKERS", min(6, os.cpu_count() or 4)))
-    print(f"{len(jobs)} runs on {workers} workers -> {OUT}", flush=True)
+    print(f"{len(jobs)} runs on {workers} workers -> {out}", flush=True)
     started = time.time()
     done = errors = 0
-    with OUT.open("w", encoding="utf-8") as fh, ProcessPoolExecutor(workers) as pool:
+    with out.open("w", encoding="utf-8") as fh, ProcessPoolExecutor(workers) as pool:
         for row in pool.map(dispatch, jobs, chunksize=8):
             fh.write(json.dumps(row) + "\n")
             done += 1

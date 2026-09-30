@@ -29,10 +29,17 @@ Sections written to ``numbers.json`` (keyed apart):
            rho between the two attackers' NCR reductions
 
     PYTHONPATH=src python data/results/ch5_defended/analyse.py
+
+CORPUS=reported reads the reported corpus (runs_reported.jsonl: 1 000 seeds,
+the vulnerability memory on; run_corpus.py REPORTED=1) and writes
+numbers_reported.json with the sections §5.3's floats read: sanity, sweep,
+sweep_asp and ranking. Its summaries keep only the fields those read, so the
+cache stays small. RUNS=path and OUT=path override the two files (a pilot).
 """
 from __future__ import annotations
 
 import json
+import os
 from collections import Counter, defaultdict
 from pathlib import Path
 
@@ -45,7 +52,13 @@ from mtdsim.l3_simulation.movement.statistics import MovementRunResult, MTDExecu
 from sk_esd import sk_esd
 
 HERE = Path(__file__).resolve().parent
-RUNS = HERE / "runs.jsonl"
+REPORTED = os.environ.get("CORPUS") == "reported"
+RUNS = Path(os.environ["RUNS"]) if os.environ.get("RUNS") else HERE / ("runs_reported.jsonl" if REPORTED else "runs.jsonl")
+NUMBERS = Path(os.environ["OUT"]) if os.environ.get("OUT") else HERE / ("numbers_reported.json" if REPORTED else "numbers.json")
+CACHE = HERE / "summaries.pkl" if RUNS == HERE / "runs.jsonl" else RUNS.with_name(RUNS.stem + "_summaries.pkl")
+# what the reported sections and the sanity block read of a run summary
+LEAN = ("seed", "hosts", "hosts_positional", "reached_target", "target_time", "terminal",
+        "blocked_fraction", "n_executed", "n_suspended", "n_interrupted", "substrate_interrupted")
 
 PROFILES = (
     "objective_exfiltration",
@@ -296,7 +309,7 @@ def load() -> tuple[dict, list]:
     rebuilt whenever the corpus or this file is newer than the cache."""
     import pickle
 
-    cache = HERE / "summaries.pkl"
+    cache = CACHE
     if cache.exists() and cache.stat().st_mtime > max(RUNS.stat().st_mtime, Path(__file__).stat().st_mtime):
         with cache.open("rb") as fh:
             return pickle.load(fh)
@@ -309,6 +322,8 @@ def load() -> tuple[dict, list]:
                 errors.append(row)
                 continue
             s = summarise_baseline(row) if row["arm"] == "baseline" else summarise_movement(row)
+            if REPORTED:
+                s = {k: s[k] for k in LEAN if k in s}
             cells[_key(row)].append(s)
     with cache.open("wb") as fh:
         pickle.dump((dict(cells), errors), fh)
@@ -370,7 +385,10 @@ def suppression(none_hosts: np.ndarray, cond_hosts: np.ndarray, rng: np.random.G
     # (ASP on a single attack profile: 5 of 100 runs for c_3); such resamples are
     # dropped and counted, so the interval is conditional on a defined reduction
     undefined = float(np.mean(~np.isfinite(boots)))
-    lo, hi = np.quantile(boots[np.isfinite(boots)], [0.025, 0.975])
+    # a no-MTD cell with no success at all leaves every resample undefined (a
+    # pilot of a few seeds); the interval is then undefined too
+    lo, hi = (np.quantile(boots[np.isfinite(boots)], [0.025, 0.975]) if undefined < 1.0
+              else (np.nan, np.nan))
     diff = M.mean_ci  # noqa: F841  (the absolute difference below uses the suite's interval)
     return {
         "point": float(point), "lo": float(lo), "hi": float(hi),
@@ -1342,14 +1360,17 @@ def main() -> int:
     # The input check (Tay's training builder, verbatim) may die on a run; its
     # dead cells are counted apart so they are reported, not drawn from.
     check = lambda k: k.split("|")[4] in SHIELD_CHECK  # noqa: E731
+    n_seeds = len({r["seed"] for v in cells.values() for r in v})
     sanity = {
+        "seeds": n_seeds,
+        "all_cells_full": all(v == n_seeds for k, v in counts.items() if not check(k)),
         "error_rows": sum(1 for e in errors if e["condition"] not in SHIELD_CHECK),
         "check_error_rows": sum(1 for e in errors if e["condition"] in SHIELD_CHECK),
         "check_errors": dict(Counter(f"{e['arm']}|{e['profile']}|{e['interval']}|{e['error'][:80]}"
                                      for e in errors if e["condition"] in SHIELD_CHECK)),
         "cells": len(counts),
         "all_cells_100": all(v == 100 for k, v in counts.items() if not check(k)),
-        "cells_not_100": {k: v for k, v in counts.items() if v != 100},
+        "cells_not_full": {k: v for k, v in counts.items() if v != n_seeds},
         "max_events_hit": sum(1 for k, v in cells.items() if k[1] == "movement"
                               for r in v if r["terminal"] == "max_events"),
         "baseline_blocked_structural_zero": baseline_blocked_ok,
@@ -1361,10 +1382,19 @@ def main() -> int:
         "runs_per_cell": counts,
     }
     out = {"sanity": sanity}
-    print(f"sanity: errors {sanity['error_rows']}, cells {sanity['cells']}, all at 100: {sanity['all_cells_100']}, "
+    print(f"sanity: errors {sanity['error_rows']}, cells {sanity['cells']}, seeds {n_seeds}, "
+          f"all at {n_seeds}: {sanity['all_cells_full']}, "
           f"max_events {sanity['max_events_hit']}, baseline blocked zero: {baseline_blocked_ok}, "
           f"uuid/positional differ: {sanity['baseline_uuid_vs_positional_hosts_differ']}, "
           f"interrupt tally mismatches: {sanity['interrupt_tally_mismatch_movement']}")
+    if REPORTED:
+        # §5.3's floats only; the NCR sweep first, as below
+        out["sweep"] = section_sweep(cells, rng, "ncr")
+        out["sweep_asp"] = section_sweep(cells, rng, "asp")
+        out["ranking"] = section_ranking(cells, rng)
+        NUMBERS.write_text(json.dumps(out, indent=1, default=float), encoding="utf-8")
+        print(f"wrote {NUMBERS}")
+        return 0
     out["s532"] = section_532(cells)
     out["s522"] = section_522(cells, rng)
     out["s541"] = section_541(cells, rng)
@@ -1379,7 +1409,7 @@ def main() -> int:
     out["sweep"] = section_sweep(cells, rng, "ncr")
     out["sweep_asp"] = section_sweep(cells, rng, "asp")
     out["ranking"] = section_ranking(cells, rng)
-    (HERE / "numbers.json").write_text(json.dumps(out, indent=1, default=float), encoding="utf-8")
+    NUMBERS.write_text(json.dumps(out, indent=1, default=float), encoding="utf-8")
     previews(out)
 
     # a short printed read

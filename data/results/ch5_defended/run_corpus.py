@@ -55,6 +55,14 @@ INTERVALS = (200, 2_000)
 # The interval sweep (E6; Marc 2026-09-25): the four levels between and below
 # the corpus's two, so each line has six points from 50 s to 2 000 s.
 SWEEP_INTERVALS = (50, 100, 500, 1_000)
+# The reported corpus (REPORTED=1; seed-count protocol, Marc 2026-09-30): the
+# cells §5.3's floats read, at 1 000 seeds, the APT attacker model with the
+# vulnerability memory on (Table 5.1: each earlier success triples the odds;
+# code rate 2, factor 1 + 2) and the baseline attacker with none. Written apart
+# from runs.jsonl, which the 100-seed record and §5.4.1's ablation still read.
+OUT_REPORTED = HERE / "runs_reported.jsonl"
+REPORTED_SEEDS = 1_000
+MEMORY_RATE = 2.0
 HORIZON = 15_000
 MAPPING = "v2_partial"
 OVERLAY = "v4_failure_only"
@@ -136,8 +144,29 @@ def _agent():
 
         tf.config.threading.set_intra_op_parallelism_threads(1)
         tf.config.threading.set_inter_op_parallelism_threads(1)
-        _AGENT = keras.saving.load_model(str(AGENT), compile=False)
+        _AGENT = _Compiled(keras.saving.load_model(str(AGENT), compile=False))
     return _AGENT
+
+
+class _Compiled:
+    """The agent's forward pass traced once as a graph (tf.function) instead of
+    run layer by layer in eager mode: 1.2 ms a decision against 45 ms, which
+    was half the corpus's compute. Checked 2026-09-30 before adoption: Q-values
+    bitwise equal to eager on 1 965 decisions, and 108 MTDShield runs
+    byte-identical. Everything but the call is the model's own."""
+
+    def __init__(self, model):
+        import tensorflow as tf
+
+        self._model = model
+        self._fn = tf.function(lambda x: model(x, training=False), reduce_retracing=True)
+
+    def __call__(self, inputs, training=False):
+        assert not training
+        return self._fn(inputs)
+
+    def __getattr__(self, name):
+        return getattr(self._model, name)
 
 
 def _mtd_ai_config(condition: str):
@@ -193,6 +222,9 @@ def _movement(job: dict) -> dict:
         substrate_timing_regime=job["regime"],
         attack_objective=job["objective"],
         target_layer=None,
+        # the vulnerability memory (Section 4.4.5); absent from the 100-seed
+        # corpus's jobs, so those re-run byte-identical with it off
+        exploit_learning_rate=job.get("exploit_learning_rate"),
         **({"mtd_ai": mtd_ai} if mtd_ai is not None else {}),
         **overlay_kw,
     )
@@ -242,6 +274,12 @@ def _baseline(job: dict) -> dict:
     from mtdnetwork.component.time_generator import set_exponential_regime
 
     seed = job["seed"]
+    # Tay's agent is built BEFORE the seeds are set: loading it in a fresh
+    # worker draws from the global random stream, so built after seeding it
+    # gave the first MTDShield run in each worker a different stream from the
+    # rest (2026-09-30, three of 80 re-run rows; the APT attacker model's path
+    # always built it first).
+    cfg = _mtd_ai_config(job["condition"])
     random.seed(seed)
     np.random.seed(seed)
     set_exponential_regime(job["regime"])
@@ -262,7 +300,6 @@ def _baseline(job: dict) -> dict:
         from mtdnetwork.operation.mtd_ai_operation import MTDAIOperation
         from mtdnetwork.statistic.security_metric_statistics import SecurityMetricStatistics
 
-        cfg = _mtd_ai_config(job["condition"])
         operation = MTDAIOperation(
             features=CANONICAL_FEATURES, security_metrics_record=SecurityMetricStatistics(),
             env=env, end_event=end_event, network=network, attack_operation=attack_op,
@@ -381,10 +418,52 @@ def build_ablation_jobs(seeds=ABLATION_SEEDS) -> list[dict]:
     return jobs
 
 
+def build_reported_jobs(seeds=range(REPORTED_SEEDS)) -> list[dict]:
+    """§5.3's cells: the core group, both attackers (the four profiles and the
+    aggregate), no MTD once and every ranked condition at the six deployment
+    intervals, seed-major so a stopped run leaves whole seeds. The memory's
+    rate travels in the job, so every row records it."""
+    arms = [("baseline", "baseline")] + [("movement", p) for p in PROFILES]
+    jobs: list[dict] = []
+    for seed in seeds:
+        for arm, profile in arms:
+            rate = MEMORY_RATE if arm == "movement" else None
+            cells = [("none", 0)] + [(c, i) for i in sorted(INTERVALS + SWEEP_INTERVALS) for c in DEFENDED + SHIELD]
+            for c, i in cells:
+                jobs.append({**_job("core", arm, profile, "targeted", c, i, "shifted", OVERLAY, seed),
+                             "exploit_learning_rate": rate})
+    return jobs
+
+
+def _job_id(row: dict) -> tuple:
+    return (row["arm"], row["profile"], row["condition"], row["interval"], row["seed"])
+
+
+def _resume(path: Path) -> set:
+    """The jobs already written (error rows included: a dead cell stays visible
+    and is not silently re-run). A line cut off by a killed run is dropped."""
+    if not path.exists():
+        return set()
+    with path.open("rb+") as fh:
+        data = fh.read()
+        cut = data.rfind(b"\n") + 1
+        if cut < len(data):
+            fh.truncate(cut)
+    done = set()
+    with path.open(encoding="utf-8") as fh:
+        for line in fh:
+            done.add(_job_id(json.loads(line)))
+    return done
+
+
 def main() -> int:
     # SHIELD=1 appends MTDShield, random over its four, and the training-builder
     # check to the existing runs.jsonl; the default rebuilds the 2026-09-17 corpus.
     # SWEEP=1 appends every defended condition at SWEEP_INTERVALS (core group only).
+    # REPORTED=1 writes runs_reported.jsonl (SEEDS=N for fewer seeds), resuming
+    # from whatever it already holds.
+    if os.environ.get("REPORTED") == "1":
+        return main_reported()
     shield = os.environ.get("SHIELD") == "1"
     sweep = os.environ.get("SWEEP") == "1"
     ablation = os.environ.get("ABLATION") == "1"
@@ -410,6 +489,34 @@ def main() -> int:
                 print(f"  ERROR {row}", file=sys.stderr, flush=True)
             if done % 1000 == 0:
                 print(f"  {done}/{len(jobs)}  {time.time() - started:.0f}s", flush=True)
+    print(f"done: {done} runs, {errors} errors, {time.time() - started:.0f}s")
+    return 1 if errors else 0
+
+
+def main_reported() -> int:
+    out = Path(os.environ.get("OUT", OUT_REPORTED))
+    jobs = build_reported_jobs(range(int(os.environ.get("SEEDS", REPORTED_SEEDS))))
+    if os.environ.get("LIMIT"):  # timing probe: the first N jobs, not written
+        jobs, out = jobs[: int(os.environ["LIMIT"])], Path(os.devnull)
+    done_ids = set() if out == Path(os.devnull) else _resume(out)
+    todo = [j for j in jobs if _job_id(j) not in done_ids]
+    workers = int(os.environ.get("WORKERS", min(7, os.cpu_count() or 4)))
+    print(f"{len(jobs)} runs, {len(jobs) - len(todo)} already written, {len(todo)} to run "
+          f"on {workers} workers -> {out}", flush=True)
+    started = time.time()
+    done = errors = 0
+    with open(out, "a", encoding="utf-8") as fh, ProcessPoolExecutor(workers) as pool:
+        for row in pool.map(dispatch, todo, chunksize=8):
+            fh.write(json.dumps(row) + "\n")
+            done += 1
+            if "error" in row:
+                errors += 1
+                print(f"  ERROR {row}", file=sys.stderr, flush=True)
+            if done % 1000 == 0:
+                fh.flush()
+                el = time.time() - started
+                print(f"  {done}/{len(todo)}  {el:.0f}s  (seed {row['seed']}; "
+                      f"~{el / done * (len(todo) - done) / 3600:.1f} h left)", flush=True)
     print(f"done: {done} runs, {errors} errors, {time.time() - started:.0f}s")
     return 1 if errors else 0
 

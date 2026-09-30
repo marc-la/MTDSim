@@ -511,7 +511,7 @@ def main() -> None:
     data = json.loads(args.numbers.read_text(encoding="utf-8"))
     if "sweep" not in data:
         raise SystemExit("numbers.json has no sweep section; run analyse.py")
-    if "sanity" in data and (not data["sanity"]["all_cells_100"] or data["sanity"]["error_rows"]):
+    if "sanity" in data and (not data["sanity"].get("all_cells_full", data["sanity"].get("all_cells_100")) or data["sanity"]["error_rows"]):
         raise SystemExit("corpus sanity failed; not drawing from it")
     sweep = data["sweep"]
     global YLABEL

@@ -10,10 +10,17 @@ Writes ``numbers.json``, ``preview_tab54.md``, ``preview_fig52.png`` and
 not the house style; the TikZ generators follow acceptance.
 
     PYTHONPATH=src python data/results/ch5_s531_unopposed/analyse.py
+
+CORPUS=reported reads the reported corpus (runs_reported.jsonl: 1 000 seeds, the
+vulnerability memory on, the core cells only; run_corpus.py REPORTED=1) and
+writes numbers_reported.json with sanity and core, the sections §5.2's floats
+read, without the previews. RUNS=path and OUT=path override
+the two files (a pilot).
 """
 from __future__ import annotations
 
 import json
+import os
 from collections import Counter
 from pathlib import Path
 from statistics import median
@@ -25,7 +32,9 @@ from mtdsim.l3_simulation.movement import measures as M
 from mtdsim.l3_simulation.movement.statistics import MovementRunResult
 
 HERE = Path(__file__).resolve().parent
-RUNS = HERE / "runs.jsonl"
+REPORTED = os.environ.get("CORPUS") == "reported"
+RUNS = Path(os.environ["RUNS"]) if os.environ.get("RUNS") else HERE / ("runs_reported.jsonl" if REPORTED else "runs.jsonl")
+NUMBERS = Path(os.environ["OUT"]) if os.environ.get("OUT") else HERE / ("numbers_reported.json" if REPORTED else "numbers.json")
 
 PROFILES = (
     "objective_exfiltration",
@@ -798,10 +807,13 @@ def main() -> int:
     # sanity block
     counts = {f"{k[0]}/{k[1]}/{k[2]}": len(v) for k, v in sorted(movement.items())}
     counts.update({f"targeted/{h}/baseline": len(v) for h, v in sorted(baseline.items())})
+    n_seeds = len({r.seed for runs in movement.values() for r in runs} | {r["seed"] for rows in baseline.values() for r in rows})
     out["sanity"] = {
         "error_rows": len(errors),
         "runs_per_cell": counts,
         "all_cells_100": all(v == 100 for v in counts.values()),
+        "seeds": n_seeds,
+        "all_cells_full": all(v == n_seeds for v in counts.values()),
         "max_events_hit": sum(
             1 for runs in movement.values() for r in runs if M.terminal_mode(r) == "max_events"
         ),
@@ -869,6 +881,11 @@ def main() -> int:
         "tactics_unseparated_adjacent": tactics_report.unseparated_adjacent_pairs,
     }
 
+    if REPORTED:
+        NUMBERS.write_text(json.dumps(out, indent=1, default=float), encoding="utf-8")
+        print(f"wrote {NUMBERS}")
+        return 0
+
     # extension: same table at 60 000 s, plus the coverage grid at that horizon
     rows_ext = {p: movement_row(movement[("targeted", EXT, p)], stage_of) for p in PROFILES}
     rows_ext["baseline"] = baseline_row(baseline[EXT])
@@ -893,7 +910,10 @@ def main() -> int:
     out["diagnostic"] = {"objective": "general", "horizon": CORE, "table": rows_gen,
                          "divergence": div_gen, "targeted_minus_general": deltas}
 
-    (HERE / "numbers.json").write_text(json.dumps(out, indent=1, default=float), encoding="utf-8")
+    NUMBERS.write_text(json.dumps(out, indent=1, default=float), encoding="utf-8")
+    if NUMBERS != HERE / "numbers.json":  # the previews belong to the 100-seed read
+        print(f"wrote {NUMBERS}")
+        return 0
 
     md = ["# §5.3.1 preliminary read — behaviour without defence", "",
           f"Sanity: error rows {out['sanity']['error_rows']}; all cells at 100 runs: {out['sanity']['all_cells_100']}; "

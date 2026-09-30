@@ -499,7 +499,7 @@ def main() -> None:
     ap.add_argument("--no-compile", action="store_true")
     args = ap.parse_args()
     data = json.loads(args.numbers.read_text(encoding="utf-8"))
-    if not data["sanity"]["all_cells_100"] or data["sanity"]["error_rows"]:
+    if not data["sanity"].get("all_cells_full", data["sanity"].get("all_cells_100")) or data["sanity"]["error_rows"]:
         raise SystemExit("corpus sanity failed; not drawing from it")
     core = data["core"]
 

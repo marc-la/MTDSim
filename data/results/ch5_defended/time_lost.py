@@ -33,18 +33,23 @@ CURVES (Figure 5.3 (a), (b)): the share of deployments followed by a compromise
 within t, with the MTD and with no MTD, over the same deployments.
 
 Usage: python data/results/ch5_defended/time_lost.py
-Output: time_lost_numbers.json beside the corpus.
+Output: time_lost_numbers.json beside the corpus. CORPUS=reported reads
+runs_reported.jsonl (1 000 seeds, the vulnerability memory on) and writes
+time_lost_numbers_reported.json; RUNS=path and OUT=path override (a pilot).
 """
 from __future__ import annotations
 
 import json
+import os
 from pathlib import Path
 
 import numpy as np
 
 HERE = Path(__file__).resolve().parent
-RUNS = HERE / "runs.jsonl"
-OUT = HERE / "time_lost_numbers.json"
+REPORTED = os.environ.get("CORPUS") == "reported"
+RUNS = Path(os.environ["RUNS"]) if os.environ.get("RUNS") else HERE / ("runs_reported.jsonl" if REPORTED else "runs.jsonl")
+OUT = Path(os.environ["OUT"]) if os.environ.get("OUT") else HERE / (
+    "time_lost_numbers_reported.json" if REPORTED else "time_lost_numbers.json")
 COMPROMISE = {("BRUTE_FORCE", "TRUE"), ("SCAN_PORT", "TRUE"), ("EXPLOIT_VULN", "EXPLOIT_COMPROMISED")}
 MECHANISMS = ("ip_shuffle", "complete_topology", "host_topology",
               "port_shuffle", "os_diversity", "service_diversity", "user_shuffle")
@@ -209,7 +214,7 @@ def main() -> None:
                     cell["curves"] = curves(per_run, iv)
                 out["cells"][f"{arm}|{m}|{iv}"] = cell
     OUT.write_text(json.dumps(out, indent=1))
-    print(f"wrote {OUT.relative_to(HERE.parents[2])}")
+    print(f"wrote {OUT}")
     for iv in INTERVALS:
         print(f"\n{iv} s: time lost per MTD deployment (s) [95 %], wait with / no MTD, attack actions blocked per run, dropped")
         for arm in ("movement", "baseline"):
