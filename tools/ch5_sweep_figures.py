@@ -112,8 +112,11 @@ class Panel:
         w(r"\draw[black!60,line width=0.4pt] (%.3f,%.3f) -- (%.3f,%.3f);" % (x0, y0, x1, y0))
         w(r"\draw[black!60,line width=0.4pt] (%.3f,%.3f) -- (%.3f,%.3f);" % (x0, y0, x0, y1))
         k = 0
-        # at most 8 ticks (scrutiny round 2026-09-30: the -1 to 1 axis had 11)
+        # at most 8 ticks (scrutiny round 2026-09-30: the -1 to 1 axis had 11),
+        # on multiples of the step: the floor drops to one (a -0.8 floor with a
+        # 0.5 step ticked -0.8, -0.3, 0.2, 0.7; 20-seed dry run, 2026-09-30)
         step = 0.5 if self.ymax - self.ymin > 1.5 else 0.2
+        self.ymin = math.floor(round(self.ymin / step, 6)) * step
         while self.ymin + k * step <= self.ymax + 1e-9:
             v = round(self.ymin + k * step, 2)
             y = self.yv(v)
