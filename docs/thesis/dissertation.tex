@@ -8171,7 +8171,9 @@ deployment interval.
 % 2026-09-30, second read (Marc: NCR reduction is the finer instrument; the ASP version
 % 'is just a colourful mess'): the NCR text restored verbatim; its numbers re-checked,
 % numbers.json sweep identical to the verified version (0 of 498 cells differ). DRAFT STATE.
-Figure~\ref{fig:eff-cross-arm} shows the NCR reduction of each MTD mechanism and deployment strategy, the
+% 2026-09-30 (Marc: the NCR and ASP headlines merged into one figure, the values table to
+%  Appendix F): the panel ranges added to the two float references; no other word changed.
+Figure~\ref{fig:eff-cross-arm}(a) to~(f) shows the NCR reduction of each MTD mechanism and deployment strategy, the
 share of the no-MTD NCR it removes (Equation~\ref{eq:ncr-reduction}),
 against the deployment interval; Table~\ref{tab:eff-interval-values} gives the
 values. Against the APT attacker model the host layer gives the larger reduction,
@@ -8216,13 +8218,16 @@ Section~\ref{subsec:aio-disruption}.
 \begin{figure}[tp]
   \centering
   \includegraphics{fig_5-3-2b_interval_headline}
-  \caption[The same MTD measured against each attacker, across the deployment interval]{NCR reduction against the deployment interval for each MTD mechanism and deployment strategy, measured against the APT attacker model, averaged over $c_1$ to $c_4$ (solid), and against the baseline attacker (dashed); higher is fewer hosts compromised, zero is as many as with no MTD, and below zero is more. Panels~(a) to~(c): the MTD mechanisms by the layer each rewrites (Table~\ref{tab:defence-mechanisms}), a layer's line being the mean over its mechanisms, each deployed alone (Table~\ref{tab:eff-interval-values} lists them). Panels~(d) to~(f): the random deployment strategy, MTDShield (Appendix~\ref{app:mtdshield}) and the alternative deployment strategy (Table~\ref{tab:deployment-strategies}). The interval axis is logarithmic; whiskers are 95\,\% percentile bootstrap intervals.}
+  % 2026-09-30 (Marc): the ASP reduction figure merged in as panels (g) to (l). Caption
+  %  session-written from the two it replaces. DRAFT STATE --- ratify on read.
+  \caption[The same MTD measured against each attacker, across the deployment interval]{NCR reduction, panels~(a) to~(f), and ASP reduction, panels~(g) to~(l), against the deployment interval for each MTD mechanism and deployment strategy, against the APT attacker model, averaged over $c_1$ to $c_4$ (solid), and against the baseline attacker (dashed); zero is as many as with no MTD, and below zero is more; an ASP reduction of 1 with no whisker is an MTD under which no run compromises a target host. For each reduction, the first row gives the MTD mechanisms by the layer each rewrites (Table~\ref{tab:defence-mechanisms}), a layer's line the mean over its mechanisms, each deployed alone; the second the random deployment strategy, MTDShield (Appendix~\ref{app:mtdshield}) and the alternative deployment strategy (Table~\ref{tab:deployment-strategies}). Values in Tables~\ref{tab:eff-interval-values} and~\ref{tab:eff-interval-values-asp}. The interval axis is logarithmic; whiskers are 95\,\% percentile bootstrap intervals.}
   \label{fig:eff-cross-arm}
 \end{figure}
 
 % MOVED 2026-09-25 (handoff B9/F12): the headline's values table sits with the headline
 %  figure, whose caption points to it; it was input at the end of §5.3.3.
-\input{tables/tab_5-3-2c_attacker_values}
+% MOVED 2026-09-30 to Appendix F (Marc): its 200 s column repeated Table 5.5's; the body
+%  keeps the ranking table, and the appendix carries the ASP reduction values beside it.
 
 % REMOVED 2026-09-13 (stage-2 audit): fig:eff-delay. Survival curves are no
 % corpus genre and ten conditions x two arms is twenty curves. Delay to first
@@ -8272,7 +8277,7 @@ Section~\ref{subsec:aio-disruption}.
 % ASP reduction beside NCR reduction where the profiles are pooled (400 runs, 36
 % successes with no MTD); per profile (5 to 13 successes) it does not resolve, so
 % Section 5.3.3 stays on NCR reduction. Numbers: numbers.json sweep_asp. DRAFT STATE.
-Figure~\ref{fig:eff-cross-arm-asp} shows the same comparison on ASP reduction
+Figure~\ref{fig:eff-cross-arm}(g) to~(l) shows the same comparison on ASP reduction
 (Equation~\ref{eq:asp-reduction}). Against the APT attacker model no run
 compromises a target host up to 500\,s under the host layer and the random
 deployment strategy, and up to 200\,s under the alternative deployment strategy.
@@ -8283,12 +8288,7 @@ service layer up to 200\,s, against \prelim{0.49} to \prelim{0.83} for the host
 layer. At 500\,s the host layer's reduction against the baseline attacker is
 \prelim{-0.22}: more of its runs compromise a target host than with no MTD.
 
-\begin{figure}[tp]
-  \centering
-  \includegraphics{fig_5-3-2e_interval_headline_asp}
-  \caption[The same MTD measured against each attacker on ASP reduction]{ASP reduction against the deployment interval for each MTD mechanism and deployment strategy, against the APT attacker model, averaged over $c_1$ to $c_4$ (solid), and against the baseline attacker (dashed); 1 is no run compromising a target host, zero is as many as with no MTD, and below zero is more; a 1 with no whisker is an MTD under which no run compromises a target host. Panels, axes and whiskers as in Figure~\ref{fig:eff-cross-arm}.}
-  \label{fig:eff-cross-arm-asp}
-\end{figure}
+% MERGED 2026-09-30 into fig:eff-cross-arm as panels (g) to (l) (Marc).
 
 % 2026-09-30, second read (Marc: NCR reduction is the finer instrument; the ASP version
 % 'is just a colourful mess'): the NCR text restored verbatim; its numbers re-checked,
@@ -8372,7 +8372,9 @@ NCR reductions is \prelim{-0.03}, with a 95\,\% bootstrap interval over seeds of
 \begin{figure}[tp]
   \centering
   \includegraphics{fig_5-3-3b_interval_mechanisms}
-  \caption[NCR reduction by MTD mechanism and attack profile, across the deployment interval]{NCR reduction against the deployment interval for each MTD mechanism deployed alone, in rows by the layer it rewrites (Table~\ref{tab:defence-mechanisms}), for the attack profiles $c_1$ to $c_4$ and the aggregate $c_{\mathrm{agg}}$, with the baseline attacker dashed for comparison. Axes, zero and whiskers as in Figure~\ref{fig:eff-cross-arm}.}
+  % 2026-09-30 (Marc): the deployment strategies' figure merged in as panels (h) to (j).
+  %  Caption session-written from the two it replaces. DRAFT STATE --- ratify on read.
+  \caption[NCR reduction by MTD and attack profile, across the deployment interval]{NCR reduction against the deployment interval for each MTD mechanism deployed alone, panels~(a) to~(g) in rows by the layer it rewrites (Table~\ref{tab:defence-mechanisms}), and for each deployment strategy, panels~(h) to~(j): the random deployment strategy, MTDShield (Appendix~\ref{app:mtdshield}) and the alternative deployment strategy (Table~\ref{tab:deployment-strategies}); for the attack profiles $c_1$ to $c_4$ and the aggregate $c_{\mathrm{agg}}$, with the baseline attacker dashed for comparison. Axes, zero and whiskers as in Figure~\ref{fig:eff-cross-arm}(a) to~(f).}
   \label{fig:eff-suppression-profiles}
 \end{figure}
 
@@ -8463,7 +8465,8 @@ zero. User shuffle reduces neither attacker's NCR from 100\,s. At 500\,s each ho
 % 2026-09-30, scrutiny round: the c_agg sentence cut (0.69 was 0.67; c_agg lay
 % outside the range under service diversity; gaps of 0.01 inside the noise); the
 % deployment strategies' split, which the figure shows, in its place. DRAFT STATE.
-Figure~\ref{fig:eff-schemes-profiles} shows the deployment strategies, for each
+% 2026-09-30: float reference only, to the merged figure's panels.
+Figure~\ref{fig:eff-suppression-profiles}(h) to~(j) shows the deployment strategies, for each
 attack profile. Under MTDShield the baseline attacker's NCR reduction lies above
 every attack profile's up to 1\,000\,s; under the random deployment strategy it
 lies below every profile's at every interval, and under the alternative
@@ -8502,12 +8505,7 @@ raised in the regime runs is not yet investigated}
 %   declared low-and-slow dwell time, from \prelim{0.44} to \prelim{0.90} across
 %   that family's band (Appendix~\ref{app:dwell-robustness})."
 
-\begin{figure}[tp]
-  \centering
-  \includegraphics{fig_5-3-3c_interval_schemes}
-  \caption[NCR reduction by deployment strategy and attack profile, across the deployment interval]{NCR reduction against the deployment interval for each deployment strategy: the random deployment strategy, MTDShield (Appendix~\ref{app:mtdshield}) and the alternative deployment strategy (Table~\ref{tab:deployment-strategies}), for the attack profiles $c_1$ to $c_4$ and the aggregate $c_{\mathrm{agg}}$, with the baseline attacker dashed for comparison. Axes, zero and whiskers as in Figure~\ref{fig:eff-cross-arm}.}
-  \label{fig:eff-schemes-profiles}
-\end{figure}
+% MERGED 2026-09-30 into fig:eff-suppression-profiles as panels (h) to (j) (Marc).
 
 % REWORKED 2026-09-13 (stage-2 float audit, ch5 design handoff §18) --- kept despite its cut mark: intervals cannot
 % be read off bars and He's TABLE III is the precedent. Gains the DELAY TO
@@ -10348,7 +10346,15 @@ attacker and deployment interval, averaged over $c_1$ to $c_4$ for the APT attac
 \chapter{Supplementary results}
 \label{app:supplementary-results}
 
-The two tables give every metric of Table~\ref{tab:eff-cross-arm} with its interval, for each attacker.
+% 2026-09-30 (Marc): the headline's values, moved from Section 5.3.2 with the ASP
+%  reduction values beside them. SESSION-GENERATED sentences, DRAFT STATE.
+Tables~\ref{tab:eff-interval-values} and~\ref{tab:eff-interval-values-asp} give the values
+Figure~\ref{fig:eff-cross-arm} plots, at every deployment interval.
+
+\input{tables/tab_F-0a_interval_values}
+
+Tables~\ref{tab:full-movement} and~\ref{tab:full-baseline} give every metric of
+Table~\ref{tab:eff-cross-arm} with its interval, for each attacker.
 
 \input{tables/tab_F-1_conditions_movement}
 \input{tables/tab_F-1_conditions_baseline}

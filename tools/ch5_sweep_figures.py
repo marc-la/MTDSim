@@ -14,13 +14,18 @@ docs/handoffs/2026-09-22_ch5_defended_corpus_schemes_intervals_mtdshield.md
                     of the attacker model it's not very clear to me"): the
                     attackers were one per column, so the swap had to be read
                     across panels; now it is which line is on top.
-  mechanisms §5.3.3 the seven mechanisms, one panel each, rows by layer;
-                    lines c_1-c_4 and c_agg in the chapter's hues, the baseline
-                    attacker the dashed grey reference
-  schemes   §5.3.3  the deployment strategies, the same form, 1 x 3
-  values    §5.3.2  Table 5.3: NCR reduction per defence, attacker and interval,
-                    the numbers behind the headline (replaces the rank grid:
-                    Marc 2026-09-25, "the rankings ... what they mean to me")
+                    NCR reduction in the top two rows, ASP reduction in the
+                    bottom two (Marc 2026-09-30: the two headlines were one
+                    figure drawn twice, so they are one figure)
+  mechanisms §5.3.3 the seven mechanisms, one panel each, rows by layer, then
+                    the deployment strategies as a fourth row (Marc 2026-09-30:
+                    the strategies' own figure merged in); lines c_1-c_4 and
+                    c_agg in the chapter's hues, the baseline attacker the
+                    dashed grey reference
+  values    App. F  NCR reduction and ASP reduction per defence, attacker and
+                    interval, the numbers behind the headline, two tables in one
+                    fragment (moved from §5.3.2 on Marc's 2026-09-30 ruling: the
+                    body keeps the ranking table, whose 200 s column it repeated)
 
 Every panel of the three figures shares one y range and the same log x axis
 at the corpus's intervals. Data: ``numbers.json["sweep"]`` from
@@ -28,7 +33,7 @@ at the corpus's intervals. Data: ``numbers.json["sweep"]`` from
 drawn point is printed on stdout.
 
 Usage:
-  python tools/ch5_sweep_figures.py [--numbers PATH] [--no-compile] [--only headline|mechanisms|schemes|values]
+  python tools/ch5_sweep_figures.py [--numbers PATH] [--no-compile] [--only headline|mechanisms|values|ranking]
 """
 from __future__ import annotations
 
@@ -45,12 +50,8 @@ from _ch5_style import (BASE_DASH, CNAME, FONT, KEY_H, LABEL, LONG, MARK, PREAMB
 
 NUMBERS = REPO / "data" / "results" / "ch5_defended" / "numbers.json"
 STEM_HEAD = "fig_5-3-2b_interval_headline"
-# the same headline on ASP reduction (Marc 2026-09-30: section 5.3.2 carries both
-# reductions; ASP resolves pooled over the profiles, not per profile)
-STEM_HEAD_ASP = "fig_5-3-2e_interval_headline_asp"
 STEM_MECH = "fig_5-3-3b_interval_mechanisms"
-STEM_SCH = "fig_5-3-3c_interval_schemes"
-STEM_VAL = "tab_5-3-2c_attacker_values"
+STEM_VAL = "tab_F-0a_interval_values"
 ROWS_MECH = (("host layer", ("ip_shuffle", "complete_topology", "host_topology")),
              ("service layer", ("port_shuffle", "os_diversity", "service_diversity")),
              ("credentials", ("user_shuffle",)))
@@ -190,7 +191,9 @@ def _offsets(n, step):
 # --- the headline ---------------------------------------------------------------
 
 
-def emit_headline(sweep, yr):
+def emit_headline(blocks):
+    """``blocks``: [(metric, sweep, y range)], each drawn as the two rows of
+    HEAD_ROWS; the metric heads every row it covers and titles its y-axis."""
     L = _preamble()
     w = L.append
     w(r"\begin{tikzpicture}[x=1cm,y=1cm,every node/.style={inner sep=1pt,font=%s}]" % FONT)
@@ -198,13 +201,15 @@ def emit_headline(sweep, yr):
     PH = 3.0
     ROWH = PH + 1.55
     XR = X0 + 3 * PW + 2 * GAP
+    rows = [(metric, sweep, yr, header, panels) for metric, sweep, yr in blocks for header, panels in HEAD_ROWS]
     facts = []
-    letters = iter("abcdef")
+    letters = iter("abcdefghijkl")
     # the figure-wide key at the top, left edge on the first y-axis (conventions §o)
-    key_row(w, X0, 0.6 + ROWH * len(HEAD_ROWS) + 0.35, ARM_KEY, xmax=XR)
-    for r, (header, panels) in enumerate(HEAD_ROWS):
-        y0 = 0.6 + (len(HEAD_ROWS) - 1 - r) * ROWH + 0.85
-        w(r"\node[anchor=south west,text=black!60] at (%.3f,%.3f) {%s};" % (X0, y0 + PH + 0.5, header))
+    key_row(w, X0, 0.6 + ROWH * len(rows) + 0.35, ARM_KEY, xmax=XR)
+    for r, (metric, sweep, yr, header, panels) in enumerate(rows):
+        y0 = 0.6 + (len(rows) - 1 - r) * ROWH + 0.85
+        w(r"\node[anchor=south west,text=black!60] at (%.3f,%.3f) {%s: %s};" % (
+            X0, y0 + PH + 0.5, metric, header if header[1:2].isupper() else header[:1].lower() + header[1:]))
         w(r"\draw[black!25,line width=0.4pt] (%.3f,%.3f) -- (%.3f,%.3f);" % (X0, y0 + PH + 0.48, XR, y0 + PH + 0.48))
         for k, (kind, key, title) in enumerate(panels):
             x0 = X0 + k * (PW + GAP)
@@ -213,9 +218,9 @@ def emit_headline(sweep, yr):
             for (arm, col, mark, dashed), dx in zip(ARMS, _offsets(len(ARMS), 0.016)):
                 pts = _pts(sweep, lambda b, kind=kind, key=key, arm=arm: _v(b[kind][arm][key]))
                 p.line(pts, col, mark, dashed, dx=dx, lw=0.9, r=0.06)
-                facts += [(arm, key, *q) for q in pts]
+                facts += [(metric[:3] + " " + arm, key, *q) for q in pts]
         # one axis label per row, so it cannot cross the next row's header
-        w(r"\node[rotate=90,anchor=south] at (%.3f,%.3f) {%s};" % (X0 - 0.95, y0 + PH / 2, YLABEL))
+        w(r"\node[rotate=90,anchor=south] at (%.3f,%.3f) {%s};" % (X0 - 0.95, y0 + PH / 2, metric))
     w(r"\node[anchor=north] at (%.3f,%.3f) {Deployment interval (s)};" % ((X0 + XR) / 2, 0.6 + 0.85 - 0.5))
     w(r"\end{tikzpicture}")
     w(r"\end{document}")
@@ -252,9 +257,10 @@ def emit_mechanisms(sweep, yr):
     PH = 3.0
     ROWH = PH + 1.55           # panel + ticks + title + layer header
     facts = []
-    letters = iter("abcdefg")
-    ytop = 1.0 + ROWH * len(ROWS_MECH)
-    for r, (layer, conds) in enumerate(ROWS_MECH):
+    letters = iter("abcdefghij")
+    rows = ROWS_MECH + (("deployment strategies", HEAD_STRATEGIES),)  # the headline's order
+    ytop = 1.0 + ROWH * len(rows)
+    for r, (layer, conds) in enumerate(rows):
         y0 = ytop - (r + 1) * ROWH + 0.85
         w(r"\node[anchor=south west,text=black!60] at (%.3f,%.3f) {%s};" % (X0, y0 + PH + 0.5, _cap(layer)))
         w(r"\draw[black!25,line width=0.4pt] (%.3f,%.3f) -- (%.3f,%.3f);" % (X0, y0 + PH + 0.48, X0 + 3 * PW + 2 * GAP, y0 + PH + 0.48))
@@ -264,8 +270,8 @@ def emit_mechanisms(sweep, yr):
                                     title=_cap(LONG[c]), letter=next(letters), font=FONT)
     # the figure-wide key at the top, left edge on the first y-axis (conventions §o)
     key_row(w, X0, ytop + 0.35, PROFILE_KEY, xmax=X0 + 3 * PW + 2 * GAP)
-    y0 = ytop - len(ROWS_MECH) * ROWH + 0.85
-    for r in range(len(ROWS_MECH)):  # the axis title on every row (conventions §o rule 6)
+    y0 = ytop - len(rows) * ROWH + 0.85
+    for r in range(len(rows)):  # the axis title on every row (conventions §o rule 6)
         yr0 = ytop - (r + 1) * ROWH + 0.85
         w(r"\node[rotate=90,anchor=south] at (%.3f,%.3f) {%s};" % (X0 - 0.95, yr0 + PH / 2, YLABEL))
     w(r"\node[anchor=north] at (%.3f,%.3f) {Deployment interval (s)};" % (X0 + 1.5 * PW + GAP, y0 - 0.5))
@@ -274,34 +280,10 @@ def emit_mechanisms(sweep, yr):
     return L, facts
 
 
-def emit_schemes(sweep, yr):
-    """The deployment strategies in the mechanisms figure's form, one row."""
-    L = _preamble()
-    w = L.append
-    w(r"\begin{tikzpicture}[x=1cm,y=1cm,every node/.style={inner sep=1pt,font=%s}]" % FONT)
-    PW, GAP, X0 = 4.55, 0.42, 1.3
-    PH = 3.0
-    XR = X0 + 3 * PW + 2 * GAP
-    y0 = 1.5
-    facts = []
-    letters = iter("abcdef")
-    for k, c in enumerate(HEAD_STRATEGIES):  # the headline's order
-        x0 = X0 + k * (PW + GAP)
-        facts += _profile_panel(w, sweep, c, x0, x0 + PW, y0, y0 + PH, yr, ylabels=(k == 0),
-                                title=_cap(LONG[c]), letter=next(letters), font=FONT)
-    w(r"\node[rotate=90,anchor=south] at (%.3f,%.3f) {%s};" % (X0 - 0.95, y0 + PH / 2, YLABEL))
-    w(r"\node[anchor=north] at (%.3f,%.3f) {Deployment interval (s)};" % ((X0 + XR) / 2, y0 - 0.5))
-    # the figure-wide key at the top, left edge on the first y-axis (conventions §o)
-    key_row(w, X0, y0 + PH + TITLE_H + 0.1 + KEY_H / 2 + 0.2, PROFILE_KEY, xmax=XR)
-    w(r"\end{tikzpicture}")
-    w(r"\end{document}")
-    return L, facts
+# --- Appendix F: the numbers behind the headline, one table per reduction --------
 
 
-# --- Table 5.3: the numbers behind the headline ----------------------------------
-
-
-# (header, layer key whose mean Figure 5.4 plots or None, rows)
+# (header, layer key whose mean the headline plots or None, rows)
 VALUE_ROWS = (("host layer", "host", ("ip_shuffle", "complete_topology", "host_topology")),
               ("service layer", "service", ("port_shuffle", "os_diversity", "service_diversity")),
               ("credentials", None, ("user_shuffle",)),
@@ -315,53 +297,67 @@ def _val(v: float) -> str:
     return "$%s$" % ("0.00" if t == "-0.00" else t)
 
 
-def emit_value_table(sweep) -> tuple[str, list]:
-    """ASP reduction (the sweep's metric) per defence, attacker and deployment interval; rows grouped
-    as the headline's panels are (the layers, then the strategies); a cell
-    whose 95 % interval includes zero is set grey."""
-    ivs = [str(i) for i in sweep["intervals"]]
-    n = len(ivs)
+# per reduction: (label suffix, what 1 is, what a negative value is, the headline's panels)
+VALUE_TABLES = (("ncr reduction", "", "no host compromised",
+                 "more hosts compromised than with no MTD", "(a) to~(f)"),
+                ("asp reduction", "-asp", "no run compromising a target host",
+                 "more runs compromising a target host than with no MTD", "(g) to~(l)"))
+
+
+def emit_value_table(sweeps: dict) -> tuple[str, list]:
+    """One table per reduction (``sweeps`` keyed by metric), each per defence,
+    attacker and deployment interval; rows grouped as the headline's panels are
+    (the layers, then the strategies); a cell whose 95 % interval includes zero
+    is set grey."""
     L: list[str] = []
     w = L.append
     facts = []
     w("% GENERATED by tools/ch5_sweep_figures.py from data/results/ch5_defended/numbers.json")
-    w("%   (section sweep; the APT attacker model pooled over its four profiles). Do not hand-edit.")
+    w("%   (sections sweep and sweep_asp; the APT attacker model pooled over its four profiles). Do not hand-edit.")
     w("% 2026-09-25 (Marc on the first draft: the rank grid's dashes and italics did not")
-    w("%   read): the values themselves, grouped as Figure 5.4's panels. DRAFT STATE --- ratify on read.")
-    w("% 2026-09-30: briefly ASP reduction, returned to NCR reduction on Marc's second read (the finer instrument).")
-    w(r"\begin{table}[htbp]")
-    w(r"  \centering")
-    w(r"  \caption[NCR reduction under each attacker, by MTD and deployment interval]{NCR reduction for each MTD mechanism and deployment strategy against the APT attacker model, averaged over $c_1$ to $c_4$, and against the baseline attacker, at each deployment interval; 1 is no host compromised, 0 is as many as with no MTD, and a negative value is more hosts compromised than with no MTD. Rows grouped as the panels of Figure~\ref{fig:eff-cross-arm}; a layer's row gives the mean it plots. Grey text: the 95\,\% percentile bootstrap interval includes zero; the APT attacker model's cells hold four times as many runs as the baseline attacker's.}")
-    w(r"  \label{tab:eff-interval-values}")
-    w(r"  \tablestyle\scriptsize\setlength{\tabcolsep}{3pt}\rowcolors{1}{}{}")  # the groups' rules separate rows; zebra would stripe the headers
-    w(r"  \begin{tabular}{@{}P{3.75cm}*{%d}{>{\centering\arraybackslash}p{0.78cm}}@{}}" % (2 * n))
-    w(r"    \toprule")
-    w(r"    & \multicolumn{%d}{c}{APT attacker model} & \multicolumn{%d}{c}{Baseline attacker} \\" % (n, n))
-    w(r"    \cmidrule(lr){2-%d}\cmidrule(lr){%d-%d}" % (n + 1, n + 2, 2 * n + 1))
-    w(r"    Deployment interval (s) & %s & %s \\" % (" & ".join(fmt_thousands(int(i)) for i in ivs),
-                                                   " & ".join(fmt_thousands(int(i)) for i in ivs)))
-    def cells_of(kind, key, fmt="%s"):
-        out = []
-        for arm in ("movement", "baseline"):
-            for i in ivs:
-                d = sweep["by_interval"][i][kind][arm][key]
-                sep = d["lo"] > 0 or d["hi"] < 0
-                out.append(fmt % (_val(d["point"]) if sep else r"\textcolor{%s}{%s}" % (GREY, _val(d["point"]))))
-                facts.append((arm, key, int(i), d["point"], d["lo"], d["hi"], sep))
-        return " & ".join(out)
+    w("%   read): the values themselves, grouped as the headline figure's panels.")
+    w("% 2026-09-30 (Marc): moved from section 5.3.2 to Appendix F, the ASP reduction table beside it;")
+    w("%   the body keeps the ranking table. DRAFT STATE --- ratify on read.")
+    for metric, suffix, one, neg, panels in VALUE_TABLES:
+        sweep = sweeps[metric]
+        name = metric.replace("asp", "ASP").replace("ncr", "NCR")
+        ivs = [str(i) for i in sweep["intervals"]]
+        n = len(ivs)
+        w(r"\begin{table}[htbp]")
+        w(r"  \centering")
+        w(r"  \caption[%s under each attacker, by MTD and deployment interval]{%s for each MTD mechanism and deployment strategy against the APT attacker model, averaged over $c_1$ to $c_4$, and against the baseline attacker, at each deployment interval; 1 is %s, 0 is as many as with no MTD, and a negative value is %s. Rows grouped as panels~%s of Figure~\ref{fig:eff-cross-arm}; a layer's row gives the mean it plots. Grey text: the 95\,\%% percentile bootstrap interval includes zero; the APT attacker model's cells hold four times as many runs as the baseline attacker's.}" % (name, name, one, neg, panels))
+        w(r"  \label{tab:eff-interval-values%s}" % suffix)
+        w(r"  \tablestyle\scriptsize\setlength{\tabcolsep}{3pt}\rowcolors{1}{}{}")  # the groups' rules separate rows; zebra would stripe the headers
+        w(r"  \begin{tabular}{@{}P{3.75cm}*{%d}{>{\centering\arraybackslash}p{0.78cm}}@{}}" % (2 * n))
+        w(r"    \toprule")
+        w(r"    & \multicolumn{%d}{c}{APT attacker model} & \multicolumn{%d}{c}{Baseline attacker} \\" % (n, n))
+        w(r"    \cmidrule(lr){2-%d}\cmidrule(lr){%d-%d}" % (n + 1, n + 2, 2 * n + 1))
+        w(r"    Deployment interval (s) & %s & %s \\" % (" & ".join(fmt_thousands(int(i)) for i in ivs),
+                                                       " & ".join(fmt_thousands(int(i)) for i in ivs)))
 
-    for header, layer, conds in VALUE_ROWS:
-        w(r"    \midrule")
-        if layer:  # the plotted mean on the layer's own row
-            w(r"    \textit{%s, mean} & %s \\" % (header, cells_of("layer", layer)))
-        else:
-            w(r"    \multicolumn{%d}{@{}l}{\textit{%s}} \\" % (2 * n + 1, header))
-        for c in conds:
-            w("    \\quad %s & %s \\\\" % (LONG[c], cells_of("attacker", c)))
-    w(r"    \bottomrule")
-    w(r"  \end{tabular}")
-    w(r"\end{table}")
-    return "\n".join(L) + "\n", facts
+        def cells_of(kind, key):
+            out = []
+            for arm in ("movement", "baseline"):
+                for i in ivs:
+                    d = sweep["by_interval"][i][kind][arm][key]
+                    sep = d["lo"] > 0 or d["hi"] < 0
+                    out.append(_val(d["point"]) if sep else r"\textcolor{%s}{%s}" % (GREY, _val(d["point"])))
+                    facts.append((name[:3] + " " + arm, key, int(i), d["point"], d["lo"], d["hi"], sep))
+            return " & ".join(out)
+
+        for header, layer, conds in VALUE_ROWS:
+            w(r"    \midrule")
+            if layer:  # the plotted mean on the layer's own row
+                w(r"    \textit{%s, mean} & %s \\" % (header, cells_of("layer", layer)))
+            else:
+                w(r"    \multicolumn{%d}{@{}l}{\textit{%s}} \\" % (2 * n + 1, header))
+            for c in conds:
+                w("    \\quad %s & %s \\\\" % (LONG[c], cells_of("attacker", c)))
+        w(r"    \bottomrule")
+        w(r"  \end{tabular}")
+        w(r"\end{table}")
+        w("")
+    return "\n".join(L), facts
 
 
 # --- §5.3.2's table: both attackers ranked, all metrics, one interval -----------
@@ -419,27 +415,28 @@ def emit_ranking_table(ranking) -> tuple[str, list]:
     w("%   the two attackers side by side at one interval, all of Table 4.3's metrics. DRAFT STATE --- ratify on read.")
     w("% 2026-09-30: ranked on hosts compromised per seed (NCR reduction, the headline); ASP reduction")
     w("%   beside it (section 5.3.2 carries both); MTTC at a target host (ruling H1).")
+    w("% 2026-09-30 (Marc): NCR and ASP dropped, each the reduction beside it restated against the no-MTD")
+    w("%   row (Tables F.3 and F.4 keep them). At footnotesize it is still wider than the text, so scriptsize (conventions).")
     w(r"\begin{table}[htbp]")
     w(r"  \centering")
-    w(r"  \caption[The MTD mechanisms and deployment strategies ranked against each attacker]{Each MTD mechanism and deployment strategy deployed every %s\,s against the APT attacker model, averaged over $c_1$ to $c_4$, and against the baseline attacker, each ranked by Scott--Knott ESD on the mean hosts compromised per seed (Section~\ref{sec:dimensions}). Rank~1, in bold, is the fewest hosts compromised; rows that share a rank are not told apart; no MTD is not ranked. Rows in the APT attacker model's order. Metrics as Table~\ref{tab:metrics}; a dash marks an MTTC with no run to take it over; MTTC is rounded to the precision of its widest interval. Every value's interval is in Appendix~\ref{app:supplementary-results}.}" % fmt_thousands(int(iv)))
+    w(r"  \caption[The MTD mechanisms and deployment strategies ranked against each attacker]{Each MTD mechanism and deployment strategy deployed every %s\,s against the APT attacker model, averaged over $c_1$ to $c_4$, and against the baseline attacker, each ranked by Scott--Knott ESD on the mean hosts compromised per seed (Section~\ref{sec:dimensions}). Rank~1, in bold, is the fewest hosts compromised; rows that share a rank are not told apart; no MTD is not ranked. Rows in the APT attacker model's order. Metrics as Table~\ref{tab:metrics}; no MTD is the reference each reduction is taken against, so it has none; a dash marks an MTTC with no run to take it over; MTTC is rounded to the precision of its widest interval. The NCR and ASP behind each reduction, and every value's interval, are in Appendix~\ref{app:supplementary-results}.}" % fmt_thousands(int(iv)))
     w(r"  \label{tab:eff-cross-arm}")
-    # the stripes restart at row 4 so neither header row is shaded (as Table 5.4 was)
-    w(r"  \tablestyle\scriptsize\setlength{\tabcolsep}{2.2pt}\rowcolors{4}{black!5}{}")
+    # the stripes restart at row 4 so neither header row is shaded
+    w(r"  \tablestyle\scriptsize\setlength{\tabcolsep}{3pt}\rowcolors{4}{black!5}{}")
     C = r">{\centering\arraybackslash}p{%s}"
-    cols = [C % "0.7cm", C % "1.25cm", C % "1.25cm", C % "0.66cm", C % "0.62cm", C % "0.95cm"]
-    w(r"  \begin{tabular}{@{}P{3.0cm}%s%s@{}}" % ("".join(cols), "".join(cols)))
+    cols = [C % "0.8cm", C % "1.3cm", C % "1.3cm", C % "1.1cm"]
+    w(r"  \begin{tabular}{@{}P{3.4cm}%s%s@{}}" % ("".join(cols), "".join(cols)))
     w(r"    \toprule")
-    w(r"    & \multicolumn{6}{c}{APT attacker model} & \multicolumn{6}{c}{Baseline attacker} \\")
-    w(r"    \cmidrule(lr){2-7}\cmidrule(lr){8-13}")
-    head = ["Rank", r"NCR\newline reduction", r"ASP\newline reduction", "NCR", "ASP", r"MTTC\newline (s)"]
+    w(r"    & \multicolumn{4}{c}{APT attacker model} & \multicolumn{4}{c}{Baseline attacker} \\")
+    w(r"    \cmidrule(lr){2-5}\cmidrule(lr){6-9}")
+    head = ["Rank", r"NCR\newline reduction", r"ASP\newline reduction", r"MTTC\newline (s)"]
     w(r"    MTD & %s & %s \\" % (" & ".join(head), " & ".join(head)))
     w(r"    \midrule")
 
     def cells(row, none=False):
         rank = "---" if none else (r"\textbf{1}" if row["rank"] == 1 else str(row["rank"]))
         return [rank, "---" if none else _num(row["ncr_reduction"]["point"]),
-                "---" if none else _num(row["asp_reduction"]["point"]),
-                "%.2f" % (row["hosts"]["mean"] / N_HOSTS), "%.2f" % row["asp"], _mttc(row["mttc"])]
+                "---" if none else _num(row["asp_reduction"]["point"]), _mttc(row["mttc"])]
 
     w("    no MTD & %s & %s \\\\" % (" & ".join(cells(blk["movement"]["none"], True)),
                                        " & ".join(cells(blk["baseline"]["none"], True))))
@@ -506,7 +503,7 @@ def main() -> None:
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--numbers", type=Path, default=NUMBERS)
     ap.add_argument("--no-compile", action="store_true")
-    ap.add_argument("--only", default=None, help="headline | mechanisms | schemes | values | ranking")
+    ap.add_argument("--only", default=None, help="headline | mechanisms | values | ranking")
     args = ap.parse_args()
     data = json.loads(args.numbers.read_text(encoding="utf-8"))
     if "sweep" not in data:
@@ -518,32 +515,25 @@ def main() -> None:
     YLABEL = sweep.get("metric", "ncr reduction").replace("asp", "ASP").replace("ncr", "NCR")
     yr = _yrange(_all_points(sweep))
     print(f"intervals {sweep['intervals']}; shared y range {yr}")
-    for name, stem, fn in (("headline", STEM_HEAD, emit_headline), ("mechanisms", STEM_MECH, emit_mechanisms),
-                           ("schemes", STEM_SCH, emit_schemes)):
+    if "sweep_asp" not in data:
+        raise SystemExit("numbers.json has no sweep_asp section; run analyse.py")
+    sa = data["sweep_asp"]
+    pts_a = [d[k] for i in sa["intervals"] for arm in ("movement", "baseline")
+             for kind in ("attacker", "layer") for d in sa["by_interval"][str(i)][kind][arm].values()
+             for k in ("point", "lo")]
+    yr_a = _yrange(pts_a)
+    print(f"ASP reduction y range {yr_a}")
+    for name, stem, fn in (("headline", STEM_HEAD, lambda: emit_headline([(YLABEL, sweep, yr), ("ASP reduction", sa, yr_a)])),
+                           ("mechanisms", STEM_MECH, lambda: emit_mechanisms(sweep, yr))):
         if args.only and args.only != name:
             continue
-        lines, facts = fn(sweep, yr)
+        lines, facts = fn()
         write_fig(stem, lines)
         print(f"{name} facts (series, key, interval, point, lo, hi):")
         for f in facts:
-            print("   %-10s %-30s %5d %+.3f [%+.3f, %+.3f]" % f)
+            print("   %-12s %-30s %5d %+.3f [%+.3f, %+.3f]" % f)
         if not args.no_compile:
             compile_fig(stem)
-    if (not args.only or args.only == "headline") and "sweep_asp" in data:
-        sa = data["sweep_asp"]
-        YLABEL = "ASP reduction"
-        pts = [d[k] for i in sa["intervals"] for arm in ("movement", "baseline")
-               for kind in ("attacker", "layer") for d in sa["by_interval"][str(i)][kind][arm].values()
-               for k in ("point", "lo")]
-        yr_a = _yrange(pts)
-        lines, facts = emit_headline(sa, yr_a)
-        write_fig(STEM_HEAD_ASP, lines)
-        print(f"headline (ASP reduction) y range {yr_a}; facts (series, key, interval, point, lo, hi):")
-        for f in facts:
-            print("   %-10s %-30s %5d %+.3f [%+.3f, %+.3f]" % f)
-        if not args.no_compile:
-            compile_fig(STEM_HEAD_ASP)
-        YLABEL = sweep.get("metric", "ncr reduction").replace("asp", "ASP").replace("ncr", "NCR")
     if (not args.only or args.only == "ranking") and "ranking" in data:
         tex, facts = emit_ranking_table(data["ranking"])
         (TAB_DIR / f"{STEM_RANKT}.tex").write_text(tex)
@@ -554,11 +544,11 @@ def main() -> None:
             (TAB_DIR / f"{STEM_FULL % arm}.tex").write_text(emit_full_table(data["ranking"], arm))
             print(f"wrote tables/{STEM_FULL % arm}.tex")
     if not args.only or args.only == "values":
-        tex, facts = emit_value_table(sweep)
+        tex, facts = emit_value_table({"ncr reduction": sweep, "asp reduction": sa})
         (TAB_DIR / f"{STEM_VAL}.tex").write_text(tex)
         print(f"wrote tables/{STEM_VAL}.tex (arm, condition, interval, point, lo, hi, separated):")
         for f in facts:
-            print("   %-9s %-18s %5d %+.3f [%+.3f, %+.3f] %s" % f)
+            print("   %-12s %-18s %5d %+.3f [%+.3f, %+.3f] %s" % f)
 
 
 if __name__ == "__main__":
