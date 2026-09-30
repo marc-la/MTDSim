@@ -5865,31 +5865,17 @@ deployment costs an attacker: the time to get back to its work, and progress on
 a host that the deployment undoes. A deployment that completes after the no-MTD
 run has ended has no reference and is left out.
 
-\subsection{Statistical analysis}
-\label{subsec:metrics-statistics}
-
-% ROUND 4, 2026-09-29: one run-in label per step (Marc: "more signposting ...
-% bold and then just ranking"), licensed by voice.md §(d) for a declarative
-% passage. VARIANT B (by seed) is still owed: once the analyser resamples by
-% seed, "over runs" becomes "over seeds".
-% ROUND 5: the run count and seeds moved to Section 5.1 (Marc: 5.1's Runs and
-% this section duplicated each other); the ranking follows ASP.
-\textbf{Intervals.} A mean is reported with a 95\,\% normal-approximation
-interval over runs. ASP reduction, NCR reduction and time lost per MTD deployment
-are reported with 95\,\% percentile bootstrap intervals from 2\,000 resamples of
-runs \citep{efron1994introduction}.
-
-\textbf{Ranking.} The deployment strategies are ranked, per attacker and deployment
-interval, by the Scott--Knott effect size difference test
-\citep{tantithamthavorn2017empirical} on each run's success, 1 when it
-compromises a target host and 0 otherwise, so the ranking follows ASP. Two
-deployment strategies share a rank unless their ASPs differ significantly
-($\alpha = 0.05$) \citep{scott1974cluster} and by at least a small effect
-(Cohen's $h \geq 0.2$, his effect size for two proportions)
-\citep{cohen1988statistical}; rank 1 is the lowest ASP. Spearman's $\rho$ compares the two attackers' rankings.
-
-\textbf{Ablations.} An ablation's difference is reported with a 95\,\% bootstrap
-interval over runs paired by seed, and is negligible when Cohen's $d < 0.2$.
+% FOLDED 2026-09-30 (Marc: "I would fold it"): Section 4.5.4 Statistical
+% analysis is gone. Every sentence leaned on objects only chapter 5 declares
+% (the seeds and their pairing, the defence mechanisms and deployment
+% strategies run, the ablations), and 5.1 already held the run count. The
+% intervals and the MTD ranking are 5.1's Metrics and MTD ranking paragraphs;
+% the ablation threshold opens Section 5.4. Evidence: evaluation_conventions.md
+% §a and §c (Barach's four-sentence declaration beside the run count; no
+% lineage paper has a statistics subsection under its metrics), STRESS-DES 4.3
+% (the method for stochasticity sits with the replications). Section 4.5 now
+% says what is measured; 5.1 says what is run and how runs are compared.
+% Prior text in git.
 
 
 % =====================================================================
@@ -6591,9 +6577,29 @@ the reference for every effect this chapter reports.
 %  register: the selector would need retraining before it could trade cost
 %  against risk.
 
-\textbf{Metrics.} Both attackers are measured on the ten metrics of
-Section~\ref{sec:evaluation-metrics} (Table~\ref{tab:metrics}), and the defences
-are ranked as Section~\ref{subsec:metrics-statistics} describes.
+% FOLDED FROM 4.5.4, 2026-09-30 (Marc: "I would fold it"; "MTD ranking";
+%  "say more with less"). The ranked set in ratified terms (terminology.md
+%  rows 62, 72): the seven defence mechanisms and three deployment strategies,
+%  MTDShield being one (Table 2.4); no MTD is the reference and takes no rank.
+%  Cut as nuance the examiner does not need: the 0/1 coding, the gloss on
+%  Cohen's h, "pooled over c1 to c4" (the table's caption carries it). The
+%  analyser still ranks on hosts per seed with Cohen's d (owed, handoff
+%  2026-09-29_ch4_consolidation.md). DRAFT STATE --- ratify on read.
+\textbf{Metrics.} Both attackers are measured on the eleven metrics of
+Section~\ref{sec:evaluation-metrics} (Table~\ref{tab:metrics}). A mean carries
+a 95\,\% normal-approximation interval over the runs of a cell, and ASP
+reduction, NCR reduction and time lost per MTD deployment a 95\,\% percentile
+bootstrap interval from 2\,000 resamples of runs \citep{efron1994introduction}.
+
+\textbf{MTD ranking.} For each attacker at each
+deployment interval, the seven defence mechanisms and the random, alternative
+and MTDShield deployment strategies are ranked by ASP, rank~1 the lowest. The
+ranking uses the Scott--Knott effect size difference test
+\citep{tantithamthavorn2017empirical} on whether each run compromises a target
+host. Two share a rank unless their ASPs differ significantly
+($\alpha = 0.05$) \citep{scott1974cluster} and by at least a small effect
+(Cohen's $h \geq 0.2$) \citep{cohen1988statistical}. Spearman's $\rho$
+compares the two attackers' rankings.
 % [TERM SWEEP 2026-09-24, DRAFT STATE: "They are grouped by effectiveness and
 %  efficiency, as Table 3.x groups the field's." CUT --- false since the metrics
 %  design (three classes of our own, defined in §4.5); "ranked on hosts reached,
@@ -7759,7 +7765,7 @@ line or column, it pools $c_1$ to $c_4$ with equal weight; $c_{\mathrm{agg}}$
 %  RATIFIED 2026-09-26 (Marc: 'I accept all this').
 appears separately in Section~\ref{subsec:eff-under-defence}. An effect is told apart from zero when its 95\,\% interval excludes zero, and defences that
 share a Scott--Knott rank are not told apart
-(Section~\ref{subsec:metrics-statistics}).
+(Section~\ref{sec:dimensions}).
 Section~\ref{subsec:aio-disruption} shows what a single deployment does to each
 attacker, Section~\ref{subsec:eff-cross-arm} the NCR reduction of each defence
 across the deployment interval, and Section~\ref{subsec:eff-under-defence} the
@@ -8515,8 +8521,14 @@ raised in the regime runs is not yet investigated}
 % subsection per ablated component, named as in chapter 4 (4.4.4 -> 5.4.1,
 % 4.4.5 -> 5.4.2); Tay's "6.5 Ablation Studies" the local precedent. The shared
 % design (c1 to c4; no defence, IP shuffle and OS diversity at 200 s and
-% 2 000 s; the same seeds; Section 4.5.4's threshold) is declared once here and
+% 2 000 s; the same seeds; the threshold, folded here from 4.5.4) is declared once here and
 % not repeated below. Handoff 2026-09-28_vulnerability_memory_on.md, Part B.
+% FOLDED FROM 4.5.4, 2026-09-30: the ablation threshold is declared here,
+%  where ablations are first used (evaluation_conventions.md §a). DRAFT STATE.
+Each ablation's difference, with minus without, carries a 95\,\% bootstrap
+interval over runs paired by seed, and is negligible when Cohen's $d < 0.2$
+\citep{cohen1988statistical}.
+
 \noindent\emph{[Placeholder --- section preamble: every component tested here
 is our judgement; each is removed in turn on the same design, which this
 paragraph declares once.]}
@@ -8569,7 +8581,7 @@ deployment intervals (Table~\ref{tab:experiment}).
   shares under 0.06 are not printed; $c_2$ is not drawn. (b)~Cohen's $d$ on
   hosts compromised per seed, with minus without, on $c_1$ to $c_4$ pooled,
   with its 95\,\% bootstrap interval over seeds; the shaded band is where
-  Section~\ref{subsec:metrics-statistics} calls a difference negligible.}
+  a difference is negligible ($|d| < 0.2$).}
   \label{fig:ablation}
 \end{figure}
 
