@@ -41,7 +41,8 @@ from _ch5_style import BASE_DASH, KEY_H, errorbar, key_row, panel_title  # noqa:
 REPO = Path(__file__).resolve().parents[1]
 FIG_DIR = REPO / "docs" / "thesis" / "figures"
 TAB_DIR = REPO / "docs" / "thesis" / "tables"
-NUMBERS = REPO / "data" / "results" / "ch5_s531_unopposed" / "numbers.json"
+# the reported corpus (1 000 seeds, the vulnerability memory on; 2026-09-30)
+NUMBERS = REPO / "data" / "results" / "ch5_s531_unopposed" / "numbers_reported.json"
 STEM_A = "fig_5-2-1a_campaign_openings"
 STEM_T = "tab_5-2-1a_unopposed_summary"
 
