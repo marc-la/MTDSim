@@ -102,7 +102,7 @@
 %   its result is reported. No value is now a bare default.
 \begin{table}[htbp]
   \centering
-  \caption[The experiment]{The settings of the experiment. A parameter with several values, separated by semicolons, is varied; the rest are held. Arm, condition and deployment interval are run in every combination; the timing distribution, which governs the interval and the deployment durations, is varied at the 200\,s interval for every defended condition but MTDShield. A citation names the prior study or the released simulator code that ran the value (Table~\ref{tab:lineage-configurations}); an uncited value is defined in an earlier chapter or argued in the text.}
+  \caption[The experiment]{The settings of the experiment. A parameter with several values, separated by semicolons, is varied; the rest are held. Arm, deployment strategy and deployment interval are run in every combination; the timing distribution, which governs the interval and the deployment durations, is varied at the 200\,s interval for every deployment strategy but MTDShield. A citation names the prior study or the released simulator code that ran the value (Table~\ref{tab:lineage-configurations}); an uncited value is defined in an earlier chapter or argued in the text.}
   \label{tab:experiment}
   \tablestyle\setlength{\tabcolsep}{4pt}
   \begin{tabular}{@{}cP{3.4cm}P{10.9cm}@{}}
@@ -119,14 +119,14 @@
     & Attack scenario & targeted \citep{brown2023} \\
     \multirow{-3}{*}[-0.46cm]{\smash{\rotatebox{90}{\emph{Attacker}}}} & Vulnerability memory & on for the APT attacker model, \owed{$\lambda = 2$}{Table 5.1: $\lambda$ is a pre-check value, to be declared with its reason (Section 4.4.5, Appendix B)}; none for the baseline attacker (Section~\ref{subsec:vulnerability-memory}) \\
     \midrule
-    & Condition & no MTD; each of the seven defence mechanisms alone \citep{brown2023}; the random deployment strategy; the alternative deployment strategy \citep{zhang2023}; MTDShield, as released \citep{tay2024} \\
+    & Deployment strategy & no MTD; the single deployment strategy with each of the seven defence mechanisms \citep{brown2023}; the random deployment strategy; the alternative deployment strategy \citep{zhang2023}; MTDShield, as released \citep{tay2024} \\
     & Deployment interval & 50\,s \citep{zhang2023, ho2024}; 100\,s \citep{zhang2023, ho2024}; 200\,s \citep{zhang2023, ho2024}; 500\,s; 1\,000\,s; 2\,000\,s \\
     & Timing distribution & near-periodic (Section~\ref{subsec:defence-mechanisms}) \citep{tay2024code}; \owed{exponential, same means \citep{zhang2023}}{Table 5.1: the exponential timing distribution is run, but its result is reported nowhere; report it or remove the level} \\
     \multirow{-4}{*}[-0.55cm]{\smash{\rotatebox{90}{\emph{Defence}}}} & Deployment duration & complete topology shuffle 110\,s, IP shuffle 100\,s, OS diversity 80\,s, service diversity 70\,s \citep{zhang2023}, and the simulator's host topology shuffle 100\,s, port shuffle 70\,s, user shuffle 20\,s \citep{tay2024code} \\
     \midrule
     & Time limit & 15\,000\,s \citep{ho2024}; a run ends earlier if the attacker compromises a target, or more than 80\,\% of the hosts \citep{zhang2023} \\
     & Seeds & 1\,000 per combination \citep{arcuri2014hitchhiker}, the same set on every arm \\
-    \multirow{-3}{*}[-0.45cm]{\smash{\rotatebox{90}{\emph{Runs}}}} & Metrics & attacker behaviour: relative tactic occurrence, distinct attack paths, attack rate, attack confidentiality; attack outcome: attack success probability (ASP), network compromise ratio (NCR), mean time to compromise (MTTC); MTD effectiveness: ASP reduction, NCR reduction, attack actions blocked, compromise rate after an MTD deployment (Table~\ref{tab:metrics}) \\
+    \multirow{-3}{*}[-0.45cm]{\smash{\rotatebox{90}{\emph{Runs}}}} & Metrics & attacker behaviour: relative tactic occurrence, distinct attack paths, attack rate, attack confidentiality; attack outcome: attack success probability (ASP), network compromise ratio (NCR), mean time to compromise (MTTC); MTD effectiveness: ASP reduction, NCR reduction, attack actions blocked, time lost per MTD deployment (Table~\ref{tab:metrics}) \\
     \bottomrule
   \end{tabular}
 \end{table}

@@ -69,7 +69,7 @@ rows:
     zhang2023: {value: '80\,\% of hosts compromised', locator: 'p.33 ("the terminating condition for the simulation as the NCR reaching 0.8")'}
     ho2024: {value: '15\,000', locator: 'Table 2, p.19 (Finish Time 15000; no unit given)'}
 
-  - parameter: Runs per condition
+  - parameter: Runs per configuration
     brown2023: {value: null, locator: 'not stated (brown2023.md §B)'}
     zhang2023: {value: '100', locator: 'p.33 ("run the simulation 100 times for each variable set")'}
     ho2024: {value: null, locator: 'not stated; the 100 of Table 1 is training episodes, not evaluation runs (ho2024.md §B)'}

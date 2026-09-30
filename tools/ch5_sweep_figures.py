@@ -432,7 +432,7 @@ def emit_full_table(ranking, arm) -> str:
     w("%   Do not hand-edit. DRAFT STATE --- ratify on read.")
     w(r"\begin{table}[H]")
     w(r"  \centering")
-    w(r"  \caption[Defence conditions against %s, with intervals]{Each defence deployed every %s\,s against %s, with the rank of Table~\ref{tab:eff-cross-arm}, on the metrics of Table~\ref{tab:metrics}; the first row is the no-MTD reference. MTTC is over the runs that compromise a host, with their percentage of all runs in brackets. Brackets on NCR reduction: a 95\,\%% percentile bootstrap interval; $\pm$: a 95\,\%% interval on the mean (normal approximation).}" % (LABEL[arm], fmt_thousands(int(iv)), who))
+    w(r"  \caption[Deployment strategies against %s, with intervals]{Each defence deployed every %s\,s against %s, with the rank of Table~\ref{tab:eff-cross-arm}, on the metrics of Table~\ref{tab:metrics}; the first row is the no-MTD reference. MTTC is over the runs that compromise a host, with their percentage of all runs in brackets. Brackets on NCR reduction: a 95\,\%% percentile bootstrap interval; $\pm$: a 95\,\%% interval on the mean (normal approximation).}" % (LABEL[arm], fmt_thousands(int(iv)), who))
     w(r"  \label{tab:full-%s}" % arm)
     w(r"  \tablestyle\scriptsize\setlength{\tabcolsep}{4pt}")
     C = r">{\centering\arraybackslash}p{%s}"

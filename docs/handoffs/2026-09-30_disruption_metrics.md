@@ -1,5 +1,5 @@
 ---
-status: open
+status: partially shipped
 created: 2026-09-30
 ---
 
@@ -8,6 +8,51 @@ created: 2026-09-30
 **Goal:** replace the compromise rate after an MTD deployment with metrics built on
 how a deployment actually disrupts each attacker, and fix the analyser defects found
 on the way.
+
+## Shipped 2026-09-30 (this branch)
+
+- **§4.5.3:**
+  - attack actions blocked, per run, with what counts as blocked;
+  - time lost per MTD deployment, re-defined as the extra time to the next
+    compromise, with a worked example in round numbers and the restricted mean
+    cited (Royston & Parmar 2013, Methods, Eq. 1, verified from PMC3922847);
+  - the compromise rate after an MTD deployment retired;
+  - the Intervals paragraph now covers time lost.
+- **Tables 4.3 and 5.1:** the metric rows updated.
+- **"Condition" retired** dissertation-wide, in favour of **deployment strategy**,
+  **no MTD** or **cell**:
+  - 19 prose sites;
+  - 8 generated tables and their generators, plus the lineage YAML;
+  - a registry row, RATIFIED.
+  - Ordinary English uses stay.
+- **Reader:** `data/results/ch5_defended/time_lost.py` replaces `disruption.py`,
+  and the baseline's end is now its last action (defect 1, fixed).
+  `ablation.py` uses the reader, and its "no MTD" label is fixed at the generator.
+- **Figure 5.3 rebuilt:**
+  - (a), (b): deployments followed by a compromise within t, with and without
+    the MTD. The area between each pair equals the time lost to within 2 s in
+    all 14 cells.
+  - (c): time lost per mechanism.
+- **New Table 5.3** (`tab:disruption`): blocked per run and time lost per
+  mechanism.
+- **§5.3.1** rewritten as plain description. **§5.4**'s time-lost sentence is
+  updated (324 s against 332 s, a difference of −8 s [−20, 4]).
+- **Appendix "Robustness of time lost to its window"** deleted with its table and
+  tool.
+- **Chapter 6 §6.2:** a comment carries the mechanism narrative for points (1)
+  and (2).
+
+## Still open
+
+- **Ruling I, MTD mechanism for defence mechanism:** still unruled. Marc uses
+  "MTD mechanism" in speech, but the registry has *defence mechanism* ratified,
+  so the new text uses *defence mechanism*. One sweep once ruled; it is in
+  `2026-09-29_ch4_consolidation.md` §I.
+- **Time to resume a blocked action:** kept as chapter 5 depth, not a metric
+  (recommendation). Not yet used in the prose.
+- **Every number in §5.3.1 and Table 5.3 is on the 100-seed corpus.** Regenerate
+  at 1 000 seeds with the rest of chapter 5.
+- **Defect 3 (the tracer's "ran for all of it")** is not fixed.
 
 ## State of play
 

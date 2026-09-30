@@ -424,7 +424,7 @@ def frag_families(out: dict) -> str:
       r"at each dwell family's band ends against its declared value, the family moved as a whole with the "
       r"other three held, under no defence and under the random scheme at each interval. Pooled over the four "
       r"profiles, 400 runs per cell; intervals are 95\,\%. A family is inert when both ends sit inside the "
-      r"interval at the declared value under every condition; the verdict column reads the criterion fixed "
+      r"interval at the declared value in every cell; the verdict column reads the criterion fixed "
       r"before the run.}")
     w(r"\label{tab:anchor-sensitivity}")
     w(r"\tablestyle\setlength{\tabcolsep}{4pt}")
@@ -466,7 +466,7 @@ def frag_shape(out: dict) -> str:
     w(r"\tablestyle\setlength{\tabcolsep}{4pt}")
     w(r"\begin{tabular}{@{}P{2.6cm}P{2.6cm}>{\centering\arraybackslash}p{1.9cm}>{\centering\arraybackslash}p{1.9cm}>{\centering\arraybackslash}p{2.0cm}>{\centering\arraybackslash}p{2.6cm}@{}}")
     w(r"\toprule")
-    w(r"Dwell & Condition & Erlang-4 & Exponential & Difference & Pairs lower / tied / higher \\")
+    w(r"Dwell & Deployment strategy & Erlang-4 & Exponential & Difference & Pairs lower / tied / higher \\")
     w(r"\midrule")
     for li, (label, title) in enumerate((("centre", "declared"), ("lowslow_x4", "low-and-slow $\\times4$"))):
         rows = [(cond, interval, out["shape"][label].get(f"four|{cond}@{interval}")) for cond, interval in CONDITIONS]

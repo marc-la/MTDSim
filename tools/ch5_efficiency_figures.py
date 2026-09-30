@@ -207,7 +207,7 @@ def emit_tab58(s55: dict) -> str:
     w(r"  \tablestyle\scriptsize\setlength{\tabcolsep}{3pt}")
     w(r"  \begin{tabular}{@{}cP{3.4cm}>{\centering\arraybackslash}p{3.2cm}>{\centering\arraybackslash}p{3.2cm}>{\centering\arraybackslash}p{2.6cm}@{}}")
     w(r"    \toprule")
-    w(r"    & Condition & Actions per host reached & Successes per host reached & Share of run under reconfiguration \\")
+    w(r"    & Deployment strategy & Actions per host reached & Successes per host reached & Share of run under reconfiguration \\")
     w(r"    \midrule")
     cost = s55["by_interval"]["200"]["cost"]
     conds = ("none",) + DEFENDED
