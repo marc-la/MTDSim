@@ -2,14 +2,14 @@
 % never hand-edit. Section 5.4; the outcome read of fig:ablation(b).
 \begin{table}[htbp]
   \centering
-  \caption[The APT attacker model with and without the failure matrix]{The APT attacker model on $c_1$ to $c_4$ pooled, with the failure matrix and without it, on the same 1\,000 seeds: NCR, Cohen's $d$ on hosts compromised per seed, and NCR reduction (Section~\ref{sec:evaluation-metrics}). Each difference is with minus without, with its 95\,\% bootstrap interval over runs paired by seed.}
+  \caption[The APT attacker model with and without the failure matrix]{The APT attacker model, averaged over $c_1$ to $c_4$, with the failure matrix and without it, on the same 1\,000 seeds: NCR, Cohen's $d$ on hosts compromised per seed, and NCR reduction (Section~\ref{sec:evaluation-metrics}). Each difference is with minus without, with its 95\,\% bootstrap interval over runs paired by seed.}
   \label{tab:ablation}
   \tablestyle\scriptsize\setlength{\tabcolsep}{3pt}
   \begin{tabular}{@{}P{2.4cm}cc>{\centering\arraybackslash}p{2.4cm}>{\centering\arraybackslash}p{2.2cm}cc>{\centering\arraybackslash}p{2.4cm}@{}}
     \toprule
     & \multicolumn{4}{c}{NCR} & \multicolumn{3}{c}{NCR reduction} \\
     \cmidrule(lr){2-5}\cmidrule(lr){6-8}
-    Condition & with & without & difference & $d$ & with & without & difference \\
+    MTD & with & without & difference & $d$ & with & without & difference \\
     \midrule
     no MTD & 0.169 & 0.165 & $+0.003$\newline [$+0.001$, $+0.005$] & $+0.06$\newline [$+0.02$, $+0.09$] & --- & --- & --- \\
     IP shuffle, 200\,s & 0.007 & 0.006 & $+0.001$\newline [$0.000$, $+0.001$] & $+0.13$\newline [$+0.06$, $+0.20$] & $0.958$ & $0.963$ & $-0.005$\newline [$-0.008$, $-0.002$] \\

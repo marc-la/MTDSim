@@ -4,14 +4,14 @@
 %   the two attackers side by side at one interval, all of Table 4.3's metrics. DRAFT STATE --- ratify on read.
 \begin{table}[htbp]
   \centering
-  \caption[The defences ranked against each attacker]{Each defence deployed every 200\,s against the APT attacker model, pooled over $c_1$ to $c_4$, and against the baseline attacker, each ranked by Scott--Knott ESD on the mean hosts compromised per seed (Section~\ref{sec:dimensions}). Rank~1, in bold, is the fewest hosts compromised; defences that share a rank are not told apart; no MTD is not ranked. Rows in the APT attacker model's order. Metrics as Table~\ref{tab:metrics}; MTTC is over the runs that compromise a host, with their percentage of all runs in brackets. Every value's interval is in Appendix~\ref{app:supplementary-results}.}
+  \caption[The defence mechanisms and deployment strategies ranked against each attacker]{Each defence mechanism and deployment strategy deployed every 200\,s against the APT attacker model, averaged over $c_1$ to $c_4$, and against the baseline attacker, each ranked by Scott--Knott ESD on the mean hosts compromised per seed (Section~\ref{sec:dimensions}). Rank~1, in bold, is the fewest hosts compromised; rows that share a rank are not told apart; no MTD is not ranked. Rows in the APT attacker model's order. Metrics as Table~\ref{tab:metrics}; MTTC is over the runs that compromise a host, with their percentage of all runs in brackets. Every value's interval is in Appendix~\ref{app:supplementary-results}.}
   \label{tab:eff-cross-arm}
   \tablestyle\scriptsize\setlength{\tabcolsep}{2.6pt}\rowcolors{4}{black!5}{}
   \begin{tabular}{@{}P{3.45cm}>{\centering\arraybackslash}p{0.62cm}>{\centering\arraybackslash}p{0.7cm}>{\centering\arraybackslash}p{0.7cm}>{\centering\arraybackslash}p{1.6cm}>{\centering\arraybackslash}p{1.15cm}>{\centering\arraybackslash}p{0.62cm}>{\centering\arraybackslash}p{0.7cm}>{\centering\arraybackslash}p{0.7cm}>{\centering\arraybackslash}p{1.6cm}>{\centering\arraybackslash}p{1.15cm}@{}}
     \toprule
     & \multicolumn{5}{c}{APT attacker model} & \multicolumn{5}{c}{Baseline attacker} \\
     \cmidrule(lr){2-6}\cmidrule(lr){7-11}
-    Defence & Rank & ASP & NCR & MTTC (s) & NCR\newline reduction & Rank & ASP & NCR & MTTC (s) & NCR\newline reduction \\
+    MTD & Rank & ASP & NCR & MTTC (s) & NCR\newline reduction & Rank & ASP & NCR & MTTC (s) & NCR\newline reduction \\
     \midrule
     no MTD & --- & 0.09 & 0.16 & 2\,100 (96) & --- & --- & 0.58 & 0.49 & 675 (100) & --- \\
     \midrule

@@ -25,9 +25,9 @@
 %   Run ends / Brown: attack goal met  [III.C.1, p.4; no time limit stated (brown2023.md §B)]
 %   Run ends / Zhang: 80\,\% of hosts compromised  [p.33 ("the terminating condition for the simulation as the NCR reaching 0.8")]
 %   Run ends / Ho: 15\,000  [Table 2, p.19 (Finish Time 15000; no unit given)]
-%   Runs per condition / Brown: ---  [not stated (brown2023.md §B)]
-%   Runs per condition / Zhang: 100  [p.33 ("run the simulation 100 times for each variable set")]
-%   Runs per condition / Ho: ---  [not stated; the 100 of Table 1 is training episodes, not evaluation runs (ho2024.md §B)]
+%   Runs per combination / Brown: ---  [not stated (brown2023.md §B)]
+%   Runs per combination / Zhang: 100  [p.33 ("run the simulation 100 times for each variable set")]
+%   Runs per combination / Ho: ---  [not stated; the 100 of Table 1 is training episodes, not evaluation runs (ho2024.md §B)]
 \begin{table}[htbp]
   \centering
   \caption[The configurations of the MTDSim lineage]{The configurations the studies of the MTDSim lineage evaluated on. Values separated by semicolons were each run; a dash marks a value the study does not state. Ho gives the interval and the run's end without a unit; the simulator Ho ran counts in seconds \citep{zhang2023}. Tay \citep{tay2024} states no network, timing or run value.}
@@ -45,7 +45,7 @@
     Deployment interval & uniform on 1\,000--5\,000\,ms & exponential, mean 50; 100; 150; 200\,s & 50; 100; 200 \\
     Deployment duration & --- & complete topology shuffle 110\,s, IP shuffle 100\,s, OS diversity 80\,s, optimised OS assignment 80\,s, service diversity 70\,s & --- \\
     Run ends & attack goal met & 80\,\% of hosts compromised & 15\,000 \\
-    Runs per condition & --- & 100 & --- \\
+    Runs per combination & --- & 100 & --- \\
     \bottomrule
   \end{tabular}
 \end{table}

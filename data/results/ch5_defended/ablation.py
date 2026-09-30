@@ -333,7 +333,7 @@ def write_table(rows: dict) -> None:
     """Table 5.5: the outcome read of Figure 5.x(b) with its differences. Two
     groups, each the same three columns: what the attacker achieves (NCR) and
     what the defence achieves against it (NCR reduction)."""
-    order = [("none", "no defence"), ("ip_shuffle|200", "IP shuffle, 200\\,s"), ("ip_shuffle|2000", "IP shuffle, 2\\,000\\,s"),
+    order = [("none", "no MTD"), ("ip_shuffle|200", "IP shuffle, 200\\,s"), ("ip_shuffle|2000", "IP shuffle, 2\\,000\\,s"),
              ("os_diversity|200", "OS diversity, 200\\,s"), ("os_diversity|2000", "OS diversity, 2\\,000\\,s")]
     body = []
     for key, label in order:
@@ -356,17 +356,17 @@ def write_table(rows: dict) -> None:
         "% never hand-edit. Section 5.4; the outcome read of fig:ablation(b).",
         r"\begin{table}[htbp]",
         r"  \centering",
-        (r"  \caption[The APT attacker model with and without the failure matrix]{The APT attacker model on $c_1$ to $c_4$ pooled, "
+        (r"  \caption[The APT attacker model with and without the failure matrix]{The APT attacker model, averaged over $c_1$ to $c_4$, "
          r"with the failure matrix and without it, on the same %s seeds: NCR, Cohen's $d$ on hosts compromised per seed, and "
          r"NCR reduction (Section~\ref{sec:evaluation-metrics}). Each difference is with minus without, with its 95\,\%% "
-         r"bootstrap interval over runs paired by seed (Section~\ref{subsec:metrics-statistics}).}") % fmt_seeds(seeds),
+         r"bootstrap interval over runs paired by seed.}") % fmt_seeds(seeds),
         r"  \label{tab:ablation}",
         r"  \tablestyle\scriptsize\setlength{\tabcolsep}{3pt}",
         r"  \begin{tabular}{@{}P{2.4cm}cc>{\centering\arraybackslash}p{2.4cm}>{\centering\arraybackslash}p{2.2cm}cc>{\centering\arraybackslash}p{2.4cm}@{}}",
         r"    \toprule",
         r"    & \multicolumn{4}{c}{NCR} & \multicolumn{3}{c}{NCR reduction} \\",
         r"    \cmidrule(lr){2-5}\cmidrule(lr){6-8}",
-        r"    Condition & with & without & difference & $d$ & with & without & difference \\",
+        r"    MTD & with & without & difference & $d$ & with & without & difference \\",
         r"    \midrule",
     ] + body + [r"    \bottomrule", r"  \end{tabular}", r"\end{table}", ""]
     TABLE.write_text("\n".join(tex))

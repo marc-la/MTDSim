@@ -74,8 +74,8 @@ FAMILY_NAME = {
 }
 FAMILY_VALUE = {"scan-shaped": 35.0, "exploit-shaped": 4.5,
                 "stealth-low-and-slow": 45.0, "objective-execution": 36.0}
-COND_LABEL = {("none", 0): "no defence", ("random", 200): "defended, 200\\,s",
-              ("random", 2000): "defended, 2\\,000\\,s"}
+COND_LABEL = {("none", 0): "no MTD", ("random", 200): "random, 200\\,s",
+              ("random", 2000): "random, 2\\,000\\,s"}
 IDENTITY_FIELDS = ("compromised", "termination_time", "n_actions", "n_blocked",
                    "n_success", "n_interrupted", "mtd_count", "reached_objective")
 
@@ -319,7 +319,7 @@ def frag_body(out: dict) -> str:
         e_lo, e_hi = v["ends"][f"x{lo:g}"]["none@0"], v["ends"][f"x{hi:g}"]["none@0"]
         slope = v["hosts_lost_per_doubling"]["none@0"]
         return (f"moved: {e_lo['point']['mean']:.1f} / {e_lo['centre']['mean']:.1f} / {e_hi['point']['mean']:.1f} hosts "
-                f"at $\\times{lo:g}$ / declared / $\\times{hi:g}$ under no defence, {slope:.1f} lost per doubling "
+                f"at $\\times{lo:g}$ / declared / $\\times{hi:g}$ under no MTD, {slope:.1f} lost per doubling "
                 f"(Appendix~\\ref{{app:dwell-robustness}})")
 
     def shape_effect() -> str:
@@ -336,14 +336,14 @@ def frag_body(out: dict) -> str:
             return "inert (Appendix~\\ref{app:exponential-shape})"
         if none_ok and all(d["mean"] < 0 for d in sep):
             worst = min(d["mean"] for d in sep)
-            return (f"inert under no defence; under defence the concentrated draw reaches fewer hosts, "
+            return (f"inert under no MTD; under MTD the concentrated draw reaches fewer hosts, "
                     f"by {abs(worst):.1f} at most (Appendix~\\ref{{app:exponential-shape}})")
         return "moved; see Appendix~\\ref{app:exponential-shape}"
 
     def mapping_effect() -> str:
         m = out["mapping"]["none@0"]
         return (f"the alternative reaches {m['forced_total']['hosts']['mean']:.1f} hosts against "
-                f"{m['partial']['hosts']['mean']:.1f}, no defence (Appendix~\\ref{{app:experiment-one}})")
+                f"{m['partial']['hosts']['mean']:.1f}, no MTD (Appendix~\\ref{{app:experiment-one}})")
 
     def decay_effect(param: str, lo_name: str, hi_name: str) -> str:
         st = {k: v["status"] for n in (lo_name, hi_name) for k, v in four[n].items()}
@@ -354,7 +354,7 @@ def frag_body(out: dict) -> str:
         moved = sorted({k for k, s in st.items() if s == "moved"})
         lo_v, hi_v = four[lo_name]["none@0"], four[hi_name]["none@0"]
         return (f"moved under {', '.join(COND_LABEL[(k.split('@')[0], int(k.split('@')[1]))] for k in moved)}: "
-                f"{lo_v['point']['mean']:.1f} / {lo_v['centre']['mean']:.1f} / {hi_v['point']['mean']:.1f} hosts, no defence "
+                f"{lo_v['point']['mean']:.1f} / {lo_v['centre']['mean']:.1f} / {hi_v['point']['mean']:.1f} hosts, no MTD "
                 f"(Appendix~\\ref{{app:decay-robustness}})")
 
     rows = [
@@ -387,12 +387,12 @@ def frag_body(out: dict) -> str:
     w(r"  \caption[The declared inputs and what moved]{Each value the attacker model was given rather than derived, "
       r"grouped by the three inputs of Section~\ref{sec:execution}: the value declared, the range it was moved across "
       r"with the other inputs held at their declared values, and what happened to distinct hosts reached, read against "
-      r"the interval at the declared value under no defence and under the random scheme at both intervals. "
+      r"the interval at the declared value under no MTD and under the random deployment strategy at both intervals. "
       r"The dwell ranges follow the evidence tiers of Appendix~\ref{app:dwell-derivation}; the failure-matrix ranges "
       r"bracket the declared value on both sides (Appendix~\ref{app:weight-sets}). The draw's shape and the mapping "
       r"have no range and are compared against the alternative that was tried; the nine failure rules are single argued "
       r"values, held one by one and removed together by the ablation of Section~\ref{sec:ablation}. In the notation of Chapter~\ref{ch:attacker-model} the rows are $\mu_p$, $\tau_p$, "
-      r"$\varphi$, $\gamma$, $\delta$, $z$ and $R$. Pooled over the four profiles, 400 runs per cell; the per-value "
+      r"$\varphi$, $\gamma$, $\delta$, $z$ and $R$. Averaged over the four profiles, 400 runs per cell; the per-value "
       r"readings are the sections that follow.}")
     w(r"  \label{tab:parameter-register}")
     w(r"  \tablestyle\setlength{\tabcolsep}{4pt}")
@@ -422,9 +422,9 @@ def frag_families(out: dict) -> str:
     w(r"% CAPTION DRAFT STATE 2026-09-17 --- voice pass owed.")
     w(r"\caption[Hosts reached at each family's band ends against its declared value]{Distinct hosts reached "
       r"at each dwell family's band ends against its declared value, the family moved as a whole with the "
-      r"other three held, under no defence and under the random scheme at each interval. Pooled over the four "
+      r"other three held, under no MTD and under the random deployment strategy at each interval. Averaged over the four "
       r"profiles, 400 runs per cell; intervals are 95\,\%. A family is inert when both ends sit inside the "
-      r"interval at the declared value under every condition; the verdict column reads the criterion fixed "
+      r"interval at the declared value under no MTD and under the random deployment strategy at each interval; the verdict column reads the criterion fixed "
       r"before the run.}")
     w(r"\label{tab:anchor-sensitivity}")
     w(r"\tablestyle\setlength{\tabcolsep}{4pt}")
@@ -460,13 +460,13 @@ def frag_shape(out: dict) -> str:
     w(r"% CAPTION DRAFT STATE 2026-09-17 --- voice pass owed.")
     w(r"\caption[The same-mean shape substitution]{Distinct hosts reached under a same-mean Erlang-4 draw on the "
       r"low-and-slow family against the declared exponential, paired by profile and seed, at the declared dwell and "
-      r"at the top of the family's band. Pooled over the four profiles, 400 pairs per cell; intervals are 95\,\%. "
+      r"at the top of the family's band. Averaged over the four profiles, 400 pairs per cell; intervals are 95\,\%. "
       r"The sign column counts the pairs in which the concentrated draw reached fewer, the same, and more hosts.}")
     w(r"\label{tab:shape-substitution}")
     w(r"\tablestyle\setlength{\tabcolsep}{4pt}")
     w(r"\begin{tabular}{@{}P{2.6cm}P{2.6cm}>{\centering\arraybackslash}p{1.9cm}>{\centering\arraybackslash}p{1.9cm}>{\centering\arraybackslash}p{2.0cm}>{\centering\arraybackslash}p{2.6cm}@{}}")
     w(r"\toprule")
-    w(r"Dwell & Condition & Erlang-4 & Exponential & Difference & Pairs lower / tied / higher \\")
+    w(r"Dwell & MTD & Erlang-4 & Exponential & Difference & Pairs lower / tied / higher \\")
     w(r"\midrule")
     for li, (label, title) in enumerate((("centre", "declared"), ("lowslow_x4", "low-and-slow $\\times4$"))):
         rows = [(cond, interval, out["shape"][label].get(f"four|{cond}@{interval}")) for cond, interval in CONDITIONS]
@@ -492,8 +492,8 @@ def frag_decay(out: dict) -> str:
     w(r"% CAPTION DRAFT STATE 2026-09-17 --- voice pass owed.")
     w(r"\caption[Hosts reached across the failure matrix's distance parameters]{Distinct hosts reached at each "
       r"distance parameter's band ends against its declared value, one at a time with the others held, and then "
-      r"at the four corners of the two rates with the floor declared, under no defence and under the random scheme "
-      r"at each interval. Pooled over the four profiles, 400 runs per cell; intervals are 95\,\%. The floor's rows "
+      r"at the four corners of the two rates with the floor declared, under no MTD and under the random deployment strategy "
+      r"at each interval. Averaged over the four profiles, 400 runs per cell; intervals are 95\,\%. The floor's rows "
       r"are bit-identical to the declared point: no Petri net carries a jump of three stages, so its sensitivity "
       r"is zero by structure rather than by measurement.}")
     w(r"\label{tab:decay-sensitivity}")
