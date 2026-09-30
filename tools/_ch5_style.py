@@ -155,6 +155,59 @@ def panel_letter(w, x: float, y: float, letter: str) -> None:
     w(r"\node[anchor=south west,font=\footnotesize\bfseries] at (%.3f,%.3f) {(%s)};" % (x, y, letter))
 
 
+# --- the results-figure layout (figure_table_conventions.md §o, 2026-09-30) -----
+# Every panel's title and every key sit in the same place in every chapter 5
+# figure, so these two helpers are the only way a generator draws them:
+#   figure-wide key  -- the top of the figure, left edge on the first y-axis
+#   panel title      -- above its plot, left edge on that panel's y-axis
+#   panel-only key   -- directly under that panel's title, the same left edge
+TITLE_GAP = 0.08   # plot top to the title's baseline box
+TITLE_H = 0.42     # a title line's height, for stacking a key under it
+KEY_H = 0.42       # a key row's height
+BASE_DASH = "dash pattern=on 2.4pt off 1.4pt"  # the baseline attacker's line, every figure
+
+
+def panel_title(w, x: float, ytop: float, title: str, letter: str | None = None) -> float:
+    """``(a)  Title`` above a plot whose y-axis is at ``x`` and top at ``ytop``;
+    a single-panel figure passes no letter. Returns the y above the title."""
+    head = (r"\textbf{(%s)}\enspace " % letter if letter else "") + title
+    w(r"\node[anchor=south west,inner sep=0pt] at (%.3f,%.3f) {%s};" % (x, ytop + TITLE_GAP, head))
+    return ytop + TITLE_GAP + TITLE_H
+
+
+def key_row(w, x: float, y: float, entries, *, xmax: float | None = None, gap: float = 0.45) -> float:
+    """One key row, left edge at ``x``, centred on ``y``; wraps at ``xmax``.
+    ``entries``: (label, kind, colour, marker) where kind is ``line``,
+    ``dashed`` (line + marker), ``bar`` (solid swatch), ``hatch`` (the
+    baseline's hatched bar) or ``band`` (a shaded region), or two joined by
+    ``+`` where one series is drawn both ways (``bar+line``). Returns the last
+    row's y."""
+    glyph_w = {"line": 0.68, "dashed": 0.68, "bar": 0.36, "hatch": 0.36, "band": 0.36}
+    x0 = x
+    for label, kind, col, mark in entries:
+        parts = kind.split("+")
+        plain = label.replace("$", "").replace(r"\mathrm", "").replace("{", "").replace("}", "")
+        width = sum(glyph_w[k] for k in parts) + 0.155 * len(plain) + gap
+        if xmax is not None and x > x0 and x + width > xmax:
+            x, y = x0, y - KEY_H
+        tx = x
+        for k in parts:
+            if k in ("line", "dashed"):
+                style = "%s,line width=0.8pt%s" % (col, "," + BASE_DASH if k == "dashed" else "")
+                w(r"\draw[%s] (%.3f,%.3f) -- (%.3f,%.3f);" % (style, tx, y, tx + 0.6, y))
+                if mark:
+                    marker(w, mark, col, tx + 0.3, y, r=0.065)
+            elif k == "hatch":
+                w(r"\fill[pattern=north east lines,pattern color=%s] (%.3f,%.3f) rectangle ++(0.30,0.22);" % (col, tx, y - 0.11))
+                w(r"\draw[%s,line width=0.3pt] (%.3f,%.3f) rectangle ++(0.30,0.22);" % (col, tx, y - 0.11))
+            else:  # bar, band
+                w(r"\fill[%s] (%.3f,%.3f) rectangle ++(0.30,0.22);" % (col, tx, y - 0.11))
+            tx += glyph_w[k]
+        w(r"\node[anchor=west] at (%.3f,%.3f) {%s};" % (tx, y, label))
+        x += width
+    return y
+
+
 def errorbar(w, x: float, lo: float, hi: float, col: str = "black!70", cap: float = 0.05) -> None:
     w(r"\draw[%s,line width=0.4pt] (%.3f,%.3f) -- (%.3f,%.3f);" % (col, x, lo, x, hi))
     w(r"\draw[%s,line width=0.4pt] (%.3f,%.3f) -- (%.3f,%.3f);" % (col, x - cap, lo, x + cap, lo))

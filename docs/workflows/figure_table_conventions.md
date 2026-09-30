@@ -1,7 +1,7 @@
 ---
 status: durable
 created: 2026-08-20
-updated: 2026-09-05
+updated: 2026-09-30
 ---
 
 # Figure and table conventions — what the MTD literature does, and what this dissertation adopts
@@ -83,8 +83,8 @@ For each genre the literature has a settled visual grammar. New figures should b
 
 - **Chart type by question:** grouped bars for technique × scenario comparison (brown2023 Figs. 4–5); marker-per-series line charts for parameter sweeps (hong2018 Fig. 5; kim2026 Fig. 8); log-axis scatter for two-metric outcome spaces (he2025 Fig. 4); stacked bars only when segment values are printed in the segments (tay2024 Fig. 6). Pair an overview with a zoom when one regime hides another (bland2020 Fig. 12).
 - **Series encoding is an experiment-wide contract:** one colour/marker per condition, identical in every panel and every figure of that experiment (hong2018 holds four series across five panels). Name series in domain terms ("No MTD", "Shuffle only"), or declared math symbols (kim2026's $S_{vIP}+D_{SW}$) — never raw code identifiers.
-- **Legend inside the axes** where space allows (every charted paper), or as a once-shown key panel for multi-panel figures (hong2018).
-- **No title above the axes** — the caption is the title. (bland2020 and tay2024 keep matplotlib's default titles; that is the tool leaking, not a convention.)
+- ~~**Legend inside the axes** where space allows (every charted paper), or as a once-shown key panel for multi-panel figures (hong2018).~~ **Superseded 2026-09-30 by §o:** the key has one slot, above the plots it decodes.
+- ~~**No title above the axes** — the caption is the title.~~ **Overturned 2026-09-30 (supervisor, relayed by Marc):** every panel carries a title; see §o. What survives: the *figure's* title is still the caption's opening (Wilke §22.1); what is on the figure is a *panel* title. (bland2020 and tay2024's matplotlib titles remain the tool leaking.)
 - Axis labels spelled out with units; when axis categories abbreviate, the caption carries the key (brown2023).
 - Palette: the corpus's saturated defaults (cho2020 pies, bland2020 tab10) are **not** the model; ours is greys + accent. For multi-series charts needing more hues, the `dataviz` skill's palette rules apply within that constraint.
 
@@ -154,7 +154,7 @@ The examiner stake: Tim French's lit-review feedback (missing images/examples co
 - **`fig:pipeline` is a schematic, not an evidence figure — ruled (Marc, 2026-09-08, on the supervisor's verdict).** The 2026-08-20 data-faithful thumbnail ladder failed a general computer-science reader ("a mess on the page"); the definition figure now draws the smallest worked example per rung (two flows, their merge, the objective bands, a firing net fragment), with every structural fact still read from the artefacts and the counts printed for the caption rather than drawn. The runtime loop is its own float again (`fig:runtime-loop`). The ladder-orientation choice below (top→bottom over one tactic axis) was kept and is thereby confirmed. The under-floor entry above for `pipeline_ladder` is closed: rebuilt at natural size, smallest type 8.5 pt nominal.
 - **One hue per attack profile in the chapter 5 results family — ruled (Marc, 2026-09-22), a scoped exception to the one-accent rule.** The series contract of `tools/_ch5_style.py` (one hue and one marker per attack profile $c_1$ to $c_4$ and the aggregate; the baseline attacker grey, hatched where the series is an arm) encodes the profile in every chapter 5 float from Figure 5.1 on. Marc kept it on the Figure 5.3 pass ("the colour is good in terms of separating the meaning of each of the different profiles"). Greys-plus-one-accent stands everywhere else.
 - Whether ch3's related-work positioning uses a ✓-matrix (genre §e1) — natural fit for the "prior simulators vs this model" argument, but Marc has not ruled on wanting one.
-- Whether best-in-column marking in results tables is bold (rahman/he style) or underline (buechel style) — recommend bold; needs one ruling before ch5 tables exist.
+- Whether best-in-column marking in results tables is bold (rahman/he style) or underline (buechel style) — recommend bold; needs one ruling. **Proposal 2026-09-30 in §o rule 9** (bold for the headline value only); still Marc's to rule.
 - ~~Subfigure mechanics~~ **Closed (2026-08-20, appendix-wiring pass — session recommendation applied; overturn by loading the package).** `subcaption` is **not** loaded and should not be. the ruling was argued on `fig:l1-graph`, which drew its panel letters inside the TikZ picture; that figure was deleted on 2026-08-20 (Marc's ruling — it compressed three graphs into one `\textwidth` float and read as a garble), and what it carried now stands as four full-page single-panel appendix figures, so the family currently has **no** multi-panel float. The ruling stands on its own terms: adopting `subcaption` would mean carrying two panel-lettering mechanisms the moment the next multi-panel figure is drawn. The in-TikZ pattern is therefore the family-wide one: panel letters are drawn by the generator, the overall caption carries the shared message and decodes each panel in turn (§b2, §b3), and multi-panel floats stay single `figure` environments. The cost is that panels get no separate List-of-Figures line and no independent `\ref` target — accepted, since the corpus's own multi-panel figures (hong2018 Fig. 5, brown2023 Figs. 4–5) are cited as wholes.
 
 ## j) File naming — floats are keyed to where they land in the dissertation (ruled 2026-08-27)
@@ -510,3 +510,92 @@ seven mechanisms), so the top-level figure is a contents page for the other
 three. And the figure's outer frame and its "one discrete-event simulation"
 tab were cut: an unlabelled frame is an undecoded mark, and a labelled one
 spends ink on what the prose's first sentence already says.
+
+
+## o) The house results-figure layout — one place for every title and key (2026-09-30)
+
+**Why.** The supervisor's read of §5.2–§5.3 (relayed by Marc, 2026-09-30):
+the figures were "all over the shop". Every chapter 5 figure put its key
+somewhere else: a top row, the right margin, under the panels, inside an
+empty panel slot, inside panel (a). Some panels had titles and some did not.
+The same series changed marker or colour between figures. §k did this for
+tables; this section does it for results charts. It changes *layout and
+encoding only*: no chart type, value, scale or caption was changed in the
+2026-09-30 pass, and colour stays (§i's per-profile hue ruling).
+
+**Mechanism.** Two helpers in `tools/_ch5_style.py` are the only way a
+generator draws a title or a key: `panel_title(w, x, ytop, title, letter)`
+and `key_row(w, x, y, entries)`. A generator does not hand-place either.
+
+**The rules.**
+
+1. **Every panel has a title**, set above its plot: bold `(a)`, an en space,
+   then the title in sentence case, no full stop, `\footnotesize`. A
+   single-panel figure has a title with no letter. The title names what the
+   panel shows: the slice (a mechanism, a layer, a strategy) or the measure,
+   in the words the text and caption already use. No new terms (the
+   no-invented-terms ruling).
+2. **One left edge.** A panel's title starts on that panel's y-axis line.
+   A matrix panel with no y-axis takes the y-axis of the panel it stacks
+   with (Figure 5.1). Row-group headers (grey, over a hairline) start on the
+   same line.
+3. **The key has one slot: directly above what it decodes.** If it decodes
+   the whole figure, it is the first thing at the top of the figure, left
+   edge on the first y-axis. A single-panel figure counts as a whole figure.
+   If it decodes one panel of several, it goes directly under that panel's
+   title (Figures 5.1(b) and 5.7(a)). One row, wrapping only at the figure's
+   right edge. No key heading: the caption decodes the symbols.
+4. **A label that would repeat across panels goes in the key once.** In
+   Figure 5.3 the shaded deployment band was named above each panel, and
+   "MTD deployment" read as a second heading. It is now a key entry.
+5. **The series contract holds in every figure.** $c_1$ to $c_4$ and
+   $c_{\mathrm{agg}}$ each keep one hue and one marker. The baseline attacker
+   is a grey square on a dashed line (`BASE_DASH`), and a hatched grey bar
+   when drawn as a bar. The APT attacker model pooled over its profiles is
+   **black**, because blue is $c_1$. Each series has a second cue beside its
+   hue (a marker, a dash or a hatch), so it survives greyscale and colour
+   blindness (Wilke ch. 20; Midway 2020 #4).
+6. **Axis titles are in sentence case with the unit in brackets**:
+   "Deployment interval (s)". The y-axis title is given once per row of
+   panels and the x-axis title once under the bottom row. Tick numerals
+   follow the thesis rule: a thin space from 1 000 up, and a true minus
+   (`$-$`), never a hyphen.
+7. **Size and inclusion as §h:** pack to 15.7 cm natural and include bare.
+   One type size, `\footnotesize`. `\scriptsize` is allowed only for crowded
+   log-axis ticks.
+8. **Placement `[tp]`**: top of a page or a float page, never mid-page or
+   at the bottom. This applies to every chapter 5 figure from 2026-09-30.
+9. **Emphasising the headline (proposal; Marc to rule).** *In a figure*,
+   the series the figure is about is drawn black or in its hue and on top,
+   and the reference is grey and dashed (Rougier 2014 rule 6; Wilke §4.3).
+   Figure 5.4 already does this. *In a table*, bold only the value the text
+   cites as the section's headline, at most one per column, and say so in
+   the caption ("bold: …", §b2). No source covers best-in-column bolding
+   (the literature sweep found none), so the rule rests on §b2 alone.
+
+**Evidence (fetched 2026-09-30, OA only).** Wilke, *Fundamentals of Data
+Visualization* (2019, online ed.): §21.2 on panel labels ("labeling needs
+to be consistent across all figures in a document"; same things look the
+same across figures); §22.1 (the figure title is the caption's first
+element); §20.2 (direct labelling is best, a legend is the fallback); §21.1
+(panels to be compared share axis ranges). Rougier, Droettboom and Bourne
+(2014), *Ten Simple Rules for Better Figures*, rules 4–8 (caption, defaults,
+colour with purpose, chartjunk). Crameri et al. (2020) on colour maps: no
+rainbow, no red–green, a colour bar where a scale is used. Midway (2020),
+*Patterns* 1(9), #4 (colour is fine; encode twice). **Gap:** no source
+prescribes where a shared key sits. Rule 3's single slot follows from the
+consistency principle (Wilke §21.2), not from a cited placement rule.
+
+**Deliberately not taken.** (i) *Direct labelling* (Wilke §20.2) in place of
+keys. It suits one-line-per-series charts, but Figures 5.5 and 5.6 overlap
+six series in every panel, so the labels would collide. A key in one fixed
+place is the consistent choice. (ii) *Greyscale only.* Colour is kept by
+ruling (§i, 2026-09-22), and the second cue in rule 5 does the job greyscale
+was meant to do.
+
+**Applied 2026-09-30:** Figures 5.1–5.7 (`ch5_unopposed_figures.py`,
+`ch5_disruption_figure.py`, `ch5_sweep_figures.py`, `ch5_ablation_figure.py`).
+Figure C.1 and the chapter 2 and chapter 4 figures are owed or out of scope.
+The open list is in
+[`../handoffs/2026-09-30_results_figure_house_style.md`](../handoffs/2026-09-30_results_figure_house_style.md).
+

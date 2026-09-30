@@ -42,8 +42,8 @@ import sys
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from _ch5_style import (FONT, LABEL, LONG, PREAMBLE, REPO, axes, compile_fig, errorbar,  # noqa: E402
-                        fmt_thousands, marker, panel_letter, write_fig)
+from _ch5_style import (BASE_DASH, FONT, KEY_H, LABEL, LONG, PREAMBLE, REPO, axes, compile_fig,  # noqa: E402
+                        errorbar, fmt_thousands, key_row, marker, panel_title, write_fig)
 from ch5_effectiveness_figures import LAYER, PANEL_SINGLES, TICK  # noqa: E402
 
 NUMBERS = REPO / "data" / "results" / "ch5_defended" / "disruption_numbers.json"
@@ -91,13 +91,11 @@ def emit(d: dict) -> tuple[str, list[str]]:
              yticks=[(v, ya(v)) for v in (0, 25, 50, 75, 100, 125)],
              xlabel="", ylabel="", ylabels=(k == 0), xfmt=signed)
         dur = R[f"movement|{m}|{INTERVAL}"]["deployment_seconds_median"]
+        # the band is named once, in the key (conventions §o, 2026-09-30: named over
+        # each band, "MTD deployment" printed twice and read as a second heading)
         w(r"\fill[black!10] (%.3f,%.3f) rectangle (%.3f,%.3f);" % (xa(-dur), AY0, xa(0), ay1))
-        # the band is named from above, over the band itself (Marc 2026-09-24: a label
-        # to its left read as "the deployment happens before the band")
-        w(r"\node[anchor=south,text=black!60] at (%.3f,%.3f) {MTD deployment};" % (xa(-dur / 2), ay1 + 0.04))
         w(r"\draw[black!55,line width=0.4pt,dash pattern=on 1pt off 1.5pt] (%.3f,%.3f) -- (%.3f,%.3f);" % (x0, ya(100), x1, ya(100)))
-        panel_letter(w, x0 - (1.35 if k == 0 else 0.5), ay1 + 0.02, letter)
-        w(r"\node[anchor=south east] at (%.3f,%.3f) {%s};" % (x1, ay1 + 0.04, LONG[m]))
+        head_top = panel_title(w, x0, ay1, LONG[m][:1].upper() + LONG[m][1:], letter)
         # the dip, shaded under the 100 % line from the moment the deployment
         # completes: (c)'s bar is this area (Marc 2026-09-24: read as a point on the
         # time axis, the seconds in (c) did not match anything in (a)/(b)). Drawn
@@ -116,7 +114,7 @@ def emit(d: dict) -> tuple[str, list[str]]:
         for arm, col, mk in ARMS:
             c = R[f"{arm}|{m}|{INTERVAL}"]
             pts = [(xa(t), ya(v)) for t, v in zip(mids, c["relative_pct"])]
-            dash = ",dash pattern=on 3pt off 1.8pt" if arm == "baseline" else ""  # the chapter's contract: the baseline is dashed grey
+            dash = "," + BASE_DASH if arm == "baseline" else ""  # the chapter's contract: the baseline is dashed grey
             w(r"\draw[%s,line width=0.8pt%s] %s;" % (col, dash, " -- ".join("(%.3f,%.3f)" % p for p in pts)))
             for x, y in pts:
                 marker(w, mk, col, x, y, r=0.06)
@@ -124,7 +122,7 @@ def emit(d: dict) -> tuple[str, list[str]]:
             facts.append(f"({letter}) {LONG[m]:18s} {arm:9s} deployments {c['deployments']:5d}  first 125 s {after[0]:.0f} %  "
                          f"at 1 000-1 250 s {after[-1]:.0f} %  rate before {c['pre_rate_per_ksec']:.2f} per 1 000 s  "
                          f"(deployment runs {dur:.0f} s)")
-    w(r"\node[anchor=north] at (%.3f,%.3f) {time since the MTD deployment completed (s)};" % ((X0 + X1) / 2, AY0 - 0.42))
+    w(r"\node[anchor=north] at (%.3f,%.3f) {Time since the MTD deployment completed (s)};" % ((X0 + X1) / 2, AY0 - 0.42))
     w(r"\node[rotate=90,anchor=south,align=center] at (%.3f,%.3f) {NCR growth rate (\%% of\\pre-deployment rate)};" % (X0 - 0.85, (AY0 + ay1) / 2))
 
     # ---- (c) time lost per deployment, per mechanism ------------------------
@@ -145,9 +143,9 @@ def emit(d: dict) -> tuple[str, list[str]]:
          xticks=[(TICK[m], x) for m, x in xt],
          yticks=[(v, yb(v)) for v in range(int(YB0), int(YB1) + 1, 200)],
          xlabel="", ylabel="", xfmt=lambda v: v, yfmt=signed)
-    w(r"\node[rotate=90,anchor=south,align=center] at (%.3f,%.3f) {time lost per\\MTD deployment (s)};" % (X0 - 0.85, (BY0 + by1) / 2))
+    w(r"\node[rotate=90,anchor=south,align=center] at (%.3f,%.3f) {Time lost per\\MTD deployment (s)};" % (X0 - 0.85, (BY0 + by1) / 2))
     w(r"\draw[black!60,line width=0.4pt] (%.3f,%.3f) -- (%.3f,%.3f);" % (X0, yb(0), X1, yb(0)))
-    panel_letter(w, X0 - 1.35, by1 + 0.02, "c")
+    panel_title(w, X0, by1, "Time lost per MTD deployment, by defence mechanism", "c")
     for m, x in xt:
         for j, (arm, col, _) in enumerate(ARMS):
             v = tl[(arm, m)]
@@ -175,19 +173,11 @@ def emit(d: dict) -> tuple[str, list[str]]:
         w(r"\node[anchor=north,text=black!60] at (%.3f,%.3f) {%s};" % ((xa_ + xb_) / 2, ybk - 0.03, LAYER[PANEL_SINGLES[i]]))
         i = j + 1
 
-    # ---- key, once, between the rows (both rows share the encoding) --------
-    ky = AY0 - 1.05
-    xx = X0
-    for arm, col, mk in ARMS:
-        if arm == "movement":
-            w(r"\fill[%s] (%.3f,%.3f) rectangle ++(0.3,0.22);" % (col, xx, ky - 0.11))
-        else:
-            w(r"\fill[pattern=north east lines,pattern color=%s] (%.3f,%.3f) rectangle ++(0.3,0.22);" % (col, xx, ky - 0.11))
-            w(r"\draw[%s,line width=0.3pt] (%.3f,%.3f) rectangle ++(0.3,0.22);" % (col, xx, ky - 0.11))
-        w(r"\draw[%s,line width=0.8pt%s] (%.3f,%.3f) -- ++(0.5,0);" % (col, ",dash pattern=on 3pt off 1.8pt" if arm == "baseline" else "", xx + 0.42, ky))
-        marker(w, mk, col, xx + 0.67, ky, r=0.06)
-        w(r"\node[anchor=west] at (%.3f,%.3f) {%s};" % (xx + 1.0, ky, LABEL[arm]))
-        xx += 4.4
+    # ---- the figure-wide key at the top (conventions §o): every panel shares it
+    key_row(w, X0, head_top + 0.1 + KEY_H / 2,
+            [(LABEL["movement"], "bar+line", "cmov", "circle"),
+             (LABEL["baseline"], "hatch+dashed", "cbase", "square"),
+             ("MTD deployment running", "band", "black!10", None)], xmax=X1)
     w(r"\end{tikzpicture}")
     w(r"\end{document}")
     facts.insert(0, "worst mechanism by rule (largest time lost): " + ", ".join(f"{a} -> {m}" for a, m in worst.items()))

@@ -43,7 +43,7 @@ from __future__ import annotations
 import json
 import math
 
-from _ch5_style import FONT, LABEL, PREAMBLE, REPO, compile_fig, panel_letter, write_fig
+from _ch5_style import FONT, LABEL, PREAMBLE, REPO, compile_fig, key_row, panel_title, write_fig
 
 STEM = "fig_5-4a_ablation"
 NUMBERS = REPO / "data" / "results" / "ch5_defended" / "ablation_numbers.json"
@@ -99,14 +99,10 @@ def main() -> None:
     X0, X1 = 2.2, 12.25           # share 0 .. 1
     CX, NX = 12.95, 13.75         # the compromise column's centre; n's west edge
     BH, GAP_IN, GAP_OUT = 0.34, 0.07, 0.26
-    top = 0.0
-    KEY_COL = (X0, X0 + 5.6, X0 + 9.3)
-    for i, (key, lab, fill, _) in enumerate(KINDS):
-        kx, ky = KEY_COL[i % 3], top + 0.13 - 0.40 * (i // 3)
-        w(r"\fill[%s] (%.3f,%.3f) rectangle ++(0.30,0.22);" % (fill, kx, ky - 0.11))
-        w(r"\node[anchor=west] at (%.3f,%.3f) {%s};" % (kx + 0.36, ky, lab))
-    top -= 0.40
-    y = top - 0.75
+    # (a)'s key decodes (a) only, so it sits under (a)'s title (conventions §o)
+    panel_title(w, X0, 0.22, "Next action after a failed initial access", "a")
+    ky = key_row(w, X0, 0.0, [(lab, "bar", fill, None) for _, lab, fill, _ in KINDS], xmax=X1 + 2.8)
+    y = ky - 0.88
     w(r"\node[anchor=south,align=center,text=black!60] at (%.3f,%.3f) {compromises a host};" % (CX, y + 0.02))
     for p in DRAWN:
         g0 = y
@@ -134,9 +130,8 @@ def main() -> None:
         xx = X0 + v * (X1 - X0)
         w(r"\draw[black!60,line width=0.3pt] (%.3f,%.3f) -- (%.3f,%.3f);" % (xx, ybot, xx, ybot - 0.07))
         w(r"\node[anchor=north] at (%.3f,%.3f) {%g};" % (xx, ybot - 0.1, v))
-    w(r"\node[anchor=north] at (%.3f,%.3f) {share of the next actions after a failed initial access, no MTD};"
+    w(r"\node[anchor=north] at (%.3f,%.3f) {Share of the next actions after a failed initial access, no MTD};"
       % ((X0 + X1) / 2, ybot - 0.5))
-    panel_letter(w, 0.0, top + 0.42, "a")
 
     # ---------------- (b) outcome: Cohen's d, with minus without ----------------
     lo_all = min(R[k]["cohen_d_ci95"][0] for k, _ in CONDS)
@@ -167,13 +162,14 @@ def main() -> None:
         cx = BX0 + gw * (i + 0.5)
         r = R[key]
         d, (lo, hi) = r["cohen_d_per_seed"], r["cohen_d_ci95"]
-        w(r"\draw[accent,line width=0.6pt] (%.3f,%.3f) -- (%.3f,%.3f);" % (cx, yv(lo), cx, yv(hi)))
+        # the pooled APT attacker model: black in every chapter 5 figure (conventions §o)
+        w(r"\draw[black,line width=0.6pt] (%.3f,%.3f) -- (%.3f,%.3f);" % (cx, yv(lo), cx, yv(hi)))
         for yy in (lo, hi):
-            w(r"\draw[accent,line width=0.6pt] (%.3f,%.3f) -- (%.3f,%.3f);" % (cx - 0.08, yv(yy), cx + 0.08, yv(yy)))
-        w(r"\fill[accent] (%.3f,%.3f) circle (0.075cm);" % (cx, yv(d)))
+            w(r"\draw[black,line width=0.6pt] (%.3f,%.3f) -- (%.3f,%.3f);" % (cx - 0.08, yv(yy), cx + 0.08, yv(yy)))
+        w(r"\fill[black] (%.3f,%.3f) circle (0.075cm);" % (cx, yv(d)))
         w(r"\node[anchor=west] at (%.3f,%.3f) {%s};" % (cx + 0.14, yv(d), signed(d)))
         w(r"\node[anchor=north,align=center] at (%.3f,%.3f) {%s};" % (cx, Y0 - 0.1, lab))
-    panel_letter(w, 0.0, Y1 + 0.15, "b")
+    panel_title(w, BX0, Y1, "Hosts compromised per seed", "b")
 
     w(r"\end{tikzpicture}")
     w(r"\end{document}")

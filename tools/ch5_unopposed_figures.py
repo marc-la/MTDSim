@@ -32,7 +32,11 @@ from __future__ import annotations
 import argparse
 import json
 import subprocess
+import sys
 from pathlib import Path
+
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from _ch5_style import BASE_DASH, KEY_H, key_row, panel_title  # noqa: E402  (the layout, conventions §o)
 
 REPO = Path(__file__).resolve().parents[1]
 FIG_DIR = REPO / "docs" / "thesis" / "figures"
@@ -94,7 +98,7 @@ PREAMBLE = [
     r"\usepackage[T1]{fontenc}",
     r"\usepackage[scaled=0.92]{helvet}",
     r"\renewcommand{\familydefault}{\sfdefault}",
-    r"\usetikzlibrary{calc}",
+    r"\usetikzlibrary{calc,patterns}",
 ] + [r"\definecolor{%s}{RGB}{%s}" % (CNAME[k], v) for k, v in COLOUR.items()] + [
     r"\begin{document}",
 ]
@@ -213,8 +217,6 @@ def emit_fig_a(core: dict) -> tuple[str, dict]:
     w(r"\begin{tikzpicture}[x=1cm,y=1cm,every node/.style={inner sep=1pt,font=%s}]" % FONT)
     BASE_STYLE = "cbase,line width=0.9pt,dash pattern=on 2.5pt off 1.5pt"
 
-    def title(x, y, letter, text):
-        w(r"\node[anchor=south west] at (%.3f,%.3f) {\textbf{(%s)}\enspace %s};" % (x, y, letter, text))
 
     # ---- (a) the heat map, rows grouped by verb -----------------------------------
     ch, GG = 0.40, 0.10               # row height, gap between groups
@@ -232,7 +234,7 @@ def emit_fig_a(core: dict) -> tuple[str, dict]:
     for p, x, cwid in cols:
         w(r"\node[anchor=south] at (%.3f,%.3f) {%s};" % (x + cwid / 2, MY1 + 0.06, LABEL[p]))
     w(r"\node[anchor=south,align=center] at (%.3f,%.3f) {baseline\\attacker};" % (xb + bw / 2, MY1 + 0.06))
-    title(GX, MY1 + 0.95, "a", "Relative tactic occurrence (\\%)")
+    panel_title(w, 1.5, MY1 + 0.87, "Relative tactic occurrence (\\%)", "a")  # (b)'s y-axis: one left edge per column
     y = MY1
     for gname, verb, tactics in GROUPS:
         gtop = y
@@ -274,20 +276,20 @@ def emit_fig_a(core: dict) -> tuple[str, dict]:
     axes(w, XB0, XB1, YB0, YB1,
          xticks=[(k, XB0 + (i + 0.5) * gw) for i, k in enumerate(ks)],
          yticks=[(v, yb(v / 100)) for v in range(0, 101, 25)],
-         xlabel=r"opening length $k$ (steps)", ylabel="")
+         xlabel=r"Opening length $k$ (steps)", ylabel="")
     w(r"\node[rotate=90,anchor=south,align=center] at (%.3f,%.3f) {APV (\%%)};" % (XB0 - 0.8, (YB0 + YB1) / 2))
-    title(GX, YB1 + 0.2, "b", "Attack path variation (APV)")
-    kx = 6.6  # the key for (b), in one row beside its title (round 4: beside (a) it read as (a)'s)
-    for p in SERIES:
-        w(r"\fill[%s] (%.3f,%.3f) rectangle ++(0.30,0.22);" % (CNAME[p], kx, YB1 + 0.24))
-        lab = LABEL[p] if p != "baseline" else "baseline attacker"
-        w(r"\node[anchor=west] at (%.3f,%.3f) {%s};" % (kx + 0.36, YB1 + 0.35, lab))
-        kx += 1.25 if p != "baseline" else 0
+    # (b)'s key decodes (b) only, so it sits under (b)'s title (conventions §o;
+    # round 4: a key beside (a) read as (a)'s)
+    key_row(w, XB0, YB1 + 0.3, [(LABEL[p], "hatch" if p == "baseline" else "bar", CNAME[p], None) for p in SERIES])
+    panel_title(w, XB0, YB1 + 0.3 + KEY_H / 2 + 0.05, "Attack path variation", "b")
     for i, k in enumerate(ks):
         x0 = XB0 + (i + 0.5) * gw - len(SERIES) * bwid / 2
         for n, p in enumerate(SERIES):
             v = apv[p][str(k)]
-            if v > 0:  # a zero is drawn as nothing (round 2: a stub read as 1 %)
+            if v > 0 and p == "baseline":  # the baseline attacker's bar is hatched in every figure
+                w(r"\fill[pattern=north east lines,pattern color=%s] (%.3f,%.3f) rectangle ++(%.3f,%.3f);" % (CNAME[p], x0 + n * bwid, YB0, bwid * 0.9, v * (YB1 - YB0)))
+                w(r"\draw[%s,line width=0.3pt] (%.3f,%.3f) rectangle ++(%.3f,%.3f);" % (CNAME[p], x0 + n * bwid, YB0, bwid * 0.9, v * (YB1 - YB0)))
+            elif v > 0:  # a zero is drawn as nothing (round 2: a stub read as 1 %)
                 w(r"\fill[%s] (%.3f,%.3f) rectangle ++(%.3f,%.3f);" % (CNAME[p], x0 + n * bwid, YB0, bwid * 0.9, v * (YB1 - YB0)))
     w(r"\end{tikzpicture}")
     w(r"\end{document}")
@@ -309,12 +311,12 @@ def emit_fig_c(core: dict) -> tuple[str, dict]:
     point one time bin, pooled over runs."""
     m = core["metrics"]
     SERIES = (*FOUR, "baseline")
-    BASE_STYLE = "cbase,line width=0.9pt,dash pattern=on 2.5pt off 1.5pt"
+    BASE_STYLE = "cbase,line width=0.8pt," + BASE_DASH
     over = {p: m[p]["confidentiality_over_run"] for p in SERIES}
     starts = over["baseline"]["bin_start"]
     binw = over["baseline"]["bin"]
     T1 = starts[-1] + binw
-    XC0, XC1, YC0, YC1 = 1.5, 12.2, 0.0, 5.0
+    XC0, XC1, YC0, YC1 = 1.5, 15.6, 0.0, 5.0  # full width: the key sits above, not beside (§o)
     L: list[str] = []
     w = L.append
     L += PREAMBLE
@@ -329,28 +331,18 @@ def emit_fig_c(core: dict) -> tuple[str, dict]:
     axes(w, XC0, XC1, YC0, YC1,
          xticks=[(v, xc(v)) for v in range(0, int(T1) + 1, 3000)],
          yticks=[(v, yc(v / 100)) for v in range(0, 101, 25)],
-         xlabel="time (s)", ylabel="", xfmt=lambda v: fmt_thousands(int(v)))
-    w(r"\node[rotate=90,anchor=south,align=center] at (%.3f,%.3f) {attack confidentiality (\%%)};" % (XC0 - 0.8, (YC0 + YC1) / 2))
+         xlabel="Time (s)", ylabel="", xfmt=lambda v: fmt_thousands(int(v)))
+    w(r"\node[rotate=90,anchor=south,align=center] at (%.3f,%.3f) {Attack confidentiality (\%%)};" % (XC0 - 0.8, (YC0 + YC1) / 2))
     for p in SERIES:
         pts = [(xc(a + binw / 2), yc(v)) for a, v in zip(starts, over[p]["share"]) if v is not None]
         style = BASE_STYLE if p == "baseline" else "%s,line width=0.7pt" % CNAME[p]
         w(r"\draw[%s] %s;" % (style, " -- ".join("(%.3f,%.3f)" % q for q in pts)))
-        for x, yv in pts:
-            if p == "baseline":
-                w(r"\draw[cbase,line width=0.6pt,fill=white] (%.3f,%.3f) circle (0.08cm);" % (x, yv))
-            else:
-                marker(w, MARK[p], CNAME[p], x, yv, r=0.09)
-    KX0, ky = 12.7, YC1 - 0.3
-    for p in SERIES:
-        col = CNAME[p]
-        if p == "baseline":
-            w(r"\draw[%s] (%.3f,%.3f) -- (%.3f,%.3f);" % (BASE_STYLE, KX0, ky, KX0 + 0.7, ky))
-            w(r"\draw[cbase,line width=0.6pt,fill=white] (%.3f,%.3f) circle (0.08cm);" % (KX0 + 0.35, ky))
-        else:
-            w(r"\draw[%s,line width=0.7pt] (%.3f,%.3f) -- (%.3f,%.3f);" % (col, KX0, ky, KX0 + 0.7, ky))
-            marker(w, MARK[p], col, KX0 + 0.35, ky, r=0.09)
-        w(r"\node[anchor=west,align=left] at (%.3f,%.3f) {%s};" % (KX0 + 0.8, ky, LABEL[p] if p != "baseline" else r"baseline\\attacker"))
-        ky -= 0.6
+        for x, yv in pts:  # the baseline attacker's grey square, as in every figure
+            marker(w, "square" if p == "baseline" else MARK[p], CNAME[p], x, yv, r=0.08 if p == "baseline" else 0.09)
+    # one panel, so its key is the figure's: at the top, over the title (conventions §o)
+    top = panel_title(w, XC0, YC1, "Attack confidentiality over the run, no MTD")
+    key_row(w, XC0, top + 0.1 + KEY_H / 2, [(LABEL[p], "dashed" if p == "baseline" else "line", CNAME[p],
+                                            "square" if p == "baseline" else MARK[p]) for p in SERIES])
     w(r"\end{tikzpicture}")
     w(r"\end{document}")
     facts = {

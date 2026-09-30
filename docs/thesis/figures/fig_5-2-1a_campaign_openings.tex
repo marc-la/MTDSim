@@ -2,7 +2,7 @@
 \usepackage[T1]{fontenc}
 \usepackage[scaled=0.92]{helvet}
 \renewcommand{\familydefault}{\sfdefault}
-\usetikzlibrary{calc}
+\usetikzlibrary{calc,patterns}
 \definecolor{cexf}{RGB}{31,84,140}
 \definecolor{cimp}{RGB}{179,38,30}
 \definecolor{cdex}{RGB}{168,116,26}
@@ -18,7 +18,7 @@
 \node[anchor=south] at (8.320,10.960) {$c_3$};
 \node[anchor=south] at (9.300,10.960) {$c_4$};
 \node[anchor=south,align=center] at (10.660,10.960) {baseline\\attacker};
-\node[anchor=south west] at (0.000,11.850) {\textbf{(a)}\enspace Relative tactic occurrence (\%)};
+\node[anchor=south west,inner sep=0pt] at (1.500,11.850) {\textbf{(a)}\enspace Relative tactic occurrence (\%)};
 \node[anchor=east] at (5.750,10.700) {Reconnaissance};
 \fill[fill={rgb,255:red,254;green,213;blue,152}] (5.870,10.500) rectangle ++(0.980,0.400);
 \node[text=black] at (6.360,10.700) {5};
@@ -273,19 +273,20 @@
 \node[anchor=north] at (12.579,-0.100) {7};
 \draw[black!60,line width=0.3pt] (14.593,0.000) -- (14.593,-0.070);
 \node[anchor=north] at (14.593,-0.100) {8};
-\node[anchor=north] at (8.550,-0.500) {opening length $k$ (steps)};
+\node[anchor=north] at (8.550,-0.500) {Opening length $k$ (steps)};
 \node[rotate=90,anchor=south,align=center] at (0.700,1.400) {APV (\%)};
-\node[anchor=south west] at (0.000,3.000) {\textbf{(b)}\enspace Attack path variation (APV)};
-\fill[cexf] (6.600,3.040) rectangle ++(0.30,0.22);
-\node[anchor=west] at (6.960,3.150) {$c_1$};
-\fill[cimp] (7.850,3.040) rectangle ++(0.30,0.22);
-\node[anchor=west] at (8.210,3.150) {$c_2$};
-\fill[cdex] (9.100,3.040) rectangle ++(0.30,0.22);
-\node[anchor=west] at (9.460,3.150) {$c_3$};
-\fill[cnon] (10.350,3.040) rectangle ++(0.30,0.22);
-\node[anchor=west] at (10.710,3.150) {$c_4$};
-\fill[cbase] (11.600,3.040) rectangle ++(0.30,0.22);
-\node[anchor=west] at (11.960,3.150) {baseline attacker};
+\fill[cexf] (1.500,2.990) rectangle ++(0.30,0.22);
+\node[anchor=west] at (1.860,3.100) {$c_1$};
+\fill[cimp] (2.865,2.990) rectangle ++(0.30,0.22);
+\node[anchor=west] at (3.225,3.100) {$c_2$};
+\fill[cdex] (4.230,2.990) rectangle ++(0.30,0.22);
+\node[anchor=west] at (4.590,3.100) {$c_3$};
+\fill[cnon] (5.595,2.990) rectangle ++(0.30,0.22);
+\node[anchor=west] at (5.955,3.100) {$c_4$};
+\fill[pattern=north east lines,pattern color=cbase] (6.960,2.990) rectangle ++(0.30,0.22);
+\draw[cbase,line width=0.3pt] (6.960,2.990) rectangle ++(0.30,0.22);
+\node[anchor=west] at (7.320,3.100) {baseline attacker};
+\node[anchor=south west,inner sep=0pt] at (1.500,3.440) {\textbf{(b)}\enspace Attack path variation};
 \fill[cexf] (1.701,0.000) rectangle ++(0.290,1.176);
 \fill[cexf] (3.716,0.000) rectangle ++(0.290,2.212);
 \fill[cimp] (4.038,0.000) rectangle ++(0.290,1.456);
@@ -298,21 +299,25 @@
 \fill[cimp] (8.067,0.000) rectangle ++(0.290,2.436);
 \fill[cdex] (8.389,0.000) rectangle ++(0.290,0.560);
 \fill[cnon] (8.711,0.000) rectangle ++(0.290,2.548);
-\fill[cbase] (9.033,0.000) rectangle ++(0.290,0.616);
+\fill[pattern=north east lines,pattern color=cbase] (9.033,0.000) rectangle ++(0.290,0.616);
+\draw[cbase,line width=0.3pt] (9.033,0.000) rectangle ++(0.290,0.616);
 \fill[cexf] (9.759,0.000) rectangle ++(0.290,2.660);
 \fill[cimp] (10.081,0.000) rectangle ++(0.290,2.576);
 \fill[cdex] (10.403,0.000) rectangle ++(0.290,0.560);
 \fill[cnon] (10.725,0.000) rectangle ++(0.290,2.604);
-\fill[cbase] (11.048,0.000) rectangle ++(0.290,0.616);
+\fill[pattern=north east lines,pattern color=cbase] (11.048,0.000) rectangle ++(0.290,0.616);
+\draw[cbase,line width=0.3pt] (11.048,0.000) rectangle ++(0.290,0.616);
 \fill[cexf] (11.773,0.000) rectangle ++(0.290,2.744);
 \fill[cimp] (12.095,0.000) rectangle ++(0.290,2.688);
 \fill[cdex] (12.417,0.000) rectangle ++(0.290,0.896);
 \fill[cnon] (12.740,0.000) rectangle ++(0.290,2.744);
-\fill[cbase] (13.062,0.000) rectangle ++(0.290,0.616);
+\fill[pattern=north east lines,pattern color=cbase] (13.062,0.000) rectangle ++(0.290,0.616);
+\draw[cbase,line width=0.3pt] (13.062,0.000) rectangle ++(0.290,0.616);
 \fill[cexf] (13.787,0.000) rectangle ++(0.290,2.772);
 \fill[cimp] (14.109,0.000) rectangle ++(0.290,2.744);
 \fill[cdex] (14.432,0.000) rectangle ++(0.290,0.896);
 \fill[cnon] (14.754,0.000) rectangle ++(0.290,2.744);
-\fill[cbase] (15.076,0.000) rectangle ++(0.290,0.616);
+\fill[pattern=north east lines,pattern color=cbase] (15.076,0.000) rectangle ++(0.290,0.616);
+\draw[cbase,line width=0.3pt] (15.076,0.000) rectangle ++(0.290,0.616);
 \end{tikzpicture}
 \end{document}

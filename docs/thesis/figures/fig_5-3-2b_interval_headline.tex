@@ -13,22 +13,22 @@
 \begin{document}
 \definecolor{accent}{RGB}{31,84,140}
 \begin{tikzpicture}[x=1cm,y=1cm,every node/.style={inner sep=1pt,font=\footnotesize}]
-\draw[black,line width=1.0pt] (2.500,10.050) -- (3.300,10.050);
-\fill[black] (2.900,10.050) circle (0.070cm);
-\node[anchor=west,font=\small] at (3.400,10.050) {APT attacker model (pooled over $c_1$ to $c_4$)};
-\draw[cbase,line width=1.0pt,dash pattern=on 2.4pt off 1.4pt] (10.100,10.050) -- (10.900,10.050);
-\fill[cbase] (10.500,10.050) ++(-0.070,-0.070) rectangle ++(0.140,0.140);
-\node[anchor=west,font=\small] at (11.000,10.050) {baseline attacker};
-\node[anchor=south west,text=black!60] at (0.050,9.500) {defence mechanisms, by the layer they rewrite};
-\draw[black!25,line width=0.4pt] (0.050,9.480) -- (15.790,9.480);
+\draw[black,line width=0.8pt] (1.300,10.050) -- (1.900,10.050);
+\fill[black] (1.600,10.050) circle (0.065cm);
+\node[anchor=west] at (1.980,10.050) {APT attacker model (pooled over $c_1$ to $c_4$)};
+\draw[cbase,line width=0.8pt,dash pattern=on 2.4pt off 1.4pt] (9.165,10.050) -- (9.765,10.050);
+\fill[cbase] (9.465,10.050) ++(-0.065,-0.065) rectangle ++(0.130,0.130);
+\node[anchor=west] at (9.845,10.050) {baseline attacker};
+\node[anchor=south west,text=black!60] at (1.300,9.500) {Defence mechanisms, by the layer they rewrite};
+\draw[black!25,line width=0.4pt] (1.300,9.480) -- (15.790,9.480);
 \begin{scope}[every node/.style={inner sep=1pt,font=\footnotesize}]
 \draw[black!60,line width=0.4pt] (1.300,6.000) -- (5.850,6.000);
 \draw[black!60,line width=0.4pt] (1.300,6.000) -- (1.300,9.000);
 \draw[black!60,line width=0.3pt] (1.230,6.000) -- (1.300,6.000);
-\node[anchor=east] at (1.200,6.000) {-0.4};
+\node[anchor=east] at (1.200,6.000) {$-$0.4};
 \draw[black!60,line width=0.3pt] (1.230,6.429) -- (1.300,6.429);
 \draw[black!12,line width=0.2pt] (1.300,6.429) -- (5.850,6.429);
-\node[anchor=east] at (1.200,6.429) {-0.2};
+\node[anchor=east] at (1.200,6.429) {$-$0.2};
 \draw[black!60,line width=0.3pt] (1.230,6.857) -- (1.300,6.857);
 \node[anchor=east] at (1.200,6.857) {0.0};
 \draw[black!60,line width=0.3pt] (1.230,7.286) -- (1.300,7.286);
@@ -59,7 +59,7 @@
 \node[anchor=north,font=\scriptsize] at (4.821,5.900) {1\,000};
 \draw[black!60,line width=0.3pt] (5.571,6.000) -- (5.571,5.930);
 \node[anchor=north,font=\scriptsize] at (5.571,5.900) {2\,000};
-\node[anchor=south west] at (1.280,9.050) {\textbf{(a)}~host layer};
+\node[anchor=south west,inner sep=0pt] at (1.300,9.080) {\textbf{(a)}\enspace Host layer};
 \end{scope}
 \draw[black,line width=0.90pt] (1.559,8.965) -- (2.309,8.928) -- (3.059,8.910) -- (4.051,8.536) -- (4.801,7.918) -- (5.551,7.324);
 \draw[black,line width=0.4pt] (1.559,8.960) -- (1.559,8.971);
@@ -117,7 +117,7 @@
 \node[anchor=north,font=\scriptsize] at (9.791,5.900) {1\,000};
 \draw[black!60,line width=0.3pt] (10.541,6.000) -- (10.541,5.930);
 \node[anchor=north,font=\scriptsize] at (10.541,5.900) {2\,000};
-\node[anchor=south west] at (6.250,9.050) {\textbf{(b)}~service layer};
+\node[anchor=south west,inner sep=0pt] at (6.270,9.080) {\textbf{(b)}\enspace Service layer};
 \end{scope}
 \draw[black,line width=0.90pt] (6.529,7.585) -- (7.279,7.604) -- (8.029,7.307) -- (9.021,7.033) -- (9.771,6.925) -- (10.521,6.877);
 \draw[black,line width=0.4pt] (6.529,7.497) -- (6.529,7.674);
@@ -175,7 +175,7 @@
 \node[anchor=north,font=\scriptsize] at (14.761,5.900) {1\,000};
 \draw[black!60,line width=0.3pt] (15.511,6.000) -- (15.511,5.930);
 \node[anchor=north,font=\scriptsize] at (15.511,5.900) {2\,000};
-\node[anchor=south west] at (11.220,9.050) {\textbf{(c)}~credentials: user shuffle};
+\node[anchor=south west,inner sep=0pt] at (11.240,9.080) {\textbf{(c)}\enspace Credentials: user shuffle};
 \end{scope}
 \draw[black,line width=0.90pt] (11.499,6.549) -- (12.249,6.625) -- (12.999,6.567) -- (13.991,6.683) -- (14.741,6.720) -- (15.491,6.781);
 \draw[black,line width=0.4pt] (11.499,6.371) -- (11.499,6.712);
@@ -204,16 +204,16 @@
 \draw[cbase,line width=0.4pt] (15.531,6.419) -- (15.531,6.907);
 \fill[cbase] (15.531,6.681) ++(-0.060,-0.060) rectangle ++(0.120,0.120);
 \node[rotate=90,anchor=south] at (0.350,7.500) {NCR reduction};
-\node[anchor=south west,text=black!60] at (0.050,4.950) {deployment strategies};
-\draw[black!25,line width=0.4pt] (0.050,4.930) -- (15.790,4.930);
+\node[anchor=south west,text=black!60] at (1.300,4.950) {Deployment strategies};
+\draw[black!25,line width=0.4pt] (1.300,4.930) -- (15.790,4.930);
 \begin{scope}[every node/.style={inner sep=1pt,font=\footnotesize}]
 \draw[black!60,line width=0.4pt] (1.300,1.450) -- (5.850,1.450);
 \draw[black!60,line width=0.4pt] (1.300,1.450) -- (1.300,4.450);
 \draw[black!60,line width=0.3pt] (1.230,1.450) -- (1.300,1.450);
-\node[anchor=east] at (1.200,1.450) {-0.4};
+\node[anchor=east] at (1.200,1.450) {$-$0.4};
 \draw[black!60,line width=0.3pt] (1.230,1.879) -- (1.300,1.879);
 \draw[black!12,line width=0.2pt] (1.300,1.879) -- (5.850,1.879);
-\node[anchor=east] at (1.200,1.879) {-0.2};
+\node[anchor=east] at (1.200,1.879) {$-$0.2};
 \draw[black!60,line width=0.3pt] (1.230,2.307) -- (1.300,2.307);
 \node[anchor=east] at (1.200,2.307) {0.0};
 \draw[black!60,line width=0.3pt] (1.230,2.736) -- (1.300,2.736);
@@ -244,7 +244,7 @@
 \node[anchor=north,font=\scriptsize] at (4.821,1.350) {1\,000};
 \draw[black!60,line width=0.3pt] (5.571,1.450) -- (5.571,1.380);
 \node[anchor=north,font=\scriptsize] at (5.571,1.350) {2\,000};
-\node[anchor=south west] at (1.280,4.500) {\textbf{(d)}~random};
+\node[anchor=south west,inner sep=0pt] at (1.300,4.530) {\textbf{(d)}\enspace Random};
 \end{scope}
 \draw[black,line width=0.90pt] (1.559,4.354) -- (2.309,4.244) -- (3.059,3.905) -- (4.051,3.239) -- (4.801,2.684) -- (5.551,2.494);
 \draw[black,line width=0.4pt] (1.559,4.336) -- (1.559,4.371);
@@ -302,7 +302,7 @@
 \node[anchor=north,font=\scriptsize] at (9.791,1.350) {1\,000};
 \draw[black!60,line width=0.3pt] (10.541,1.450) -- (10.541,1.380);
 \node[anchor=north,font=\scriptsize] at (10.541,1.350) {2\,000};
-\node[anchor=south west] at (6.250,4.500) {\textbf{(e)}~MTDShield};
+\node[anchor=south west,inner sep=0pt] at (6.270,4.530) {\textbf{(e)}\enspace MTDShield};
 \end{scope}
 \draw[black,line width=0.90pt] (6.529,3.209) -- (7.279,3.135) -- (8.029,2.911) -- (9.021,2.658) -- (9.771,2.491) -- (10.521,2.363);
 \draw[black,line width=0.4pt] (6.529,3.113) -- (6.529,3.300);
@@ -360,7 +360,7 @@
 \node[anchor=north,font=\scriptsize] at (14.761,1.350) {1\,000};
 \draw[black!60,line width=0.3pt] (15.511,1.450) -- (15.511,1.380);
 \node[anchor=north,font=\scriptsize] at (15.511,1.350) {2\,000};
-\node[anchor=south west] at (11.220,4.500) {\textbf{(f)}~alternative};
+\node[anchor=south west,inner sep=0pt] at (11.240,4.530) {\textbf{(f)}\enspace Alternative};
 \end{scope}
 \draw[black,line width=0.90pt] (11.499,4.327) -- (12.249,4.235) -- (12.999,3.842) -- (13.991,3.153) -- (14.741,2.633) -- (15.491,2.363);
 \draw[black,line width=0.4pt] (11.499,4.306) -- (11.499,4.345);
@@ -389,6 +389,6 @@
 \draw[cbase,line width=0.4pt] (15.531,1.938) -- (15.531,2.408);
 \fill[cbase] (15.531,2.190) ++(-0.060,-0.060) rectangle ++(0.120,0.120);
 \node[rotate=90,anchor=south] at (0.350,2.950) {NCR reduction};
-\node[anchor=north] at (8.545,0.950) {deployment interval (s)};
+\node[anchor=north] at (8.545,0.950) {Deployment interval (s)};
 \end{tikzpicture}
 \end{document}

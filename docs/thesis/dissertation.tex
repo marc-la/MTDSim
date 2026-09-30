@@ -7229,7 +7229,7 @@ variation records strategic plurality (Section~\ref{subsec:metrics-behaviour}), 
 three of the four profiles show more of it than the baseline attacker, and $c_3$
 shows about as little.
 
-\begin{figure}[tbp]
+\begin{figure}[tp]
   \centering
   \includegraphics{fig_5-2-1a_campaign_openings}
   \caption[Where each attacker's steps fall, and how often its runs start differently]{With no MTD running, for the APT attacker model on the attack profiles $c_1$ to $c_4$ and for the baseline attacker. (a)~Relative tactic occurrence, the tactics grouped by the action each dispatches (Section~\ref{subsec:tactic-verb-mapping}); a dash marks a tactic the attacker does not have. (b)~Attack path variation by opening length. Section~\ref{sec:evaluation-metrics} defines each metric.}
@@ -7479,7 +7479,7 @@ as actions was measured in a dry run only; track it, or move the point to the
 %  RATIFIED 2026-09-26 (Marc: 'I accept all this').
 limitations in Chapter 6}. 
 
-\begin{figure}[tbp]
+\begin{figure}[tp]
   \centering
   \includegraphics{fig_5-2-1b_attack_confidentiality}
   \caption[How much of each attacker's activity stays below a detector's alarm, over the run]{Attack confidentiality over the run with no MTD running, in 1\,500\,s bins, for the APT attacker model on the attack profiles $c_1$ to $c_4$ and for the baseline attacker, with the alarm tuned so that it flags half of the baseline attacker's actions. Section~\ref{sec:evaluation-metrics} defines the metric.}
@@ -7980,7 +7980,7 @@ response.
 % censoring and on an unmatched reference) --- Marc's to overturn. Caption:
 % how to read it, no result. DRAFT STATE --- ratify on read.
 
-\begin{figure}[htbp]
+\begin{figure}[tp]
   \centering
   \includegraphics{fig_5-2-2a_disruption_response}
   \caption[What an MTD deployment does to each attacker]{What an MTD deployment does to each attacker, at the 2\,000\,s deployment interval, for the APT attacker model on its four attack profiles pooled and for the baseline attacker. (a),~(b)~NCR growth rate around a deployment of the mechanism that, in~(c), costs the APT attacker model~(a) or the baseline attacker~(b) the most time; each panel shows both attackers, and the shaded band is the deployment running. (c)~Time lost per MTD deployment for each defence mechanism run alone: the area shaded in~(a) and~(b), read as seconds at the attacker's pre-deployment rate and net of the same area with no MTD, with 95\,\% bootstrap intervals over runs. Section~\ref{sec:evaluation-metrics} defines both metrics.}
@@ -8192,7 +8192,7 @@ baseline attacker the larger reduction at every interval (\prelim{0.70} against
 mechanism that costs the baseline attacker the most time in
 Section~\ref{subsec:aio-disruption}.
 
-\begin{figure}[htbp]
+\begin{figure}[tp]
   \centering
   \includegraphics{fig_5-3-2b_interval_headline}
   \caption[The same defences measured against each attacker, across the deployment interval]{NCR reduction against the deployment interval for each defence, measured against the APT attacker model, pooled over $c_1$ to $c_4$ (solid), and against the baseline attacker (dashed); higher is fewer hosts compromised, zero is as many as with no MTD, and below zero is more. Panels~(a) to~(c): the defence mechanisms by the layer each rewrites (Table~\ref{tab:defence-mechanisms}), a layer's line being the mean over its mechanisms, each deployed alone (Table~\ref{tab:eff-interval-values} lists them). Panels~(d) to~(f): the random deployment strategy, MTDShield (Appendix~\ref{app:mtdshield}) and the alternative deployment strategy (Table~\ref{tab:deployment-strategies}). The interval axis is logarithmic; whiskers are 95\,\% percentile bootstrap intervals.}
@@ -8325,7 +8325,7 @@ over MTDShield's four, which no float reports}.
 %  Replaces: nothing (the subsection has no body text today); pastes in two places,
 
 
-\begin{figure}[htbp]
+\begin{figure}[tp]
   \centering
   \includegraphics{fig_5-3-3b_interval_mechanisms}
   \caption[NCR reduction by defence mechanism and attack profile, across the deployment interval]{NCR reduction against the deployment interval for each defence mechanism deployed alone, in rows by the layer it rewrites (Table~\ref{tab:defence-mechanisms}), for the attack profiles $c_1$ to $c_4$ and the aggregate $c_{\mathrm{agg}}$, with the baseline attacker dashed for comparison. Axes, zero and whiskers as in Figure~\ref{fig:eff-cross-arm}.}
@@ -8444,7 +8444,7 @@ raised in the regime runs is not yet investigated}
 %   declared low-and-slow dwell time, from \prelim{0.44} to \prelim{0.90} across
 %   that family's band (Appendix~\ref{app:dwell-robustness})."
 
-\begin{figure}[htbp]
+\begin{figure}[tp]
   \centering
   \includegraphics{fig_5-3-3c_interval_schemes}
   \caption[NCR reduction by deployment strategy and attack profile, across the deployment interval]{NCR reduction against the deployment interval for each deployment strategy: the random deployment strategy, MTDShield (Appendix~\ref{app:mtdshield}) and the alternative deployment strategy (Table~\ref{tab:deployment-strategies}), for the attack profiles $c_1$ to $c_4$ and the aggregate $c_{\mathrm{agg}}$, with the baseline attacker dashed for comparison. Axes, zero and whiskers as in Figure~\ref{fig:eff-cross-arm}.}
@@ -8530,7 +8530,7 @@ matrix and with every factor of it set to one, on the same 1\,000 seeds, with no
 defence and under IP shuffle and OS diversity at the 200\,s and 2\,000\,s
 deployment intervals (Table~\ref{tab:experiment}).
 
-\begin{figure}[htbp]
+\begin{figure}[tp]
   \centering
   \includegraphics{fig_5-4a_ablation}
   \caption[What removing the failure matrix changes]{The APT attacker model with

@@ -39,8 +39,9 @@ import sys
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from _ch5_style import (CNAME, FONT, LABEL, LONG, MARK, PREAMBLE, PROFILES, REPO, TAB_DIR,  # noqa: E402
-                        UNREPORTED, compile_fig, fmt_thousands, marker, write_fig)
+from _ch5_style import (BASE_DASH, CNAME, FONT, KEY_H, LABEL, LONG, MARK, PREAMBLE, PROFILES, REPO,  # noqa: E402
+                        TAB_DIR, TITLE_H, UNREPORTED, compile_fig, fmt_thousands, key_row, marker,
+                        panel_title, write_fig)
 
 NUMBERS = REPO / "data" / "results" / "ch5_defended" / "numbers.json"
 STEM_HEAD = "fig_5-3-2b_interval_headline"
@@ -50,23 +51,33 @@ STEM_VAL = "tab_5-3-2c_attacker_values"
 ROWS_MECH = (("host layer", ("ip_shuffle", "complete_topology", "host_topology")),
              ("service layer", ("port_shuffle", "os_diversity", "service_diversity")),
              ("credentials", ("user_shuffle",)))
+def _cap(t: str) -> str:
+    """Sentence case for a panel title: the first letter up, the rest as named."""
+    return t[:1].upper() + t[1:]
+
+
 STRATEGIES = tuple(c for c in ("random", "alternative", "random_four", "mtdshield") if c not in UNREPORTED)
 ACCENT = "31,84,140"
 HEAD_STRATEGIES = tuple(c for c in ("random", "mtdshield", "alternative") if c in STRATEGIES)
 # the headline's panels: (kind in numbers, key, title), rows layers | strategies
-HEAD_ROWS = (("defence mechanisms, by the layer they rewrite",
-              (("layer", "host", "host layer"), ("layer", "service", "service layer"),
-               ("layer", "credentials", "credentials: user shuffle"))),
+HEAD_ROWS = (("Defence mechanisms, by the layer they rewrite",
+              (("layer", "host", "Host layer"), ("layer", "service", "Service layer"),
+               ("layer", "credentials", "Credentials: user shuffle"))),
              # MTDShield under the service layer, random under the host layer,
              # so the panels that share a shape share a column (context critic,
              # 2026-09-25 round 2)
-             ("deployment strategies",
-              tuple(("attacker", c, LONG[c]) for c in HEAD_STRATEGIES)))
+             ("Deployment strategies",
+              tuple(("attacker", c, _cap(LONG[c])) for c in HEAD_STRATEGIES)))
 # the two attackers; the APT attacker model pooled is black, not the chapter's
 # movement blue, which is c_1's colour and marker in the depth figures below it
 # (context critic, 2026-09-25: the pooled line read as c_1); the baseline as the
 # depth figures draw it
 ARMS = (("movement", "black", "circle", False), ("baseline", "cbase", "square", True))
+# the figure-wide key, one row at the top of every sweep figure (conventions §o)
+ARM_KEY = ((LABEL["movement"] + r" (pooled over $c_1$ to $c_4$)", "line", "black", "circle"),
+           ("baseline attacker", "dashed", "cbase", "square"))
+PROFILE_KEY = tuple((LABEL[p], "line", CNAME[p], MARK[p]) for p in PROFILES) + (
+    ("baseline attacker", "dashed", "cbase", "square"),)
 
 
 def _yrange(values) -> tuple[float, float]:
@@ -97,7 +108,7 @@ class Panel:
             if abs(v) > 1e-9 and abs(y - y0) > 1e-6:
                 w(r"\draw[black!12,line width=0.2pt] (%.3f,%.3f) -- (%.3f,%.3f);" % (x0, y, x1, y))
             if ylabels:
-                w(r"\node[anchor=east] at (%.3f,%.3f) {%.1f};" % (x0 - 0.1, y, v))
+                w(r"\node[anchor=east] at (%.3f,%.3f) {%s};" % (x0 - 0.1, y, ("%.1f" % v).replace("-", "$-$")))
             k += 1
         if self.ymin < 0:  # zero is the no-MTD reference
             w(r"\draw[black!60,line width=0.4pt] (%.3f,%.3f) -- (%.3f,%.3f);" % (x0, self.yv(0), x1, self.yv(0)))
@@ -107,9 +118,8 @@ class Panel:
             if xlabels:
                 w(r"\node[anchor=north%s] at (%.3f,%.3f) {%s};" % (
                     ",font=" + tickfont if tickfont else "", x, y0 - 0.1, fmt_thousands(iv)))
-        if title or letter:
-            head = (r"\textbf{(%s)}~" % letter if letter else "") + (title or "")
-            w(r"\node[anchor=south west] at (%.3f,%.3f) {%s};" % (x0 - 0.02, y1 + 0.05, head))
+        if title:
+            panel_title(w, x0, y1, title, letter)
         w(r"\end{scope}")
 
     def xv(self, iv, dx=0.0) -> float:
@@ -124,7 +134,7 @@ class Panel:
         units so whiskers at one interval do not overprint."""
         w = self.w
         xy = [(self.xv(iv, dx), self.yv(p)) for iv, p, _, _ in pts]
-        style = "%s,line width=%.2fpt%s" % (col, lw, ",dash pattern=on 2.4pt off 1.4pt" if dashed else "")
+        style = "%s,line width=%.2fpt%s" % (col, lw, "," + BASE_DASH if dashed else "")
         if len(xy) > 1:
             w(r"\draw[%s] %s;" % (style, " -- ".join("(%.3f,%.3f)" % q for q in xy)))
         for (iv, p, lo, hi), (x, y) in zip(pts, xy):
@@ -161,21 +171,6 @@ def _offsets(n, step):
     return [(j - (n - 1) / 2) * step for j in range(n)]
 
 
-def _key(w, x, y, entries, xmax, *, dashed_default=False, gap=0.45):
-    """One key line: (label, colour, marker, dashed); wraps at ``xmax``."""
-    x0 = x
-    for label, col, mark, dashed in entries:
-        width = 0.75 + 0.16 * len(label.replace("$", "").replace("\\mathrm", "").replace("{", "").replace("}", "")) + gap
-        if x + width > xmax:
-            x, y = x0, y - 0.42
-        style = "%s,line width=0.7pt%s" % (col, ",dash pattern=on 2.4pt off 1.4pt" if dashed else "")
-        w(r"\draw[%s] (%.3f,%.3f) -- (%.3f,%.3f);" % (style, x, y, x + 0.6, y))
-        marker(w, mark, col, x + 0.3, y, r=0.06)
-        w(r"\node[anchor=west] at (%.3f,%.3f) {%s};" % (x + 0.68, y, label))
-        x += width
-    return y
-
-
 # --- the headline ---------------------------------------------------------------
 
 
@@ -189,20 +184,12 @@ def emit_headline(sweep, yr):
     XR = X0 + 3 * PW + 2 * GAP
     facts = []
     letters = iter("abcdef")
-    KEY = 0.6 + ROWH * len(HEAD_ROWS) + 0.35
-    # the attacker key on top: it is what the reader compares in every panel
-    xk = X0 + 1.2
-    for arm, col, mark, dashed in ARMS:
-        style = "%s,line width=1.0pt%s" % (col, ",dash pattern=on 2.4pt off 1.4pt" if dashed else "")
-        w(r"\draw[%s] (%.3f,%.3f) -- (%.3f,%.3f);" % (style, xk, KEY, xk + 0.8, KEY))
-        marker(w, mark, col, xk + 0.4, KEY, r=0.07)
-        lab = LABEL[arm] + (r" (pooled over $c_1$ to $c_4$)" if arm == "movement" else "")
-        w(r"\node[anchor=west,font=\small] at (%.3f,%.3f) {%s};" % (xk + 0.9, KEY, lab))
-        xk += 7.6
+    # the figure-wide key at the top, left edge on the first y-axis (conventions §o)
+    key_row(w, X0, 0.6 + ROWH * len(HEAD_ROWS) + 0.35, ARM_KEY, xmax=XR)
     for r, (header, panels) in enumerate(HEAD_ROWS):
         y0 = 0.6 + (len(HEAD_ROWS) - 1 - r) * ROWH + 0.85
-        w(r"\node[anchor=south west,text=black!60] at (%.3f,%.3f) {%s};" % (X0 - 1.25, y0 + PH + 0.5, header))
-        w(r"\draw[black!25,line width=0.4pt] (%.3f,%.3f) -- (%.3f,%.3f);" % (X0 - 1.25, y0 + PH + 0.48, XR, y0 + PH + 0.48))
+        w(r"\node[anchor=south west,text=black!60] at (%.3f,%.3f) {%s};" % (X0, y0 + PH + 0.5, header))
+        w(r"\draw[black!25,line width=0.4pt] (%.3f,%.3f) -- (%.3f,%.3f);" % (X0, y0 + PH + 0.48, XR, y0 + PH + 0.48))
         for k, (kind, key, title) in enumerate(panels):
             x0 = X0 + k * (PW + GAP)
             p = Panel(w, x0, x0 + PW, y0, y0 + PH, [int(i) for i in sweep["intervals"]], yr, ylabels=(k == 0),
@@ -213,7 +200,7 @@ def emit_headline(sweep, yr):
                 facts += [(arm, key, *q) for q in pts]
         # one axis label per row, so it cannot cross the next row's header
         w(r"\node[rotate=90,anchor=south] at (%.3f,%.3f) {NCR reduction};" % (X0 - 0.95, y0 + PH / 2))
-    w(r"\node[anchor=north] at (%.3f,%.3f) {deployment interval (s)};" % ((X0 + XR) / 2, 0.6 + 0.85 - 0.5))
+    w(r"\node[anchor=north] at (%.3f,%.3f) {Deployment interval (s)};" % ((X0 + XR) / 2, 0.6 + 0.85 - 0.5))
     w(r"\end{tikzpicture}")
     w(r"\end{document}")
     return L, facts
@@ -241,11 +228,6 @@ def _profile_panel(w, sweep, cond, x0, x1, y0, y1, yr, *, ylabels, title, letter
     return facts
 
 
-def _profile_key(w, x, y, xmax):
-    entries = [(LABEL[p], CNAME[p], MARK[p], False) for p in PROFILES] + [("baseline attacker", "cbase", "square", True)]
-    return _key(w, x, y, entries, xmax, gap=0.3)
-
-
 def emit_mechanisms(sweep, yr):
     L = _preamble()
     w = L.append
@@ -258,19 +240,17 @@ def emit_mechanisms(sweep, yr):
     ytop = 1.0 + ROWH * len(ROWS_MECH)
     for r, (layer, conds) in enumerate(ROWS_MECH):
         y0 = ytop - (r + 1) * ROWH + 0.85
-        w(r"\node[anchor=south west,text=black!60] at (%.3f,%.3f) {%s};" % (X0 - 1.25, y0 + PH + 0.5, layer))
-        w(r"\draw[black!25,line width=0.4pt] (%.3f,%.3f) -- (%.3f,%.3f);" % (X0 - 1.25, y0 + PH + 0.48, X0 + 3 * PW + 2 * GAP, y0 + PH + 0.48))
+        w(r"\node[anchor=south west,text=black!60] at (%.3f,%.3f) {%s};" % (X0, y0 + PH + 0.5, _cap(layer)))
+        w(r"\draw[black!25,line width=0.4pt] (%.3f,%.3f) -- (%.3f,%.3f);" % (X0, y0 + PH + 0.48, X0 + 3 * PW + 2 * GAP, y0 + PH + 0.48))
         for k, c in enumerate(conds):
             x0 = X0 + k * (PW + GAP)
             facts += _profile_panel(w, sweep, c, x0, x0 + PW, y0, y0 + PH, yr, ylabels=(k == 0),
-                                    title=LONG[c], letter=next(letters), font=FONT)
-    # the key in the credentials row's spare slots
+                                    title=_cap(LONG[c]), letter=next(letters), font=FONT)
+    # the figure-wide key at the top, left edge on the first y-axis (conventions §o)
+    key_row(w, X0, ytop + 0.35, PROFILE_KEY, xmax=X0 + 3 * PW + 2 * GAP)
     y0 = ytop - len(ROWS_MECH) * ROWH + 0.85
-    kx = X0 + PW + GAP + 0.3
-    w(r"\node[anchor=west,text=black!60] at (%.3f,%.3f) {attack profile};" % (kx, y0 + PH - 0.2))
-    _profile_key(w, kx, y0 + PH - 0.75, X0 + 3 * PW + 2 * GAP)
     w(r"\node[rotate=90,anchor=south] at (%.3f,%.3f) {NCR reduction};" % (X0 - 0.95, (y0 + ytop) / 2))
-    w(r"\node[anchor=north] at (%.3f,%.3f) {deployment interval (s)};" % (X0 + 1.5 * PW + GAP, y0 - 0.5))
+    w(r"\node[anchor=north] at (%.3f,%.3f) {Deployment interval (s)};" % (X0 + 1.5 * PW + GAP, y0 - 0.5))
     w(r"\end{tikzpicture}")
     w(r"\end{document}")
     return L, facts
@@ -290,11 +270,11 @@ def emit_schemes(sweep, yr):
     for k, c in enumerate(HEAD_STRATEGIES):  # the headline's order
         x0 = X0 + k * (PW + GAP)
         facts += _profile_panel(w, sweep, c, x0, x0 + PW, y0, y0 + PH, yr, ylabels=(k == 0),
-                                title=LONG[c], letter=next(letters), font=FONT)
+                                title=_cap(LONG[c]), letter=next(letters), font=FONT)
     w(r"\node[rotate=90,anchor=south] at (%.3f,%.3f) {NCR reduction};" % (X0 - 0.95, y0 + PH / 2))
-    w(r"\node[anchor=north] at (%.3f,%.3f) {deployment interval (s)};" % ((X0 + XR) / 2, y0 - 0.5))
-    w(r"\node[anchor=west,text=black!60] at (%.3f,%.3f) {attack profile};" % (X0 - 1.25, y0 - 1.25))
-    _profile_key(w, X0 + 1.2, y0 - 1.25, XR + 0.3)
+    w(r"\node[anchor=north] at (%.3f,%.3f) {Deployment interval (s)};" % ((X0 + XR) / 2, y0 - 0.5))
+    # the figure-wide key at the top, left edge on the first y-axis (conventions §o)
+    key_row(w, X0, y0 + PH + TITLE_H + 0.1 + KEY_H / 2 + 0.2, PROFILE_KEY, xmax=XR)
     w(r"\end{tikzpicture}")
     w(r"\end{document}")
     return L, facts
