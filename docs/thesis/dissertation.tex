@@ -5774,18 +5774,23 @@ first host and reported with the share of runs that compromise one.
 
 % ROUND 5, 2026-09-29 (Marc's fourth read): ASP reduction is the headline and
 % the ranking basis ("we're running the targeted scenario ... NCR is a backup
-% metric"); one metric backs Figure 5.3's curve, the compromise rate after an
-% MTD deployment, defined with every referent (the rate, the interval, the
-% half interval, why counts are totalled); time lost per MTD deployment
-% retired (its content is the depth of the same curve); Brown's attack actions
-% blocked added (Marc: "that's fine"). Chapter 5 stale by ruling.
+% metric"); Brown's attack actions blocked added (Marc: "that's fine").
+% ROUND 6, 2026-09-30 (Marc: the compromise rate after an MTD deployment is
+% "structurally broken"; "think through how disruption occurs in each attacker,
+% then the metric becomes obvious"). The mechanism, from the code
+% (docs/implementation/disruption_mechanism.md): a deployment cuts off only the
+% action in flight; the attacker then takes time to get back to its work, and on
+% the service layer can lose progress on a host. So: attack actions blocked, per
+% run (Marc: per deployment "too much confusion"), and time lost per MTD
+% deployment re-defined on Marc's words as the extra time to the next compromise
+% against the same moment with no MTD. The compromise rate after an MTD
+% deployment is retired. Handoff docs/handoffs/2026-09-30_disruption_metrics.md.
 % DRAFT STATE --- ratify on read.
 The MTD effectiveness metrics compare an attacker's runs under MTD with
 its runs on the same seeds with no MTD. ASP reduction is the headline, and NCR
 reduction reads the same comparison on the hosts compromised. Attack actions
-blocked and the compromise rate after an MTD deployment record what each
-deployment does to the attacker; how fast the rate recovers records adaptivity
-(Table~\ref{tab:attacker-properties}).
+blocked and time lost per MTD deployment read each deployment; time lost records
+adaptivity (Table~\ref{tab:attacker-properties}).
 
 \paragraph{ASP reduction.}
 ASP reduction is the share of an attacker's ASP that MTD removes. It
@@ -5809,57 +5814,42 @@ NCR reduction is the same comparison on NCR:
   \label{eq:ncr-reduction}
 \end{equation}
 
+% [2026-09-30, pass 6 on Marc's read: "boil it down to what the reader needs".
+%  Cut: "only the action in flight", the dwell-only and unmet-precondition cases
+%  (Section 4.4.1 states both), the cap's wording, the area-between-curves
+%  sentence (Figure 5.3's caption carries it), the direction, "both ways a
+%  deployment costs", and the no-MTD-run-ended case (the analyser's). One term:
+%  "interrupts" (4.4.1's); "next compromise" (MTTC's "first compromise").]
 \paragraph{Attack actions blocked.}
-Attack actions blocked is Brown's count of the attacker's actions that MTD
-blocks \citep[Sec.~IV-A]{brown2023}: here, the actions an MTD deployment
-interrupts while they run (Section~\ref{subsec:runtime-mechanics}), per run:
+Attack actions blocked is Brown's count of the attacker's actions that MTD blocks
+\citep[Sec.~IV-A]{brown2023}: here, the actions a deployment interrupts
+(Section~\ref{subsec:runtime-mechanics}).
 \begin{equation}
   \text{attack actions blocked} = \operatorname*{mean}_{\text{runs}}
-  \left( \text{actions interrupted by an MTD deployment} \right).
+  \left( \text{actions a deployment interrupts} \right).
   \label{eq:blocked}
 \end{equation}
 
-\paragraph{Compromise rate after an MTD deployment.}
-An attacker's \emph{compromise rate} is the number of hosts it compromises per
-hour. The compromise rate after an MTD deployment compares that rate just after
-a deployment with the rate just before it. Deployments come on average once
-every deployment interval $I$ (Table~\ref{tab:experiment}), so the time between
-two deployments is split in half: the rate before is counted over the $I/2$
-before a deployment completes, and the rate after over the $I/2$ after it.
+\paragraph{Time lost per MTD deployment.}
+Time lost per MTD deployment is how much a deployment delays the attacker's next
+compromise: the time from the deployment's completion to the next
+compromise, less the same time on the same seed's run with no MTD. A deployment
+that completes at 6\,000\,s, with the next compromise at 6\,900\,s against
+6\,400\,s with no MTD, costs the attacker 500\,s:
 \begin{equation}
   \begin{split}
-  &\text{compromise rate after an MTD deployment} \\
-  &\qquad = 100 \times
-  \frac{\text{hosts compromised per hour in the } I/2 \text{ after a deployment}}
-       {\text{hosts compromised per hour in the } I/2 \text{ before it}}.
+  \text{time lost per MTD deployment} = \operatorname*{mean}_{\text{deployments}}
+  \bigl( &\text{time to the next compromise} \\
+         &- \text{the same with no MTD} \bigr).
   \end{split}
-  \label{eq:ncr-growth}
+  \label{eq:time-lost}
 \end{equation}
-An attacker compromises hosts rarely, so the window of one deployment seldom
-holds one. The hosts and the hours are therefore totalled over every deployment
-of every run before the two rates are taken; a run that has ended adds no
-hours. The metric is 100 when a deployment leaves the attacker's pace unchanged
-and falls towards 0 the more the deployment slows it. An attacker's pace also
-changes over a run with no MTD, so the same metric is read at the same moments
-of the same seeds' no-MTD runs as the reference. Counted in eight equal slices
-of the $I/2$ after a deployment, instead of over the whole of it, the metric
-traces the attacker's rate against the time since the deployment: how far it
-drops, and how fast it recovers.
-
-% FOLDED 2026-09-30 (Marc: "I would fold it"): Section 4.5.4 Statistical
-% analysis is gone. Every sentence leaned on objects only chapter 5 declares
-% (the seeds and their pairing, the defence mechanisms and deployment
-% strategies run, the ablations), and 5.1 already held the run count. The
-% intervals and the MTD ranking are 5.1's Metrics and MTD ranking paragraphs;
-% the ablation threshold opens Section 5.4. Evidence: evaluation_conventions.md
-% §a and §c (Barach's four-sentence declaration beside the run count; no
-% lineage paper has a statistics subsection under its metrics), STRESS-DES 4.3
-% (the method for stochasticity sits with the replications). Section 4.5 now
-% says what is measured; 5.1 says what is run and how runs are compared.
-% Prior text in git.
+Each time is counted up to the next deployment, so a deployment is charged only
+its own cost; a mean of such times is a restricted mean
+\citep[Methods, Eq.~1]{royston2013}.
 
 
-% =====================================================================
+
 \chapter{Evaluation}
 \label{ch:experiments}
 
@@ -6571,7 +6561,7 @@ the reference for every effect this chapter reports.
 %  The analyser's record keeps them. The
 %  analyser still ranks on hosts per seed with Cohen's d (owed, handoff
 %  2026-09-29_ch4_consolidation.md). DRAFT STATE --- ratify on read.
-\textbf{Metrics.} Both attackers are measured on the ten metrics of
+\textbf{Metrics.} Both attackers are measured on the eleven metrics of
 Section~\ref{sec:evaluation-metrics} (Table~\ref{tab:metrics}), each with its
 95\,\% confidence interval.
 
@@ -7893,8 +7883,8 @@ Adaptivity, the attacker's response to a deployment
 %  (docs/workflows/connective_prose.md; audit
 %  docs/implementation/connective_prose_audit.md); prior text in git.
 %  RATIFIED 2026-09-26 (Marc: 'I accept all this').
-(Table~\ref{tab:attacker-properties}), is a property that needs MTD to be seen. The NCR growth rate and time lost per MTD deployment record it
-(Section~\ref{subsec:metrics-effectiveness}), read at the 2\,000\,s deployment
+(Table~\ref{tab:attacker-properties}), is a property that needs MTD to be seen. Attack actions blocked and time lost per MTD deployment record it
+(Section~\ref{subsec:metrics-effectiveness}). Both are read at the 2\,000\,s deployment
 % [CONNECTIVE-PROSE PASS 2026-09-26, ch5 S4 recovered] Attribution beyond
 %  measurement, contradicted by the chapter's own number (the baseline
 %  attacker is back to its rate within 250 s); the by-construction reason
@@ -7902,7 +7892,7 @@ Adaptivity, the attacker's response to a deployment
 %  go-ahead (docs/workflows/connective_prose.md; audit
 %  docs/implementation/connective_prose_audit.md); prior text in git.
 %  RATIFIED 2026-09-26 (Marc: 'I accept all this').
-interval, the window over which that section defines them; at 200\,s the next deployment falls inside the 1\,250\,s over which the rate is read.
+interval: at 200\,s the next deployment comes 200\,s later, which caps the time lost at 200\,s.
 % [2026-09-26: the owed control sentence RESOLVED by Section 5.4, which reports
 %  the control on the metrics Section 4.5 defines (time lost per MTD deployment
 %  among them) and is listed in Table 5.1's Arm row. Closes handoff
@@ -7979,7 +7969,7 @@ response.
 \begin{figure}[tp]
   \centering
   \includegraphics{fig_5-2-2a_disruption_response}
-  \caption[What an MTD deployment does to each attacker]{What an MTD deployment does to each attacker, at the 2\,000\,s deployment interval, for the APT attacker model averaged over its four attack profiles and for the baseline attacker. (a),~(b)~NCR growth rate around a deployment of the mechanism that, in~(c), costs the APT attacker model~(a) or the baseline attacker~(b) the most time; each panel shows both attackers, and the shaded band is the deployment running. (c)~Time lost per MTD deployment for each defence mechanism run alone: the area shaded in~(a) and~(b), read as seconds at the attacker's pre-deployment rate and net of the same area with no MTD, with 95\,\% bootstrap intervals over runs. Section~\ref{sec:evaluation-metrics} defines both metrics.}
+  \caption[What an MTD deployment costs each attacker]{What an MTD deployment costs each attacker, at the 2\,000\,s deployment interval, for the APT attacker model averaged over its four attack profiles and for the baseline attacker. (a),~(b)~The share of deployments followed by a compromised host within the time on the axis, with the MTD and, at the same moments of the same seeds, with no MTD (lighter), for the defence mechanism that costs the APT attacker model~(a) or the baseline attacker~(b) the most time in~(c); the shaded area between an attacker's two curves is its time lost per MTD deployment. (c)~Time lost per MTD deployment for each defence mechanism deployed alone, with 95\,\% bootstrap intervals over runs. Section~\ref{sec:evaluation-metrics} defines both metrics.}
   \label{fig:aio-adaptivity}
 \end{figure}
 
@@ -7992,37 +7982,54 @@ response.
 %  float shows, the numbers that carry it, the APT property the metric records
 %  (Table 3.2 via Section 4.5), a by-construction reason only where Marc gave one.
 %  The agent draft it replaces is in git history (commit e83f280c). DRAFT STATE.
-Figure~\ref{fig:aio-adaptivity}(a) and (b) show the NCR growth rate around a
-deployment of IP shuffle, on the host layer, and of service diversity, on the
-service layer. After IP shuffle both attackers' rates drop: the APT attacker
-model's to \prelim{7}\,\% of its rate before and the baseline attacker's to
-\prelim{22}\,\%. The baseline attacker is back to its earlier rate within
-\prelim{125}\,s; the APT attacker model is still at \prelim{84}\,\% after
-\prelim{750}\,s. After service diversity the order reverses: the baseline attacker
-drops to \prelim{15}\,\% and is still at \prelim{72}\,\% after \prelim{1\,250}\,s,
-while the APT attacker model drops to \prelim{63}\,\% and is near its earlier
-rate by \prelim{625}\,s.
-
+% [2026-09-30, ROUND 6: rebuilt on the disruption metrics of Section 4.5.3
+%  (handoff docs/handoffs/2026-09-30_disruption_metrics.md). Numbers from
+%  data/results/ch5_defended/time_lost_numbers.json via tools/ch5_disruption_figure.py.
+%  Plain description only; the mechanism behind the numbers is chapter 6's
+%  (docs/implementation/disruption_mechanism.md section 1). DRAFT STATE.]
 % REWRITTEN 2026-09-26 on Marc's read ("very rhetorically inflated ... literally we
 %  just need to describe what's happening"; his step-through of every float is
 %  the content, checked against the tracked numbers). Plain description: what the
 %  float shows, the numbers that carry it, the APT property the metric records
 %  (Table 3.2 via Section 4.5), a by-construction reason only where Marc gave one.
 %  The agent draft it replaces is in git history (commit e83f280c). DRAFT STATE.
-Figure~\ref{fig:aio-adaptivity}(c) gives the time lost per MTD deployment for
-each mechanism. The three host-layer mechanisms cost the APT attacker model
-\prelim{429} to \prelim{511}\,s per deployment; their cost to the baseline
-attacker is not told apart from zero. On the service layer, service diversity
-costs the baseline attacker \prelim{593}\,s and the APT attacker model
-\prelim{194}\,s. Port shuffle, OS diversity and user shuffle cost neither attacker
 % [CONNECTIVE-PROSE PASS 2026-09-26, ch5 U6 close] 'therefore' presented a
 %  restatement as a derivation; colon-list removed. The closing summary is
 %  kept (the paragraph ends on its answer). SESSION-GENERATED on Marc's
 %  2026-09-26 go-ahead (docs/workflows/connective_prose.md; audit
 %  docs/implementation/connective_prose_audit.md); prior text in git.
 %  RATIFIED 2026-09-26 (Marc: 'I accept all this').
-an amount told apart from zero. The host layer costs the APT attacker model the most time, and service diversity costs the baseline attacker the most. Section~\ref{subsec:eff-cross-arm}
-reads whether the same holds for NCR reduction across the deployment interval.
+\input{tables/tab_5-3-1b_disruption}
+
+Table~\ref{tab:disruption} gives attack actions blocked per run. Under the host-
+and service-layer mechanisms deployments block \prelim{5.3} to \prelim{6.9} of
+the baseline attacker's actions per run and \prelim{1.2} to \prelim{3.1} of the
+APT attacker model's. User shuffle blocks \prelim{0.41} of the baseline
+attacker's and \prelim{0.09} of the APT attacker model's.
+
+Figure~\ref{fig:aio-adaptivity}(a) and (b) show the share of deployments followed
+by a compromised host within a given time, under IP shuffle and under service
+diversity. After IP shuffle, \prelim{21}\,\% of deployments are followed by a
+compromise by the APT attacker model within 1\,000\,s, against \prelim{40}\,\%
+with no MTD; the baseline attacker's two curves lie together (\prelim{91} and
+\prelim{87}\,\%). After service diversity the order reverses: \prelim{58}\,\% of
+deployments are followed by a compromise by the baseline attacker within
+1\,000\,s, against \prelim{88}\,\% with no MTD, while the APT attacker model's
+two curves lie together (\prelim{36} and \prelim{40}\,\%).
+
+Figure~\ref{fig:aio-adaptivity}(c) gives the time lost per MTD deployment. The
+three host-layer mechanisms cost the APT attacker model \prelim{206} to
+\prelim{313}\,s per deployment, and the baseline attacker an amount not told apart
+from zero. Service diversity costs the baseline attacker \prelim{518}\,s and the
+APT attacker model \prelim{52}\,s. Port shuffle and OS diversity cost neither
+attacker an amount told apart from zero, and user shuffle saves the APT attacker
+model \prelim{35}\,s. A deployment lands before the attacker's first compromise in
+\prelim{23}\,\% of cases for the APT attacker model and \prelim{18}\,\% for the
+baseline attacker; weighting both attackers to the same mix moves no time lost by
+more than \prelim{33}\,s. The host layer costs the APT attacker model the most time,
+and service diversity costs the baseline attacker the most.
+Section~\ref{subsec:eff-cross-arm} reads whether the same holds across the
+deployment interval.
 
 % ~1 unit. THE THESIS'S OWN CLAIM, and the subsection Marc asked the
 % hardest question about: given both attackers share the SAME SIX VERBS,
@@ -8577,9 +8584,9 @@ failure matrix compromises more, the opposite direction to the prediction,
 though not on every profile: under OS diversity at 200\,s it compromises 0.34
 more hosts on $c_2$ and 0.38 fewer on $c_3$.
 The NCR reduction of each defence mechanism differs by at most 0.020 between the two
-models. Under IP shuffle at 2\,000\,s, time lost per MTD deployment is 494\,s
-with the failure matrix and 505\,s without it, a difference of $-11$\,s with an
-interval from $-53$ to 31\,s.
+models. Under IP shuffle at 2\,000\,s, time lost per MTD deployment is 324\,s
+with the failure matrix and 332\,s without it, a difference of $-8$\,s with an
+interval from $-20$ to 4\,s.
 
 The ablation covers two of the seven defence mechanisms, both deployment
 intervals and $c_1$ to $c_4$; the other mechanisms, the execution schemes and
@@ -8777,6 +8784,17 @@ corpus-size confound (Section~\ref{sec:threats}).]}
 % indirectly, was modelled on purpose for a fair comparison (Marc
 % 2026-09-28) and is reported in Section~\ref{subsec:aio-disruption}
 % --- cite it, do not re-raise it.
+% [2026-09-30] The mechanism behind (1) and (2), verified against the code
+%  (docs/implementation/disruption_mechanism.md section 1; Marc: "part of the
+%  discussion"): a deployment cuts off only the action in flight; the host
+%  layer takes the attacker's position (the host it was working on), the
+%  service layer undoes its progress on a host, user shuffle changes
+%  credentials. The baseline restarts its procedure at once, so the host layer
+%  costs it about nothing and service diversity 518 s (its exploit progress is
+%  undone); the APT attacker model's tactics keep dispatching host actions that
+%  cannot run until lateral movement restores its position, so the host layer
+%  costs it 206-313 s and the service layer little. Time lost per MTD
+%  deployment is Section 4.5.3's re-defined metric (Table 5.3).
 \noindent\emph{[Placeholder --- (1) The layer reversal: the host layer holds
 back the APT attacker model most, service diversity the baseline attacker; a
 defence mechanism can destroy only the state an attacker carries (position against
@@ -10053,22 +10071,10 @@ reports whether the attackers keep their order across the run.]}
 % Recommend renaming to app:preliminary-extraction (the chapter title
 % already reads that way) --- a one-line change in two places, left undone
 % because it edits Marc's sentence.
-\section{Robustness of time lost to its window}
-\label{app:timelost-window}
+% [2026-09-30] Appendix 'Robustness of time lost to its window' deleted: time lost per MTD
+% deployment now runs to the next deployment, so no window is declared (handoff
+% 2026-09-30_disruption_metrics.md). Its table and generator are removed; history in git.
 
-% NEW 2026-09-25 (Marc: "every time you see a number ... is this defensible, is
-% this strictly conventional"). Generated table: tools/ch5_timelost_window_table.py.
-% The prose numbers are the 100-seed preliminary corpus; regenerate at 1 000.
-Time lost per MTD deployment (Section~\ref{subsec:metrics-effectiveness}) reads a
-window of 750\,s before a deployment and 1\,250\,s after it, in 125\,s bins. The
-1\,250\,s follows from the 2\,000\,s interval; the 750\,s split and the bin width
-are declared, and Table~\ref{tab:timelost-window} varies them. The bin width
-changes no value. The split keeps the APT attacker model's four largest values
-and the baseline attacker's largest in the same order and within 11\,\% of their
-declared values; the smaller values move by up to 56\,s, and two change sign, so
-a time lost below about 100\,s is not read as different from zero.
-
-\input{tables/tab_C-5_timelost_window}
 
 \chapter{Preliminary corpus extraction runs}
 \label{app:cooccurrence}

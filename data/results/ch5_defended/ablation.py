@@ -31,7 +31,8 @@ READS.
     hosts   mean hosts compromised per run, read as NCR (hosts / N, N = 50)
     NCR reduction  1 - mean(hosts | defence) / mean(hosts | none), each arm
             against its own no-defence runs (section 4.5)
-    time lost per MTD deployment, disruption.py's estimator unchanged, 2 000 s
+    time lost per MTD deployment, time_lost.py's definition (2026-09-30: the extra
+            time to the next compromise against the same moment with no MTD), 2 000 s
             only; kept in the JSON, not in the table (its interval has no
             declared bound, so it cannot show an absence of effect)
   per profile: the host difference and its interval, so a pooled null cannot
@@ -60,7 +61,7 @@ from pathlib import Path
 
 import numpy as np
 
-import disruption as D
+import time_lost as TL
 
 HERE = Path(__file__).resolve().parent
 OUT = HERE / "ablation_numbers.json"
@@ -101,7 +102,7 @@ def _behaviour(records: list) -> tuple[Counter, Counter]:
             after_ia["fails"] += 1
             if y[2] == "PRECONDITION_UNMET":
                 after_ia["fails_unmet"] += 1  # a subset of fails: it fails before it runs
-        elif (y[1], y[2]) in D.COMPROMISE:
+        elif (y[1], y[2]) in TL.COMPROMISE:
             after_ia["compromises"] += 1
         else:
             after_ia["succeeds"] += 1  # a scan or enumeration: runs, compromises no host
@@ -110,7 +111,7 @@ def _behaviour(records: list) -> tuple[Counter, Counter]:
 
 def load() -> list[dict]:
     out, errors = [], 0
-    for path in (D.RUNS, EXTRA):
+    for path in (TL.RUNS, EXTRA):
         if not path.exists():
             continue
         with path.open() as f:
@@ -131,13 +132,13 @@ def load() -> list[dict]:
                     errors += 1
                     continue
                 T = r["termination_time"]
-                comp = [x[8] for x in r["records"] if (x[1], x[2]) in D.COMPROMISE]
+                comp = [x[8] for x in r["records"] if (x[1], x[2]) in TL.COMPROMISE]
                 after_ia, route = _behaviour(r["records"]) if r["condition"] == "none" else (Counter(), Counter())
                 out.append({
                     "group": r["group"], "arm": "movement", "profile": r["profile"], "seed": r["seed"],
                     "cond": r["condition"], "interval": r["interval"], "T": T, "hosts": r["compromised"],
                     "comp": np.sort(np.minimum(np.array(comp, float), T)),
-                    "landings": [e[2] for e in r["mtd_executions"] if -D.EDGES[0] <= e[2] < T],
+                    "landings": sorted(float(e[2]) for e in r["mtd_executions"]),
                     "durations": [e[3] for e in r["mtd_executions"]],
                     "after_ia": after_ia, "route": route,
                 })
@@ -264,21 +265,24 @@ def main() -> None:
             if iv == 2_000:
                 runs_w = [w[k] for k in u]
                 runs_b = [wo[k] for k in u]
-                plac_w = {("movement", k[0], k[1]): none["core"][k] for k in u}
-                plac_b = {("movement", k[0], k[1]): none["blind"][k] for k in u}
-                nw, dw = D._stack(runs_w, None)
-                pnw, pdw = D._stack(runs_w, plac_w)
-                nb, db = D._stack(runs_b, None)
-                pnb, pdb = D._stack(runs_b, plac_b)
+                def pr(runs_, plac_):
+                    return [TL.pairs({"end": r["T"], "comp": r["comp"], "landings": r["landings"]},
+                                     {"end": q["T"], "comp": q["comp"]}, 2_000.0)[0]
+                            for r, q in zip(runs_, plac_)]
 
-                def tl(ix, num, den, pnum, pden):
-                    return D._time_lost(num[ix].sum(0), den[ix].sum(0)) - D._time_lost(pnum[ix].sum(0), pden[ix].sum(0))
+                ps_w = pr(runs_w, [none["core"][k] for k in u])
+                ps_b = pr(runs_b, [none["blind"][k] for k in u])
+                sw = np.array([sum(x - y for x, y, _ in q) for q in ps_w]); cw = np.array([len(q) for q in ps_w])
+                sb = np.array([sum(x - y for x, y, _ in q) for q in ps_b]); cb = np.array([len(q) for q in ps_b])
+
+                def tl(ix, s_, c_):
+                    return float(s_[ix].sum() / max(c_[ix].sum(), 1))
 
                 allix = np.arange(len(u))
-                tw, tb = tl(allix, nw, dw, pnw, pdw), tl(allix, nb, db, pnb, pdb)
-                bt = np.array([tl(ix, nw, dw, pnw, pdw) - tl(ix, nb, db, pnb, pdb) for ix in idx])
-                bw = np.array([tl(ix, nw, dw, pnw, pdw) for ix in idx])
-                bb = np.array([tl(ix, nb, db, pnb, pdb) for ix in idx])
+                tw, tb = tl(allix, sw, cw), tl(allix, sb, cb)
+                bw = np.array([tl(ix, sw, cw) for ix in idx])
+                bb = np.array([tl(ix, sb, cb) for ix in idx])
+                bt = bw - bb
                 row.update({"time_lost_with": tw, "time_lost_with_ci95": [float(np.percentile(bw, 2.5)), float(np.percentile(bw, 97.5))],
                             "time_lost_without": tb, "time_lost_without_ci95": [float(np.percentile(bb, 2.5)), float(np.percentile(bb, 97.5))],
                             "time_lost_diff": tw - tb,

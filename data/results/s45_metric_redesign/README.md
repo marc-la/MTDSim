@@ -15,3 +15,25 @@ Run from the repo root.
 
 The two deployment scripts read `ch5_defended/runs.jsonl` (4 GB) through
 `disruption.load`, which takes a few minutes.
+
+## 2026-09-30: disruption from the mechanism
+
+Behind `docs/implementation/disruption_mechanism.md`.
+
+- `disruption_from_mechanism.py OUT.json [PREVIEW.png]`: attack actions blocked per
+  deployment and the time to resume a blocked action (from the deployment's
+  completion to the next run of the same action), against the usual gap with no MTD;
+  writes the preview of the proposed Figure 5.3 (`preview_fig53_resume.png`).
+  It supersedes `blocked_resume.py`, which measured from the blocked record's end
+  (penalty included on the APT model only) and used the baseline's
+  `termination_time` (always the horizon).
+- `event_rates_around_deployment.py OUT.json`: actions, interrupts, failed actions
+  and compromises per minute from 5 min before to 15 min after each deployment, with
+  the same moments on the no-MTD run. Note: its baseline live time still uses
+  `termination_time` (see the record, M3); read its baseline rows as indicative.
+
+**2026-09-30, after the metric change.** `disruption.py` is retired;
+`data/results/ch5_defended/time_lost.py` is the reader (attack actions blocked per run,
+time lost per MTD deployment). `rate_ratio.py` and `next_compromise.py` import the
+retired module and run only against the tree before this change (git history).
+`time_to_next_compromise.py` is the dry run the reader grew from.
