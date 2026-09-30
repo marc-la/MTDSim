@@ -8505,9 +8505,21 @@ raised in the regime runs is not yet investigated}
 % not repeated below. Handoff 2026-09-28_vulnerability_memory_on.md, Part B.
 % FOLDED FROM 4.5.4, 2026-09-30: the ablation threshold is declared here,
 %  where ablations are first used (evaluation_conventions.md §a). DRAFT STATE.
-Each ablation's difference, with minus without, carries a 95\,\% bootstrap
-interval over runs paired by seed, and is negligible when Cohen's $d < 0.2$
-\citep{cohen1988statistical}.
+% 2026-09-30 (Marc: "how do you define negligible ... I don't really
+%  understand what [Cohen's d] is"; "a shared definition ... in 5.4 because it
+%  serves both ablations"): d defined in one clause, in words; its interval
+%  stated over seeds, as ablation.py and memory_ablation.py compute it (the
+%  per-seed mean over c1 to c4, the pooled SD of the two arms' per-seed
+%  means). Cohen names 0.2 a small effect; "negligible" below it is the
+%  convention built on that, so the sentence says so and does not put the
+%  word in Cohen's mouth. DRAFT STATE --- ratify on read.
+Each ablation compares the APT attacker model with and without one component,
+on the same seeds. The difference is measured by Cohen's $d$: the difference
+between the two means divided by their standard deviation over seeds, reported
+with its 95\,\% bootstrap interval over seeds. A difference is negligible when
+$d$ is below 0.2, the value Cohen \citep{cohen1988statistical} calls a small effect:
+the component then moves the result by less than a fifth of its ordinary
+variation from one seed to the next.
 
 \noindent\emph{[Placeholder --- section preamble: every component tested here
 is our judgement; each is removed in turn on the same design, which this
