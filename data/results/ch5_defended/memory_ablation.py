@@ -84,14 +84,17 @@ def compare(arm, off, units, rng):
             "cohen_d_ci95": _ci([_d(ma[i], mb[i]) for i in sidx])}
 
 
-def describe(c, units, rng):
+def describe(c, units, rng, srng):
     rows = [c[k] for k in units]
     hosts = np.array([r["compromised"] for r in rows], float)
+    _, ms = _per_seed(units, hosts / HOSTS)
+    sidx = srng.integers(0, len(ms), size=(N_BOOT, len(ms)))
     asp = np.array([r["database_hosts_reached"] > 0 for r in rows], float)
     rolls = sum(r["rolls"] for r in rows)
     idx = rng.integers(0, len(units), size=(N_BOOT, len(units)))
     return {"hosts": float(hosts.mean()), "hosts_ci95": _ci(hosts[idx].mean(1)),
             "ncr": float(hosts.mean() / HOSTS), "asp": float(asp.mean()),
+            "ncr_ci95_seeds": _ci(ms[sidx].mean(1)),
             "roll_success": sum(r["wins"] for r in rows) / rolls if rolls else None,
             "roll_success_ci95": _ci(np.array([r["wins"] for r in rows], float)[idx].sum(1)
                                      / np.array([r["rolls"] for r in rows], float)[idx].sum(1)),
@@ -104,6 +107,7 @@ def describe(c, units, rng):
 def main() -> None:
     cells, errors = load()
     rng = np.random.default_rng(SEED)
+    srng = np.random.default_rng(SEED + 1)  # the 2026-10-01 additions; rng's draws stay as they were
     pools = sorted({k[1] for k in cells})
     order = ("none", "service_diversity", "os_diversity")
     conds = sorted({k[2] for k in cells}, key=order.index)
@@ -115,7 +119,7 @@ def main() -> None:
             units = sorted(set.intersection(*(set(a) for a in arms.values()), *(set(b) for b in base.values())))
             if not units:
                 continue
-            desc = {m: describe(arms[m], units, rng) for m in arms}
+            desc = {m: describe(arms[m], units, rng, srng) for m in arms}
             row = {"units": len(units), "seeds": len({s for _, s in units}),
                    "arms": {m: {k: v for k, v in d.items() if not k.startswith("_")} for m, d in desc.items()},
                    "on_minus_off": compare(arms["on"], arms["off"], units, rng),
@@ -132,6 +136,22 @@ def main() -> None:
                               "ncr_reduction_ci95": _ci(1 - h[idx].mean(1) / h0[idx].mean(1)),
                               "asp_reduction": float(1 - a.mean() / a0.mean()) if a0.mean() > 0 else None}
                 row["reduction"] = red
+                # Cohen's d on NCR reduction per seed (1 - NCR under the mechanism
+                # over NCR with no MTD, the four profiles at one seed averaged),
+                # on against off. Computed 2026-10-01 as a candidate column for
+                # Table 5.6 and REJECTED: a per-seed ratio is noisy (intervals about
+                # +-0.15 against +-0.07 for d on NCR) and its mean is not the NCR
+                # reduction the table prints (a ratio of cell means), so the section
+                # preamble's d would not describe it. In the JSON only.
+                per = {}
+                for m in ("on", "off"):
+                    _, hm = _per_seed(units, desc[m]["_hosts"])
+                    _, h0 = _per_seed(units, np.array([base[m][k]["compromised"] for k in units], float))
+                    per[m] = 1 - hm / h0
+                sidx = srng.integers(0, len(per["on"]), size=(N_BOOT, len(per["on"])))
+                row["reduction_on_minus_off"] = {
+                    "cohen_d": _d(per["on"], per["off"]),
+                    "cohen_d_ci95": _ci([_d(per["on"][i], per["off"][i]) for i in sidx])}
             out["reads"][f"{pool}|{cond}"] = row
     OUT.write_text(json.dumps(out, indent=1))
     print(f"errors {errors}")
@@ -153,7 +173,7 @@ def main() -> None:
                   f"perfect {red['perfect']['ncr_reduction']:+.3f}; ASP reduction off {red['off']['asp_reduction']} on {red['on']['asp_reduction']}")
 
 
-TABLE = HERE.parents[2] / "docs" / "thesis" / "tables" / "tab_5-4b_ablation_memory.tex"
+TABLE = HERE.parents[2] / "docs" / "thesis" / "tables" / "tab_F-2_ablation_memory.tex"
 COND_LABEL = {"none": "no MTD", "service_diversity": "service diversity, 200\\,s",
               "os_diversity": "OS diversity, 200\\,s"}
 
@@ -169,10 +189,12 @@ def _f(x: float, nd: int, sign: bool = False) -> str:
 
 
 def write_table(out: dict) -> None:
-    """Section 5.4.2's table: per MTD and pool, the share of exploits that
-    succeed (the manipulation check) and NCR with the memory off and on, and
-    Cohen's d against the memory off with its interval. Every exploit
-    succeeding stays in the JSON only (Marc 2026-09-30: compare on and off)."""
+    """Appendix F's table (moved from section 5.4.2 on Marc's 2026-10-01 ruling):
+    the pool sweep behind fig:ablation-memory, in Table 5.6's form (with, then
+    without; Cohen's d on NCR, with against without). Per MTD setting and pool:
+    the share of exploits that succeed (the manipulation check) and NCR, with
+    and without the memory. Every exploit succeeding stays in the JSON only
+    (Marc 2026-09-30: compare with and without)."""
     seeds = max(r["seeds"] for r in out["reads"].values())
     if seeds != 1_000:  # the thesis declares 1 000 (seed-count protocol); the numbers are \prelim until then
         print(f"NOTE: table numbers are from {seeds} seeds; the caption declares 1 000")
@@ -185,27 +207,26 @@ def write_table(out: dict) -> None:
             a, o = r["arms"], r["on_minus_off"]
             lo, hi = o["cohen_d_ci95"]
             body.append(
-                f"    {pool} & {_f(a['off']['roll_success'], 2)} & {_f(a['on']['roll_success'], 2)} & "
-                f"{_f(a['off']['ncr'], 3)} & {_f(a['on']['ncr'], 3)} & "
+                f"    {pool} & {_f(a['on']['roll_success'], 2)} & {_f(a['off']['roll_success'], 2)} & "
+                f"{_f(a['on']['ncr'], 3)} & {_f(a['off']['ncr'], 3)} & "
                 f"{_f(o['cohen_d'], 2, True)} [{_f(lo, 2, True)}, {_f(hi, 2, True)}] \\\\")
     tex = "\n".join([
         "% GENERATED by data/results/ch5_defended/memory_ablation.py from memory_ablation_numbers.json;",
-        "% never hand-edit. Section 5.4.2; the numbers of fig:ablation-memory.",
+        "% never hand-edit. Appendix F; the pool sweep behind fig:ablation-memory, in tab:ablation's form.",
         r"\begin{table}[tp]",
         r"  \centering",
-        (r"  \caption[The APT attacker model with and without the vulnerability memory]{The APT attacker "
-         r"model averaged over $c_1$ to $c_4$, without the vulnerability memory (off) and with it (on), on "
-         r"the same 1\,000 seeds, by the number of services per operating system: the share of exploits "
-         r"that succeed, of those attempted, an exploit the host's operating system rules out not counted; "
-         r"NCR; and Cohen's $d$ on NCR per seed, on against off, with its 95\,\% bootstrap interval over "
-         r"seeds.}"),
+        (r"  \caption[The APT attacker model with and without the vulnerability memory, by pool]{The APT "
+         r"attacker model with and without the vulnerability memory, averaged over $c_1$ to $c_4$, on the "
+         r"same 1\,000 seeds, by the number of services per operating system: the share of exploits that "
+         r"succeed, NCR, and Cohen's $d$ on NCR, with minus without, with its 95\,\% bootstrap interval over seeds. An exploit "
+         r"the host's operating system rules out is not counted.}"),
         r"  \label{tab:ablation-memory}",
-        r"  \tablestyle\scriptsize\setlength{\tabcolsep}{6pt}",
+        r"  \tablestyle\rowcolors{1}{}{}",
         r"  \begin{tabular}{@{}cccccc@{}}",
         r"    \toprule",
-        r"    & \multicolumn{2}{c}{Exploits that succeed} & \multicolumn{2}{c}{NCR} & Cohen's $d$ \\",
-        r"    \cmidrule(lr){2-3}\cmidrule(lr){4-5}",
-        r"    Services per OS & off & on & off & on & on against off \\",
+        r"    & \multicolumn{2}{c}{Exploits that succeed} & \multicolumn{3}{c}{NCR} \\",
+        r"    \cmidrule(lr){2-3}\cmidrule(lr){4-6}",
+        r"    Services per OS & with & without & with & without & Cohen's $d$ \\",
         r"    \midrule",
         *[b for b in body if b],
         r"    \bottomrule",

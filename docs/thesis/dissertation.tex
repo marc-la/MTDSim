@@ -8567,6 +8567,13 @@ with its 95\,\% bootstrap interval over seeds. A difference is negligible when
 $d$ is below 0.2, the value Cohen \citep{cohen1988statistical} calls a small effect:
 the component then moves the result by less than a fifth of its ordinary
 variation from one seed to the next.
+% 2026-10-01 (Marc: "one table 5.6 covering both ablations in one form"; "the
+%  main headline figure of 5.4 [is] the table and both of the subsections talk
+%  about it"): SESSION-GENERATED sentence introducing it. DRAFT STATE.
+Table~\ref{tab:ablation} gives both ablations with 20 services per operating
+system, the network of every other result in this chapter.
+
+\input{tables/tab_5-4a_ablation}
 
 \noindent\emph{[Placeholder --- section preamble: every component tested here
 is our judgement; each is removed in turn on the same design, which this
@@ -8606,57 +8613,43 @@ matrix and with every factor of it set to one, on the same 1\,000 seeds, with no
 MTD and under IP shuffle and OS diversity at the 200\,s and 2\,000\,s
 deployment intervals (Table~\ref{tab:experiment}).
 
-\begin{figure}[tp]
-  \centering
-  \includegraphics{fig_5-4a_ablation}
-  \caption[What removing the failure matrix changes]{The APT attacker model with
-  the failure matrix (with) and with every factor of it set to one (without), on
-  the same 1\,000 seeds. (a)~After a failed initial access with no MTD, the
-  attacker's next action, as a share of the $n$ failed initial accesses on
-  $c_1$, $c_3$ and $c_4$: back to reconnaissance; an action that fails before
-  it runs, its precondition unmet; one that runs and fails; one that succeeds
-  without compromising a host; or one that compromises a host, whose share is
-  printed beside each bar. Dwell-only tactics on the way are passed over, and
-  shares under 0.06 are not printed; $c_2$ is not drawn. (b)~Cohen's $d$ on
-  hosts compromised per seed, with minus without, averaged over $c_1$ to $c_4$,
-  with its 95\,\% bootstrap interval over seeds; the shaded band is where
-  a difference is negligible ($|d| < 0.2$).}
-  \label{fig:ablation}
-\end{figure}
-
-Removing the failure matrix changes where the attacker goes after a failure
-(Figure~\ref{fig:ablation}a). After a failed initial access, the model with the
+% 2026-10-01, THE §5.4 FLOAT SCRUTINY on Marc's rulings (record: handoff
+%  2026-09-28_vulnerability_memory_on.md, "§5.4 float scrutiny"): Figure 5.7
+%  CUT ((b) printed Table 5.6's d column; (a)'s headline share is the declared
+%  weight read back, told here in one sentence). DELETIONS ONLY in Marc's prose,
+%  no rewording: the numbers that now sit in no float (the next-action shares,
+%  the c2 shares, "at most 0.21", the per-profile hosts, time lost, the NCR
+%  pair Table 5.6 prints); "at most 0.020" -> "0.02" at the table's precision;
+%  "execution schemes" -> "deployment strategies" (registry). The six-sentence
+%  slots for Marc's dictation are in the handoff. DRAFT STATE.
+% OWED: this ablation ran with the vulnerability memory off (the corpus core
+%  arm at seeds 0-99 is bit-identical to the memory ablation's off arm); rerun
+%  both arms with the memory on at 1 000 seeds (Marc 2026-10-01: "we can rerun
+%  that when we do the ablation to 1 000 seeds"). Until then Table 5.6's two
+%  no-MTD "with" rows differ (0.169 against 0.167).
+Removing the failure matrix changes where the attacker goes after a failure.
+After a failed initial access, the model with the
 failure matrix goes back to reconnaissance in 0.75 to 0.83 of cases on $c_1$,
 $c_3$ and $c_4$ (on $c_1$, the weight of 0.750 that Figure~\ref{fig:gspn-gadget}
-draws), and the model without it in 0.08 to 0.10. The model without it
-moves on instead, and the actions it moves on to mostly fail: on $c_1$, 0.30
-fail before they run, 0.32 run and fail, and 0.29 succeed without compromising
-a host. With or without the failure matrix, a host is compromised on at most
-0.01 of these actions. On $c_2$ the model goes back to reconnaissance after
-no failed initial access, with or without the failure matrix, and the other
-shares differ by at most 0.03. After every other failure, at most 0.21 of the
-next tactics differ between the two models.
+draws), and the model without it in 0.08 to 0.10.
+On $c_2$ the model goes back to reconnaissance after
+no failed initial access, with or without the failure matrix.
 
-\input{tables/tab_5-4a_ablation}
-
-Removing the failure matrix does not change what the attacker achieves
-(Figure~\ref{fig:ablation}b, Table~\ref{tab:ablation}). With no MTD, the
-model compromises 0.169 of the network with the failure matrix and 0.165
-without it. With no MTD and under IP shuffle and OS diversity at both
+\owed{Removing the failure matrix does not change what the attacker achieves
+(Table~\ref{tab:ablation}).}{Section 5.4.1: the failure-matrix ablation ran with
+the vulnerability memory off; rerun both arms with the memory on at 1\,000 seeds,
+after which Table 5.6's two no-MTD rows with each component agree (now 0.169
+against 0.167)} With no MTD and under IP shuffle and OS diversity at both
 intervals, $d$ is below 0.2. The largest is 0.13, under
-IP shuffle at 200\,s, where the model compromises 0.007 of the network; there
+IP shuffle at 200\,s; there
 its interval reaches the edge of the negligible band, and everywhere else
-it lies inside it. In four of the five the model with the
-failure matrix compromises more, the opposite direction to the prediction,
-though not on every profile: under OS diversity at 200\,s it compromises 0.34
-more hosts on $c_2$ and 0.38 fewer on $c_3$.
-The NCR reduction of each MTD mechanism differs by at most 0.020 between the two
-models. Under IP shuffle at 2\,000\,s, time lost per MTD deployment is 324\,s
-with the failure matrix and 332\,s without it, a difference of $-8$\,s with an
-interval from $-20$ to 4\,s.
+it lies inside it. In four of the five cells the model with the
+failure matrix compromises more, the opposite direction to the prediction.
+The NCR reduction of each MTD mechanism differs by at most 0.02 between the two
+models.
 
 The ablation covers two of the seven MTD mechanisms, both deployment
-intervals and $c_1$ to $c_4$; the other mechanisms, the execution schemes and
+intervals and $c_1$ to $c_4$; the other mechanisms, the deployment strategies and
 $c_{\mathrm{agg}}$ were not run without the failure matrix. Within that scope,
 the results of this chapter do not depend on the failure matrix.
 Chapter~\ref{ch:discussion} discusses why.
@@ -8740,37 +8733,46 @@ Under both MTD mechanisms the rise follows the same pattern.
   \includegraphics{fig_5-4b_ablation_memory}
   % Generated by tools/ch5_memory_ablation_figure.py from
   % memory_ablation_numbers.json; takeaway and design record in its docstring.
-  % Caption DRAFT STATE 2026-09-30, ratify on read.
+  % Caption DRAFT STATE 2026-09-30, ratify on read. 2026-10-01: Figure 5.8
+  %  becomes 5.7; one term (with and without, not on and off); bars over seeds,
+  %  the unit Cohen's d uses; the pool sweep's table moved to Appendix F.
   \caption[What removing the vulnerability memory changes]{NCR of the APT
-  attacker model averaged over $c_1$ to $c_4$, with the vulnerability memory
-  (on) and without it (off), on the same 1\,000 seeds, against the number of
+  attacker model averaged over $c_1$ to $c_4$, with and without the
+  vulnerability memory, on the same 1\,000 seeds, against the number of
   services per operating system, (a)~with no MTD and (b)~under service
-  diversity at 200\,s. Bars are 95\,\% bootstrap intervals over runs; the
-  two arms share seeds, and Cohen's $d$ in Table~\ref{tab:ablation-memory}
-  compares them seed by seed. The table also gives the share of exploits that
-  succeed and OS diversity.}
+  diversity at 200\,s. Bars are 95\,\% bootstrap intervals over seeds.
+  Table~\ref{tab:ablation-memory} gives Cohen's $d$ at each pool, the share of
+  exploits that succeed, and OS diversity.}
   \label{fig:ablation-memory}
 \end{figure}
 
-\input{tables/tab_5-4b_ablation_memory}
-
+% 2026-10-01 (the §5.4 float scrutiny, Marc's rulings): DELETIONS ONLY, no
+%  rewording, of the numbers Table 5.6 and Figure 5.7 now print (NCR 0.167 and
+%  0.163; 0.089 to 0.096; NCR reduction 0.360 and 0.365); "defence mechanisms"
+%  -> "MTD mechanisms" (registry); the 20-service claim cites Table 5.6. The
+%  closer's "so the hypothesis holds for the share of exploits that succeed
+%  only" overstated (Marc 2026-10-01: agreed): Section 4.4.5 hypothesises the
+%  effect on compromise grows with a smaller pool, and under service diversity
+%  d on NCR does grow (0.05 at 20 services to 0.19 at one) while staying below
+%  0.2. SESSION-WORDED replacement, DRAFT STATE, ratify on read; re-worded
+%  after the re-review (the first version implied the hypothesis fails for NCR).
 The memory adds at most \prelim{0.010} of the network to what the attacker
-compromises (Figure~\ref{fig:ablation-memory}, Table~\ref{tab:ablation-memory}).
-With no MTD and 20 services per operating system, NCR is \prelim{0.167} with
-the memory and \prelim{0.163} without it. With no MTD and under both defence
-mechanisms, at every pool, the memory's $d$ is below 0.2, and at 20 services
-per operating system every interval lies inside the negligible band. The
+compromises (Figure~\ref{fig:ablation-memory}, Table~\ref{tab:ablation-memory}). With no MTD and under both MTD
+mechanisms, at every pool, the memory's $d$ is below 0.2
+(Table~\ref{tab:ablation-memory}), and at 20 services
+per operating system every interval lies inside the negligible band
+(Table~\ref{tab:ablation}). The
 largest $d$ is \prelim{0.19}, under service diversity with one service per
-operating system, where NCR rises from \prelim{0.089} to \prelim{0.096}; under
+operating system; under
 service diversity the smallest is \prelim{0.05}, with 20, and with no MTD $d$
-shows no trend with the pool. The NCR reduction of service diversity at 20
-services per operating system is \prelim{0.360} without the memory and
-\prelim{0.365} with it.
+shows no trend with the pool.
 
 The memory works as Section~\ref{subsec:vulnerability-memory} designed it:
 the share of exploits that succeed rises, and rises most with few services per
-operating system. The memory's $d$ on NCR stays below 0.2 at every pool, so the
-hypothesis holds for the share of exploits that succeed only. The ablation
+operating system. The hypothesis holds for the share of exploits that succeed;
+on NCR, its $d$ stays below 0.2 at every pool, although under service diversity
+it is largest with the smallest pool.
+The ablation
 covers two of the seven MTD mechanisms at one deployment interval; the
 other mechanisms, the deployment strategies and $c_{\mathrm{agg}}$ were not run
 without the memory. Within that scope, the results of this chapter do not
@@ -10350,6 +10352,14 @@ The two tables give every metric of Table~\ref{tab:eff-cross-arm} with its inter
 
 \input{tables/tab_F-1_conditions_movement}
 \input{tables/tab_F-1_conditions_baseline}
+
+% 2026-10-01 (Marc: "table 5.7 moves to the appendix"): the vulnerability
+%  memory's pool sweep, in Table 5.6's form. SESSION-GENERATED sentence, DRAFT STATE.
+Table~\ref{tab:ablation-memory} gives the vulnerability memory's ablation
+(Section~\ref{subsec:ablation-vulnerability-memory}) at every number of services
+per operating system.
+
+\input{tables/tab_F-2_ablation_memory}
 
 \bibliography{references}
 

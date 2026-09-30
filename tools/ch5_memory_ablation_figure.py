@@ -1,13 +1,14 @@
-"""Figure 5.8 (fig:ablation-memory), §5.4.2 Vulnerability memory: NCR with the
-memory on and off, against the number of services per operating system, with
+"""Figure 5.7 (fig:ablation-memory), §5.4.2 Vulnerability memory: NCR with and
+without the memory, against the number of services per operating system, with
 no MTD (a) and under service diversity at 200 s (b). Reads
 data/results/ch5_defended/memory_ablation_numbers.json; the table beside it
-(tab:ablation-memory) is written by memory_ablation.py from the same JSON.
+(tab:ablation-memory, Appendix F since 2026-10-01) is written by
+memory_ablation.py from the same JSON.
 
 TAKEAWAY (Marc 2026-09-30: "pool size on the X axis ... network compromise
 ratio ... two lines"; "I thought we were comparing memory on and memory off"):
   At every pool the APT attacker model compromises about the same share of the
-  network with the memory as without it (every d below 0.2, Table 5.6).
+  network with the memory as without it (every d below 0.2, Appendix F's table).
 
 DESIGN RECORD.
   - 2026-09-30, first build: a 2 x 2 (the share of exploits that succeed over
@@ -22,6 +23,10 @@ DESIGN RECORD.
         manipulation check, told in one body sentence with Table 5.6's values;
       * hosts compromised becomes NCR, the chapter 4 metric (hosts / 50),
         as section 5.4.1 reports it.
+  - 2026-10-01, the §5.4 scrutiny (Marc's rulings): Figure 5.8 becomes 5.7
+    (the failure matrix's figure is cut); the key says "with/without the
+    memory", the term of Table 5.6 and the prose (not on/off); panel (b)
+    names its interval; the bars resample seeds, the unit Cohen's d uses.
   - Known and not drawn around: NCR without the memory is lower with one
     service per operating system, because that network has fewer hosts an
     exploit can take (about 39 of 50 against 41 to 43; generated networks,
@@ -32,8 +37,9 @@ ENCODING (§o rule 5). The memory on is the APT attacker model as evaluated:
 black, filled circle, on top. The memory off: grey, open circle, solid (the
 grey dashed square is the baseline attacker's in every figure). Both rows of
 the old design started at zero; this axis does too, so the gap is seen at its
-true size. Intervals are 95 % bootstrap intervals over runs per arm; the
-paired difference is Table 5.6's d.
+true size. Intervals are 95 % bootstrap intervals over seeds per arm (the
+four profiles at one seed averaged); the paired comparison is Cohen's d in
+Appendix F's table.
 
     python tools/ch5_memory_ablation_figure.py
 """
@@ -48,10 +54,10 @@ from _ch5_style import (FONT, PREAMBLE, REPO, axes, compile_fig, errorbar, key_r
 STEM = "fig_5-4b_ablation_memory"
 NUMBERS = REPO / "data" / "results" / "ch5_defended" / "memory_ablation_numbers.json"
 HOSTS = 50
-COLS = (("none", "No MTD"), ("service_diversity", "Service diversity"))
+COLS = (("none", "No MTD"), ("service_diversity", r"Service diversity, 200\,s"))
 SERIES = (  # arm, key label, colour, marker, x dodge (cm); drawn in this order
-    ("off", "memory off", "black!45", "ocircle", -0.06),
-    ("on", "memory on", "black", "circle", 0.06),
+    ("off", "without the memory", "black!45", "ocircle", -0.06),
+    ("on", "with the memory", "black", "circle", 0.06),
 )
 LOG_LO, LOG_HI = 0.8, 25.0  # the x domain, so the end markers sit off the frame
 YMAX, YTICKS = 0.2, (0.0, 0.05, 0.10, 0.15, 0.20)
@@ -88,8 +94,8 @@ def main() -> None:
             pts = []
             for p in pools:
                 a = R[f"{p}|{cond}"]["arms"][arm]
-                lo, hi = a["hosts_ci95"]
-                pts.append((xv(x0, p) + dx, a["hosts"] / HOSTS, lo / HOSTS, hi / HOSTS))
+                lo, hi = a["ncr_ci95_seeds"]
+                pts.append((xv(x0, p) + dx, a["ncr"], lo, hi))
             w(r"\draw[%s,line width=0.8pt] %s;" % (col, " -- ".join("(%.3f,%.3f)" % (x, yv(v)) for x, v, _, _ in pts)))
             for x, v, lo, hi in pts:
                 errorbar(w, x, yv(lo), yv(hi), col=col, cap=0.045)
