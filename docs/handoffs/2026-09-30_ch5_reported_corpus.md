@@ -45,8 +45,13 @@ created: 2026-09-30
   - 3-seed pilot: baseline rows equal the 100-seed corpus except the five cold-load
     rows; memory-on APT rows agree with the memory ablation's "on" arm at pool 20
     (36 of 36 cells); 506 of 1 005 APT rows changed with the memory on;
-  - the analysers on the pilots: unopposed 258 MB peak at 40 seeds (about 3 GB at
-    1 000); defended 181 MB (lean summaries in reported mode).
+  - the analysers on the pilots: unopposed 258 MB peak at 40 seeds (2.4 GB at
+    1 000, measured); defended 181 MB (lean summaries in reported mode). The
+    defended analyser summarises about 5 ms a run on a free CPU (about 35 min for
+    the corpus); run it after the corpus ends, not beside it.
+  - a 20-seed dry run of §5.3 (analyser, time_lost, both generators, the build)
+    passed in the detached worktree; it found the sweep figures' ticks laid from
+    a -0.8 floor (fixed, 5db5b623).
 
 ## If the run stops
 
@@ -63,10 +68,14 @@ only pauses WSL; a reboot kills the run.
    data/results/ch5_defended/analyse.py`, then `CORPUS=reported python
    data/results/ch5_defended/time_lost.py`. Sanity: seeds 1 000, all cells full,
    0 error rows.
-3. Point the three generators at the reported numbers (`NUMBERS` in
-   `tools/ch5_unopposed_figures.py`, `ch5_disruption_figure.py`,
-   `ch5_sweep_figures.py`) and regenerate: Figures 5.1-5.6, Tables 5.2-5.5,
-   Appendix C.4 and F.
+3. §5.2 is DONE (commit 50987f03: Figure 5.1, Table 5.2, Table C.4 from
+   `ch5_s531_unopposed/numbers_reported.json`). For §5.3, point `NUMBERS` in
+   `tools/ch5_disruption_figure.py` and `tools/ch5_sweep_figures.py` at the
+   reported files and regenerate every float they write. A parallel session
+   consolidated §5.3 on 2026-09-30 (441c7e6a: the ASP headline figure, the
+   schemes figure and Table 5.4 left; `tab_F-0a` added), so take the float list
+   from the tex, not from this file; the sweep generator still reads only
+   `sweep`, `sweep_asp`, `ranking` and `sanity`, which the reported mode writes.
 4. Build (pdflatex x2 + bibtex); render the changed pages; check each float
    against its numbers file.
 5. Re-check the baseline rows at seeds 0-99 against `runs.jsonl` (only
