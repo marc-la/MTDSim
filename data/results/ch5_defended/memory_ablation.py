@@ -84,12 +84,19 @@ def compare(arm, off, units, rng):
             "cohen_d_ci95": _ci([_d(ma[i], mb[i]) for i in sidx])}
 
 
+def _reached(r) -> bool:
+    return bool(r["reached_objective"] and r["first_database_reach_time"] is not None)
+
+
 def describe(c, units, rng, srng):
     rows = [c[k] for k in units]
     hosts = np.array([r["compromised"] for r in rows], float)
     _, ms = _per_seed(units, hosts / HOSTS)
     sidx = srng.integers(0, len(ms), size=(N_BOOT, len(ms)))
-    asp = np.array([r["database_hosts_reached"] > 0 for r in rows], float)
+    # ASP as section 4.5 and analyse.py define it: a target host compromised, read
+    # from the attacker's own record (database_hosts_reached is read at the horizon
+    # and misses targets a later deployment undid; fixed 2026-10-01)
+    asp = np.array([_reached(r) for r in rows], float)
     rolls = sum(r["rolls"] for r in rows)
     idx = rng.integers(0, len(units), size=(N_BOOT, len(units)))
     return {"hosts": float(hosts.mean()), "hosts_ci95": _ci(hosts[idx].mean(1)),
@@ -131,7 +138,7 @@ def main() -> None:
                     h = desc[m]["_hosts"]
                     h0 = np.array([base[m][k]["compromised"] for k in units], float)
                     a = desc[m]["_asp"]
-                    a0 = np.array([base[m][k]["database_hosts_reached"] > 0 for k in units], float)
+                    a0 = np.array([_reached(base[m][k]) for k in units], float)
                     red[m] = {"ncr_reduction": float(1 - h.mean() / h0.mean()),
                               "ncr_reduction_ci95": _ci(1 - h[idx].mean(1) / h0[idx].mean(1)),
                               "asp_reduction": float(1 - a.mean() / a0.mean()) if a0.mean() > 0 else None}
