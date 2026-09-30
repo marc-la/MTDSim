@@ -124,6 +124,11 @@ def marker(w, kind: str, col: str, x: float, y: float, r: float = 0.075) -> None
         w(r"\fill[%s] (%.3f,%.3f) -- (%.3f,%.3f) -- (%.3f,%.3f) -- cycle;" % (col, x - r * 1.1, y - r * 0.9, x + r * 1.1, y - r * 0.9, x, y + r * 1.2))
     elif kind == "downtriangle":
         w(r"\fill[%s] (%.3f,%.3f) -- (%.3f,%.3f) -- (%.3f,%.3f) -- cycle;" % (col, x - r * 1.1, y + r * 0.9, x + r * 1.1, y + r * 0.9, x, y - r * 1.2))
+    elif kind == "cross":  # a bound, never an attacker (§5.4.2: every exploit succeeding)
+        w(r"\draw[%s,line width=0.6pt] (%.3f,%.3f) -- ++(%.3f,%.3f) (%.3f,%.3f) -- ++(%.3f,%.3f);"
+          % (col, x - r, y - r, 2 * r, 2 * r, x - r, y + r, 2 * r, -2 * r))
+    elif kind == "ocircle":  # open circle: a series that must not read as filled (§5.4.2, memory off)
+        w(r"\filldraw[fill=white,draw=%s,line width=0.6pt] (%.3f,%.3f) circle (%.3fcm);" % (col, x, y, r * 0.9))
     elif kind == "diamond":
         w(r"\fill[%s] (%.3f,%.3f) -- (%.3f,%.3f) -- (%.3f,%.3f) -- (%.3f,%.3f) -- cycle;" % (col, x, y + r * 1.25, x + r * 1.1, y, x, y - r * 1.25, x - r * 1.1, y))
 
@@ -165,6 +170,7 @@ TITLE_GAP = 0.08   # plot top to the title's baseline box
 TITLE_H = 0.42     # a title line's height, for stacking a key under it
 KEY_H = 0.42       # a key row's height
 BASE_DASH = "dash pattern=on 2.4pt off 1.4pt"  # the baseline attacker's line, every figure
+DOT = "dash pattern=on 0.9pt off 1.3pt"  # a bound, never an attacker (§5.4.2: every exploit succeeds)
 
 
 def panel_title(w, x: float, ytop: float, title: str, letter: str | None = None) -> float:
@@ -178,11 +184,11 @@ def panel_title(w, x: float, ytop: float, title: str, letter: str | None = None)
 def key_row(w, x: float, y: float, entries, *, xmax: float | None = None, gap: float = 0.45) -> float:
     """One key row, left edge at ``x``, centred on ``y``; wraps at ``xmax``.
     ``entries``: (label, kind, colour, marker) where kind is ``line``,
-    ``dashed`` (line + marker), ``bar`` (solid swatch), ``hatch`` (the
+    ``dashed`` (line + marker), ``dotted`` (a bound), ``bar`` (solid swatch), ``hatch`` (the
     baseline's hatched bar) or ``band`` (a shaded region), or two joined by
     ``+`` where one series is drawn both ways (``bar+line``). Returns the last
     row's y."""
-    glyph_w = {"line": 0.68, "dashed": 0.68, "bar": 0.36, "hatch": 0.36, "band": 0.36}
+    glyph_w = {"line": 0.68, "dashed": 0.68, "dotted": 0.68, "bar": 0.36, "hatch": 0.36, "band": 0.36}
     x0 = x
     for label, kind, col, mark in entries:
         parts = kind.split("+")
@@ -192,8 +198,8 @@ def key_row(w, x: float, y: float, entries, *, xmax: float | None = None, gap: f
             x, y = x0, y - KEY_H
         tx = x
         for k in parts:
-            if k in ("line", "dashed"):
-                style = "%s,line width=0.8pt%s" % (col, "," + BASE_DASH if k == "dashed" else "")
+            if k in ("line", "dashed", "dotted"):
+                style = "%s,line width=0.8pt%s" % (col, {"dashed": "," + BASE_DASH, "dotted": "," + DOT}.get(k, ""))
                 w(r"\draw[%s] (%.3f,%.3f) -- (%.3f,%.3f);" % (style, tx, y, tx + 0.6, y))
                 if mark:
                     marker(w, mark, col, tx + 0.3, y, r=0.065)
