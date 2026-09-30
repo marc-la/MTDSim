@@ -182,6 +182,9 @@ def summarise_movement(row: dict) -> dict:
         # database_hosts_reached is read at the horizon, after later deployments
         # may have undone the hold, so it misses targets that were taken
         "reached_target": bool(run.reached_objective and run.first_database_reach_time is not None),
+        # MTTC (section 4.5.2, ruling H1, 2026-09-30): the time a target host falls
+        "target_time": (run.first_database_reach_time
+                        if run.reached_objective and run.first_database_reach_time is not None else None),
         "first_compromise": run.first_compromise_time(),
         "elapsed": run.termination_time,
         "terminal": M.terminal_mode(run),
@@ -263,6 +266,7 @@ def summarise_baseline(row: dict) -> dict:
         "hosts_positional": row["compromised"],
         "reached": bool(row["reached_objective"]),
         "reached_target": bool(hit),
+        "target_time": (min(hit) if hit else None),
         "first_compromise": (min(r[2] for r in comps) if comps else None),
         "elapsed": row["termination_time"],
         "blocked_fraction": 0.0,  # structural
@@ -337,6 +341,22 @@ def hosts_of(runs) -> np.ndarray:
     return np.array([r["hosts"] for r in runs], dtype=float)
 
 
+def success_of(runs) -> np.ndarray:
+    """1 where the run compromises a target host (ASP's numerator), else 0."""
+    return np.array([r["reached_target"] for r in runs], dtype=float)
+
+
+# the per-run quantity each MTD effectiveness metric compares (section 4.5.3)
+FIELD_OF = {"asp": success_of, "ncr": hosts_of}
+
+
+def mttc_of(runs) -> dict | None:
+    """MTTC (section 4.5.2): the mean time a target host falls, over the runs
+    that take one; None where none does."""
+    t = [r["target_time"] for r in runs if r["target_time"] is not None]
+    return _iv(t) if t else None
+
+
 def suppression(none_hosts: np.ndarray, cond_hosts: np.ndarray, rng: np.random.Generator) -> dict:
     """1 - mean(cond) / mean(none), with a seeded bootstrap interval on the
     ratio of means (unpaired: the two cells are resampled independently)."""
@@ -345,8 +365,12 @@ def suppression(none_hosts: np.ndarray, cond_hosts: np.ndarray, rng: np.random.G
     for b in range(N_BOOT):
         n = none_hosts[rng.integers(0, len(none_hosts), len(none_hosts))].mean()
         c = cond_hosts[rng.integers(0, len(cond_hosts), len(cond_hosts))].mean()
-        boots[b] = 1.0 - c / n
-    lo, hi = np.quantile(boots, [0.025, 0.975])
+        boots[b] = 1.0 - c / n if n > 0 else np.nan
+    # a resample whose no-MTD cell holds no success leaves the reduction undefined
+    # (ASP on a single attack profile: 5 of 100 runs for c_3); such resamples are
+    # dropped and counted, so the interval is conditional on a defined reduction
+    undefined = float(np.mean(~np.isfinite(boots)))
+    lo, hi = np.quantile(boots[np.isfinite(boots)], [0.025, 0.975])
     diff = M.mean_ci  # noqa: F841  (the absolute difference below uses the suite's interval)
     return {
         "point": float(point), "lo": float(lo), "hi": float(hi),
@@ -355,6 +379,7 @@ def suppression(none_hosts: np.ndarray, cond_hosts: np.ndarray, rng: np.random.G
         "absolute_reduction_ci95": float(1.96 * np.sqrt(none_hosts.var(ddof=1) / len(none_hosts)
                                                         + cond_hosts.var(ddof=1) / len(cond_hosts))),
         "denied_share": float(np.mean(cond_hosts == 0)),
+        "boot_undefined_share": undefined,
     }
 
 
@@ -759,17 +784,17 @@ def section_541(cells, rng) -> dict:
 
 
 def arm_cells(cells, group, interval, objective="targeted", regime="shifted", none_group=None,
-              conds=DEFENDED):
+              conds=DEFENDED, of=hosts_of):
     """hosts arrays per condition for the two arms: movement = the four
     profiles pooled; baseline = the inherited attacker. The no-defence cell
     is regime-unread, so an arm group without one (the regime arm) borrows
     the core's (``none_group``)."""
     ng = none_group or group
-    mv = {"none": hosts_of(_pool(cells, ng, FOUR, "none", 0, objective=objective))}
-    bl = {"none": hosts_of(_cell(cells, ng, "baseline", "baseline", "none", 0, objective=objective))}
+    mv = {"none": of(_pool(cells, ng, FOUR, "none", 0, objective=objective))}
+    bl = {"none": of(_cell(cells, ng, "baseline", "baseline", "none", 0, objective=objective))}
     for c in conds:
-        mv[c] = hosts_of(_pool(cells, group, FOUR, c, interval, objective=objective, regime=regime))
-        bl[c] = hosts_of(_cell(cells, group, "baseline", "baseline", c, interval, objective=objective, regime=regime))
+        mv[c] = of(_pool(cells, group, FOUR, c, interval, objective=objective, regime=regime))
+        bl[c] = of(_cell(cells, group, "baseline", "baseline", c, interval, objective=objective, regime=regime))
     return {"movement": mv, "baseline": bl}
 
 
@@ -996,7 +1021,7 @@ def sweep_intervals(cells) -> list[int]:
     return sorted({k[5] for k in cells if k[0] == "core" and k[4] in DEFENDED and k[5]})
 
 
-def section_sweep(cells, rng) -> dict:
+def section_sweep(cells, rng, metric: str = "asp") -> dict:
     """NCR reduction against the deployment interval for every condition: per
     attacker (the model = the four profiles pooled), per profile, and per layer
     (the mean of the layer's mechanisms each deployed alone, i.e. 1 - pooled
@@ -1006,10 +1031,12 @@ def section_sweep(cells, rng) -> dict:
     out = {"intervals": ivs, "conditions": list(DEFENDED), "profiles": list(PROFILES),
            "layers": {w: [c for c in SINGLES if LAYER_WORD[LAYER[c]] == w] for w in LAYER_WORD.values()},
            "by_interval": {}}
-    none_p = {p: hosts_of(_cell(cells, "core", "movement", p, "none", 0)) for p in PROFILES}
+    of = FIELD_OF[metric]
+    out["metric"] = f"{metric} reduction"
+    none_p = {p: of(_cell(cells, "core", "movement", p, "none", 0)) for p in PROFILES}
     for i in ivs:
         present = [c for c in DEFENDED if _cell(cells, "core", "baseline", "baseline", c, i)]
-        arms = arm_cells(cells, "core", i, conds=present)
+        arms = arm_cells(cells, "core", i, conds=present, of=of)
         blk = {"conditions": present, "attacker": {}, "profile": {}, "layer": {}, "ranks": {},
                "executions": {}, "suspended": {}}
         for arm, h in arms.items():
@@ -1019,7 +1046,7 @@ def section_sweep(cells, rng) -> dict:
             blk["layer"][arm] = {w: suppression(h["none"], np.concatenate([h[c] for c in cs]), rng)
                                  for w, cs in out["layers"].items() if all(c in present for c in cs)}
         for p in PROFILES:
-            blk["profile"][p] = {c: suppression(none_p[p], hosts_of(_cell(cells, "core", "movement", p, c, i)), rng)
+            blk["profile"][p] = {c: suppression(none_p[p], of(_cell(cells, "core", "movement", p, c, i)), rng)
                                  for c in present}
         for c in present:
             mv, bl = _pool(cells, "core", FOUR, c, i), _cell(cells, "core", "baseline", "baseline", c, i)
@@ -1031,68 +1058,88 @@ def section_sweep(cells, rng) -> dict:
     return out
 
 
-def _metrics(runs, none_hosts, rng, *, blocked: bool) -> dict:
-    return {
-        **suppression(none_hosts, hosts_of(runs), rng),
-        "hosts": _iv(hosts_of(runs)),
-        "asp": float(np.mean([r["reached_target"] for r in runs])),
-        "delay": delay_summary(runs),
-        "blocked": (_iv([r["blocked_fraction"] for r in runs if r["blocked_fraction"] is not None])
-                    if blocked else None),
-    }
-
-
-def per_seed_hosts(runs) -> np.ndarray:
-    """Mean hosts compromised per seed, in seed order. Every condition and
+def per_seed(runs, field: str = "hosts") -> np.ndarray:
+    """The mean of ``field`` per seed, in seed order. Every condition and
     attacker runs on the same seeds, and the seed fixes the network, so the
     seed is the independent unit; the APT attacker model's four profiles at one
     seed are averaged into one value (sceptical examiner, 2026-09-25: the four
     are clustered, intraclass correlation up to 0.29)."""
     by = defaultdict(list)
     for r in runs:
-        by[r["seed"]].append(r["hosts"])
+        by[r["seed"]].append(float(r[field]))
     return np.array([np.mean(by[k]) for k in sorted(by)], dtype=float)
 
 
+def per_seed_hosts(runs) -> np.ndarray:
+    return per_seed(runs, "hosts")
+
+
+def _reduction(none_seed: np.ndarray, cond_seed: np.ndarray, idx=None) -> float:
+    n = none_seed if idx is None else none_seed[idx]
+    c = cond_seed if idx is None else cond_seed[idx]
+    return float(1.0 - c.mean() / n.mean()) if n.mean() > 0 else float("nan")
+
+
 def section_ranking(cells, rng) -> dict:
-    """§5.3.2's table (Marc 2026-09-25): per deployment interval and attacker,
-    the ranked conditions' attack-outcome and MTD-effectiveness metrics, the
-    no-defence row, and the Scott-Knott ESD rank on per-run hosts compromised
-    (within one attacker every condition shares the no-defence mean, so the
-    order of NCR reduction is the order of mean hosts compromised), on the
-    per-seed means (per_seed_hosts: 100 units per condition for both attackers,
-    so the two rankings rest on the same count). The
-    baseline attacker records no blocked actions (structural zero), so its
-    blocked metric is None, not 0."""
-    out = {"conditions": list(RANKED), "intervals": sweep_intervals(cells), "by_interval": {}}
-    none = {"movement": _pool(cells, "core", FOUR, "none", 0),
-            "baseline": _cell(cells, "core", "baseline", "baseline", "none", 0)}
+    """Section 5.3.2's table (Marc 2026-09-25; rebased on ASP reduction
+    2026-09-30, section 4.5.3's headline): per deployment interval and attacker,
+    the ranked MTD's attack outcome (ASP, NCR, MTTC at a target host) and its
+    ASP and NCR reductions with bootstrap intervals, the no-MTD row, and the
+    Scott-Knott ESD rank on the share of runs that compromise a target host per
+    seed (within one attacker every MTD shares the no-MTD ASP, so the order of
+    ASP reduction is the order of that share; 100 seeds per MTD for both
+    attackers). Spearman's rho between the two attackers' ASP reductions, with a
+    95 % interval from resampling seeds (the same seeds run every MTD and both
+    attackers, so one resample serves all)."""
+    out = {"conditions": list(RANKED), "intervals": sweep_intervals(cells), "by_interval": {},
+           "headline": "asp reduction"}
+    get = {"movement": lambda c, i: _pool(cells, "core", FOUR, c, i),
+           "baseline": lambda c, i: _cell(cells, "core", "baseline", "baseline", c, i)}
+    none = {arm: get[arm]("none", 0) for arm in get}
+    none_seed = {arm: per_seed(none[arm], "reached_target") for arm in get}
     for i in out["intervals"]:
         blk = {}
-        pts = {}
-        for arm in ("movement", "baseline"):
-            get = ((lambda c: _pool(cells, "core", FOUR, c, i)) if arm == "movement"
-                   else (lambda c: _cell(cells, "core", "baseline", "baseline", c, i)))
-            runs = {c: get(c) for c in RANKED}
-            nh = hosts_of(none[arm])
-            rows = {c: _metrics(runs[c], nh, rng, blocked=(arm == "movement")) for c in RANKED}
-            sk = sk_esd({c: per_seed_hosts(runs[c]) for c in RANKED}, best="low")  # rank 1 = fewest hosts
+        seed_succ = {}
+        for arm in get:
+            runs = {c: get[arm](c, i) for c in RANKED}
+            nh, ns = hosts_of(none[arm]), success_of(none[arm])
+            rows = {}
+            for c in RANKED:
+                r = runs[c]
+                rows[c] = {
+                    "asp": float(success_of(r).mean()),
+                    "asp_reduction": suppression(ns, success_of(r), rng),
+                    "hosts": _iv(hosts_of(r)),
+                    "ncr_reduction": suppression(nh, hosts_of(r), rng),
+                    "mttc": mttc_of(r),
+                    "blocked": (_iv([x["blocked_fraction"] for x in r if x["blocked_fraction"] is not None])
+                                if arm == "movement" else None),
+                }
+            seed_succ[arm] = {c: per_seed(runs[c], "reached_target") for c in RANKED}
+            sk = sk_esd(seed_succ[arm], best="low")  # rank 1 = the fewest runs reaching a target
             for c in RANKED:
                 rows[c]["rank"] = sk["rank"][c]
             blk[arm] = {
                 "rows": rows,
-                "none": {"hosts": _iv(nh), "asp": float(np.mean([r["reached_target"] for r in none[arm]])),
-                         "delay": delay_summary(none[arm]),
-                         "blocked": (_iv([r["blocked_fraction"] for r in none[arm] if r["blocked_fraction"] is not None])
+                "none": {"hosts": _iv(nh), "asp": float(ns.mean()), "mttc": mttc_of(none[arm]),
+                         "blocked": (_iv([x["blocked_fraction"] for x in none[arm] if x["blocked_fraction"] is not None])
                                      if arm == "movement" else None)},
                 "sk_esd": {k: v for k, v in sk.items() if k != "rank"},
             }
-            pts[arm] = [rows[c]["point"] for c in RANKED]
+        pts = {arm: [_reduction(none_seed[arm], seed_succ[arm][c]) for c in RANKED] for arm in get}
         rho = float(spearmanr(pts["movement"], pts["baseline"]).statistic)
-        rs = [float(spearmanr([blk["movement"]["rows"][c]["rank"] for c in RANKED],
-                              [blk["baseline"]["rows"][c]["rank"] for c in RANKED]).statistic)]
-        blk["spearman_points"] = rho
-        blk["spearman_sk_ranks"] = rs[0]
+        n_seeds = len(none_seed["movement"])
+        boots = []
+        for _ in range(N_BOOT):
+            idx = rng.integers(0, n_seeds, n_seeds)
+            v = {arm: [_reduction(none_seed[arm], seed_succ[arm][c], idx) for c in RANKED] for arm in get}
+            r_ = spearmanr(v["movement"], v["baseline"]).statistic
+            if np.isfinite(r_):
+                boots.append(r_)
+        lo, hi = np.quantile(boots, [0.025, 0.975])
+        blk["spearman_asp_reduction"] = {"rho": rho, "lo": float(lo), "hi": float(hi), "n_boot": len(boots)}
+        blk["spearman_sk_ranks"] = float(spearmanr([blk["movement"]["rows"][c]["rank"] for c in RANKED],
+                                                   [blk["baseline"]["rows"][c]["rank"] for c in RANKED]).statistic)
         out["by_interval"][str(i)] = blk
     return out
 
@@ -1326,7 +1373,8 @@ def main() -> int:
     out["s55"] = section_55(cells, rng, out["s542"])
     out["regime"] = section_regime(cells, rng, out["s542"])
     out["shield"] = section_shield(cells, rng)
-    out["sweep"] = section_sweep(cells, rng)
+    out["sweep"] = section_sweep(cells, rng, "asp")
+    out["sweep_ncr"] = section_sweep(cells, rng, "ncr")
     out["ranking"] = section_ranking(cells, rng)
     (HERE / "numbers.json").write_text(json.dumps(out, indent=1, default=float), encoding="utf-8")
     previews(out)

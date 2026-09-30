@@ -24,6 +24,467 @@
   "max_events_hit": 0
  },
  "core": {
+  "detector_grid": [
+   {
+    "count": 3,
+    "window": 30.0,
+    "confidentiality": {
+     "objective_exfiltration": {
+      "point": 0.7979416555604917,
+      "lo": 0.7911546727848586,
+      "hi": 0.8048023230432665,
+      "runs": 100,
+      "actions": 27012,
+      "count": 3,
+      "window": 30.0
+     },
+     "objective_impact": {
+      "point": 0.8776447661469933,
+      "lo": 0.8709446677612642,
+      "hi": 0.8842056242964504,
+      "runs": 100,
+      "actions": 21552,
+      "count": 3,
+      "window": 30.0
+     },
+     "objective_exfiltration_impact": {
+      "point": 0.9076251455180442,
+      "lo": 0.9015784912365283,
+      "hi": 0.9131711528824535,
+      "runs": 100,
+      "actions": 17180,
+      "count": 3,
+      "window": 30.0
+     },
+     "objective_none_c2": {
+      "point": 0.7655431452011466,
+      "lo": 0.7586746844128627,
+      "hi": 0.7722173364075947,
+      "runs": 100,
+      "actions": 30351,
+      "count": 3,
+      "window": 30.0
+     },
+     "baseline": {
+      "point": 0.6625645906989394,
+      "lo": 0.6582639986160471,
+      "hi": 0.6667503307289158,
+      "runs": 100,
+      "actions": 29416,
+      "count": 3,
+      "window": 30.0
+     }
+    }
+   },
+   {
+    "count": 3,
+    "window": 60.0,
+    "confidentiality": {
+     "objective_exfiltration": {
+      "point": 0.6254997778764994,
+      "lo": 0.6174664157901999,
+      "hi": 0.6338902378328957,
+      "runs": 100,
+      "actions": 27012,
+      "count": 3,
+      "window": 60.0
+     },
+     "objective_impact": {
+      "point": 0.72503711952487,
+      "lo": 0.7170692746697485,
+      "hi": 0.7330672636055955,
+      "runs": 100,
+      "actions": 21552,
+      "count": 3,
+      "window": 60.0
+     },
+     "objective_exfiltration_impact": {
+      "point": 0.790279394644936,
+      "lo": 0.7812830143832095,
+      "hi": 0.7992934255798181,
+      "runs": 100,
+      "actions": 17180,
+      "count": 3,
+      "window": 60.0
+     },
+     "objective_none_c2": {
+      "point": 0.5724028862310961,
+      "lo": 0.5632791691996473,
+      "hi": 0.5814867495345422,
+      "runs": 100,
+      "actions": 30351,
+      "count": 3,
+      "window": 60.0
+     },
+     "baseline": {
+      "point": 0.35997416372042423,
+      "lo": 0.35025414844295477,
+      "hi": 0.3693365431704267,
+      "runs": 100,
+      "actions": 29416,
+      "count": 3,
+      "window": 60.0
+     }
+    }
+   },
+   {
+    "count": 3,
+    "window": 120.0,
+    "confidentiality": {
+     "objective_exfiltration": {
+      "point": 0.3532874278098623,
+      "lo": 0.3446412987771788,
+      "hi": 0.3622810263562435,
+      "runs": 100,
+      "actions": 27012,
+      "count": 3,
+      "window": 120.0
+     },
+     "objective_impact": {
+      "point": 0.4458518930957684,
+      "lo": 0.4358873760715746,
+      "hi": 0.4557377252018138,
+      "runs": 100,
+      "actions": 21552,
+      "count": 3,
+      "window": 120.0
+     },
+     "objective_exfiltration_impact": {
+      "point": 0.5439464493597206,
+      "lo": 0.5306286253010039,
+      "hi": 0.5563770963910556,
+      "runs": 100,
+      "actions": 17180,
+      "count": 3,
+      "window": 120.0
+     },
+     "objective_none_c2": {
+      "point": 0.3008467595795855,
+      "lo": 0.2915124071598014,
+      "hi": 0.31035268223451556,
+      "runs": 100,
+      "actions": 30351,
+      "count": 3,
+      "window": 120.0
+     },
+     "baseline": {
+      "point": 0.2087299428882241,
+      "lo": 0.1972948057821276,
+      "hi": 0.22045581548217735,
+      "runs": 100,
+      "actions": 29416,
+      "count": 3,
+      "window": 120.0
+     }
+    }
+   },
+   {
+    "count": 5,
+    "window": 30.0,
+    "confidentiality": {
+     "objective_exfiltration": {
+      "point": 0.9772693617651415,
+      "lo": 0.9747640805498883,
+      "hi": 0.9797911734449551,
+      "runs": 100,
+      "actions": 27012,
+      "count": 5,
+      "window": 30.0
+     },
+     "objective_impact": {
+      "point": 0.9881681514476615,
+      "lo": 0.9853968641520098,
+      "hi": 0.9906497816718901,
+      "runs": 100,
+      "actions": 21552,
+      "count": 5,
+      "window": 30.0
+     },
+     "objective_exfiltration_impact": {
+      "point": 0.9968568102444703,
+      "lo": 0.9957798026082377,
+      "hi": 0.9978702974578614,
+      "runs": 100,
+      "actions": 17180,
+      "count": 5,
+      "window": 30.0
+     },
+     "objective_none_c2": {
+      "point": 0.9706105235412342,
+      "lo": 0.9677049810369642,
+      "hi": 0.9733441648918792,
+      "runs": 100,
+      "actions": 30351,
+      "count": 5,
+      "window": 30.0
+     },
+     "baseline": {
+      "point": 0.9807587707370139,
+      "lo": 0.9780883308429461,
+      "hi": 0.9835031080827037,
+      "runs": 100,
+      "actions": 29416,
+      "count": 5,
+      "window": 30.0
+     }
+    }
+   },
+   {
+    "count": 5,
+    "window": 60.0,
+    "confidentiality": {
+     "objective_exfiltration": {
+      "point": 0.9200355397601067,
+      "lo": 0.9143653033604013,
+      "hi": 0.9257763852349465,
+      "runs": 100,
+      "actions": 27012,
+      "count": 5,
+      "window": 60.0
+     },
+     "objective_impact": {
+      "point": 0.9591221232368226,
+      "lo": 0.9541696801742287,
+      "hi": 0.9635440934491807,
+      "runs": 100,
+      "actions": 21552,
+      "count": 5,
+      "window": 60.0
+     },
+     "objective_exfiltration_impact": {
+      "point": 0.9814901047729918,
+      "lo": 0.9783993963178707,
+      "hi": 0.984517884559983,
+      "runs": 100,
+      "actions": 17180,
+      "count": 5,
+      "window": 60.0
+     },
+     "objective_none_c2": {
+      "point": 0.8944021613785378,
+      "lo": 0.888092842902045,
+      "hi": 0.9004167375870024,
+      "runs": 100,
+      "actions": 30351,
+      "count": 5,
+      "window": 60.0
+     },
+     "baseline": {
+      "point": 0.8260810443296165,
+      "lo": 0.8137442979879196,
+      "hi": 0.8375044059573837,
+      "runs": 100,
+      "actions": 29416,
+      "count": 5,
+      "window": 60.0
+     }
+    }
+   },
+   {
+    "count": 5,
+    "window": 120.0,
+    "confidentiality": {
+     "objective_exfiltration": {
+      "point": 0.7460758181548941,
+      "lo": 0.7357707482778488,
+      "hi": 0.756500658999062,
+      "runs": 100,
+      "actions": 27012,
+      "count": 5,
+      "window": 120.0
+     },
+     "objective_impact": {
+      "point": 0.8427988121752041,
+      "lo": 0.8342450770247734,
+      "hi": 0.8520802145798158,
+      "runs": 100,
+      "actions": 21552,
+      "count": 5,
+      "window": 120.0
+     },
+     "objective_exfiltration_impact": {
+      "point": 0.9035506402793947,
+      "lo": 0.8951778709800523,
+      "hi": 0.9115346449246803,
+      "runs": 100,
+      "actions": 17180,
+      "count": 5,
+      "window": 120.0
+     },
+     "objective_none_c2": {
+      "point": 0.676485124048631,
+      "lo": 0.6655565977660503,
+      "hi": 0.687667263911801,
+      "runs": 100,
+      "actions": 30351,
+      "count": 5,
+      "window": 120.0
+     },
+     "baseline": {
+      "point": 0.5248164264345934,
+      "lo": 0.5005069035318288,
+      "hi": 0.5484647545293706,
+      "runs": 100,
+      "actions": 29416,
+      "count": 5,
+      "window": 120.0
+     }
+    }
+   },
+   {
+    "count": 10,
+    "window": 30.0,
+    "confidentiality": {
+     "objective_exfiltration": {
+      "point": 1.0,
+      "lo": 1.0,
+      "hi": 1.0,
+      "runs": 100,
+      "actions": 27012,
+      "count": 10,
+      "window": 30.0
+     },
+     "objective_impact": {
+      "point": 0.9998608017817372,
+      "lo": 0.9995743140979053,
+      "hi": 1.0,
+      "runs": 100,
+      "actions": 21552,
+      "count": 10,
+      "window": 30.0
+     },
+     "objective_exfiltration_impact": {
+      "point": 1.0,
+      "lo": 1.0,
+      "hi": 1.0,
+      "runs": 100,
+      "actions": 17180,
+      "count": 10,
+      "window": 30.0
+     },
+     "objective_none_c2": {
+      "point": 0.9999341043128728,
+      "lo": 0.9997438249799717,
+      "hi": 1.0,
+      "runs": 100,
+      "actions": 30351,
+      "count": 10,
+      "window": 30.0
+     },
+     "baseline": {
+      "point": 1.0,
+      "lo": 1.0,
+      "hi": 1.0,
+      "runs": 100,
+      "actions": 29416,
+      "count": 10,
+      "window": 30.0
+     }
+    }
+   },
+   {
+    "count": 10,
+    "window": 60.0,
+    "confidentiality": {
+     "objective_exfiltration": {
+      "point": 0.9993336294980009,
+      "lo": 0.9986366306512116,
+      "hi": 0.999815240786829,
+      "runs": 100,
+      "actions": 27012,
+      "count": 10,
+      "window": 60.0
+     },
+     "objective_impact": {
+      "point": 0.9995824053452116,
+      "lo": 0.9990064187705312,
+      "hi": 0.9999539664780474,
+      "runs": 100,
+      "actions": 21552,
+      "count": 10,
+      "window": 60.0
+     },
+     "objective_exfiltration_impact": {
+      "point": 0.999941792782305,
+      "lo": 0.9998210180803382,
+      "hi": 1.0,
+      "runs": 100,
+      "actions": 17180,
+      "count": 10,
+      "window": 60.0
+     },
+     "objective_none_c2": {
+      "point": 0.9990774603802182,
+      "lo": 0.9985179783466317,
+      "hi": 0.9995579594898104,
+      "runs": 100,
+      "actions": 30351,
+      "count": 10,
+      "window": 60.0
+     },
+     "baseline": {
+      "point": 0.9998980146858852,
+      "lo": 0.9997190633257934,
+      "hi": 1.0,
+      "runs": 100,
+      "actions": 29416,
+      "count": 10,
+      "window": 60.0
+     }
+    }
+   },
+   {
+    "count": 10,
+    "window": 120.0,
+    "confidentiality": {
+     "objective_exfiltration": {
+      "point": 0.992780986228343,
+      "lo": 0.9903758062645023,
+      "hi": 0.9947808254241223,
+      "runs": 100,
+      "actions": 27012,
+      "count": 10,
+      "window": 120.0
+     },
+     "objective_impact": {
+      "point": 0.9957776540460282,
+      "lo": 0.9933052726013335,
+      "hi": 0.9978053559865481,
+      "runs": 100,
+      "actions": 21552,
+      "count": 10,
+      "window": 120.0
+     },
+     "objective_exfiltration_impact": {
+      "point": 0.99976717112922,
+      "lo": 0.9994603956101229,
+      "hi": 1.0,
+      "runs": 100,
+      "actions": 17180,
+      "count": 10,
+      "window": 120.0
+     },
+     "objective_none_c2": {
+      "point": 0.9869856017923627,
+      "lo": 0.9844650518787296,
+      "hi": 0.9892658905312078,
+      "runs": 100,
+      "actions": 30351,
+      "count": 10,
+      "window": 120.0
+     },
+     "baseline": {
+      "point": 0.9752855588795214,
+      "lo": 0.9692529146145871,
+      "hi": 0.9807694400956029,
+      "runs": 100,
+      "actions": 29416,
+      "count": 10,
+      "window": 120.0
+     }
+    }
+   }
+  ],
   "horizon": 15000,
   "metrics": {
    "objective_exfiltration": {
@@ -35,6 +496,11 @@
       "ci95": 0.01167814746620474
      },
      "mttc": {
+      "n": 11,
+      "mean": 13018.476375404163,
+      "ci95": 1171.2774902419392
+     },
+     "first_compromise": {
       "observed": {
        "n": 100,
        "mean": 2396.720224909999,
@@ -266,6 +732,15 @@
      ],
      "n": 100
     },
+    "attack_confidentiality": {
+     "point": 0.9200355397601067,
+     "lo": 0.9139629609083638,
+     "hi": 0.9257806372940947,
+     "runs": 100,
+     "actions": 27012,
+     "count": 5,
+     "window": 60.0
+    },
     "confidentiality_over_run": {
      "bin_start": [
       0.0,
@@ -315,6 +790,11 @@
       "ci95": 0.018031612644060835
      },
      "mttc": {
+      "n": 13,
+      "mean": 10892.08256304071,
+      "ci95": 1248.3509600807874
+     },
+     "first_compromise": {
       "observed": {
        "n": 99,
        "mean": 1860.5409675959602,
@@ -542,6 +1022,15 @@
      ],
      "n": 100
     },
+    "attack_confidentiality": {
+     "point": 0.9591221232368226,
+     "lo": 0.9541519627509971,
+     "hi": 0.9638461742884228,
+     "runs": 100,
+     "actions": 21552,
+     "count": 5,
+     "window": 60.0
+    },
     "confidentiality_over_run": {
      "bin_start": [
       0.0,
@@ -591,6 +1080,11 @@
       "ci95": 0.0187763622900839
      },
      "mttc": {
+      "n": 5,
+      "mean": 11339.625487414378,
+      "ci95": 3255.7305531070424
+     },
+     "first_compromise": {
       "observed": {
        "n": 92,
        "mean": 1866.1249971086954,
@@ -820,6 +1314,15 @@
      ],
      "n": 100
     },
+    "attack_confidentiality": {
+     "point": 0.9814901047729918,
+     "lo": 0.9784229573023311,
+     "hi": 0.9844638201584424,
+     "runs": 100,
+     "actions": 17180,
+     "count": 5,
+     "window": 60.0
+    },
     "confidentiality_over_run": {
      "bin_start": [
       0.0,
@@ -869,6 +1372,11 @@
       "ci95": 0.015128787121166578
      },
      "mttc": {
+      "n": 7,
+      "mean": 11144.09765776023,
+      "ci95": 1429.0355362363441
+     },
+     "first_compromise": {
       "observed": {
        "n": 95,
        "mean": 2264.275055410526,
@@ -1096,6 +1604,15 @@
      ],
      "n": 100
     },
+    "attack_confidentiality": {
+     "point": 0.8944021613785378,
+     "lo": 0.8886756297557755,
+     "hi": 0.9004191881294876,
+     "runs": 100,
+     "actions": 30351,
+     "count": 5,
+     "window": 60.0
+    },
     "confidentiality_over_run": {
      "bin_start": [
       0.0,
@@ -1145,6 +1662,11 @@
       "ci95": 0.012894718336190863
      },
      "mttc": {
+      "n": 17,
+      "mean": 10320.224875867976,
+      "ci95": 1230.3896363650158
+     },
+     "first_compromise": {
       "observed": {
        "n": 99,
        "mean": 2194.003571181818,
@@ -1376,6 +1898,15 @@
      ],
      "n": 100
     },
+    "attack_confidentiality": {
+     "point": 0.9373408474222501,
+     "lo": 0.9323960863304658,
+     "hi": 0.9422205088440295,
+     "runs": 100,
+     "actions": 23955,
+     "count": 5,
+     "window": 60.0
+    },
     "confidentiality_over_run": {
      "bin_start": [
       0.0,
@@ -1425,6 +1956,11 @@
       "ci95": 0.037301822580651255
      },
      "mttc": {
+      "n": 58,
+      "mean": 8907.35709477586,
+      "ci95": 871.905715490784
+     },
+     "first_compromise": {
       "observed": {
        "n": 100,
        "mean": 674.5496063700004,
@@ -1671,6 +2207,15 @@
       38,
       30
      ]
+    },
+    "attack_confidentiality": {
+     "point": 0.8260810443296165,
+     "lo": 0.8142871441981947,
+     "hi": 0.8377197733157999,
+     "runs": 100,
+     "actions": 29416,
+     "count": 5,
+     "window": 60.0
     }
    }
   },
@@ -2987,6 +3532,11 @@
     },
     "target_reach": 0.11,
     "time_to_target_median": 13556.613581940921,
+    "mttc_target": {
+     "n": 11,
+     "mean": 13018.476375404163,
+     "ci95": 1171.2774902419392
+    },
     "database_hosts_reached": {
      "n": 100,
      "mean": 0.11,
@@ -3104,6 +3654,11 @@
     },
     "target_reach": 0.13,
     "time_to_target_median": 11201.619242890152,
+    "mttc_target": {
+     "n": 13,
+     "mean": 10892.08256304071,
+     "ci95": 1248.3509600807874
+    },
     "database_hosts_reached": {
      "n": 100,
      "mean": 0.13,
@@ -3224,6 +3779,11 @@
     },
     "target_reach": 0.05,
     "time_to_target_median": 12639.88205820687,
+    "mttc_target": {
+     "n": 5,
+     "mean": 11339.625487414378,
+     "ci95": 3255.7305531070424
+    },
     "database_hosts_reached": {
      "n": 100,
      "mean": 0.05,
@@ -3342,6 +3902,11 @@
     },
     "target_reach": 0.07,
     "time_to_target_median": 11170.457015450473,
+    "mttc_target": {
+     "n": 7,
+     "mean": 11144.09765776023,
+     "ci95": 1429.0355362363441
+    },
     "database_hosts_reached": {
      "n": 100,
      "mean": 0.07,
@@ -3464,6 +4029,11 @@
     },
     "target_reach": 0.17,
     "time_to_target_median": 10507.945584966139,
+    "mttc_target": {
+     "n": 17,
+     "mean": 10320.224875867976,
+     "ci95": 1230.3896363650158
+    },
     "database_hosts_reached": {
      "n": 100,
      "mean": 0.17,
@@ -3532,6 +4102,11 @@
     },
     "target_reach": 0.58,
     "time_to_target_median": 9360.340283,
+    "mttc_target": {
+     "n": 58,
+     "mean": 8907.35709477586,
+     "ci95": 871.905715490784
+    },
     "ended_on_compromise_ratio": 2,
     "database_hosts_reached": {
      "n": 100,
@@ -3557,7 +4132,7 @@
    "denominator": "every record",
    "visit_stream": {
     "objective_exfiltration|objective_exfiltration": {
-     "null_ceiling": 0.0003010820720101676,
+     "null_ceiling": 0.0003010820720101677,
      "null_median": 0.00015747801844120295
     },
     "objective_exfiltration|objective_impact": {
@@ -3570,8 +4145,8 @@
      "largest_term": "impact"
     },
     "objective_exfiltration|objective_exfiltration_impact": {
-     "jsd": 0.1419238059001709,
-     "absent_tactic_share": 0.09376307197309941,
+     "jsd": 0.14192380590017092,
+     "absent_tactic_share": 0.09376307197309938,
      "absent_tactics": [
       "defense-impairment",
       "resource-development"
@@ -3579,7 +4154,7 @@
      "largest_term": "impact"
     },
     "objective_exfiltration|objective_none_c2": {
-     "jsd": 0.09271175233773922,
+     "jsd": 0.09271175233773923,
      "absent_tactic_share": 0.5091465892181725,
      "absent_tactics": [
       "exfiltration",
@@ -3621,8 +4196,8 @@
      "largest_term": "impact"
     },
     "objective_exfiltration_impact|objective_exfiltration": {
-     "jsd": 0.1419238059001709,
-     "absent_tactic_share": 0.09376307197309941,
+     "jsd": 0.14192380590017092,
+     "absent_tactic_share": 0.09376307197309938,
      "absent_tactics": [
       "defense-impairment",
       "resource-development"
@@ -3653,7 +4228,7 @@
      "largest_term": "impact"
     },
     "objective_none_c2|objective_exfiltration": {
-     "jsd": 0.09271175233773922,
+     "jsd": 0.09271175233773923,
      "absent_tactic_share": 0.5091465892181725,
      "absent_tactics": [
       "exfiltration",
@@ -3663,8 +4238,8 @@
      "largest_term": "exfiltration"
     },
     "objective_none_c2|objective_impact": {
-     "jsd": 0.16975385963091738,
-     "absent_tactic_share": 0.48074540016872797,
+     "jsd": 0.1697538596309174,
+     "absent_tactic_share": 0.4807454001687279,
      "absent_tactics": [
       "defense-impairment",
       "impact",
@@ -3683,7 +4258,7 @@
      "largest_term": "impact"
     },
     "objective_none_c2|objective_none_c2": {
-     "null_ceiling": 0.0004111742303241045,
+     "null_ceiling": 0.00041117423032410456,
      "null_median": 0.000140820383798777
     }
    },
@@ -3784,7 +4359,7 @@
      "objective_exfiltration": 0.1238795098602428,
      "objective_impact": 0.12789256125356926,
      "objective_exfiltration_impact": 0.14186051007143063,
-     "objective_none_c2": 0.15640082783193518
+     "objective_none_c2": 0.1564008278319352
     }
    }
   },
@@ -3918,6 +4493,11 @@
     },
     "target_reach": 0.58,
     "time_to_target_median": 24553.691904544477,
+    "mttc_target": {
+     "n": 58,
+     "mean": 26522.741342307658,
+     "ci95": 3103.9587286721076
+    },
     "database_hosts_reached": {
      "n": 100,
      "mean": 0.58,
@@ -4035,6 +4615,11 @@
     },
     "target_reach": 0.62,
     "time_to_target_median": 24271.149237077578,
+    "mttc_target": {
+     "n": 62,
+     "mean": 25797.53946650144,
+     "ci95": 2995.926763923417
+    },
     "database_hosts_reached": {
      "n": 100,
      "mean": 0.62,
@@ -4155,6 +4740,11 @@
     },
     "target_reach": 0.05,
     "time_to_target_median": 12639.88205820687,
+    "mttc_target": {
+     "n": 5,
+     "mean": 11339.625487414378,
+     "ci95": 3255.7305531070424
+    },
     "database_hosts_reached": {
      "n": 100,
      "mean": 0.05,
@@ -4273,6 +4863,11 @@
     },
     "target_reach": 0.36,
     "time_to_target_median": 38932.22701329841,
+    "mttc_target": {
+     "n": 36,
+     "mean": 35789.24820835651,
+     "ci95": 5212.410166903769
+    },
     "database_hosts_reached": {
      "n": 100,
      "mean": 0.36,
@@ -4395,6 +4990,11 @@
     },
     "target_reach": 0.58,
     "time_to_target_median": 24609.06092863896,
+    "mttc_target": {
+     "n": 58,
+     "mean": 24397.580527270413,
+     "ci95": 3187.8161942373786
+    },
     "database_hosts_reached": {
      "n": 100,
      "mean": 0.58,
@@ -4463,6 +5063,11 @@
     },
     "target_reach": 0.67,
     "time_to_target_median": 10277.185379,
+    "mttc_target": {
+     "n": 67,
+     "mean": 9908.226035104473,
+     "ci95": 976.4746475142534
+    },
     "ended_on_compromise_ratio": 5,
     "database_hosts_reached": {
      "n": 100,
@@ -8973,6 +9578,7 @@
     },
     "target_reach": 0.0,
     "time_to_target_median": null,
+    "mttc_target": null,
     "database_hosts_reached": {
      "n": 100,
      "mean": 0.0,
@@ -9089,6 +9695,7 @@
     },
     "target_reach": 0.0,
     "time_to_target_median": null,
+    "mttc_target": null,
     "database_hosts_reached": {
      "n": 100,
      "mean": 0.0,
@@ -9208,6 +9815,7 @@
     },
     "target_reach": 0.0,
     "time_to_target_median": null,
+    "mttc_target": null,
     "database_hosts_reached": {
      "n": 100,
      "mean": 0.03,
@@ -9325,6 +9933,7 @@
     },
     "target_reach": 0.0,
     "time_to_target_median": null,
+    "mttc_target": null,
     "database_hosts_reached": {
      "n": 100,
      "mean": 0.0,
@@ -9446,6 +10055,7 @@
     },
     "target_reach": 0.0,
     "time_to_target_median": null,
+    "mttc_target": null,
     "database_hosts_reached": {
      "n": 100,
      "mean": 0.0,
@@ -9475,7 +10085,7 @@
    "denominator": "every record",
    "visit_stream": {
     "objective_exfiltration|objective_exfiltration": {
-     "null_ceiling": 0.0003040748140901436,
+     "null_ceiling": 0.00030407481409014354,
      "null_median": 0.00014880750740369034
     },
     "objective_exfiltration|objective_impact": {
@@ -9497,8 +10107,8 @@
      "largest_term": "impact"
     },
     "objective_exfiltration|objective_none_c2": {
-     "jsd": 0.09255701265916591,
-     "absent_tactic_share": 0.5087591263169416,
+     "jsd": 0.09255701265916592,
+     "absent_tactic_share": 0.5087591263169415,
      "absent_tactics": [
       "exfiltration",
       "impact",
@@ -9520,8 +10130,8 @@
      "null_median": 0.00014650574540160506
     },
     "objective_impact|objective_exfiltration_impact": {
-     "jsd": 0.07695227001498982,
-     "absent_tactic_share": 0.34851321372974636,
+     "jsd": 0.0769522700149898,
+     "absent_tactic_share": 0.3485132137297464,
      "absent_tactics": [
       "exfiltration",
       "resource-development"
@@ -9529,8 +10139,8 @@
      "largest_term": "exfiltration"
     },
     "objective_impact|objective_none_c2": {
-     "jsd": 0.17003715031788774,
-     "absent_tactic_share": 0.47818451348014385,
+     "jsd": 0.17003715031788771,
+     "absent_tactic_share": 0.4781845134801439,
      "absent_tactics": [
       "defense-impairment",
       "impact",
@@ -9548,8 +10158,8 @@
      "largest_term": "impact"
     },
     "objective_exfiltration_impact|objective_impact": {
-     "jsd": 0.07695227001498982,
-     "absent_tactic_share": 0.34851321372974636,
+     "jsd": 0.0769522700149898,
+     "absent_tactic_share": 0.3485132137297464,
      "absent_tactics": [
       "exfiltration",
       "resource-development"
@@ -9571,8 +10181,8 @@
      "largest_term": "impact"
     },
     "objective_none_c2|objective_exfiltration": {
-     "jsd": 0.09255701265916591,
-     "absent_tactic_share": 0.5087591263169416,
+     "jsd": 0.09255701265916592,
+     "absent_tactic_share": 0.5087591263169415,
      "absent_tactics": [
       "exfiltration",
       "impact",
@@ -9601,7 +10211,7 @@
      "largest_term": "impact"
     },
     "objective_none_c2|objective_none_c2": {
-     "null_ceiling": 0.000428368440366608,
+     "null_ceiling": 0.0004283684403666081,
      "null_median": 0.0001348152890422007
     }
    },
@@ -9693,7 +10303,7 @@
    },
    "body_facts": {
     "min_pair": "objective_exfiltration_impact|objective_impact",
-    "min_jsd": 0.07695227001498982,
+    "min_jsd": 0.0769522700149898,
     "max_pair": "objective_exfiltration_impact|objective_none_c2",
     "max_jsd": 0.20641183039479383,
     "max_null_ceiling": 0.0011856206323839736,

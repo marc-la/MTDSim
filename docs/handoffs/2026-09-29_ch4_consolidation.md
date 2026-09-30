@@ -46,6 +46,9 @@ The writing rule for everything below is `voice.md` §(0): the five checks and "
 
 **A correction first.** The repo's *internal MTTC* is **not** the reading Marc described. It is Ho's mean duration of one attack event (`metrics_semantics.md` §(a)), which the thesis already dropped. What Marc described is Zhang's: "the time it takes for an attacker to compromise a target host" (§3.4, p. 16), read at 80 % of hosts in Zhang's general-scenario runs (§5.1, p. 33).
 
+**H1 RULED 2026-09-30 (Marc): target host, over the runs that take one; applied on
+chore/s5-results-asp (see 2026-09-30_disruption_metrics.md).**
+
 **H1. MTTC. Recommend: read MTTC at a target host**, the targeted scenario's objective in Zhang's own words, printed beside ASP (which is its coverage), with "—" where no run succeeds.
 - Cost: under MTD it rests on few APT runs. At 2 000 s that is 0–36 of 400 today, and ten times that at 1 000 seeds.
 - For host topology it is undefined.

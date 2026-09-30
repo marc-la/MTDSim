@@ -5738,8 +5738,9 @@ attacker: a slower attacker leaves more of its actions unflagged. Appendix~\ref{
 
 MTD simulation studies repeat each experiment over many randomised runs
 \citep{zhang2023} and report the attack outcome in established metrics
-(Table~\ref{tab:mtd-metrics}). This dissertation reports three of them: ASP,
-the outcome of the targeted scenario, and NCR and MTTC beside it.
+(Table~\ref{tab:mtd-metrics}). This dissertation reports three of them, each
+read in the targeted scenario: ASP, whether a run compromises a target host;
+MTTC, how long that takes; and NCR, how many hosts it compromises on the way.
 
 \paragraph{Attack success probability (ASP).}
 ASP is ``the probability that attacks are successfully performed''
@@ -5758,22 +5759,25 @@ network'' \citep[p.~32]{zhang2023}, read at the end of each run:
   \left( \frac{\text{hosts compromised}}{50} \right),
   \label{eq:ncr}
 \end{equation}
-where 50 is the network's hosts (Section~\ref{subsec:network-model}). In the
-targeted scenario it counts the hosts the attacker compromises on the way to a
-target.
+where 50 is the network's hosts (Section~\ref{subsec:network-model}).
 
 \paragraph{Mean time to compromise (MTTC).}
-MTTC, after the time to compromise of McQueen et al.\ \citep{mcqueen2006}, is
-the mean time from the start of a run to its first compromised host, over the
-runs that compromise one:
+% 2026-09-30 (Marc, ruling H1: "MTTC for targeted is when it reaches the target
+% host ... excluding the runs where it doesn't ... what Zhang does"): read at a
+% target host, Zhang's written definition (p. 16, verified in
+% s45_metric_definitions/17); the first-host reading and the 80 % sentence are
+% retired. ASP is its coverage, so no bracketed share is needed in the floats.
+MTTC is ``the time it takes for an attacker to compromise a target host''
+\citep[p.~16]{zhang2023}, after the time to compromise of McQueen et al.\
+\citep{mcqueen2006}. It is the mean time from the start of a run to the
+compromise of a target host, over the runs that compromise one:
 \begin{equation}
-  \mathrm{MTTC} = \operatorname*{mean}_{\text{runs with a compromise}}
-  \left( \text{time of the first compromise} \right).
+  \mathrm{MTTC} = \operatorname*{mean}_{\text{runs that compromise a target host}}
+  \left( \text{time a target host is compromised} \right).
   \label{eq:mttc}
 \end{equation}
-Zhang reads MTTC when 80\,\% of the hosts have fallen, the goal of the general
-scenario \citep[pp.~32--33]{zhang2023}. Few targeted runs reach it, so MTTC is read at the
-first host and reported with the share of runs that compromise one.
+ASP is the share of runs it is taken over; where no run compromises a target
+host, MTTC is undefined.
 
 \subsection{MTD effectiveness}
 \label{subsec:metrics-effectiveness}
@@ -7214,19 +7218,23 @@ $c_2$ and \prelim{12}\,\% of those of $c_3$, and almost none of $c_1$'s. This
 difference between profiles is what relative tactic occurrence records for
 objective conditioning (Section~\ref{subsec:metrics-behaviour}).
 
-Figure~\ref{fig:aio-coverage}(b) shows attack path variation. The baseline
-attacker's runs all open the same way for four steps, the order its procedure
-fixes (Section~\ref{subsec:attacker-model}), and \prelim{22}\,\% differ from five
-steps on. By four steps, $c_1$, $c_2$ and $c_4$ open differently in more than
-\prelim{70}\,\% of their runs; $c_3$ reaches at most \prelim{32}\,\%. Attack path
-variation records strategic plurality (Section~\ref{subsec:metrics-behaviour}), so
-three of the four profiles show more of it than the baseline attacker, and $c_3$
-shows about as little.
+% 2026-09-30: redrawn on the metric Section 4.5.1 defines (distinct attack paths,
+% a count), replacing attack path variation (a share); numbers from
+% ch5_s531_unopposed/numbers.json core.table[*].distinct_openings. DRAFT STATE.
+Figure~\ref{fig:aio-coverage}(b) shows distinct attack paths. Over their first
+four steps the baseline attacker's runs take one attack path, the order its
+procedure fixes (Section~\ref{subsec:attacker-model}), and from five steps on
+they take two. Over the same four steps the runs of $c_1$ take \prelim{48}
+attack paths, those of $c_2$ \prelim{13}, $c_4$ \prelim{11} and $c_3$ \prelim{4};
+by eight steps $c_1$, $c_2$ and $c_4$ take \prelim{96} to \prelim{100}, nearly one
+per run, and $c_3$ takes \prelim{30}. Distinct attack paths records strategic
+plurality (Section~\ref{subsec:metrics-behaviour}): from four steps on, every
+profile shows more of it than the baseline attacker, and $c_3$ the least.
 
 \begin{figure}[tp]
   \centering
   \includegraphics{fig_5-2-1a_campaign_openings}
-  \caption[Where each attacker's steps fall, and how often its runs start differently]{With no MTD running, for the APT attacker model on the attack profiles $c_1$ to $c_4$ and for the baseline attacker. (a)~Relative tactic occurrence, the tactics grouped by the action each dispatches (Section~\ref{subsec:tactic-verb-mapping}); a dash marks a tactic the attacker does not have. (b)~Attack path variation by opening length. Section~\ref{sec:evaluation-metrics} defines each metric.}
+  \caption[How each attacker acts with no MTD running]{With no MTD running, for the APT attacker model on the attack profiles $c_1$ to $c_4$ and for the baseline attacker. (a)~Relative tactic occurrence, the tactics grouped by the action each dispatches (Section~\ref{subsec:tactic-verb-mapping}); a dash marks a tactic the attacker does not have. (b)~Distinct attack paths among each attacker's runs, compared over their first $k$ steps. (c)~Attack confidentiality, with 95\,\% bootstrap intervals over runs. Section~\ref{sec:evaluation-metrics} defines each metric.}
   \label{fig:aio-coverage}
 \end{figure}
 
@@ -7422,13 +7430,15 @@ attacker, and more slowly: its ASP is under a quarter of the baseline attacker's
 %  (docs/workflows/connective_prose.md; audit
 %  docs/implementation/connective_prose_audit.md); prior text in git.
 %  RATIFIED 2026-09-26 (Marc: 'I accept all this').
-its NCR \prelim{0.14} to \prelim{0.20} against \prelim{0.49}, and its MTTC about three times as long. Its pace is an
+its NCR \prelim{0.14} to \prelim{0.20} against \prelim{0.49}, and its MTTC,
+over the \prelim{5} to \prelim{13} runs in 100 that compromise a target host,
+\prelim{10\,900} to \prelim{13\,000}\,s against \prelim{8\,900}\,s. Its pace is an
 input: each step lasts the dwell time declared for its tactic
 (Section~\ref{subsec:dwell-times}). Because a run ends when a target is taken,
 \prelim{40}\,\% of the baseline attacker's runs last to the time limit, against
 \prelim{87} to \prelim{95}\,\% of the APT attacker model's. Its attack rate is
-lower by less, \prelim{11.7} to \prelim{20.7} actions per 1\,000\,s against
-\prelim{28.4}. The model dispatches the simulator's actions in the order its
+lower by less, \prelim{0.70} to \prelim{1.24} actions per minute against
+\prelim{1.71}. The model dispatches the simulator's actions in the order its
 tactics call them, so \prelim{14} to \prelim{28}\,\% of the actions it dispatches
 find a precondition unmet and fail before they run, and the attack rate does not
 count them (Section~\ref{subsec:metrics-behaviour}). This follows from a design
@@ -7450,35 +7460,22 @@ actions (Section~\ref{subsec:tactic-verb-mapping}).
 %  float shows, the numbers that carry it, the APT property the metric records
 %  (Table 3.2 via Section 4.5), a by-construction reason only where Marc gave one.
 %  The agent draft it replaces is in git history (commit e83f280c). DRAFT STATE.
-Figure~\ref{fig:aio-stealth} shows attack confidentiality, the share of actions
-that a detector tuned on the baseline attacker does not flag. Every profile stays
-above the baseline attacker in every 1\,500\,s bin: \prelim{69} to \prelim{93}\,\%
-for the profiles, $c_4$ the lowest, against \prelim{67}\,\% falling to
-\prelim{43}\,\% for the baseline attacker. Attack rate and attack confidentiality
-% [CONNECTIVE-PROSE PASS 2026-09-26, ch5 S1 stealth] 'scores higher on
-%  both' was false: the APT attacker model's attack rate is lower
-%  (11.7-20.7 against 28.4, the paragraph above). SESSION-GENERATED on
-%  Marc's 2026-09-26 go-ahead (docs/workflows/connective_prose.md; audit
-%  docs/implementation/connective_prose_audit.md); prior text in git.
-%  RATIFIED 2026-09-26 (Marc: 'I accept all this').
-together record stealth (Section~\ref{subsec:metrics-behaviour}), and the APT attacker model has the lower attack rate and the higher attack confidentiality. The detector counts actions, so the two are
-one observation. \owed{Counting the dwell-only steps as actions removes most of
-the difference}{Section 5.2: attack confidentiality with dwell-only steps counted
-as actions was measured in a dry run only; track it, or move the point to the
-% [CONNECTIVE-PROSE PASS 2026-09-26, ch5 U4 cut] Cut: the third statement
-%  of the reference (opener, 5.1 Defence); the link moves into the 5.3
-%  preamble, where the effects are met. SESSION-GENERATED on Marc's
-%  2026-09-26 go-ahead (docs/workflows/connective_prose.md; audit
-%  docs/implementation/connective_prose_audit.md); prior text in git.
-%  RATIFIED 2026-09-26 (Marc: 'I accept all this').
-limitations in Chapter 6}. 
-
-\begin{figure}[tp]
-  \centering
-  \includegraphics{fig_5-2-1b_attack_confidentiality}
-  \caption[How much of each attacker's activity stays below a detector's alarm, over the run]{Attack confidentiality over the run with no MTD running, in 1\,500\,s bins, for the APT attacker model on the attack profiles $c_1$ to $c_4$ and for the baseline attacker, with the alarm tuned so that it flags half of the baseline attacker's actions. Section~\ref{sec:evaluation-metrics} defines the metric.}
-  \label{fig:aio-stealth}
-\end{figure}
+% 2026-09-30 (Marc: attack confidentiality "as a panel (c)"): Figure 5.2 retired;
+% the count-in-window detector of Section 4.5.1 gives one share per attacker
+% (numbers.json core.metrics[*].attack_confidentiality). The owed figure is
+% re-measured under that detector (dwell-only steps counted as actions: c1 0.77,
+% c2 0.79, c3 0.83, c4 0.68; baseline 0.83). DRAFT STATE.
+Figure~\ref{fig:aio-coverage}(c) shows attack confidentiality, the share of
+actions a scan detector does not flag: \prelim{89} to \prelim{98}\,\% for $c_1$
+to $c_4$, $c_4$ the lowest, against \prelim{83}\,\% for the baseline attacker.
+Attack rate and attack confidentiality together record stealth
+(Section~\ref{subsec:metrics-behaviour}), and the APT attacker model has the
+lower attack rate and the higher attack confidentiality. The detector counts
+actions, so the two are one observation. \owed{Counting the dwell-only steps as
+actions lowers the profiles' attack confidentiality to \prelim{68} to
+\prelim{83}\,\%, at or below the baseline attacker's}{Section 5.2: attack
+confidentiality with dwell-only steps counted as actions was measured in a dry run
+only; track it, or move the point to the limitations in Chapter 6}.
 
 
 % ~1 unit. CARRIES PROPERTIES 6 and 7 --- the two declared capabilities,
@@ -7744,7 +7741,7 @@ appears separately in Section~\ref{subsec:eff-under-defence}. An effect is told 
 share a Scott--Knott rank are not told apart
 (Section~\ref{sec:dimensions}).
 Section~\ref{subsec:aio-disruption} shows what a single deployment does to each
-attacker, Section~\ref{subsec:eff-cross-arm} the NCR reduction of each defence mechanism and deployment strategy
+attacker, Section~\ref{subsec:eff-cross-arm} the ASP reduction of each defence mechanism and deployment strategy
 across the deployment interval, and Section~\ref{subsec:eff-under-defence} the
 same by mechanism, attack profile and deployment strategy.
 
@@ -7977,7 +7974,7 @@ response.
 \begin{figure}[tp]
   \centering
   \includegraphics{fig_5-2-2a_disruption_response}
-  \caption[What an MTD deployment costs each attacker]{What an MTD deployment costs each attacker, at the 2\,000\,s deployment interval, for the APT attacker model averaged over its four attack profiles and for the baseline attacker. (a),~(b)~The share of deployments followed by a compromised host within the time on the axis, with the MTD and, at the same moments of the same seeds, with no MTD (lighter), for the defence mechanism that costs the APT attacker model~(a) or the baseline attacker~(b) the most time in~(c); the shaded area between an attacker's two curves is its time lost per MTD deployment. (c)~Time lost per MTD deployment for each defence mechanism deployed alone, with 95\,\% bootstrap intervals over runs. Section~\ref{sec:evaluation-metrics} defines both metrics.}
+  \caption[What an MTD deployment costs each attacker]{What an MTD deployment costs each attacker, for each defence mechanism deployed alone at the 2\,000\,s deployment interval, for the APT attacker model averaged over its four attack profiles and for the baseline attacker. (a)~Attack actions blocked, per run. (b)~Time lost per MTD deployment. Whiskers are 95\,\% intervals, bootstrap over runs in~(b); Table~\ref{tab:disruption} gives the values, and Section~\ref{sec:evaluation-metrics} defines both metrics.}
   \label{fig:aio-adaptivity}
 \end{figure}
 
@@ -8009,23 +8006,18 @@ response.
 %  RATIFIED 2026-09-26 (Marc: 'I accept all this').
 \input{tables/tab_5-3-1b_disruption}
 
-Table~\ref{tab:disruption} gives attack actions blocked per run. Under the host-
-and service-layer mechanisms deployments block \prelim{5.3} to \prelim{6.9} of
-the baseline attacker's actions per run and \prelim{1.2} to \prelim{3.1} of the
-APT attacker model's. User shuffle blocks \prelim{0.41} of the baseline
-attacker's and \prelim{0.09} of the APT attacker model's.
+% 2026-09-30 (Marc: Figure 5.3's former (a), (b), the share of deployments
+% followed by a compromise, is no metric of Table 4.3): the figure is now (a)
+% attack actions blocked and (b) time lost; its paragraph on the curves is cut.
+% Numbers: tools/ch5_disruption_figure.py stdout, time_lost_numbers.json. DRAFT STATE.
+Figure~\ref{fig:aio-adaptivity}(a) gives attack actions blocked. Under the host-
+and service-layer mechanisms, deployments block \prelim{5.3} to \prelim{6.9} of
+the baseline attacker's actions per run. They block \prelim{2.8} to \prelim{3.1}
+of the APT attacker model's under the host layer and \prelim{1.2} under the
+service layer. User shuffle blocks \prelim{0.41} of the baseline attacker's and
+\prelim{0.09} of the APT attacker model's.
 
-Figure~\ref{fig:aio-adaptivity}(a) and (b) show the share of deployments followed
-by a compromised host within a given time, under IP shuffle and under service
-diversity. After IP shuffle, \prelim{21}\,\% of deployments are followed by a
-compromise by the APT attacker model within 1\,000\,s, against \prelim{40}\,\%
-with no MTD; the baseline attacker's two curves lie together (\prelim{91} and
-\prelim{87}\,\%). After service diversity the order reverses: \prelim{58}\,\% of
-deployments are followed by a compromise by the baseline attacker within
-1\,000\,s, against \prelim{88}\,\% with no MTD, while the APT attacker model's
-two curves lie together (\prelim{36} and \prelim{40}\,\%).
-
-Figure~\ref{fig:aio-adaptivity}(c) gives the time lost per MTD deployment. The
+Figure~\ref{fig:aio-adaptivity}(b) gives the time lost per MTD deployment. The
 three host-layer mechanisms cost the APT attacker model \prelim{206} to
 \prelim{313}\,s per deployment, and the baseline attacker an amount not told apart
 from zero. Service diversity costs the baseline attacker \prelim{518}\,s and the
@@ -8161,26 +8153,24 @@ deployment interval.
 %  float shows, the numbers that carry it, the APT property the metric records
 %  (Table 3.2 via Section 4.5), a by-construction reason only where Marc gave one.
 %  The agent draft it replaces is in git history (commit e83f280c). DRAFT STATE.
-Figure~\ref{fig:eff-cross-arm} shows the NCR reduction of each defence mechanism and deployment strategy, the
-share of the no-MTD NCR it removes (Equation~\ref{eq:ncr-reduction}),
-against the deployment interval; Table~\ref{tab:eff-interval-values} gives the
-values. Against the APT attacker model the host layer gives the larger reduction,
-\prelim{0.96} or more up to 200\,s against \prelim{0.21} to \prelim{0.35} for the
-service layer. Against the baseline attacker the order is reversed:
-\prelim{0.82} to \prelim{0.97} for the service layer up to 200\,s, against
-% [CONNECTIVE-PROSE PASS 2026-09-26, ch5 S2 every reduction] False
-%  universal: user shuffle against the APT attacker model rises from -0.14
-%  at 50 s to -0.04 at 2 000 s (tab:eff-interval-values); the pre-rewrite
-%  exception restored. SESSION-GENERATED on Marc's 2026-09-26 go-ahead
-%  (docs/workflows/connective_prose.md; audit
-%  docs/implementation/connective_prose_audit.md); prior text in git.
-%  RATIFIED 2026-09-26 (Marc: 'I accept all this').
-\prelim{0.49} to \prelim{0.72} for the host layer. Every reduction except user shuffle's falls as the interval grows; against the APT attacker model user shuffle's rises towards zero. The APT attacker model's host-layer reduction holds up to 200\,s
-and falls to \prelim{0.22} at 2\,000\,s; the baseline attacker's service-layer
-reduction falls from \prelim{0.82} at 200\,s to \prelim{0.25} at 500\,s. User
-shuffle reduces neither attacker's NCR beyond 50\,s, and against the APT attacker
-model it is below zero up to 500\,s: more hosts are compromised than with no
-MTD.
+% 2026-09-30 (Marc: ASP reduction, Section 4.5.3's headline, replaces NCR reduction in
+% Section 5.3.2-5.3.3): restated from numbers.json sweep and ranking. DRAFT STATE.
+Figure~\ref{fig:eff-cross-arm} shows the ASP reduction of each defence mechanism
+and deployment strategy, the share of the no-MTD ASP it removes
+(Equation~\ref{eq:asp-reduction}), against the deployment interval;
+Table~\ref{tab:eff-interval-values} gives the values. Against the APT attacker
+model the host layer gives the larger reduction: under it no run compromises a
+target host up to 500\,s, and the reduction is still \prelim{0.81} at 2\,000\,s,
+against \prelim{0.51} to \prelim{0.79} for the service layer up to 200\,s. Against
+the baseline attacker the order is reversed: \prelim{0.86} to \prelim{0.97} for
+the service layer up to 200\,s, against \prelim{0.49} to \prelim{0.83} for the
+host layer. At 500\,s the host layer's reduction against the baseline attacker is
+\prelim{-0.22}: more of its runs compromise a target host than with no MTD. From
+500\,s the service layer's reduction against the APT attacker model is not told
+apart from zero, while against the baseline attacker it keeps \prelim{0.19} to
+\prelim{0.28}. User shuffle reduces the baseline attacker's ASP only at 50\,s
+(\prelim{0.71}) and raises it at 1\,000\,s (\prelim{-0.29}); against the APT
+attacker model none of its values is told apart from zero.
 
 % REWRITTEN 2026-09-26 on Marc's read ("very rhetorically inflated ... literally we
 %  just need to describe what's happening"; his step-through of every float is
@@ -8194,19 +8184,21 @@ MTD.
 %  Marc's 2026-09-26 go-ahead (docs/workflows/connective_prose.md; audit
 %  docs/implementation/connective_prose_audit.md); prior text in git.
 %  RATIFIED 2026-09-26 (Marc: 'I accept all this').
-The deployment strategies split the same way. The random and alternative deployment strategies, which draw on all seven mechanisms, give the APT attacker model
-the larger reduction at every interval up to 1\,000\,s (at 200\,s, \prelim{0.75}
-and \prelim{0.72} against \prelim{0.33} and \prelim{0.39}). MTDShield gives the
-baseline attacker the larger reduction at every interval (\prelim{0.70} against
-\prelim{0.28} at 200\,s). It chooses service diversity at \prelim{70} to
-\prelim{76}\,\% of its decisions (Appendix~\ref{app:mtdshield-observed}), the
-mechanism that costs the baseline attacker the most time in
-Section~\ref{subsec:aio-disruption}.
+The deployment strategies split the same way. The random and alternative
+deployment strategies, which draw on all seven mechanisms, give the APT attacker
+model the larger reduction at every interval: under either, no run of it
+compromises a target host up to 200\,s, against reductions of \prelim{0.34} and
+\prelim{0.57} for the baseline attacker at 200\,s. MTDShield gives the baseline
+attacker the larger reduction up to 500\,s (\prelim{0.91} against \prelim{0.69} at
+200\,s) and the APT attacker model the larger from 1\,000\,s. It chooses service
+diversity at \prelim{70} to \prelim{76}\,\% of its decisions
+(Appendix~\ref{app:mtdshield-observed}), the mechanism that costs the baseline
+attacker the most time in Section~\ref{subsec:aio-disruption}.
 
 \begin{figure}[tp]
   \centering
   \includegraphics{fig_5-3-2b_interval_headline}
-  \caption[The same MTD measured against each attacker, across the deployment interval]{NCR reduction against the deployment interval for each defence mechanism and deployment strategy, measured against the APT attacker model, averaged over $c_1$ to $c_4$ (solid), and against the baseline attacker (dashed); higher is fewer hosts compromised, zero is as many as with no MTD, and below zero is more. Panels~(a) to~(c): the defence mechanisms by the layer each rewrites (Table~\ref{tab:defence-mechanisms}), a layer's line being the mean over its mechanisms, each deployed alone (Table~\ref{tab:eff-interval-values} lists them). Panels~(d) to~(f): the random deployment strategy, MTDShield (Appendix~\ref{app:mtdshield}) and the alternative deployment strategy (Table~\ref{tab:deployment-strategies}). The interval axis is logarithmic; whiskers are 95\,\% percentile bootstrap intervals.}
+  \caption[The same MTD measured against each attacker, across the deployment interval]{ASP reduction against the deployment interval for each defence mechanism and deployment strategy, measured against the APT attacker model, averaged over $c_1$ to $c_4$ (solid), and against the baseline attacker (dashed); 1 is no run compromising a target host, zero is as many as with no MTD, and below zero is more. Panels~(a) to~(c): the defence mechanisms by the layer each rewrites (Table~\ref{tab:defence-mechanisms}), a layer's line being the mean over its mechanisms, each deployed alone (Table~\ref{tab:eff-interval-values} lists them). Panels~(d) to~(f): the random deployment strategy, MTDShield (Appendix~\ref{app:mtdshield}) and the alternative deployment strategy (Table~\ref{tab:deployment-strategies}). The interval axis is logarithmic; whiskers are 95\,\% percentile bootstrap intervals.}
   \label{fig:eff-cross-arm}
 \end{figure}
 
@@ -8258,21 +8250,21 @@ Section~\ref{subsec:aio-disruption}.
 %  float shows, the numbers that carry it, the APT property the metric records
 %  (Table 3.2 via Section 4.5), a by-construction reason only where Marc gave one.
 %  The agent draft it replaces is in git history (commit e83f280c). DRAFT STATE.
-Table~\ref{tab:eff-cross-arm} ranks the defence mechanisms and deployment strategies at 200\,s. The three host-layer
-mechanisms share rank 1 against the APT attacker model and take ranks 2 and 3
-against the baseline attacker; service diversity and port shuffle share rank 1
-against the baseline attacker and take ranks 3 and 5 against the APT attacker
-model. The order is not simply reversed: Spearman's $\rho$ between the two
-attackers' NCR reductions is \prelim{-0.03}\owed{, close to zero}{Section 5.3.2:
-numbers.json gives rho over the ten reported defence mechanisms and deployment strategies with no interval; the only
-bootstrap interval tracked is over eleven, including random selection
+Table~\ref{tab:eff-cross-arm} ranks the defence mechanisms and deployment
+strategies at 200\,s. Against the APT attacker model the three host-layer
+mechanisms and the random and alternative deployment strategies share rank 1,
+since under none of them does a run compromise a target host; service diversity,
+MTDShield and port shuffle share rank 2. Against the baseline attacker service
+diversity, port shuffle and MTDShield share rank 1, and the host-layer mechanisms
+take ranks 2 and 3. The order is not simply reversed: Spearman's $\rho$ between
+the two attackers' ASP reductions is \prelim{-0.16}, with a 95\,\% bootstrap
+interval over seeds of \prelim{-0.25} to \prelim{-0.01}.
 % [CONNECTIVE-PROSE PASS 2026-09-26, ch5 U7 cut] Cut: the third statement
 %  of 5.3.3's object (preamble roadmap; 5.3.3's first sentence), stating
 %  nothing established. SESSION-GENERATED on Marc's 2026-09-26 go-ahead
 %  (docs/workflows/connective_prose.md; audit
 %  docs/implementation/connective_prose_audit.md); prior text in git.
 %  RATIFIED 2026-09-26 (Marc: 'I accept all this').
-over MTDShield's four, which no float reports}. 
 
 \input{tables/tab_5-3-2d_attacker_ranking}
 
@@ -8339,7 +8331,7 @@ over MTDShield's four, which no float reports}.
 \begin{figure}[tp]
   \centering
   \includegraphics{fig_5-3-3b_interval_mechanisms}
-  \caption[NCR reduction by defence mechanism and attack profile, across the deployment interval]{NCR reduction against the deployment interval for each defence mechanism deployed alone, in rows by the layer it rewrites (Table~\ref{tab:defence-mechanisms}), for the attack profiles $c_1$ to $c_4$ and the aggregate $c_{\mathrm{agg}}$, with the baseline attacker dashed for comparison. Axes, zero and whiskers as in Figure~\ref{fig:eff-cross-arm}.}
+  \caption[ASP reduction by defence mechanism and attack profile, across the deployment interval]{ASP reduction against the deployment interval for each defence mechanism deployed alone, in rows by the layer it rewrites (Table~\ref{tab:defence-mechanisms}), for the attack profiles $c_1$ to $c_4$ and the aggregate $c_{\mathrm{agg}}$, with the baseline attacker dashed for comparison. Axes, zero and whiskers as in Figure~\ref{fig:eff-cross-arm}; a whisker that reaches below $-1$ is cut at the axis and ends in a triangle.}
   \label{fig:eff-suppression-profiles}
 \end{figure}
 
@@ -8380,13 +8372,6 @@ over MTDShield's four, which no float reports}.
 %  float shows, the numbers that carry it, the APT property the metric records
 %  (Table 3.2 via Section 4.5), a by-construction reason only where Marc gave one.
 %  The agent draft it replaces is in git history (commit e83f280c). DRAFT STATE.
-Figure~\ref{fig:eff-suppression-profiles} shows each mechanism separately, for
-each attack profile. On the host layer, all three mechanisms remove nearly all of
-the APT attacker model's NCR up to 200\,s and less at longer intervals, IP shuffle
-keeping the most (\prelim{0.33} at 2\,000\,s against \prelim{0.16} and
-\prelim{0.17}); against the baseline attacker, IP shuffle gives more reduction
-than either topology shuffle at every interval. On the service layer, service
-diversity is the one mechanism that keeps a reduction against the baseline
 % [CONNECTIVE-PROSE PASS 2026-09-26, S8 service layer] 'matches' named no
 %  test; the declared one is a shared Scott-Knott rank (numbers.json
 %  ranking.by_interval, baseline sk_esd: port shuffle rank 1 to 200 s, OS
@@ -8394,7 +8379,6 @@ diversity is the one mechanism that keeps a reduction against the baseline
 %  on Marc's 2026-09-26 go-ahead (docs/workflows/connective_prose.md;
 %  audit docs/implementation/connective_prose_audit.md); prior text in
 %  git. RATIFIED 2026-09-26 (Marc: 'I accept all this').
-attacker at every interval (\prelim{0.30} at 2\,000\,s). Port shuffle is not told apart from it up to 200\,s, nor OS diversity up to 100\,s, since each shares its Scott--Knott rank there; from 500\,s neither is told apart from
 % [CONNECTIVE-PROSE PASS 2026-09-26, S8 profiles] 'move together' /
 %  'separates' named no test; replaced by the values (numbers.json
 %  sweep.by_interval[500].profile; c3 lower bounds 0.82-0.87 against the
@@ -8403,7 +8387,17 @@ attacker at every interval (\prelim{0.30} at 2\,000\,s). Port shuffle is not tol
 %  Marc's 2026-09-26 go-ahead (docs/workflows/connective_prose.md; audit
 %  docs/implementation/connective_prose_audit.md); prior text in git.
 %  RATIFIED 2026-09-26 (Marc: 'I accept all this').
-zero. User shuffle reduces neither attacker's NCR from 100\,s. At 500\,s each host-layer mechanism keeps a larger reduction against $c_3$ than against the other attack profiles, \prelim{0.86} to \prelim{0.91} against \prelim{0.71} to \prelim{0.82}, and the intervals do not overlap.
+% 2026-09-30 (Marc: ASP reduction, Section 4.5.3's headline, replaces NCR reduction in
+% Section 5.3.2-5.3.3): restated from numbers.json sweep and ranking. DRAFT STATE.
+Figure~\ref{fig:eff-suppression-profiles} shows each mechanism separately, for
+each attack profile. Under the host layer no run of any of $c_1$ to $c_4$
+compromises a target host up to 500\,s. Elsewhere a single profile's ASP
+reduction rests on the \prelim{5} to \prelim{13} of its 100 runs that compromise a
+target host with no MTD, and most of its intervals are wider than one. Against the
+baseline attacker, service diversity is the one mechanism that keeps a reduction
+at every interval (\prelim{0.66} at 2\,000\,s). Port shuffle is not told apart
+from it up to 200\,s, nor OS diversity up to 100\,s, since each shares its
+Scott--Knott rank there; from 500\,s neither is told apart from zero.
 
 % ---- PARAGRAPH 2: between Figure fig:eff-suppression-profiles and Figure fig:eff-schemes-profiles ----
 % REWRITTEN 2026-09-26 on Marc's read ("very rhetorically inflated ... literally we
@@ -8421,7 +8415,6 @@ zero. User shuffle reduces neither attacker's NCR from 100\,s. At 500\,s each ho
 %  go-ahead (docs/workflows/connective_prose.md; audit
 %  docs/implementation/connective_prose_audit.md); prior text in git.
 %  RATIFIED 2026-09-26 (Marc: 'I accept all this').
-Figure~\ref{fig:eff-schemes-profiles} shows the deployment strategies, for each attack profile. At 200\,s the NCR reduction against $c_{\mathrm{agg}}$ lies within the range of $c_1$ to $c_4$ under MTDShield and every defence mechanism except user shuffle. Under the random and alternative deployment strategies it lies below all four (\prelim{0.68} and \prelim{0.64}, against \prelim{0.69} to \prelim{0.82}). Against the APT attacker model, MTDShield stays within
 % [CONNECTIVE-PROSE PASS 2026-09-26, S7 MTDShield mechanism] Mechanism
 %  removed from the results (Marc 2026-09-26: 'that's my bet'). PARKED FOR
 %  CHAPTER 6: Marc's reading is that MTDShield tracks service diversity
@@ -8431,9 +8424,15 @@ Figure~\ref{fig:eff-schemes-profiles} shows the deployment strategies, for each 
 %  (docs/workflows/connective_prose.md; audit
 %  docs/implementation/connective_prose_audit.md); prior text in git.
 %  RATIFIED 2026-09-26 (Marc: 'I accept all this').
-\prelim{0.12} of service diversity at every interval.
+% 2026-09-30 (Marc: ASP reduction, Section 4.5.3's headline, replaces NCR reduction in
+% Section 5.3.2-5.3.3): restated from numbers.json sweep and ranking. DRAFT STATE.
+Figure~\ref{fig:eff-schemes-profiles} shows the deployment strategies, for each
+attack profile. Under the random and alternative deployment strategies no run of
+any profile, $c_{\mathrm{agg}}$ included, compromises a target host up to 200\,s.
+Against the APT attacker model, MTDShield stays within \prelim{0.16} of service
+diversity at every interval.
 \owed{Replacing the near-periodic timing distribution with the exponential one
-at 200\,s changes the sign of no reduction for either attacker, and the APT
+at 200\,s changes the sign of no NCR reduction for either attacker, and the APT
 % [CONNECTIVE-PROSE PASS 2026-09-26, DS 5.3.3 owed] Marc 2026-09-26:
 %  'deployment strategies is very clear ... change everything to
 %  deployment strategies' (registry row re-ruled). SESSION-GENERATED on
@@ -8444,7 +8443,7 @@ attacker model keeps its order of the seven mechanisms and two deployment strate
 shuffle falls from \prelim{0.90} to \prelim{0.14}, below IP shuffle.}{Section
 5.3.3: the exponential timing distribution's values sit in no float, so an
 appendix table is owed (200 s, both attackers, the seven defence mechanisms and two deployment strategies, with
-intervals); MTDShield was not run under it; the interrupt-tally sanity flag
+intervals), and it is still read on NCR reduction, not ASP reduction; MTDShield was not run under it; the interrupt-tally sanity flag
 raised in the regime runs is not yet investigated}
 % ---- S33-e, DROPPED (not live). Candidate for Marc's ruling, if the analyser emits the
 %  reduction range with its interval (Appendix C tabulates hosts reached only;
@@ -8458,7 +8457,7 @@ raised in the regime runs is not yet investigated}
 \begin{figure}[tp]
   \centering
   \includegraphics{fig_5-3-3c_interval_schemes}
-  \caption[NCR reduction by deployment strategy and attack profile, across the deployment interval]{NCR reduction against the deployment interval for each deployment strategy: the random deployment strategy, MTDShield (Appendix~\ref{app:mtdshield}) and the alternative deployment strategy (Table~\ref{tab:deployment-strategies}), for the attack profiles $c_1$ to $c_4$ and the aggregate $c_{\mathrm{agg}}$, with the baseline attacker dashed for comparison. Axes, zero and whiskers as in Figure~\ref{fig:eff-cross-arm}.}
+  \caption[ASP reduction by deployment strategy and attack profile, across the deployment interval]{ASP reduction against the deployment interval for each deployment strategy: the random deployment strategy, MTDShield (Appendix~\ref{app:mtdshield}) and the alternative deployment strategy (Table~\ref{tab:deployment-strategies}), for the attack profiles $c_1$ to $c_4$ and the aggregate $c_{\mathrm{agg}}$, with the baseline attacker dashed for comparison. Axes, zero and whiskers as in Figure~\ref{fig:eff-suppression-profiles}.}
   \label{fig:eff-schemes-profiles}
 \end{figure}
 
@@ -10018,11 +10017,21 @@ with the floor declared.
 \section{Robustness of attack confidentiality to the detector's memory}
 \label{app:detector-memory}
 
-\noindent\emph{[Placeholder --- delete on drafting. Attack confidentiality
-(Section~\ref{sec:evaluation-metrics}) rests on two choices: how long the
-detector remembers an action, 60\,s, and where its alarm is set, at the level that
-flags half of the baseline attacker's actions. This section moves both and
-reports whether the attackers keep their order across the run.]}
+% 2026-09-30: the placeholder described the retired tuned-alarm detector; filled
+% on the count-in-window detector of Section 4.5.1 (ruling C). Numbers:
+% ch5_s531_unopposed/numbers.json core.detector_grid, via
+% tools/ch5_unopposed_figures.py. DRAFT STATE --- ratify on read.
+Attack confidentiality (Section~\ref{subsec:metrics-behaviour}) flags an action
+when it is at least the attacker's fifth within 60\,s, the default of the Snort
+intrusion detection system \citep[Sec.~5.2]{jung2004}.
+Table~\ref{tab:detector-memory} moves the count to three and ten and the window
+to 30 and 120\,s. At the six settings that flag at least \prelim{2.5}\,\% of the
+baseline attacker's actions, every attack profile keeps a higher attack
+confidentiality than the baseline attacker. The other three flag under
+\prelim{2}\,\% of its actions, and there the profiles lie within about one point
+of it, above or below.
+
+\input{tables/tab_C-4a_detector_memory}
 % UPDATED 2026-09-24 (scrutinise-figure round 3, context critic): the alarm quantile
 % matters --- at the 60th percentile c4 falls below the baseline attacker in the
 % first 1 500 s bin (78.0 against 79.0), at the 75th c1 does too; at the median c4's

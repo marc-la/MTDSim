@@ -171,6 +171,10 @@ def _iv(values) -> dict:
     return {"n": iv.n, "mean": iv.mean, "ci95": iv.ci95}
 
 
+def _iv_or_none(values: list) -> dict | None:
+    return _iv(values) if values else None
+
+
 def delay_summary(first_times: list) -> dict:
     """Delay to first compromise, Table 5.2's estimator and the defended
     corpus's (ch5_defended/analyse.py): the mean over the runs that compromise
@@ -258,6 +262,13 @@ def movement_row(runs: list[MovementRunResult], stage_of: dict) -> dict:
             1 for r in runs if r.reached_objective and r.database_hosts_reached > 0
         ) / len(runs),
         "time_to_target_median": (median(reach_times) if reach_times else None),
+        # MTTC (section 4.5.2, Marc 2026-09-30, ruling H1): the time a target host
+        # falls, over the runs that take one (the target_reach rule above)
+        "mttc_target": _iv_or_none([
+            r.first_database_reach_time for r in runs
+            if r.reached_objective and r.database_hosts_reached > 0
+            and r.first_database_reach_time is not None
+        ]),
         "database_hosts_reached": _iv(r.database_hosts_reached for r in runs),
         "retrace_count": _iv(r.retrace_count for r in runs),
         "records_per_run": _iv(len(r.records) for r in runs),
@@ -317,6 +328,7 @@ def baseline_row(rows: list[dict]) -> dict:
         },
         "target_reach": n_target / len(rows),
         "time_to_target_median": (median(ttts) if ttts else None),
+        "mttc_target": _iv_or_none(ttts),
         "ended_on_compromise_ratio": n_ratio,
         "database_hosts_reached": _iv(row["database_hosts_reached"] for row in rows),
         "records_per_run": _iv(len(row["records"]) for row in rows),
@@ -417,6 +429,41 @@ def confidentiality_over_run(action_lists: list, theta: float) -> dict:
     return {"bin_start": edges[:-1].tolist(), "bin": BIN, "share": share, "runs_active": active}
 
 
+# Attack confidentiality (section 4.5.1, ruling C, 2026-09-29): an action is flagged
+# when it is at least the attacker's COUNT-th action within WINDOW seconds (the
+# Snort default of Jung et al. 2004, Sec. 5.2, counted over any action); the metric
+# is the share of actions not flagged, counting over every run.
+COUNT, WINDOW = 5, 60.0
+
+
+def _flags(starts: list, count: int = COUNT, window: float = WINDOW) -> list[bool]:
+    """Per action: at least the count-th action within the window ending at it."""
+    out, lo = [], 0
+    for i, t in enumerate(starts):
+        while t - starts[lo] >= window:
+            lo += 1
+        out.append(i - lo + 1 >= count)
+    return out
+
+
+# Appendix C.4: the count and the window moved around the Snort default
+DETECTOR_GRID = [(c, w) for c in (3, 5, 10) for w in (30.0, 60.0, 120.0)]
+
+
+def confidentiality(action_lists: list, rng: np.random.Generator, n_boot: int = 2_000,
+                    count: int = COUNT, window: float = WINDOW) -> dict:
+    """Actions not flagged over actions, pooled over runs, with a 95 % percentile
+    bootstrap interval over runs."""
+    per = np.array([(len(a) - sum(_flags(sorted(a), count, window)), len(a)) for a in action_lists if a],
+                   dtype=float)
+    point = float(per[:, 0].sum() / per[:, 1].sum())
+    idx = rng.integers(0, len(per), (n_boot, len(per)))
+    boots = per[idx, 0].sum(1) / per[idx, 1].sum(1)
+    lo, hi = np.quantile(boots, [0.025, 0.975])
+    return {"point": point, "lo": float(lo), "hi": float(hi), "runs": int(len(per)),
+            "actions": int(per[:, 1].sum()), "count": count, "window": window}
+
+
 def stealth_movement(runs: list[MovementRunResult]) -> dict:
     acts = [_actions_movement(r) for r in runs]
     acts_b = [_actions_movement(r, count_blocked=True) for r in runs]
@@ -488,7 +535,8 @@ def outcome(row: dict) -> dict:
     return {
         "asp": row["target_reach"],
         "ncr": {k: (v / NET_HOSTS if k in ("mean", "ci95") else v) for k, v in row["hosts"].items()},
-        "mttc": row["delay"],
+        "mttc": row["mttc_target"],             # section 4.5.2: a target host (ruling H1)
+        "first_compromise": row["delay"],       # the retired first-host reading, kept for the record
         "no_compromise_share": row["zero_host_runs"] / row["n"],
     }
 
@@ -784,7 +832,10 @@ def main() -> int:
     # a detector tuned on the attacker the defences were built against.
     base_levels = [d for row in baseline[CORE] for _, d in _detector_levels(_actions_baseline(row)[0])]
     theta_b = float(np.median(base_levels))
+    rng_c = np.random.default_rng(20260930)
     for p in PROFILES:
+        metrics[p]["attack_confidentiality"] = confidentiality(
+            [_actions_movement(r)[0] for r in movement[("targeted", CORE, p)]], rng_c)
         metrics[p]["confidentiality_over_run"] = confidentiality_over_run(
             [_actions_movement(r)[0] for r in movement[("targeted", CORE, p)]], theta_b)
     metrics["baseline"] = {
@@ -795,8 +846,16 @@ def main() -> int:
         **stealth_baseline(baseline[CORE]),
         "confidentiality_over_run": confidentiality_over_run(
             [_actions_baseline(row)[0] for row in baseline[CORE]], theta_b),
+        "attack_confidentiality": confidentiality(
+            [_actions_baseline(row)[0] for row in baseline[CORE]], rng_c),
     }
+    grid_lists = {p: [_actions_movement(r)[0] for r in movement[("targeted", CORE, p)]] for p in FOUR}
+    grid_lists["baseline"] = [_actions_baseline(row)[0] for row in baseline[CORE]]
+    detector_grid = [{"count": c, "window": wd,
+                      "confidentiality": {p: confidentiality(a, rng_c, count=c, window=wd) for p, a in grid_lists.items()}}
+                     for c, wd in DETECTOR_GRID]
     out["core"] = {
+        "detector_grid": detector_grid,
         "horizon": CORE,
         "metrics": metrics,
         "detector": {"tau": TAU, "theta": THETA, "net_hosts": NET_HOSTS,

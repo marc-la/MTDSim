@@ -42,6 +42,38 @@ on the way.
 - **Chapter 6 §6.2:** a comment carries the mechanism narrative for points (1)
   and (2).
 
+## Shipped 2026-09-30, second pass (branch chore/s5-results-asp)
+
+Marc's 2026-09-30 walk-through of §4.5 and §5.1–5.3 ("focus your work on 5.1 to
+5.3"; the ablations are out of scope):
+
+- **Ruling H1: MTTC is read at a target host,** Zhang's written definition (p. 16),
+  over the runs that take one. §4.5.2, Table 5.2, Table 5.5 and Appendix F follow.
+  ASP is its coverage, so the bracketed "share of runs" is gone. The attack-outcome
+  preamble now says each of ASP, MTTC and NCR is read in the targeted scenario.
+- **ASP reduction is chapter 5's headline,** as §4.5.3 already said: Figures 5.3–5.5,
+  Table 5.4, Table 5.5 (Scott–Knott on the per-seed share of runs taking a target;
+  Spearman's rho on ASP reductions with a seed-resampled interval), Appendix F.
+  NCR reduction stays as a Table 5.5 column (the two disagree: APT under random at
+  200 s, ASP 1.00 against NCR 0.75). `analyse.py` keeps `sweep_ncr`.
+  - **Resolution:** per profile, ASP rests on 5 to 13 successes in 100 runs, so
+    Figures 5.4–5.5 have wide intervals (clipped at −1, marked). The pooled
+    headline resolves. Regenerate at 1 000 seeds.
+  - **Changed findings:** the APT model hits the ceiling under the host layer (no run
+    takes a target up to 500 s); at 500 s the host layer *raises* the baseline's ASP
+    (−0.22); user shuffle raises it at 1 000 s (−0.29). The profile-level claims of
+    the NCR version (c3 at 500 s; c_agg under the strategies) no longer hold and are cut.
+  - `suppression()` now drops bootstrap resamples whose no-MTD cell has no success
+    and records their share (`boot_undefined_share`, at most 0.009).
+- **§5.2:** Figure 5.1 gains (b) distinct attack paths (the count §4.5.1 defines,
+  replacing the stale APV share) and (c) attack confidentiality (the count-in-window
+  detector); the over-the-run Figure 5.2 is retired. Attack rate per minute in the
+  prose. The owed dwell-only note re-measured: 68–83 % against the baseline's 83 %.
+- **Appendix C.4 filled:** the detector's count (3, 5, 10) and window (30, 60,
+  120 s), `tab_C-4a_detector_memory`.
+- **Not touched:** §5.4 ablations (still NCR), the regime-arm owed note (still NCR,
+  flagged in its owed text), chapter 6 placeholders.
+
 ## Still open
 
 - **Ruling I, MTD mechanism for defence mechanism:** still unruled. Marc uses
@@ -139,13 +171,20 @@ no reference and is dropped. That is at most 22 % of deployments (baseline, serv
 diversity), because the defended baseline runs longer than its no-MTD twin. The
 bootstrap should resample runs rather than deployments for the reported interval.
 
-## Figure 5.3, rebuilt
+## Figure 5.3, rebuilt (now Figure 5.2: the old Figure 5.2 is retired)
 
-- **(a), (b):** for each attacker's worst mechanism, the share of deployments followed
-  by a compromise within $t$, against $t$, with the MTD and with no MTD. The area
-  between the two curves up to the cap *is* the time lost.
-- **(c):** time lost per mechanism per attacker, with intervals.
-- **Attack actions blocked per run:** in the table beside the figure.
+- **Second rebuild, 2026-09-30 (Marc):** "panel A is not grounded in a metric
+  that we're using". The share of deployments followed by a compromise within $t$ is
+  no Table 4.3 metric, so the curves went. Now **(a) attack actions blocked, per run**
+  and **(b) time lost per MTD deployment**, one mechanism axis, both attackers
+  (`tools/ch5_disruption_figure.py`). Table 5.3's headers are the metrics' names
+  verbatim ("blocked per run ... I don't recognise").
+- **No acronyms** for attack actions blocked or time lost (Marc asked "AAB?"): the
+  supervisor's 2026-09-22 ruling is no invented acronyms; ASP, NCR and MTTC are the
+  field's own. Recommendation given; not re-asked.
+- **Scaling time lost by attack rate:** not added. It changes no conclusion (dry
+  run: APT IP shuffle 5.1 actions' worth against the baseline's 14.7 under service
+  diversity); Marc read the seconds panel as "a good figure".
 
 ## Analyser defects to fix (found 2026-09-30)
 

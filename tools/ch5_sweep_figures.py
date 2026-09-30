@@ -80,12 +80,19 @@ PROFILE_KEY = tuple((LABEL[p], "line", CNAME[p], MARK[p]) for p in PROFILES) + (
     ("baseline attacker", "dashed", "cbase", "square"),)
 
 
+# the headline metric's name on every y-axis, set from numbers.json["sweep"]["metric"]
+YLABEL = "ASP reduction"
+
+
 def _yrange(values) -> tuple[float, float]:
     """The shared y range: the lowest whisker rounded down to a 0.2 step (so
     no whisker is clipped and the floor tightens as the intervals narrow), and
     1.0 at the top."""
     lo, hi = min(0.0, min(values)), max(values)
-    return math.floor(round(lo / 0.2, 6)) * 0.2, (1.0 if hi > 0.8 else 0.8)
+    # floored at -1 (2026-09-30, ASP reduction): a single profile's no-MTD ASP
+    # rests on 5 to 13 successes in 100 runs, and its intervals run to -7; a
+    # whisker cut at the floor ends in a triangle (Panel.line), named in the captions
+    return max(-1.0, math.floor(round(lo / 0.2, 6)) * 0.2), (1.0 if hi > 0.8 else 0.8)
 
 
 class Panel:
@@ -140,6 +147,10 @@ class Panel:
         for (iv, p, lo, hi), (x, y) in zip(pts, xy):
             if whiskers:
                 w(r"\draw[%s,line width=0.4pt] (%.3f,%.3f) -- (%.3f,%.3f);" % (col, x, self.yv(lo), x, self.yv(hi)))
+                if lo < self.ymin - 1e-9:  # cut at the axis floor: a small triangle pointing down
+                    yb = self.yv(self.ymin)
+                    w(r"\fill[%s] (%.3f,%.3f) -- (%.3f,%.3f) -- (%.3f,%.3f) -- cycle;" % (
+                        col, x - 0.045, yb + 0.07, x + 0.045, yb + 0.07, x, yb))
             marker(w, mark, col, x, y, r=r)
 
 
@@ -199,7 +210,7 @@ def emit_headline(sweep, yr):
                 p.line(pts, col, mark, dashed, dx=dx, lw=0.9, r=0.06)
                 facts += [(arm, key, *q) for q in pts]
         # one axis label per row, so it cannot cross the next row's header
-        w(r"\node[rotate=90,anchor=south] at (%.3f,%.3f) {NCR reduction};" % (X0 - 0.95, y0 + PH / 2))
+        w(r"\node[rotate=90,anchor=south] at (%.3f,%.3f) {%s};" % (X0 - 0.95, y0 + PH / 2, YLABEL))
     w(r"\node[anchor=north] at (%.3f,%.3f) {Deployment interval (s)};" % ((X0 + XR) / 2, 0.6 + 0.85 - 0.5))
     w(r"\end{tikzpicture}")
     w(r"\end{document}")
@@ -249,7 +260,7 @@ def emit_mechanisms(sweep, yr):
     # the figure-wide key at the top, left edge on the first y-axis (conventions §o)
     key_row(w, X0, ytop + 0.35, PROFILE_KEY, xmax=X0 + 3 * PW + 2 * GAP)
     y0 = ytop - len(ROWS_MECH) * ROWH + 0.85
-    w(r"\node[rotate=90,anchor=south] at (%.3f,%.3f) {NCR reduction};" % (X0 - 0.95, (y0 + ytop) / 2))
+    w(r"\node[rotate=90,anchor=south] at (%.3f,%.3f) {%s};" % (X0 - 0.95, (y0 + ytop) / 2, YLABEL))
     w(r"\node[anchor=north] at (%.3f,%.3f) {Deployment interval (s)};" % (X0 + 1.5 * PW + GAP, y0 - 0.5))
     w(r"\end{tikzpicture}")
     w(r"\end{document}")
@@ -271,7 +282,7 @@ def emit_schemes(sweep, yr):
         x0 = X0 + k * (PW + GAP)
         facts += _profile_panel(w, sweep, c, x0, x0 + PW, y0, y0 + PH, yr, ylabels=(k == 0),
                                 title=_cap(LONG[c]), letter=next(letters), font=FONT)
-    w(r"\node[rotate=90,anchor=south] at (%.3f,%.3f) {NCR reduction};" % (X0 - 0.95, y0 + PH / 2))
+    w(r"\node[rotate=90,anchor=south] at (%.3f,%.3f) {%s};" % (X0 - 0.95, y0 + PH / 2, YLABEL))
     w(r"\node[anchor=north] at (%.3f,%.3f) {Deployment interval (s)};" % ((X0 + XR) / 2, y0 - 0.5))
     # the figure-wide key at the top, left edge on the first y-axis (conventions §o)
     key_row(w, X0, y0 + PH + TITLE_H + 0.1 + KEY_H / 2 + 0.2, PROFILE_KEY, xmax=XR)
@@ -298,7 +309,7 @@ def _val(v: float) -> str:
 
 
 def emit_value_table(sweep) -> tuple[str, list]:
-    """NCR reduction per defence, attacker and deployment interval; rows grouped
+    """ASP reduction (the sweep's metric) per defence, attacker and deployment interval; rows grouped
     as the headline's panels are (the layers, then the strategies); a cell
     whose 95 % interval includes zero is set grey."""
     ivs = [str(i) for i in sweep["intervals"]]
@@ -310,9 +321,10 @@ def emit_value_table(sweep) -> tuple[str, list]:
     w("%   (section sweep; the APT attacker model pooled over its four profiles). Do not hand-edit.")
     w("% 2026-09-25 (Marc on the first draft: the rank grid's dashes and italics did not")
     w("%   read): the values themselves, grouped as Figure 5.4's panels. DRAFT STATE --- ratify on read.")
+    w("% 2026-09-30 (Marc: switch to ASP reduction, section 4.5.3's headline): was NCR reduction.")
     w(r"\begin{table}[htbp]")
     w(r"  \centering")
-    w(r"  \caption[NCR reduction under each attacker, by MTD and deployment interval]{NCR reduction for each defence mechanism and deployment strategy against the APT attacker model, averaged over $c_1$ to $c_4$, and against the baseline attacker, at each deployment interval; 1 is no host compromised, 0 is as many as with no MTD, and a negative value is more hosts compromised than with no MTD. Rows grouped as the panels of Figure~\ref{fig:eff-cross-arm}; a layer's row gives the mean it plots. Grey text: the 95\,\% percentile bootstrap interval includes zero; the APT attacker model's cells hold four times as many runs as the baseline attacker's.}")
+    w(r"  \caption[ASP reduction under each attacker, by MTD and deployment interval]{ASP reduction for each defence mechanism and deployment strategy against the APT attacker model, averaged over $c_1$ to $c_4$, and against the baseline attacker, at each deployment interval; 1 is no run compromising a target host, 0 is as many as with no MTD, and a negative value is more than with no MTD. Rows grouped as the panels of Figure~\ref{fig:eff-cross-arm}; a layer's row gives the mean it plots. Grey text: the 95\,\% percentile bootstrap interval includes zero; the APT attacker model's cells hold four times as many runs as the baseline attacker's.}")
     w(r"  \label{tab:eff-interval-values}")
     w(r"  \tablestyle\scriptsize\setlength{\tabcolsep}{3pt}\rowcolors{1}{}{}")  # the groups' rules separate rows; zebra would stripe the headers
     w(r"  \begin{tabular}{@{}P{3.75cm}*{%d}{>{\centering\arraybackslash}p{0.78cm}}@{}}" % (2 * n))
@@ -358,16 +370,14 @@ def _num(v: float, nd: int = 2) -> str:
     return "$%s$" % ("0." + "0" * nd if t == "-0." + "0" * nd else t)
 
 
-def _mttc(delay: dict) -> str:
-    # MTTC over the runs that compromise a host, and their share of all runs
-    if not delay["observed"]:
-        return "---"
-    return r"%s (%d)" % (fmt_thousands(delay["observed"]["mean"]), round(100 * (1 - delay["censored_share"])))
+def _mttc(iv: dict | None) -> str:
+    # MTTC over the runs that compromise a target host (section 4.5.2); ASP is its coverage
+    return "---" if not iv else fmt_thousands(iv["mean"])
 
 
 def _order(blk) -> list[str]:
     mv = blk["movement"]["rows"]
-    return sorted(mv, key=lambda c: (mv[c]["rank"], -mv[c]["point"]))
+    return sorted(mv, key=lambda c: (mv[c]["rank"], -mv[c]["asp_reduction"]["point"]))
 
 
 def emit_ranking_table(ranking) -> tuple[str, list]:
@@ -381,38 +391,37 @@ def emit_ranking_table(ranking) -> tuple[str, list]:
     w("%   (section ranking; ranks by Scott-Knott ESD, data/results/ch5_defended/sk_esd.py). Do not hand-edit.")
     w("% 2026-09-25 (Marc: \"we have to have some ranks ... ranking with ties\"; results context §8j-4):")
     w("%   the two attackers side by side at one interval, all of Table 4.3's metrics. DRAFT STATE --- ratify on read.")
+    w("% 2026-09-30 (Marc: ASP reduction the headline): ranked on the share of runs reaching a target;")
+    w("%   ASP reduction beside NCR reduction; MTTC at a target host (ruling H1).")
     w(r"\begin{table}[htbp]")
     w(r"  \centering")
-    w(r"  \caption[The defence mechanisms and deployment strategies ranked against each attacker]{Each defence mechanism and deployment strategy deployed every %s\,s against the APT attacker model, averaged over $c_1$ to $c_4$, and against the baseline attacker, each ranked by Scott--Knott ESD on the mean hosts compromised per seed (Section~\ref{sec:dimensions}). Rank~1, in bold, is the fewest hosts compromised; rows that share a rank are not told apart; no MTD is not ranked. Rows in the APT attacker model's order. Metrics as Table~\ref{tab:metrics}; MTTC is over the runs that compromise a host, with their percentage of all runs in brackets. Every value's interval is in Appendix~\ref{app:supplementary-results}.}" % fmt_thousands(int(iv)))
+    w(r"  \caption[The defence mechanisms and deployment strategies ranked against each attacker]{Each defence mechanism and deployment strategy deployed every %s\,s against the APT attacker model, averaged over $c_1$ to $c_4$, and against the baseline attacker, each ranked by Scott--Knott ESD on the share of runs per seed that compromise a target host (Section~\ref{sec:dimensions}). Rank~1, in bold, is the fewest; rows that share a rank are not told apart; no MTD is not ranked. Rows in the APT attacker model's order. Metrics as Table~\ref{tab:metrics}; a dash marks an MTTC with no run to take it over. Every value's interval is in Appendix~\ref{app:supplementary-results}.}" % fmt_thousands(int(iv)))
     w(r"  \label{tab:eff-cross-arm}")
     # the stripes restart at row 4 so neither header row is shaded (as Table 5.4 was)
-    w(r"  \tablestyle\scriptsize\setlength{\tabcolsep}{2.6pt}\rowcolors{4}{black!5}{}")
+    w(r"  \tablestyle\scriptsize\setlength{\tabcolsep}{2.2pt}\rowcolors{4}{black!5}{}")
     C = r">{\centering\arraybackslash}p{%s}"
-    # attack actions blocked cut from the metric set (Marc 2026-09-25), so both
-    # attacker blocks carry the same five columns
-    cols_m = [C % "0.62cm", C % "0.7cm", C % "0.7cm", C % "1.6cm", C % "1.15cm"]
-    cols_b = cols_m
-    w(r"  \begin{tabular}{@{}P{3.45cm}%s%s@{}}" % ("".join(cols_m), "".join(cols_b)))
+    cols = [C % "0.7cm", C % "0.62cm", C % "1.25cm", C % "0.66cm", C % "1.25cm", C % "0.95cm"]
+    w(r"  \begin{tabular}{@{}P{3.0cm}%s%s@{}}" % ("".join(cols), "".join(cols)))
     w(r"    \toprule")
-    w(r"    & \multicolumn{5}{c}{APT attacker model} & \multicolumn{5}{c}{Baseline attacker} \\")
-    w(r"    \cmidrule(lr){2-6}\cmidrule(lr){7-11}")
-    head_m = ["Rank", "ASP", "NCR", "MTTC (s)", r"NCR\newline reduction"]
-    w(r"    MTD & %s & %s \\" % (" & ".join(head_m), " & ".join(head_m)))
+    w(r"    & \multicolumn{6}{c}{APT attacker model} & \multicolumn{6}{c}{Baseline attacker} \\")
+    w(r"    \cmidrule(lr){2-7}\cmidrule(lr){8-13}")
+    head = ["Rank", "ASP", r"ASP\newline reduction", "NCR", r"NCR\newline reduction", r"MTTC\newline (s)"]
+    w(r"    MTD & %s & %s \\" % (" & ".join(head), " & ".join(head)))
     w(r"    \midrule")
 
-    def cells(arm, row, none=False):
+    def cells(row, none=False):
         rank = "---" if none else (r"\textbf{1}" if row["rank"] == 1 else str(row["rank"]))
-        out = [rank, "%.2f" % row["asp"], "%.2f" % (row["hosts"]["mean"] / N_HOSTS),
-               _mttc(row["delay"]), "---" if none else _num(row["point"])]
-        return out
+        return [rank, "%.2f" % row["asp"], "---" if none else _num(row["asp_reduction"]["point"]),
+                "%.2f" % (row["hosts"]["mean"] / N_HOSTS), "---" if none else _num(row["ncr_reduction"]["point"]),
+                _mttc(row["mttc"])]
 
-    w("    no MTD & %s & %s \\\\" % (" & ".join(cells("movement", blk["movement"]["none"], True)),
-                                         " & ".join(cells("baseline", blk["baseline"]["none"], True))))
+    w("    no MTD & %s & %s \\\\" % (" & ".join(cells(blk["movement"]["none"], True)),
+                                       " & ".join(cells(blk["baseline"]["none"], True))))
     w(r"    \midrule")
     for c in order:
         m, b = blk["movement"]["rows"][c], blk["baseline"]["rows"][c]
-        w("    %s & %s & %s \\\\" % (LONG[c], " & ".join(cells("movement", m)), " & ".join(cells("baseline", b))))
-        facts.append((c, m["rank"], m["point"], b["rank"], b["point"]))
+        w("    %s & %s & %s \\\\" % (LONG[c], " & ".join(cells(m)), " & ".join(cells(b))))
+        facts.append((c, m["rank"], m["asp_reduction"]["point"], b["rank"], b["asp_reduction"]["point"]))
     w(r"    \bottomrule")
     w(r"  \end{tabular}")
     w(r"\end{table}")
@@ -424,43 +433,43 @@ def emit_full_table(ranking, arm) -> str:
     the ranking interval, rows in that attacker's rank order."""
     iv = RANK_INTERVAL if RANK_INTERVAL in ranking["by_interval"] else str(ranking["intervals"][0])
     blk = ranking["by_interval"][iv][arm]
-    order = sorted(blk["rows"], key=lambda c: (blk["rows"][c]["rank"], -blk["rows"][c]["point"]))
+    order = sorted(blk["rows"], key=lambda c: (blk["rows"][c]["rank"], -blk["rows"][c]["asp_reduction"]["point"]))
     who = (r"the APT attacker model, averaged over $c_1$ to $c_4$" if arm == "movement" else "the baseline attacker")
     L: list[str] = []
     w = L.append
     w("% GENERATED by tools/ch5_sweep_figures.py from data/results/ch5_defended/numbers.json (section ranking).")
-    w("%   Do not hand-edit. DRAFT STATE --- ratify on read.")
+    w("%   Do not hand-edit. DRAFT STATE --- ratify on read. 2026-09-30: ASP reduction added; MTTC at a target host.")
     w(r"\begin{table}[H]")
     w(r"  \centering")
-    w(r"  \caption[Defence mechanisms and deployment strategies against %s, with intervals]{Each defence mechanism and deployment strategy deployed every %s\,s against %s, with the rank of Table~\ref{tab:eff-cross-arm}, on the metrics of Table~\ref{tab:metrics}; the first row is the no-MTD reference. MTTC is over the runs that compromise a host, with their percentage of all runs in brackets. Brackets on NCR reduction: a 95\,\%% percentile bootstrap interval; $\pm$: a 95\,\%% interval on the mean (normal approximation).}" % (LABEL[arm], fmt_thousands(int(iv)), who))
+    w(r"  \caption[Defence mechanisms and deployment strategies against %s, with intervals]{Each defence mechanism and deployment strategy deployed every %s\,s against %s, with the rank of Table~\ref{tab:eff-cross-arm}, on the metrics of Table~\ref{tab:metrics}; the first row is the no-MTD reference. A dash marks an MTTC with no run to take it over. Brackets: a 95\,\%% percentile bootstrap interval; $\pm$: a 95\,\%% interval on the mean (normal approximation).}" % (LABEL[arm], fmt_thousands(int(iv)), who))
     w(r"  \label{tab:full-%s}" % arm)
-    w(r"  \tablestyle\scriptsize\setlength{\tabcolsep}{4pt}")
+    w(r"  \tablestyle\scriptsize\setlength{\tabcolsep}{3pt}")
     C = r">{\centering\arraybackslash}p{%s}"
-    extra = False  # attack actions blocked cut from the metric set (Marc 2026-09-25)
-    w(r"  \begin{tabular}{@{}P{3.4cm}%s%s%s%s%s%s@{}}" % (C % "0.7cm", C % "1.0cm", C % "1.6cm", C % "2.8cm",
-                                                        C % "2.9cm", (C % "1.9cm") if extra else ""))
+    w(r"  \begin{tabular}{@{}P{3.0cm}%s%s%s%s%s%s@{}}" % (C % "0.7cm", C % "0.6cm", C % "2.3cm", C % "1.6cm",
+                                                        C % "2.3cm", C % "2.2cm"))
     w(r"    \toprule")
-    w(r"    MTD & Rank & ASP & NCR & MTTC (s) & NCR reduction%s \\" % (" & Attack actions blocked" if extra else ""))
+    w(r"    MTD & Rank & ASP & ASP reduction & NCR & NCR reduction & MTTC (s) \\")
     w(r"    \midrule")
 
     def pm(d, nd=2, scale=1.0):
         return r"$%.*f \pm %.*f$" % (nd, d["mean"] / scale, nd, d["ci95"] / scale)
 
-    def mttc(delay):
-        if not delay["observed"]:
+    def mttc(iv_):
+        if not iv_:
             return "---"
-        return r"$%s \pm %s$ (%d)" % (fmt_thousands(delay["observed"]["mean"]), fmt_thousands(delay["observed"]["ci95"]),
-                                      round(100 * (1 - delay["censored_share"])))
+        return r"$%s \pm %s$" % (fmt_thousands(iv_["mean"]), fmt_thousands(iv_["ci95"]))
+
+    def red(d):
+        return r"%s [%s, %s]" % (_num(d["point"]), _num(d["lo"]), _num(d["hi"]))
 
     n = blk["none"]
-    w("    no MTD & --- & %.2f & %s & %s & ---%s \\\\" % (n["asp"], pm(n["hosts"], scale=N_HOSTS), mttc(n["delay"]),
-                                                         (" & " + pm(n["blocked"])) if extra else ""))
+    w("    no MTD & --- & %.2f & --- & %s & --- & %s \\\\" % (n["asp"], pm(n["hosts"], scale=N_HOSTS), mttc(n["mttc"])))
     w(r"    \midrule")
     for c in order:
         d = blk["rows"][c]
-        red = r"%s [%s, %s]" % (_num(d["point"]), _num(d["lo"]), _num(d["hi"]))
-        w("    %s & %d & %.2f & %s & %s & %s%s \\\\" % (LONG[c], d["rank"], d["asp"], pm(d["hosts"], scale=N_HOSTS),
-                                                    mttc(d["delay"]), red, (" & " + pm(d["blocked"])) if extra else ""))
+        w("    %s & %d & %.2f & %s & %s & %s & %s \\\\" % (LONG[c], d["rank"], d["asp"], red(d["asp_reduction"]),
+                                                          pm(d["hosts"], scale=N_HOSTS), red(d["ncr_reduction"]),
+                                                          mttc(d["mttc"])))
     w(r"    \bottomrule")
     w(r"  \end{tabular}")
     w(r"\end{table}")
@@ -479,6 +488,8 @@ def main() -> None:
     if "sanity" in data and (not data["sanity"]["all_cells_100"] or data["sanity"]["error_rows"]):
         raise SystemExit("corpus sanity failed; not drawing from it")
     sweep = data["sweep"]
+    global YLABEL
+    YLABEL = sweep.get("metric", "ncr reduction").replace("asp", "ASP").replace("ncr", "NCR")
     yr = _yrange(_all_points(sweep))
     print(f"intervals {sweep['intervals']}; shared y range {yr}")
     for name, stem, fn in (("headline", STEM_HEAD, emit_headline), ("mechanisms", STEM_MECH, emit_mechanisms),
