@@ -5836,14 +5836,14 @@ compromise: the time from the deployment's completion to the next
 compromise, less the same time on the same seed's run with no MTD. A deployment
 that completes at 6\,000\,s, with the next compromise at 6\,900\,s against
 6\,400\,s with no MTD, costs the attacker 500\,s:
-\begin{equation}
-  \begin{split}
-  \text{time lost per MTD deployment} = \operatorname*{mean}_{\text{deployments}}
-  \bigl( &\text{time to the next compromise} \\
-         &- \text{the same with no MTD} \bigr).
-  \end{split}
+% [2026-09-30, Marc: "the equation is not formatted well"] The name on its own
+%  line and the right-hand side whole on the next, so no bracket breaks.
+\begin{multline}
+  \text{time lost per MTD deployment} \\
+  = \operatorname*{mean}_{\text{deployments}}
+  \bigl( \text{time to the next compromise} - \text{the same with no MTD} \bigr).
   \label{eq:time-lost}
-\end{equation}
+\end{multline}
 Each time is counted up to the next deployment, so a deployment is charged only
 its own cost; a mean of such times is a restricted mean
 \citep[Methods, Eq.~1]{royston2013}.
