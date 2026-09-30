@@ -22,6 +22,12 @@
     "hi": 0.017235507036926466
    },
    "actions_per_run": 170.72,
+   "blocked_per_deployment": {
+    "point": 0.3547776726584674,
+    "lo": 0.33502192664106833,
+    "hi": 0.37511909821171474
+   },
+   "deployments_per_run": 7.9275,
    "wait_with_mtd": 1593.0853391988728,
    "wait_no_mtd": 1280.4937095370606,
    "time_lost": 312.5916296618124,
@@ -295,6 +301,12 @@
     "hi": 0.015893138601630084
    },
    "actions_per_run": 202.4825,
+   "blocked_per_deployment": {
+    "point": 0.38435054773082944,
+    "lo": 0.366560413735147,
+    "hi": 0.403125
+   },
+   "deployments_per_run": 7.9875,
    "wait_with_mtd": 1487.195094222829,
    "wait_no_mtd": 1280.879324033454,
    "time_lost": 206.31577018937529,
@@ -568,6 +580,12 @@
     "hi": 0.01597023862275985
    },
    "actions_per_run": 202.9975,
+   "blocked_per_deployment": {
+    "point": 0.3877423389618512,
+    "lo": 0.36906045282207633,
+    "hi": 0.405
+   },
+   "deployments_per_run": 7.995,
    "wait_with_mtd": 1491.8035849939242,
    "wait_no_mtd": 1279.3632848392147,
    "time_lost": 212.44030015470935,
@@ -841,6 +859,12 @@
     "hi": 0.00552040370238917
    },
    "actions_per_run": 242.14,
+   "blocked_per_deployment": {
+    "point": 0.15677562678514756,
+    "lo": 0.1442035530665519,
+    "hi": 0.1697917282292955
+   },
+   "deployments_per_run": 7.8775,
    "wait_with_mtd": 1293.7908853121785,
    "wait_no_mtd": 1279.6421628761427,
    "time_lost": 14.148722436035829,
@@ -1114,6 +1138,12 @@
     "hi": 0.005272580648405319
    },
    "actions_per_run": 241.07,
+   "blocked_per_deployment": {
+    "point": 0.15054452274183217,
+    "lo": 0.13846602402696395,
+    "hi": 0.16308186195826646
+   },
+   "deployments_per_run": 7.805,
    "wait_with_mtd": 1272.9664317629079,
    "wait_no_mtd": 1281.3575180021978,
    "time_lost": -8.391086239289915,
@@ -1387,6 +1417,12 @@
     "hi": 0.00535498790051251
    },
    "actions_per_run": 244.6825,
+   "blocked_per_deployment": {
+    "point": 0.15362595419847327,
+    "lo": 0.14122025145936237,
+    "hi": 0.16576478973801823
+   },
+   "deployments_per_run": 7.86,
    "wait_with_mtd": 1331.5177883888937,
    "wait_no_mtd": 1279.9747801661465,
    "time_lost": 51.543008222747,
@@ -1660,6 +1696,12 @@
     "hi": 0.0004893376940270622
    },
    "actions_per_run": 238.9775,
+   "blocked_per_deployment": {
+    "point": 0.010869565217391304,
+    "lo": 0.007283032926020752,
+    "hi": 0.014850097861395463
+   },
+   "deployments_per_run": 7.82,
    "wait_with_mtd": 1250.8586072655285,
    "wait_no_mtd": 1285.519542529791,
    "time_lost": -34.660935264262534,
@@ -1933,6 +1975,12 @@
     "hi": 0.1309693299037339
    },
    "actions_per_run": 62.54,
+   "blocked_per_deployment": {
+    "point": 0.10626666666666666,
+    "lo": 0.09986666666666667,
+    "hi": 0.11280083333333332
+   },
+   "deployments_per_run": 75.0,
    "wait_with_mtd": 199.68019873160085,
    "wait_no_mtd": 189.20636993199253,
    "time_lost": 10.473828799608327,
@@ -1955,6 +2003,12 @@
     "hi": 0.13293331956468513
    },
    "actions_per_run": 72.76,
+   "blocked_per_deployment": {
+    "point": 0.12573333333333334,
+    "lo": 0.11809916666666666,
+    "hi": 0.1331675
+   },
+   "deployments_per_run": 75.0,
    "wait_with_mtd": 199.63421588082724,
    "wait_no_mtd": 189.16284519967527,
    "time_lost": 10.471370681151983,
@@ -1977,6 +2031,12 @@
     "hi": 0.1308516543325908
    },
    "actions_per_run": 73.925,
+   "blocked_per_deployment": {
+    "point": 0.12573333333333334,
+    "lo": 0.1184,
+    "hi": 0.13296916666666667
+   },
+   "deployments_per_run": 75.0,
    "wait_with_mtd": 199.64682746957916,
    "wait_no_mtd": 189.20636993199253,
    "time_lost": 10.440457537586635,
@@ -1999,6 +2059,12 @@
     "hi": 0.05263897544989455
    },
    "actions_per_run": 256.0375,
+   "blocked_per_deployment": {
+    "point": 0.174574332054647,
+    "lo": 0.16907867779104543,
+    "hi": 0.18028978192949216
+   },
+   "deployments_per_run": 74.295,
    "wait_with_mtd": 192.63056736248328,
    "wait_no_mtd": 189.23953428035497,
    "time_lost": 3.3910330821283456,
@@ -2021,6 +2087,12 @@
     "hi": 0.051148036261510134
    },
    "actions_per_run": 251.66,
+   "blocked_per_deployment": {
+    "point": 0.16888297872340424,
+    "lo": 0.16348554421680553,
+    "hi": 0.17475665956110673
+   },
+   "deployments_per_run": 73.32,
    "wait_with_mtd": 190.63889256919288,
    "wait_no_mtd": 189.37945946539702,
    "time_lost": 1.2594331037958735,
@@ -2043,6 +2115,12 @@
     "hi": 0.05208420949552208
    },
    "actions_per_run": 259.325,
+   "blocked_per_deployment": {
+    "point": 0.1744221156104271,
+    "lo": 0.16872287181031412,
+    "hi": 0.18049622178056118
+   },
+   "deployments_per_run": 74.5175,
    "wait_with_mtd": 193.94096239841406,
    "wait_no_mtd": 189.19955799197805,
    "time_lost": 4.7414044064359855,
@@ -2065,6 +2143,12 @@
     "hi": 0.003318804773649932
    },
    "actions_per_run": 239.13,
+   "blocked_per_deployment": {
+    "point": 0.009676979691972195,
+    "lo": 0.008547870611813021,
+    "hi": 0.010949158111665113
+   },
+   "deployments_per_run": 73.37,
    "wait_with_mtd": 187.33960263313637,
    "wait_no_mtd": 189.25383771584507,
    "time_lost": -1.914235082708696,
@@ -2094,6 +2178,12 @@
     "hi": 0.020428019903794437
    },
    "actions_per_run": 268.92,
+   "blocked_per_deployment": {
+    "point": 1.0,
+    "lo": 1.0,
+    "hi": 1.0
+   },
+   "deployments_per_run": 5.31,
    "wait_with_mtd": 472.60667834970525,
    "wait_no_mtd": 469.3113502612967,
    "time_lost": 3.2953280884086285,
@@ -2367,6 +2457,12 @@
     "hi": 0.019812283068381672
    },
    "actions_per_run": 331.56,
+   "blocked_per_deployment": {
+    "point": 1.0,
+    "lo": 1.0,
+    "hi": 1.0
+   },
+   "deployments_per_run": 6.42,
    "wait_with_mtd": 450.992962998062,
    "wait_no_mtd": 449.76394501744187,
    "time_lost": 1.2290179806201378,
@@ -2640,6 +2736,12 @@
     "hi": 0.019715711725529304
    },
    "actions_per_run": 321.37,
+   "blocked_per_deployment": {
+    "point": 1.0,
+    "lo": 1.0,
+    "hi": 1.0
+   },
+   "deployments_per_run": 6.18,
    "wait_with_mtd": 461.12516660818716,
    "wait_no_mtd": 454.44345781481485,
    "time_lost": 6.681708793372291,
@@ -2913,6 +3015,12 @@
     "hi": 0.01960434529453276
    },
    "actions_per_run": 287.7,
+   "blocked_per_deployment": {
+    "point": 0.9524647887323944,
+    "lo": 0.9342059576023392,
+    "hi": 0.9691271565117956
+   },
+   "deployments_per_run": 5.68,
    "wait_with_mtd": 442.4643577958802,
    "wait_no_mtd": 445.6868487359551,
    "time_lost": -3.2224909400749127,
@@ -3186,6 +3294,12 @@
     "hi": 0.019864891301161935
    },
    "actions_per_run": 290.9,
+   "blocked_per_deployment": {
+    "point": 0.948892674616695,
+    "lo": 0.930725686962219,
+    "hi": 0.966454811330347
+   },
+   "deployments_per_run": 5.87,
    "wait_with_mtd": 396.44359160984845,
    "wait_no_mtd": 432.2557776136363,
    "time_lost": -35.812186003787886,
@@ -3459,6 +3573,12 @@
     "hi": 0.020290327046614643
    },
    "actions_per_run": 351.45,
+   "blocked_per_deployment": {
+    "point": 0.9611650485436893,
+    "lo": 0.9476723598392516,
+    "hi": 0.974667088607595
+   },
+   "deployments_per_run": 7.21,
    "wait_with_mtd": 958.7017215670841,
    "wait_no_mtd": 440.69778277638636,
    "time_lost": 518.0039387906976,
@@ -3732,6 +3852,12 @@
     "hi": 0.0017662535993746356
    },
    "actions_per_run": 302.81,
+   "blocked_per_deployment": {
+    "point": 0.0702054794520548,
+    "lo": 0.050089368196971525,
+    "hi": 0.09121089903323315
+   },
+   "deployments_per_run": 5.84,
    "wait_with_mtd": 456.8070838535645,
    "wait_no_mtd": 445.63622363391147,
    "time_lost": 11.170860219653163,
@@ -4005,6 +4131,12 @@
     "hi": 0.17840888070104885
    },
    "actions_per_run": 324.6,
+   "blocked_per_deployment": {
+    "point": 1.0,
+    "lo": 1.0,
+    "hi": 1.0
+   },
+   "deployments_per_run": 56.2,
    "wait_with_mtd": 193.51003729909166,
    "wait_no_mtd": 158.29074190376298,
    "time_lost": 35.21929539532872,
@@ -4027,6 +4159,12 @@
     "hi": 0.1642651637254345
    },
    "actions_per_run": 393.13,
+   "blocked_per_deployment": {
+    "point": 1.0,
+    "lo": 1.0,
+    "hi": 1.0
+   },
+   "deployments_per_run": 63.36,
    "wait_with_mtd": 186.46562984186048,
    "wait_no_mtd": 158.20826471902748,
    "time_lost": 28.25736512283297,
@@ -4049,6 +4187,12 @@
     "hi": 0.16398226682909742
    },
    "actions_per_run": 393.96,
+   "blocked_per_deployment": {
+    "point": 1.0,
+    "lo": 1.0,
+    "hi": 1.0
+   },
+   "deployments_per_run": 63.36,
    "wait_with_mtd": 186.02160274839778,
    "wait_no_mtd": 158.24726648315072,
    "time_lost": 27.774336265247054,
@@ -4071,6 +4215,12 @@
     "hi": 0.4490440761941721
    },
    "actions_per_run": 167.74,
+   "blocked_per_deployment": {
+    "point": 0.990978676872608,
+    "lo": 0.9876260928043039,
+    "hi": 0.9937107992379617
+   },
+   "deployments_per_run": 73.16,
    "wait_with_mtd": 197.82602818449973,
    "wait_no_mtd": 157.90704396163486,
    "time_lost": 39.91898422286485,
@@ -4093,6 +4243,12 @@
     "hi": 0.3540909263673986
    },
    "actions_per_run": 200.47,
+   "blocked_per_deployment": {
+    "point": 0.9702999268471104,
+    "lo": 0.9633405679362568,
+    "hi": 0.9768316476528847
+   },
+   "deployments_per_run": 68.35,
    "wait_with_mtd": 193.61679705547851,
    "wait_no_mtd": 157.82979569665147,
    "time_lost": 35.78700135882702,
@@ -4115,6 +4271,12 @@
     "hi": 0.4091262882781963
    },
    "actions_per_run": 192.09,
+   "blocked_per_deployment": {
+    "point": 0.98731957372184,
+    "lo": 0.9831177401759568,
+    "hi": 0.990943681721329
+   },
+   "deployments_per_run": 74.13,
    "wait_with_mtd": 197.98104089511162,
    "wait_no_mtd": 157.48295703714396,
    "time_lost": 40.49808385796767,
@@ -4137,6 +4299,12 @@
     "hi": 0.02194154626878832
    },
    "actions_per_run": 297.97,
+   "blocked_per_deployment": {
+    "point": 0.09139586410635155,
+    "lo": 0.07412492683609426,
+    "hi": 0.11741782740628207
+   },
+   "deployments_per_run": 54.16,
    "wait_with_mtd": 158.90947262005002,
    "wait_no_mtd": 157.60497703689038,
    "time_lost": 1.3044955831596436,

@@ -225,7 +225,7 @@ def emit_fig_a(core: dict) -> tuple[str, dict]:
     cols = [(p, X0 + j * cw, cw) for j, p in enumerate(FOUR)]
     xb = X0 + len(FOUR) * cw + GAP
     n_rows = sum(len(ts) for _, _, ts in GROUPS)
-    MY0 = 4.95
+    MY0 = 4.75
     MY1 = MY0 + n_rows * ch + (len(GROUPS) - 1) * GG
     # headers
     w(r"\node[anchor=south] at (%.3f,%.3f) {%s};" % (X0 + len(FOUR) * cw / 2, MY1 + 0.42, LABEL["movement"]))
@@ -265,10 +265,12 @@ def emit_fig_a(core: dict) -> tuple[str, dict]:
 
     # ---- (b) distinct attack paths, (c) attack confidentiality, side by side ----
     # 2026-09-30 (Marc: attack confidentiality "as a panel (c) ... it doesn't need
-    # full width"; the count-in-window detector of section 4.5.1 gives one share
-    # per attacker, so the over-the-run Figure 5.2 is retired). (b) is lines, not
-    # bars: forty bars do not read at half width.
-    YB0, YB1 = 0.0, 2.8
+    # full width"). (b) is lines, not bars: forty bars do not read at half width.
+    # Scrutiny round, 2026-09-30 (Marc; cold readers and critics): (b)'s axis names
+    # the run count, the count's ceiling; (c) is a dot per attacker on a truncated
+    # axis (bars on 0-100 read as five equal bars), the baseline attacker its dashed
+    # grey line; one key spans (b) and (c), under their titles (conventions §o).
+    YB0, YB1 = 0.0, 3.0
     XB0, XB1 = 1.5, 8.3
     XC0, XC1 = 10.1, 15.6
     ks = list(range(1, kmax + 1))
@@ -282,42 +284,46 @@ def emit_fig_a(core: dict) -> tuple[str, dict]:
 
     axes(w, XB0, XB1, YB0, YB1,
          xticks=[(k, xb_(k)) for k in ks],
-         yticks=[(v, yb(v)) for v in range(0, nruns + 1, 25)],
+         yticks=[(v, yb(v)) for v in range(0, nruns + 1, nruns // 4)],
          xlabel=r"First $k$ steps", ylabel="")
-    w(r"\node[rotate=90,anchor=south,align=center] at (%.3f,%.3f) {Distinct attack paths};" % (XB0 - 0.8, (YB0 + YB1) / 2))
+    w(r"\node[rotate=90,anchor=south,align=center] at (%.3f,%.3f) {Distinct attack paths\\(of %s runs)};"
+      % (XB0 - 0.8, (YB0 + YB1) / 2, fmt_thousands(nruns)))
     for p in SERIES:
         pts = [(xb_(k), yb(paths[p][str(k)])) for k in ks]
         style = BASE_STYLE if p == "baseline" else "%s,line width=0.7pt" % CNAME[p]
         w(r"\draw[%s] %s;" % (style, " -- ".join("(%.3f,%.3f)" % q for q in pts)))
         for x, yv in pts:
             marker(w, "square" if p == "baseline" else MARK[p], CNAME[p], x, yv, r=0.07 if p == "baseline" else 0.08)
-    # (b)'s key decodes (b) only, so it sits under (b)'s title (conventions §o); two rows
-    key_top = YB1 + 0.3 + KEY_H
-    key_row(w, XB0, key_top, [(LABEL[p], "dashed" if p == "baseline" else "line", CNAME[p],
-                               "square" if p == "baseline" else MARK[p]) for p in SERIES], xmax=XB1)
-    title_y = key_top + KEY_H / 2 + 0.05
-    panel_title(w, XB0, title_y, "Distinct attack paths", "b")
+
+    lo_c = min(conf[p]["lo"] for p in SERIES)
+    C0 = 5 * int(100 * lo_c // 5) - (5 if (100 * lo_c) % 5 < 1.5 else 0)   # a clear floor below the lowest interval
+    C0 = min(C0, 80)
 
     def yc(v):
-        return YB0 + v * (YB1 - YB0)
+        return YB0 + (100 * v - C0) / (100 - C0) * (YB1 - YB0)
 
-    slot = (XC1 - XC0) / len(SERIES)
+    slot = (XC1 - XC0) / len(FOUR)
     axes(w, XC0, XC1, YB0, YB1,
-         xticks=[(p, XC0 + (n + 0.5) * slot) for n, p in enumerate(SERIES)],
-         yticks=[(v, yc(v / 100)) for v in range(0, 101, 25)],
-         xlabel="", ylabel="",
-         xfmt=lambda p: (r"\shortstack{baseline\\attacker}" if p == "baseline" else LABEL[p]))
-    w(r"\node[rotate=90,anchor=south,align=center] at (%.3f,%.3f) {Attack confidentiality (\%%)};" % (XC0 - 0.8, (YB0 + YB1) / 2))
-    for n, p in enumerate(SERIES):
+         xticks=[(p, XC0 + (n + 0.5) * slot) for n, p in enumerate(FOUR)],
+         yticks=[(v, yc(v / 100)) for v in range(C0, 101, 5)],
+         xlabel="", ylabel="", xfmt=lambda p: LABEL[p])
+    w(r"\node[rotate=90,anchor=south,align=center] at (%.3f,%.3f) {Attack\\confidentiality (\%%)};" % (XC0 - 0.8, (YB0 + YB1) / 2))
+    cb = conf["baseline"]
+    w(r"\draw[%s] (%.3f,%.3f) -- (%.3f,%.3f);" % (BASE_STYLE, XC0, yc(cb["point"]), XC1, yc(cb["point"])))
+    w(r"\node[anchor=south east,font=\scriptsize,text=cbase] at (%.3f,%.3f) {%d};" % (XC1 - 0.03, yc(cb["point"]) + 0.02, round(100 * cb["point"])))
+    for n, p in enumerate(FOUR):
         c = conf[p]
-        x0, bwid = XC0 + (n + 0.18) * slot, 0.64 * slot
-        if p == "baseline":  # the baseline attacker's bar is hatched in every figure
-            w(r"\fill[pattern=north east lines,pattern color=%s] (%.3f,%.3f) rectangle ++(%.3f,%.3f);" % (CNAME[p], x0, YB0, bwid, c["point"] * (YB1 - YB0)))
-            w(r"\draw[%s,line width=0.3pt] (%.3f,%.3f) rectangle ++(%.3f,%.3f);" % (CNAME[p], x0, YB0, bwid, c["point"] * (YB1 - YB0)))
-        else:
-            w(r"\fill[%s] (%.3f,%.3f) rectangle ++(%.3f,%.3f);" % (CNAME[p], x0, YB0, bwid, c["point"] * (YB1 - YB0)))
-        errorbar(w, x0 + bwid / 2, yc(c["lo"]), yc(c["hi"]))
-        w(r"\node[anchor=south,font=\scriptsize] at (%.3f,%.3f) {%d};" % (x0 + bwid / 2, yc(c["hi"]) + 0.02, round(100 * c["point"])))
+        x = XC0 + (n + 0.5) * slot
+        errorbar(w, x, yc(c["lo"]), yc(c["hi"]), col=CNAME[p])
+        marker(w, MARK[p], CNAME[p], x, yc(c["point"]), r=0.09)
+        w(r"\node[anchor=west,font=\scriptsize] at (%.3f,%.3f) {%d};" % (x + 0.14, yc(c["point"]), round(100 * c["point"])))
+
+    # one key for (b) and (c), under their titles (conventions §o)
+    key_y = YB1 + 0.3
+    key_row(w, XB0, key_y, [(LABEL[p], "dashed" if p == "baseline" else "line", CNAME[p],
+                             "square" if p == "baseline" else MARK[p]) for p in SERIES], xmax=XC1)
+    title_y = key_y + KEY_H / 2 + 0.05
+    panel_title(w, XB0, title_y, "Distinct attack paths", "b")
     panel_title(w, XC0, title_y, r"Attack confidentiality", "c")
     w(r"\end{tikzpicture}")
     w(r"\end{document}")
@@ -331,6 +337,26 @@ def emit_fig_a(core: dict) -> tuple[str, dict]:
         "kmax": kmax, "nruns": core["table"][FOUR[0]]["n"],
     }
     return "\n".join(L) + "\n", facts
+
+
+def _place(hw: float) -> int:
+    """The precision rule (Marc 2026-09-30, every table): a column is rounded to
+    the place of its widest interval's half-width at one significant figure (two
+    when that figure is a 1), so values within a column align."""
+    import math
+    place = math.floor(math.log10(hw)) if hw > 0 else -2
+    if hw > 0 and int(round(hw / 10.0 ** place, 6)) == 1:
+        place -= 1
+    return place
+
+
+def _prec(mean: float, hw: float, place: int) -> str:
+    nd = max(0, -place)
+    q = 10.0 ** place
+    m, h = round(mean / q) * q, round(hw / q) * q
+    if nd == 0:
+        return "$%s \\pm %s$" % (fmt_thousands(int(round(m))), fmt_thousands(int(round(h))))
+    return "$%.*f \\pm %.*f$" % (nd, m, nd, h)
 
 
 def _pm(iv: dict, nd: int = 1) -> str:
@@ -363,28 +389,40 @@ def emit_table(core: dict) -> str:
     w("% Caption session-written, how-to-read only. DRAFT STATE --- ratify on read.")
     w(r"\begin{table}[htbp]")
     w(r"  \centering")
-    w(r"  \caption[Both attackers with no MTD running]{The attack outcome and the attack rate (Table~\ref{tab:metrics}) with no MTD running, for the baseline attacker and for the APT attacker model on each attack profile and on the aggregate $c_{\mathrm{agg}}$, under the setup of Table~\ref{tab:experiment}. Means with a 95\,\% interval.}")
+    w(r"  \caption[Both attackers with no MTD running]{The attack outcome and the attack rate (Table~\ref{tab:metrics}) with no MTD running, for the baseline attacker and for the APT attacker model on each attack profile and on the aggregate $c_{\mathrm{agg}}$, under the setup of Table~\ref{tab:experiment}. Values $\pm$ the half-width of a 95\,\% interval, each to the place of its interval's first significant figure; MTTC is taken over the runs that compromise a target host, whose share of all runs is the ASP.}")
     w(r"  \label{tab:unopposed-summary}")
     # one header row (2026-09-24, Marc: the class headers read loose; Table 4.3
     # carries the classes), full text width
-    w(r"  \tablestyle\setlength{\tabcolsep}{3pt}")
-    w(r"  \begin{tabular}{@{}P{3.4cm}>{\centering\arraybackslash}p{2.3cm}>{\centering\arraybackslash}p{2.6cm}>{\centering\arraybackslash}p{2.8cm}>{\centering\arraybackslash}p{4.1cm}@{}}")
+    # natural width, the house table style (scrutiny round 2026-09-30: it was
+    # stretched to the text width); the attacker model is a group label row
+    w(r"  \tablestyle\rowcolors{1}{}{}")
+    w(r"  \begin{tabular}{@{}lcccc@{}}")
     w(r"    \toprule")
     w(r"    Attacker & ASP & NCR & MTTC (s) & Attack rate (per minute) \\")
     w(r"    \midrule")
 
-    def row(name: str, p: str) -> str:
+    def cells(p: str) -> dict:
         o = m[p]["outcome"]
         n = t[p]["n"]  # a 95 % interval on a share of runs (normal approximation), as on the other columns
-        asp = {"mean": o["asp"], "ci95": 1.96 * (o["asp"] * (1 - o["asp"]) / n) ** 0.5}
-        return "    %s & %s & %s & %s & %s \\\\" % (
-            name, _pm(asp, 2), _pm(o["ncr"], 2), _pm_thousands(o["mttc"]), _pm(m[p]["attack_rate"], 2))
+        return {"asp": (o["asp"], 1.96 * (o["asp"] * (1 - o["asp"]) / n) ** 0.5),
+                "ncr": (o["ncr"]["mean"], o["ncr"]["ci95"]),
+                "mttc": None if o["mttc"] is None else (o["mttc"]["mean"], o["mttc"]["ci95"]),
+                "rate": (m[p]["attack_rate"]["mean"], m[p]["attack_rate"]["ci95"])}
 
-    w(r"    \emph{%s} & & & & \\" % LABEL["movement"])
+    rows = {p: cells(p) for p in (*PROFILES, "baseline")}
+    place = {k: _place(max(r[k][1] for r in rows.values() if r[k] is not None))
+             for k in ("asp", "ncr", "mttc", "rate")}
+
+    def row(name: str, p: str) -> str:
+        r = rows[p]
+        f = {k: ("---" if r[k] is None else _prec(*r[k], place[k])) for k in r}
+        return "    %s & %s & %s & %s & %s \\\\" % (name, f["asp"], f["ncr"], f["mttc"], f["rate"])
+
+    w(r"    \multicolumn{5}{@{}l}{\textit{%s}} \\" % LABEL["movement"])
     for p in PROFILES:
         w(row(r"\quad " + LABEL[p], p))
     w(r"    \midrule")
-    w(row(r"\emph{baseline attacker}", "baseline"))
+    w(row(r"Baseline attacker", "baseline"))
     w(r"    \bottomrule")
     w(r"  \end{tabular}")
     w(r"\end{table}")

@@ -8,7 +8,7 @@ docs/handoffs/2026-09-30_disruption_metrics.md). The compromise rate after an MT
 deployment is retired with its reader, disruption.py; time_lost.py is the reader.
 
   (a) attack actions blocked per run and (b) time lost per MTD deployment, for
-      each defence mechanism deployed alone, both attackers, on one mechanism axis
+      each MTD mechanism deployed alone, both attackers, on one mechanism axis
       (2026-09-30, Marc: the former (a), (b), the share of deployments followed by
       a compromise within t, is no metric of Table 4.3, so it went).
   Table: attack actions blocked per run and time lost per MTD deployment, per MTD
@@ -25,6 +25,7 @@ docs/thesis/tables/tab_5-3-1b_disruption.tex
 from __future__ import annotations
 
 import argparse
+import math
 import json
 import sys
 from pathlib import Path
@@ -53,7 +54,7 @@ def _bars(w, tl, X0, X1, BY0, BH, key: str, lohi, *, step: float, fmt, ylabel: s
     lo_v = min(lohi(v)[0] for v in tl.values())
     hi_v = max(lohi(v)[1] for v in tl.values())
     Y0 = -step * (int(-lo_v // step) + 1) if lo_v < 0 else 0.0
-    Y1 = step * (int(hi_v // step) + 1)
+    Y1 = step * math.ceil(round(hi_v / step, 6))  # no empty tick above the data (a count per deployment tops at 1)
 
     def yb(v):
         return BY0 + (max(Y0, min(Y1, v)) - Y0) / (Y1 - Y0) * BH
@@ -90,10 +91,10 @@ def emit(d: dict) -> tuple[str, list[str]]:
     """Figure 5.3 (rebuilt 2026-09-30 on Marc's read: the share of deployments
     followed by a compromise is no metric of Table 4.3, so its two panels go):
     (a) attack actions blocked and (b) time lost per MTD deployment, each for
-    every defence mechanism deployed alone, both attackers, on one mechanism axis."""
+    every MTD mechanism deployed alone, both attackers, on one mechanism axis."""
     C = d["cells"]
     tl = {(a, m): C[f"{a}|{m}|{INTERVAL}"] for a, _, _ in ARMS for m in PANEL_SINGLES}
-    X0, X1 = 1.45, 15.2
+    X0, X1 = 1.45, 16.0   # packs to the chapter's 15.7 cm (conventions §h)
     L: list[str] = []
     w = L.append
     L += PREAMBLE
@@ -101,20 +102,21 @@ def emit(d: dict) -> tuple[str, list[str]]:
     facts: list[str] = []
 
     # ---- (a) attack actions blocked (top), (b) time lost (bottom) ----
-    # (a) as a share of the attacker's actions (Marc 2026-09-30: per run, the
-    # faster attacker simply has more actions to block)
-    BY0, BH = 1.55, 2.9
+    # (a) attack actions blocked per MTD deployment, the metric as section 4.5.3
+    # defines it (Marc 2026-09-30: "we define these metrics ... then we present
+    # something that doesn't even exist"); the same unit as (b)
+    BY0, BH = 1.55, 3.0
     AY0 = BY0 + BH + 0.95
     _bars(w, tl, X0, X1, AY0, BH,
-          key=lambda v: 100 * v["blocked_share"]["point"],
-          lohi=lambda v: (100 * v["blocked_share"]["lo"], 100 * v["blocked_share"]["hi"]),
-          step=0.5, fmt=lambda v: ("%.1f" % v).rstrip("0").rstrip("."), ylabel=r"Share of actions (\%)",
+          key=lambda v: v["blocked_per_deployment"]["point"],
+          lohi=lambda v: (v["blocked_per_deployment"]["lo"], v["blocked_per_deployment"]["hi"]),
+          step=0.25, fmt=lambda v: ("%.2f" % v).rstrip("0").rstrip("."), ylabel=r"Actions blocked",
           facts=facts, tag="a")
-    a_top = panel_title(w, X0, AY0 + BH, "Attack actions blocked, by defence mechanism", "a")
+    a_top = panel_title(w, X0, AY0 + BH, "Attack actions blocked per MTD deployment", "a")
     _bars(w, tl, X0, X1, BY0, BH,
           key=lambda v: v["time_lost"], lohi=lambda v: tuple(v["time_lost_ci95"]),
-          step=200.0, fmt=signed, ylabel=r"Seconds", facts=facts, tag="b")
-    panel_title(w, X0, BY0 + BH, "Time lost per MTD deployment, by defence mechanism", "b")
+          step=200.0, fmt=signed, ylabel=r"Time lost (s)", facts=facts, tag="b")
+    panel_title(w, X0, BY0 + BH, "Time lost per MTD deployment", "b")
     # the mechanism names once, under (b), with the layer brackets
     slot = (X1 - X0) / len(PANEL_SINGLES)
     for i, m in enumerate(PANEL_SINGLES):
@@ -144,43 +146,51 @@ def emit(d: dict) -> tuple[str, list[str]]:
     return "\n".join(L) + "\n", facts
 
 
+def _r10(x: float) -> str:
+    """Whole tens of seconds: the precision rule (a value to the place of its
+    interval's first significant figure; time lost's half-widths are 30-70 s)."""
+    v = "%d" % (10 * round(x / 10))
+    return ("$-$" + v[1:]) if v.startswith("-") else v
+
+
 def emit_table(d: dict) -> str:
+    """Table 5.3: the two metrics of Figure 5.2 with their intervals, rows in the
+    figure's order and grouped by layer as its brackets are (2026-09-30)."""
     C = d["cells"]
-    order = sorted(PANEL_SINGLES, key=lambda m: -C[f"movement|{m}|{INTERVAL}"]["time_lost"])
 
     def tl(c):
-        v = "%d" % round(c["time_lost"])
-        v = ("$-$" + v[1:]) if v.startswith("-") else v
-        lo, hi = ("%d" % round(x) for x in c["time_lost_ci95"])
-        lo = ("$-$" + lo[1:]) if lo.startswith("-") else lo
-        hi = ("$-$" + hi[1:]) if hi.startswith("-") else hi
-        return r"%s [%s, %s]" % (v, lo, hi)
+        lo, hi = c["time_lost_ci95"]
+        return r"%s [%s, %s]" % (_r10(c["time_lost"]), _r10(lo), _r10(hi))
 
     def bl(c):
-        b = c["blocked_share"]
-        return r"%.2f [%.2f, %.2f]" % (100 * b["point"], 100 * b["lo"], 100 * b["hi"])
+        b = c["blocked_per_deployment"]
+        return r"%.2f [%.2f, %.2f]" % (b["point"], b["lo"], b["hi"])
 
     L = [
         "% GENERATED by tools/ch5_disruption_figure.py from data/results/ch5_defended/time_lost_numbers.json",
         "% (time_lost.py). Do not hand-edit; regenerate. 2026-09-30, the disruption metrics of Section 4.5.3;",
-        "% headers are the metrics' names as Table 4.3 gives them.",
+        "% headers are the metrics' names as Table 4.3 gives them; rows as Figure 5.2 orders them.",
         "% DRAFT STATE --- ratify on read.",
         r"\begin{table}[tp]",
         r"  \centering",
-        r"  \caption[What each defence mechanism costs each attacker]{Attack actions blocked and time lost per MTD deployment (Section~\ref{subsec:metrics-effectiveness}) for each defence mechanism deployed alone at the 2\,000\,s deployment interval, for the APT attacker model averaged over its four attack profiles and for the baseline attacker, ordered by the APT attacker model's time lost. Attack actions blocked is a percentage of the attacker's actions; brackets are 95\,\% bootstrap intervals over runs.}",
+        r"  \caption[What each MTD mechanism costs each attacker]{Attack actions blocked per MTD deployment and time lost per MTD deployment (Section~\ref{subsec:metrics-effectiveness}) for each MTD mechanism deployed alone at the 2\,000\,s deployment interval, for the APT attacker model averaged over its four attack profiles and for the baseline attacker, in the order of Figure~\ref{fig:aio-adaptivity}. Brackets are 95\,\% bootstrap intervals over runs.}",
         r"  \label{tab:disruption}",
-        r"  \tablestyle",
-        r"  \begin{tabular}{@{}P{3.9cm}*{4}{>{\centering\arraybackslash}p{2.6cm}}@{}}",
+        r"  \tablestyle\rowcolors{1}{}{}",  # the layer rows separate the rows; zebra would stripe them
+        r"  \begin{tabular}{@{}P{4.4cm}*{4}{>{\centering\arraybackslash}p{2.55cm}}@{}}",
         r"    \toprule",
         r"    & \multicolumn{2}{c}{APT attacker model} & \multicolumn{2}{c}{Baseline attacker} \\",
         r"    \cmidrule(lr){2-3}\cmidrule(lr){4-5}",
         # the metrics' names, verbatim from Table 4.3 (Marc 2026-09-30: "blocked per run ... I don't recognise")
-        r"    Defence mechanism & Attack actions blocked (\%) & Time lost per MTD deployment (s) & Attack actions blocked (\%) & Time lost per MTD deployment (s) \\",
-        r"    \midrule",
+        r"    MTD mechanism & Attack actions blocked per MTD deployment & Time lost per MTD deployment (s) & Attack actions blocked per MTD deployment & Time lost per MTD deployment (s) \\",
     ]
-    for m in order:
+    layer = None
+    for m in PANEL_SINGLES:
+        if LAYER[m] != layer:
+            layer = LAYER[m]
+            L.append(r"    \midrule")
+            L.append(r"    \multicolumn{5}{@{}l}{\textit{%s}} \\" % layer)
         a, b = C[f"movement|{m}|{INTERVAL}"], C[f"baseline|{m}|{INTERVAL}"]
-        L.append(r"    %s & %s & %s & %s & %s \\" % (LONG[m], bl(a), tl(a), bl(b), tl(b)))
+        L.append(r"    \quad %s & %s & %s & %s & %s \\" % (LONG[m], bl(a), tl(a), bl(b), tl(b)))
     L += [r"    \bottomrule", r"  \end{tabular}", r"\end{table}", ""]
     return "\n".join(L)
 

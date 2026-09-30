@@ -80,7 +80,11 @@ def view(r: dict) -> dict:
                 blocked += hit
                 prev_exploit_blocked = hit
             prev = x[0]
+    landings = sorted(float(e[2]) for e in r["mtd_executions"])
     return {
+        # deployments that complete while the attacker is still acting: the
+        # denominator of attack actions blocked per MTD deployment (section 4.5.3)
+        "deployments_in_run": sum(1 for t in landings if t <= end),
         "arm": r["arm"], "profile": r["profile"], "seed": r["seed"], "cond": r["condition"],
         "interval": r["interval"], "end": end, "blocked": blocked, "actions": actions,
         "comp": np.sort(np.minimum(np.array(comp, float), end)),
@@ -158,6 +162,7 @@ def main() -> None:
     none = {(r["arm"], r["profile"], r["seed"]): r for r in runs if r["cond"] == "none"}
     rng = np.random.default_rng(SEED)
     rng_share = np.random.default_rng(SEED + 1)  # its own stream: time lost's intervals unchanged
+    rng_dep = np.random.default_rng(SEED + 2)
     out = {"definition": "time lost per MTD deployment = mean over deployments of (time to the next compromise "
                          "with the MTD - the same from the same moment with no MTD), each capped at the next deployment",
            "cells": {}}
@@ -181,6 +186,11 @@ def main() -> None:
                 # pooled over runs, with a percentile bootstrap over runs
                 idx = rng_share.integers(0, len(rs), (2_000, len(rs)))
                 share_b = bl[idx].sum(1) / na[idx].sum(1)
+                # attack actions blocked per MTD deployment (Marc 2026-09-30: the
+                # metric as section 4.5.3 defines it, drawn as defined)
+                nd = np.array([r["deployments_in_run"] for r in rs], float)
+                idx_d = rng_dep.integers(0, len(rs), (2_000, len(rs)))
+                dep_b = bl[idx_d].sum(1) / nd[idx_d].sum(1)
                 flat = [p for q in per_run for p in q]
                 cell = {
                     "runs": len(rs), "deployments": len(flat), "dropped": dropped,
@@ -188,6 +198,9 @@ def main() -> None:
                     "blocked_share": {"point": float(bl.sum() / na.sum()),
                                       "lo": float(np.percentile(share_b, 2.5)), "hi": float(np.percentile(share_b, 97.5))},
                     "actions_per_run": float(na.mean()),
+                    "blocked_per_deployment": {"point": float(bl.sum() / nd.sum()),
+                                               "lo": float(np.percentile(dep_b, 2.5)), "hi": float(np.percentile(dep_b, 97.5))},
+                    "deployments_per_run": float(nd.mean()),
                     "wait_with_mtd": float(np.mean([a for a, _, _ in flat])),
                     "wait_no_mtd": float(np.mean([b for _, b, _ in flat])),
                     "time_lost": time_lost(per_run), "time_lost_ci95": boot_time_lost(per_run, rng),

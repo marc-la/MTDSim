@@ -96,6 +96,40 @@ it's a finer-grain tool"; "in 5.3.2 you could have ASP reduction and NCR reducti
   count is bounded by it and grows with the seed count); time lost scaled by the
   no-MTD wait.
 
+## Scrutiny round, 2026-09-30 (branch chore/s5-floats-scrutiny)
+
+Nine reviewers on §5.2-5.3 (four cold readers, four context critics, one convention
+reader), then three fresh ones on the changed floats. Marc's rulings applied:
+
+- **"MTD mechanism" dissertation-wide** (terminology row 72 overturned): 43 prose
+  sites, the §2.2.2 and §5.3.3 headings, the generated tables, Figure 4.1's label.
+  Kept: "defence mechanisms such as MTD" (ch3, the concept) and labels.
+- **Attack actions blocked per MTD deployment** (§4.5.3, Table 4.3, Figure 5.2(a),
+  Table 5.3): interrupts over the deployments that complete while the attacker is
+  acting. Host layer 0.35-0.39 (APT) against 1.00; service layer 0.15-0.16 against
+  0.95-0.96. `time_lost.py` `blocked_per_deployment`; time lost unchanged.
+- **Time lost:** one sentence in §4.5.3 and one in §5.3.1 on why it can fall below
+  the penalty or zero (the penalty is paid only by interrupting deployments and is
+  small beside a 1 280 s / 430-470 s wait). The cause of the host layer's cost (the
+  lost position) has no chapter 4 antecedent, so it is not stated in chapter 5.
+- **Figure 5.1:** (b) axis "(of 100 runs)" from the run count, and §4.5.1 says each
+  float gives the number of runs; (c) a dot plot on a truncated axis, the baseline
+  its dashed line; one key under both titles.
+- **Precision rule** (figure_table_conventions.md): a column rounds to its widest
+  interval's half-width at one significant figure (two when it is a 1). Table 5.2
+  (MTTC to 1 000 s at 100 seeds), Table 5.3 (time lost to 10 s), Table 5.5 MTTC.
+- **Table 5.2** natural width with a group row; c_agg kept (Marc: its higher ASP is
+  interesting). **Table 5.3** in the figure's order, grouped by layer.
+- **Figure 5.4** ticks every 0.5; caption decodes a whiskerless 1. **Figure 5.5** the
+  y-axis title on every row.
+- **Prose fixes (verified by a numbers auditor, no mismatches):** the §5.3.3 c_agg
+  sentence (0.69 was 0.67; outside the range under service diversity) replaced by
+  the deployment strategies' split; "not simply reversed" -> "unrelated"; "and more
+  slowly" cut in §5.2 (c2 and c3 MTTC overlap the baseline's).
+- **Not done, by ruling:** Figures 5.5-5.6 whiskers (revisit at 1 000 seeds); the
+  dwell-only confidentiality caveat (stale text, later). **Open:** table captions sit
+  on the top rule (class-level caption skip); Table 5.5 geometry at 2.2 pt.
+
 ## Still open
 
 - **Ruling I, MTD mechanism for defence mechanism:** still unruled. Marc uses

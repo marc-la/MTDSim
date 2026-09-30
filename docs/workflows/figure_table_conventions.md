@@ -599,3 +599,21 @@ Figure C.1 and the chapter 2 and chapter 4 figures are owed or out of scope.
 The open list is in
 [`../handoffs/2026-09-30_results_figure_house_style.md`](../handoffs/2026-09-30_results_figure_house_style.md).
 
+## Precision and table size (Marc, 2026-09-30, the chapter 5 scrutiny round)
+
+- **Precision rule, every table that reports a value with an interval.** Round the
+  half-width of the 95 % interval to one significant figure (two when that figure
+  is a 1), and the value to the same place. Within a column, use the place of the
+  column's widest interval, so the column aligns (Table 5.2: MTTC to 1 000 s at
+  100 seeds; it refines by itself at 1 000 seeds). Bracketed bootstrap intervals
+  follow the same place (Table 5.3: time lost to 10 s). Reductions and shares in
+  the sweep tables stay at two decimals.
+- **Table size.** `\tablestyle` (footnotesize) at the default gap and natural
+  width for number tables; paragraph-column tables fill the text width. A table
+  drops to `\scriptsize` with a 3 pt gap only when its natural width at
+  footnotesize exceeds the text width (Tables 5.4 and 5.5, 13 columns). A table
+  with group rows (an italic `\multicolumn` row per group) has no zebra stripes.
+- **Figures.** Pack to 15.7 cm; each plot 3.0 cm tall; at most 8 y-ticks; the
+  y-axis title on every row of panels; one key per figure where the panels share
+  a series encoding, under the panel titles.
+
