@@ -482,3 +482,21 @@ ends (22 % with no MTD); for the baseline under service diversity the figure is 
 (4 % with no MTD). A cap is therefore needed whatever the interval, and the
 restricted mean stays. It would only move from the next deployment to the time
 limit, at the cost of new runs at an interval nothing else in chapter 5 uses.
+
+**Presenting it fairly (Marc: "a disruption at the very start versus in the middle
+or at the end").** Because cost depends on phase, a pooled time lost could favour
+the attacker that spends more of its run in the cheap phase. The two attackers'
+mixes are close: 23 % of the APT model's deployments land before its first
+compromise, and 18 % of the baseline's. Standardising both attackers to the same mix
+(the two mixes pooled, per mechanism) changes the APT model's time lost by at most
+1 s and the baseline's by at most 33 s (service diversity 518 → 485 s). The ordering
+and the layer reversal hold. §5.3.1 states this in one sentence. The pooled value is
+the expected cost of a deployment landing at a random moment of the run, which is
+what a defender deploying on a schedule gets.
+
+**Open, to verify before calling it anything:** every deployment before the
+baseline attacker's first compromise shortens its time to that compromise by
+160–210 s (n ≈ 90–100 per mechanism), for every mechanism except user shuffle,
+which rarely interrupts it. The uniformity points to the baseline restarting its
+procedure after an interrupt rather than to any mechanism. Classify it against
+`mtdsim_intent_spec.md` before calling it a bug.
