@@ -92,6 +92,15 @@
 % 2026-09-25 (Marc: "5.1 shows two intervals and no MTDShield ... please fix that"): the
 %   six deployment intervals and MTDShield; random over MTDShield's four is reported
 %   nowhere, so not declared. Semicolons separate varied values, as the caption says.
+% 2026-09-30 (Marc: "split the arm row"; "no symbol, the odds times three"): the
+%   ablation arms leave the Arm row for their own ABLATION row, one shared design
+%   clause then the arms as semicolon levels; the memory row states the factor as
+%   its value (was lambda = 2: lambda is the attack rate, k the opening length).
+%   The pool levels of Section 5.4.2 are not listed until Marc rules them in.
+%   Later 2026-09-30: the memory arms as RUN (run_memory_ablation.py): its own
+%   conditions and pool levels; the OS-check-off diagnostic was not run and is
+%   gone from the row. 20 services per OS is the simulator default and every
+%   other result's network.
 % 2026-09-25 (handoff 2026-09-25_ch5_setup_defence_and_prose_slots.md A2, A3,
 %   A7a, A8c, A9, A11, A17; Marc: "fix those in a defensible way and conventional
 %   way"): tay2024code on subnets, target, the near-periodic draw and the three
@@ -102,7 +111,7 @@
 %   its result is reported. No value is now a bare default.
 \begin{table}[htbp]
   \centering
-  \caption[The experiment]{The settings of the experiment. A parameter with several values, separated by semicolons, is varied; the rest are held. Arm, deployment strategy and deployment interval are run in every combination; the timing distribution, which governs the interval and the deployment durations, is varied at the 200\,s interval for every deployment strategy but MTDShield. A citation names the prior study or the released simulator code that ran the value (Table~\ref{tab:lineage-configurations}); an uncited value is defined in an earlier chapter or argued in the text.}
+  \caption[The experiment]{The settings of the experiment. A parameter with several values, separated by semicolons, is varied; the rest are held. Arm, MTD and deployment interval are run in every combination; the timing distribution, which governs the interval and the deployment durations, is varied at the 200\,s interval for each defence mechanism and deployment strategy but MTDShield. A citation names the prior study or the released simulator code that ran the value (Table~\ref{tab:lineage-configurations}); an uncited value is defined in an earlier chapter or argued in the text.}
   \label{tab:experiment}
   \tablestyle\setlength{\tabcolsep}{4pt}
   \begin{tabular}{@{}cP{3.4cm}P{10.9cm}@{}}
@@ -115,14 +124,15 @@
     & Exposed endpoints & 5 \citep{zhang2023} \\
     \multirow{-5}{*}[-0.30cm]{\smash{\rotatebox{90}{\emph{Network}}}} & Target & the two database hosts, at the deepest level \citep{tay2024code} \\
     \midrule
-    & Arm & the baseline attacker; the APT attacker model on each of the four attack profiles $c_1$ to $c_4$; the APT attacker model on the aggregate $c_{\mathrm{agg}}$; the APT attacker model on $c_1$ to $c_4$ with every factor of the failure matrix set to one, \owed{and, separately, with the vulnerability memory off, with every exploit succeeding, and with exploits no longer OS-specific (a diagnostic of the simulator)}{Table 5.1: the vulnerability-memory ablation arms are specified, not yet run (handoff 2026-09-28\_vulnerability\_memory\_on)}, with no MTD and under IP shuffle and OS diversity at 200\,s and 2\,000\,s (Section~\ref{sec:ablation}) \\
+    & Arm & the baseline attacker; the APT attacker model on each attack profile $c_1$ to $c_4$; the APT attacker model on the aggregate $c_{\mathrm{agg}}$ \\
+    & Ablation & the APT attacker model on $c_1$ to $c_4$ (Section~\ref{sec:ablation}): every factor of the failure matrix set to one, with no MTD and under IP shuffle and OS diversity at 200\,s and 2\,000\,s; the vulnerability memory off, and every exploit succeeding, with no MTD and under service diversity and OS diversity at 200\,s, at 1, 2, 3, 5, 10 and 20 services per operating system \\
     & Attack scenario & targeted \citep{brown2023} \\
-    \multirow{-3}{*}[-0.46cm]{\smash{\rotatebox{90}{\emph{Attacker}}}} & Vulnerability memory & on for the APT attacker model, \owed{$\lambda = 2$}{Table 5.1: $\lambda$ is a pre-check value, to be declared with its reason (Section 4.4.5, Appendix B)}; none for the baseline attacker (Section~\ref{subsec:vulnerability-memory}) \\
+    \multirow{-4}{*}[-0.60cm]{\smash{\rotatebox{90}{\emph{Attacker}}}} & Vulnerability memory & on for the APT attacker model, each earlier success tripling the odds (Section~\ref{subsec:vulnerability-memory}); none for the baseline attacker \\
     \midrule
-    & Deployment strategy & no MTD; the single deployment strategy with each of the seven defence mechanisms \citep{brown2023}; the random deployment strategy; the alternative deployment strategy \citep{zhang2023}; MTDShield, as released \citep{tay2024} \\
+    & Deployed & no MTD; each of the seven defence mechanisms alone \citep{brown2023}; the random deployment strategy; the alternative deployment strategy \citep{zhang2023}; MTDShield, as released \citep{tay2024} \\
     & Deployment interval & 50\,s \citep{zhang2023, ho2024}; 100\,s \citep{zhang2023, ho2024}; 200\,s \citep{zhang2023, ho2024}; 500\,s; 1\,000\,s; 2\,000\,s \\
     & Timing distribution & near-periodic (Section~\ref{subsec:defence-mechanisms}) \citep{tay2024code}; \owed{exponential, same means \citep{zhang2023}}{Table 5.1: the exponential timing distribution is run, but its result is reported nowhere; report it or remove the level} \\
-    \multirow{-4}{*}[-0.55cm]{\smash{\rotatebox{90}{\emph{Defence}}}} & Deployment duration & complete topology shuffle 110\,s, IP shuffle 100\,s, OS diversity 80\,s, service diversity 70\,s \citep{zhang2023}, and the simulator's host topology shuffle 100\,s, port shuffle 70\,s, user shuffle 20\,s \citep{tay2024code} \\
+    \multirow{-4}{*}[-0.55cm]{\smash{\rotatebox{90}{\emph{MTD}}}} & Deployment duration & complete topology shuffle 110\,s, IP shuffle 100\,s, OS diversity 80\,s, service diversity 70\,s \citep{zhang2023}, and the simulator's host topology shuffle 100\,s, port shuffle 70\,s, user shuffle 20\,s \citep{tay2024code} \\
     \midrule
     & Time limit & 15\,000\,s \citep{ho2024}; a run ends earlier if the attacker compromises a target, or more than 80\,\% of the hosts \citep{zhang2023} \\
     & Seeds & 1\,000 per combination \citep{arcuri2014hitchhiker}, the same set on every arm \\

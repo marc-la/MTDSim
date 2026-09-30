@@ -42,6 +42,8 @@ FIGURES = {
     "fig_2-2a_mtdsim_model":     ("ch2_fig21_mtdsim_model.html",   False),
     "fig_2-2-1a_network_model":  ("ch2_fig22_network_model.html",  False),
     "fig_2-2-2a_execution_scheme": ("ch2_fig23_execution_scheme.html", False),
+    # the drawing the thesis includes (fig:defence-module); restored 2026-09-30
+    "fig_2-2-2a_defence_module": ("ch2_fig23_defence_module.html", True),
     "fig_2-2-3a_attacker_model": ("ch2_fig24_attacker_model.html", False),
 }
 

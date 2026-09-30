@@ -175,7 +175,7 @@ well-documented tradecraft. Moving target defence (MTD) continually
 reconfigures a network so that what an attacker has learned about it
 goes out of date before it can be used. Yet simulation studies of MTD
 commonly test it against simplified attackers that follow a fixed
-sequence of steps. A defence evaluated only against a simplified
+sequence of steps. MTD evaluated only against a simplified
 attacker gives little confidence against a long, staged campaign. This
 work builds an attacker model from published reports of real intrusion
 campaigns, with profiles distinguished by operational objective. An
@@ -387,9 +387,9 @@ We execute each profile in MTDSim, an existing MTD simulator
 actions of MTDSim's original scripted attacker, the baseline attacker,
 but its profile decides which action comes next, when, and what to do
 after one fails. Both attackers run on the same network and under the
-same defences. We first run both with no MTD, to test whether the APT
+same MTD. We first run both with no MTD, to test whether the APT
 attacker model behaves differently. We
-then run both under each of MTDSim's defences at different deployment
+then run both under each of MTDSim's defence mechanisms and deployment strategies at different deployment
 intervals. We measure MTD's performance by how much it holds back each
 attacker's progress through the network.
 
@@ -408,7 +408,7 @@ compromises fewer hosts than the baseline attacker, and each one more
 slowly. Under MTD, shuffling the network's addresses and layout holds back
 the APT attacker model most, while changing its software holds back the
 baseline attacker most. An evaluation against the baseline attacker alone
-would recommend a different defence. The results make a case for
+would recommend a different defence mechanism. The results make a case for
 evaluating MTD against attacker models grounded in documented behaviour.
 \emph{[Placeholder: re-check the results above against the 1\,000-seed
 corpus.]}
@@ -495,7 +495,7 @@ corpus.]}
   \item We define two metrics of the attacker's adaptation to the
   defender: the rate at which it compromises hosts after each MTD
   deployment, and the time each deployment costs it.
-  \item We find that the attacker model changes which defence an MTD
+  \item We find that the attacker model changes which defence mechanism an MTD
   evaluation in MTDSim recommends. \emph{[Placeholder: re-check against
   the 1\,000-seed corpus.]}
 \end{itemize}
@@ -570,7 +570,7 @@ work that would extend the model.
 %  RATIFIED 2026-09-26 (Marc: 'I accept all this').
 The APT attacker model is executed inside MTDSim, the MTD simulator this
 dissertation inherits, and compared with the simulator's baseline attacker.
-This chapter describes MTDSim and the defence it models.
+This chapter describes MTDSim and the MTD it models.
 Section~\ref{sec:mtd-concept} defines moving target defence and its
 organising questions (what to move, how to move it, and when);
 Section~\ref{sec:mtdsim} describes the simulator's modules and classifies
@@ -666,7 +666,7 @@ should be.
   \centering
   \includegraphics{fig_2-2a_mtdsim_model}
   \caption[The three modules of MTDSim]{The three modules of MTDSim, and
-  the couplings between them. The defence rewrites a layer of the network;
+  the couplings between them. MTD rewrites a layer of the network;
   the attacker observes what it can see of the network and compromises
   hosts within it; each rewrite interrupts the attacker mid-action. The
   network is one network drawn at three magnifications, not three systems.
@@ -879,8 +879,8 @@ all of their neighbours.
 \begin{figure}[htbp]
   \centering
   \includegraphics{fig_2-2-2a_defence_module}
-  \caption[When the defence moves, and what each mechanism rewrites]{When
-  the defence moves, and what each mechanism rewrites. An interval
+  \caption[When MTD moves, and what each mechanism rewrites]{When
+  MTD moves, and what each mechanism rewrites. An interval
 % [CONNECTIVE-PROSE PASS 2026-09-26, DS Fig 2.x caption] Marc 2026-09-26:
 %  'deployment strategies is very clear ... change everything to
 %  deployment strategies' (registry row re-ruled). SESSION-GENERATED on
@@ -888,7 +888,7 @@ all of their neighbours.
 %  docs/implementation/connective_prose_audit.md); prior text in git.
 %  RATIFIED 2026-09-26 (Marc: 'I accept all this').
   elapses, the deployment strategy draws which mechanism fires or a learned
-  selector picks one --- and it may pick none --- and the defence moves.
+  selector picks one --- and it may pick none --- and MTD moves.
   The seven mechanisms group by what each rewrites: three rewrite the host
   layer, three the service layer, and one the credentials. Two mechanisms
   in the same group never run at once.}
@@ -1057,7 +1057,7 @@ purely reactive deployment strategies in the simulator: no detection channel is 
   \includegraphics{fig_2-2-3a_attacker_model}
   \caption[What the baseline attacker holds, and how it proceeds]{What the
   baseline attacker holds, and how it proceeds. The upper panel gives what
-  a defence rewrite leaves it: the attack scenario, the hosts and the credentials
+  an MTD rewrite leaves it: the attack scenario, the hosts and the credentials
   survive; its view of the network does not. The lower panel is the
   procedure --- six states, and the moves between them. The accent marks
   the three moves that take a host, each of which reveals that host's
@@ -5201,7 +5201,7 @@ Section~\ref{subsec:tactic-verb-mapping}) there is no verdict ($v = \text{none}$
 the token in the Petri net. A deployment that lands during a dwell-only tactic
 cuts the dwell short and costs the attacker the time, but there was no action
 in flight to lose and no verdict to route on: the token still leaves on the
-base weights. At a dwell-only tactic the defence is felt as cost, never
+base weights. At a dwell-only tactic MTD is felt as cost, never
 as a change of route.
 
 % PLACEHOLDER 2026-09-24 (as above; results context §8g-5 content point 1: the
@@ -5268,7 +5268,7 @@ difference between the arms is a difference in the attacker and nothing else.
 %   guarantee stays repo-side (attacker_state_seam.md); ch6 cites it there.
 
 Nothing carries between runs. Each run starts from $M_0$ knowing nothing of
-the defence: the attacker does not hold the deployment schedule, learns nothing
+MTD: the attacker does not hold the deployment schedule, learns nothing
 about it within a run, and carries nothing from one run into the next. That
 is the scheme-aware attacker Jalowski et al.\ \citep{jalowski2026} ask for, and this model
 is not one; Section~\ref{sec:future-work} returns to it.
@@ -5587,18 +5587,17 @@ real-world values.
 %  framed as reuse of what worked, not mutation patterns (property 8's
 %  ground); Zhang's time halving is the lineage the memory extends; the
 %  diversity-pool hypothesis stays and Section 5.4.2 tests it with a pool
-%  dimension (handoff Part A). Symbol: k, the odds factor per earlier
-%  success (code: k = 1 + lambda; lambda is the attack rate,
-%  eq:attack-rate). Cut in pass 5, do not re-flag: Cho's "under-modelled"
+%  dimension (handoff Part A). Symbol: none since 2026-09-30, the factor is
+%  stated as its value, three (was k; k is the opening length, lambda the
+%  attack rate). Cut in pass 5, do not re-flag: Cho's "under-modelled"
 %  clause (carried by §3.3.1 and Table 3.2), "let alone an APT attacker",
 %  "exploits and tools", the re-encounter clause (the equation carries it),
 %  "by return on attack" (Table 2.x carries it; "top" held vague by that
 %  ruling), the shuffle image. Left out by ruling: how long the memory
 %  lasts; the baseline's per-instance time discount (optional [S] clause,
 %  not taken). Open: gate 1 (the paragraph opens on motivation, not on what
-%  the memory does) goes to the integration check; once k is declared, one
-%  worked number (e.g. p_0 = 0.5, k = 2, one success -> 0.67) would ground
-%  the equation (gate 8).]
+%  the memory does) goes to the integration check. Gate 8 (a worked number)
+%  retired 2026-09-30 with the equation.]
 Any attacker learns; learning is property 7
 (Section~\ref{subsec:attacker-criterion}).
 An attacker learns what has succeeded before, the vulnerabilities that
@@ -5615,25 +5614,18 @@ The \texttt{EXPLOIT\_VULN} action (Table~\ref{tab:attacker-states})
 attempts each service's top vulnerabilities, and an exploit of each
 succeeds with a probability set by its CVSS complexity
 (Section~\ref{subsec:network-model}).
-% 2026-09-29 (Marc: "can we explain the equation in 4.4.5 using words, to
-% simplify it"): the odds equation in named quantities, p_0 and p_n retired,
-% with a worked example on an illustrative k (k is not yet declared). Prior
-% form in git (b163afad). DRAFT STATE --- ratify on read.
-Each earlier success on a vulnerability multiplies the attacker's odds of
-exploiting it again by a factor $k$. The odds are the number of successes
-expected for each failure: an exploit that succeeds one time in two has odds of
-1, one success for each failure.
-\begin{equation}
-  \text{odds of success after } n \text{ successes} =
-  k^n \times \text{odds of success with none},
-  \label{eq:vulnerability-memory}
-\end{equation}
-where $n$ is the number of the attacker's earlier successful exploits of
-that vulnerability on any host, and $k$ is declared in
-Appendix~\ref{app:movement}. With $k = 2$ the odds double with each earlier
-success, from 1 to 2 to 4, so the exploit succeeds one time in two, then two
-times in three, then four times in five: its chance of success rises towards
-certainty but never reaches it.
+% 2026-09-30 (Marc: odds are fundamental, "no need to lecture the reader";
+% "cut any of the babying"; "k is also the [opening length] ... why don't we
+% just make [the] odds [times] three"): the factor is stated as its value,
+% three (code: _exploit_learning_rate = 2, factor 1 + 2), so the memory takes
+% no symbol ($k$ is the opening length of eq. distinct attack paths; lambda is
+% the attack rate). The odds definition, the equation (unreferenced) and the
+% worked example are cut: the one sentence carries all three. Prior forms in
+% git (b163afad, f71d7063, 1785cf99). OWED: Appendix B declares the three and
+% its reason. DRAFT STATE --- ratify on read.
+Each earlier success on a vulnerability, on any host, triples the attacker's
+odds of exploiting it again, a factor that is our judgement
+(Appendix~\ref{app:movement}).
 We do not change dwell times: they still come from
 Section~\ref{subsec:dwell-times}.
 The idea is that the attacker compromises more of the network.
@@ -5662,9 +5654,8 @@ Table~\ref{tab:metrics}. Every run follows the targeted attack scenario
 (Section~\ref{subsec:attacker-model}): the attacker aims at a target host, and
 the run ends when it compromises one or at the time limit. The simulator also
 keeps the general scenario's stop, at 80\,\% of the network's hosts. Each metric
-is computed over a \emph{cell}: the runs of one attacker under one deployment
-strategy (Table~\ref{tab:deployment-strategies}), or with no MTD, at one
-deployment interval (Section~\ref{sec:dimensions}).
+is computed over a \emph{cell}: the runs of one attacker at one deployment interval, with no MTD
+or under one defence mechanism or deployment strategy (Section~\ref{sec:dimensions}).
 
 \input{tables/tab_4-5a_metrics}
 
@@ -5795,31 +5786,31 @@ first host and reported with the share of runs that compromise one.
 % against the same moment with no MTD. The compromise rate after an MTD
 % deployment is retired. Handoff docs/handoffs/2026-09-30_disruption_metrics.md.
 % DRAFT STATE --- ratify on read.
-The MTD effectiveness metrics compare an attacker's runs under a deployment strategy with
+The MTD effectiveness metrics compare an attacker's runs under MTD with
 its runs on the same seeds with no MTD. ASP reduction is the headline, and NCR
 reduction reads the same comparison on the hosts compromised. Attack actions
 blocked and time lost per MTD deployment read each deployment; time lost records
 adaptivity (Table~\ref{tab:attacker-properties}).
 
 \paragraph{ASP reduction.}
-ASP reduction is the share of an attacker's ASP that a deployment strategy removes. It
+ASP reduction is the share of an attacker's ASP that MTD removes. It
 takes the form of the mitigation factor of Alavizadeh et al.\
 \citep[Eq.~13]{alavizadeh2022}, with ASP in place of their annual loss
 expectancy:
 \begin{equation}
   \text{ASP reduction} = 1 -
-  \frac{\text{ASP under the deployment strategy}}{\text{ASP with no MTD}}.
+  \frac{\text{ASP under MTD}}{\text{ASP with no MTD}}.
   \label{eq:asp-reduction}
 \end{equation}
 It is 0 for no effect and 1 when no run reaches a target. The mitigation factor
-is floored at 0; ASP reduction is not, so a deployment strategy that helps the attacker
-shows as negative.
+is floored at 0; ASP reduction is not, so it is negative when MTD helps the
+attacker.
 
 \paragraph{NCR reduction.}
 NCR reduction is the same comparison on NCR:
 \begin{equation}
   \text{NCR reduction} = 1 -
-  \frac{\text{NCR under the deployment strategy}}{\text{NCR with no MTD}}.
+  \frac{\text{NCR under MTD}}{\text{NCR with no MTD}}.
   \label{eq:ncr-reduction}
 \end{equation}
 
@@ -5936,7 +5927,7 @@ baseline attacker, the attacker the MTDSim lineage evaluated MTD against
 (Section~\ref{subsec:recent-threat-models}). MTDSim runs either attacker
 under identical conditions, which Section~\ref{sec:dimensions} sets out.
 Section~\ref{sec:attacker-in-operation} compares the two attackers with no
-defence running, which gives the reference every later effect is measured
+MTD running, which gives the reference every later effect is measured
 from. Section~\ref{sec:effectiveness} compares them under MTD, and
 Chapter~\ref{ch:discussion} interprets the results.
 
@@ -6351,7 +6342,7 @@ and endpoints are also the second of the four networks Zhang evaluated on
 (Table~\ref{tab:lineage-configurations}), and a database as the target
 follows Brown's targeted scenario \citep{brown2023}. The configuration
 never changes, so every difference reported is the
-attacker's or the defence's.
+attacker's or MTD's.
 % [3b] "narrowed from five hosts to two" --- the fact is verified: GEOMETRY
 %  sets total_database=2 (src/mtdsim/l3_simulation/movement/run.py:67) against
 %  TimeNetwork's own default of 5 (mtdnetwork/component/time_network.py:12), and
@@ -6413,7 +6404,9 @@ Section~\ref{sec:technique-graph} before it is partitioned into profiles. Both p
 %  (docs/workflows/connective_prose.md; audit
 %  docs/implementation/connective_prose_audit.md); prior text in git.
 %  RATIFIED 2026-09-26 (Marc: 'I accept all this').
-\textbf{Defence.} Besides no MTD, ten deployment strategies run: each of the seven defence
+% TERM SWEEP 2026-09-30 (Marc: remove 'condition' and bare 'defence'; no
+%  collective noun; defence mechanism, deployment strategy, MTD, no MTD).
+\textbf{MTD.} The attackers run with no MTD, under each of the seven defence
 % [CONNECTIVE-PROSE PASS 2026-09-26, DS 5.1 Defence] Marc 2026-09-26:
 %  'deployment strategies is very clear ... change everything to
 %  deployment strategies' (registry row re-ruled). SESSION-GENERATED on
@@ -6423,9 +6416,9 @@ Section~\ref{sec:technique-graph} before it is partitioned into profiles. Both p
 mechanisms under the single deployment strategy, \owed{the random and alternative deployment strategies}{Section 5.1: the simultaneous deployment strategy listed in Chapter 2 is
 not run and no reason is given; run it or state why},
 which draw on the whole pool (Section~\ref{subsec:defence-mechanisms}), and
-MTDShield. MTDShield is run as released: Tay's highest-scoring agent, choosing its
-own action at every decision (Appendix~\ref{app:mtdshield}). Each deployment
-strategy runs at six deployment intervals, so that every effect can be read
+under MTDShield. MTDShield is run as released: Tay's highest-scoring agent, choosing its
+own action at every decision (Appendix~\ref{app:mtdshield}). Each defence
+mechanism and deployment strategy runs at six deployment intervals, so that every effect can be read
 against the interval. They run from 50\,s, the shortest Zhang and Ho ran, to
 2\,000\,s, ten times the longest the lineage has run
 (Table~\ref{tab:lineage-configurations}), three to a decade so that they fall
@@ -6561,25 +6554,21 @@ the reference for every effect this chapter reports.
 %  "say more with less"). The ranked set in ratified terms (terminology.md
 %  rows 62, 72): the seven defence mechanisms and three deployment strategies,
 %  MTDShield being one (Table 2.4); no MTD is the reference and takes no rank.
-%  Cut as nuance the examiner does not need: the 0/1 coding, the gloss on
-%  Cohen's h, "pooled over c1 to c4" (the table's caption carries it). The
+%  Cut 2026-09-30 (Marc: "why is there so much nuance ... one 95% confidence
+%  interval"; "ranking only has so much utility"): the interval methods
+%  (normal approximation; percentile bootstrap, 2 000 resamples, Efron), the
+%  tie rule (alpha 0.05, Cohen's h >= 0.2), rank 1 the lowest, the 0/1 coding.
+%  The analyser's record keeps them. The
 %  analyser still ranks on hosts per seed with Cohen's d (owed, handoff
 %  2026-09-29_ch4_consolidation.md). DRAFT STATE --- ratify on read.
 \textbf{Metrics.} Both attackers are measured on the eleven metrics of
-Section~\ref{sec:evaluation-metrics} (Table~\ref{tab:metrics}). A mean carries
-a 95\,\% normal-approximation interval over the runs of a cell, and ASP
-reduction, NCR reduction and time lost per MTD deployment a 95\,\% percentile
-bootstrap interval from 2\,000 resamples of runs \citep{efron1994introduction}.
+Section~\ref{sec:evaluation-metrics} (Table~\ref{tab:metrics}), each with its
+95\,\% confidence interval.
 
-\textbf{MTD ranking.} For each attacker at each
-deployment interval, the seven defence mechanisms and the random, alternative
-and MTDShield deployment strategies are ranked by ASP, rank~1 the lowest. The
-ranking uses the Scott--Knott effect size difference test
-\citep{tantithamthavorn2017empirical} on whether each run compromises a target
-host. Two share a rank unless their ASPs differ significantly
-($\alpha = 0.05$) \citep{scott1974cluster} and by at least a small effect
-(Cohen's $h \geq 0.2$) \citep{cohen1988statistical}. Spearman's $\rho$
-compares the two attackers' rankings.
+\textbf{MTD ranking.} For each attacker at each deployment interval, the seven
+defence mechanisms and three deployment strategies are ranked by ASP with the
+Scott--Knott effect size difference test \citep{tantithamthavorn2017empirical}.
+Spearman's $\rho$ compares the two attackers' rankings.
 % [TERM SWEEP 2026-09-24, DRAFT STATE: "They are grouped by effectiveness and
 %  efficiency, as Table 3.x groups the field's." CUT --- false since the metrics
 %  design (three classes of our own, defined in §4.5); "ranked on hosts reached,
@@ -7743,11 +7732,11 @@ line or column, it pools $c_1$ to $c_4$ with equal weight; $c_{\mathrm{agg}}$
 %  Marc's 2026-09-26 go-ahead (docs/workflows/connective_prose.md; audit
 %  docs/implementation/connective_prose_audit.md); prior text in git.
 %  RATIFIED 2026-09-26 (Marc: 'I accept all this').
-appears separately in Section~\ref{subsec:eff-under-defence}. An effect is told apart from zero when its 95\,\% interval excludes zero, and defences that
+appears separately in Section~\ref{subsec:eff-under-defence}. An effect is told apart from zero when its 95\,\% interval excludes zero, and defence mechanisms and deployment strategies that
 share a Scott--Knott rank are not told apart
 (Section~\ref{sec:dimensions}).
 Section~\ref{subsec:aio-disruption} shows what a single deployment does to each
-attacker, Section~\ref{subsec:eff-cross-arm} the NCR reduction of each defence
+attacker, Section~\ref{subsec:eff-cross-arm} the NCR reduction of each defence mechanism and deployment strategy
 across the deployment interval, and Section~\ref{subsec:eff-under-defence} the
 same by mechanism, attack profile and deployment strategy.
 
@@ -7894,7 +7883,7 @@ Adaptivity, the attacker's response to a deployment
 %  (docs/workflows/connective_prose.md; audit
 %  docs/implementation/connective_prose_audit.md); prior text in git.
 %  RATIFIED 2026-09-26 (Marc: 'I accept all this').
-(Table~\ref{tab:attacker-properties}), is a property that needs an MTD to be seen. Attack actions blocked and time lost per MTD deployment record it
+(Table~\ref{tab:attacker-properties}), is a property that needs MTD to be seen. Attack actions blocked and time lost per MTD deployment record it
 (Section~\ref{subsec:metrics-effectiveness}). Both are read at the 2\,000\,s deployment
 % [CONNECTIVE-PROSE PASS 2026-09-26, ch5 S4 recovered] Attribution beyond
 %  measurement, contradicted by the chapter's own number (the baseline
@@ -7980,7 +7969,7 @@ response.
 \begin{figure}[tp]
   \centering
   \includegraphics{fig_5-2-2a_disruption_response}
-  \caption[What an MTD deployment costs each attacker]{What an MTD deployment costs each attacker, at the 2\,000\,s deployment interval, for the APT attacker model on $c_1$ to $c_4$ pooled and for the baseline attacker. (a),~(b)~The share of deployments followed by a compromised host within the time on the axis, with the MTD and, at the same moments of the same seeds, with no MTD (lighter), for the defence mechanism that costs the APT attacker model~(a) or the baseline attacker~(b) the most time in~(c); the shaded area between an attacker's two curves is its time lost per MTD deployment. (c)~Time lost per MTD deployment for each defence mechanism deployed alone, with 95\,\% bootstrap intervals over runs. Section~\ref{sec:evaluation-metrics} defines both metrics.}
+  \caption[What an MTD deployment costs each attacker]{What an MTD deployment costs each attacker, at the 2\,000\,s deployment interval, for the APT attacker model averaged over its four attack profiles and for the baseline attacker. (a),~(b)~The share of deployments followed by a compromised host within the time on the axis, with the MTD and, at the same moments of the same seeds, with no MTD (lighter), for the defence mechanism that costs the APT attacker model~(a) or the baseline attacker~(b) the most time in~(c); the shaded area between an attacker's two curves is its time lost per MTD deployment. (c)~Time lost per MTD deployment for each defence mechanism deployed alone, with 95\,\% bootstrap intervals over runs. Section~\ref{sec:evaluation-metrics} defines both metrics.}
   \label{fig:aio-adaptivity}
 \end{figure}
 
@@ -8013,7 +8002,7 @@ response.
 \input{tables/tab_5-3-1b_disruption}
 
 Table~\ref{tab:disruption} gives attack actions blocked per run. Under the host-
-and service-layer mechanisms a deployment blocks \prelim{5.3} to \prelim{6.9} of
+and service-layer mechanisms deployments block \prelim{5.3} to \prelim{6.9} of
 the baseline attacker's actions per run and \prelim{1.2} to \prelim{3.1} of the
 APT attacker model's. User shuffle blocks \prelim{0.41} of the baseline
 attacker's and \prelim{0.09} of the APT attacker model's.
@@ -8164,7 +8153,7 @@ deployment interval.
 %  float shows, the numbers that carry it, the APT property the metric records
 %  (Table 3.2 via Section 4.5), a by-construction reason only where Marc gave one.
 %  The agent draft it replaces is in git history (commit e83f280c). DRAFT STATE.
-Figure~\ref{fig:eff-cross-arm} shows the NCR reduction of each defence, the
+Figure~\ref{fig:eff-cross-arm} shows the NCR reduction of each defence mechanism and deployment strategy, the
 share of the no-MTD NCR it removes (Equation~\ref{eq:ncr-reduction}),
 against the deployment interval; Table~\ref{tab:eff-interval-values} gives the
 values. Against the APT attacker model the host layer gives the larger reduction,
@@ -8183,7 +8172,7 @@ and falls to \prelim{0.22} at 2\,000\,s; the baseline attacker's service-layer
 reduction falls from \prelim{0.82} at 200\,s to \prelim{0.25} at 500\,s. User
 shuffle reduces neither attacker's NCR beyond 50\,s, and against the APT attacker
 model it is below zero up to 500\,s: more hosts are compromised than with no
-defence.
+MTD.
 
 % REWRITTEN 2026-09-26 on Marc's read ("very rhetorically inflated ... literally we
 %  just need to describe what's happening"; his step-through of every float is
@@ -8209,7 +8198,7 @@ Section~\ref{subsec:aio-disruption}.
 \begin{figure}[tp]
   \centering
   \includegraphics{fig_5-3-2b_interval_headline}
-  \caption[The same defences measured against each attacker, across the deployment interval]{NCR reduction against the deployment interval for each defence, measured against the APT attacker model, pooled over $c_1$ to $c_4$ (solid), and against the baseline attacker (dashed); higher is fewer hosts compromised, zero is as many as with no MTD, and below zero is more. Panels~(a) to~(c): the defence mechanisms by the layer each rewrites (Table~\ref{tab:defence-mechanisms}), a layer's line being the mean over its mechanisms, each deployed alone (Table~\ref{tab:eff-interval-values} lists them). Panels~(d) to~(f): the random deployment strategy, MTDShield (Appendix~\ref{app:mtdshield}) and the alternative deployment strategy (Table~\ref{tab:deployment-strategies}). The interval axis is logarithmic; whiskers are 95\,\% percentile bootstrap intervals.}
+  \caption[The same MTD measured against each attacker, across the deployment interval]{NCR reduction against the deployment interval for each defence mechanism and deployment strategy, measured against the APT attacker model, averaged over $c_1$ to $c_4$ (solid), and against the baseline attacker (dashed); higher is fewer hosts compromised, zero is as many as with no MTD, and below zero is more. Panels~(a) to~(c): the defence mechanisms by the layer each rewrites (Table~\ref{tab:defence-mechanisms}), a layer's line being the mean over its mechanisms, each deployed alone (Table~\ref{tab:eff-interval-values} lists them). Panels~(d) to~(f): the random deployment strategy, MTDShield (Appendix~\ref{app:mtdshield}) and the alternative deployment strategy (Table~\ref{tab:deployment-strategies}). The interval axis is logarithmic; whiskers are 95\,\% percentile bootstrap intervals.}
   \label{fig:eff-cross-arm}
 \end{figure}
 
@@ -8261,14 +8250,14 @@ Section~\ref{subsec:aio-disruption}.
 %  float shows, the numbers that carry it, the APT property the metric records
 %  (Table 3.2 via Section 4.5), a by-construction reason only where Marc gave one.
 %  The agent draft it replaces is in git history (commit e83f280c). DRAFT STATE.
-Table~\ref{tab:eff-cross-arm} ranks the defences at 200\,s. The three host-layer
+Table~\ref{tab:eff-cross-arm} ranks the defence mechanisms and deployment strategies at 200\,s. The three host-layer
 mechanisms share rank 1 against the APT attacker model and take ranks 2 and 3
 against the baseline attacker; service diversity and port shuffle share rank 1
 against the baseline attacker and take ranks 3 and 5 against the APT attacker
 model. The order is not simply reversed: Spearman's $\rho$ between the two
 attackers' NCR reductions is \prelim{-0.03}\owed{, close to zero}{Section 5.3.2:
-numbers.json gives rho over the ten reported defences with no interval; the only
-bootstrap interval tracked is over the ten deployment strategies and no MTD, including random selection
+numbers.json gives rho over the ten reported defence mechanisms and deployment strategies with no interval; the only
+bootstrap interval tracked is over eleven, including random selection
 % [CONNECTIVE-PROSE PASS 2026-09-26, ch5 U7 cut] Cut: the third statement
 %  of 5.3.3's object (preamble roadmap; 5.3.3's first sentence), stating
 %  nothing established. SESSION-GENERATED on Marc's 2026-09-26 go-ahead
@@ -8446,7 +8435,7 @@ at 200\,s changes the sign of no reduction for either attacker, and the APT
 attacker model keeps its order of the seven mechanisms and two deployment strategies; against the baseline attacker service diversity stays first, but port
 shuffle falls from \prelim{0.90} to \prelim{0.14}, below IP shuffle.}{Section
 5.3.3: the exponential timing distribution's values sit in no float, so an
-appendix table is owed (200 s, both attackers, nine deployment strategies, with
+appendix table is owed (200 s, both attackers, the seven defence mechanisms and two deployment strategies, with
 intervals); MTDShield was not run under it; the interrupt-tally sanity flag
 raised in the regime runs is not yet investigated}
 % ---- S33-e, DROPPED (not live). Candidate for Marc's ruling, if the analyser emits the
@@ -8547,7 +8536,7 @@ success does. If the failure matrix matters, the attacker without it should move
 on after a failure as though it had succeeded, and compromise more of the
 network. The APT attacker model was run on $c_1$ to $c_4$ with the failure
 matrix and with every factor of it set to one, on the same 1\,000 seeds, with no
-defence and under IP shuffle and OS diversity at the 200\,s and 2\,000\,s
+MTD and under IP shuffle and OS diversity at the 200\,s and 2\,000\,s
 deployment intervals (Table~\ref{tab:experiment}).
 
 \begin{figure}[tp]
@@ -8562,7 +8551,7 @@ deployment intervals (Table~\ref{tab:experiment}).
   without compromising a host; or one that compromises a host, whose share is
   printed beside each bar. Dwell-only tactics on the way are passed over, and
   shares under 0.06 are not printed; $c_2$ is not drawn. (b)~Cohen's $d$ on
-  hosts compromised per seed, with minus without, on $c_1$ to $c_4$ pooled,
+  hosts compromised per seed, with minus without, averaged over $c_1$ to $c_4$,
   with its 95\,\% bootstrap interval over seeds; the shaded band is where
   a difference is negligible ($|d| < 0.2$).}
   \label{fig:ablation}
@@ -8586,14 +8575,15 @@ next tactics differ between the two models.
 Removing the failure matrix does not change what the attacker achieves
 (Figure~\ref{fig:ablation}b, Table~\ref{tab:ablation}). With no MTD, the
 model compromises 0.169 of the network with the failure matrix and 0.165
-without it. In every cell $d$ is below 0.2. The largest is 0.13, under
+without it. With no MTD and under IP shuffle and OS diversity at both
+intervals, $d$ is below 0.2. The largest is 0.13, under
 IP shuffle at 200\,s, where the model compromises 0.007 of the network; there
-its interval reaches the edge of the negligible band, and in every other
-cell it lies inside it. In four of the five cells the model with the
+its interval reaches the edge of the negligible band, and everywhere else
+it lies inside it. In four of the five the model with the
 failure matrix compromises more, the opposite direction to the prediction,
 though not on every profile: under OS diversity at 200\,s it compromises 0.34
 more hosts on $c_2$ and 0.38 fewer on $c_3$.
-The NCR reduction of each defence differs by at most 0.020 between the two
+The NCR reduction of each defence mechanism differs by at most 0.020 between the two
 models. Under IP shuffle at 2\,000\,s, time lost per MTD deployment is 324\,s
 with the failure matrix and 332\,s without it, a difference of $-8$\,s with an
 interval from $-20$ to 4\,s.
@@ -8613,12 +8603,85 @@ Chapter~\ref{ch:discussion} discusses why.
 %  re-exploited per run) and moves no hosts; a perfect exploit adds about
 %  none; the OS check refuses about half of all exploit attempts, and removing
 %  it adds about two hosts. Report whatever the 1 000 seeds show.]
-\noindent\emph{[Placeholder --- the vulnerability memory ablated. Four arms
-on $c_1$ to $c_4$, no MTD and the two mechanisms of the first ablation:
-memory on (the model as evaluated); memory off; every exploit roll
-succeeding; and, as a diagnostic of the simulator and not a configuration,
-the OS check switched off. A table beside Table~\ref{tab:ablation}; the same
-reading by Section~\ref{sec:evaluation-metrics}'s threshold.]}
+% [DRAFT STATE 2026-09-30 --- assembled by the session on Marc's ask ("put in
+%  the hard work, assemble the ablation subsection ... and propose it to me"),
+%  from his walk of the six moves in chat: purpose ("does the vulnerability
+%  memory as implemented actually change the attack outcome, and does this
+%  change when we constrain the diversity pool"), variant (on and off, the pool
+%  constrained), prediction ("smaller service pools will result in the attacker
+%  performing more successful exploits"), float (pool on the x-axis, two
+%  lines), his reading ("the mechanism works but the outcome doesn't change";
+%  "the hypothesis is ... only half right"; "the chapter's results do not
+%  depend on the memory"). Same moves and closer as 5.4.1. The why (a host
+%  needs two exploit visits; the failure verdict routes the token away and a
+%  later port scan reveals the next hop) is Chapter 6's, as 5.4.1's is: ch5
+%  describes, ch6 explains. Numbers: memory_ablation_numbers.json, 100 seeds,
+%  every one \prelim; the 1 000-seed swap is owed. Table generated by
+%  memory_ablation.py. The figure is a placeholder until it is drawn (Marc:
+%  figures after the draft). RATIFY ON READ.]
+The vulnerability memory is our addition to the APT attacker model, and its
+factor of three is our judgement (Section~\ref{subsec:vulnerability-memory}),
+so this section tests whether any result of this chapter depends on it, and
+whether its effect grows with a constrained diversity pool, as
+Section~\ref{subsec:vulnerability-memory} hypothesises. Without the memory,
+every exploit succeeds with the probability its CVSS complexity sets. If the
+memory matters, the attacker with it should exploit more successfully and
+compromise more of the network, most of all with few services per operating
+system, where vulnerabilities repeat across hosts. The APT attacker model was
+run on $c_1$ to $c_4$ with the memory and without it, on the same 1\,000 seeds,
+with no MTD and under service diversity and OS diversity at the 200\,s
+deployment interval, the two defence mechanisms that draw services from the
+pool. The pool ran from 20 services per operating system, the network of every
+other result in this chapter, down to one (Table~\ref{tab:experiment}). A third
+arm, in which every exploit succeeds, bounds what any memory acting on exploit
+success could add.
+
+\begin{figure}[tp]
+  \centering
+  \placeholderbox{7cm}{To be drawn from memory\_ablation\_numbers.json.
+  (a) exploit success against services per operating system, memory off and on;
+  (b) hosts compromised against services per operating system, memory off and on,
+  every exploit succeeding dashed; no MTD and service diversity.}
+  \caption[What removing the vulnerability memory changes]{The APT attacker
+  model without the vulnerability memory (off), with it (on) and with every
+  exploit succeeding (all), on $c_1$ to $c_4$ pooled over the same 1\,000 seeds,
+  by the number of services per operating system that service diversity and OS
+  diversity draw from. (a)~Exploit success, the share of exploits that succeed,
+  those an operating system rules out excluded. (b)~Hosts compromised per run,
+  with no MTD and under service diversity at 200\,s, with 95\,\% intervals.
+  Table~\ref{tab:ablation-memory} gives every cell, OS diversity included.}
+  \label{fig:ablation-memory}
+\end{figure}
+
+The memory raises exploit success, and raises it most with a constrained pool
+(Figure~\ref{fig:ablation-memory}a). With one service per operating system and
+no MTD, \prelim{0.69} of exploits succeed without the memory and \prelim{0.91}
+with it; with 20, \prelim{0.70} and \prelim{0.73}. Under both defence
+mechanisms the rise follows the same pattern.
+
+\input{tables/tab_5-4b_ablation_memory}
+
+The memory does not change what the attacker achieves
+(Figure~\ref{fig:ablation-memory}b, Table~\ref{tab:ablation-memory}). With no
+MTD and 20 services per operating system, the model compromises \prelim{8.36}
+hosts with the memory and \prelim{8.13} without it. Under every condition and
+at every pool, $d$ is below 0.2. The largest is \prelim{0.19}, under service
+diversity with one service per operating system, where the memory adds
+\prelim{0.37} hosts; under service diversity $d$ falls as the pool grows, to
+\prelim{0.05} at 20, and with no MTD it shows no trend. Every exploit
+succeeding adds at most \prelim{0.63} hosts, under OS diversity with two
+services per operating system ($d = \prelim{0.22}$). The NCR reduction of
+service diversity at 20 services per operating system is \prelim{0.360}
+without the memory and \prelim{0.365} with it.
+
+The memory works as Section~\ref{subsec:vulnerability-memory} designed it:
+exploit success rises, and rises most where vulnerabilities repeat across
+hosts. The hosts compromised do not rise with it at any pool, so the hypothesis
+holds for exploit success only. The ablation covers two of the seven defence
+mechanisms at one deployment interval; $c_{\mathrm{agg}}$ and the other
+mechanisms were not run without the memory. Within that scope, the results of
+this chapter do not depend on the vulnerability memory.
+Chapter~\ref{ch:discussion} discusses why.
 
 \chapter{Discussion}
 \label{ch:discussion}
@@ -8711,7 +8774,7 @@ corpus-size confound (Section~\ref{sec:threats}).]}
 %  deployment is Section 4.5.3's re-defined metric (Table 5.3).
 \noindent\emph{[Placeholder --- (1) The layer reversal: the host layer holds
 back the APT attacker model most, service diversity the baseline attacker; a
-defence can destroy only the state an attacker carries (position against
+defence mechanism can destroy only the state an attacker carries (position against
 exploit); the lineage's own disagreement (Zhang favours shuffle, Ho
 diversity) read as the same phenomenon. (2) Time lost per MTD deployment:
 severance of the foothold against a retry of the same exploit (Brown's
@@ -8719,7 +8782,7 @@ severance of the foothold against a retry of the same exploit (Brown's
 mechanism, or stated as unexplained. (4) Deployment strategies and MTDShield:
 MTDShield chose service diversity at most decisions and was trained against
 the baseline attacker (a hypothesis); outside its training conditions.
-Close: no single defence performs best against both attackers, handed to
+Close: no single defence mechanism or deployment strategy performs best against both attackers, handed to
 Section~\ref{sec:evaluation-implications}.]}
 
 % =====================================================================
@@ -9120,7 +9183,7 @@ Section~\ref{sec:future-work}; the four types defined once, cited.]}
 \noindent\emph{[Placeholder --- internal validity: the attacker model is a
 bundle of order, timing and failure response that no control separates; the
 profiles may separate on corpus size rather than objective; the inherited
-confusion penalty. Mitigations: same network, defences, actions and seeds for
+confusion penalty. Mitigations: same network, MTD, actions and seeds for
 both attackers; the fair-fight disruption design
 (Section~\ref{subsec:aio-disruption}); the ablation of
 Section~\ref{sec:ablation}. Residual: the claim is that the APT attacker model
@@ -9801,8 +9864,8 @@ read the same perturbations family by family and parameter by parameter.
 Each dwell family was moved as a whole across its band, the per-tactic
 multipliers of Appendix~\ref{app:dwell-derivation} riding along unchanged, with
 the other three families at their declared values. Table~\ref{tab:anchor-sensitivity}
-gives distinct hosts reached at both band ends against the declared value in
-each cell; Figure~\ref{fig:sens-dwell-anchor} draws the one family whose
+gives distinct hosts reached at both band ends against the declared value with
+no MTD and under the random deployment strategy; Figure~\ref{fig:sens-dwell-anchor} draws the one family whose
 band ends separate from the centre by more than a host.
 
 \input{tables/tab_C-1a_family_sensitivity}
@@ -9824,7 +9887,7 @@ band ends separate from the centre by more than a host.
 %  Marc's 2026-09-26 go-ahead (docs/workflows/connective_prose.md; audit
 %  docs/implementation/connective_prose_audit.md); prior text in git.
 %  RATIFIED 2026-09-26 (Marc: 'I accept all this').
-  defence and under the random deployment strategy mutating every 200\,s. Pooled over the
+  MTD and under the random deployment strategy mutating every 200\,s. Averaged over the
   four profiles, 400 runs per point; intervals are 95\,\%.}
   \label{fig:sens-dwell-anchor}
 \end{figure}
@@ -10038,7 +10101,7 @@ One caution attaches to it. Tay's scores were produced with the exploration
 rate at one, so every scored run chose its mechanisms at random whichever agent
 was loaded, and the scores do not separate the agents' policies. For the same
 reason Chapter~\ref{ch:experiments} runs random selection over the same four
-mechanisms beside MTDShield: that is the deployment strategy Tay's figures measured, and
+mechanisms beside MTDShield: Tay's figures compare MTDShield against it, and
 the difference between the two is what the agent's policy adds.
 
 \begin{table}[htbp]
@@ -10094,7 +10157,7 @@ measured, not rescaled, because they describe the network as it is.
     Attacker & the baseline attacker & the baseline attacker & the baseline attacker; the APT attacker model \\
     Detection rate & 1 & 1 (0 to 1 in \citealp[Figure~6]{tay2024}) & 1 \\
     Forced deployment & after 2\,000\,s & after 2\,000\,s & after 2\,000\,s \\
-    Runs & 100 episodes & 100 per agent & 1\,000 per cell \\
+    Runs & 100 episodes & 100 per agent & 1\,000 per combination \\
     \bottomrule
   \end{tabular}
 \end{table}
@@ -10152,8 +10215,8 @@ any would make the agent this dissertation's rather than Tay's.
 % the reported seed count and six ticks. Record:
 % docs/implementation/pipeline/ogasp/ch5_mtdshield_preliminary_findings.md.
 % DRAFT STATE --- ratify on read.
-Each run records the agent's decisions; the counts below are over 100 runs per
-cell, pooled over $c_1$ to $c_4$ for the APT attacker model.
+Each run records the agent's decisions; the shares below are over 100 runs per
+attacker and deployment interval, averaged over $c_1$ to $c_4$ for the APT attacker model.
 \begin{itemize}
   \item At the 200\,s tick the agent chose service diversity at 76\,\% of
   decisions against the baseline attacker and 70\,\% against the APT attacker

@@ -202,12 +202,12 @@ def emit_tab58(s55: dict) -> str:
     w("%   the model pooled over its four profiles). Do not hand-edit; regenerate.")
     w(r"\begin{table}[H]")
     w(r"  \centering")
-    w(r"  \caption[The cost of each condition, on both sides]{The attacker's effort per host it manages to reach, and the defender's reconfiguration burden, for each condition and each attacker at the inherited interval. The attacker-side columns are counts of events rather than durations, which is what makes them comparable across two attackers that price time differently; the defender-side columns are derived from the simulator's own record of when each deployment was executing and are priced identically on both arms. The intention is to report both sides of the exchange on one page, and to state plainly which quantities may be compared across attackers and which may not.}")
+    w(r"  \caption[The cost of MTD, on both sides]{The attacker's effort per host it manages to reach, and the defender's reconfiguration burden, with no MTD, under each of the seven defence mechanisms and under the random deployment strategy, for each attacker at the inherited interval. The attacker-side columns are counts of events rather than durations, which is what makes them comparable across two attackers that price time differently; the defender-side columns are derived from the simulator's own record of when each deployment was executing and are priced identically on both arms. The intention is to report both sides of the exchange on one page, and to state plainly which quantities may be compared across attackers and which may not.}")
     w(r"  \label{tab:eff-cost}")
     w(r"  \tablestyle\scriptsize\setlength{\tabcolsep}{3pt}")
     w(r"  \begin{tabular}{@{}cP{3.4cm}>{\centering\arraybackslash}p{3.2cm}>{\centering\arraybackslash}p{3.2cm}>{\centering\arraybackslash}p{2.6cm}@{}}")
     w(r"    \toprule")
-    w(r"    & Deployment strategy & Actions per host reached & Successes per host reached & Share of run under reconfiguration \\")
+    w(r"    & MTD & Actions per host reached & Successes per host reached & Share of run under reconfiguration \\")
     w(r"    \midrule")
     cost = s55["by_interval"]["200"]["cost"]
     conds = ("none",) + DEFENDED
@@ -226,7 +226,7 @@ def emit_tab58(s55: dict) -> str:
                 pm(d["occupancy"], 2)))
         w(r"    \midrule" if arm == "baseline" else r"    \bottomrule")
     w(r"    \addlinespace[2pt]")
-    w(r"    \multicolumn{5}{@{}p{0.96\textwidth}@{}}{\scriptsize Actions and successes per host are cell totals (all attempted actions, or all successes, over all hosts reached in the 100 runs, or 400 for the pooled model) with a seeded bootstrap interval, so a run that reaches one host does not dominate; a success is a verdict of success on the model and a compromise event on the baseline attacker, whose record carries no other verdict. The reconfiguration share is the union of the deployment windows over the run's elapsed time, mean $\pm$ 95\,\% interval. Time-denominated attacker-side quantities are not comparable across arms and are not in this table.}\\")
+    w(r"    \multicolumn{5}{@{}p{0.96\textwidth}@{}}{\scriptsize Actions and successes per host are cell totals (all attempted actions, or all successes, over all hosts reached in the 100 runs, or 400 for the APT attacker model on $c_1$ to $c_4$) with a seeded bootstrap interval, so a run that reaches one host does not dominate; a success is a verdict of success on the model and a compromise event on the baseline attacker, whose record carries no other verdict. The reconfiguration share is the union of the deployment windows over the run's elapsed time, mean $\pm$ 95\,\% interval. Time-denominated attacker-side quantities are not comparable across arms and are not in this table.}\\")
     w(r"  \end{tabular}")
     w(r"\end{table}")
     return "\n".join(L) + "\n"

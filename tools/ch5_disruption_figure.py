@@ -188,7 +188,7 @@ def emit_table(d: dict) -> str:
         "% DRAFT STATE --- ratify on read.",
         r"\begin{table}[tp]",
         r"  \centering",
-        r"  \caption[What each defence mechanism costs each attacker]{Attack actions blocked per run and time lost per MTD deployment (Section~\ref{subsec:metrics-effectiveness}) for each defence mechanism deployed alone at the 2\,000\,s deployment interval, for the APT attacker model on $c_1$ to $c_4$ pooled and for the baseline attacker, ordered by the APT attacker model's time lost. Blocked: mean with a 95\,\% interval; time lost: brackets are a 95\,\% bootstrap interval over runs.}",
+        r"  \caption[What each defence mechanism costs each attacker]{Attack actions blocked per run and time lost per MTD deployment (Section~\ref{subsec:metrics-effectiveness}) for each defence mechanism deployed alone at the 2\,000\,s deployment interval, for the APT attacker model averaged over its four attack profiles and for the baseline attacker, ordered by the APT attacker model's time lost. Blocked: mean with a 95\,\% interval; time lost: brackets are a 95\,\% bootstrap interval over runs.}",
         r"  \label{tab:disruption}",
         r"  \tablestyle",
         r"  \begin{tabular}{@{}lcccc@{}}",

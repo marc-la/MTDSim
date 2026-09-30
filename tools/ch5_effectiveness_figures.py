@@ -258,7 +258,7 @@ def emit_tab55(s541: dict) -> str:
     w("%   MTTC is taken over. DRAFT STATE --- ratify on read.")
     w(r"\begin{table}[H]")
     w(r"  \centering")
-    w(r"  \caption[Deployment strategies against the APT attacker model]{Each deployment strategy against the APT attacker model pooled over $c_1$ to $c_4$, deployed every %s\,s, on the attack-outcome and MTD-effectiveness metrics of Table~\ref{tab:metrics}, ordered by NCR reduction; the first row is the no-MTD reference. MTTC is over the runs that compromise a host, and its parenthesis is their share of all runs. Brackets: a 95\,\%% percentile bootstrap interval; $\pm$: a 95\,\%% interval on the mean (normal approximation).}" % fmt_thousands(int(TAB55_INTERVALS[0])))
+    w(r"  \caption[Defence mechanisms and deployment strategies against the APT attacker model]{Each defence mechanism and deployment strategy against the APT attacker model, averaged over $c_1$ to $c_4$, deployed every %s\,s, on the attack-outcome and MTD-effectiveness metrics of Table~\ref{tab:metrics}, ordered by NCR reduction; the first row is the no-MTD reference. MTTC is over the runs that compromise a host, and its parenthesis is their share of all runs. Brackets: a 95\,\%% percentile bootstrap interval; $\pm$: a 95\,\%% interval on the mean (normal approximation).}" % fmt_thousands(int(TAB55_INTERVALS[0])))
     w(r"  \label{tab:eff-conditions}")
     # widths fill \textwidth (455.24 pt) at 4 pt colsep: 14.28 cm of columns +
     # 6 interior gutters at 8 pt + the rotated key. Two header rows: the
@@ -269,7 +269,7 @@ def emit_tab55(s541: dict) -> str:
     w(r"    \toprule")
     w(r"    & & \multicolumn{3}{c}{Attack outcome} & \multicolumn{2}{c}{MTD effectiveness} \\")
     w(r"    \cmidrule(lr){3-5}\cmidrule(lr){6-7}")
-    w(r"    & Deployment strategy & ASP & NCR & MTTC (s) & NCR reduction & Attack actions blocked \\")
+    w(r"    & MTD & ASP & NCR & MTTC (s) & NCR reduction & Attack actions blocked \\")
     w(r"    \midrule")
 
     def mttc(dl):
@@ -318,7 +318,7 @@ def emit_tab56(s542: dict) -> str:
     w("%   size and colsep as Table 5.4, filling \\textwidth. DRAFT STATE --- ratify on read.")
     w(r"\begin{table}[H]")
     w(r"  \centering")
-    w(r"  \caption[The defence ranking under each attacker]{The defence conditions ranked by NCR reduction against the APT attacker model and against the baseline attacker, at each deployment interval, in the APT attacker model's order; rank~1 is the largest reduction. Brackets: a 95\,\% percentile bootstrap interval.}")
+    w(r"  \caption[The MTD ranking under each attacker]{The defence mechanisms and deployment strategies ranked by NCR reduction against the APT attacker model and against the baseline attacker, at each deployment interval, in the APT attacker model's order; rank~1 is the largest reduction. Brackets: a 95\,\% percentile bootstrap interval.}")
     w(r"  \label{tab:eff-orderings}")
     # type size and colsep as tab:eff-conditions (conventions §k rule 1);
     # widths fill \textwidth (455.24 pt): 3.5 + 2 x (3.6 + 1.75) cm of columns
@@ -330,7 +330,7 @@ def emit_tab56(s542: dict) -> str:
     w(r"    \toprule")
     w(r"    & & \multicolumn{2}{c}{APT attacker model} & \multicolumn{2}{c}{Baseline attacker} \\")
     w(r"    \cmidrule(lr){3-4}\cmidrule(lr){5-6}")
-    w(r"    & Deployment strategy & NCR reduction & Rank & NCR reduction & Rank \\")
+    w(r"    & MTD & NCR reduction & Rank & NCR reduction & Rank \\")
     w(r"    \midrule")
     for interval in INTERVALS:
         blk = s542["by_interval"][interval]
@@ -420,7 +420,7 @@ def emit_tab57(s543: dict) -> tuple[str, list]:
         facts.append((key, vb, db, vm, dm, agreement))
     w(r"    \bottomrule")
     w(r"    \addlinespace[2pt]")
-    w(r"    \multicolumn{5}{@{}p{0.96\textwidth}@{}}{\scriptsize Direction is read on NCR reduction ($1 - $ hosts / hosts with no MTD, on cell means) over the seven single mechanisms and the two schemes, 100 seeds per cell, the model pooled over its four profiles; ``higher'' means the family's mean suppression is larger, and where the source names a pair the pair is read beside the family. The published evaluations reported mean time to compromise, or a composite of it, on a different network, pool and horizon, so no cell here is a numerical replication: only the direction of each comparison is compared. \textsuperscript{v}~the claim as attributed in the chapter's design record; the source's own statement of it is to be verified against the paper before submission.}\\")
+    w(r"    \multicolumn{5}{@{}p{0.96\textwidth}@{}}{\scriptsize Direction is read on NCR reduction ($1 - $ hosts / hosts with no MTD, on cell means) over the seven defence mechanisms and the random and alternative deployment strategies, 100 seeds per cell, the model averaged over its four profiles; ``higher'' means the family's mean suppression is larger, and where the source names a pair the pair is read beside the family. The published evaluations reported mean time to compromise, or a composite of it, on a different network, pool and horizon, so no cell here is a numerical replication: only the direction of each comparison is compared. \textsuperscript{v}~the claim as attributed in the chapter's design record; the source's own statement of it is to be verified against the paper before submission.}\\")
     w(r"  \end{tabular}")
     w(r"\end{table}")
     return "\n".join(L) + "\n", facts

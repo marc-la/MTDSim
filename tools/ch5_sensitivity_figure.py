@@ -89,7 +89,7 @@ def emit(g: pd.DataFrame, anchor_name: str, reference_interval: float) -> str:
 
     series = [
         ("none", "black!70", "circle", "no MTD"),
-        ("reference", "accent", "square", "defence, mutating every %d\\,s" % reference_interval),
+        ("reference", "accent", "square", "random, every %d\\,s" % reference_interval),
     ]
 
     L: list[str] = []

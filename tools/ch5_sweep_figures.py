@@ -74,7 +74,7 @@ HEAD_ROWS = (("Defence mechanisms, by the layer they rewrite",
 # depth figures draw it
 ARMS = (("movement", "black", "circle", False), ("baseline", "cbase", "square", True))
 # the figure-wide key, one row at the top of every sweep figure (conventions §o)
-ARM_KEY = ((LABEL["movement"] + r" (pooled over $c_1$ to $c_4$)", "line", "black", "circle"),
+ARM_KEY = ((LABEL["movement"], "line", "black", "circle"),
            ("baseline attacker", "dashed", "cbase", "square"))
 PROFILE_KEY = tuple((LABEL[p], "line", CNAME[p], MARK[p]) for p in PROFILES) + (
     ("baseline attacker", "dashed", "cbase", "square"),)
@@ -310,9 +310,9 @@ def emit_value_table(sweep) -> tuple[str, list]:
     w("%   (section sweep; the APT attacker model pooled over its four profiles). Do not hand-edit.")
     w("% 2026-09-25 (Marc on the first draft: the rank grid's dashes and italics did not")
     w("%   read): the values themselves, grouped as Figure 5.4's panels. DRAFT STATE --- ratify on read.")
-    w(r"\begin{table}[H]")
+    w(r"\begin{table}[htbp]")
     w(r"  \centering")
-    w(r"  \caption[NCR reduction under each attacker, by defence and deployment interval]{NCR reduction for each defence against the APT attacker model, pooled over $c_1$ to $c_4$, and against the baseline attacker, at each deployment interval; 1 is no host compromised, 0 is as many as with no MTD, and a negative value is more hosts compromised than with no MTD. Rows grouped as the panels of Figure~\ref{fig:eff-cross-arm}; a layer's row gives the mean it plots. Grey text: the 95\,\% percentile bootstrap interval includes zero; the APT attacker model's cells pool four times as many runs as the baseline attacker's.}")
+    w(r"  \caption[NCR reduction under each attacker, by MTD and deployment interval]{NCR reduction for each defence mechanism and deployment strategy against the APT attacker model, averaged over $c_1$ to $c_4$, and against the baseline attacker, at each deployment interval; 1 is no host compromised, 0 is as many as with no MTD, and a negative value is more hosts compromised than with no MTD. Rows grouped as the panels of Figure~\ref{fig:eff-cross-arm}; a layer's row gives the mean it plots. Grey text: the 95\,\% percentile bootstrap interval includes zero; the APT attacker model's cells hold four times as many runs as the baseline attacker's.}")
     w(r"  \label{tab:eff-interval-values}")
     w(r"  \tablestyle\scriptsize\setlength{\tabcolsep}{3pt}\rowcolors{1}{}{}")  # the groups' rules separate rows; zebra would stripe the headers
     w(r"  \begin{tabular}{@{}P{3.75cm}*{%d}{>{\centering\arraybackslash}p{0.78cm}}@{}}" % (2 * n))
@@ -381,9 +381,9 @@ def emit_ranking_table(ranking) -> tuple[str, list]:
     w("%   (section ranking; ranks by Scott-Knott ESD, data/results/ch5_defended/sk_esd.py). Do not hand-edit.")
     w("% 2026-09-25 (Marc: \"we have to have some ranks ... ranking with ties\"; results context §8j-4):")
     w("%   the two attackers side by side at one interval, all of Table 4.3's metrics. DRAFT STATE --- ratify on read.")
-    w(r"\begin{table}[H]")
+    w(r"\begin{table}[htbp]")
     w(r"  \centering")
-    w(r"  \caption[The defences ranked against each attacker]{Each defence deployed every %s\,s against the APT attacker model, pooled over $c_1$ to $c_4$, and against the baseline attacker, each ranked by Scott--Knott ESD on the mean hosts compromised per seed (Section~\ref{sec:dimensions}). Rank~1, in bold, is the fewest hosts compromised; defences that share a rank are not told apart; no MTD is not ranked. Rows in the APT attacker model's order. Metrics as Table~\ref{tab:metrics}; MTTC is over the runs that compromise a host, with their percentage of all runs in brackets. Every value's interval is in Appendix~\ref{app:supplementary-results}.}" % fmt_thousands(int(iv)))
+    w(r"  \caption[The defence mechanisms and deployment strategies ranked against each attacker]{Each defence mechanism and deployment strategy deployed every %s\,s against the APT attacker model, averaged over $c_1$ to $c_4$, and against the baseline attacker, each ranked by Scott--Knott ESD on the mean hosts compromised per seed (Section~\ref{sec:dimensions}). Rank~1, in bold, is the fewest hosts compromised; rows that share a rank are not told apart; no MTD is not ranked. Rows in the APT attacker model's order. Metrics as Table~\ref{tab:metrics}; MTTC is over the runs that compromise a host, with their percentage of all runs in brackets. Every value's interval is in Appendix~\ref{app:supplementary-results}.}" % fmt_thousands(int(iv)))
     w(r"  \label{tab:eff-cross-arm}")
     # the stripes restart at row 4 so neither header row is shaded (as Table 5.4 was)
     w(r"  \tablestyle\scriptsize\setlength{\tabcolsep}{2.6pt}\rowcolors{4}{black!5}{}")
@@ -397,7 +397,7 @@ def emit_ranking_table(ranking) -> tuple[str, list]:
     w(r"    & \multicolumn{5}{c}{APT attacker model} & \multicolumn{5}{c}{Baseline attacker} \\")
     w(r"    \cmidrule(lr){2-6}\cmidrule(lr){7-11}")
     head_m = ["Rank", "ASP", "NCR", "MTTC (s)", r"NCR\newline reduction"]
-    w(r"    Defence & %s & %s \\" % (" & ".join(head_m), " & ".join(head_m)))
+    w(r"    MTD & %s & %s \\" % (" & ".join(head_m), " & ".join(head_m)))
     w(r"    \midrule")
 
     def cells(arm, row, none=False):
@@ -425,14 +425,14 @@ def emit_full_table(ranking, arm) -> str:
     iv = RANK_INTERVAL if RANK_INTERVAL in ranking["by_interval"] else str(ranking["intervals"][0])
     blk = ranking["by_interval"][iv][arm]
     order = sorted(blk["rows"], key=lambda c: (blk["rows"][c]["rank"], -blk["rows"][c]["point"]))
-    who = (r"the APT attacker model, pooled over $c_1$ to $c_4$" if arm == "movement" else "the baseline attacker")
+    who = (r"the APT attacker model, averaged over $c_1$ to $c_4$" if arm == "movement" else "the baseline attacker")
     L: list[str] = []
     w = L.append
     w("% GENERATED by tools/ch5_sweep_figures.py from data/results/ch5_defended/numbers.json (section ranking).")
     w("%   Do not hand-edit. DRAFT STATE --- ratify on read.")
     w(r"\begin{table}[H]")
     w(r"  \centering")
-    w(r"  \caption[Deployment strategies against %s, with intervals]{Each defence deployed every %s\,s against %s, with the rank of Table~\ref{tab:eff-cross-arm}, on the metrics of Table~\ref{tab:metrics}; the first row is the no-MTD reference. MTTC is over the runs that compromise a host, with their percentage of all runs in brackets. Brackets on NCR reduction: a 95\,\%% percentile bootstrap interval; $\pm$: a 95\,\%% interval on the mean (normal approximation).}" % (LABEL[arm], fmt_thousands(int(iv)), who))
+    w(r"  \caption[Defence mechanisms and deployment strategies against %s, with intervals]{Each defence mechanism and deployment strategy deployed every %s\,s against %s, with the rank of Table~\ref{tab:eff-cross-arm}, on the metrics of Table~\ref{tab:metrics}; the first row is the no-MTD reference. MTTC is over the runs that compromise a host, with their percentage of all runs in brackets. Brackets on NCR reduction: a 95\,\%% percentile bootstrap interval; $\pm$: a 95\,\%% interval on the mean (normal approximation).}" % (LABEL[arm], fmt_thousands(int(iv)), who))
     w(r"  \label{tab:full-%s}" % arm)
     w(r"  \tablestyle\scriptsize\setlength{\tabcolsep}{4pt}")
     C = r">{\centering\arraybackslash}p{%s}"
@@ -440,7 +440,7 @@ def emit_full_table(ranking, arm) -> str:
     w(r"  \begin{tabular}{@{}P{3.4cm}%s%s%s%s%s%s@{}}" % (C % "0.7cm", C % "1.0cm", C % "1.6cm", C % "2.8cm",
                                                         C % "2.9cm", (C % "1.9cm") if extra else ""))
     w(r"    \toprule")
-    w(r"    Defence & Rank & ASP & NCR & MTTC (s) & NCR reduction%s \\" % (" & Attack actions blocked" if extra else ""))
+    w(r"    MTD & Rank & ASP & NCR & MTTC (s) & NCR reduction%s \\" % (" & Attack actions blocked" if extra else ""))
     w(r"    \midrule")
 
     def pm(d, nd=2, scale=1.0):

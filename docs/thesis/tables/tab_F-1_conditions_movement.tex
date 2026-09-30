@@ -2,12 +2,12 @@
 %   Do not hand-edit. DRAFT STATE --- ratify on read.
 \begin{table}[H]
   \centering
-  \caption[Deployment strategies against APT attacker model, with intervals]{Each defence deployed every 200\,s against the APT attacker model, pooled over $c_1$ to $c_4$, with the rank of Table~\ref{tab:eff-cross-arm}, on the metrics of Table~\ref{tab:metrics}; the first row is the no-MTD reference. MTTC is over the runs that compromise a host, with their percentage of all runs in brackets. Brackets on NCR reduction: a 95\,\% percentile bootstrap interval; $\pm$: a 95\,\% interval on the mean (normal approximation).}
+  \caption[Defence mechanisms and deployment strategies against APT attacker model, with intervals]{Each defence mechanism and deployment strategy deployed every 200\,s against the APT attacker model, averaged over $c_1$ to $c_4$, with the rank of Table~\ref{tab:eff-cross-arm}, on the metrics of Table~\ref{tab:metrics}; the first row is the no-MTD reference. MTTC is over the runs that compromise a host, with their percentage of all runs in brackets. Brackets on NCR reduction: a 95\,\% percentile bootstrap interval; $\pm$: a 95\,\% interval on the mean (normal approximation).}
   \label{tab:full-movement}
   \tablestyle\scriptsize\setlength{\tabcolsep}{4pt}
   \begin{tabular}{@{}P{3.4cm}>{\centering\arraybackslash}p{0.7cm}>{\centering\arraybackslash}p{1.0cm}>{\centering\arraybackslash}p{1.6cm}>{\centering\arraybackslash}p{2.8cm}>{\centering\arraybackslash}p{2.9cm}@{}}
     \toprule
-    Defence & Rank & ASP & NCR & MTTC (s) & NCR reduction \\
+    MTD & Rank & ASP & NCR & MTTC (s) & NCR reduction \\
     \midrule
     no MTD & --- & 0.09 & $0.16 \pm 0.01$ & $2\,100 \pm 195$ (96) & --- \\
     \midrule

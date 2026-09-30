@@ -6,7 +6,7 @@
 \begin{table}[htbp]
 \centering\footnotesize
 % CAPTION DRAFT STATE 2026-09-17 --- voice pass owed.
-\caption[Hosts reached across the failure matrix's distance parameters]{Distinct hosts reached at each distance parameter's band ends against its declared value, one at a time with the others held, and then at the four corners of the two rates with the floor declared, under no MTD and under the random scheme at each interval. Pooled over the four profiles, 400 runs per cell; intervals are 95\,\%. The floor's rows are bit-identical to the declared point: no Petri net carries a jump of three stages, so its sensitivity is zero by structure rather than by measurement.}
+\caption[Hosts reached across the failure matrix's distance parameters]{Distinct hosts reached at each distance parameter's band ends against its declared value, one at a time with the others held, and then at the four corners of the two rates with the floor declared, under no MTD and under the random deployment strategy at each interval. Averaged over the four profiles, 400 runs per cell; intervals are 95\,\%. The floor's rows are bit-identical to the declared point: no Petri net carries a jump of three stages, so its sensitivity is zero by structure rather than by measurement.}
 \label{tab:decay-sensitivity}
 \tablestyle\setlength{\tabcolsep}{4pt}
 \begin{tabular}{@{}cP{3.4cm}>{\centering\arraybackslash}p{2.1cm}>{\centering\arraybackslash}p{2.1cm}>{\centering\arraybackslash}p{2.1cm}P{2.6cm}@{}}
@@ -27,7 +27,7 @@
  & corner $\gamma=0.1$, $\delta=0.1$ & --- & $2.1 \pm 0.2$ & $2.2 \pm 0.2$ & inert \\
  & corner $\gamma=0.1$, $\delta=0.5$ & --- & $2.1 \pm 0.2$ & $2.2 \pm 0.2$ & inert \\
  & corner $\gamma=0.5$, $\delta=0.1$ & --- & $2.1 \pm 0.2$ & $2.1 \pm 0.2$ & inert \\
-\rowgroup{7}{defended, 200\,s} & corner $\gamma=0.5$, $\delta=0.5$ & --- & $2.1 \pm 0.2$ & $2.2 \pm 0.2$ & inert \\
+\rowgroup{7}{random, 200\,s} & corner $\gamma=0.5$, $\delta=0.5$ & --- & $2.1 \pm 0.2$ & $2.2 \pm 0.2$ & inert \\
 \midrule
  & forward rate $\gamma$ (0.1, 0.5) & $7.5 \pm 0.4$ & $7.4 \pm 0.4$ & $7.3 \pm 0.4$ & inert \\
  & backward rate $\delta$ (0.1, 0.5) & $7.5 \pm 0.4$ & $7.4 \pm 0.4$ & $7.5 \pm 0.4$ & inert \\
@@ -35,7 +35,7 @@
  & corner $\gamma=0.1$, $\delta=0.1$ & --- & $7.4 \pm 0.4$ & $7.5 \pm 0.4$ & inert \\
  & corner $\gamma=0.1$, $\delta=0.5$ & --- & $7.4 \pm 0.4$ & $7.6 \pm 0.4$ & inert \\
  & corner $\gamma=0.5$, $\delta=0.1$ & --- & $7.4 \pm 0.4$ & $7.3 \pm 0.4$ & inert \\
-\rowgroup{7}{defended, 2\,000\,s} & corner $\gamma=0.5$, $\delta=0.5$ & --- & $7.4 \pm 0.4$ & $7.5 \pm 0.4$ & inert \\
+\rowgroup{7}{random, 2\,000\,s} & corner $\gamma=0.5$, $\delta=0.5$ & --- & $7.4 \pm 0.4$ & $7.5 \pm 0.4$ & inert \\
 \bottomrule
 \end{tabular}
 \end{table}

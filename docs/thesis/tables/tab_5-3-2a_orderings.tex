@@ -7,14 +7,14 @@
 %   size and colsep as Table 5.4, filling \textwidth. DRAFT STATE --- ratify on read.
 \begin{table}[H]
   \centering
-  \caption[The defence ranking under each attacker]{The defence conditions ranked by NCR reduction against the APT attacker model and against the baseline attacker, at each deployment interval, in the APT attacker model's order; rank~1 is the largest reduction. Brackets: a 95\,\% percentile bootstrap interval.}
+  \caption[The MTD ranking under each attacker]{The defence mechanisms and deployment strategies ranked by NCR reduction against the APT attacker model and against the baseline attacker, at each deployment interval, in the APT attacker model's order; rank~1 is the largest reduction. Brackets: a 95\,\% percentile bootstrap interval.}
   \label{tab:eff-orderings}
   \tablestyle\scriptsize\setlength{\tabcolsep}{4pt}\rowcolors{3}{black!5}{}
   \begin{tabular}{@{}cP{3.5cm}>{\centering\arraybackslash}p{3.6cm}>{\centering\arraybackslash}p{1.75cm}>{\centering\arraybackslash}p{3.6cm}>{\centering\arraybackslash}p{1.75cm}@{}}
     \toprule
     & & \multicolumn{2}{c}{APT attacker model} & \multicolumn{2}{c}{Baseline attacker} \\
     \cmidrule(lr){3-4}\cmidrule(lr){5-6}
-    & Condition & NCR reduction & Rank & NCR reduction & Rank \\
+    & MTD & NCR reduction & Rank & NCR reduction & Rank \\
     \midrule
      & IP shuffle & $0.96$ [$0.95$, $0.97$] & 1 & $0.68$ [$0.62$, $0.72$] & 4 \\
      & host topology shuffle & $0.96$ [$0.95$, $0.96$] & 2 & $0.40$ [$0.32$, $0.47$] & 8 \\
