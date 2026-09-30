@@ -454,3 +454,31 @@ section 1:
 
 The rulings, the table and what to apply are in
 [`../handoffs/2026-09-30_disruption_metrics.md`](../handoffs/2026-09-30_disruption_metrics.md).
+
+## 8. Two simplifications tested, and one finding for chapter 6 (2026-09-30)
+
+Marc proposed two ways to drop the restricted mean from time lost per MTD
+deployment. Both were tested on the corpus (2 000 s, 100 seeds) and neither removes it.
+
+**Assume a deployment costs the same at every phase of the attack.** The data
+contradicts this. Time lost split by whether the attacker had compromised any host
+when the deployment completed:
+
+| | before its first compromise | after it |
+|---|--:|--:|
+| APT model, IP shuffle | 214 s (n = 852) | 350 s (n = 2 272) |
+| APT model, host topology shuffle | 159 s (n = 702) | 228 s (n = 2 434) |
+| APT model, service diversity | −8 s | 68 s |
+| baseline, service diversity | −202 s (n = 99) | 673 s (n = 460) |
+
+This matches section 1: a deployment can take only the position or the exploit
+progress the attacker already has. **For chapter 6:** the cost of a deployment depends
+on the attacker's phase. Both attackers pay more once they hold a foothold.
+
+**Make the deployment interval very long, so that no wait is cut off.** Even with no
+cap at the next deployment, the run's end cuts off the wait. With the MTD, 20–33 %
+of the APT model's deployments are never followed by a compromise before the run
+ends (22 % with no MTD); for the baseline under service diversity the figure is 13 %
+(4 % with no MTD). A cap is therefore needed whatever the interval, and the
+restricted mean stays. It would only move from the next deployment to the time
+limit, at the cost of new runs at an interval nothing else in chapter 5 uses.
