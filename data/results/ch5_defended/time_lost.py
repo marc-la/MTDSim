@@ -60,10 +60,16 @@ def view(r: dict) -> dict:
         comp = [x[8] for x in r["records"] if (x[1], x[2]) in COMPROMISE]
         end = float(r["termination_time"])
         blocked = sum(1 for x in r["records"] if x[2] == "MTD_INTERRUPT")
+        # an action as section 4.5.1 counts it: action-bearing, with a verb, run on
+        # the network (a precondition failure never runs; an interrupted one did)
+        actions = sum(1 for x in r["records"] if x[9] == "action-bearing" and x[1] and not x[4])
     else:
         comp = [x[2] for x in r["records"] if x[3] is not None]
         end = max((float(x[2]) for x in r["records"]), default=0.0)
         blocked, prev_exploit_blocked, prev = 0, False, None
+        # consecutive exploit attempts are one action (section 4.5.1)
+        actions = sum(1 for i, x in enumerate(r["records"])
+                      if not (x[0] == "EXPLOIT_VULN" and i and r["records"][i - 1][0] == "EXPLOIT_VULN"))
         for x in r["records"]:
             hit = x[5] is not None
             if x[0] == "EXPLOIT_VULN" and prev == "EXPLOIT_VULN":
@@ -76,7 +82,7 @@ def view(r: dict) -> dict:
             prev = x[0]
     return {
         "arm": r["arm"], "profile": r["profile"], "seed": r["seed"], "cond": r["condition"],
-        "interval": r["interval"], "end": end, "blocked": blocked,
+        "interval": r["interval"], "end": end, "blocked": blocked, "actions": actions,
         "comp": np.sort(np.minimum(np.array(comp, float), end)),
         "landings": sorted(float(e[2]) for e in r["mtd_executions"]),
     }
@@ -151,6 +157,7 @@ def main() -> None:
     runs = load()
     none = {(r["arm"], r["profile"], r["seed"]): r for r in runs if r["cond"] == "none"}
     rng = np.random.default_rng(SEED)
+    rng_share = np.random.default_rng(SEED + 1)  # its own stream: time lost's intervals unchanged
     out = {"definition": "time lost per MTD deployment = mean over deployments of (time to the next compromise "
                          "with the MTD - the same from the same moment with no MTD), each capped at the next deployment",
            "cells": {}}
@@ -168,10 +175,19 @@ def main() -> None:
                     per_run.append(ps)
                     dropped += d
                 bl = np.array([r["blocked"] for r in rs], float)
+                na = np.array([r["actions"] for r in rs], float)
+                # attack actions blocked as a share of the attacker's actions (Marc
+                # 2026-09-30: per run, the faster attacker simply has more to block),
+                # pooled over runs, with a percentile bootstrap over runs
+                idx = rng_share.integers(0, len(rs), (2_000, len(rs)))
+                share_b = bl[idx].sum(1) / na[idx].sum(1)
                 flat = [p for q in per_run for p in q]
                 cell = {
                     "runs": len(rs), "deployments": len(flat), "dropped": dropped,
                     "blocked_per_run": {"mean": float(bl.mean()), "ci95": float(1.96 * bl.std(ddof=1) / np.sqrt(len(bl)))},
+                    "blocked_share": {"point": float(bl.sum() / na.sum()),
+                                      "lo": float(np.percentile(share_b, 2.5)), "hi": float(np.percentile(share_b, 97.5))},
+                    "actions_per_run": float(na.mean()),
                     "wait_with_mtd": float(np.mean([a for a, _, _ in flat])),
                     "wait_no_mtd": float(np.mean([b for _, b, _ in flat])),
                     "time_lost": time_lost(per_run), "time_lost_ci95": boot_time_lost(per_run, rng),

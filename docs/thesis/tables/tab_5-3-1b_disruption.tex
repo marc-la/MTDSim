@@ -4,22 +4,22 @@
 % DRAFT STATE --- ratify on read.
 \begin{table}[tp]
   \centering
-  \caption[What each defence mechanism costs each attacker]{Attack actions blocked and time lost per MTD deployment (Section~\ref{subsec:metrics-effectiveness}) for each defence mechanism deployed alone at the 2\,000\,s deployment interval, for the APT attacker model averaged over its four attack profiles and for the baseline attacker, ordered by the APT attacker model's time lost. Attack actions blocked: mean per run with a 95\,\% interval; time lost: brackets are a 95\,\% bootstrap interval over runs.}
+  \caption[What each defence mechanism costs each attacker]{Attack actions blocked and time lost per MTD deployment (Section~\ref{subsec:metrics-effectiveness}) for each defence mechanism deployed alone at the 2\,000\,s deployment interval, for the APT attacker model averaged over its four attack profiles and for the baseline attacker, ordered by the APT attacker model's time lost. Attack actions blocked is a percentage of the attacker's actions; brackets are 95\,\% bootstrap intervals over runs.}
   \label{tab:disruption}
   \tablestyle
   \begin{tabular}{@{}P{3.9cm}*{4}{>{\centering\arraybackslash}p{2.6cm}}@{}}
     \toprule
     & \multicolumn{2}{c}{APT attacker model} & \multicolumn{2}{c}{Baseline attacker} \\
     \cmidrule(lr){2-3}\cmidrule(lr){4-5}
-    Defence mechanism & Attack actions blocked & Time lost per MTD deployment (s) & Attack actions blocked & Time lost per MTD deployment (s) \\
+    Defence mechanism & Attack actions blocked (\%) & Time lost per MTD deployment (s) & Attack actions blocked (\%) & Time lost per MTD deployment (s) \\
     \midrule
-    IP shuffle & $2.8 \pm 0.2$ & 313 [280, 342] & $5.3 \pm 0.4$ & 3 [$-$49, 49] \\
-    host topology shuffle & $3.1 \pm 0.1$ & 212 [178, 246] & $6.2 \pm 0.4$ & 7 [$-$49, 55] \\
-    complete topology shuffle & $3.1 \pm 0.1$ & 206 [170, 243] & $6.4 \pm 0.3$ & 1 [$-$54, 48] \\
-    service diversity & $1.2 \pm 0.1$ & 52 [22, 81] & $6.9 \pm 0.3$ & 518 [440, 587] \\
-    port shuffle & $1.2 \pm 0.1$ & 14 [$-$10, 37] & $5.4 \pm 0.4$ & $-$3 [$-$44, 32] \\
-    OS diversity & $1.2 \pm 0.1$ & $-$8 [$-$36, 19] & $5.6 \pm 0.4$ & $-$36 [$-$79, 7] \\
-    user shuffle & $0.1 \pm 0.0$ & $-$35 [$-$61, $-$8] & $0.4 \pm 0.1$ & 11 [$-$34, 54] \\
+    IP shuffle & 1.65 [1.57, 1.72] & 313 [280, 342] & 1.97 [1.91, 2.04] & 3 [$-$49, 49] \\
+    host topology shuffle & 1.53 [1.46, 1.60] & 212 [178, 246] & 1.92 [1.88, 1.97] & 7 [$-$49, 55] \\
+    complete topology shuffle & 1.52 [1.45, 1.59] & 206 [170, 243] & 1.94 [1.89, 1.98] & 1 [$-$54, 48] \\
+    service diversity & 0.49 [0.45, 0.54] & 52 [22, 81] & 1.97 [1.91, 2.03] & 518 [440, 587] \\
+    port shuffle & 0.51 [0.47, 0.55] & 14 [$-$10, 37] & 1.88 [1.81, 1.96] & $-$3 [$-$44, 32] \\
+    OS diversity & 0.49 [0.45, 0.53] & $-$8 [$-$36, 19] & 1.91 [1.84, 1.99] & $-$36 [$-$79, 7] \\
+    user shuffle & 0.04 [0.02, 0.05] & $-$35 [$-$61, $-$8] & 0.14 [0.10, 0.18] & 11 [$-$34, 54] \\
     \bottomrule
   \end{tabular}
 \end{table}

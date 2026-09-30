@@ -45,6 +45,9 @@ from _ch5_style import (BASE_DASH, CNAME, FONT, KEY_H, LABEL, LONG, MARK, PREAMB
 
 NUMBERS = REPO / "data" / "results" / "ch5_defended" / "numbers.json"
 STEM_HEAD = "fig_5-3-2b_interval_headline"
+# the same headline on ASP reduction (Marc 2026-09-30: section 5.3.2 carries both
+# reductions; ASP resolves pooled over the profiles, not per profile)
+STEM_HEAD_ASP = "fig_5-3-2e_interval_headline_asp"
 STEM_MECH = "fig_5-3-3b_interval_mechanisms"
 STEM_SCH = "fig_5-3-3c_interval_schemes"
 STEM_VAL = "tab_5-3-2c_attacker_values"
@@ -81,7 +84,7 @@ PROFILE_KEY = tuple((LABEL[p], "line", CNAME[p], MARK[p]) for p in PROFILES) + (
 
 
 # the headline metric's name on every y-axis, set from numbers.json["sweep"]["metric"]
-YLABEL = "ASP reduction"
+YLABEL = "NCR reduction"
 
 
 def _yrange(values) -> tuple[float, float]:
@@ -321,10 +324,10 @@ def emit_value_table(sweep) -> tuple[str, list]:
     w("%   (section sweep; the APT attacker model pooled over its four profiles). Do not hand-edit.")
     w("% 2026-09-25 (Marc on the first draft: the rank grid's dashes and italics did not")
     w("%   read): the values themselves, grouped as Figure 5.4's panels. DRAFT STATE --- ratify on read.")
-    w("% 2026-09-30 (Marc: switch to ASP reduction, section 4.5.3's headline): was NCR reduction.")
+    w("% 2026-09-30: briefly ASP reduction, returned to NCR reduction on Marc's second read (the finer instrument).")
     w(r"\begin{table}[htbp]")
     w(r"  \centering")
-    w(r"  \caption[ASP reduction under each attacker, by MTD and deployment interval]{ASP reduction for each defence mechanism and deployment strategy against the APT attacker model, averaged over $c_1$ to $c_4$, and against the baseline attacker, at each deployment interval; 1 is no run compromising a target host, 0 is as many as with no MTD, and a negative value is more than with no MTD. Rows grouped as the panels of Figure~\ref{fig:eff-cross-arm}; a layer's row gives the mean it plots. Grey text: the 95\,\% percentile bootstrap interval includes zero; the APT attacker model's cells hold four times as many runs as the baseline attacker's.}")
+    w(r"  \caption[NCR reduction under each attacker, by MTD and deployment interval]{NCR reduction for each defence mechanism and deployment strategy against the APT attacker model, averaged over $c_1$ to $c_4$, and against the baseline attacker, at each deployment interval; 1 is no host compromised, 0 is as many as with no MTD, and a negative value is more hosts compromised than with no MTD. Rows grouped as the panels of Figure~\ref{fig:eff-cross-arm}; a layer's row gives the mean it plots. Grey text: the 95\,\% percentile bootstrap interval includes zero; the APT attacker model's cells hold four times as many runs as the baseline attacker's.}")
     w(r"  \label{tab:eff-interval-values}")
     w(r"  \tablestyle\scriptsize\setlength{\tabcolsep}{3pt}\rowcolors{1}{}{}")  # the groups' rules separate rows; zebra would stripe the headers
     w(r"  \begin{tabular}{@{}P{3.75cm}*{%d}{>{\centering\arraybackslash}p{0.78cm}}@{}}" % (2 * n))
@@ -377,7 +380,7 @@ def _mttc(iv: dict | None) -> str:
 
 def _order(blk) -> list[str]:
     mv = blk["movement"]["rows"]
-    return sorted(mv, key=lambda c: (mv[c]["rank"], -mv[c]["asp_reduction"]["point"]))
+    return sorted(mv, key=lambda c: (mv[c]["rank"], -mv[c]["ncr_reduction"]["point"]))
 
 
 def emit_ranking_table(ranking) -> tuple[str, list]:
@@ -391,29 +394,29 @@ def emit_ranking_table(ranking) -> tuple[str, list]:
     w("%   (section ranking; ranks by Scott-Knott ESD, data/results/ch5_defended/sk_esd.py). Do not hand-edit.")
     w("% 2026-09-25 (Marc: \"we have to have some ranks ... ranking with ties\"; results context §8j-4):")
     w("%   the two attackers side by side at one interval, all of Table 4.3's metrics. DRAFT STATE --- ratify on read.")
-    w("% 2026-09-30 (Marc: ASP reduction the headline): ranked on the share of runs reaching a target;")
-    w("%   ASP reduction beside NCR reduction; MTTC at a target host (ruling H1).")
+    w("% 2026-09-30: ranked on hosts compromised per seed (NCR reduction, the headline); ASP reduction")
+    w("%   beside it (section 5.3.2 carries both); MTTC at a target host (ruling H1).")
     w(r"\begin{table}[htbp]")
     w(r"  \centering")
-    w(r"  \caption[The defence mechanisms and deployment strategies ranked against each attacker]{Each defence mechanism and deployment strategy deployed every %s\,s against the APT attacker model, averaged over $c_1$ to $c_4$, and against the baseline attacker, each ranked by Scott--Knott ESD on the share of runs per seed that compromise a target host (Section~\ref{sec:dimensions}). Rank~1, in bold, is the fewest; rows that share a rank are not told apart; no MTD is not ranked. Rows in the APT attacker model's order. Metrics as Table~\ref{tab:metrics}; a dash marks an MTTC with no run to take it over. Every value's interval is in Appendix~\ref{app:supplementary-results}.}" % fmt_thousands(int(iv)))
+    w(r"  \caption[The defence mechanisms and deployment strategies ranked against each attacker]{Each defence mechanism and deployment strategy deployed every %s\,s against the APT attacker model, averaged over $c_1$ to $c_4$, and against the baseline attacker, each ranked by Scott--Knott ESD on the mean hosts compromised per seed (Section~\ref{sec:dimensions}). Rank~1, in bold, is the fewest hosts compromised; rows that share a rank are not told apart; no MTD is not ranked. Rows in the APT attacker model's order. Metrics as Table~\ref{tab:metrics}; a dash marks an MTTC with no run to take it over. Every value's interval is in Appendix~\ref{app:supplementary-results}.}" % fmt_thousands(int(iv)))
     w(r"  \label{tab:eff-cross-arm}")
     # the stripes restart at row 4 so neither header row is shaded (as Table 5.4 was)
     w(r"  \tablestyle\scriptsize\setlength{\tabcolsep}{2.2pt}\rowcolors{4}{black!5}{}")
     C = r">{\centering\arraybackslash}p{%s}"
-    cols = [C % "0.7cm", C % "0.62cm", C % "1.25cm", C % "0.66cm", C % "1.25cm", C % "0.95cm"]
+    cols = [C % "0.7cm", C % "1.25cm", C % "1.25cm", C % "0.66cm", C % "0.62cm", C % "0.95cm"]
     w(r"  \begin{tabular}{@{}P{3.0cm}%s%s@{}}" % ("".join(cols), "".join(cols)))
     w(r"    \toprule")
     w(r"    & \multicolumn{6}{c}{APT attacker model} & \multicolumn{6}{c}{Baseline attacker} \\")
     w(r"    \cmidrule(lr){2-7}\cmidrule(lr){8-13}")
-    head = ["Rank", "ASP", r"ASP\newline reduction", "NCR", r"NCR\newline reduction", r"MTTC\newline (s)"]
+    head = ["Rank", r"NCR\newline reduction", r"ASP\newline reduction", "NCR", "ASP", r"MTTC\newline (s)"]
     w(r"    MTD & %s & %s \\" % (" & ".join(head), " & ".join(head)))
     w(r"    \midrule")
 
     def cells(row, none=False):
         rank = "---" if none else (r"\textbf{1}" if row["rank"] == 1 else str(row["rank"]))
-        return [rank, "%.2f" % row["asp"], "---" if none else _num(row["asp_reduction"]["point"]),
-                "%.2f" % (row["hosts"]["mean"] / N_HOSTS), "---" if none else _num(row["ncr_reduction"]["point"]),
-                _mttc(row["mttc"])]
+        return [rank, "---" if none else _num(row["ncr_reduction"]["point"]),
+                "---" if none else _num(row["asp_reduction"]["point"]),
+                "%.2f" % (row["hosts"]["mean"] / N_HOSTS), "%.2f" % row["asp"], _mttc(row["mttc"])]
 
     w("    no MTD & %s & %s \\\\" % (" & ".join(cells(blk["movement"]["none"], True)),
                                        " & ".join(cells(blk["baseline"]["none"], True))))
@@ -421,7 +424,7 @@ def emit_ranking_table(ranking) -> tuple[str, list]:
     for c in order:
         m, b = blk["movement"]["rows"][c], blk["baseline"]["rows"][c]
         w("    %s & %s & %s \\\\" % (LONG[c], " & ".join(cells(m)), " & ".join(cells(b))))
-        facts.append((c, m["rank"], m["asp_reduction"]["point"], b["rank"], b["asp_reduction"]["point"]))
+        facts.append((c, m["rank"], m["ncr_reduction"]["point"], b["rank"], b["ncr_reduction"]["point"]))
     w(r"    \bottomrule")
     w(r"  \end{tabular}")
     w(r"\end{table}")
@@ -433,7 +436,7 @@ def emit_full_table(ranking, arm) -> str:
     the ranking interval, rows in that attacker's rank order."""
     iv = RANK_INTERVAL if RANK_INTERVAL in ranking["by_interval"] else str(ranking["intervals"][0])
     blk = ranking["by_interval"][iv][arm]
-    order = sorted(blk["rows"], key=lambda c: (blk["rows"][c]["rank"], -blk["rows"][c]["asp_reduction"]["point"]))
+    order = sorted(blk["rows"], key=lambda c: (blk["rows"][c]["rank"], -blk["rows"][c]["ncr_reduction"]["point"]))
     who = (r"the APT attacker model, averaged over $c_1$ to $c_4$" if arm == "movement" else "the baseline attacker")
     L: list[str] = []
     w = L.append
@@ -503,6 +506,21 @@ def main() -> None:
             print("   %-10s %-30s %5d %+.3f [%+.3f, %+.3f]" % f)
         if not args.no_compile:
             compile_fig(stem)
+    if (not args.only or args.only == "headline") and "sweep_asp" in data:
+        sa = data["sweep_asp"]
+        YLABEL = "ASP reduction"
+        pts = [d[k] for i in sa["intervals"] for arm in ("movement", "baseline")
+               for kind in ("attacker", "layer") for d in sa["by_interval"][str(i)][kind][arm].values()
+               for k in ("point", "lo")]
+        yr_a = _yrange(pts)
+        lines, facts = emit_headline(sa, yr_a)
+        write_fig(STEM_HEAD_ASP, lines)
+        print(f"headline (ASP reduction) y range {yr_a}; facts (series, key, interval, point, lo, hi):")
+        for f in facts:
+            print("   %-10s %-30s %5d %+.3f [%+.3f, %+.3f]" % f)
+        if not args.no_compile:
+            compile_fig(STEM_HEAD_ASP)
+        YLABEL = sweep.get("metric", "ncr reduction").replace("asp", "ASP").replace("ncr", "NCR")
     if (not args.only or args.only == "ranking") and "ranking" in data:
         tex, facts = emit_ranking_table(data["ranking"])
         (TAB_DIR / f"{STEM_RANKT}.tex").write_text(tex)

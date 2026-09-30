@@ -2,31 +2,31 @@
 %   (section ranking; ranks by Scott-Knott ESD, data/results/ch5_defended/sk_esd.py). Do not hand-edit.
 % 2026-09-25 (Marc: "we have to have some ranks ... ranking with ties"; results context §8j-4):
 %   the two attackers side by side at one interval, all of Table 4.3's metrics. DRAFT STATE --- ratify on read.
-% 2026-09-30 (Marc: ASP reduction the headline): ranked on the share of runs reaching a target;
-%   ASP reduction beside NCR reduction; MTTC at a target host (ruling H1).
+% 2026-09-30: ranked on hosts compromised per seed (NCR reduction, the headline); ASP reduction
+%   beside it (section 5.3.2 carries both); MTTC at a target host (ruling H1).
 \begin{table}[htbp]
   \centering
-  \caption[The defence mechanisms and deployment strategies ranked against each attacker]{Each defence mechanism and deployment strategy deployed every 200\,s against the APT attacker model, averaged over $c_1$ to $c_4$, and against the baseline attacker, each ranked by Scott--Knott ESD on the share of runs per seed that compromise a target host (Section~\ref{sec:dimensions}). Rank~1, in bold, is the fewest; rows that share a rank are not told apart; no MTD is not ranked. Rows in the APT attacker model's order. Metrics as Table~\ref{tab:metrics}; a dash marks an MTTC with no run to take it over. Every value's interval is in Appendix~\ref{app:supplementary-results}.}
+  \caption[The defence mechanisms and deployment strategies ranked against each attacker]{Each defence mechanism and deployment strategy deployed every 200\,s against the APT attacker model, averaged over $c_1$ to $c_4$, and against the baseline attacker, each ranked by Scott--Knott ESD on the mean hosts compromised per seed (Section~\ref{sec:dimensions}). Rank~1, in bold, is the fewest hosts compromised; rows that share a rank are not told apart; no MTD is not ranked. Rows in the APT attacker model's order. Metrics as Table~\ref{tab:metrics}; a dash marks an MTTC with no run to take it over. Every value's interval is in Appendix~\ref{app:supplementary-results}.}
   \label{tab:eff-cross-arm}
   \tablestyle\scriptsize\setlength{\tabcolsep}{2.2pt}\rowcolors{4}{black!5}{}
-  \begin{tabular}{@{}P{3.0cm}>{\centering\arraybackslash}p{0.7cm}>{\centering\arraybackslash}p{0.62cm}>{\centering\arraybackslash}p{1.25cm}>{\centering\arraybackslash}p{0.66cm}>{\centering\arraybackslash}p{1.25cm}>{\centering\arraybackslash}p{0.95cm}>{\centering\arraybackslash}p{0.7cm}>{\centering\arraybackslash}p{0.62cm}>{\centering\arraybackslash}p{1.25cm}>{\centering\arraybackslash}p{0.66cm}>{\centering\arraybackslash}p{1.25cm}>{\centering\arraybackslash}p{0.95cm}@{}}
+  \begin{tabular}{@{}P{3.0cm}>{\centering\arraybackslash}p{0.7cm}>{\centering\arraybackslash}p{1.25cm}>{\centering\arraybackslash}p{1.25cm}>{\centering\arraybackslash}p{0.66cm}>{\centering\arraybackslash}p{0.62cm}>{\centering\arraybackslash}p{0.95cm}>{\centering\arraybackslash}p{0.7cm}>{\centering\arraybackslash}p{1.25cm}>{\centering\arraybackslash}p{1.25cm}>{\centering\arraybackslash}p{0.66cm}>{\centering\arraybackslash}p{0.62cm}>{\centering\arraybackslash}p{0.95cm}@{}}
     \toprule
     & \multicolumn{6}{c}{APT attacker model} & \multicolumn{6}{c}{Baseline attacker} \\
     \cmidrule(lr){2-7}\cmidrule(lr){8-13}
-    MTD & Rank & ASP & ASP\newline reduction & NCR & NCR\newline reduction & MTTC\newline (s) & Rank & ASP & ASP\newline reduction & NCR & NCR\newline reduction & MTTC\newline (s) \\
+    MTD & Rank & NCR\newline reduction & ASP\newline reduction & NCR & ASP & MTTC\newline (s) & Rank & NCR\newline reduction & ASP\newline reduction & NCR & ASP & MTTC\newline (s) \\
     \midrule
-    no MTD & --- & 0.09 & --- & 0.16 & --- & 11\,653 & --- & 0.58 & --- & 0.49 & --- & 8\,907 \\
+    no MTD & --- & --- & --- & 0.16 & 0.09 & 11\,653 & --- & --- & --- & 0.49 & 0.58 & 8\,907 \\
     \midrule
-    IP shuffle & \textbf{1} & 0.00 & $1.00$ & 0.01 & $0.96$ & --- & 2 & 0.20 & $0.66$ & 0.16 & $0.68$ & 8\,158 \\
-    complete topology shuffle & \textbf{1} & 0.00 & $1.00$ & 0.01 & $0.96$ & --- & 3 & 0.37 & $0.36$ & 0.29 & $0.41$ & 10\,401 \\
-    host topology shuffle & \textbf{1} & 0.00 & $1.00$ & 0.01 & $0.96$ & --- & 3 & 0.32 & $0.45$ & 0.29 & $0.40$ & 9\,667 \\
-    random & \textbf{1} & 0.00 & $1.00$ & 0.04 & $0.75$ & --- & 3 & 0.38 & $0.34$ & 0.32 & $0.33$ & 9\,691 \\
-    alternative & \textbf{1} & 0.00 & $1.00$ & 0.05 & $0.72$ & --- & 2 & 0.25 & $0.57$ & 0.30 & $0.39$ & 10\,753 \\
-    service diversity & 2 & 0.02 & $0.81$ & 0.10 & $0.36$ & 9\,935 & \textbf{1} & 0.00 & $1.00$ & 0.04 & $0.91$ & --- \\
-    MTDShield & 2 & 0.03 & $0.69$ & 0.12 & $0.28$ & 11\,204 & \textbf{1} & 0.05 & $0.91$ & 0.14 & $0.70$ & 5\,220 \\
-    port shuffle & 2 & 0.04 & $0.53$ & 0.13 & $0.20$ & 11\,801 & \textbf{1} & 0.03 & $0.95$ & 0.05 & $0.90$ & 2\,756 \\
-    OS diversity & 3 & 0.07 & $0.19$ & 0.15 & $0.07$ & 10\,527 & 2 & 0.22 & $0.62$ & 0.18 & $0.64$ & 9\,184 \\
-    user shuffle & 3 & 0.10 & $-0.11$ & 0.18 & $-0.14$ & 11\,751 & 4 & 0.69 & $-0.19$ & 0.52 & $-0.07$ & 9\,786 \\
+    IP shuffle & \textbf{1} & $0.96$ & $1.00$ & 0.01 & 0.00 & --- & 2 & $0.68$ & $0.66$ & 0.16 & 0.20 & 8\,158 \\
+    host topology shuffle & \textbf{1} & $0.96$ & $1.00$ & 0.01 & 0.00 & --- & 3 & $0.40$ & $0.45$ & 0.29 & 0.32 & 9\,667 \\
+    complete topology shuffle & \textbf{1} & $0.96$ & $1.00$ & 0.01 & 0.00 & --- & 3 & $0.41$ & $0.36$ & 0.29 & 0.37 & 10\,401 \\
+    random & 2 & $0.75$ & $1.00$ & 0.04 & 0.00 & --- & 3 & $0.33$ & $0.34$ & 0.32 & 0.38 & 9\,691 \\
+    alternative & 2 & $0.72$ & $1.00$ & 0.05 & 0.00 & --- & 3 & $0.39$ & $0.57$ & 0.30 & 0.25 & 10\,753 \\
+    service diversity & 3 & $0.36$ & $0.81$ & 0.10 & 0.02 & 9\,935 & \textbf{1} & $0.91$ & $1.00$ & 0.04 & 0.00 & --- \\
+    MTDShield & 4 & $0.28$ & $0.69$ & 0.12 & 0.03 & 11\,204 & 2 & $0.70$ & $0.91$ & 0.14 & 0.05 & 5\,220 \\
+    port shuffle & 5 & $0.20$ & $0.53$ & 0.13 & 0.04 & 11\,801 & \textbf{1} & $0.90$ & $0.95$ & 0.05 & 0.03 & 2\,756 \\
+    OS diversity & 6 & $0.07$ & $0.19$ & 0.15 & 0.07 & 10\,527 & 2 & $0.64$ & $0.62$ & 0.18 & 0.22 & 9\,184 \\
+    user shuffle & 7 & $-0.14$ & $-0.11$ & 0.18 & 0.10 & 11\,751 & 4 & $-0.07$ & $-0.19$ & 0.52 & 0.69 & 9\,786 \\
     \bottomrule
   \end{tabular}
 \end{table}

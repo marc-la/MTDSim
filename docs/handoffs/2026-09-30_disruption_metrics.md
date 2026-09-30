@@ -74,6 +74,28 @@ Marc's 2026-09-30 walk-through of §4.5 and §5.1–5.3 ("focus your work on 5.1
 - **Not touched:** §5.4 ablations (still NCR), the regime-arm owed note (still NCR,
   flagged in its owed text), chapter 6 placeholders.
 
+## Second read, 2026-09-30 (branch chore/s5-ncr-headline): NCR reduction back as the headline
+
+Marc: the ASP figures were "a colourful mess"; "NCR reduction was chosen because
+it's a finer-grain tool"; "in 5.3.2 you could have ASP reduction and NCR reduction".
+
+- **The rule:** ASP is one bit per run. With no MTD the APT model reaches a target
+  in 36 of 400 runs pooled, 5 to 13 of 100 per profile, so ASP reduction resolves
+  only pooled, and it saturates at 1.00 whenever no run reaches a target. NCR
+  reduction records the hosts every run takes. So: **§5.3.2 carries both** (Figure 5.3
+  NCR, Figure 5.4 ASP, pooled; Table 5.5 both columns), **§5.3.3 NCR only**. §4.5.3
+  says NCR reduction is the headline and why; §5.1 ranks by NCR.
+- The NCR prose of §5.3 is restored verbatim (numbers.json `sweep` identical to the
+  verified version, 0 of 498 cells differ); ρ now has its interval (−0.03, −0.19 to
+  0.05), so that owed note is closed. `sweep_asp` holds the ASP sweep.
+- **Attack actions blocked is a percentage of the attacker's actions** (Marc: "divide
+  by"): §4.5.3, Figure 5.2(a), Table 5.3, §5.3.1. Host layer 1.5–1.7 % (APT) against
+  1.9–2.0 % (baseline); service layer 0.5 % against 1.9–2.0 %. `time_lost.py`
+  gains `blocked_share` (own RNG stream; time lost unchanged in every cell).
+- **Asked, not applied:** distinct attack paths saturates at the number of runs (the
+  count is bounded by it and grows with the seed count); time lost scaled by the
+  no-MTD wait.
+
 ## Still open
 
 - **Ruling I, MTD mechanism for defence mechanism:** still unruled. Marc uses

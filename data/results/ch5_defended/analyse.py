@@ -1081,22 +1081,22 @@ def _reduction(none_seed: np.ndarray, cond_seed: np.ndarray, idx=None) -> float:
 
 
 def section_ranking(cells, rng) -> dict:
-    """Section 5.3.2's table (Marc 2026-09-25; rebased on ASP reduction
-    2026-09-30, section 4.5.3's headline): per deployment interval and attacker,
+    """Section 5.3.2's table (Marc 2026-09-25; NCR reduction the headline, ASP
+    reduction beside it, 2026-09-30): per deployment interval and attacker,
     the ranked MTD's attack outcome (ASP, NCR, MTTC at a target host) and its
-    ASP and NCR reductions with bootstrap intervals, the no-MTD row, and the
-    Scott-Knott ESD rank on the share of runs that compromise a target host per
-    seed (within one attacker every MTD shares the no-MTD ASP, so the order of
-    ASP reduction is the order of that share; 100 seeds per MTD for both
-    attackers). Spearman's rho between the two attackers' ASP reductions, with a
+    NCR and ASP reductions with bootstrap intervals, the no-MTD row, and the
+    Scott-Knott ESD rank on the mean hosts compromised per seed (within one
+    attacker every MTD shares the no-MTD NCR, so the order of NCR reduction is
+    the order of that mean; 100 seeds per MTD for both attackers). Spearman's
+    rho between the two attackers' NCR reductions, with a
     95 % interval from resampling seeds (the same seeds run every MTD and both
     attackers, so one resample serves all)."""
     out = {"conditions": list(RANKED), "intervals": sweep_intervals(cells), "by_interval": {},
-           "headline": "asp reduction"}
+           "headline": "ncr reduction"}
     get = {"movement": lambda c, i: _pool(cells, "core", FOUR, c, i),
            "baseline": lambda c, i: _cell(cells, "core", "baseline", "baseline", c, i)}
     none = {arm: get[arm]("none", 0) for arm in get}
-    none_seed = {arm: per_seed(none[arm], "reached_target") for arm in get}
+    none_seed = {arm: per_seed(none[arm], "hosts") for arm in get}
     for i in out["intervals"]:
         blk = {}
         seed_succ = {}
@@ -1115,8 +1115,8 @@ def section_ranking(cells, rng) -> dict:
                     "blocked": (_iv([x["blocked_fraction"] for x in r if x["blocked_fraction"] is not None])
                                 if arm == "movement" else None),
                 }
-            seed_succ[arm] = {c: per_seed(runs[c], "reached_target") for c in RANKED}
-            sk = sk_esd(seed_succ[arm], best="low")  # rank 1 = the fewest runs reaching a target
+            seed_succ[arm] = {c: per_seed(runs[c], "hosts") for c in RANKED}
+            sk = sk_esd(seed_succ[arm], best="low")  # rank 1 = the fewest hosts compromised
             for c in RANKED:
                 rows[c]["rank"] = sk["rank"][c]
             blk[arm] = {
@@ -1137,7 +1137,7 @@ def section_ranking(cells, rng) -> dict:
             if np.isfinite(r_):
                 boots.append(r_)
         lo, hi = np.quantile(boots, [0.025, 0.975])
-        blk["spearman_asp_reduction"] = {"rho": rho, "lo": float(lo), "hi": float(hi), "n_boot": len(boots)}
+        blk["spearman_ncr_reduction"] = {"rho": rho, "lo": float(lo), "hi": float(hi), "n_boot": len(boots)}
         blk["spearman_sk_ranks"] = float(spearmanr([blk["movement"]["rows"][c]["rank"] for c in RANKED],
                                                    [blk["baseline"]["rows"][c]["rank"] for c in RANKED]).statistic)
         out["by_interval"][str(i)] = blk
@@ -1373,8 +1373,11 @@ def main() -> int:
     out["s55"] = section_55(cells, rng, out["s542"])
     out["regime"] = section_regime(cells, rng, out["s542"])
     out["shield"] = section_shield(cells, rng)
-    out["sweep"] = section_sweep(cells, rng, "asp")
-    out["sweep_ncr"] = section_sweep(cells, rng, "ncr")
+    # NCR reduction is the headline (Marc 2026-09-30, second read: the ASP version
+    # "is just a colourful mess"); run first so its bootstrap stream is the one the
+    # NCR prose was verified on. ASP reduction kept beside it for the record.
+    out["sweep"] = section_sweep(cells, rng, "ncr")
+    out["sweep_asp"] = section_sweep(cells, rng, "asp")
     out["ranking"] = section_ranking(cells, rng)
     (HERE / "numbers.json").write_text(json.dumps(out, indent=1, default=float), encoding="utf-8")
     previews(out)
