@@ -5798,9 +5798,7 @@ first host and reported with the share of runs that compromise one.
 The MTD effectiveness metrics compare an attacker's runs under a deployment strategy with
 its runs on the same seeds with no MTD. ASP reduction is the headline, and NCR
 reduction reads the same comparison on the hosts compromised. Attack actions
-blocked and time lost per MTD deployment record what each deployment does to the
-attacker: a deployment cuts off the action the attacker is running, and the
-attacker then takes time to get back to its work. The time it loses records
+blocked and time lost per MTD deployment read each deployment; time lost records
 adaptivity (Table~\ref{tab:attacker-properties}).
 
 \paragraph{ASP reduction.}
@@ -5825,60 +5823,42 @@ NCR reduction is the same comparison on NCR:
   \label{eq:ncr-reduction}
 \end{equation}
 
+% [2026-09-30, pass 6 on Marc's read: "boil it down to what the reader needs".
+%  Cut: "only the action in flight", the dwell-only and unmet-precondition cases
+%  (Section 4.4.1 states both), the cap's wording, the area-between-curves
+%  sentence (Figure 5.3's caption carries it), the direction, "both ways a
+%  deployment costs", and the no-MTD-run-ended case (the analyser's). One term:
+%  "interrupts" (4.4.1's); "next compromise" (MTTC's "first compromise").]
 \paragraph{Attack actions blocked.}
-Attack actions blocked is Brown's count of the attacker's actions that MTD
-blocks \citep[Sec.~IV-A]{brown2023}: the actions a deployment cuts off while
-they run (Section~\ref{subsec:runtime-mechanics}), per run. Only the action in
-flight is blocked. A deployment that lands while the attacker is in a tactic
-with no action, or on an action whose precondition is already unmet, blocks
-nothing.
+Attack actions blocked is Brown's count of the attacker's actions that MTD blocks
+\citep[Sec.~IV-A]{brown2023}: here, the actions a deployment interrupts
+(Section~\ref{subsec:runtime-mechanics}).
 \begin{equation}
   \text{attack actions blocked} = \operatorname*{mean}_{\text{runs}}
-  \left( \text{actions a deployment cuts off while they run} \right).
+  \left( \text{actions a deployment interrupts} \right).
   \label{eq:blocked}
 \end{equation}
 
 \paragraph{Time lost per MTD deployment.}
-Time lost per MTD deployment is how much longer a deployment makes the attacker
-take to compromise its next host. From the moment a deployment completes, it is
-the time to the attacker's next compromised host, less the time from the same
-moment to the next compromised host on the same seed's run with no MTD. If a
-deployment completes at 6\,000\,s and the attacker's next host falls at
-6\,900\,s, while with no MTD its next host falls at 6\,400\,s, the deployment
-cost it 500\,s:
+Time lost per MTD deployment is how much a deployment delays the attacker's next
+compromise: the time from the deployment's completion to the next
+compromise, less the same time on the same seed's run with no MTD. A deployment
+that completes at 6\,000\,s, with the next compromise at 6\,900\,s against
+6\,400\,s with no MTD, costs the attacker 500\,s:
 \begin{equation}
   \begin{split}
-  &\text{time lost per MTD deployment} = \operatorname*{mean}_{\text{deployments}}
-    \bigl( \text{time to the next compromise} \\
-  &\qquad - \text{time to the next compromise with no MTD} \bigr).
+  \text{time lost per MTD deployment} = \operatorname*{mean}_{\text{deployments}}
+  \bigl( &\text{time to the next compromise} \\
+         &- \text{the same with no MTD} \bigr).
   \end{split}
   \label{eq:time-lost}
 \end{equation}
-Each time is counted up to the next deployment, at most one deployment interval,
-so a deployment is charged only its own cost; a wait that reaches it counts as the
-full interval. Averaged over deployments, each time is then a restricted mean,
-the area under the curve of deployments not yet followed by a compromise, and
-the difference between two restricted means is the area between the two curves
-\citep[Methods, Eq.~1]{royston2013}. Time lost is 0 when a deployment costs the
-attacker nothing; higher is better for the defender. It records both ways a
-deployment costs an attacker: the time to get back to its work, and progress on
-a host that the deployment undoes. A deployment that completes after the no-MTD
-run has ended has no reference and is left out.
-
-% FOLDED 2026-09-30 (Marc: "I would fold it"): Section 4.5.4 Statistical
-% analysis is gone. Every sentence leaned on objects only chapter 5 declares
-% (the seeds and their pairing, the defence mechanisms and deployment
-% strategies run, the ablations), and 5.1 already held the run count. The
-% intervals and the MTD ranking are 5.1's Metrics and MTD ranking paragraphs;
-% the ablation threshold opens Section 5.4. Evidence: evaluation_conventions.md
-% §a and §c (Barach's four-sentence declaration beside the run count; no
-% lineage paper has a statistics subsection under its metrics), STRESS-DES 4.3
-% (the method for stochasticity sits with the replications). Section 4.5 now
-% says what is measured; 5.1 says what is run and how runs are compared.
-% Prior text in git.
+Each time is counted up to the next deployment, so a deployment is charged only
+its own cost; a mean of such times is a restricted mean
+\citep[Methods, Eq.~1]{royston2013}.
 
 
-% =====================================================================
+
 \chapter{Evaluation}
 \label{ch:experiments}
 
