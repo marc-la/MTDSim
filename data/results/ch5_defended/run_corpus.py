@@ -28,6 +28,7 @@ Every number is computed by ``analyse.py`` off the recorded stream.
 from __future__ import annotations
 
 import json
+import re
 import os
 import sys
 import time
@@ -444,15 +445,33 @@ def _resume(path: Path) -> set:
     and is not silently re-run). A line cut off by a killed run is dropped."""
     if not path.exists():
         return set()
+    # Only the tail is read for the cut, and only each row's head for its job:
+    # the corpus outgrows memory (2026-10-01: reading 21.7 GB whole was killed
+    # for memory, before any run started).
     with path.open("rb+") as fh:
-        data = fh.read()
-        cut = data.rfind(b"\n") + 1
-        if cut < len(data):
-            fh.truncate(cut)
+        end = fh.seek(0, 2)
+        pos = end
+        while pos > 0:
+            step = min(1 << 20, pos)
+            fh.seek(pos - step)
+            nl = fh.read(step).rfind(b"\n")
+            if nl >= 0:
+                pos = pos - step + nl + 1
+                break
+            pos -= step
+        if pos < end:
+            fh.truncate(pos)
+    head = re.compile(rb'"arm": "(\w+)", "profile": "(\w+)", "objective": "\w+", "condition": "(\w+)", '
+                      rb'"interval": (\d+), .*?"seed": (\d+)')
     done = set()
-    with path.open(encoding="utf-8") as fh:
+    with path.open("rb") as fh:
         for line in fh:
-            done.add(_job_id(json.loads(line)))
+            m = head.search(line[:1024])
+            if m:
+                a, p, c, i, s = m.groups()
+                done.add((a.decode(), p.decode(), c.decode(), int(i), int(s)))
+            else:  # an error row's message may push the job past the head
+                done.add(_job_id(json.loads(line)))
     return done
 
 
