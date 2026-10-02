@@ -1,5 +1,5 @@
 ---
-status: open — design and propose only (no prose, no figures, no tex edits)
+status: proposal written (2026-10-02_c_agg_ablation_proposal.md), awaiting Marc's rulings R1–R12; no tex, figures or generators edited
 created: 2026-10-02
 ---
 
