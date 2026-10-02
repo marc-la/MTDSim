@@ -38,7 +38,7 @@ point, or it goes.
 | 1 Introduction | none (a synthesis) | [`connective_prose.md`](connective_prose.md), [`../notes/_writing_guide.md`](../notes/_writing_guide.md) |
 | 2 Background | `ch2_background/` | [`background_conventions.md`](background_conventions.md) |
 | 3 Literature review | `ch3_lit_review/` | [`literature_review_conventions.md`](literature_review_conventions.md) |
-| 4 APT attacker model | `ch4_methods/` | [`literature_conventions.md`](literature_conventions.md), [`../implementation/apt_model_criterion.md`](../implementation/apt_model_criterion.md) |
+| 4 APT attacker model | `ch4_methods/` | [`model_chapter_conventions.md`](model_chapter_conventions.md), [`literature_conventions.md`](literature_conventions.md), [`../implementation/apt_model_criterion.md`](../implementation/apt_model_criterion.md) |
 | 5 Evaluation | `ch5_experimental_setup/`, `ch6_results/` | [`evaluation_conventions.md`](evaluation_conventions.md), [`results_section_workflow.md`](results_section_workflow.md) |
 | 6 Discussion | `ch7_discussion/` | none yet: commission one |
 | 7 Conclusion | `ch8_future_work/` | `_writing_guide.md`; commission if thin |
