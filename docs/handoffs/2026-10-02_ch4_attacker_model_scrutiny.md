@@ -1,5 +1,5 @@
 ---
-status: open                  # 2026-10-02: FULL scrutiny ledger (chapter_scrutiny.md §0–§5 run); nothing applied to the tex; awaiting Marc's rulings
+status: open                  # 2026-10-02: ROUND 1 APPLIED on Marc's accept-all ("I accept all changes"); his section-by-section acceptance pass is next
 created: 2026-10-02
 updated: 2026-10-02            # supersedes the PRELIMINARY ledger of the same name (commit 3bd22b81); §11 lists what changed
 companions: ../workflows/chapter_scrutiny.md, ../workflows/model_chapter_conventions.md (new, the yardstick), ../workflows/literature_conventions.md, ../implementation/apt_model_criterion.md, ../workflows/terminology.md, ../workflows/critique_protocol.md (tiers), 2026-09-25_ch4_mark_risk_ledger.md (its open M entries are absorbed here)
@@ -640,6 +640,74 @@ If only one sitting: **X1, X2, X4, X5, X5b, X6** (the places the chapter is not 
 model that ran), **A1** (the duplicated first paragraph of §4.1, which also removes
 X3 and X7), **R8** (the extensibility clause) and **T2** (the codename in Table 4.2's
 caption). Together ≈−200 words and every examiner-visible defect.
+
+## Applied — round 1 (2026-10-02, Marc: "I accept all changes, integrate well")
+
+Every entry in §3–§9 is applied to `dissertation.tex` as DRAFT STATE, each unit
+carrying a `[CH4 SCRUTINY 2026-10-02 …]` comment that names its entries; prior
+text is in git (3f6b4f8c). Marc's section-by-section acceptance pass follows, and
+each unit is ratify-on-read.
+
+**Measured after the apply:** 4 769 prose words (was ≈5 490): §4.1 273, §4.2 357,
+§4.3 970, §4.4 preamble 252, §4.4.1 502, §4.4.2 345, §4.4.3 102, §4.4.4 460,
+§4.4.5 166, §4.5 1 185; captions 299 (was ≈500). Chapter 4 is pp. 16–30 (was
+16–32). The build has no undefined reference and no error; pages 16–30 were
+re-rendered and read.
+
+**Floats regenerated:**
+- Figure 4.1 (`tools/ch4_overview_figure.py`): "reconfigures", and the MTD box
+  narrowed so the label fits.
+- Figure 4.5 (`tools/runtime_loop_figure.py`): "MTD" for "Defender", and the
+  vulnerability memory drawn in the attacker box in the accent.
+- Table 4.2 (`tools/dwell_catalogue_tables.py`): the caption fixed, house style.
+  Its appendix siblings came out byte-identical.
+
+**Where the apply departs from an entry, and why:**
+- **C6 / X6.** No reason for σ, one flow per group or the factor of three exists in
+  any record to put in Appendix B, and none was invented. Instead:
+  - the §4.4 preamble now points each value at where its reason lives
+    (Appendix B for the first three, §4.3 for σ and one flow per group);
+  - §4.3 states σ's reason, the one the overlay record gives: a minority share,
+    so the observed weights keep nine-tenths;
+  - the factor of three stays "our judgement", tested by §5.4.3's ablation.
+  **Owed, Marc's:** a reason for the factor of three (the memory handoff records
+  only "the pre-check's λ = 2").
+- **F3.** The failure matrix's "not real-world" sentence was kept, as a second
+  must-carry, with "threat-model" → "model".
+- **C2.** Joins exfiltration and impact (impediment recorded under ATT&CK's
+  Impact). *Positioning* is not claimed for $c_4$, whose flows are loaders and
+  adware.
+- **C3.** "The first four of the five stages of Section 3.1.1 correspond to them
+  in order". Cleanup, the fifth stage, is not placed.
+- **C5.** The foothold clause follows Table B.6's rules A, C, E and I: initial
+  access gains it, and a failure at reconnaissance or initial access has none.
+- **X14.** "An APT group … or one advisory reporting several" covers the CISA
+  advisory group. The "Lazarus" group (Sony with APT38's SWIFT heist) is left as
+  built and unclaimed either way. Splitting it would change the 29, a re-run, out
+  of scope; Marc's call.
+- **R4.** The dwell-only cost is named as the confusion penalty (X9).
+- **S4.** The §4.4.1 topics already run in loop order once the six steps lead. The
+  targeted-scenario sentence stays second.
+- **G5.** *Flow* versus *attack flow* waits on the unruled registry row 105.
+- **Terms.** Three rows ratified in the registry: *APT group*, *dead end*,
+  *combination*.
+
+**Records updated:**
+- `_writing_guide.md`: G1, chapter 4 6 → 16 units and experiments 12 → 8. The
+  conservation breach of +1 500 words is recorded for Marc to fund or ratify.
+- `notes/ch4_methods/README.md`: the shape.
+- `notes/ch4_methods/cti_corpus_as_snapshot.md`: the corpus span, the source of
+  X3.
+- `workflows/terminology.md`.
+
+**Not applied (out of chapter, §10 and G6, flagged as the procedure requires):**
+- chapter 1's contribution metric;
+- chapter 5's penalty sentence, adaptivity sentence and "fails upwards"
+  restatement;
+- chapter 6's verdict location, Cohen's $d$ pointer and verdict table;
+- Appendix B's vocabulary, the Attack Flow version string and the codenames.
+
+Each is a one-line fix when Marc wants it.
 
 ## Validation gate
 

@@ -133,13 +133,17 @@ def main() -> None:
     short = "Declared per-tactic dwell times"
     caption = (
         "The dwell times declared for each tactic: the mean "
-        "dwell $\\mu_p$ of Equation~\\ref{eq:gspn}, the \\emph{mean} of an "
-        "exponential draw. Values are emitted from the declared catalogue "
-        f"({esc(version)}); tactic names follow ATT\\&CK~v{pin}. How each value "
+        "dwell $\\mu_p$ of Section~\\ref{sec:petri-formalism}, the \\emph{mean} of an "
+        "exponential draw; tactic names follow "
+        f"ATT\\&CK~v{pin}. How each value "
         "was arrived at is Appendix~\\ref{app:dwell-derivation}."
     )
-    L = [banner, r"\begin{table}[htbp]", r"\centering", r"\footnotesize",
+    # ch4 scrutiny 2026-10-02 (T2): the repo version string is off the caption
+    # (voice.md §e), mu_p points at its declaration (not Eq. 4.1), and the
+    # chapter table takes the house style (\tablestyle, stripes).
+    L = [banner, r"\begin{table}[htbp]", r"\centering",
          rf"\caption[{short}]{{{caption}}}", r"\label{tab:dwell-catalogue}",
+         r"\tablestyle",
          r"\begin{tabular}{@{}l r@{}}", r"\toprule",
          r"Tactic & Mean dwell $\mu_p$ (s) \\", r"\midrule"]
     for name in axis.matrix_order:

@@ -2,7 +2,7 @@
 status: durable
 chapter: ch4_methods
 created: 2026-05-28
-updated: 2026-07-13
+updated: 2026-10-02
 lineage: 2026-05-28_cti_ages_critique.md
 ---
 
@@ -26,7 +26,7 @@ An intuition worth taking seriously says that cyber threat intelligence "ages, b
 
 **What "always needs updating" gets wrong.** The phrase implies a living artefact under continuous maintenance. For research, a snapshot pinned to a stated corpus version, a stated taxonomy version, and a stated build date is *more* defensible than a rolling artefact: it is reproducible, and continuous rebuilding sacrifices reproducibility for an illusion of currency while imposing a Sisyphean maintenance burden that competes with the actual contribution. The metaphor that survives: threat intelligence is not milk but a topographic map — the question is never "how old is it?" but "have the cliffs moved enough to mislead?". For this corpus, the only cliff that has moved is MITRE's tactic vocabulary, which pinning addresses once.
 
-The weaker claim that survives critique, and that the dissertation adopts: **intelligence encoded in a versioned taxonomy needs its taxonomy version pinned, or downstream comparison against newer versions produces spurious anomalies** — and the dissertation's scoping language is tightened accordingly ("the documented attacker behaviour in the corpus, 2017–2024, encoded against ATT&CK Enterprise v19.1"), heading off staleness objections by scoping rather than refreshing.
+The weaker claim that survives critique, and that the dissertation adopts: **intelligence encoded in a versioned taxonomy needs its taxonomy version pinned, or downstream comparison against newer versions produces spurious anomalies** — and the dissertation's scoping language is tightened accordingly ("the documented attacker behaviour in the corpus, incidents from 2013 to 2025, encoded against ATT&CK Enterprise v19.1"; corrected 2026-10-02 from "2017–2024", which no artefact supports: the flows run from the 2013 Target breach to the 2025 ToolShell flow), heading off staleness objections by scoping rather than refreshing.
 
 ## Evidence and repo anchors
 

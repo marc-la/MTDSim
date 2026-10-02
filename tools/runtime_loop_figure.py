@@ -18,7 +18,7 @@ not. Three bands on one axis:
   CONTROLLER LAYER (built)   the three declared inputs as glyphs: dwell times
                              and the exponential draw, the tactic-to-verb
                              mapping, the failure matrix
-  ACTION LAYER (inherited)   attacker / network / defender, subdued
+  ACTION LAYER (inherited)   attacker (with the vulnerability memory) / network / MTD, subdued
 
 and the six numbered joins that trace one iteration: (1) tactic down,
 (2) drawn dwell time and (3) verb down into the action layer, (4) verdict
@@ -352,14 +352,20 @@ def emit(order, axis, net, win, durations, mapping, verbs, fmatrix, n_rules,
     act_top = y_act_top
     band(w, act_top, act_top - H_ACT, "black!22", "black!4")
     rot_label(w, act_top, act_top - H_ACT, "MTDSim", "black!55")
-    boxes = ["Attacker", "Network", "Defender"]
+    # "MTD", not "Defender": Figure 2.1's module name since 2026-09-30 (registry
+    # row 73). The vulnerability memory sits in the attacker's exploit action,
+    # not in the join (ch4 scrutiny 2026-10-02, F5; OWED 2026-09-28).
+    boxes = ["Attacker", "Network", "MTD"]
     bw = 3.2
     bxs = [BAND_L + 0.7 + bw / 2, (BAND_L + BAND_R) / 2, BAND_R - 0.7 - bw / 2]
     by_c = act_top - H_ACT / 2 - 0.12
     for title, bx in zip(boxes, bxs):
         w(r"\draw[black!38,fill=white,line width=0.5pt,rounded corners=1.6pt] (%.3f,%.3f) rectangle (%.3f,%.3f);"
           % (bx - bw / 2, by_c - 0.40, bx + bw / 2, by_c + 0.40))
-        w(r"\node at (%.3f,%.3f) {%s};" % (bx, by_c, title))
+        if title == "Attacker":
+            w(r"\node[align=center] at (%.3f,%.3f) {Attacker\\[-2pt]{\scriptsize\color{accent}+ vulnerability memory}};" % (bx, by_c))
+        else:
+            w(r"\node at (%.3f,%.3f) {%s};" % (bx, by_c, title))
     for i in (0, 2):
         x1 = bxs[i] + (bw / 2 if i == 0 else -bw / 2)
         x2 = bxs[1] + (-bw / 2 if i == 0 else bw / 2)

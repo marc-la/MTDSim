@@ -6,11 +6,19 @@ The attacker-model chapter (ch4 in the structure as restructured 2026-09-04:
 introduction, background, literature review, **APT attacker model**, experimental
 setup, results, discussion, future work, conclusion; the dir keeps its `methods`
 name) does one job: it **defines the attacker model and explains it as simply as
-the material allows**. The chapter preamble names the model (the movement
-attacker), states the commitments (built beside the simulator, attacker-only
-scope, proof of concept), and then the chapter runs the pipeline as four
-sections — L0–L1 intelligence to attack graph, L2 objective-conditioned attack
-profiles, L3 the Petri-net formalism, L4 the attacker-agent traversal. The
+the material allows**. The chapter
+opener states what chapter 3 left unmeasured, the eight properties the model
+aims at and the sub-question each section answers; then five sections (shape as
+of the 2026-10-02 scrutiny, `docs/handoffs/2026-10-02_ch4_attacker_model_scrutiny.md`):
+4.1 *Attack graph construction* (what the graph is, then the corpus and the
+resolution), 4.2 *Attack profiles by objective* (the four profiles first, then
+the stated-objective classification), 4.3 *Generalised stochastic Petri-net
+formalism* (the net per profile, the pre-intrusion overlay in c3 and c4, the
+verdict extension, the symbols table), 4.4 *Integration with MTDSim* (the
+runtime loop in six steps, then the three declared inputs and the vulnerability
+memory), 4.5 *Evaluation metrics*. No chapter close: chapter 5's opener carries
+the link (connective_prose.md §f1). The model is the APT attacker model; the
+name "movement attacker" and the L0–L4 labels are retired (registry). The
 precise problem statement and the fidelity criterion the model is built toward
 are **the literature review's** (ch3 §3.3, the research gap and the attacker
 model criterion): the former §4.1 restated them and was cut as a duplicate. The

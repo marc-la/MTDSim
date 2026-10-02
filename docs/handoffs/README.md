@@ -56,7 +56,7 @@ The §4.5 drafting records stay tracked in
   budget): five places the chapter describes a model other than the one that
   ran (X1–X5b), three appendix pointers to reasons Appendix B lacks (X6), ≈350
   words re-telling chapters 2–3, the budget re-rule (G1), ≈850 words of
-  proposed cuts, F and T entries; awaiting Marc's rulings.
+  proposed cuts, F and T entries. ROUND 1 APPLIED 2026-10-02 on Marc's accept-all (4 769 prose words); his section-by-section acceptance pass next; §10 out-of-chapter flags open.
 - [`2026-09-25_ch5_setup_defence_and_prose_slots.md`](2026-09-25_ch5_setup_defence_and_prose_slots.md)
   — §5.1 / Table 5.1 defended row by row (17 rows; four facts wrong, three
   stale against §4.5, one variation and one control never reported, one

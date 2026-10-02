@@ -173,8 +173,8 @@ def emit(n_flows: int) -> tuple[str, float, float]:
     svg.rect(mx0, my0, mx1, my1, "used", rx=7)
     svg.text(mx0 + 16, my0 + 26, "MTDSim", "title", anchor="start")
     svg.text(mx0 + 16 + 84, my0 + 26, "the simulator of Chapter 2", "xref", anchor="start")
-    d = (26, 186)                            # Defence
-    nw = (266, 426)                          # Network
+    d = (26, 170)                            # MTD (narrowed 2026-10-02 so the
+    nw = (270, 426)                          # Network  "reconfigures" label fits)
     at = (536, 882)                          # Attacker
     for (x0, x1), icon, title, sub in ((d, "mtdic", "MTD", "MTD mechanisms"),
                                        (nw, "netic", "Network", "hosts and services")):
@@ -222,10 +222,10 @@ def emit(n_flows: int) -> tuple[str, float, float]:
     svg.text(ac - 14, fy1 + 48, "one Petri net per run", "sm halo", anchor="end")
     svg.text(ac + 14, fy1 + 30, "§4.4", "xref halo", anchor="start")
 
-    # Figure 2.1's couplings, grey: the defence rewrites the network, the actions compromise it
+    # Figure 2.1's couplings, grey: MTD reconfigures the network, the actions compromise it
     cy2 = (iy0 + iy1) / 2 + 10
     svg.path(f"M{d[1] + 3},{cy2} H{nw[0] - 4}", "couples", marker="mG")
-    svg.text((d[1] + nw[0]) / 2, cy2 - 10, "rewrites", "sm halo")
+    svg.text((d[1] + nw[0]) / 2, cy2 - 10, "reconfigures", "sm halo")  # registry row 64 (2026-09-30), as Figure 2.1
     svg.path(f"M{act[0] - 3},{ayc + 8} L{nw[1] + 4},{cy2}", "couples", marker="mG")
     svg.text((nw[1] + at[0]) / 2, cy2 + 26, "compromises", "sm halo")
 
