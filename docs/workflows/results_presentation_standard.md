@@ -181,6 +181,11 @@ reduction: the caption says what below zero means. Source: S4; R6.1.
 **T3. One term per thing, matching the text and the other floats.** A metric, a
 mechanism class or a layer is named the same in the table, the figure, the caption
 and the prose (terminology.md).
+The APT attacker model as one arm is "its attack profiles $c_1$ to $c_4$
+combined (4 000 runs, 1 000 per attack profile)" (Marc, 2026-10-02: "pooled" was
+flagged by the supervisor as unclear; "averaged" is exact only for NCR and ASP,
+not for MTTC, time lost or a reduction). "Combined" follows the statistical-table
+convention for an all-groups total ("both sexes combined", "all ages combined").
 
 **T4. Cells never wrap.** A wrapped cell reads as two values. Widen the column or
 drop the type size by the house rule (figure_table_conventions.md "Table size").
