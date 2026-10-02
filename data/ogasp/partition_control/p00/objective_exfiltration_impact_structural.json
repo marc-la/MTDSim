@@ -20,11 +20,9 @@
     "lateral-movement",
     "persistence",
     "privilege-escalation",
-    "reconnaissance",
-    "resource-development",
     "stealth"
   ],
-  "entry_marking": "reconnaissance",
+  "entry_marking": "initial-access",
   "transitions": [
     {
       "name": "collection__to__command-and-control",
@@ -33,29 +31,25 @@
       "gasp_edges": [
         [
           "T1560",
-          "T1573"
+          "T1132"
         ]
       ],
       "weights": {
         "operator_dedup": {
-          "numerator": 1,
+          "numerator": 0,
           "denominator": 1,
-          "weight": 1.0,
+          "weight": 0.0,
           "flows_leaving_source": 1,
-          "flow_proportion": 1.0,
-          "backing_flow_ids": [
-            "black_basta_ransomware"
-          ]
+          "flow_proportion": 0.0,
+          "backing_flow_ids": []
         },
         "raw": {
-          "numerator": 1,
-          "denominator": 1,
-          "weight": 1.0,
-          "flows_leaving_source": 1,
-          "flow_proportion": 1.0,
-          "backing_flow_ids": [
-            "black_basta_ransomware"
-          ]
+          "numerator": 0,
+          "denominator": 4,
+          "weight": 0.0,
+          "flows_leaving_source": 3,
+          "flow_proportion": 0.0,
+          "backing_flow_ids": []
         }
       }
     },
@@ -65,26 +59,35 @@
       "dst_tactic": "exfiltration",
       "gasp_edges": [
         [
+          "T1074",
+          "T1041"
+        ],
+        [
           "T1560",
-          "T1567"
+          "T1041"
         ]
       ],
       "weights": {
         "operator_dedup": {
-          "numerator": 0,
+          "numerator": 1,
           "denominator": 1,
-          "weight": 0.0,
+          "weight": 1.0,
           "flows_leaving_source": 1,
-          "flow_proportion": 0.0,
-          "backing_flow_ids": []
+          "flow_proportion": 1.0,
+          "backing_flow_ids": [
+            "toolshell_vulnerability_in_sharepoint"
+          ]
         },
         "raw": {
-          "numerator": 0,
-          "denominator": 1,
-          "weight": 0.0,
-          "flows_leaving_source": 1,
-          "flow_proportion": 0.0,
-          "backing_flow_ids": []
+          "numerator": 2,
+          "denominator": 4,
+          "weight": 0.5,
+          "flows_leaving_source": 3,
+          "flow_proportion": 0.6666666666666666,
+          "backing_flow_ids": [
+            "oceanlotus",
+            "toolshell_vulnerability_in_sharepoint"
+          ]
         }
       }
     },
@@ -93,6 +96,10 @@
       "src_tactic": "collection",
       "dst_tactic": "stealth",
       "gasp_edges": [
+        [
+          "T1119",
+          "T1564"
+        ],
         [
           "T1560",
           "T1070"
@@ -108,54 +115,14 @@
           "backing_flow_ids": []
         },
         "raw": {
-          "numerator": 0,
-          "denominator": 1,
-          "weight": 0.0,
-          "flows_leaving_source": 1,
-          "flow_proportion": 0.0,
-          "backing_flow_ids": []
-        }
-      }
-    },
-    {
-      "name": "command-and-control__to__credential-access",
-      "src_tactic": "command-and-control",
-      "dst_tactic": "credential-access",
-      "gasp_edges": [
-        [
-          "T1105",
-          "T1056"
-        ],
-        [
-          "T1105",
-          "T1212"
-        ],
-        [
-          "T1105",
-          "T1555"
-        ]
-      ],
-      "weights": {
-        "operator_dedup": {
           "numerator": 2,
-          "denominator": 11,
-          "weight": 0.18181818181818182,
-          "flows_leaving_source": 5,
-          "flow_proportion": 0.4,
+          "denominator": 4,
+          "weight": 0.5,
+          "flows_leaving_source": 3,
+          "flow_proportion": 0.6666666666666666,
           "backing_flow_ids": [
-            "black_basta_ransomware",
-            "hancitor_dll"
-          ]
-        },
-        "raw": {
-          "numerator": 2,
-          "denominator": 11,
-          "weight": 0.18181818181818182,
-          "flows_leaving_source": 5,
-          "flow_proportion": 0.4,
-          "backing_flow_ids": [
-            "black_basta_ransomware",
-            "hancitor_dll"
+            "cisa_aa22_138b_vmware_workspace_ta1",
+            "oceanlotus"
           ]
         }
       }
@@ -167,6 +134,10 @@
       "gasp_edges": [
         [
           "T1001",
+          "T1018"
+        ],
+        [
+          "T1001",
           "T1046"
         ],
         [
@@ -174,12 +145,24 @@
           "T1082"
         ],
         [
-          "T1090",
+          "T1071",
+          "T1018"
+        ],
+        [
+          "T1071",
+          "T1046"
+        ],
+        [
+          "T1071",
           "T1082"
         ],
         [
           "T1105",
           "T1016"
+        ],
+        [
+          "T1105",
+          "T1018"
         ],
         [
           "T1105",
@@ -190,29 +173,29 @@
           "T1083"
         ],
         [
-          "T1105",
-          "T1087"
+          "T1132",
+          "T1016"
         ]
       ],
       "weights": {
         "operator_dedup": {
           "numerator": 1,
-          "denominator": 11,
-          "weight": 0.09090909090909091,
-          "flows_leaving_source": 5,
-          "flow_proportion": 0.2,
+          "denominator": 6,
+          "weight": 0.16666666666666666,
+          "flows_leaving_source": 4,
+          "flow_proportion": 0.25,
           "backing_flow_ids": [
-            "black_basta_ransomware"
+            "cobalt_kitty_campaign"
           ]
         },
         "raw": {
           "numerator": 1,
-          "denominator": 11,
-          "weight": 0.09090909090909091,
-          "flows_leaving_source": 5,
-          "flow_proportion": 0.2,
+          "denominator": 10,
+          "weight": 0.1,
+          "flows_leaving_source": 6,
+          "flow_proportion": 0.16666666666666666,
           "backing_flow_ids": [
-            "black_basta_ransomware"
+            "cobalt_kitty_campaign"
           ]
         }
       }
@@ -223,30 +206,49 @@
       "dst_tactic": "execution",
       "gasp_edges": [
         [
+          "T1071",
+          "T1059"
+        ],
+        [
+          "T1071",
+          "T1203"
+        ],
+        [
+          "T1105",
+          "T1053"
+        ],
+        [
           "T1105",
           "T1059"
         ],
         [
-          "T1105",
-          "T1569"
+          "T1132",
+          "T1059"
         ]
       ],
       "weights": {
         "operator_dedup": {
-          "numerator": 0,
-          "denominator": 11,
-          "weight": 0.0,
-          "flows_leaving_source": 5,
-          "flow_proportion": 0.0,
-          "backing_flow_ids": []
+          "numerator": 2,
+          "denominator": 6,
+          "weight": 0.3333333333333333,
+          "flows_leaving_source": 4,
+          "flow_proportion": 0.5,
+          "backing_flow_ids": [
+            "mac_malware_steals_crypto",
+            "muddy_water"
+          ]
         },
         "raw": {
-          "numerator": 0,
-          "denominator": 11,
-          "weight": 0.0,
-          "flows_leaving_source": 5,
-          "flow_proportion": 0.0,
-          "backing_flow_ids": []
+          "numerator": 3,
+          "denominator": 10,
+          "weight": 0.3,
+          "flows_leaving_source": 6,
+          "flow_proportion": 0.5,
+          "backing_flow_ids": [
+            "cisa_aa22_138b_vmware_workspace_ta1",
+            "mac_malware_steals_crypto",
+            "muddy_water"
+          ]
         }
       }
     },
@@ -256,29 +258,27 @@
       "dst_tactic": "exfiltration",
       "gasp_edges": [
         [
-          "T1573",
-          "T1567"
+          "T1071",
+          "T1041"
         ]
       ],
       "weights": {
         "operator_dedup": {
-          "numerator": 1,
-          "denominator": 11,
-          "weight": 0.09090909090909091,
-          "flows_leaving_source": 5,
-          "flow_proportion": 0.2,
-          "backing_flow_ids": [
-            "black_basta_ransomware"
-          ]
+          "numerator": 0,
+          "denominator": 6,
+          "weight": 0.0,
+          "flows_leaving_source": 4,
+          "flow_proportion": 0.0,
+          "backing_flow_ids": []
         },
         "raw": {
           "numerator": 1,
-          "denominator": 11,
-          "weight": 0.09090909090909091,
-          "flows_leaving_source": 5,
-          "flow_proportion": 0.2,
+          "denominator": 10,
+          "weight": 0.1,
+          "flows_leaving_source": 6,
+          "flow_proportion": 0.16666666666666666,
           "backing_flow_ids": [
-            "black_basta_ransomware"
+            "cisa_aa22_138b_vmware_workspace_ta1"
           ]
         }
       }
@@ -293,29 +293,29 @@
           "T1489"
         ],
         [
-          "T1105",
-          "T1490"
+          "T1132",
+          "T1561"
         ]
       ],
       "weights": {
         "operator_dedup": {
           "numerator": 1,
-          "denominator": 11,
-          "weight": 0.09090909090909091,
-          "flows_leaving_source": 5,
-          "flow_proportion": 0.2,
+          "denominator": 6,
+          "weight": 0.16666666666666666,
+          "flows_leaving_source": 4,
+          "flow_proportion": 0.25,
           "backing_flow_ids": [
-            "ragnar_locker"
+            "sony_malware"
           ]
         },
         "raw": {
           "numerator": 1,
-          "denominator": 11,
-          "weight": 0.09090909090909091,
-          "flows_leaving_source": 5,
-          "flow_proportion": 0.2,
+          "denominator": 10,
+          "weight": 0.1,
+          "flows_leaving_source": 6,
+          "flow_proportion": 0.16666666666666666,
           "backing_flow_ids": [
-            "ragnar_locker"
+            "sony_malware"
           ]
         }
       }
@@ -326,37 +326,34 @@
       "dst_tactic": "lateral-movement",
       "gasp_edges": [
         [
-          "T1090",
-          "T1021"
-        ],
-        [
           "T1105",
           "T1021"
         ],
         [
-          "T1219",
-          "T1021"
+          "T1105",
+          "T1080"
         ]
       ],
       "weights": {
         "operator_dedup": {
           "numerator": 1,
-          "denominator": 11,
-          "weight": 0.09090909090909091,
-          "flows_leaving_source": 5,
-          "flow_proportion": 0.2,
+          "denominator": 6,
+          "weight": 0.16666666666666666,
+          "flows_leaving_source": 4,
+          "flow_proportion": 0.25,
           "backing_flow_ids": [
-            "black_basta_ransomware"
+            "sony_malware"
           ]
         },
         "raw": {
-          "numerator": 1,
-          "denominator": 11,
-          "weight": 0.09090909090909091,
-          "flows_leaving_source": 5,
-          "flow_proportion": 0.2,
+          "numerator": 2,
+          "denominator": 10,
+          "weight": 0.2,
+          "flows_leaving_source": 6,
+          "flow_proportion": 0.3333333333333333,
           "backing_flow_ids": [
-            "black_basta_ransomware"
+            "oceanlotus",
+            "sony_malware"
           ]
         }
       }
@@ -368,40 +365,36 @@
       "gasp_edges": [
         [
           "T1105",
-          "T1112"
-        ],
-        [
-          "T1105",
-          "T1136"
+          "T1505"
         ],
         [
           "T1105",
           "T1543"
         ],
         [
-          "T1219",
-          "T1136"
+          "T1105",
+          "T1547"
         ]
       ],
       "weights": {
         "operator_dedup": {
           "numerator": 1,
-          "denominator": 11,
-          "weight": 0.09090909090909091,
-          "flows_leaving_source": 5,
-          "flow_proportion": 0.2,
+          "denominator": 6,
+          "weight": 0.16666666666666666,
+          "flows_leaving_source": 4,
+          "flow_proportion": 0.25,
           "backing_flow_ids": [
-            "black_basta_ransomware"
+            "muddy_water"
           ]
         },
         "raw": {
           "numerator": 1,
-          "denominator": 11,
-          "weight": 0.09090909090909091,
-          "flows_leaving_source": 5,
-          "flow_proportion": 0.2,
+          "denominator": 10,
+          "weight": 0.1,
+          "flows_leaving_source": 6,
+          "flow_proportion": 0.16666666666666666,
           "backing_flow_ids": [
-            "black_basta_ransomware"
+            "muddy_water"
           ]
         }
       }
@@ -413,65 +406,26 @@
       "gasp_edges": [
         [
           "T1105",
-          "T1055"
-        ],
-        [
-          "T1105",
           "T1068"
         ]
       ],
       "weights": {
         "operator_dedup": {
-          "numerator": 1,
-          "denominator": 11,
-          "weight": 0.09090909090909091,
-          "flows_leaving_source": 5,
-          "flow_proportion": 0.2,
-          "backing_flow_ids": [
-            "hancitor_dll"
-          ]
+          "numerator": 0,
+          "denominator": 6,
+          "weight": 0.0,
+          "flows_leaving_source": 4,
+          "flow_proportion": 0.0,
+          "backing_flow_ids": []
         },
         "raw": {
           "numerator": 1,
-          "denominator": 11,
-          "weight": 0.09090909090909091,
-          "flows_leaving_source": 5,
-          "flow_proportion": 0.2,
+          "denominator": 10,
+          "weight": 0.1,
+          "flows_leaving_source": 6,
+          "flow_proportion": 0.16666666666666666,
           "backing_flow_ids": [
-            "hancitor_dll"
-          ]
-        }
-      }
-    },
-    {
-      "name": "command-and-control__to__reconnaissance",
-      "src_tactic": "command-and-control",
-      "dst_tactic": "reconnaissance",
-      "gasp_edges": [
-        [
-          "T1219",
-          "T1590"
-        ]
-      ],
-      "weights": {
-        "operator_dedup": {
-          "numerator": 1,
-          "denominator": 11,
-          "weight": 0.09090909090909091,
-          "flows_leaving_source": 5,
-          "flow_proportion": 0.2,
-          "backing_flow_ids": [
-            "marriott_breach"
-          ]
-        },
-        "raw": {
-          "numerator": 1,
-          "denominator": 11,
-          "weight": 0.09090909090909091,
-          "flows_leaving_source": 5,
-          "flow_proportion": 0.2,
-          "backing_flow_ids": [
-            "marriott_breach"
+            "cisa_aa22_138b_vmware_workspace_ta1"
           ]
         }
       }
@@ -482,12 +436,12 @@
       "dst_tactic": "stealth",
       "gasp_edges": [
         [
-          "T1090",
-          "T1070"
+          "T1105",
+          "T1027"
         ],
         [
           "T1105",
-          "T1027"
+          "T1036"
         ],
         [
           "T1105",
@@ -500,29 +454,122 @@
         [
           "T1105",
           "T1497"
+        ],
+        [
+          "T1132",
+          "T1036"
+        ],
+        [
+          "T1132",
+          "T1564"
         ]
       ],
       "weights": {
         "operator_dedup": {
-          "numerator": 2,
-          "denominator": 11,
-          "weight": 0.18181818181818182,
-          "flows_leaving_source": 5,
-          "flow_proportion": 0.4,
+          "numerator": 0,
+          "denominator": 6,
+          "weight": 0.0,
+          "flows_leaving_source": 4,
+          "flow_proportion": 0.0,
+          "backing_flow_ids": []
+        },
+        "raw": {
+          "numerator": 0,
+          "denominator": 10,
+          "weight": 0.0,
+          "flows_leaving_source": 6,
+          "flow_proportion": 0.0,
+          "backing_flow_ids": []
+        }
+      }
+    },
+    {
+      "name": "credential-access__to__collection",
+      "src_tactic": "credential-access",
+      "dst_tactic": "collection",
+      "gasp_edges": [
+        [
+          "T1003",
+          "T1560"
+        ]
+      ],
+      "weights": {
+        "operator_dedup": {
+          "numerator": 0,
+          "denominator": 3,
+          "weight": 0.0,
+          "flows_leaving_source": 2,
+          "flow_proportion": 0.0,
+          "backing_flow_ids": []
+        },
+        "raw": {
+          "numerator": 0,
+          "denominator": 3,
+          "weight": 0.0,
+          "flows_leaving_source": 2,
+          "flow_proportion": 0.0,
+          "backing_flow_ids": []
+        }
+      }
+    },
+    {
+      "name": "credential-access__to__command-and-control",
+      "src_tactic": "credential-access",
+      "dst_tactic": "command-and-control",
+      "gasp_edges": [
+        [
+          "T1003",
+          "T1105"
+        ]
+      ],
+      "weights": {
+        "operator_dedup": {
+          "numerator": 0,
+          "denominator": 3,
+          "weight": 0.0,
+          "flows_leaving_source": 2,
+          "flow_proportion": 0.0,
+          "backing_flow_ids": []
+        },
+        "raw": {
+          "numerator": 0,
+          "denominator": 3,
+          "weight": 0.0,
+          "flows_leaving_source": 2,
+          "flow_proportion": 0.0,
+          "backing_flow_ids": []
+        }
+      }
+    },
+    {
+      "name": "credential-access__to__execution",
+      "src_tactic": "credential-access",
+      "dst_tactic": "execution",
+      "gasp_edges": [
+        [
+          "T1003",
+          "T1047"
+        ]
+      ],
+      "weights": {
+        "operator_dedup": {
+          "numerator": 1,
+          "denominator": 3,
+          "weight": 0.3333333333333333,
+          "flows_leaving_source": 2,
+          "flow_proportion": 0.5,
           "backing_flow_ids": [
-            "hancitor_dll",
-            "jp_morgan_breach"
+            "cobalt_kitty_campaign"
           ]
         },
         "raw": {
-          "numerator": 2,
-          "denominator": 11,
-          "weight": 0.18181818181818182,
-          "flows_leaving_source": 5,
-          "flow_proportion": 0.4,
+          "numerator": 1,
+          "denominator": 3,
+          "weight": 0.3333333333333333,
+          "flows_leaving_source": 2,
+          "flow_proportion": 0.5,
           "backing_flow_ids": [
-            "hancitor_dll",
-            "jp_morgan_breach"
+            "cobalt_kitty_campaign"
           ]
         }
       }
@@ -533,59 +580,30 @@
       "dst_tactic": "exfiltration",
       "gasp_edges": [
         [
-          "T1056",
-          "T1030"
+          "T1552",
+          "T1041"
         ]
       ],
       "weights": {
         "operator_dedup": {
           "numerator": 1,
-          "denominator": 2,
-          "weight": 0.5,
+          "denominator": 3,
+          "weight": 0.3333333333333333,
           "flows_leaving_source": 2,
           "flow_proportion": 0.5,
           "backing_flow_ids": [
-            "jp_morgan_breach"
+            "toolshell_vulnerability_in_sharepoint"
           ]
         },
         "raw": {
           "numerator": 1,
-          "denominator": 2,
-          "weight": 0.5,
+          "denominator": 3,
+          "weight": 0.3333333333333333,
           "flows_leaving_source": 2,
           "flow_proportion": 0.5,
           "backing_flow_ids": [
-            "jp_morgan_breach"
+            "toolshell_vulnerability_in_sharepoint"
           ]
-        }
-      }
-    },
-    {
-      "name": "credential-access__to__initial-access",
-      "src_tactic": "credential-access",
-      "dst_tactic": "initial-access",
-      "gasp_edges": [
-        [
-          "T1558",
-          "T1078"
-        ]
-      ],
-      "weights": {
-        "operator_dedup": {
-          "numerator": 0,
-          "denominator": 2,
-          "weight": 0.0,
-          "flows_leaving_source": 2,
-          "flow_proportion": 0.0,
-          "backing_flow_ids": []
-        },
-        "raw": {
-          "numerator": 0,
-          "denominator": 2,
-          "weight": 0.0,
-          "flows_leaving_source": 2,
-          "flow_proportion": 0.0,
-          "backing_flow_ids": []
         }
       }
     },
@@ -595,67 +613,34 @@
       "dst_tactic": "lateral-movement",
       "gasp_edges": [
         [
-          "T1056",
+          "T1003",
           "T1021"
         ],
         [
-          "T1212",
+          "T1003",
           "T1550"
-        ],
-        [
-          "T1555",
-          "T1021"
         ]
       ],
       "weights": {
         "operator_dedup": {
           "numerator": 1,
-          "denominator": 2,
-          "weight": 0.5,
+          "denominator": 3,
+          "weight": 0.3333333333333333,
           "flows_leaving_source": 2,
           "flow_proportion": 0.5,
           "backing_flow_ids": [
-            "hancitor_dll"
+            "cobalt_kitty_campaign"
           ]
         },
         "raw": {
           "numerator": 1,
-          "denominator": 2,
-          "weight": 0.5,
+          "denominator": 3,
+          "weight": 0.3333333333333333,
           "flows_leaving_source": 2,
           "flow_proportion": 0.5,
           "backing_flow_ids": [
-            "hancitor_dll"
+            "cobalt_kitty_campaign"
           ]
-        }
-      }
-    },
-    {
-      "name": "credential-access__to__stealth",
-      "src_tactic": "credential-access",
-      "dst_tactic": "stealth",
-      "gasp_edges": [
-        [
-          "T1110",
-          "T1070"
-        ]
-      ],
-      "weights": {
-        "operator_dedup": {
-          "numerator": 0,
-          "denominator": 2,
-          "weight": 0.0,
-          "flows_leaving_source": 2,
-          "flow_proportion": 0.0,
-          "backing_flow_ids": []
-        },
-        "raw": {
-          "numerator": 0,
-          "denominator": 2,
-          "weight": 0.0,
-          "flows_leaving_source": 2,
-          "flow_proportion": 0.0,
-          "backing_flow_ids": []
         }
       }
     },
@@ -667,24 +652,30 @@
         [
           "T1082",
           "T1560"
+        ],
+        [
+          "T1083",
+          "T1074"
         ]
       ],
       "weights": {
         "operator_dedup": {
           "numerator": 0,
-          "denominator": 4,
+          "denominator": 1,
           "weight": 0.0,
-          "flows_leaving_source": 3,
+          "flows_leaving_source": 1,
           "flow_proportion": 0.0,
           "backing_flow_ids": []
         },
         "raw": {
-          "numerator": 0,
-          "denominator": 5,
-          "weight": 0.0,
-          "flows_leaving_source": 4,
-          "flow_proportion": 0.0,
-          "backing_flow_ids": []
+          "numerator": 1,
+          "denominator": 4,
+          "weight": 0.25,
+          "flows_leaving_source": 2,
+          "flow_proportion": 0.5,
+          "backing_flow_ids": [
+            "oceanlotus"
+          ]
         }
       }
     },
@@ -698,19 +689,11 @@
           "T1105"
         ],
         [
-          "T1016",
-          "T1219"
-        ],
-        [
-          "T1016",
-          "T1573"
-        ],
-        [
-          "T1046",
+          "T1018",
           "T1105"
         ],
         [
-          "T1057",
+          "T1046",
           "T1105"
         ],
         [
@@ -722,30 +705,102 @@
           "T1105"
         ],
         [
-          "T1087",
-          "T1105"
+          "T1135",
+          "T1071"
+        ]
+      ],
+      "weights": {
+        "operator_dedup": {
+          "numerator": 0,
+          "denominator": 1,
+          "weight": 0.0,
+          "flows_leaving_source": 1,
+          "flow_proportion": 0.0,
+          "backing_flow_ids": []
+        },
+        "raw": {
+          "numerator": 1,
+          "denominator": 4,
+          "weight": 0.25,
+          "flows_leaving_source": 2,
+          "flow_proportion": 0.5,
+          "backing_flow_ids": [
+            "oceanlotus"
+          ]
+        }
+      }
+    },
+    {
+      "name": "discovery__to__credential-access",
+      "src_tactic": "discovery",
+      "dst_tactic": "credential-access",
+      "gasp_edges": [
+        [
+          "T1016",
+          "T1003"
+        ],
+        [
+          "T1049",
+          "T1003"
+        ],
+        [
+          "T1135",
+          "T1552"
         ]
       ],
       "weights": {
         "operator_dedup": {
           "numerator": 1,
-          "denominator": 4,
-          "weight": 0.25,
-          "flows_leaving_source": 3,
-          "flow_proportion": 0.3333333333333333,
+          "denominator": 1,
+          "weight": 1.0,
+          "flows_leaving_source": 1,
+          "flow_proportion": 1.0,
           "backing_flow_ids": [
-            "hancitor_dll"
+            "cobalt_kitty_campaign"
           ]
         },
         "raw": {
           "numerator": 1,
-          "denominator": 5,
-          "weight": 0.2,
-          "flows_leaving_source": 4,
-          "flow_proportion": 0.25,
+          "denominator": 4,
+          "weight": 0.25,
+          "flows_leaving_source": 2,
+          "flow_proportion": 0.5,
           "backing_flow_ids": [
-            "hancitor_dll"
+            "cobalt_kitty_campaign"
           ]
+        }
+      }
+    },
+    {
+      "name": "discovery__to__execution",
+      "src_tactic": "discovery",
+      "dst_tactic": "execution",
+      "gasp_edges": [
+        [
+          "T1016",
+          "T1053"
+        ],
+        [
+          "T1518",
+          "T1059"
+        ]
+      ],
+      "weights": {
+        "operator_dedup": {
+          "numerator": 0,
+          "denominator": 1,
+          "weight": 0.0,
+          "flows_leaving_source": 1,
+          "flow_proportion": 0.0,
+          "backing_flow_ids": []
+        },
+        "raw": {
+          "numerator": 0,
+          "denominator": 4,
+          "weight": 0.0,
+          "flows_leaving_source": 2,
+          "flow_proportion": 0.0,
+          "backing_flow_ids": []
         }
       }
     },
@@ -755,29 +810,31 @@
       "dst_tactic": "exfiltration",
       "gasp_edges": [
         [
-          "T1120",
-          "T1567"
+          "T1082",
+          "T1041"
+        ],
+        [
+          "T1135",
+          "T1041"
         ]
       ],
       "weights": {
         "operator_dedup": {
-          "numerator": 1,
-          "denominator": 4,
-          "weight": 0.25,
-          "flows_leaving_source": 3,
-          "flow_proportion": 0.3333333333333333,
-          "backing_flow_ids": [
-            "ragnar_locker"
-          ]
+          "numerator": 0,
+          "denominator": 1,
+          "weight": 0.0,
+          "flows_leaving_source": 1,
+          "flow_proportion": 0.0,
+          "backing_flow_ids": []
         },
         "raw": {
           "numerator": 1,
-          "denominator": 5,
-          "weight": 0.2,
-          "flows_leaving_source": 4,
-          "flow_proportion": 0.25,
+          "denominator": 4,
+          "weight": 0.25,
+          "flows_leaving_source": 2,
+          "flow_proportion": 0.5,
           "backing_flow_ids": [
-            "ragnar_locker"
+            "oceanlotus"
           ]
         }
       }
@@ -798,29 +855,28 @@
         [
           "T1083",
           "T1486"
+        ],
+        [
+          "T1135",
+          "T1486"
         ]
       ],
       "weights": {
         "operator_dedup": {
-          "numerator": 1,
-          "denominator": 4,
-          "weight": 0.25,
-          "flows_leaving_source": 3,
-          "flow_proportion": 0.3333333333333333,
-          "backing_flow_ids": [
-            "black_basta_ransomware"
-          ]
+          "numerator": 0,
+          "denominator": 1,
+          "weight": 0.0,
+          "flows_leaving_source": 1,
+          "flow_proportion": 0.0,
+          "backing_flow_ids": []
         },
         "raw": {
-          "numerator": 2,
-          "denominator": 5,
-          "weight": 0.4,
-          "flows_leaving_source": 4,
-          "flow_proportion": 0.5,
-          "backing_flow_ids": [
-            "black_basta_ransomware",
-            "whispergate"
-          ]
+          "numerator": 0,
+          "denominator": 4,
+          "weight": 0.0,
+          "flows_leaving_source": 2,
+          "flow_proportion": 0.0,
+          "backing_flow_ids": []
         }
       }
     },
@@ -837,50 +893,17 @@
       "weights": {
         "operator_dedup": {
           "numerator": 0,
-          "denominator": 4,
+          "denominator": 1,
           "weight": 0.0,
-          "flows_leaving_source": 3,
+          "flows_leaving_source": 1,
           "flow_proportion": 0.0,
           "backing_flow_ids": []
         },
         "raw": {
           "numerator": 0,
-          "denominator": 5,
-          "weight": 0.0,
-          "flows_leaving_source": 4,
-          "flow_proportion": 0.0,
-          "backing_flow_ids": []
-        }
-      }
-    },
-    {
-      "name": "discovery__to__privilege-escalation",
-      "src_tactic": "discovery",
-      "dst_tactic": "privilege-escalation",
-      "gasp_edges": [
-        [
-          "T1057",
-          "T1055"
-        ],
-        [
-          "T1087",
-          "T1484"
-        ]
-      ],
-      "weights": {
-        "operator_dedup": {
-          "numerator": 0,
           "denominator": 4,
           "weight": 0.0,
-          "flows_leaving_source": 3,
-          "flow_proportion": 0.0,
-          "backing_flow_ids": []
-        },
-        "raw": {
-          "numerator": 0,
-          "denominator": 5,
-          "weight": 0.0,
-          "flows_leaving_source": 4,
+          "flows_leaving_source": 2,
           "flow_proportion": 0.0,
           "backing_flow_ids": []
         }
@@ -898,31 +921,56 @@
         [
           "T1082",
           "T1140"
-        ],
+        ]
+      ],
+      "weights": {
+        "operator_dedup": {
+          "numerator": 0,
+          "denominator": 1,
+          "weight": 0.0,
+          "flows_leaving_source": 1,
+          "flow_proportion": 0.0,
+          "backing_flow_ids": []
+        },
+        "raw": {
+          "numerator": 0,
+          "denominator": 4,
+          "weight": 0.0,
+          "flows_leaving_source": 2,
+          "flow_proportion": 0.0,
+          "backing_flow_ids": []
+        }
+      }
+    },
+    {
+      "name": "execution__to__collection",
+      "src_tactic": "execution",
+      "dst_tactic": "collection",
+      "gasp_edges": [
         [
-          "T1614",
-          "T1564"
+          "T1059",
+          "T1119"
         ]
       ],
       "weights": {
         "operator_dedup": {
           "numerator": 1,
-          "denominator": 4,
-          "weight": 0.25,
-          "flows_leaving_source": 3,
-          "flow_proportion": 0.3333333333333333,
+          "denominator": 11,
+          "weight": 0.09090909090909091,
+          "flows_leaving_source": 5,
+          "flow_proportion": 0.2,
           "backing_flow_ids": [
-            "ragnar_locker"
+            "toolshell_vulnerability_in_sharepoint"
           ]
         },
         "raw": {
           "numerator": 1,
-          "denominator": 5,
-          "weight": 0.2,
-          "flows_leaving_source": 4,
-          "flow_proportion": 0.25,
+          "denominator": 14,
+          "weight": 0.07142857142857142,
+          "flows_leaving_source": 7,
+          "flow_proportion": 0.14285714285714285,
           "backing_flow_ids": [
-            "ragnar_locker"
+            "toolshell_vulnerability_in_sharepoint"
           ]
         }
       }
@@ -948,22 +996,23 @@
       "weights": {
         "operator_dedup": {
           "numerator": 1,
-          "denominator": 6,
-          "weight": 0.16666666666666666,
-          "flows_leaving_source": 2,
-          "flow_proportion": 0.5,
+          "denominator": 11,
+          "weight": 0.09090909090909091,
+          "flows_leaving_source": 5,
+          "flow_proportion": 0.2,
           "backing_flow_ids": [
-            "hancitor_dll"
+            "muddy_water"
           ]
         },
         "raw": {
-          "numerator": 1,
-          "denominator": 7,
+          "numerator": 2,
+          "denominator": 14,
           "weight": 0.14285714285714285,
-          "flows_leaving_source": 3,
-          "flow_proportion": 0.3333333333333333,
+          "flows_leaving_source": 7,
+          "flow_proportion": 0.2857142857142857,
           "backing_flow_ids": [
-            "hancitor_dll"
+            "cisa_aa22_138b_vmware_workspace_ta1",
+            "muddy_water"
           ]
         }
       }
@@ -975,27 +1024,27 @@
       "gasp_edges": [
         [
           "T1059",
-          "T1110"
+          "T1003"
         ],
         [
-          "T1059",
-          "T1555"
+          "T1203",
+          "T1003"
         ]
       ],
       "weights": {
         "operator_dedup": {
           "numerator": 0,
-          "denominator": 6,
+          "denominator": 11,
           "weight": 0.0,
-          "flows_leaving_source": 2,
+          "flows_leaving_source": 5,
           "flow_proportion": 0.0,
           "backing_flow_ids": []
         },
         "raw": {
           "numerator": 0,
-          "denominator": 7,
+          "denominator": 14,
           "weight": 0.0,
-          "flows_leaving_source": 3,
+          "flows_leaving_source": 7,
           "flow_proportion": 0.0,
           "backing_flow_ids": []
         }
@@ -1007,12 +1056,16 @@
       "dst_tactic": "discovery",
       "gasp_edges": [
         [
-          "T1059",
-          "T1046"
+          "T1047",
+          "T1518"
         ],
         [
           "T1059",
-          "T1057"
+          "T1018"
+        ],
+        [
+          "T1059",
+          "T1046"
         ],
         [
           "T1059",
@@ -1020,25 +1073,34 @@
         ],
         [
           "T1059",
-          "T1087"
+          "T1135"
+        ],
+        [
+          "T1059",
+          "T1518"
         ]
       ],
       "weights": {
         "operator_dedup": {
-          "numerator": 0,
-          "denominator": 6,
-          "weight": 0.0,
-          "flows_leaving_source": 2,
-          "flow_proportion": 0.0,
-          "backing_flow_ids": []
+          "numerator": 1,
+          "denominator": 11,
+          "weight": 0.09090909090909091,
+          "flows_leaving_source": 5,
+          "flow_proportion": 0.2,
+          "backing_flow_ids": [
+            "mac_malware_steals_crypto"
+          ]
         },
         "raw": {
-          "numerator": 0,
-          "denominator": 7,
-          "weight": 0.0,
-          "flows_leaving_source": 3,
-          "flow_proportion": 0.0,
-          "backing_flow_ids": []
+          "numerator": 2,
+          "denominator": 14,
+          "weight": 0.14285714285714285,
+          "flows_leaving_source": 7,
+          "flow_proportion": 0.2857142857142857,
+          "backing_flow_ids": [
+            "mac_malware_steals_crypto",
+            "oceanlotus"
+          ]
         }
       }
     },
@@ -1047,6 +1109,10 @@
       "src_tactic": "execution",
       "dst_tactic": "impact",
       "gasp_edges": [
+        [
+          "T1053",
+          "T1529"
+        ],
         [
           "T1059",
           "T1485"
@@ -1058,35 +1124,29 @@
         [
           "T1059",
           "T1489"
-        ],
-        [
-          "T1059",
-          "T1490"
-        ],
-        [
-          "T1569",
-          "T1489"
         ]
       ],
       "weights": {
         "operator_dedup": {
-          "numerator": 1,
-          "denominator": 6,
-          "weight": 0.16666666666666666,
-          "flows_leaving_source": 2,
-          "flow_proportion": 0.5,
+          "numerator": 2,
+          "denominator": 11,
+          "weight": 0.18181818181818182,
+          "flows_leaving_source": 5,
+          "flow_proportion": 0.4,
           "backing_flow_ids": [
-            "black_basta_ransomware"
+            "muddy_water",
+            "sony_malware"
           ]
         },
         "raw": {
-          "numerator": 1,
-          "denominator": 7,
+          "numerator": 2,
+          "denominator": 14,
           "weight": 0.14285714285714285,
-          "flows_leaving_source": 3,
-          "flow_proportion": 0.3333333333333333,
+          "flows_leaving_source": 7,
+          "flow_proportion": 0.2857142857142857,
           "backing_flow_ids": [
-            "black_basta_ransomware"
+            "muddy_water",
+            "sony_malware"
           ]
         }
       }
@@ -1097,6 +1157,10 @@
       "dst_tactic": "lateral-movement",
       "gasp_edges": [
         [
+          "T1053",
+          "T1021"
+        ],
+        [
           "T1059",
           "T1021"
         ]
@@ -1104,17 +1168,17 @@
       "weights": {
         "operator_dedup": {
           "numerator": 0,
-          "denominator": 6,
+          "denominator": 11,
           "weight": 0.0,
-          "flows_leaving_source": 2,
+          "flows_leaving_source": 5,
           "flow_proportion": 0.0,
           "backing_flow_ids": []
         },
         "raw": {
           "numerator": 0,
-          "denominator": 7,
+          "denominator": 14,
           "weight": 0.0,
-          "flows_leaving_source": 3,
+          "flows_leaving_source": 7,
           "flow_proportion": 0.0,
           "backing_flow_ids": []
         }
@@ -1127,40 +1191,60 @@
       "gasp_edges": [
         [
           "T1047",
-          "T1112"
+          "T1505"
+        ],
+        [
+          "T1053",
+          "T1543"
         ],
         [
           "T1059",
-          "T1112"
+          "T1137"
+        ],
+        [
+          "T1059",
+          "T1505"
         ],
         [
           "T1059",
           "T1543"
         ],
         [
-          "T1569",
-          "T1112"
+          "T1059",
+          "T1547"
+        ],
+        [
+          "T1203",
+          "T1505"
+        ],
+        [
+          "T1204",
+          "T1547"
         ]
       ],
       "weights": {
         "operator_dedup": {
-          "numerator": 1,
-          "denominator": 6,
-          "weight": 0.16666666666666666,
-          "flows_leaving_source": 2,
-          "flow_proportion": 0.5,
+          "numerator": 3,
+          "denominator": 11,
+          "weight": 0.2727272727272727,
+          "flows_leaving_source": 5,
+          "flow_proportion": 0.6,
           "backing_flow_ids": [
-            "black_basta_ransomware"
+            "cobalt_kitty_campaign",
+            "muddy_water",
+            "toolshell_vulnerability_in_sharepoint"
           ]
         },
         "raw": {
-          "numerator": 1,
-          "denominator": 7,
-          "weight": 0.14285714285714285,
-          "flows_leaving_source": 3,
-          "flow_proportion": 0.3333333333333333,
+          "numerator": 3,
+          "denominator": 14,
+          "weight": 0.21428571428571427,
+          "flows_leaving_source": 7,
+          "flow_proportion": 0.42857142857142855,
           "backing_flow_ids": [
-            "black_basta_ransomware"
+            "cobalt_kitty_campaign",
+            "muddy_water",
+            "toolshell_vulnerability_in_sharepoint"
           ]
         }
       }
@@ -1171,73 +1255,26 @@
       "dst_tactic": "privilege-escalation",
       "gasp_edges": [
         [
-          "T1047",
-          "T1055"
-        ],
-        [
-          "T1059",
-          "T1055"
-        ],
-        [
           "T1203",
           "T1068"
-        ],
-        [
-          "T1569",
-          "T1055"
         ]
       ],
       "weights": {
         "operator_dedup": {
           "numerator": 0,
-          "denominator": 6,
+          "denominator": 11,
           "weight": 0.0,
-          "flows_leaving_source": 2,
+          "flows_leaving_source": 5,
           "flow_proportion": 0.0,
           "backing_flow_ids": []
         },
         "raw": {
-          "numerator": 1,
-          "denominator": 7,
-          "weight": 0.14285714285714285,
-          "flows_leaving_source": 3,
-          "flow_proportion": 0.3333333333333333,
-          "backing_flow_ids": [
-            "whispergate"
-          ]
-        }
-      }
-    },
-    {
-      "name": "execution__to__reconnaissance",
-      "src_tactic": "execution",
-      "dst_tactic": "reconnaissance",
-      "gasp_edges": [
-        [
-          "T1059",
-          "T1595"
-        ]
-      ],
-      "weights": {
-        "operator_dedup": {
-          "numerator": 1,
-          "denominator": 6,
-          "weight": 0.16666666666666666,
-          "flows_leaving_source": 2,
-          "flow_proportion": 0.5,
-          "backing_flow_ids": [
-            "hancitor_dll"
-          ]
-        },
-        "raw": {
-          "numerator": 1,
-          "denominator": 7,
-          "weight": 0.14285714285714285,
-          "flows_leaving_source": 3,
-          "flow_proportion": 0.3333333333333333,
-          "backing_flow_ids": [
-            "hancitor_dll"
-          ]
+          "numerator": 0,
+          "denominator": 14,
+          "weight": 0.0,
+          "flows_leaving_source": 7,
+          "flow_proportion": 0.0,
+          "backing_flow_ids": []
         }
       }
     },
@@ -1251,6 +1288,14 @@
           "T1070"
         ],
         [
+          "T1053",
+          "T1140"
+        ],
+        [
+          "T1053",
+          "T1218"
+        ],
+        [
           "T1059",
           "T1027"
         ],
@@ -1261,6 +1306,10 @@
         [
           "T1059",
           "T1140"
+        ],
+        [
+          "T1059",
+          "T1211"
         ],
         [
           "T1059",
@@ -1276,15 +1325,11 @@
         ],
         [
           "T1204",
+          "T1036"
+        ],
+        [
+          "T1204",
           "T1140"
-        ],
-        [
-          "T1569",
-          "T1497"
-        ],
-        [
-          "T1569",
-          "T1622"
         ],
         [
           "T1574",
@@ -1293,161 +1338,90 @@
       ],
       "weights": {
         "operator_dedup": {
-          "numerator": 2,
-          "denominator": 6,
-          "weight": 0.3333333333333333,
-          "flows_leaving_source": 2,
+          "numerator": 3,
+          "denominator": 11,
+          "weight": 0.2727272727272727,
+          "flows_leaving_source": 5,
+          "flow_proportion": 0.6,
+          "backing_flow_ids": [
+            "cobalt_kitty_campaign",
+            "mac_malware_steals_crypto",
+            "toolshell_vulnerability_in_sharepoint"
+          ]
+        },
+        "raw": {
+          "numerator": 4,
+          "denominator": 14,
+          "weight": 0.2857142857142857,
+          "flows_leaving_source": 7,
+          "flow_proportion": 0.5714285714285714,
+          "backing_flow_ids": [
+            "cobalt_kitty_campaign",
+            "mac_malware_steals_crypto",
+            "oceanlotus",
+            "toolshell_vulnerability_in_sharepoint"
+          ]
+        }
+      }
+    },
+    {
+      "name": "exfiltration__to__collection",
+      "src_tactic": "exfiltration",
+      "dst_tactic": "collection",
+      "gasp_edges": [
+        [
+          "T1041",
+          "T1119"
+        ]
+      ],
+      "weights": {
+        "operator_dedup": {
+          "numerator": 0,
+          "denominator": 0,
+          "weight": null,
+          "flows_leaving_source": 0,
+          "flow_proportion": null,
+          "backing_flow_ids": []
+        },
+        "raw": {
+          "numerator": 1,
+          "denominator": 2,
+          "weight": 0.5,
+          "flows_leaving_source": 1,
           "flow_proportion": 1.0,
           "backing_flow_ids": [
-            "black_basta_ransomware",
-            "hancitor_dll"
-          ]
-        },
-        "raw": {
-          "numerator": 2,
-          "denominator": 7,
-          "weight": 0.2857142857142857,
-          "flows_leaving_source": 3,
-          "flow_proportion": 0.6666666666666666,
-          "backing_flow_ids": [
-            "black_basta_ransomware",
-            "hancitor_dll"
+            "oceanlotus"
           ]
         }
       }
     },
     {
-      "name": "exfiltration__to__command-and-control",
+      "name": "exfiltration__to__discovery",
       "src_tactic": "exfiltration",
-      "dst_tactic": "command-and-control",
+      "dst_tactic": "discovery",
       "gasp_edges": [
         [
-          "T1030",
-          "T1090"
+          "T1041",
+          "T1018"
         ]
       ],
       "weights": {
         "operator_dedup": {
-          "numerator": 1,
-          "denominator": 4,
-          "weight": 0.25,
-          "flows_leaving_source": 3,
-          "flow_proportion": 0.3333333333333333,
-          "backing_flow_ids": [
-            "jp_morgan_breach"
-          ]
+          "numerator": 0,
+          "denominator": 0,
+          "weight": null,
+          "flows_leaving_source": 0,
+          "flow_proportion": null,
+          "backing_flow_ids": []
         },
         "raw": {
           "numerator": 1,
-          "denominator": 4,
-          "weight": 0.25,
-          "flows_leaving_source": 3,
-          "flow_proportion": 0.3333333333333333,
+          "denominator": 2,
+          "weight": 0.5,
+          "flows_leaving_source": 1,
+          "flow_proportion": 1.0,
           "backing_flow_ids": [
-            "jp_morgan_breach"
-          ]
-        }
-      }
-    },
-    {
-      "name": "exfiltration__to__execution",
-      "src_tactic": "exfiltration",
-      "dst_tactic": "execution",
-      "gasp_edges": [
-        [
-          "T1567",
-          "T1047"
-        ]
-      ],
-      "weights": {
-        "operator_dedup": {
-          "numerator": 1,
-          "denominator": 4,
-          "weight": 0.25,
-          "flows_leaving_source": 3,
-          "flow_proportion": 0.3333333333333333,
-          "backing_flow_ids": [
-            "black_basta_ransomware"
-          ]
-        },
-        "raw": {
-          "numerator": 1,
-          "denominator": 4,
-          "weight": 0.25,
-          "flows_leaving_source": 3,
-          "flow_proportion": 0.3333333333333333,
-          "backing_flow_ids": [
-            "black_basta_ransomware"
-          ]
-        }
-      }
-    },
-    {
-      "name": "exfiltration__to__impact",
-      "src_tactic": "exfiltration",
-      "dst_tactic": "impact",
-      "gasp_edges": [
-        [
-          "T1567",
-          "T1490"
-        ],
-        [
-          "T1567",
-          "T1657"
-        ]
-      ],
-      "weights": {
-        "operator_dedup": {
-          "numerator": 1,
-          "denominator": 4,
-          "weight": 0.25,
-          "flows_leaving_source": 3,
-          "flow_proportion": 0.3333333333333333,
-          "backing_flow_ids": [
-            "black_basta_ransomware"
-          ]
-        },
-        "raw": {
-          "numerator": 1,
-          "denominator": 4,
-          "weight": 0.25,
-          "flows_leaving_source": 3,
-          "flow_proportion": 0.3333333333333333,
-          "backing_flow_ids": [
-            "black_basta_ransomware"
-          ]
-        }
-      }
-    },
-    {
-      "name": "exfiltration__to__stealth",
-      "src_tactic": "exfiltration",
-      "dst_tactic": "stealth",
-      "gasp_edges": [
-        [
-          "T1567",
-          "T1027"
-        ]
-      ],
-      "weights": {
-        "operator_dedup": {
-          "numerator": 1,
-          "denominator": 4,
-          "weight": 0.25,
-          "flows_leaving_source": 3,
-          "flow_proportion": 0.3333333333333333,
-          "backing_flow_ids": [
-            "ragnar_locker"
-          ]
-        },
-        "raw": {
-          "numerator": 1,
-          "denominator": 4,
-          "weight": 0.25,
-          "flows_leaving_source": 3,
-          "flow_proportion": 0.3333333333333333,
-          "backing_flow_ids": [
-            "ragnar_locker"
+            "oceanlotus"
           ]
         }
       }
@@ -1464,23 +1438,56 @@
       ],
       "weights": {
         "operator_dedup": {
+          "numerator": 0,
+          "denominator": 1,
+          "weight": 0.0,
+          "flows_leaving_source": 1,
+          "flow_proportion": 0.0,
+          "backing_flow_ids": []
+        },
+        "raw": {
+          "numerator": 0,
+          "denominator": 1,
+          "weight": 0.0,
+          "flows_leaving_source": 1,
+          "flow_proportion": 0.0,
+          "backing_flow_ids": []
+        }
+      }
+    },
+    {
+      "name": "impact__to__command-and-control",
+      "src_tactic": "impact",
+      "dst_tactic": "command-and-control",
+      "gasp_edges": [
+        [
+          "T1485",
+          "T1132"
+        ],
+        [
+          "T1489",
+          "T1132"
+        ]
+      ],
+      "weights": {
+        "operator_dedup": {
           "numerator": 1,
-          "denominator": 4,
-          "weight": 0.25,
-          "flows_leaving_source": 2,
-          "flow_proportion": 0.5,
+          "denominator": 1,
+          "weight": 1.0,
+          "flows_leaving_source": 1,
+          "flow_proportion": 1.0,
           "backing_flow_ids": [
-            "black_basta_ransomware"
+            "sony_malware"
           ]
         },
         "raw": {
           "numerator": 1,
-          "denominator": 5,
-          "weight": 0.2,
-          "flows_leaving_source": 3,
-          "flow_proportion": 0.3333333333333333,
+          "denominator": 1,
+          "weight": 1.0,
+          "flows_leaving_source": 1,
+          "flow_proportion": 1.0,
           "backing_flow_ids": [
-            "black_basta_ransomware"
+            "sony_malware"
           ]
         }
       }
@@ -1493,36 +1500,24 @@
         [
           "T1485",
           "T1083"
-        ],
-        [
-          "T1489",
-          "T1614"
-        ],
-        [
-          "T1490",
-          "T1614"
         ]
       ],
       "weights": {
         "operator_dedup": {
-          "numerator": 1,
-          "denominator": 4,
-          "weight": 0.25,
-          "flows_leaving_source": 2,
-          "flow_proportion": 0.5,
-          "backing_flow_ids": [
-            "ragnar_locker"
-          ]
+          "numerator": 0,
+          "denominator": 1,
+          "weight": 0.0,
+          "flows_leaving_source": 1,
+          "flow_proportion": 0.0,
+          "backing_flow_ids": []
         },
         "raw": {
-          "numerator": 1,
-          "denominator": 5,
-          "weight": 0.2,
-          "flows_leaving_source": 3,
-          "flow_proportion": 0.3333333333333333,
-          "backing_flow_ids": [
-            "ragnar_locker"
-          ]
+          "numerator": 0,
+          "denominator": 1,
+          "weight": 0.0,
+          "flows_leaving_source": 1,
+          "flow_proportion": 0.0,
+          "backing_flow_ids": []
         }
       }
     },
@@ -1539,56 +1534,19 @@
       "weights": {
         "operator_dedup": {
           "numerator": 0,
-          "denominator": 4,
+          "denominator": 1,
           "weight": 0.0,
-          "flows_leaving_source": 2,
+          "flows_leaving_source": 1,
           "flow_proportion": 0.0,
           "backing_flow_ids": []
         },
         "raw": {
           "numerator": 0,
-          "denominator": 5,
+          "denominator": 1,
           "weight": 0.0,
-          "flows_leaving_source": 3,
+          "flows_leaving_source": 1,
           "flow_proportion": 0.0,
           "backing_flow_ids": []
-        }
-      }
-    },
-    {
-      "name": "impact__to__persistence",
-      "src_tactic": "impact",
-      "dst_tactic": "persistence",
-      "gasp_edges": [
-        [
-          "T1490",
-          "T1112"
-        ],
-        [
-          "T1657",
-          "T1112"
-        ]
-      ],
-      "weights": {
-        "operator_dedup": {
-          "numerator": 1,
-          "denominator": 4,
-          "weight": 0.25,
-          "flows_leaving_source": 2,
-          "flow_proportion": 0.5,
-          "backing_flow_ids": [
-            "black_basta_ransomware"
-          ]
-        },
-        "raw": {
-          "numerator": 1,
-          "denominator": 5,
-          "weight": 0.2,
-          "flows_leaving_source": 3,
-          "flow_proportion": 0.3333333333333333,
-          "backing_flow_ids": [
-            "black_basta_ransomware"
-          ]
         }
       }
     },
@@ -1612,25 +1570,20 @@
       ],
       "weights": {
         "operator_dedup": {
-          "numerator": 1,
-          "denominator": 4,
-          "weight": 0.25,
-          "flows_leaving_source": 2,
-          "flow_proportion": 0.5,
-          "backing_flow_ids": [
-            "black_basta_ransomware"
-          ]
+          "numerator": 0,
+          "denominator": 1,
+          "weight": 0.0,
+          "flows_leaving_source": 1,
+          "flow_proportion": 0.0,
+          "backing_flow_ids": []
         },
         "raw": {
-          "numerator": 2,
-          "denominator": 5,
-          "weight": 0.4,
-          "flows_leaving_source": 3,
-          "flow_proportion": 0.6666666666666666,
-          "backing_flow_ids": [
-            "black_basta_ransomware",
-            "whispergate"
-          ]
+          "numerator": 0,
+          "denominator": 1,
+          "weight": 0.0,
+          "flows_leaving_source": 1,
+          "flow_proportion": 0.0,
+          "backing_flow_ids": []
         }
       }
     },
@@ -1640,99 +1593,24 @@
       "dst_tactic": "command-and-control",
       "gasp_edges": [
         [
-          "T1078",
-          "T1105"
-        ],
-        [
           "T1190",
           "T1105"
-        ],
-        [
-          "T1566",
-          "T1219"
-        ]
-      ],
-      "weights": {
-        "operator_dedup": {
-          "numerator": 1,
-          "denominator": 4,
-          "weight": 0.25,
-          "flows_leaving_source": 3,
-          "flow_proportion": 0.3333333333333333,
-          "backing_flow_ids": [
-            "marriott_breach"
-          ]
-        },
-        "raw": {
-          "numerator": 2,
-          "denominator": 5,
-          "weight": 0.4,
-          "flows_leaving_source": 4,
-          "flow_proportion": 0.5,
-          "backing_flow_ids": [
-            "marriott_breach",
-            "whispergate"
-          ]
-        }
-      }
-    },
-    {
-      "name": "initial-access__to__credential-access",
-      "src_tactic": "initial-access",
-      "dst_tactic": "credential-access",
-      "gasp_edges": [
-        [
-          "T1566",
-          "T1555"
-        ]
-      ],
-      "weights": {
-        "operator_dedup": {
-          "numerator": 1,
-          "denominator": 4,
-          "weight": 0.25,
-          "flows_leaving_source": 3,
-          "flow_proportion": 0.3333333333333333,
-          "backing_flow_ids": [
-            "marriott_breach"
-          ]
-        },
-        "raw": {
-          "numerator": 1,
-          "denominator": 5,
-          "weight": 0.2,
-          "flows_leaving_source": 4,
-          "flow_proportion": 0.25,
-          "backing_flow_ids": [
-            "marriott_breach"
-          ]
-        }
-      }
-    },
-    {
-      "name": "initial-access__to__discovery",
-      "src_tactic": "initial-access",
-      "dst_tactic": "discovery",
-      "gasp_edges": [
-        [
-          "T1190",
-          "T1614"
         ]
       ],
       "weights": {
         "operator_dedup": {
           "numerator": 0,
-          "denominator": 4,
+          "denominator": 2,
           "weight": 0.0,
-          "flows_leaving_source": 3,
+          "flows_leaving_source": 2,
           "flow_proportion": 0.0,
           "backing_flow_ids": []
         },
         "raw": {
           "numerator": 0,
-          "denominator": 5,
+          "denominator": 3,
           "weight": 0.0,
-          "flows_leaving_source": 4,
+          "flows_leaving_source": 3,
           "flow_proportion": 0.0,
           "backing_flow_ids": []
         }
@@ -1744,20 +1622,12 @@
       "dst_tactic": "execution",
       "gasp_edges": [
         [
-          "T1078",
-          "T1059"
-        ],
-        [
-          "T1078",
-          "T1203"
-        ],
-        [
-          "T1078",
-          "T1569"
-        ],
-        [
           "T1190",
           "T1059"
+        ],
+        [
+          "T1566",
+          "T1053"
         ],
         [
           "T1566",
@@ -1770,51 +1640,54 @@
       ],
       "weights": {
         "operator_dedup": {
-          "numerator": 1,
-          "denominator": 4,
-          "weight": 0.25,
-          "flows_leaving_source": 3,
-          "flow_proportion": 0.3333333333333333,
+          "numerator": 2,
+          "denominator": 2,
+          "weight": 1.0,
+          "flows_leaving_source": 2,
+          "flow_proportion": 1.0,
           "backing_flow_ids": [
-            "hancitor_dll"
+            "cobalt_kitty_campaign",
+            "toolshell_vulnerability_in_sharepoint"
           ]
         },
         "raw": {
-          "numerator": 1,
-          "denominator": 5,
-          "weight": 0.2,
-          "flows_leaving_source": 4,
-          "flow_proportion": 0.25,
+          "numerator": 3,
+          "denominator": 3,
+          "weight": 1.0,
+          "flows_leaving_source": 3,
+          "flow_proportion": 1.0,
           "backing_flow_ids": [
-            "hancitor_dll"
+            "cobalt_kitty_campaign",
+            "oceanlotus",
+            "toolshell_vulnerability_in_sharepoint"
           ]
         }
       }
     },
     {
-      "name": "initial-access__to__lateral-movement",
+      "name": "initial-access__to__persistence",
       "src_tactic": "initial-access",
-      "dst_tactic": "lateral-movement",
+      "dst_tactic": "persistence",
       "gasp_edges": [
         [
-          "T1078",
-          "T1021"
+          "T1190",
+          "T1505"
         ]
       ],
       "weights": {
         "operator_dedup": {
           "numerator": 0,
-          "denominator": 4,
+          "denominator": 2,
           "weight": 0.0,
-          "flows_leaving_source": 3,
+          "flows_leaving_source": 2,
           "flow_proportion": 0.0,
           "backing_flow_ids": []
         },
         "raw": {
           "numerator": 0,
-          "denominator": 5,
+          "denominator": 3,
           "weight": 0.0,
-          "flows_leaving_source": 4,
+          "flows_leaving_source": 3,
           "flow_proportion": 0.0,
           "backing_flow_ids": []
         }
@@ -1836,24 +1709,49 @@
       ],
       "weights": {
         "operator_dedup": {
-          "numerator": 1,
-          "denominator": 4,
-          "weight": 0.25,
-          "flows_leaving_source": 3,
-          "flow_proportion": 0.3333333333333333,
-          "backing_flow_ids": [
-            "black_basta_ransomware"
-          ]
+          "numerator": 0,
+          "denominator": 2,
+          "weight": 0.0,
+          "flows_leaving_source": 2,
+          "flow_proportion": 0.0,
+          "backing_flow_ids": []
         },
         "raw": {
-          "numerator": 1,
-          "denominator": 5,
-          "weight": 0.2,
-          "flows_leaving_source": 4,
-          "flow_proportion": 0.25,
-          "backing_flow_ids": [
-            "black_basta_ransomware"
-          ]
+          "numerator": 0,
+          "denominator": 3,
+          "weight": 0.0,
+          "flows_leaving_source": 3,
+          "flow_proportion": 0.0,
+          "backing_flow_ids": []
+        }
+      }
+    },
+    {
+      "name": "lateral-movement__to__collection",
+      "src_tactic": "lateral-movement",
+      "dst_tactic": "collection",
+      "gasp_edges": [
+        [
+          "T1021",
+          "T1119"
+        ]
+      ],
+      "weights": {
+        "operator_dedup": {
+          "numerator": 0,
+          "denominator": 1,
+          "weight": 0.0,
+          "flows_leaving_source": 1,
+          "flow_proportion": 0.0,
+          "backing_flow_ids": []
+        },
+        "raw": {
+          "numerator": 0,
+          "denominator": 2,
+          "weight": 0.0,
+          "flows_leaving_source": 2,
+          "flow_proportion": 0.0,
+          "backing_flow_ids": []
         }
       }
     },
@@ -1863,34 +1761,26 @@
       "dst_tactic": "command-and-control",
       "gasp_edges": [
         [
-          "T1021",
-          "T1219"
-        ],
-        [
           "T1550",
           "T1105"
         ]
       ],
       "weights": {
         "operator_dedup": {
-          "numerator": 1,
-          "denominator": 2,
-          "weight": 0.5,
-          "flows_leaving_source": 2,
-          "flow_proportion": 0.5,
-          "backing_flow_ids": [
-            "hancitor_dll"
-          ]
+          "numerator": 0,
+          "denominator": 1,
+          "weight": 0.0,
+          "flows_leaving_source": 1,
+          "flow_proportion": 0.0,
+          "backing_flow_ids": []
         },
         "raw": {
-          "numerator": 1,
+          "numerator": 0,
           "denominator": 2,
-          "weight": 0.5,
+          "weight": 0.0,
           "flows_leaving_source": 2,
-          "flow_proportion": 0.5,
-          "backing_flow_ids": [
-            "hancitor_dll"
-          ]
+          "flow_proportion": 0.0,
+          "backing_flow_ids": []
         }
       }
     },
@@ -1901,15 +1791,19 @@
       "gasp_edges": [
         [
           "T1021",
-          "T1555"
+          "T1003"
+        ],
+        [
+          "T1021",
+          "T1552"
         ]
       ],
       "weights": {
         "operator_dedup": {
           "numerator": 0,
-          "denominator": 2,
+          "denominator": 1,
           "weight": 0.0,
-          "flows_leaving_source": 2,
+          "flows_leaving_source": 1,
           "flow_proportion": 0.0,
           "backing_flow_ids": []
         },
@@ -1934,15 +1828,15 @@
         ],
         [
           "T1021",
-          "T1087"
+          "T1135"
         ]
       ],
       "weights": {
         "operator_dedup": {
           "numerator": 0,
-          "denominator": 2,
+          "denominator": 1,
           "weight": 0.0,
-          "flows_leaving_source": 2,
+          "flows_leaving_source": 1,
           "flow_proportion": 0.0,
           "backing_flow_ids": []
         },
@@ -1964,22 +1858,16 @@
         [
           "T1021",
           "T1059"
-        ],
-        [
-          "T1021",
-          "T1569"
         ]
       ],
       "weights": {
         "operator_dedup": {
-          "numerator": 1,
-          "denominator": 2,
-          "weight": 0.5,
-          "flows_leaving_source": 2,
-          "flow_proportion": 0.5,
-          "backing_flow_ids": [
-            "black_basta_ransomware"
-          ]
+          "numerator": 0,
+          "denominator": 1,
+          "weight": 0.0,
+          "flows_leaving_source": 1,
+          "flow_proportion": 0.0,
+          "backing_flow_ids": []
         },
         "raw": {
           "numerator": 1,
@@ -1988,27 +1876,27 @@
           "flows_leaving_source": 2,
           "flow_proportion": 0.5,
           "backing_flow_ids": [
-            "black_basta_ransomware"
+            "oceanlotus"
           ]
         }
       }
     },
     {
-      "name": "lateral-movement__to__initial-access",
+      "name": "lateral-movement__to__persistence",
       "src_tactic": "lateral-movement",
-      "dst_tactic": "initial-access",
+      "dst_tactic": "persistence",
       "gasp_edges": [
         [
           "T1021",
-          "T1078"
+          "T1505"
         ]
       ],
       "weights": {
         "operator_dedup": {
           "numerator": 0,
-          "denominator": 2,
+          "denominator": 1,
           "weight": 0.0,
-          "flows_leaving_source": 2,
+          "flows_leaving_source": 1,
           "flow_proportion": 0.0,
           "backing_flow_ids": []
         },
@@ -2034,22 +1922,59 @@
         [
           "T1021",
           "T1218"
+        ],
+        [
+          "T1080",
+          "T1497"
+        ]
+      ],
+      "weights": {
+        "operator_dedup": {
+          "numerator": 1,
+          "denominator": 1,
+          "weight": 1.0,
+          "flows_leaving_source": 1,
+          "flow_proportion": 1.0,
+          "backing_flow_ids": [
+            "sony_malware"
+          ]
+        },
+        "raw": {
+          "numerator": 1,
+          "denominator": 2,
+          "weight": 0.5,
+          "flows_leaving_source": 2,
+          "flow_proportion": 0.5,
+          "backing_flow_ids": [
+            "sony_malware"
+          ]
+        }
+      }
+    },
+    {
+      "name": "persistence__to__collection",
+      "src_tactic": "persistence",
+      "dst_tactic": "collection",
+      "gasp_edges": [
+        [
+          "T1505",
+          "T1074"
         ]
       ],
       "weights": {
         "operator_dedup": {
           "numerator": 0,
-          "denominator": 2,
+          "denominator": 5,
           "weight": 0.0,
-          "flows_leaving_source": 2,
+          "flows_leaving_source": 4,
           "flow_proportion": 0.0,
           "backing_flow_ids": []
         },
         "raw": {
           "numerator": 0,
-          "denominator": 2,
+          "denominator": 6,
           "weight": 0.0,
-          "flows_leaving_source": 2,
+          "flows_leaving_source": 5,
           "flow_proportion": 0.0,
           "backing_flow_ids": []
         }
@@ -2061,37 +1986,33 @@
       "dst_tactic": "command-and-control",
       "gasp_edges": [
         [
-          "T1098",
-          "T1573"
-        ],
-        [
-          "T1136",
+          "T1505",
           "T1105"
         ],
         [
-          "T1543",
-          "T1573"
+          "T1547",
+          "T1105"
         ]
       ],
       "weights": {
         "operator_dedup": {
           "numerator": 1,
-          "denominator": 3,
-          "weight": 0.3333333333333333,
-          "flows_leaving_source": 1,
-          "flow_proportion": 1.0,
+          "denominator": 5,
+          "weight": 0.2,
+          "flows_leaving_source": 4,
+          "flow_proportion": 0.25,
           "backing_flow_ids": [
-            "black_basta_ransomware"
+            "sony_malware"
           ]
         },
         "raw": {
           "numerator": 1,
-          "denominator": 3,
-          "weight": 0.3333333333333333,
-          "flows_leaving_source": 1,
-          "flow_proportion": 1.0,
+          "denominator": 6,
+          "weight": 0.16666666666666666,
+          "flows_leaving_source": 5,
+          "flow_proportion": 0.2,
           "backing_flow_ids": [
-            "black_basta_ransomware"
+            "sony_malware"
           ]
         }
       }
@@ -2102,34 +2023,26 @@
       "dst_tactic": "discovery",
       "gasp_edges": [
         [
-          "T1112",
-          "T1083"
-        ],
-        [
-          "T1136",
-          "T1016"
+          "T1505",
+          "T1046"
         ]
       ],
       "weights": {
         "operator_dedup": {
-          "numerator": 1,
-          "denominator": 3,
-          "weight": 0.3333333333333333,
-          "flows_leaving_source": 1,
-          "flow_proportion": 1.0,
-          "backing_flow_ids": [
-            "black_basta_ransomware"
-          ]
+          "numerator": 0,
+          "denominator": 5,
+          "weight": 0.0,
+          "flows_leaving_source": 4,
+          "flow_proportion": 0.0,
+          "backing_flow_ids": []
         },
         "raw": {
-          "numerator": 1,
-          "denominator": 3,
-          "weight": 0.3333333333333333,
-          "flows_leaving_source": 1,
-          "flow_proportion": 1.0,
-          "backing_flow_ids": [
-            "black_basta_ransomware"
-          ]
+          "numerator": 0,
+          "denominator": 6,
+          "weight": 0.0,
+          "flows_leaving_source": 5,
+          "flow_proportion": 0.0,
+          "backing_flow_ids": []
         }
       }
     },
@@ -2139,34 +2052,48 @@
       "dst_tactic": "execution",
       "gasp_edges": [
         [
-          "T1112",
-          "T1059"
+          "T1137",
+          "T1574"
         ],
         [
-          "T1112",
-          "T1569"
+          "T1505",
+          "T1203"
         ],
         [
           "T1543",
+          "T1574"
+        ],
+        [
+          "T1547",
+          "T1059"
+        ],
+        [
+          "T1547",
           "T1574"
         ]
       ],
       "weights": {
         "operator_dedup": {
-          "numerator": 0,
-          "denominator": 3,
-          "weight": 0.0,
-          "flows_leaving_source": 1,
-          "flow_proportion": 0.0,
-          "backing_flow_ids": []
+          "numerator": 2,
+          "denominator": 5,
+          "weight": 0.4,
+          "flows_leaving_source": 4,
+          "flow_proportion": 0.5,
+          "backing_flow_ids": [
+            "cobalt_kitty_campaign",
+            "muddy_water"
+          ]
         },
         "raw": {
-          "numerator": 0,
-          "denominator": 3,
-          "weight": 0.0,
-          "flows_leaving_source": 1,
-          "flow_proportion": 0.0,
-          "backing_flow_ids": []
+          "numerator": 2,
+          "denominator": 6,
+          "weight": 0.3333333333333333,
+          "flows_leaving_source": 5,
+          "flow_proportion": 0.4,
+          "backing_flow_ids": [
+            "cobalt_kitty_campaign",
+            "muddy_water"
+          ]
         }
       }
     },
@@ -2176,92 +2103,26 @@
       "dst_tactic": "impact",
       "gasp_edges": [
         [
-          "T1112",
-          "T1489"
+          "T1543",
+          "T1561"
         ]
       ],
       "weights": {
         "operator_dedup": {
           "numerator": 0,
-          "denominator": 3,
+          "denominator": 5,
           "weight": 0.0,
-          "flows_leaving_source": 1,
+          "flows_leaving_source": 4,
           "flow_proportion": 0.0,
           "backing_flow_ids": []
         },
         "raw": {
           "numerator": 0,
-          "denominator": 3,
+          "denominator": 6,
           "weight": 0.0,
-          "flows_leaving_source": 1,
+          "flows_leaving_source": 5,
           "flow_proportion": 0.0,
           "backing_flow_ids": []
-        }
-      }
-    },
-    {
-      "name": "persistence__to__lateral-movement",
-      "src_tactic": "persistence",
-      "dst_tactic": "lateral-movement",
-      "gasp_edges": [
-        [
-          "T1136",
-          "T1021"
-        ]
-      ],
-      "weights": {
-        "operator_dedup": {
-          "numerator": 0,
-          "denominator": 3,
-          "weight": 0.0,
-          "flows_leaving_source": 1,
-          "flow_proportion": 0.0,
-          "backing_flow_ids": []
-        },
-        "raw": {
-          "numerator": 0,
-          "denominator": 3,
-          "weight": 0.0,
-          "flows_leaving_source": 1,
-          "flow_proportion": 0.0,
-          "backing_flow_ids": []
-        }
-      }
-    },
-    {
-      "name": "persistence__to__privilege-escalation",
-      "src_tactic": "persistence",
-      "dst_tactic": "privilege-escalation",
-      "gasp_edges": [
-        [
-          "T1136",
-          "T1484"
-        ],
-        [
-          "T1546",
-          "T1055"
-        ]
-      ],
-      "weights": {
-        "operator_dedup": {
-          "numerator": 1,
-          "denominator": 3,
-          "weight": 0.3333333333333333,
-          "flows_leaving_source": 1,
-          "flow_proportion": 1.0,
-          "backing_flow_ids": [
-            "black_basta_ransomware"
-          ]
-        },
-        "raw": {
-          "numerator": 1,
-          "denominator": 3,
-          "weight": 0.3333333333333333,
-          "flows_leaving_source": 1,
-          "flow_proportion": 1.0,
-          "backing_flow_ids": [
-            "black_basta_ransomware"
-          ]
         }
       }
     },
@@ -2271,92 +2132,76 @@
       "dst_tactic": "stealth",
       "gasp_edges": [
         [
+          "T1505",
+          "T1070"
+        ],
+        [
+          "T1505",
+          "T1620"
+        ],
+        [
           "T1543",
           "T1070"
+        ],
+        [
+          "T1547",
+          "T1218"
         ]
       ],
       "weights": {
         "operator_dedup": {
-          "numerator": 0,
-          "denominator": 3,
-          "weight": 0.0,
-          "flows_leaving_source": 1,
-          "flow_proportion": 0.0,
-          "backing_flow_ids": []
+          "numerator": 2,
+          "denominator": 5,
+          "weight": 0.4,
+          "flows_leaving_source": 4,
+          "flow_proportion": 0.5,
+          "backing_flow_ids": [
+            "muddy_water",
+            "toolshell_vulnerability_in_sharepoint"
+          ]
         },
         "raw": {
-          "numerator": 0,
-          "denominator": 3,
-          "weight": 0.0,
-          "flows_leaving_source": 1,
-          "flow_proportion": 0.0,
-          "backing_flow_ids": []
+          "numerator": 3,
+          "denominator": 6,
+          "weight": 0.5,
+          "flows_leaving_source": 5,
+          "flow_proportion": 0.6,
+          "backing_flow_ids": [
+            "muddy_water",
+            "oceanlotus",
+            "toolshell_vulnerability_in_sharepoint"
+          ]
         }
       }
     },
     {
-      "name": "privilege-escalation__to__command-and-control",
+      "name": "privilege-escalation__to__collection",
       "src_tactic": "privilege-escalation",
-      "dst_tactic": "command-and-control",
+      "dst_tactic": "collection",
       "gasp_edges": [
         [
-          "T1055",
-          "T1090"
-        ],
-        [
-          "T1055",
-          "T1573"
+          "T1068",
+          "T1119"
         ]
       ],
       "weights": {
         "operator_dedup": {
           "numerator": 0,
-          "denominator": 1,
-          "weight": 0.0,
-          "flows_leaving_source": 1,
-          "flow_proportion": 0.0,
+          "denominator": 0,
+          "weight": null,
+          "flows_leaving_source": 0,
+          "flow_proportion": null,
           "backing_flow_ids": []
         },
         "raw": {
-          "numerator": 0,
-          "denominator": 2,
-          "weight": 0.0,
-          "flows_leaving_source": 2,
-          "flow_proportion": 0.0,
-          "backing_flow_ids": []
-        }
-      }
-    },
-    {
-      "name": "privilege-escalation__to__discovery",
-      "src_tactic": "privilege-escalation",
-      "dst_tactic": "discovery",
-      "gasp_edges": [
-        [
-          "T1055",
-          "T1057"
-        ],
-        [
-          "T1055",
-          "T1087"
-        ]
-      ],
-      "weights": {
-        "operator_dedup": {
-          "numerator": 0,
+          "numerator": 1,
           "denominator": 1,
-          "weight": 0.0,
+          "weight": 1.0,
           "flows_leaving_source": 1,
-          "flow_proportion": 0.0,
-          "backing_flow_ids": []
-        },
-        "raw": {
-          "numerator": 0,
-          "denominator": 2,
-          "weight": 0.0,
-          "flows_leaving_source": 2,
-          "flow_proportion": 0.0,
-          "backing_flow_ids": []
+          "flow_proportion": 1.0,
+          "backing_flow_ids": [
+            "cisa_aa22_138b_vmware_workspace_ta1"
+          ]
         }
       }
     },
@@ -2373,52 +2218,19 @@
       "weights": {
         "operator_dedup": {
           "numerator": 0,
-          "denominator": 1,
-          "weight": 0.0,
-          "flows_leaving_source": 1,
-          "flow_proportion": 0.0,
+          "denominator": 0,
+          "weight": null,
+          "flows_leaving_source": 0,
+          "flow_proportion": null,
           "backing_flow_ids": []
         },
         "raw": {
           "numerator": 0,
-          "denominator": 2,
+          "denominator": 1,
           "weight": 0.0,
-          "flows_leaving_source": 2,
+          "flows_leaving_source": 1,
           "flow_proportion": 0.0,
           "backing_flow_ids": []
-        }
-      }
-    },
-    {
-      "name": "privilege-escalation__to__persistence",
-      "src_tactic": "privilege-escalation",
-      "dst_tactic": "persistence",
-      "gasp_edges": [
-        [
-          "T1484",
-          "T1098"
-        ]
-      ],
-      "weights": {
-        "operator_dedup": {
-          "numerator": 1,
-          "denominator": 1,
-          "weight": 1.0,
-          "flows_leaving_source": 1,
-          "flow_proportion": 1.0,
-          "backing_flow_ids": [
-            "black_basta_ransomware"
-          ]
-        },
-        "raw": {
-          "numerator": 1,
-          "denominator": 2,
-          "weight": 0.5,
-          "flows_leaving_source": 2,
-          "flow_proportion": 0.5,
-          "backing_flow_ids": [
-            "black_basta_ransomware"
-          ]
         }
       }
     },
@@ -2428,14 +2240,6 @@
       "dst_tactic": "stealth",
       "gasp_edges": [
         [
-          "T1055",
-          "T1027"
-        ],
-        [
-          "T1055",
-          "T1218"
-        ],
-        [
           "T1068",
           "T1140"
         ]
@@ -2443,49 +2247,18 @@
       "weights": {
         "operator_dedup": {
           "numerator": 0,
+          "denominator": 0,
+          "weight": null,
+          "flows_leaving_source": 0,
+          "flow_proportion": null,
+          "backing_flow_ids": []
+        },
+        "raw": {
+          "numerator": 0,
           "denominator": 1,
           "weight": 0.0,
           "flows_leaving_source": 1,
           "flow_proportion": 0.0,
-          "backing_flow_ids": []
-        },
-        "raw": {
-          "numerator": 1,
-          "denominator": 2,
-          "weight": 0.5,
-          "flows_leaving_source": 2,
-          "flow_proportion": 0.5,
-          "backing_flow_ids": [
-            "whispergate"
-          ]
-        }
-      }
-    },
-    {
-      "name": "reconnaissance__to__command-and-control",
-      "src_tactic": "reconnaissance",
-      "dst_tactic": "command-and-control",
-      "gasp_edges": [
-        [
-          "T1590",
-          "T1573"
-        ]
-      ],
-      "weights": {
-        "operator_dedup": {
-          "numerator": 0,
-          "denominator": 0,
-          "weight": null,
-          "flows_leaving_source": 0,
-          "flow_proportion": null,
-          "backing_flow_ids": []
-        },
-        "raw": {
-          "numerator": 0,
-          "denominator": 0,
-          "weight": null,
-          "flows_leaving_source": 0,
-          "flow_proportion": null,
           "backing_flow_ids": []
         }
       }
@@ -2502,32 +2275,24 @@
         [
           "T1497",
           "T1560"
-        ],
-        [
-          "T1622",
-          "T1560"
         ]
       ],
       "weights": {
         "operator_dedup": {
-          "numerator": 1,
-          "denominator": 9,
-          "weight": 0.1111111111111111,
-          "flows_leaving_source": 4,
-          "flow_proportion": 0.25,
-          "backing_flow_ids": [
-            "black_basta_ransomware"
-          ]
+          "numerator": 0,
+          "denominator": 4,
+          "weight": 0.0,
+          "flows_leaving_source": 3,
+          "flow_proportion": 0.0,
+          "backing_flow_ids": []
         },
         "raw": {
-          "numerator": 1,
-          "denominator": 12,
-          "weight": 0.08333333333333333,
+          "numerator": 0,
+          "denominator": 7,
+          "weight": 0.0,
           "flows_leaving_source": 5,
-          "flow_proportion": 0.2,
-          "backing_flow_ids": [
-            "black_basta_ransomware"
-          ]
+          "flow_proportion": 0.0,
+          "backing_flow_ids": []
         }
       }
     },
@@ -2542,6 +2307,10 @@
         ],
         [
           "T1070",
+          "T1071"
+        ],
+        [
+          "T1070",
           "T1105"
         ],
         [
@@ -2550,34 +2319,70 @@
         ],
         [
           "T1218",
-          "T1105"
+          "T1071"
         ],
         [
-          "T1564",
-          "T1573"
+          "T1218",
+          "T1105"
         ]
       ],
       "weights": {
         "operator_dedup": {
-          "numerator": 2,
-          "denominator": 9,
-          "weight": 0.2222222222222222,
-          "flows_leaving_source": 4,
-          "flow_proportion": 0.5,
+          "numerator": 1,
+          "denominator": 4,
+          "weight": 0.25,
+          "flows_leaving_source": 3,
+          "flow_proportion": 0.3333333333333333,
           "backing_flow_ids": [
-            "hancitor_dll",
-            "ragnar_locker"
+            "cobalt_kitty_campaign"
           ]
         },
         "raw": {
           "numerator": 2,
-          "denominator": 12,
-          "weight": 0.16666666666666666,
+          "denominator": 7,
+          "weight": 0.2857142857142857,
           "flows_leaving_source": 5,
           "flow_proportion": 0.4,
           "backing_flow_ids": [
-            "hancitor_dll",
-            "ragnar_locker"
+            "cisa_aa22_138b_vmware_workspace_ta1",
+            "cobalt_kitty_campaign"
+          ]
+        }
+      }
+    },
+    {
+      "name": "stealth__to__credential-access",
+      "src_tactic": "stealth",
+      "dst_tactic": "credential-access",
+      "gasp_edges": [
+        [
+          "T1036",
+          "T1003"
+        ],
+        [
+          "T1620",
+          "T1552"
+        ]
+      ],
+      "weights": {
+        "operator_dedup": {
+          "numerator": 1,
+          "denominator": 4,
+          "weight": 0.25,
+          "flows_leaving_source": 3,
+          "flow_proportion": 0.3333333333333333,
+          "backing_flow_ids": [
+            "toolshell_vulnerability_in_sharepoint"
+          ]
+        },
+        "raw": {
+          "numerator": 1,
+          "denominator": 7,
+          "weight": 0.14285714285714285,
+          "flows_leaving_source": 5,
+          "flow_proportion": 0.2,
+          "backing_flow_ids": [
+            "toolshell_vulnerability_in_sharepoint"
           ]
         }
       }
@@ -2588,8 +2393,8 @@
       "dst_tactic": "discovery",
       "gasp_edges": [
         [
-          "T1070",
-          "T1057"
+          "T1036",
+          "T1518"
         ],
         [
           "T1070",
@@ -2608,38 +2413,27 @@
           "T1082"
         ],
         [
-          "T1218",
-          "T1087"
-        ],
-        [
           "T1564",
           "T1083"
-        ],
-        [
-          "T1564",
-          "T1120"
         ]
       ],
       "weights": {
         "operator_dedup": {
-          "numerator": 1,
-          "denominator": 9,
-          "weight": 0.1111111111111111,
-          "flows_leaving_source": 4,
-          "flow_proportion": 0.25,
-          "backing_flow_ids": [
-            "ragnar_locker"
-          ]
+          "numerator": 0,
+          "denominator": 4,
+          "weight": 0.0,
+          "flows_leaving_source": 3,
+          "flow_proportion": 0.0,
+          "backing_flow_ids": []
         },
         "raw": {
-          "numerator": 2,
-          "denominator": 12,
-          "weight": 0.16666666666666666,
+          "numerator": 1,
+          "denominator": 7,
+          "weight": 0.14285714285714285,
           "flows_leaving_source": 5,
-          "flow_proportion": 0.4,
+          "flow_proportion": 0.2,
           "backing_flow_ids": [
-            "ragnar_locker",
-            "whispergate"
+            "oceanlotus"
           ]
         }
       }
@@ -2654,6 +2448,14 @@
           "T1059"
         ],
         [
+          "T1036",
+          "T1047"
+        ],
+        [
+          "T1036",
+          "T1059"
+        ],
+        [
           "T1070",
           "T1059"
         ],
@@ -2664,10 +2466,6 @@
         [
           "T1140",
           "T1204"
-        ],
-        [
-          "T1140",
-          "T1569"
         ],
         [
           "T1218",
@@ -2685,25 +2483,24 @@
       "weights": {
         "operator_dedup": {
           "numerator": 2,
-          "denominator": 9,
-          "weight": 0.2222222222222222,
-          "flows_leaving_source": 4,
-          "flow_proportion": 0.5,
+          "denominator": 4,
+          "weight": 0.5,
+          "flows_leaving_source": 3,
+          "flow_proportion": 0.6666666666666666,
           "backing_flow_ids": [
-            "black_basta_ransomware",
-            "hancitor_dll"
+            "cobalt_kitty_campaign",
+            "sony_malware"
           ]
         },
         "raw": {
-          "numerator": 3,
-          "denominator": 12,
-          "weight": 0.25,
+          "numerator": 2,
+          "denominator": 7,
+          "weight": 0.2857142857142857,
           "flows_leaving_source": 5,
-          "flow_proportion": 0.6,
+          "flow_proportion": 0.4,
           "backing_flow_ids": [
-            "black_basta_ransomware",
-            "hancitor_dll",
-            "whispergate"
+            "cobalt_kitty_campaign",
+            "sony_malware"
           ]
         }
       }
@@ -2724,25 +2521,20 @@
       ],
       "weights": {
         "operator_dedup": {
-          "numerator": 1,
-          "denominator": 9,
-          "weight": 0.1111111111111111,
-          "flows_leaving_source": 4,
-          "flow_proportion": 0.25,
-          "backing_flow_ids": [
-            "ragnar_locker"
-          ]
+          "numerator": 0,
+          "denominator": 4,
+          "weight": 0.0,
+          "flows_leaving_source": 3,
+          "flow_proportion": 0.0,
+          "backing_flow_ids": []
         },
         "raw": {
-          "numerator": 2,
-          "denominator": 12,
-          "weight": 0.16666666666666666,
+          "numerator": 0,
+          "denominator": 7,
+          "weight": 0.0,
           "flows_leaving_source": 5,
-          "flow_proportion": 0.4,
-          "backing_flow_ids": [
-            "ragnar_locker",
-            "whispergate"
-          ]
+          "flow_proportion": 0.0,
+          "backing_flow_ids": []
         }
       }
     },
@@ -2758,24 +2550,49 @@
       ],
       "weights": {
         "operator_dedup": {
-          "numerator": 1,
-          "denominator": 9,
-          "weight": 0.1111111111111111,
-          "flows_leaving_source": 4,
-          "flow_proportion": 0.25,
-          "backing_flow_ids": [
-            "jp_morgan_breach"
-          ]
+          "numerator": 0,
+          "denominator": 4,
+          "weight": 0.0,
+          "flows_leaving_source": 3,
+          "flow_proportion": 0.0,
+          "backing_flow_ids": []
         },
         "raw": {
-          "numerator": 1,
-          "denominator": 12,
-          "weight": 0.08333333333333333,
+          "numerator": 0,
+          "denominator": 7,
+          "weight": 0.0,
           "flows_leaving_source": 5,
-          "flow_proportion": 0.2,
-          "backing_flow_ids": [
-            "jp_morgan_breach"
-          ]
+          "flow_proportion": 0.0,
+          "backing_flow_ids": []
+        }
+      }
+    },
+    {
+      "name": "stealth__to__lateral-movement",
+      "src_tactic": "stealth",
+      "dst_tactic": "lateral-movement",
+      "gasp_edges": [
+        [
+          "T1036",
+          "T1550"
+        ]
+      ],
+      "weights": {
+        "operator_dedup": {
+          "numerator": 0,
+          "denominator": 4,
+          "weight": 0.0,
+          "flows_leaving_source": 3,
+          "flow_proportion": 0.0,
+          "backing_flow_ids": []
+        },
+        "raw": {
+          "numerator": 0,
+          "denominator": 7,
+          "weight": 0.0,
+          "flows_leaving_source": 5,
+          "flow_proportion": 0.0,
+          "backing_flow_ids": []
         }
       }
     },
@@ -2786,31 +2603,15 @@
       "gasp_edges": [
         [
           "T1027",
-          "T1112"
-        ],
-        [
-          "T1027",
           "T1543"
         ],
         [
           "T1027",
-          "T1546"
-        ],
-        [
-          "T1070",
-          "T1136"
-        ],
-        [
-          "T1070",
-          "T1546"
+          "T1547"
         ],
         [
           "T1140",
           "T1543"
-        ],
-        [
-          "T1218",
-          "T1136"
         ],
         [
           "T1218",
@@ -2819,76 +2620,40 @@
       ],
       "weights": {
         "operator_dedup": {
-          "numerator": 1,
-          "denominator": 9,
-          "weight": 0.1111111111111111,
-          "flows_leaving_source": 4,
-          "flow_proportion": 0.25,
-          "backing_flow_ids": [
-            "black_basta_ransomware"
-          ]
+          "numerator": 0,
+          "denominator": 4,
+          "weight": 0.0,
+          "flows_leaving_source": 3,
+          "flow_proportion": 0.0,
+          "backing_flow_ids": []
         },
         "raw": {
           "numerator": 1,
-          "denominator": 12,
-          "weight": 0.08333333333333333,
+          "denominator": 7,
+          "weight": 0.14285714285714285,
           "flows_leaving_source": 5,
           "flow_proportion": 0.2,
           "backing_flow_ids": [
-            "black_basta_ransomware"
+            "oceanlotus"
           ]
-        }
-      }
-    },
-    {
-      "name": "stealth__to__privilege-escalation",
-      "src_tactic": "stealth",
-      "dst_tactic": "privilege-escalation",
-      "gasp_edges": [
-        [
-          "T1027",
-          "T1055"
-        ],
-        [
-          "T1140",
-          "T1055"
-        ]
-      ],
-      "weights": {
-        "operator_dedup": {
-          "numerator": 0,
-          "denominator": 9,
-          "weight": 0.0,
-          "flows_leaving_source": 4,
-          "flow_proportion": 0.0,
-          "backing_flow_ids": []
-        },
-        "raw": {
-          "numerator": 0,
-          "denominator": 12,
-          "weight": 0.0,
-          "flows_leaving_source": 5,
-          "flow_proportion": 0.0,
-          "backing_flow_ids": []
         }
       }
     }
   ],
   "report": {
     "class_name": "objective_exfiltration_impact",
-    "entry_tactic": "reconnaissance",
-    "n_places": 14,
-    "n_transitions": 75,
-    "n_inter_tactic_edges": 192,
-    "n_intra_tactic_selfloops_dropped": 25,
+    "entry_tactic": "initial-access",
+    "n_places": 12,
+    "n_transitions": 69,
+    "n_inter_tactic_edges": 184,
+    "n_intra_tactic_selfloops_dropped": 30,
     "objective_tactics": [
       "command-and-control",
       "exfiltration",
       "impact"
     ],
     "objective_tactics_data": [
-      "reconnaissance",
-      "resource-development"
+      "stealth"
     ],
     "reachable_from_entry_marking": [
       "collection",
@@ -2902,7 +2667,6 @@
       "lateral-movement",
       "persistence",
       "privilege-escalation",
-      "reconnaissance",
       "stealth"
     ],
     "objective_reachable_from_entry": {
@@ -2924,22 +2688,15 @@
       "lateral-movement",
       "persistence",
       "privilege-escalation",
-      "reconnaissance",
-      "resource-development",
       "stealth"
     ],
     "entry_tactics": [
       "command-and-control",
-      "credential-access",
       "execution",
       "initial-access",
-      "persistence",
-      "reconnaissance",
-      "resource-development"
+      "persistence"
     ],
-    "sink_tactics": [
-      "resource-development"
-    ],
+    "sink_tactics": [],
     "shortest_entry_to_objective": {
       "reachable": true,
       "n_places": 1,
@@ -2952,34 +2709,33 @@
     },
     "longest_entry_to_objective": {
       "reachable": true,
-      "n_places": 13,
-      "n_hops": 12,
+      "n_places": 12,
+      "n_hops": 11,
       "path": [
         "initial-access",
-        "lateral-movement",
-        "credential-access",
-        "stealth",
-        "privilege-escalation",
         "persistence",
         "impact",
+        "execution",
+        "privilege-escalation",
+        "stealth",
+        "lateral-movement",
+        "credential-access",
+        "exfiltration",
         "discovery",
         "collection",
-        "exfiltration",
-        "execution",
-        "reconnaissance",
         "command-and-control"
       ],
       "entry": "initial-access",
       "objective": "command-and-control"
     },
     "prefix_gap": {
-      "reconnaissance_present": true,
+      "reconnaissance_present": false,
       "initial_access_present": true,
       "direct_edges": [],
-      "recon_reaches_initial_access": true,
-      "interpretation": "reconnaissance reaches initial-access only indirectly (no direct recon->initial-access edge)"
+      "recon_reaches_initial_access": false,
+      "interpretation": "reconnaissance or initial-access absent from this class"
     },
-    "reachable_marking_count": 13
+    "reachable_marking_count": 12
   },
   "weighting": {
     "definition": "W-A flow-proportion (D3): weight = numerator / denominator, numerator = distinct profile flows contributing >=1 technique-edge under this tactic-pair, denominator = sum of numerators over the source place's retained inter-tactic out-transitions (out-edge-normalised; per-place out-weights sum to 1). flow_proportion = numerator / flows_leaving_source is the literal minuted per-flow proportion (sums to >1 where flows branch). Weights are workflow-recurrence under a survivorship-biased corpus - never efficacy, transition probability of an actor, or adversary optimality (metrics_semantics.md s(f)).",
@@ -2990,48 +2746,48 @@
       "operator_dedup": {
         "n_profile_flows": 5,
         "profile_flow_ids": [
-          "black_basta_ransomware",
-          "hancitor_dll",
-          "jp_morgan_breach",
-          "marriott_breach",
-          "ragnar_locker"
+          "cobalt_kitty_campaign",
+          "mac_malware_steals_crypto",
+          "muddy_water",
+          "sony_malware",
+          "toolshell_vulnerability_in_sharepoint"
         ],
         "places_without_flow_backed_out_edges": [
-          "reconnaissance"
+          "exfiltration",
+          "privilege-escalation"
         ]
       },
       "raw": {
         "n_profile_flows": 7,
         "profile_flow_ids": [
-          "black_basta_ransomware",
-          "conti_cisa_alert",
-          "hancitor_dll",
-          "jp_morgan_breach",
-          "marriott_breach",
-          "ragnar_locker",
-          "whispergate"
+          "cisa_aa22_138b_vmware_workspace_ta1",
+          "cobalt_kitty_campaign",
+          "mac_malware_steals_crypto",
+          "muddy_water",
+          "oceanlotus",
+          "sony_malware",
+          "toolshell_vulnerability_in_sharepoint"
         ],
-        "places_without_flow_backed_out_edges": [
-          "reconnaissance"
-        ]
+        "places_without_flow_backed_out_edges": []
       }
     }
   },
   "partition_control": {
     "slot": "objective_exfiltration_impact",
     "flow_ids": [
-      "black_basta_ransomware",
-      "conti_cisa_alert",
-      "hancitor_dll",
-      "jp_morgan_breach",
-      "marriott_breach",
-      "ragnar_locker",
-      "whispergate"
+      "cisa_aa22_138b_vmware_workspace_ta1",
+      "cobalt_kitty_campaign",
+      "mac_malware_steals_crypto",
+      "muddy_water",
+      "oceanlotus",
+      "sony_malware",
+      "toolshell_vulnerability_in_sharepoint"
     ],
     "objective_tactics": "the declared objective tactics the group holds (label-blind: the slot name carries no objective)",
     "partition": 0,
     "draw": 1,
     "partition_seed": 20261002,
-    "guard": "weighted"
+    "guard": "weighted",
+    "stratified": true
   }
 }

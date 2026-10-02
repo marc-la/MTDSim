@@ -32,7 +32,7 @@
           "dst_tactic": "initial-access",
           "gasp_edges": [],
           "synthetic": true,
-          "declared_share": 0.1,
+          "declared_share": 1.0,
           "direction": "forward",
           "provenance": "synthetic overlay (supervisor_decision_register.md §M6; synthetic_overlay.md): declared, no flow backing; declared routing share"
         },
@@ -57,40 +57,10 @@
       "reason": "observed corpus already bridges reconnaissance -> initial-access; guard rule adds nothing"
     },
     "objective_none_c2": {
-      "synthetic_transitions": [
-        {
-          "name": "reconnaissance__to__resource-development",
-          "src_tactic": "reconnaissance",
-          "dst_tactic": "resource-development",
-          "gasp_edges": [],
-          "synthetic": true,
-          "declared_share": 1.0,
-          "direction": "forward",
-          "provenance": "synthetic overlay (supervisor_decision_register.md §M6; synthetic_overlay.md): declared, no flow backing; declared routing share"
-        },
-        {
-          "name": "resource-development__to__initial-access",
-          "src_tactic": "resource-development",
-          "dst_tactic": "initial-access",
-          "gasp_edges": [],
-          "synthetic": true,
-          "declared_share": 1.0,
-          "direction": "forward",
-          "provenance": "synthetic overlay (supervisor_decision_register.md §M6; synthetic_overlay.md): declared, no flow backing; declared routing share"
-        },
-        {
-          "name": "initial-access__to__reconnaissance",
-          "src_tactic": "initial-access",
-          "dst_tactic": "reconnaissance",
-          "gasp_edges": [],
-          "synthetic": true,
-          "declared_share": 0.1,
-          "direction": "backward",
-          "provenance": "synthetic overlay (supervisor_decision_register.md §M6; synthetic_overlay.md): declared, no flow backing; declared routing share"
-        }
-      ],
+      "synthetic_transitions": [],
       "recon_reaches_initial_access_observed": false,
-      "recon_reaches_initial_access_with_overlay": true
+      "recon_reaches_initial_access_with_overlay": false,
+      "reason": "a pre-intrusion place (recon / resource-development / initial-access) is absent"
     }
   }
 }

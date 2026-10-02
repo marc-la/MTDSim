@@ -71,15 +71,22 @@ def test_group_view_equals_committed_gasp_view(slot):
     assert view.edge_set == committed.edge_set
 
 
-def test_random_partitions_fixed_and_sized():
-    a, b = random_partitions(), random_partitions()
-    assert a == b
+@pytest.mark.parametrize("stratified", [True, False])
+def test_random_partitions_fixed_and_sized(stratified):
+    from mtdsim.l2_subgraph.dedup import operator_deduplicated_flows
+
+    a = random_partitions(stratified=stratified)
+    assert a == random_partitions(stratified=stratified)
     sizes = slot_sizes()
     assert sizes == {SLOTS[0]: 19, SLOTS[1]: 7, SLOTS[2]: 7, SLOTS[3]: 5}
     flows = sorted(f for fs in real_assignment().values() for f in fs)
+    kept = operator_deduplicated_flows()
     for part in a:
         assert {s: len(fs) for s, fs in part.items()} == sizes
         assert sorted(f for fs in part.values() for f in fs) == flows
+        if stratified:  # weight-carrying counts match the real profiles exactly
+            assert {s: len(set(fs) & kept) for s, fs in part.items()} == {
+                SLOTS[0]: 14, SLOTS[1]: 6, SLOTS[2]: 5, SLOTS[3]: 4}
 
 
 def _summary(r):
@@ -121,7 +128,8 @@ def test_committed_partitions_are_the_seeded_draws_that_pass():
     from mtdsim.l3_simulation.petri.partition_control import partition_stream
 
     m = _manifest()
-    draws = list(islice(partition_stream(m["partition_seed"]), m["draws_taken"]))
+    draws = list(islice(partition_stream(m["partition_seed"], m["shuffle"]["stratified"]),
+                        m["draws_taken"]))
     kept = [p["draw"] for p in m["partitions"]]
     assert sorted(kept + [r["draw"] for r in m["rejected"]]) == list(range(m["draws_taken"]))
     for p in m["partitions"]:
@@ -141,7 +149,7 @@ def test_committed_partition_rebuilds_byte_identical_and_runs(tmp_path, i):
         {slot: g["flow_ids"] for slot, g in p["groups"].items()}, tmp_path,
         guard=m["guard"]["used"], build_date=first["provenance"]["build_date"],
         provenance={k: first["partition_control"][k]
-                    for k in ("partition", "draw", "partition_seed", "guard")},
+                    for k in ("partition", "draw", "partition_seed", "guard", "stratified")},
     )
     for name in [f"{s}_structural.json" for s in SLOTS] + ["synthetic_overlay.json"]:
         assert (tmp_path / name).read_bytes() == (d / name).read_bytes(), name

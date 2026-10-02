@@ -15,12 +15,6 @@
       "reason": "observed corpus already bridges reconnaissance -> initial-access; guard rule adds nothing"
     },
     "objective_impact": {
-      "synthetic_transitions": [],
-      "recon_reaches_initial_access_observed": true,
-      "recon_reaches_initial_access_with_overlay": true,
-      "reason": "observed corpus already bridges reconnaissance -> initial-access; guard rule adds nothing"
-    },
-    "objective_exfiltration_impact": {
       "synthetic_transitions": [
         {
           "name": "reconnaissance__to__resource-development",
@@ -28,7 +22,7 @@
           "dst_tactic": "resource-development",
           "gasp_edges": [],
           "synthetic": true,
-          "declared_share": 1.0,
+          "declared_share": 0.1,
           "direction": "forward",
           "provenance": "synthetic overlay (supervisor_decision_register.md §M6; synthetic_overlay.md): declared, no flow backing; declared routing share"
         },
@@ -38,7 +32,7 @@
           "dst_tactic": "initial-access",
           "gasp_edges": [],
           "synthetic": true,
-          "declared_share": 1.0,
+          "declared_share": 0.1,
           "direction": "forward",
           "provenance": "synthetic overlay (supervisor_decision_register.md §M6; synthetic_overlay.md): declared, no flow backing; declared routing share"
         },
@@ -55,6 +49,12 @@
       ],
       "recon_reaches_initial_access_observed": false,
       "recon_reaches_initial_access_with_overlay": true
+    },
+    "objective_exfiltration_impact": {
+      "synthetic_transitions": [],
+      "recon_reaches_initial_access_observed": false,
+      "recon_reaches_initial_access_with_overlay": false,
+      "reason": "a pre-intrusion place (recon / resource-development / initial-access) is absent"
     },
     "objective_none_c2": {
       "synthetic_transitions": [
@@ -74,7 +74,7 @@
           "dst_tactic": "initial-access",
           "gasp_edges": [],
           "synthetic": true,
-          "declared_share": 0.1,
+          "declared_share": 1.0,
           "direction": "forward",
           "provenance": "synthetic overlay (supervisor_decision_register.md §M6; synthetic_overlay.md): declared, no flow backing; declared routing share"
         },

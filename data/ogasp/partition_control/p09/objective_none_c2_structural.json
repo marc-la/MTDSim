@@ -12,7 +12,6 @@
     "collection",
     "command-and-control",
     "credential-access",
-    "defense-impairment",
     "discovery",
     "execution",
     "exfiltration",
@@ -22,48 +21,10 @@
     "persistence",
     "privilege-escalation",
     "reconnaissance",
-    "resource-development",
     "stealth"
   ],
   "entry_marking": "reconnaissance",
   "transitions": [
-    {
-      "name": "collection__to__command-and-control",
-      "src_tactic": "collection",
-      "dst_tactic": "command-and-control",
-      "gasp_edges": [
-        [
-          "T1074",
-          "T1095"
-        ],
-        [
-          "T1560",
-          "T1132"
-        ]
-      ],
-      "weights": {
-        "operator_dedup": {
-          "numerator": 1,
-          "denominator": 2,
-          "weight": 0.5,
-          "flows_leaving_source": 2,
-          "flow_proportion": 0.5,
-          "backing_flow_ids": [
-            "target_breach"
-          ]
-        },
-        "raw": {
-          "numerator": 1,
-          "denominator": 2,
-          "weight": 0.5,
-          "flows_leaving_source": 2,
-          "flow_proportion": 0.5,
-          "backing_flow_ids": [
-            "target_breach"
-          ]
-        }
-      }
-    },
     {
       "name": "collection__to__exfiltration",
       "src_tactic": "collection",
@@ -71,32 +32,36 @@
       "gasp_edges": [
         [
           "T1005",
-          "T1567"
+          "T1041"
+        ],
+        [
+          "T1074",
+          "T1041"
         ],
         [
           "T1560",
-          "T1567"
+          "T1041"
         ]
       ],
       "weights": {
         "operator_dedup": {
           "numerator": 1,
-          "denominator": 2,
-          "weight": 0.5,
-          "flows_leaving_source": 2,
-          "flow_proportion": 0.5,
+          "denominator": 1,
+          "weight": 1.0,
+          "flows_leaving_source": 1,
+          "flow_proportion": 1.0,
           "backing_flow_ids": [
-            "solarwinds"
+            "toolshell_vulnerability_in_sharepoint"
           ]
         },
         "raw": {
           "numerator": 1,
-          "denominator": 2,
-          "weight": 0.5,
-          "flows_leaving_source": 2,
-          "flow_proportion": 0.5,
+          "denominator": 1,
+          "weight": 1.0,
+          "flows_leaving_source": 1,
+          "flow_proportion": 1.0,
           "backing_flow_ids": [
-            "solarwinds"
+            "toolshell_vulnerability_in_sharepoint"
           ]
         }
       }
@@ -107,6 +72,10 @@
       "dst_tactic": "stealth",
       "gasp_edges": [
         [
+          "T1119",
+          "T1564"
+        ],
+        [
           "T1560",
           "T1070"
         ]
@@ -114,75 +83,17 @@
       "weights": {
         "operator_dedup": {
           "numerator": 0,
-          "denominator": 2,
+          "denominator": 1,
           "weight": 0.0,
-          "flows_leaving_source": 2,
+          "flows_leaving_source": 1,
           "flow_proportion": 0.0,
           "backing_flow_ids": []
         },
         "raw": {
           "numerator": 0,
-          "denominator": 2,
+          "denominator": 1,
           "weight": 0.0,
-          "flows_leaving_source": 2,
-          "flow_proportion": 0.0,
-          "backing_flow_ids": []
-        }
-      }
-    },
-    {
-      "name": "command-and-control__to__credential-access",
-      "src_tactic": "command-and-control",
-      "dst_tactic": "credential-access",
-      "gasp_edges": [
-        [
-          "T1105",
-          "T1555"
-        ]
-      ],
-      "weights": {
-        "operator_dedup": {
-          "numerator": 0,
-          "denominator": 3,
-          "weight": 0.0,
-          "flows_leaving_source": 2,
-          "flow_proportion": 0.0,
-          "backing_flow_ids": []
-        },
-        "raw": {
-          "numerator": 0,
-          "denominator": 3,
-          "weight": 0.0,
-          "flows_leaving_source": 2,
-          "flow_proportion": 0.0,
-          "backing_flow_ids": []
-        }
-      }
-    },
-    {
-      "name": "command-and-control__to__defense-impairment",
-      "src_tactic": "command-and-control",
-      "dst_tactic": "defense-impairment",
-      "gasp_edges": [
-        [
-          "T1105",
-          "T1553"
-        ]
-      ],
-      "weights": {
-        "operator_dedup": {
-          "numerator": 0,
-          "denominator": 3,
-          "weight": 0.0,
-          "flows_leaving_source": 2,
-          "flow_proportion": 0.0,
-          "backing_flow_ids": []
-        },
-        "raw": {
-          "numerator": 0,
-          "denominator": 3,
-          "weight": 0.0,
-          "flows_leaving_source": 2,
+          "flows_leaving_source": 1,
           "flow_proportion": 0.0,
           "backing_flow_ids": []
         }
@@ -194,45 +105,71 @@
       "dst_tactic": "discovery",
       "gasp_edges": [
         [
+          "T1001",
+          "T1018"
+        ],
+        [
+          "T1001",
+          "T1046"
+        ],
+        [
+          "T1001",
+          "T1082"
+        ],
+        [
+          "T1071",
+          "T1018"
+        ],
+        [
+          "T1071",
+          "T1046"
+        ],
+        [
+          "T1071",
+          "T1057"
+        ],
+        [
+          "T1071",
+          "T1082"
+        ],
+        [
           "T1105",
           "T1016"
+        ],
+        [
+          "T1105",
+          "T1018"
         ],
         [
           "T1105",
           "T1082"
         ],
         [
-          "T1132",
-          "T1016"
-        ],
-        [
-          "T1132",
-          "T1057"
-        ],
-        [
-          "T1132",
-          "T1482"
+          "T1105",
+          "T1083"
         ]
       ],
       "weights": {
         "operator_dedup": {
-          "numerator": 1,
+          "numerator": 2,
           "denominator": 3,
-          "weight": 0.3333333333333333,
+          "weight": 0.6666666666666666,
           "flows_leaving_source": 2,
-          "flow_proportion": 0.5,
+          "flow_proportion": 1.0,
           "backing_flow_ids": [
-            "solarwinds"
+            "cisa_aa22_138b_vmware_workspace_alt",
+            "cobalt_kitty_campaign"
           ]
         },
         "raw": {
-          "numerator": 1,
-          "denominator": 3,
-          "weight": 0.3333333333333333,
-          "flows_leaving_source": 2,
-          "flow_proportion": 0.5,
+          "numerator": 2,
+          "denominator": 4,
+          "weight": 0.5,
+          "flows_leaving_source": 3,
+          "flow_proportion": 0.6666666666666666,
           "backing_flow_ids": [
-            "solarwinds"
+            "cisa_aa22_138b_vmware_workspace_alt",
+            "cobalt_kitty_campaign"
           ]
         }
       }
@@ -243,20 +180,20 @@
       "dst_tactic": "execution",
       "gasp_edges": [
         [
+          "T1071",
+          "T1059"
+        ],
+        [
+          "T1071",
+          "T1203"
+        ],
+        [
           "T1105",
           "T1053"
         ],
         [
           "T1105",
           "T1059"
-        ],
-        [
-          "T1105",
-          "T1569"
-        ],
-        [
-          "T1132",
-          "T1059"
         ]
       ],
       "weights": {
@@ -270,52 +207,40 @@
         },
         "raw": {
           "numerator": 0,
-          "denominator": 3,
+          "denominator": 4,
           "weight": 0.0,
-          "flows_leaving_source": 2,
+          "flows_leaving_source": 3,
           "flow_proportion": 0.0,
           "backing_flow_ids": []
         }
       }
     },
     {
-      "name": "command-and-control__to__impact",
+      "name": "command-and-control__to__exfiltration",
       "src_tactic": "command-and-control",
-      "dst_tactic": "impact",
+      "dst_tactic": "exfiltration",
       "gasp_edges": [
         [
-          "T1105",
-          "T1489"
-        ],
-        [
-          "T1105",
-          "T1490"
-        ],
-        [
-          "T1132",
-          "T1561"
+          "T1071",
+          "T1041"
         ]
       ],
       "weights": {
         "operator_dedup": {
-          "numerator": 1,
+          "numerator": 0,
           "denominator": 3,
-          "weight": 0.3333333333333333,
+          "weight": 0.0,
           "flows_leaving_source": 2,
-          "flow_proportion": 0.5,
-          "backing_flow_ids": [
-            "ragnar_locker"
-          ]
+          "flow_proportion": 0.0,
+          "backing_flow_ids": []
         },
         "raw": {
-          "numerator": 1,
-          "denominator": 3,
-          "weight": 0.3333333333333333,
-          "flows_leaving_source": 2,
-          "flow_proportion": 0.5,
-          "backing_flow_ids": [
-            "ragnar_locker"
-          ]
+          "numerator": 0,
+          "denominator": 4,
+          "weight": 0.0,
+          "flows_leaving_source": 3,
+          "flow_proportion": 0.0,
+          "backing_flow_ids": []
         }
       }
     },
@@ -327,10 +252,6 @@
         [
           "T1105",
           "T1021"
-        ],
-        [
-          "T1105",
-          "T1570"
         ]
       ],
       "weights": {
@@ -344,9 +265,9 @@
         },
         "raw": {
           "numerator": 0,
-          "denominator": 3,
+          "denominator": 4,
           "weight": 0.0,
-          "flows_leaving_source": 2,
+          "flows_leaving_source": 3,
           "flow_proportion": 0.0,
           "backing_flow_ids": []
         }
@@ -359,15 +280,15 @@
       "gasp_edges": [
         [
           "T1105",
-          "T1112"
-        ],
-        [
-          "T1105",
           "T1505"
         ],
         [
           "T1105",
           "T1543"
+        ],
+        [
+          "T1105",
+          "T1547"
         ]
       ],
       "weights": {
@@ -380,12 +301,14 @@
           "backing_flow_ids": []
         },
         "raw": {
-          "numerator": 0,
-          "denominator": 3,
-          "weight": 0.0,
-          "flows_leaving_source": 2,
-          "flow_proportion": 0.0,
-          "backing_flow_ids": []
+          "numerator": 1,
+          "denominator": 4,
+          "weight": 0.25,
+          "flows_leaving_source": 3,
+          "flow_proportion": 0.3333333333333333,
+          "backing_flow_ids": [
+            "fin13_case_2"
+          ]
         }
       }
     },
@@ -397,6 +320,10 @@
         [
           "T1105",
           "T1055"
+        ],
+        [
+          "T1105",
+          "T1068"
         ]
       ],
       "weights": {
@@ -410,9 +337,9 @@
         },
         "raw": {
           "numerator": 0,
-          "denominator": 3,
+          "denominator": 4,
           "weight": 0.0,
-          "flows_leaving_source": 2,
+          "flows_leaving_source": 3,
           "flow_proportion": 0.0,
           "backing_flow_ids": []
         }
@@ -438,18 +365,6 @@
         [
           "T1105",
           "T1218"
-        ],
-        [
-          "T1105",
-          "T1497"
-        ],
-        [
-          "T1132",
-          "T1036"
-        ],
-        [
-          "T1132",
-          "T1564"
         ]
       ],
       "weights": {
@@ -460,17 +375,17 @@
           "flows_leaving_source": 2,
           "flow_proportion": 0.5,
           "backing_flow_ids": [
-            "solarwinds"
+            "cisa_aa22_138b_vmware_workspace_alt"
           ]
         },
         "raw": {
           "numerator": 1,
-          "denominator": 3,
-          "weight": 0.3333333333333333,
-          "flows_leaving_source": 2,
-          "flow_proportion": 0.5,
+          "denominator": 4,
+          "weight": 0.25,
+          "flows_leaving_source": 3,
+          "flow_proportion": 0.3333333333333333,
           "backing_flow_ids": [
-            "solarwinds"
+            "cisa_aa22_138b_vmware_workspace_alt"
           ]
         }
       }
@@ -483,32 +398,24 @@
         [
           "T1003",
           "T1560"
-        ],
-        [
-          "T1557",
-          "T1074"
         ]
       ],
       "weights": {
         "operator_dedup": {
-          "numerator": 1,
-          "denominator": 1,
-          "weight": 1.0,
-          "flows_leaving_source": 1,
-          "flow_proportion": 1.0,
-          "backing_flow_ids": [
-            "target_breach"
-          ]
+          "numerator": 0,
+          "denominator": 3,
+          "weight": 0.0,
+          "flows_leaving_source": 2,
+          "flow_proportion": 0.0,
+          "backing_flow_ids": []
         },
         "raw": {
-          "numerator": 1,
-          "denominator": 1,
-          "weight": 1.0,
-          "flows_leaving_source": 1,
-          "flow_proportion": 1.0,
-          "backing_flow_ids": [
-            "target_breach"
-          ]
+          "numerator": 0,
+          "denominator": 5,
+          "weight": 0.0,
+          "flows_leaving_source": 3,
+          "flow_proportion": 0.0,
+          "backing_flow_ids": []
         }
       }
     },
@@ -525,46 +432,17 @@
       "weights": {
         "operator_dedup": {
           "numerator": 0,
-          "denominator": 1,
+          "denominator": 3,
           "weight": 0.0,
-          "flows_leaving_source": 1,
+          "flows_leaving_source": 2,
           "flow_proportion": 0.0,
           "backing_flow_ids": []
         },
         "raw": {
           "numerator": 0,
-          "denominator": 1,
+          "denominator": 5,
           "weight": 0.0,
-          "flows_leaving_source": 1,
-          "flow_proportion": 0.0,
-          "backing_flow_ids": []
-        }
-      }
-    },
-    {
-      "name": "credential-access__to__defense-impairment",
-      "src_tactic": "credential-access",
-      "dst_tactic": "defense-impairment",
-      "gasp_edges": [
-        [
-          "T1557",
-          "T1553"
-        ]
-      ],
-      "weights": {
-        "operator_dedup": {
-          "numerator": 0,
-          "denominator": 1,
-          "weight": 0.0,
-          "flows_leaving_source": 1,
-          "flow_proportion": 0.0,
-          "backing_flow_ids": []
-        },
-        "raw": {
-          "numerator": 0,
-          "denominator": 1,
-          "weight": 0.0,
-          "flows_leaving_source": 1,
+          "flows_leaving_source": 3,
           "flow_proportion": 0.0,
           "backing_flow_ids": []
         }
@@ -582,20 +460,62 @@
       ],
       "weights": {
         "operator_dedup": {
-          "numerator": 0,
-          "denominator": 1,
-          "weight": 0.0,
-          "flows_leaving_source": 1,
-          "flow_proportion": 0.0,
-          "backing_flow_ids": []
+          "numerator": 1,
+          "denominator": 3,
+          "weight": 0.3333333333333333,
+          "flows_leaving_source": 2,
+          "flow_proportion": 0.5,
+          "backing_flow_ids": [
+            "cobalt_kitty_campaign"
+          ]
         },
         "raw": {
-          "numerator": 0,
-          "denominator": 1,
-          "weight": 0.0,
-          "flows_leaving_source": 1,
-          "flow_proportion": 0.0,
-          "backing_flow_ids": []
+          "numerator": 1,
+          "denominator": 5,
+          "weight": 0.2,
+          "flows_leaving_source": 3,
+          "flow_proportion": 0.3333333333333333,
+          "backing_flow_ids": [
+            "cobalt_kitty_campaign"
+          ]
+        }
+      }
+    },
+    {
+      "name": "credential-access__to__exfiltration",
+      "src_tactic": "credential-access",
+      "dst_tactic": "exfiltration",
+      "gasp_edges": [
+        [
+          "T1111",
+          "T1041"
+        ],
+        [
+          "T1552",
+          "T1041"
+        ]
+      ],
+      "weights": {
+        "operator_dedup": {
+          "numerator": 1,
+          "denominator": 3,
+          "weight": 0.3333333333333333,
+          "flows_leaving_source": 2,
+          "flow_proportion": 0.5,
+          "backing_flow_ids": [
+            "toolshell_vulnerability_in_sharepoint"
+          ]
+        },
+        "raw": {
+          "numerator": 2,
+          "denominator": 5,
+          "weight": 0.4,
+          "flows_leaving_source": 3,
+          "flow_proportion": 0.6666666666666666,
+          "backing_flow_ids": [
+            "fin13_case_2",
+            "toolshell_vulnerability_in_sharepoint"
+          ]
         }
       }
     },
@@ -605,24 +525,24 @@
       "dst_tactic": "initial-access",
       "gasp_edges": [
         [
-          "T1558",
+          "T1552",
           "T1078"
         ]
       ],
       "weights": {
         "operator_dedup": {
           "numerator": 0,
-          "denominator": 1,
+          "denominator": 3,
           "weight": 0.0,
-          "flows_leaving_source": 1,
+          "flows_leaving_source": 2,
           "flow_proportion": 0.0,
           "backing_flow_ids": []
         },
         "raw": {
           "numerator": 0,
-          "denominator": 1,
+          "denominator": 5,
           "weight": 0.0,
-          "flows_leaving_source": 1,
+          "flows_leaving_source": 3,
           "flow_proportion": 0.0,
           "backing_flow_ids": []
         }
@@ -638,145 +558,60 @@
           "T1021"
         ],
         [
-          "T1555",
-          "T1021"
-        ]
-      ],
-      "weights": {
-        "operator_dedup": {
-          "numerator": 0,
-          "denominator": 1,
-          "weight": 0.0,
-          "flows_leaving_source": 1,
-          "flow_proportion": 0.0,
-          "backing_flow_ids": []
-        },
-        "raw": {
-          "numerator": 0,
-          "denominator": 1,
-          "weight": 0.0,
-          "flows_leaving_source": 1,
-          "flow_proportion": 0.0,
-          "backing_flow_ids": []
-        }
-      }
-    },
-    {
-      "name": "credential-access__to__stealth",
-      "src_tactic": "credential-access",
-      "dst_tactic": "stealth",
-      "gasp_edges": [
-        [
-          "T1110",
-          "T1070"
-        ]
-      ],
-      "weights": {
-        "operator_dedup": {
-          "numerator": 0,
-          "denominator": 1,
-          "weight": 0.0,
-          "flows_leaving_source": 1,
-          "flow_proportion": 0.0,
-          "backing_flow_ids": []
-        },
-        "raw": {
-          "numerator": 0,
-          "denominator": 1,
-          "weight": 0.0,
-          "flows_leaving_source": 1,
-          "flow_proportion": 0.0,
-          "backing_flow_ids": []
-        }
-      }
-    },
-    {
-      "name": "defense-impairment__to__command-and-control",
-      "src_tactic": "defense-impairment",
-      "dst_tactic": "command-and-control",
-      "gasp_edges": [
-        [
-          "T1553",
-          "T1105"
-        ]
-      ],
-      "weights": {
-        "operator_dedup": {
-          "numerator": 0,
-          "denominator": 1,
-          "weight": 0.0,
-          "flows_leaving_source": 1,
-          "flow_proportion": 0.0,
-          "backing_flow_ids": []
-        },
-        "raw": {
-          "numerator": 0,
-          "denominator": 1,
-          "weight": 0.0,
-          "flows_leaving_source": 1,
-          "flow_proportion": 0.0,
-          "backing_flow_ids": []
-        }
-      }
-    },
-    {
-      "name": "defense-impairment__to__credential-access",
-      "src_tactic": "defense-impairment",
-      "dst_tactic": "credential-access",
-      "gasp_edges": [
-        [
-          "T1553",
-          "T1557"
-        ]
-      ],
-      "weights": {
-        "operator_dedup": {
-          "numerator": 0,
-          "denominator": 1,
-          "weight": 0.0,
-          "flows_leaving_source": 1,
-          "flow_proportion": 0.0,
-          "backing_flow_ids": []
-        },
-        "raw": {
-          "numerator": 0,
-          "denominator": 1,
-          "weight": 0.0,
-          "flows_leaving_source": 1,
-          "flow_proportion": 0.0,
-          "backing_flow_ids": []
-        }
-      }
-    },
-    {
-      "name": "defense-impairment__to__initial-access",
-      "src_tactic": "defense-impairment",
-      "dst_tactic": "initial-access",
-      "gasp_edges": [
-        [
-          "T1553",
-          "T1195"
+          "T1003",
+          "T1550"
         ]
       ],
       "weights": {
         "operator_dedup": {
           "numerator": 1,
-          "denominator": 1,
-          "weight": 1.0,
-          "flows_leaving_source": 1,
-          "flow_proportion": 1.0,
+          "denominator": 3,
+          "weight": 0.3333333333333333,
+          "flows_leaving_source": 2,
+          "flow_proportion": 0.5,
           "backing_flow_ids": [
-            "solarwinds"
+            "cobalt_kitty_campaign"
           ]
         },
         "raw": {
           "numerator": 1,
-          "denominator": 1,
-          "weight": 1.0,
-          "flows_leaving_source": 1,
-          "flow_proportion": 1.0,
+          "denominator": 5,
+          "weight": 0.2,
+          "flows_leaving_source": 3,
+          "flow_proportion": 0.3333333333333333,
           "backing_flow_ids": [
-            "solarwinds"
+            "cobalt_kitty_campaign"
+          ]
+        }
+      }
+    },
+    {
+      "name": "credential-access__to__reconnaissance",
+      "src_tactic": "credential-access",
+      "dst_tactic": "reconnaissance",
+      "gasp_edges": [
+        [
+          "T1003",
+          "T1595"
+        ]
+      ],
+      "weights": {
+        "operator_dedup": {
+          "numerator": 0,
+          "denominator": 3,
+          "weight": 0.0,
+          "flows_leaving_source": 2,
+          "flow_proportion": 0.0,
+          "backing_flow_ids": []
+        },
+        "raw": {
+          "numerator": 1,
+          "denominator": 5,
+          "weight": 0.2,
+          "flows_leaving_source": 3,
+          "flow_proportion": 0.3333333333333333,
+          "backing_flow_ids": [
+            "fin13_case_2"
           ]
         }
       }
@@ -793,28 +628,32 @@
         [
           "T1082",
           "T1560"
+        ],
+        [
+          "T1083",
+          "T1005"
+        ],
+        [
+          "T1083",
+          "T1074"
         ]
       ],
       "weights": {
         "operator_dedup": {
-          "numerator": 1,
-          "denominator": 4,
-          "weight": 0.25,
+          "numerator": 0,
+          "denominator": 2,
+          "weight": 0.0,
           "flows_leaving_source": 2,
-          "flow_proportion": 0.5,
-          "backing_flow_ids": [
-            "solarwinds"
-          ]
+          "flow_proportion": 0.0,
+          "backing_flow_ids": []
         },
         "raw": {
-          "numerator": 1,
-          "denominator": 5,
-          "weight": 0.2,
-          "flows_leaving_source": 3,
-          "flow_proportion": 0.3333333333333333,
-          "backing_flow_ids": [
-            "solarwinds"
-          ]
+          "numerator": 0,
+          "denominator": 2,
+          "weight": 0.0,
+          "flows_leaving_source": 2,
+          "flow_proportion": 0.0,
+          "backing_flow_ids": []
         }
       }
     },
@@ -824,45 +663,49 @@
       "dst_tactic": "command-and-control",
       "gasp_edges": [
         [
-          "T1012",
-          "T1568"
-        ],
-        [
           "T1016",
           "T1105"
         ],
         [
-          "T1057",
+          "T1018",
+          "T1105"
+        ],
+        [
+          "T1046",
           "T1105"
         ],
         [
           "T1057",
-          "T1568"
+          "T1105"
         ],
         [
           "T1082",
+          "T1105"
+        ],
+        [
+          "T1083",
           "T1105"
         ]
       ],
       "weights": {
         "operator_dedup": {
           "numerator": 1,
-          "denominator": 4,
-          "weight": 0.25,
+          "denominator": 2,
+          "weight": 0.5,
           "flows_leaving_source": 2,
           "flow_proportion": 0.5,
           "backing_flow_ids": [
-            "solarwinds"
+            "cisa_aa22_138b_vmware_workspace_alt"
           ]
         },
         "raw": {
           "numerator": 1,
-          "denominator": 5,
-          "weight": 0.2,
-          "flows_leaving_source": 3,
-          "flow_proportion": 0.3333333333333333,
+          "denominator": 2,
+          "weight": 0.5,
+          "flows_leaving_source": 2,
+          "flow_proportion": 0.5,
           "backing_flow_ids": [
-            "solarwinds"
+            "cisa_aa22_138b_vmware_workspace_alt"
           ]
         }
       }
@@ -883,20 +726,24 @@
       ],
       "weights": {
         "operator_dedup": {
-          "numerator": 0,
-          "denominator": 4,
-          "weight": 0.0,
+          "numerator": 1,
+          "denominator": 2,
+          "weight": 0.5,
           "flows_leaving_source": 2,
-          "flow_proportion": 0.0,
-          "backing_flow_ids": []
+          "flow_proportion": 0.5,
+          "backing_flow_ids": [
+            "cobalt_kitty_campaign"
+          ]
         },
         "raw": {
-          "numerator": 0,
-          "denominator": 5,
-          "weight": 0.0,
-          "flows_leaving_source": 3,
-          "flow_proportion": 0.0,
-          "backing_flow_ids": []
+          "numerator": 1,
+          "denominator": 2,
+          "weight": 0.5,
+          "flows_leaving_source": 2,
+          "flow_proportion": 0.5,
+          "backing_flow_ids": [
+            "cobalt_kitty_campaign"
+          ]
         }
       }
     },
@@ -905,10 +752,6 @@
       "src_tactic": "discovery",
       "dst_tactic": "execution",
       "gasp_edges": [
-        [
-          "T1012",
-          "T1059"
-        ],
         [
           "T1016",
           "T1053"
@@ -921,7 +764,7 @@
       "weights": {
         "operator_dedup": {
           "numerator": 0,
-          "denominator": 4,
+          "denominator": 2,
           "weight": 0.0,
           "flows_leaving_source": 2,
           "flow_proportion": 0.0,
@@ -929,9 +772,9 @@
         },
         "raw": {
           "numerator": 0,
-          "denominator": 5,
+          "denominator": 2,
           "weight": 0.0,
-          "flows_leaving_source": 3,
+          "flows_leaving_source": 2,
           "flow_proportion": 0.0,
           "backing_flow_ids": []
         }
@@ -943,30 +786,26 @@
       "dst_tactic": "exfiltration",
       "gasp_edges": [
         [
-          "T1120",
-          "T1567"
+          "T1082",
+          "T1041"
         ]
       ],
       "weights": {
         "operator_dedup": {
-          "numerator": 1,
-          "denominator": 4,
-          "weight": 0.25,
+          "numerator": 0,
+          "denominator": 2,
+          "weight": 0.0,
           "flows_leaving_source": 2,
-          "flow_proportion": 0.5,
-          "backing_flow_ids": [
-            "ragnar_locker"
-          ]
+          "flow_proportion": 0.0,
+          "backing_flow_ids": []
         },
         "raw": {
-          "numerator": 1,
-          "denominator": 5,
-          "weight": 0.2,
-          "flows_leaving_source": 3,
-          "flow_proportion": 0.3333333333333333,
-          "backing_flow_ids": [
-            "ragnar_locker"
-          ]
+          "numerator": 0,
+          "denominator": 2,
+          "weight": 0.0,
+          "flows_leaving_source": 2,
+          "flow_proportion": 0.0,
+          "backing_flow_ids": []
         }
       }
     },
@@ -982,26 +821,57 @@
         [
           "T1082",
           "T1485"
+        ],
+        [
+          "T1083",
+          "T1486"
         ]
       ],
       "weights": {
         "operator_dedup": {
           "numerator": 0,
-          "denominator": 4,
+          "denominator": 2,
           "weight": 0.0,
           "flows_leaving_source": 2,
           "flow_proportion": 0.0,
           "backing_flow_ids": []
         },
         "raw": {
-          "numerator": 1,
-          "denominator": 5,
-          "weight": 0.2,
-          "flows_leaving_source": 3,
-          "flow_proportion": 0.3333333333333333,
-          "backing_flow_ids": [
-            "whispergate"
-          ]
+          "numerator": 0,
+          "denominator": 2,
+          "weight": 0.0,
+          "flows_leaving_source": 2,
+          "flow_proportion": 0.0,
+          "backing_flow_ids": []
+        }
+      }
+    },
+    {
+      "name": "discovery__to__lateral-movement",
+      "src_tactic": "discovery",
+      "dst_tactic": "lateral-movement",
+      "gasp_edges": [
+        [
+          "T1046",
+          "T1021"
+        ]
+      ],
+      "weights": {
+        "operator_dedup": {
+          "numerator": 0,
+          "denominator": 2,
+          "weight": 0.0,
+          "flows_leaving_source": 2,
+          "flow_proportion": 0.0,
+          "backing_flow_ids": []
+        },
+        "raw": {
+          "numerator": 0,
+          "denominator": 2,
+          "weight": 0.0,
+          "flows_leaving_source": 2,
+          "flow_proportion": 0.0,
+          "backing_flow_ids": []
         }
       }
     },
@@ -1010,6 +880,10 @@
       "src_tactic": "discovery",
       "dst_tactic": "privilege-escalation",
       "gasp_edges": [
+        [
+          "T1018",
+          "T1134"
+        ],
         [
           "T1057",
           "T1055"
@@ -1022,7 +896,7 @@
       "weights": {
         "operator_dedup": {
           "numerator": 0,
-          "denominator": 4,
+          "denominator": 2,
           "weight": 0.0,
           "flows_leaving_source": 2,
           "flow_proportion": 0.0,
@@ -1030,9 +904,9 @@
         },
         "raw": {
           "numerator": 0,
-          "denominator": 5,
+          "denominator": 2,
           "weight": 0.0,
-          "flows_leaving_source": 3,
+          "flows_leaving_source": 2,
           "flow_proportion": 0.0,
           "backing_flow_ids": []
         }
@@ -1050,31 +924,56 @@
         [
           "T1082",
           "T1140"
-        ],
+        ]
+      ],
+      "weights": {
+        "operator_dedup": {
+          "numerator": 0,
+          "denominator": 2,
+          "weight": 0.0,
+          "flows_leaving_source": 2,
+          "flow_proportion": 0.0,
+          "backing_flow_ids": []
+        },
+        "raw": {
+          "numerator": 0,
+          "denominator": 2,
+          "weight": 0.0,
+          "flows_leaving_source": 2,
+          "flow_proportion": 0.0,
+          "backing_flow_ids": []
+        }
+      }
+    },
+    {
+      "name": "execution__to__collection",
+      "src_tactic": "execution",
+      "dst_tactic": "collection",
+      "gasp_edges": [
         [
-          "T1614",
-          "T1564"
+          "T1059",
+          "T1119"
         ]
       ],
       "weights": {
         "operator_dedup": {
           "numerator": 1,
-          "denominator": 4,
-          "weight": 0.25,
-          "flows_leaving_source": 2,
-          "flow_proportion": 0.5,
+          "denominator": 7,
+          "weight": 0.14285714285714285,
+          "flows_leaving_source": 4,
+          "flow_proportion": 0.25,
           "backing_flow_ids": [
-            "ragnar_locker"
+            "toolshell_vulnerability_in_sharepoint"
           ]
         },
         "raw": {
           "numerator": 1,
-          "denominator": 5,
-          "weight": 0.2,
-          "flows_leaving_source": 3,
-          "flow_proportion": 0.3333333333333333,
+          "denominator": 8,
+          "weight": 0.125,
+          "flows_leaving_source": 5,
+          "flow_proportion": 0.2,
           "backing_flow_ids": [
-            "ragnar_locker"
+            "toolshell_vulnerability_in_sharepoint"
           ]
         }
       }
@@ -1096,17 +995,17 @@
       "weights": {
         "operator_dedup": {
           "numerator": 0,
-          "denominator": 3,
+          "denominator": 7,
           "weight": 0.0,
-          "flows_leaving_source": 3,
+          "flows_leaving_source": 4,
           "flow_proportion": 0.0,
           "backing_flow_ids": []
         },
         "raw": {
           "numerator": 0,
-          "denominator": 4,
+          "denominator": 8,
           "weight": 0.0,
-          "flows_leaving_source": 4,
+          "flows_leaving_source": 5,
           "flow_proportion": 0.0,
           "backing_flow_ids": []
         }
@@ -1122,14 +1021,6 @@
           "T1003"
         ],
         [
-          "T1059",
-          "T1110"
-        ],
-        [
-          "T1059",
-          "T1555"
-        ],
-        [
           "T1203",
           "T1003"
         ]
@@ -1137,19 +1028,21 @@
       "weights": {
         "operator_dedup": {
           "numerator": 0,
-          "denominator": 3,
-          "weight": 0.0,
-          "flows_leaving_source": 3,
-          "flow_proportion": 0.0,
-          "backing_flow_ids": []
-        },
-        "raw": {
-          "numerator": 0,
-          "denominator": 4,
+          "denominator": 7,
           "weight": 0.0,
           "flows_leaving_source": 4,
           "flow_proportion": 0.0,
           "backing_flow_ids": []
+        },
+        "raw": {
+          "numerator": 1,
+          "denominator": 8,
+          "weight": 0.125,
+          "flows_leaving_source": 5,
+          "flow_proportion": 0.2,
+          "backing_flow_ids": [
+            "fin13_case_2"
+          ]
         }
       }
     },
@@ -1164,15 +1057,19 @@
         ],
         [
           "T1059",
+          "T1018"
+        ],
+        [
+          "T1059",
+          "T1046"
+        ],
+        [
+          "T1059",
           "T1057"
         ],
         [
           "T1059",
           "T1082"
-        ],
-        [
-          "T1059",
-          "T1482"
         ],
         [
           "T1059",
@@ -1182,17 +1079,17 @@
       "weights": {
         "operator_dedup": {
           "numerator": 0,
-          "denominator": 3,
+          "denominator": 7,
           "weight": 0.0,
-          "flows_leaving_source": 3,
+          "flows_leaving_source": 4,
           "flow_proportion": 0.0,
           "backing_flow_ids": []
         },
         "raw": {
           "numerator": 0,
-          "denominator": 4,
+          "denominator": 8,
           "weight": 0.0,
-          "flows_leaving_source": 4,
+          "flows_leaving_source": 5,
           "flow_proportion": 0.0,
           "backing_flow_ids": []
         }
@@ -1214,37 +1111,25 @@
         [
           "T1059",
           "T1486"
-        ],
-        [
-          "T1059",
-          "T1489"
-        ],
-        [
-          "T1059",
-          "T1490"
-        ],
-        [
-          "T1569",
-          "T1489"
         ]
       ],
       "weights": {
         "operator_dedup": {
           "numerator": 1,
-          "denominator": 3,
-          "weight": 0.3333333333333333,
-          "flows_leaving_source": 3,
-          "flow_proportion": 0.3333333333333333,
+          "denominator": 7,
+          "weight": 0.14285714285714285,
+          "flows_leaving_source": 4,
+          "flow_proportion": 0.25,
           "backing_flow_ids": [
             "notpetya"
           ]
         },
         "raw": {
           "numerator": 1,
-          "denominator": 4,
-          "weight": 0.25,
-          "flows_leaving_source": 4,
-          "flow_proportion": 0.25,
+          "denominator": 8,
+          "weight": 0.125,
+          "flows_leaving_source": 5,
+          "flow_proportion": 0.2,
           "backing_flow_ids": [
             "notpetya"
           ]
@@ -1268,17 +1153,17 @@
       "weights": {
         "operator_dedup": {
           "numerator": 0,
-          "denominator": 3,
+          "denominator": 7,
           "weight": 0.0,
-          "flows_leaving_source": 3,
+          "flows_leaving_source": 4,
           "flow_proportion": 0.0,
           "backing_flow_ids": []
         },
         "raw": {
           "numerator": 0,
-          "denominator": 4,
+          "denominator": 8,
           "weight": 0.0,
-          "flows_leaving_source": 4,
+          "flows_leaving_source": 5,
           "flow_proportion": 0.0,
           "backing_flow_ids": []
         }
@@ -1291,10 +1176,6 @@
       "gasp_edges": [
         [
           "T1047",
-          "T1112"
-        ],
-        [
-          "T1047",
           "T1505"
         ],
         [
@@ -1303,7 +1184,7 @@
         ],
         [
           "T1059",
-          "T1112"
+          "T1137"
         ],
         [
           "T1059",
@@ -1314,33 +1195,35 @@
           "T1543"
         ],
         [
-          "T1203",
-          "T1505"
+          "T1059",
+          "T1547"
         ],
         [
-          "T1569",
-          "T1112"
+          "T1203",
+          "T1505"
         ]
       ],
       "weights": {
         "operator_dedup": {
-          "numerator": 1,
-          "denominator": 3,
-          "weight": 0.3333333333333333,
-          "flows_leaving_source": 3,
-          "flow_proportion": 0.3333333333333333,
+          "numerator": 2,
+          "denominator": 7,
+          "weight": 0.2857142857142857,
+          "flows_leaving_source": 4,
+          "flow_proportion": 0.5,
           "backing_flow_ids": [
-            "target_breach"
+            "cobalt_kitty_campaign",
+            "toolshell_vulnerability_in_sharepoint"
           ]
         },
         "raw": {
-          "numerator": 1,
-          "denominator": 4,
+          "numerator": 2,
+          "denominator": 8,
           "weight": 0.25,
-          "flows_leaving_source": 4,
-          "flow_proportion": 0.25,
+          "flows_leaving_source": 5,
+          "flow_proportion": 0.4,
           "backing_flow_ids": [
-            "target_breach"
+            "cobalt_kitty_campaign",
+            "toolshell_vulnerability_in_sharepoint"
           ]
         }
       }
@@ -1359,28 +1242,59 @@
           "T1055"
         ],
         [
-          "T1569",
-          "T1055"
+          "T1203",
+          "T1068"
+        ]
+      ],
+      "weights": {
+        "operator_dedup": {
+          "numerator": 1,
+          "denominator": 7,
+          "weight": 0.14285714285714285,
+          "flows_leaving_source": 4,
+          "flow_proportion": 0.25,
+          "backing_flow_ids": [
+            "cisa_aa22_138b_vmware_workspace_alt"
+          ]
+        },
+        "raw": {
+          "numerator": 1,
+          "denominator": 8,
+          "weight": 0.125,
+          "flows_leaving_source": 5,
+          "flow_proportion": 0.2,
+          "backing_flow_ids": [
+            "cisa_aa22_138b_vmware_workspace_alt"
+          ]
+        }
+      }
+    },
+    {
+      "name": "execution__to__reconnaissance",
+      "src_tactic": "execution",
+      "dst_tactic": "reconnaissance",
+      "gasp_edges": [
+        [
+          "T1059",
+          "T1595"
         ]
       ],
       "weights": {
         "operator_dedup": {
           "numerator": 0,
-          "denominator": 3,
+          "denominator": 7,
           "weight": 0.0,
-          "flows_leaving_source": 3,
+          "flows_leaving_source": 4,
           "flow_proportion": 0.0,
           "backing_flow_ids": []
         },
         "raw": {
-          "numerator": 1,
-          "denominator": 4,
-          "weight": 0.25,
-          "flows_leaving_source": 4,
-          "flow_proportion": 0.25,
-          "backing_flow_ids": [
-            "whispergate"
-          ]
+          "numerator": 0,
+          "denominator": 8,
+          "weight": 0.0,
+          "flows_leaving_source": 5,
+          "flow_proportion": 0.0,
+          "backing_flow_ids": []
         }
       }
     },
@@ -1422,182 +1336,89 @@
           "T1564"
         ],
         [
-          "T1569",
-          "T1497"
+          "T1574",
+          "T1218"
         ]
       ],
       "weights": {
         "operator_dedup": {
-          "numerator": 1,
-          "denominator": 3,
-          "weight": 0.3333333333333333,
-          "flows_leaving_source": 3,
-          "flow_proportion": 0.3333333333333333,
-          "backing_flow_ids": [
-            "solarwinds"
-          ]
-        },
-        "raw": {
-          "numerator": 1,
-          "denominator": 4,
-          "weight": 0.25,
+          "numerator": 2,
+          "denominator": 7,
+          "weight": 0.2857142857142857,
           "flows_leaving_source": 4,
-          "flow_proportion": 0.25,
+          "flow_proportion": 0.5,
           "backing_flow_ids": [
-            "solarwinds"
+            "cobalt_kitty_campaign",
+            "toolshell_vulnerability_in_sharepoint"
+          ]
+        },
+        "raw": {
+          "numerator": 2,
+          "denominator": 8,
+          "weight": 0.25,
+          "flows_leaving_source": 5,
+          "flow_proportion": 0.4,
+          "backing_flow_ids": [
+            "cobalt_kitty_campaign",
+            "toolshell_vulnerability_in_sharepoint"
           ]
         }
       }
     },
     {
-      "name": "exfiltration__to__execution",
+      "name": "exfiltration__to__collection",
       "src_tactic": "exfiltration",
-      "dst_tactic": "execution",
-      "gasp_edges": [
-        [
-          "T1567",
-          "T1047"
-        ]
-      ],
-      "weights": {
-        "operator_dedup": {
-          "numerator": 0,
-          "denominator": 1,
-          "weight": 0.0,
-          "flows_leaving_source": 1,
-          "flow_proportion": 0.0,
-          "backing_flow_ids": []
-        },
-        "raw": {
-          "numerator": 0,
-          "denominator": 1,
-          "weight": 0.0,
-          "flows_leaving_source": 1,
-          "flow_proportion": 0.0,
-          "backing_flow_ids": []
-        }
-      }
-    },
-    {
-      "name": "exfiltration__to__impact",
-      "src_tactic": "exfiltration",
-      "dst_tactic": "impact",
-      "gasp_edges": [
-        [
-          "T1567",
-          "T1490"
-        ]
-      ],
-      "weights": {
-        "operator_dedup": {
-          "numerator": 0,
-          "denominator": 1,
-          "weight": 0.0,
-          "flows_leaving_source": 1,
-          "flow_proportion": 0.0,
-          "backing_flow_ids": []
-        },
-        "raw": {
-          "numerator": 0,
-          "denominator": 1,
-          "weight": 0.0,
-          "flows_leaving_source": 1,
-          "flow_proportion": 0.0,
-          "backing_flow_ids": []
-        }
-      }
-    },
-    {
-      "name": "exfiltration__to__stealth",
-      "src_tactic": "exfiltration",
-      "dst_tactic": "stealth",
-      "gasp_edges": [
-        [
-          "T1567",
-          "T1027"
-        ]
-      ],
-      "weights": {
-        "operator_dedup": {
-          "numerator": 1,
-          "denominator": 1,
-          "weight": 1.0,
-          "flows_leaving_source": 1,
-          "flow_proportion": 1.0,
-          "backing_flow_ids": [
-            "ragnar_locker"
-          ]
-        },
-        "raw": {
-          "numerator": 1,
-          "denominator": 1,
-          "weight": 1.0,
-          "flows_leaving_source": 1,
-          "flow_proportion": 1.0,
-          "backing_flow_ids": [
-            "ragnar_locker"
-          ]
-        }
-      }
-    },
-    {
-      "name": "impact__to__collection",
-      "src_tactic": "impact",
       "dst_tactic": "collection",
       "gasp_edges": [
         [
-          "T1489",
-          "T1560"
+          "T1041",
+          "T1119"
         ]
       ],
       "weights": {
         "operator_dedup": {
           "numerator": 0,
-          "denominator": 2,
-          "weight": 0.0,
-          "flows_leaving_source": 2,
-          "flow_proportion": 0.0,
+          "denominator": 0,
+          "weight": null,
+          "flows_leaving_source": 0,
+          "flow_proportion": null,
           "backing_flow_ids": []
         },
         "raw": {
           "numerator": 0,
-          "denominator": 3,
-          "weight": 0.0,
-          "flows_leaving_source": 3,
-          "flow_proportion": 0.0,
+          "denominator": 0,
+          "weight": null,
+          "flows_leaving_source": 0,
+          "flow_proportion": null,
           "backing_flow_ids": []
         }
       }
     },
     {
-      "name": "impact__to__command-and-control",
-      "src_tactic": "impact",
-      "dst_tactic": "command-and-control",
+      "name": "exfiltration__to__discovery",
+      "src_tactic": "exfiltration",
+      "dst_tactic": "discovery",
       "gasp_edges": [
         [
-          "T1485",
-          "T1132"
-        ],
-        [
-          "T1489",
-          "T1132"
+          "T1041",
+          "T1018"
         ]
       ],
       "weights": {
         "operator_dedup": {
           "numerator": 0,
-          "denominator": 2,
-          "weight": 0.0,
-          "flows_leaving_source": 2,
-          "flow_proportion": 0.0,
+          "denominator": 0,
+          "weight": null,
+          "flows_leaving_source": 0,
+          "flow_proportion": null,
           "backing_flow_ids": []
         },
         "raw": {
           "numerator": 0,
-          "denominator": 3,
-          "weight": 0.0,
-          "flows_leaving_source": 3,
-          "flow_proportion": 0.0,
+          "denominator": 0,
+          "weight": null,
+          "flows_leaving_source": 0,
+          "flow_proportion": null,
           "backing_flow_ids": []
         }
       }
@@ -1608,90 +1429,24 @@
       "dst_tactic": "discovery",
       "gasp_edges": [
         [
-          "T1489",
-          "T1614"
-        ],
-        [
-          "T1490",
-          "T1614"
-        ]
-      ],
-      "weights": {
-        "operator_dedup": {
-          "numerator": 1,
-          "denominator": 2,
-          "weight": 0.5,
-          "flows_leaving_source": 2,
-          "flow_proportion": 0.5,
-          "backing_flow_ids": [
-            "ragnar_locker"
-          ]
-        },
-        "raw": {
-          "numerator": 1,
-          "denominator": 3,
-          "weight": 0.3333333333333333,
-          "flows_leaving_source": 3,
-          "flow_proportion": 0.3333333333333333,
-          "backing_flow_ids": [
-            "ragnar_locker"
-          ]
-        }
-      }
-    },
-    {
-      "name": "impact__to__execution",
-      "src_tactic": "impact",
-      "dst_tactic": "execution",
-      "gasp_edges": [
-        [
-          "T1489",
-          "T1059"
+          "T1485",
+          "T1083"
         ]
       ],
       "weights": {
         "operator_dedup": {
           "numerator": 0,
-          "denominator": 2,
+          "denominator": 1,
           "weight": 0.0,
-          "flows_leaving_source": 2,
+          "flows_leaving_source": 1,
           "flow_proportion": 0.0,
           "backing_flow_ids": []
         },
         "raw": {
           "numerator": 0,
-          "denominator": 3,
+          "denominator": 1,
           "weight": 0.0,
-          "flows_leaving_source": 3,
-          "flow_proportion": 0.0,
-          "backing_flow_ids": []
-        }
-      }
-    },
-    {
-      "name": "impact__to__persistence",
-      "src_tactic": "impact",
-      "dst_tactic": "persistence",
-      "gasp_edges": [
-        [
-          "T1490",
-          "T1112"
-        ]
-      ],
-      "weights": {
-        "operator_dedup": {
-          "numerator": 0,
-          "denominator": 2,
-          "weight": 0.0,
-          "flows_leaving_source": 2,
-          "flow_proportion": 0.0,
-          "backing_flow_ids": []
-        },
-        "raw": {
-          "numerator": 0,
-          "denominator": 3,
-          "weight": 0.0,
-          "flows_leaving_source": 3,
+          "flows_leaving_source": 1,
           "flow_proportion": 0.0,
           "backing_flow_ids": []
         }
@@ -1714,23 +1469,22 @@
       "weights": {
         "operator_dedup": {
           "numerator": 1,
-          "denominator": 2,
-          "weight": 0.5,
-          "flows_leaving_source": 2,
-          "flow_proportion": 0.5,
+          "denominator": 1,
+          "weight": 1.0,
+          "flows_leaving_source": 1,
+          "flow_proportion": 1.0,
           "backing_flow_ids": [
             "notpetya"
           ]
         },
         "raw": {
-          "numerator": 2,
-          "denominator": 3,
-          "weight": 0.6666666666666666,
-          "flows_leaving_source": 3,
-          "flow_proportion": 0.6666666666666666,
+          "numerator": 1,
+          "denominator": 1,
+          "weight": 1.0,
+          "flows_leaving_source": 1,
+          "flow_proportion": 1.0,
           "backing_flow_ids": [
-            "notpetya",
-            "whispergate"
+            "notpetya"
           ]
         }
       }
@@ -1748,19 +1502,21 @@
       "weights": {
         "operator_dedup": {
           "numerator": 0,
-          "denominator": 4,
+          "denominator": 3,
           "weight": 0.0,
           "flows_leaving_source": 3,
           "flow_proportion": 0.0,
           "backing_flow_ids": []
         },
         "raw": {
-          "numerator": 0,
-          "denominator": 5,
-          "weight": 0.0,
+          "numerator": 1,
+          "denominator": 6,
+          "weight": 0.16666666666666666,
           "flows_leaving_source": 4,
-          "flow_proportion": 0.0,
-          "backing_flow_ids": []
+          "flow_proportion": 0.25,
+          "backing_flow_ids": [
+            "fin13_case_2"
+          ]
         }
       }
     },
@@ -1772,12 +1528,16 @@
         [
           "T1078",
           "T1105"
+        ],
+        [
+          "T1190",
+          "T1105"
         ]
       ],
       "weights": {
         "operator_dedup": {
           "numerator": 0,
-          "denominator": 4,
+          "denominator": 3,
           "weight": 0.0,
           "flows_leaving_source": 3,
           "flow_proportion": 0.0,
@@ -1785,12 +1545,12 @@
         },
         "raw": {
           "numerator": 1,
-          "denominator": 5,
-          "weight": 0.2,
+          "denominator": 6,
+          "weight": 0.16666666666666666,
           "flows_leaving_source": 4,
           "flow_proportion": 0.25,
           "backing_flow_ids": [
-            "whispergate"
+            "fin13_case_2"
           ]
         }
       }
@@ -1801,26 +1561,28 @@
       "dst_tactic": "credential-access",
       "gasp_edges": [
         [
-          "T1566",
-          "T1555"
+          "T1078",
+          "T1111"
         ]
       ],
       "weights": {
         "operator_dedup": {
           "numerator": 0,
-          "denominator": 4,
+          "denominator": 3,
           "weight": 0.0,
           "flows_leaving_source": 3,
           "flow_proportion": 0.0,
           "backing_flow_ids": []
         },
         "raw": {
-          "numerator": 0,
-          "denominator": 5,
-          "weight": 0.0,
+          "numerator": 1,
+          "denominator": 6,
+          "weight": 0.16666666666666666,
           "flows_leaving_source": 4,
-          "flow_proportion": 0.0,
-          "backing_flow_ids": []
+          "flow_proportion": 0.25,
+          "backing_flow_ids": [
+            "fin13_case_2"
+          ]
         }
       }
     },
@@ -1838,12 +1600,8 @@
           "T1203"
         ],
         [
-          "T1078",
-          "T1569"
-        ],
-        [
-          "T1195",
-          "T1569"
+          "T1190",
+          "T1059"
         ],
         [
           "T1566",
@@ -1857,24 +1615,24 @@
       "weights": {
         "operator_dedup": {
           "numerator": 2,
-          "denominator": 4,
-          "weight": 0.5,
+          "denominator": 3,
+          "weight": 0.6666666666666666,
           "flows_leaving_source": 3,
           "flow_proportion": 0.6666666666666666,
           "backing_flow_ids": [
-            "solarwinds",
-            "target_breach"
+            "cobalt_kitty_campaign",
+            "toolshell_vulnerability_in_sharepoint"
           ]
         },
         "raw": {
           "numerator": 2,
-          "denominator": 5,
-          "weight": 0.4,
+          "denominator": 6,
+          "weight": 0.3333333333333333,
           "flows_leaving_source": 4,
           "flow_proportion": 0.5,
           "backing_flow_ids": [
-            "solarwinds",
-            "target_breach"
+            "cobalt_kitty_campaign",
+            "toolshell_vulnerability_in_sharepoint"
           ]
         }
       }
@@ -1892,7 +1650,7 @@
       "weights": {
         "operator_dedup": {
           "numerator": 0,
-          "denominator": 4,
+          "denominator": 3,
           "weight": 0.0,
           "flows_leaving_source": 3,
           "flow_proportion": 0.0,
@@ -1900,7 +1658,7 @@
         },
         "raw": {
           "numerator": 0,
-          "denominator": 5,
+          "denominator": 6,
           "weight": 0.0,
           "flows_leaving_source": 4,
           "flow_proportion": 0.0,
@@ -1916,28 +1674,28 @@
         [
           "T1078",
           "T1505"
+        ],
+        [
+          "T1190",
+          "T1505"
         ]
       ],
       "weights": {
         "operator_dedup": {
-          "numerator": 1,
-          "denominator": 4,
-          "weight": 0.25,
+          "numerator": 0,
+          "denominator": 3,
+          "weight": 0.0,
           "flows_leaving_source": 3,
-          "flow_proportion": 0.3333333333333333,
-          "backing_flow_ids": [
-            "target_breach"
-          ]
+          "flow_proportion": 0.0,
+          "backing_flow_ids": []
         },
         "raw": {
-          "numerator": 1,
-          "denominator": 5,
-          "weight": 0.2,
+          "numerator": 0,
+          "denominator": 6,
+          "weight": 0.0,
           "flows_leaving_source": 4,
-          "flow_proportion": 0.25,
-          "backing_flow_ids": [
-            "target_breach"
-          ]
+          "flow_proportion": 0.0,
+          "backing_flow_ids": []
         }
       }
     },
@@ -1946,6 +1704,10 @@
       "src_tactic": "initial-access",
       "dst_tactic": "stealth",
       "gasp_edges": [
+        [
+          "T1190",
+          "T1070"
+        ],
         [
           "T1195",
           "T1036"
@@ -1958,8 +1720,8 @@
       "weights": {
         "operator_dedup": {
           "numerator": 1,
-          "denominator": 4,
-          "weight": 0.25,
+          "denominator": 3,
+          "weight": 0.3333333333333333,
           "flows_leaving_source": 3,
           "flow_proportion": 0.3333333333333333,
           "backing_flow_ids": [
@@ -1968,8 +1730,8 @@
         },
         "raw": {
           "numerator": 1,
-          "denominator": 5,
-          "weight": 0.2,
+          "denominator": 6,
+          "weight": 0.16666666666666666,
           "flows_leaving_source": 4,
           "flow_proportion": 0.25,
           "backing_flow_ids": [
@@ -1986,22 +1748,55 @@
         [
           "T1021",
           "T1005"
+        ],
+        [
+          "T1021",
+          "T1119"
         ]
       ],
       "weights": {
         "operator_dedup": {
           "numerator": 0,
-          "denominator": 2,
+          "denominator": 1,
           "weight": 0.0,
-          "flows_leaving_source": 2,
+          "flows_leaving_source": 1,
           "flow_proportion": 0.0,
           "backing_flow_ids": []
         },
         "raw": {
           "numerator": 0,
-          "denominator": 2,
+          "denominator": 1,
           "weight": 0.0,
-          "flows_leaving_source": 2,
+          "flows_leaving_source": 1,
+          "flow_proportion": 0.0,
+          "backing_flow_ids": []
+        }
+      }
+    },
+    {
+      "name": "lateral-movement__to__command-and-control",
+      "src_tactic": "lateral-movement",
+      "dst_tactic": "command-and-control",
+      "gasp_edges": [
+        [
+          "T1550",
+          "T1105"
+        ]
+      ],
+      "weights": {
+        "operator_dedup": {
+          "numerator": 0,
+          "denominator": 1,
+          "weight": 0.0,
+          "flows_leaving_source": 1,
+          "flow_proportion": 0.0,
+          "backing_flow_ids": []
+        },
+        "raw": {
+          "numerator": 0,
+          "denominator": 1,
+          "weight": 0.0,
+          "flows_leaving_source": 1,
           "flow_proportion": 0.0,
           "backing_flow_ids": []
         }
@@ -2018,37 +1813,58 @@
         ],
         [
           "T1021",
-          "T1555"
+          "T1111"
         ],
         [
-          "T1570",
-          "T1557"
-        ],
-        [
-          "T1570",
-          "T1558"
+          "T1021",
+          "T1552"
         ]
       ],
       "weights": {
         "operator_dedup": {
-          "numerator": 1,
-          "denominator": 2,
-          "weight": 0.5,
-          "flows_leaving_source": 2,
-          "flow_proportion": 0.5,
-          "backing_flow_ids": [
-            "target_breach"
-          ]
+          "numerator": 0,
+          "denominator": 1,
+          "weight": 0.0,
+          "flows_leaving_source": 1,
+          "flow_proportion": 0.0,
+          "backing_flow_ids": []
         },
         "raw": {
-          "numerator": 1,
-          "denominator": 2,
-          "weight": 0.5,
-          "flows_leaving_source": 2,
-          "flow_proportion": 0.5,
-          "backing_flow_ids": [
-            "target_breach"
-          ]
+          "numerator": 0,
+          "denominator": 1,
+          "weight": 0.0,
+          "flows_leaving_source": 1,
+          "flow_proportion": 0.0,
+          "backing_flow_ids": []
+        }
+      }
+    },
+    {
+      "name": "lateral-movement__to__discovery",
+      "src_tactic": "lateral-movement",
+      "dst_tactic": "discovery",
+      "gasp_edges": [
+        [
+          "T1021",
+          "T1046"
+        ]
+      ],
+      "weights": {
+        "operator_dedup": {
+          "numerator": 0,
+          "denominator": 1,
+          "weight": 0.0,
+          "flows_leaving_source": 1,
+          "flow_proportion": 0.0,
+          "backing_flow_ids": []
+        },
+        "raw": {
+          "numerator": 0,
+          "denominator": 1,
+          "weight": 0.0,
+          "flows_leaving_source": 1,
+          "flow_proportion": 0.0,
+          "backing_flow_ids": []
         }
       }
     },
@@ -2060,26 +1876,22 @@
         [
           "T1021",
           "T1059"
-        ],
-        [
-          "T1021",
-          "T1569"
         ]
       ],
       "weights": {
         "operator_dedup": {
           "numerator": 0,
-          "denominator": 2,
+          "denominator": 1,
           "weight": 0.0,
-          "flows_leaving_source": 2,
+          "flows_leaving_source": 1,
           "flow_proportion": 0.0,
           "backing_flow_ids": []
         },
         "raw": {
           "numerator": 0,
-          "denominator": 2,
+          "denominator": 1,
           "weight": 0.0,
-          "flows_leaving_source": 2,
+          "flows_leaving_source": 1,
           "flow_proportion": 0.0,
           "backing_flow_ids": []
         }
@@ -2098,17 +1910,17 @@
       "weights": {
         "operator_dedup": {
           "numerator": 0,
-          "denominator": 2,
+          "denominator": 1,
           "weight": 0.0,
-          "flows_leaving_source": 2,
+          "flows_leaving_source": 1,
           "flow_proportion": 0.0,
           "backing_flow_ids": []
         },
         "raw": {
           "numerator": 0,
-          "denominator": 2,
+          "denominator": 1,
           "weight": 0.0,
-          "flows_leaving_source": 2,
+          "flows_leaving_source": 1,
           "flow_proportion": 0.0,
           "backing_flow_ids": []
         }
@@ -2127,17 +1939,17 @@
       "weights": {
         "operator_dedup": {
           "numerator": 0,
-          "denominator": 2,
+          "denominator": 1,
           "weight": 0.0,
-          "flows_leaving_source": 2,
+          "flows_leaving_source": 1,
           "flow_proportion": 0.0,
           "backing_flow_ids": []
         },
         "raw": {
           "numerator": 0,
-          "denominator": 2,
+          "denominator": 1,
           "weight": 0.0,
-          "flows_leaving_source": 2,
+          "flows_leaving_source": 1,
           "flow_proportion": 0.0,
           "backing_flow_ids": []
         }
@@ -2155,29 +1967,25 @@
         [
           "T1021",
           "T1218"
-        ],
-        [
-          "T1570",
-          "T1036"
         ]
       ],
       "weights": {
         "operator_dedup": {
           "numerator": 1,
-          "denominator": 2,
-          "weight": 0.5,
-          "flows_leaving_source": 2,
-          "flow_proportion": 0.5,
+          "denominator": 1,
+          "weight": 1.0,
+          "flows_leaving_source": 1,
+          "flow_proportion": 1.0,
           "backing_flow_ids": [
             "notpetya"
           ]
         },
         "raw": {
           "numerator": 1,
-          "denominator": 2,
-          "weight": 0.5,
-          "flows_leaving_source": 2,
-          "flow_proportion": 0.5,
+          "denominator": 1,
+          "weight": 1.0,
+          "flows_leaving_source": 1,
+          "flow_proportion": 1.0,
           "backing_flow_ids": [
             "notpetya"
           ]
@@ -2197,17 +2005,17 @@
       "weights": {
         "operator_dedup": {
           "numerator": 0,
-          "denominator": 2,
+          "denominator": 3,
           "weight": 0.0,
-          "flows_leaving_source": 2,
+          "flows_leaving_source": 3,
           "flow_proportion": 0.0,
           "backing_flow_ids": []
         },
         "raw": {
           "numerator": 0,
-          "denominator": 2,
+          "denominator": 4,
           "weight": 0.0,
-          "flows_leaving_source": 2,
+          "flows_leaving_source": 4,
           "flow_proportion": 0.0,
           "backing_flow_ids": []
         }
@@ -2221,51 +2029,55 @@
         [
           "T1505",
           "T1105"
+        ],
+        [
+          "T1547",
+          "T1105"
         ]
       ],
       "weights": {
         "operator_dedup": {
           "numerator": 0,
-          "denominator": 2,
+          "denominator": 3,
           "weight": 0.0,
-          "flows_leaving_source": 2,
+          "flows_leaving_source": 3,
           "flow_proportion": 0.0,
           "backing_flow_ids": []
         },
         "raw": {
           "numerator": 0,
-          "denominator": 2,
+          "denominator": 4,
           "weight": 0.0,
-          "flows_leaving_source": 2,
+          "flows_leaving_source": 4,
           "flow_proportion": 0.0,
           "backing_flow_ids": []
         }
       }
     },
     {
-      "name": "persistence__to__credential-access",
+      "name": "persistence__to__discovery",
       "src_tactic": "persistence",
-      "dst_tactic": "credential-access",
+      "dst_tactic": "discovery",
       "gasp_edges": [
         [
           "T1505",
-          "T1555"
+          "T1046"
         ]
       ],
       "weights": {
         "operator_dedup": {
           "numerator": 0,
-          "denominator": 2,
+          "denominator": 3,
           "weight": 0.0,
-          "flows_leaving_source": 2,
+          "flows_leaving_source": 3,
           "flow_proportion": 0.0,
           "backing_flow_ids": []
         },
         "raw": {
           "numerator": 0,
-          "denominator": 2,
+          "denominator": 4,
           "weight": 0.0,
-          "flows_leaving_source": 2,
+          "flows_leaving_source": 4,
           "flow_proportion": 0.0,
           "backing_flow_ids": []
         }
@@ -2277,12 +2089,8 @@
       "dst_tactic": "execution",
       "gasp_edges": [
         [
-          "T1112",
-          "T1059"
-        ],
-        [
-          "T1112",
-          "T1569"
+          "T1137",
+          "T1574"
         ],
         [
           "T1505",
@@ -2291,26 +2099,41 @@
         [
           "T1542",
           "T1053"
+        ],
+        [
+          "T1543",
+          "T1574"
+        ],
+        [
+          "T1547",
+          "T1059"
+        ],
+        [
+          "T1547",
+          "T1574"
         ]
       ],
       "weights": {
         "operator_dedup": {
-          "numerator": 1,
-          "denominator": 2,
-          "weight": 0.5,
-          "flows_leaving_source": 2,
-          "flow_proportion": 0.5,
+          "numerator": 2,
+          "denominator": 3,
+          "weight": 0.6666666666666666,
+          "flows_leaving_source": 3,
+          "flow_proportion": 0.6666666666666666,
           "backing_flow_ids": [
+            "cobalt_kitty_campaign",
             "notpetya"
           ]
         },
         "raw": {
-          "numerator": 1,
-          "denominator": 2,
-          "weight": 0.5,
-          "flows_leaving_source": 2,
-          "flow_proportion": 0.5,
+          "numerator": 3,
+          "denominator": 4,
+          "weight": 0.75,
+          "flows_leaving_source": 4,
+          "flow_proportion": 0.75,
           "backing_flow_ids": [
+            "cobalt_kitty_campaign",
+            "fin13_case_2",
             "notpetya"
           ]
         }
@@ -2322,10 +2145,6 @@
       "dst_tactic": "impact",
       "gasp_edges": [
         [
-          "T1112",
-          "T1489"
-        ],
-        [
           "T1543",
           "T1561"
         ]
@@ -2333,75 +2152,17 @@
       "weights": {
         "operator_dedup": {
           "numerator": 0,
-          "denominator": 2,
+          "denominator": 3,
           "weight": 0.0,
-          "flows_leaving_source": 2,
+          "flows_leaving_source": 3,
           "flow_proportion": 0.0,
           "backing_flow_ids": []
         },
         "raw": {
           "numerator": 0,
-          "denominator": 2,
+          "denominator": 4,
           "weight": 0.0,
-          "flows_leaving_source": 2,
-          "flow_proportion": 0.0,
-          "backing_flow_ids": []
-        }
-      }
-    },
-    {
-      "name": "persistence__to__lateral-movement",
-      "src_tactic": "persistence",
-      "dst_tactic": "lateral-movement",
-      "gasp_edges": [
-        [
-          "T1505",
-          "T1570"
-        ]
-      ],
-      "weights": {
-        "operator_dedup": {
-          "numerator": 0,
-          "denominator": 2,
-          "weight": 0.0,
-          "flows_leaving_source": 2,
-          "flow_proportion": 0.0,
-          "backing_flow_ids": []
-        },
-        "raw": {
-          "numerator": 0,
-          "denominator": 2,
-          "weight": 0.0,
-          "flows_leaving_source": 2,
-          "flow_proportion": 0.0,
-          "backing_flow_ids": []
-        }
-      }
-    },
-    {
-      "name": "persistence__to__privilege-escalation",
-      "src_tactic": "persistence",
-      "dst_tactic": "privilege-escalation",
-      "gasp_edges": [
-        [
-          "T1546",
-          "T1055"
-        ]
-      ],
-      "weights": {
-        "operator_dedup": {
-          "numerator": 0,
-          "denominator": 2,
-          "weight": 0.0,
-          "flows_leaving_source": 2,
-          "flow_proportion": 0.0,
-          "backing_flow_ids": []
-        },
-        "raw": {
-          "numerator": 0,
-          "denominator": 2,
-          "weight": 0.0,
-          "flows_leaving_source": 2,
+          "flows_leaving_source": 4,
           "flow_proportion": 0.0,
           "backing_flow_ids": []
         }
@@ -2413,38 +2174,100 @@
       "dst_tactic": "stealth",
       "gasp_edges": [
         [
-          "T1112",
-          "T1036"
-        ],
-        [
           "T1505",
           "T1070"
         ],
         [
+          "T1505",
+          "T1620"
+        ],
+        [
           "T1543",
           "T1070"
+        ],
+        [
+          "T1547",
+          "T1218"
         ]
       ],
       "weights": {
         "operator_dedup": {
           "numerator": 1,
-          "denominator": 2,
-          "weight": 0.5,
-          "flows_leaving_source": 2,
-          "flow_proportion": 0.5,
+          "denominator": 3,
+          "weight": 0.3333333333333333,
+          "flows_leaving_source": 3,
+          "flow_proportion": 0.3333333333333333,
           "backing_flow_ids": [
-            "solarwinds"
+            "toolshell_vulnerability_in_sharepoint"
           ]
         },
         "raw": {
           "numerator": 1,
-          "denominator": 2,
-          "weight": 0.5,
-          "flows_leaving_source": 2,
-          "flow_proportion": 0.5,
+          "denominator": 4,
+          "weight": 0.25,
+          "flows_leaving_source": 4,
+          "flow_proportion": 0.25,
           "backing_flow_ids": [
-            "solarwinds"
+            "toolshell_vulnerability_in_sharepoint"
           ]
+        }
+      }
+    },
+    {
+      "name": "privilege-escalation__to__collection",
+      "src_tactic": "privilege-escalation",
+      "dst_tactic": "collection",
+      "gasp_edges": [
+        [
+          "T1068",
+          "T1119"
+        ]
+      ],
+      "weights": {
+        "operator_dedup": {
+          "numerator": 0,
+          "denominator": 2,
+          "weight": 0.0,
+          "flows_leaving_source": 2,
+          "flow_proportion": 0.0,
+          "backing_flow_ids": []
+        },
+        "raw": {
+          "numerator": 0,
+          "denominator": 2,
+          "weight": 0.0,
+          "flows_leaving_source": 2,
+          "flow_proportion": 0.0,
+          "backing_flow_ids": []
+        }
+      }
+    },
+    {
+      "name": "privilege-escalation__to__command-and-control",
+      "src_tactic": "privilege-escalation",
+      "dst_tactic": "command-and-control",
+      "gasp_edges": [
+        [
+          "T1055",
+          "T1071"
+        ]
+      ],
+      "weights": {
+        "operator_dedup": {
+          "numerator": 0,
+          "denominator": 2,
+          "weight": 0.0,
+          "flows_leaving_source": 2,
+          "flow_proportion": 0.0,
+          "backing_flow_ids": []
+        },
+        "raw": {
+          "numerator": 0,
+          "denominator": 2,
+          "weight": 0.0,
+          "flows_leaving_source": 2,
+          "flow_proportion": 0.0,
+          "backing_flow_ids": []
         }
       }
     },
@@ -2459,19 +2282,15 @@
         ],
         [
           "T1134",
-          "T1012"
-        ],
-        [
-          "T1134",
           "T1049"
         ]
       ],
       "weights": {
         "operator_dedup": {
           "numerator": 0,
-          "denominator": 1,
+          "denominator": 2,
           "weight": 0.0,
-          "flows_leaving_source": 1,
+          "flows_leaving_source": 2,
           "flow_proportion": 0.0,
           "backing_flow_ids": []
         },
@@ -2486,6 +2305,39 @@
       }
     },
     {
+      "name": "privilege-escalation__to__execution",
+      "src_tactic": "privilege-escalation",
+      "dst_tactic": "execution",
+      "gasp_edges": [
+        [
+          "T1068",
+          "T1059"
+        ]
+      ],
+      "weights": {
+        "operator_dedup": {
+          "numerator": 1,
+          "denominator": 2,
+          "weight": 0.5,
+          "flows_leaving_source": 2,
+          "flow_proportion": 0.5,
+          "backing_flow_ids": [
+            "cisa_aa22_138b_vmware_workspace_alt"
+          ]
+        },
+        "raw": {
+          "numerator": 1,
+          "denominator": 2,
+          "weight": 0.5,
+          "flows_leaving_source": 2,
+          "flow_proportion": 0.5,
+          "backing_flow_ids": [
+            "cisa_aa22_138b_vmware_workspace_alt"
+          ]
+        }
+      }
+    },
+    {
       "name": "privilege-escalation__to__lateral-movement",
       "src_tactic": "privilege-escalation",
       "dst_tactic": "lateral-movement",
@@ -2493,18 +2345,14 @@
         [
           "T1134",
           "T1021"
-        ],
-        [
-          "T1134",
-          "T1570"
         ]
       ],
       "weights": {
         "operator_dedup": {
           "numerator": 0,
-          "denominator": 1,
+          "denominator": 2,
           "weight": 0.0,
-          "flows_leaving_source": 1,
+          "flows_leaving_source": 2,
           "flow_proportion": 0.0,
           "backing_flow_ids": []
         },
@@ -2531,9 +2379,9 @@
       "weights": {
         "operator_dedup": {
           "numerator": 0,
-          "denominator": 1,
+          "denominator": 2,
           "weight": 0.0,
-          "flows_leaving_source": 1,
+          "flows_leaving_source": 2,
           "flow_proportion": 0.0,
           "backing_flow_ids": []
         },
@@ -2559,28 +2407,31 @@
         [
           "T1055",
           "T1218"
+        ],
+        [
+          "T1068",
+          "T1140"
         ]
       ],
       "weights": {
         "operator_dedup": {
           "numerator": 1,
-          "denominator": 1,
-          "weight": 1.0,
-          "flows_leaving_source": 1,
-          "flow_proportion": 1.0,
+          "denominator": 2,
+          "weight": 0.5,
+          "flows_leaving_source": 2,
+          "flow_proportion": 0.5,
           "backing_flow_ids": [
             "notpetya"
           ]
         },
         "raw": {
-          "numerator": 2,
+          "numerator": 1,
           "denominator": 2,
-          "weight": 1.0,
+          "weight": 0.5,
           "flows_leaving_source": 2,
-          "flow_proportion": 1.0,
+          "flow_proportion": 0.5,
           "backing_flow_ids": [
-            "notpetya",
-            "whispergate"
+            "notpetya"
           ]
         }
       }
@@ -2608,10 +2459,10 @@
         },
         "raw": {
           "numerator": 1,
-          "denominator": 1,
-          "weight": 1.0,
-          "flows_leaving_source": 1,
-          "flow_proportion": 1.0,
+          "denominator": 2,
+          "weight": 0.5,
+          "flows_leaving_source": 2,
+          "flow_proportion": 0.5,
           "backing_flow_ids": [
             "notpetya"
           ]
@@ -2619,34 +2470,32 @@
       }
     },
     {
-      "name": "resource-development__to__initial-access",
-      "src_tactic": "resource-development",
-      "dst_tactic": "initial-access",
+      "name": "reconnaissance__to__persistence",
+      "src_tactic": "reconnaissance",
+      "dst_tactic": "persistence",
       "gasp_edges": [
         [
-          "T1587",
-          "T1195"
+          "T1595",
+          "T1505"
         ]
       ],
       "weights": {
         "operator_dedup": {
-          "numerator": 1,
+          "numerator": 0,
           "denominator": 1,
-          "weight": 1.0,
+          "weight": 0.0,
           "flows_leaving_source": 1,
-          "flow_proportion": 1.0,
-          "backing_flow_ids": [
-            "solarwinds"
-          ]
+          "flow_proportion": 0.0,
+          "backing_flow_ids": []
         },
         "raw": {
           "numerator": 1,
-          "denominator": 1,
-          "weight": 1.0,
-          "flows_leaving_source": 1,
-          "flow_proportion": 1.0,
+          "denominator": 2,
+          "weight": 0.5,
+          "flows_leaving_source": 2,
+          "flow_proportion": 0.5,
           "backing_flow_ids": [
-            "solarwinds"
+            "fin13_case_2"
           ]
         }
       }
@@ -2659,28 +2508,28 @@
         [
           "T1070",
           "T1560"
-        ],
-        [
-          "T1497",
-          "T1560"
         ]
       ],
       "weights": {
         "operator_dedup": {
-          "numerator": 0,
-          "denominator": 7,
-          "weight": 0.0,
-          "flows_leaving_source": 3,
-          "flow_proportion": 0.0,
-          "backing_flow_ids": []
+          "numerator": 1,
+          "denominator": 6,
+          "weight": 0.16666666666666666,
+          "flows_leaving_source": 4,
+          "flow_proportion": 0.25,
+          "backing_flow_ids": [
+            "cisa_aa22_138b_vmware_workspace_alt"
+          ]
         },
         "raw": {
-          "numerator": 0,
-          "denominator": 10,
-          "weight": 0.0,
+          "numerator": 1,
+          "denominator": 6,
+          "weight": 0.16666666666666666,
           "flows_leaving_source": 4,
-          "flow_proportion": 0.0,
-          "backing_flow_ids": []
+          "flow_proportion": 0.25,
+          "backing_flow_ids": [
+            "cisa_aa22_138b_vmware_workspace_alt"
+          ]
         }
       }
     },
@@ -2695,7 +2544,19 @@
         ],
         [
           "T1070",
+          "T1071"
+        ],
+        [
+          "T1070",
           "T1105"
+        ],
+        [
+          "T1218",
+          "T1001"
+        ],
+        [
+          "T1218",
+          "T1071"
         ],
         [
           "T1218",
@@ -2705,22 +2566,22 @@
       "weights": {
         "operator_dedup": {
           "numerator": 1,
-          "denominator": 7,
-          "weight": 0.14285714285714285,
-          "flows_leaving_source": 3,
-          "flow_proportion": 0.3333333333333333,
+          "denominator": 6,
+          "weight": 0.16666666666666666,
+          "flows_leaving_source": 4,
+          "flow_proportion": 0.25,
           "backing_flow_ids": [
-            "ragnar_locker"
+            "cobalt_kitty_campaign"
           ]
         },
         "raw": {
           "numerator": 1,
-          "denominator": 10,
-          "weight": 0.1,
+          "denominator": 6,
+          "weight": 0.16666666666666666,
           "flows_leaving_source": 4,
           "flow_proportion": 0.25,
           "backing_flow_ids": [
-            "ragnar_locker"
+            "cobalt_kitty_campaign"
           ]
         }
       }
@@ -2733,24 +2594,32 @@
         [
           "T1036",
           "T1003"
+        ],
+        [
+          "T1620",
+          "T1552"
         ]
       ],
       "weights": {
         "operator_dedup": {
-          "numerator": 0,
-          "denominator": 7,
-          "weight": 0.0,
-          "flows_leaving_source": 3,
-          "flow_proportion": 0.0,
-          "backing_flow_ids": []
+          "numerator": 1,
+          "denominator": 6,
+          "weight": 0.16666666666666666,
+          "flows_leaving_source": 4,
+          "flow_proportion": 0.25,
+          "backing_flow_ids": [
+            "toolshell_vulnerability_in_sharepoint"
+          ]
         },
         "raw": {
-          "numerator": 0,
-          "denominator": 10,
-          "weight": 0.0,
+          "numerator": 1,
+          "denominator": 6,
+          "weight": 0.16666666666666666,
           "flows_leaving_source": 4,
-          "flow_proportion": 0.0,
-          "backing_flow_ids": []
+          "flow_proportion": 0.25,
+          "backing_flow_ids": [
+            "toolshell_vulnerability_in_sharepoint"
+          ]
         }
       }
     },
@@ -2762,10 +2631,6 @@
         [
           "T1036",
           "T1057"
-        ],
-        [
-          "T1036",
-          "T1482"
         ],
         [
           "T1036",
@@ -2792,38 +2657,29 @@
           "T1082"
         ],
         [
-          "T1218",
-          "T1482"
-        ],
-        [
           "T1564",
-          "T1120"
+          "T1083"
         ]
       ],
       "weights": {
         "operator_dedup": {
-          "numerator": 3,
-          "denominator": 7,
-          "weight": 0.42857142857142855,
-          "flows_leaving_source": 3,
-          "flow_proportion": 1.0,
+          "numerator": 1,
+          "denominator": 6,
+          "weight": 0.16666666666666666,
+          "flows_leaving_source": 4,
+          "flow_proportion": 0.25,
           "backing_flow_ids": [
-            "notpetya",
-            "ragnar_locker",
-            "solarwinds"
+            "notpetya"
           ]
         },
         "raw": {
-          "numerator": 4,
-          "denominator": 10,
-          "weight": 0.4,
+          "numerator": 1,
+          "denominator": 6,
+          "weight": 0.16666666666666666,
           "flows_leaving_source": 4,
-          "flow_proportion": 1.0,
+          "flow_proportion": 0.25,
           "backing_flow_ids": [
-            "notpetya",
-            "ragnar_locker",
-            "solarwinds",
-            "whispergate"
+            "notpetya"
           ]
         }
       }
@@ -2854,38 +2710,33 @@
           "T1059"
         ],
         [
-          "T1140",
-          "T1569"
-        ],
-        [
           "T1218",
           "T1047"
         ],
         [
-          "T1497",
-          "T1059"
+          "T1564",
+          "T1574"
         ]
       ],
       "weights": {
         "operator_dedup": {
           "numerator": 1,
-          "denominator": 7,
-          "weight": 0.14285714285714285,
-          "flows_leaving_source": 3,
-          "flow_proportion": 0.3333333333333333,
+          "denominator": 6,
+          "weight": 0.16666666666666666,
+          "flows_leaving_source": 4,
+          "flow_proportion": 0.25,
           "backing_flow_ids": [
-            "solarwinds"
+            "cobalt_kitty_campaign"
           ]
         },
         "raw": {
-          "numerator": 2,
-          "denominator": 10,
-          "weight": 0.2,
+          "numerator": 1,
+          "denominator": 6,
+          "weight": 0.16666666666666666,
           "flows_leaving_source": 4,
-          "flow_proportion": 0.5,
+          "flow_proportion": 0.25,
           "backing_flow_ids": [
-            "solarwinds",
-            "whispergate"
+            "cobalt_kitty_campaign"
           ]
         }
       }
@@ -2906,27 +2757,53 @@
       ],
       "weights": {
         "operator_dedup": {
-          "numerator": 2,
-          "denominator": 7,
-          "weight": 0.2857142857142857,
-          "flows_leaving_source": 3,
-          "flow_proportion": 0.6666666666666666,
+          "numerator": 1,
+          "denominator": 6,
+          "weight": 0.16666666666666666,
+          "flows_leaving_source": 4,
+          "flow_proportion": 0.25,
           "backing_flow_ids": [
-            "notpetya",
-            "ragnar_locker"
+            "notpetya"
           ]
         },
         "raw": {
-          "numerator": 3,
-          "denominator": 10,
-          "weight": 0.3,
+          "numerator": 1,
+          "denominator": 6,
+          "weight": 0.16666666666666666,
           "flows_leaving_source": 4,
-          "flow_proportion": 0.75,
+          "flow_proportion": 0.25,
           "backing_flow_ids": [
-            "notpetya",
-            "ragnar_locker",
-            "whispergate"
+            "notpetya"
           ]
+        }
+      }
+    },
+    {
+      "name": "stealth__to__initial-access",
+      "src_tactic": "stealth",
+      "dst_tactic": "initial-access",
+      "gasp_edges": [
+        [
+          "T1070",
+          "T1190"
+        ]
+      ],
+      "weights": {
+        "operator_dedup": {
+          "numerator": 0,
+          "denominator": 6,
+          "weight": 0.0,
+          "flows_leaving_source": 4,
+          "flow_proportion": 0.0,
+          "backing_flow_ids": []
+        },
+        "raw": {
+          "numerator": 0,
+          "denominator": 6,
+          "weight": 0.0,
+          "flows_leaving_source": 4,
+          "flow_proportion": 0.0,
+          "backing_flow_ids": []
         }
       }
     },
@@ -2937,21 +2814,21 @@
       "gasp_edges": [
         [
           "T1036",
-          "T1570"
+          "T1550"
         ]
       ],
       "weights": {
         "operator_dedup": {
           "numerator": 0,
-          "denominator": 7,
+          "denominator": 6,
           "weight": 0.0,
-          "flows_leaving_source": 3,
+          "flows_leaving_source": 4,
           "flow_proportion": 0.0,
           "backing_flow_ids": []
         },
         "raw": {
           "numerator": 0,
-          "denominator": 10,
+          "denominator": 6,
           "weight": 0.0,
           "flows_leaving_source": 4,
           "flow_proportion": 0.0,
@@ -2966,19 +2843,11 @@
       "gasp_edges": [
         [
           "T1027",
-          "T1112"
-        ],
-        [
-          "T1027",
           "T1543"
         ],
         [
           "T1027",
-          "T1546"
-        ],
-        [
-          "T1070",
-          "T1546"
+          "T1547"
         ],
         [
           "T1140",
@@ -2992,15 +2861,15 @@
       "weights": {
         "operator_dedup": {
           "numerator": 0,
-          "denominator": 7,
+          "denominator": 6,
           "weight": 0.0,
-          "flows_leaving_source": 3,
+          "flows_leaving_source": 4,
           "flow_proportion": 0.0,
           "backing_flow_ids": []
         },
         "raw": {
           "numerator": 0,
-          "denominator": 10,
+          "denominator": 6,
           "weight": 0.0,
           "flows_leaving_source": 4,
           "flow_proportion": 0.0,
@@ -3033,15 +2902,15 @@
       "weights": {
         "operator_dedup": {
           "numerator": 0,
-          "denominator": 7,
+          "denominator": 6,
           "weight": 0.0,
-          "flows_leaving_source": 3,
+          "flows_leaving_source": 4,
           "flow_proportion": 0.0,
           "backing_flow_ids": []
         },
         "raw": {
           "numerator": 0,
-          "denominator": 10,
+          "denominator": 6,
           "weight": 0.0,
           "flows_leaving_source": 4,
           "flow_proportion": 0.0,
@@ -3053,25 +2922,20 @@
   "report": {
     "class_name": "objective_none_c2",
     "entry_tactic": "reconnaissance",
-    "n_places": 15,
-    "n_transitions": 83,
-    "n_inter_tactic_edges": 201,
-    "n_intra_tactic_selfloops_dropped": 21,
+    "n_places": 13,
+    "n_transitions": 79,
+    "n_inter_tactic_edges": 195,
+    "n_intra_tactic_selfloops_dropped": 26,
     "objective_tactics": [
       "command-and-control",
       "exfiltration",
       "impact"
     ],
-    "objective_tactics_data": [
-      "command-and-control",
-      "exfiltration",
-      "reconnaissance"
-    ],
+    "objective_tactics_data": [],
     "reachable_from_entry_marking": [
       "collection",
       "command-and-control",
       "credential-access",
-      "defense-impairment",
       "discovery",
       "execution",
       "exfiltration",
@@ -3094,7 +2958,6 @@
       "collection",
       "command-and-control",
       "credential-access",
-      "defense-impairment",
       "discovery",
       "execution",
       "exfiltration",
@@ -3104,19 +2967,14 @@
       "persistence",
       "privilege-escalation",
       "reconnaissance",
-      "resource-development",
       "stealth"
     ],
     "entry_tactics": [
       "command-and-control",
-      "credential-access",
-      "defense-impairment",
       "execution",
-      "exfiltration",
       "initial-access",
       "persistence",
-      "reconnaissance",
-      "resource-development"
+      "reconnaissance"
     ],
     "sink_tactics": [],
     "shortest_entry_to_objective": {
@@ -3131,22 +2989,21 @@
     },
     "longest_entry_to_objective": {
       "reachable": true,
-      "n_places": 14,
-      "n_hops": 13,
+      "n_places": 13,
+      "n_hops": 12,
       "path": [
         "reconnaissance",
-        "initial-access",
+        "persistence",
+        "impact",
         "stealth",
         "privilege-escalation",
         "lateral-movement",
-        "persistence",
-        "impact",
+        "initial-access",
+        "execution",
         "collection",
         "exfiltration",
-        "execution",
         "discovery",
         "credential-access",
-        "defense-impairment",
         "command-and-control"
       ],
       "entry": "reconnaissance",
@@ -3164,7 +3021,7 @@
       "recon_reaches_initial_access": true,
       "interpretation": "BRIDGED by 1 direct recon->initial-access edge(s) [('T1593', 'T1195')] -- a thin, fragile prefix link"
     },
-    "reachable_marking_count": 14
+    "reachable_marking_count": 13
   },
   "weighting": {
     "definition": "W-A flow-proportion (D3): weight = numerator / denominator, numerator = distinct profile flows contributing >=1 technique-edge under this tactic-pair, denominator = sum of numerators over the source place's retained inter-tactic out-transitions (out-edge-normalised; per-place out-weights sum to 1). flow_proportion = numerator / flows_leaving_source is the literal minuted per-flow proportion (sums to >1 where flows branch). Weights are workflow-recurrence under a survivorship-biased corpus - never efficacy, transition probability of an actor, or adversary optimality (metrics_semantics.md s(f)).",
@@ -3175,39 +3032,44 @@
       "operator_dedup": {
         "n_profile_flows": 4,
         "profile_flow_ids": [
+          "cisa_aa22_138b_vmware_workspace_alt",
+          "cobalt_kitty_campaign",
           "notpetya",
-          "ragnar_locker",
-          "solarwinds",
-          "target_breach"
+          "toolshell_vulnerability_in_sharepoint"
         ],
-        "places_without_flow_backed_out_edges": []
+        "places_without_flow_backed_out_edges": [
+          "exfiltration"
+        ]
       },
       "raw": {
         "n_profile_flows": 5,
         "profile_flow_ids": [
+          "cisa_aa22_138b_vmware_workspace_alt",
+          "cobalt_kitty_campaign",
+          "fin13_case_2",
           "notpetya",
-          "ragnar_locker",
-          "solarwinds",
-          "target_breach",
-          "whispergate"
+          "toolshell_vulnerability_in_sharepoint"
         ],
-        "places_without_flow_backed_out_edges": []
+        "places_without_flow_backed_out_edges": [
+          "exfiltration"
+        ]
       }
     }
   },
   "partition_control": {
     "slot": "objective_none_c2",
     "flow_ids": [
+      "cisa_aa22_138b_vmware_workspace_alt",
+      "cobalt_kitty_campaign",
+      "fin13_case_2",
       "notpetya",
-      "ragnar_locker",
-      "solarwinds",
-      "target_breach",
-      "whispergate"
+      "toolshell_vulnerability_in_sharepoint"
     ],
     "objective_tactics": "the declared objective tactics the group holds (label-blind: the slot name carries no objective)",
     "partition": 9,
-    "draw": 15,
+    "draw": 12,
     "partition_seed": 20261002,
-    "guard": "weighted"
+    "guard": "weighted",
+    "stratified": true
   }
 }

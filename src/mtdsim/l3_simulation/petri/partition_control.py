@@ -39,8 +39,7 @@ group holds (a slot name carries no objective, so the class lookup would test
 the wrong set and refuse groups lacking it), and the record carries a
 ``partition_control`` block naming the group's flows.
 
-Two decisions that do reach the runtime, for Marc's ruling (both recorded in
-the manifest):
+Two decisions that reach the runtime (recorded in the manifest):
 
 - **The overlay guard reads the weighted net** (``guard="weighted"``, see
   :data:`GUARDS`). The committed guard reads the structural net; on the five
@@ -50,8 +49,13 @@ the manifest):
 - **Draws are kept only if every group's token can reach initial-access**
   (:func:`token_reaches_initial_access`, which every real profile meets). The
   residual failures are groups with no resource-development place, where the
-  overlay's guard never acts. Over the first 60 draws 44 pass (7 under the
-  structural guard).
+  overlay's guard never acts. Over the first 60 unstratified draws 44 pass (7
+  under the structural guard).
+
+Both were ruled in on 2026-10-02, with a third: the shuffle is **stratified**
+(:func:`partition_stream`), so each group matches its profile on weight-carrying
+flows (14/6/5/4) as well as flows (19/7/7/5); the unstratified shuffle stays
+behind ``STRATIFIED=0``.
 
 Built with the real partition and ``label_blind=False`` the directory
 reproduces the committed ``data/ogasp/petri/`` files byte for byte under
@@ -137,28 +141,56 @@ def slot_sizes() -> dict[str, int]:
     return {slot: len(f) for slot, f in real_assignment().items()}
 
 
-def partition_stream(seed: int = PARTITION_SEED) -> Iterator[dict[str, tuple[str, ...]]]:
-    """Random partitions of the 38 flows into the slots, at the profiles' sizes,
-    without end. One generator draws the permutations in turn, so draw i is
-    fixed by ``seed`` alone; the flows are sorted before shuffling and the slots
-    filled in order."""
-    sizes = slot_sizes()
-    flows = sorted(f for fs in real_assignment().values() for f in fs)
+def stratum_sizes() -> dict[str, dict[str, int]]:
+    """The real profiles' counts per stratum, slot -> {weight_carrying, other}
+    (14/6/5/4 of the 29 the operator rule keeps; 5/1/2/1 of the 9 it drops)."""
+    kept = operator_deduplicated_flows()
+    return {
+        slot: {"weight_carrying": len(set(fs) & kept), "other": len(set(fs) - kept)}
+        for slot, fs in real_assignment().items()
+    }
+
+
+def partition_stream(
+    seed: int = PARTITION_SEED, stratified: bool = True
+) -> Iterator[dict[str, tuple[str, ...]]]:
+    """Random partitions of the 38 flows into the slots, without end. One
+    generator draws in turn, so draw i is fixed by ``seed`` (and the mode) alone;
+    flows are sorted before shuffling and slots filled in order.
+
+    ``stratified`` (primary): the 29 weight-carrying flows (the global operator
+    rule) are shuffled into the slots at the real profiles' weight-carrying
+    counts (14/6/5/4) and the 9 others at theirs (5/1/2/1), one permutation each
+    per draw, so every group matches its profile on both counts. Weight-carrying
+    flows are the size the weights see, the confound under test. ``False``: one
+    permutation of all 38 at the profiles' sizes (19/7/7/5) only."""
     rng = np.random.default_rng(seed)
+    all_flows = sorted(f for fs in real_assignment().values() for f in fs)
+    if stratified:
+        kept = operator_deduplicated_flows()
+        strata = stratum_sizes()
+        pools = [
+            ([f for f in all_flows if f in kept], {s: strata[s]["weight_carrying"] for s in SLOTS}),
+            ([f for f in all_flows if f not in kept], {s: strata[s]["other"] for s in SLOTS}),
+        ]
+    else:
+        pools = [(all_flows, slot_sizes())]
     while True:
-        perm = [flows[i] for i in rng.permutation(len(flows))]
-        assignment, at = {}, 0
-        for slot in SLOTS:
-            assignment[slot] = tuple(sorted(perm[at : at + sizes[slot]]))
-            at += sizes[slot]
-        yield assignment
+        assignment = {slot: [] for slot in SLOTS}
+        for flows, sizes in pools:
+            perm = [flows[i] for i in rng.permutation(len(flows))]
+            at = 0
+            for slot in SLOTS:
+                assignment[slot] += perm[at : at + sizes[slot]]
+                at += sizes[slot]
+        yield {slot: tuple(sorted(fs)) for slot, fs in assignment.items()}
 
 
 def random_partitions(
-    k: int = K, seed: int = PARTITION_SEED
+    k: int = K, seed: int = PARTITION_SEED, stratified: bool = True
 ) -> list[dict[str, tuple[str, ...]]]:
     """The first ``k`` draws of :func:`partition_stream` (no selection)."""
-    stream = partition_stream(seed)
+    stream = partition_stream(seed, stratified)
     return [next(stream) for _ in range(k)]
 
 
@@ -343,14 +375,16 @@ def main() -> int:
     Draws are taken from :func:`partition_stream` in order and a draw is kept
     only if every group meets :func:`token_reaches_initial_access`; rejected
     draws are recorded with the slots that failed. ``GUARD`` (env; default
-    ``weighted``) names the overlay guard (:data:`GUARDS`). Over the first 60
-    draws, 44 meet the criterion under ``weighted`` and 7 under ``structural``.
+    ``weighted``) names the overlay guard (:data:`GUARDS`). ``STRATIFIED`` (env;
+    default ``1``) selects the stratified shuffle; ``0`` the unstratified one
+    (:func:`partition_stream`).
     """
     import os
     import shutil
     import tempfile
 
     guard = os.environ.get("GUARD", "weighted")
+    stratified = os.environ.get("STRATIFIED", "1") != "0"
     real = real_assignment()
     real_label = {f: slot for slot, fs in real.items() for f in fs}
     with tempfile.TemporaryDirectory() as tmp:
@@ -361,7 +395,7 @@ def main() -> int:
     if OUT_DIR.exists():
         shutil.rmtree(OUT_DIR)
     partitions, rejected = [], []
-    for draw, assignment in enumerate(partition_stream()):
+    for draw, assignment in enumerate(partition_stream(stratified=stratified)):
         if len(partitions) == K:
             break
         i = len(partitions)
@@ -369,7 +403,7 @@ def main() -> int:
         stats = build_petri_dir(
             assignment, d, guard=guard,
             provenance={"partition": i, "draw": draw, "partition_seed": PARTITION_SEED,
-                        "guard": guard},
+                        "guard": guard, "stratified": stratified},
         )
         failed = [s for s in SLOTS if not token_reaches_initial_access(d, s)]
         if failed:
@@ -396,8 +430,28 @@ def main() -> int:
         "k": K,
         "guard": {"used": guard, "options": GUARDS},
         "slot_sizes": slot_sizes(),
-        "rng": "numpy.random.default_rng(partition_seed).permutation over the sorted "
-               "38 flow ids, one draw after another; slots filled in order",
+        "shuffle": {
+            "stratified": stratified,
+            "stratum_sizes": stratum_sizes(),
+            "rule": ("stratified (primary): the 29 weight-carrying flows (global operator rule) "
+                     "shuffled into the slots at the real profiles' weight-carrying counts and the "
+                     "9 others at theirs, so each group matches its profile on both counts"
+                     if stratified else
+                     "unstratified: all 38 flows shuffled into the slots at the profiles' sizes"),
+        },
+        "rng": "numpy.random.default_rng(partition_seed); per draw one permutation per stratum "
+               "(stratified: weight-carrying then other; unstratified: all 38) over sorted "
+               "flow ids, slots filled in order",
+        "decisions": {
+            "guard": "the synthetic overlay's guard and share rule read the weighted net "
+                     "(transitions with positive primary weight, the net the token walks); "
+                     "byte-identical to the committed rule on the five committed nets (tested). "
+                     "Ruled 2026-10-02.",
+            "selection": "a draw is kept only if every group's token can reach initial-access "
+                         "on the runtime routing net. Ruled 2026-10-02.",
+            "stratified_shuffle": "primary; the unstratified generator is kept behind "
+                                  "STRATIFIED=0. Ruled 2026-10-02.",
+        },
         "selection": "a draw is kept only if, in every group, the token seeded at the "
                      "entry place can reach initial-access on the runtime routing net "
                      "(token_reaches_initial_access; every real profile meets it)",
@@ -429,6 +483,7 @@ __all__ = [
     "random_partitions",
     "real_assignment",
     "slot_sizes",
+    "stratum_sizes",
     "token_reaches_initial_access",
 ]
 

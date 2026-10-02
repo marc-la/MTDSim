@@ -9,18 +9,6 @@
   "composition": "composed at net construction — build_all_profiles / build_all with_synthetic_overlay=True (default), or synthetic_overlay.apply_synthetic_overlay; the observed *_structural.json artefacts never include the overlay",
   "profiles": {
     "objective_exfiltration": {
-      "synthetic_transitions": [],
-      "recon_reaches_initial_access_observed": true,
-      "recon_reaches_initial_access_with_overlay": true,
-      "reason": "observed corpus already bridges reconnaissance -> initial-access; guard rule adds nothing"
-    },
-    "objective_impact": {
-      "synthetic_transitions": [],
-      "recon_reaches_initial_access_observed": true,
-      "recon_reaches_initial_access_with_overlay": true,
-      "reason": "observed corpus already bridges reconnaissance -> initial-access; guard rule adds nothing"
-    },
-    "objective_exfiltration_impact": {
       "synthetic_transitions": [
         {
           "name": "reconnaissance__to__resource-development",
@@ -56,11 +44,23 @@
       "recon_reaches_initial_access_observed": false,
       "recon_reaches_initial_access_with_overlay": true
     },
+    "objective_impact": {
+      "synthetic_transitions": [],
+      "recon_reaches_initial_access_observed": false,
+      "recon_reaches_initial_access_with_overlay": false,
+      "reason": "a pre-intrusion place (recon / resource-development / initial-access) is absent"
+    },
+    "objective_exfiltration_impact": {
+      "synthetic_transitions": [],
+      "recon_reaches_initial_access_observed": false,
+      "recon_reaches_initial_access_with_overlay": false,
+      "reason": "a pre-intrusion place (recon / resource-development / initial-access) is absent"
+    },
     "objective_none_c2": {
       "synthetic_transitions": [],
-      "recon_reaches_initial_access_observed": true,
-      "recon_reaches_initial_access_with_overlay": true,
-      "reason": "observed corpus already bridges reconnaissance -> initial-access; guard rule adds nothing"
+      "recon_reaches_initial_access_observed": false,
+      "recon_reaches_initial_access_with_overlay": false,
+      "reason": "a pre-intrusion place (recon / resource-development / initial-access) is absent"
     }
   }
 }
