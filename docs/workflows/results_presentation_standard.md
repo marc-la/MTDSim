@@ -29,6 +29,15 @@ everywhere, not because a source forces it.
 
 **Status of each rule.** *Ratified* = Marc has ruled. *Proposed* = this file's
 recommendation, applied only once Marc rules (the audit ledger lists each one).
+Marc accepted every float and caption fix of the §5.1–§5.3 audit on 2026-10-02
+("I accept all the changes that are required and the captions").
+
+**Captions read alone (Marc, 2026-10-02).** "If somebody just read the captions
+... they could figure out what's happening." A caption opens with what the float
+shows, gives n, decodes every encoding and the reading direction of each metric
+(what 1, 0 and below zero mean), and points to Section 4.5 for definitions; it
+does not define a metric (the supervisor's 2026-09-22 rule). Test it with a cold
+reader who sees only the rendered float and its caption.
 
 ---
 
@@ -38,7 +47,9 @@ recommendation, applied only once Marc rules (the audit ledger lists each one).
 to one significant figure (two when that figure is a 1) and the value to the same
 place; within a column, use the place of the column's widest interval, so the
 column aligns. A half-width that rounds to zero at the column's place prints as
-`<0.001` (at that place), never `± 0.000`. *Ratified 2026-09-30* (the house
+`<0.001` (at that place), never `± 0.000`; where an interval bound would round to
+0 without being 0, the column goes one place finer, so the reader can see whether
+the interval includes zero (Table 5.3's time lost). *Ratified 2026-09-30* (the house
 precision rule, figure_table_conventions.md, "Precision and table size"). Sources:
 Cole 2015 (R1.1–R1.3); SI Brochure, one format per column (R1.11).
 
@@ -110,12 +121,12 @@ Sources: R3.4; SAMPL, numerators and denominators (R3.1).
 
 **N3. A mean over a subset of events states the share left out.** Time lost per
 MTD deployment leaves out deployments with no no-MTD comparison; the share left out
-is reported wherever it could change the reading. *Proposed.* Source: SAMPL,
+is reported wherever it could change the reading (Table 5.3's caption gives the smallest share kept). *Ratified 2026-10-02.* Source: SAMPL,
 "report numerators and denominators" (R3.1); CONSORT item 16.
 
 **N4. A proportion's interval is not a Wald interval near 0 or 1.** Use
 Clopper–Pearson (or Wilson) for ASP, and flag a proportion of exactly 0 or 1 as such
-rather than printing a zero-width interval as if it were measured. *Proposed.*
+rather than printing a zero-width interval as if it were measured. *Ratified 2026-10-02* (Tables 5.2, F.3, F.4; `clopper_pearson` in `tools/_ch5_style.py`).
 Source: NCHS proportions standard, Vital Health Stat 2(175) (R3.3, R4.8).
 
 ## I — Intervals and effect sizes
@@ -126,7 +137,10 @@ A float with two kinds names both. Sources: Wilke ch. 16; Cumming, Fidler and Va
 2007 rule 1 (R7.4); Nature reporting summary (R8.2).
 
 **I2. One name per interval method across the dissertation.** The same method is
-called the same thing in every caption (terminology.md's one-term rule).
+called the same thing in every caption (terminology.md's one-term rule): "95 %
+percentile bootstrap interval over runs", "95 % interval on the mean (normal
+approximation)", "95 % Clopper--Pearson interval" (the constants `IV_BOOT`,
+`IV_MEAN`, `IV_PROP` in `tools/_ch5_style.py`). *Ratified 2026-10-02.*
 
 **I3. The number of runs behind every cell is stated or derivable.** The caption
 or Table 5.1 gives it; where two series differ (4 000 runs for the APT attacker
@@ -148,7 +162,7 @@ Hoefler and Belli rule 1, "never report ratios without absolute values" (R5.2).
 reduction from a small reference reaches its ceiling of 1 for any MTD that stops
 nearly every success, so it stops separating MTDs. The text says so where a
 float shows it (ASP reduction against the APT attacker model, whose ASP with no MTD
-is 0.09). *Proposed.* Sources: Cochrane Handbook §15.4.1 (R5.3); NCHS on relative
+is 0.09). *Ratified 2026-10-02*; Table 5.4's caption prints the reference values, the sentence is Marc's. Sources: Cochrane Handbook §15.4.1 (R5.3); NCHS on relative
 measures of small proportions (R5.5, an inference).
 
 **R3. Aggregate the quantities, then take the ratio.** A layer's reduction is the

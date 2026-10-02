@@ -5779,6 +5779,12 @@ compromise of a target host, over the runs that compromise one:
 \end{equation}
 ASP is the share of runs it is taken over; where no run compromises a target
 host, MTTC is undefined.
+% 2026-10-02 (results_presentation_standard.md N1; Marc: "don't report MTTC over too few
+%  runs"): the threshold every chapter 5 caption applies, declared once here.
+%  SESSION-GENERATED, DRAFT STATE --- ratify on read.
+It is not reported where fewer than 10 runs compromise a target host, or where its
+95\,\% interval is wider than 160\,\% of its value, the minimum the US National
+Center for Health Statistics sets for presenting a rate \citep{kochanek2024nchs}.
 
 \subsection{MTD effectiveness}
 \label{subsec:metrics-effectiveness}
@@ -7243,7 +7249,10 @@ profile shows more of it than the baseline attacker, and $c_3$ the least.
 \begin{figure}[tp]
   \centering
   \includegraphics{fig_5-2-1a_campaign_openings}
-  \caption[How each attacker acts with no MTD running]{With no MTD running, for the APT attacker model on the attack profiles $c_1$ to $c_4$ and for the baseline attacker. (a)~Relative tactic occurrence, the tactics grouped by the action each dispatches (Section~\ref{subsec:tactic-verb-mapping}); a dash marks a tactic the attacker does not have. (b)~Distinct attack paths among each attacker's runs, compared over their first $k$ steps; the count cannot exceed the number of runs. (c)~Attack confidentiality on an axis that starts at 80\,\%; the 95\,\% bootstrap intervals over runs are narrower than the markers. Section~\ref{sec:evaluation-metrics} defines each metric.}
+  % 2026-10-02 (Marc: "if somebody just read the captions ... they could figure out what's happening";
+  %  results_presentation_standard.md S4, I1-I3, T2, F5): caption rewritten to read the float alone,
+  %  decoding only; metrics stay defined in Section 4.5. Session-written, DRAFT STATE --- ratify on read.
+  \caption[How each attacker acts with no MTD running]{How each attacker acts with no MTD running: the APT attacker model on each attack profile $c_1$ to $c_4$, and the baseline attacker, over 1\,000 runs each (metrics in Section~\ref{subsec:metrics-behaviour}). A step is one tactic for the APT attacker model and one attack action for the baseline attacker. (a)~Relative tactic occurrence, the percentage of each attacker's steps taken in each tactic, on one colour scale, darker for a larger share; 0 is exact and $<$1 is above 0 but under 1. Rows are grouped by the attack action each tactic dispatches, named on the left (Section~\ref{subsec:tactic-verb-mapping}); a dwell-only tactic dispatches none. The baseline attacker has no tactics, so its column gives the percentage of its steps in each attack action. A blank cell is a tactic the attacker does not have. (b)~Distinct attack paths among each attacker's 1\,000 runs, a path being the sequence of a run's first $k$ steps: 1 is every run opening alike, 1\,000 every run taking its own path; the baseline attacker takes 1 to 3. (c)~Attack confidentiality, higher for an attacker with fewer attack actions flagged by a scan detector that flags any attack action that is the fifth within 60\,s; the axis starts at 80\,\%, the dashed line is the baseline attacker, and the 95\,\% percentile bootstrap intervals over runs are narrower than the markers. The key above~(b) also serves~(c).}
   \label{fig:aio-coverage}
 \end{figure}
 
@@ -7983,7 +7992,10 @@ response.
 \begin{figure}[tp]
   \centering
   \includegraphics{fig_5-2-2a_disruption_response}
-  \caption[What an MTD deployment costs each attacker]{What an MTD deployment costs each attacker, for each MTD mechanism deployed alone at the 2\,000\,s deployment interval, for the APT attacker model averaged over its four attack profiles and for the baseline attacker. (a)~Attack actions blocked per MTD deployment. (b)~Time lost per MTD deployment. Whiskers are 95\,\% bootstrap intervals over runs; Table~\ref{tab:disruption} gives the values, and Section~\ref{sec:evaluation-metrics} defines both metrics.}
+  % 2026-10-02 (Marc: "if somebody just read the captions ... they could figure out what's happening";
+  %  results_presentation_standard.md S4, I1-I3, T2, F5): caption rewritten to read the float alone,
+  %  decoding only; metrics stay defined in Section 4.5. Session-written, DRAFT STATE --- ratify on read.
+  \caption[What an MTD deployment costs each attacker]{What an MTD deployment costs each attacker: each MTD mechanism deployed alone every 2\,000\,s, against the APT attacker model, its four attack profiles pooled (solid; 4\,000 runs, 1\,000 per attack profile) and against the baseline attacker (hatched; 1\,000 runs), grouped by what each reconfigures. (a)~Attack actions blocked per MTD deployment: 1 when every deployment disrupts an attack action, 0 when none does. A deployment's layer, not its mechanism, decides which attack actions it can disrupt (Section~\ref{subsec:attacker-model}), so the mechanisms of one layer block nearly the same share. (b)~Time lost per MTD deployment: the delay to the attacker's next compromise against the same seed with no MTD; below zero, the next compromise came sooner. A disrupted attack action need not delay the next compromise, so a mechanism can block every attack action in~(a) and still not delay the next compromise in~(b) (Section~\ref{subsec:metrics-effectiveness}). Time lost is taken over the deployments that complete while the same seed's run with no MTD is still going, at least 78\,\% of each bar's. Whiskers: 95\,\% percentile bootstrap intervals over runs. Table~\ref{tab:disruption} gives the values, and Section~\ref{subsec:metrics-effectiveness} defines both metrics.}
   \label{fig:aio-adaptivity}
 \end{figure}
 
@@ -8189,9 +8201,9 @@ service layer. Against the baseline attacker the order is reversed:
 \prelim{0.49} to \prelim{0.72} for the host layer. Every reduction except user shuffle's falls as the interval grows; against the APT attacker model user shuffle's rises towards zero. The APT attacker model's host-layer reduction holds up to 200\,s
 and falls to \prelim{0.22} at 2\,000\,s; the baseline attacker's service-layer
 reduction falls from \prelim{0.82} at 200\,s to \prelim{0.25} at 500\,s. User
-shuffle reduces neither attacker's NCR beyond 50\,s, and against the APT attacker
-model it is below zero up to 500\,s: more hosts are compromised than with no
-MTD.
+shuffle reduces the baseline attacker's NCR only up to 100\,s, and against the APT
+attacker model it is below zero at every interval: more hosts are compromised than
+with no MTD.
 
 % REWRITTEN 2026-09-26 on Marc's read ("very rhetorically inflated ... literally we
 %  just need to describe what's happening"; his step-through of every float is
@@ -8206,7 +8218,7 @@ MTD.
 %  docs/implementation/connective_prose_audit.md); prior text in git.
 %  RATIFIED 2026-09-26 (Marc: 'I accept all this').
 The deployment strategies split the same way. The random and alternative deployment strategies, which draw on all seven mechanisms, give the APT attacker model
-the larger reduction at every interval up to 1\,000\,s (at 200\,s, \prelim{0.75}
+the larger reduction at every interval (at 200\,s, \prelim{0.75}
 and \prelim{0.72} against \prelim{0.33} and \prelim{0.39}). MTDShield gives the
 baseline attacker the larger reduction at every interval (\prelim{0.70} against
 \prelim{0.28} at 200\,s). It chooses service diversity at \prelim{70} to
@@ -8221,7 +8233,10 @@ Section~\ref{subsec:aio-disruption}.
   %  session-written from the two it replaces. DRAFT STATE --- ratify on read.
   % 2026-10-02 (results_presentation_standard.md P2): "1 with no whisker" was false at 1 000 seeds
   %  (random at 200 s, host topology shuffle at 500 s: one run in 4 000 each); the table separates them.
-  \caption[The same MTD measured against each attacker, across the deployment interval]{NCR reduction, panels~(a) to~(f), and ASP reduction, panels~(g) to~(l), against the deployment interval for each MTD mechanism and deployment strategy, against the APT attacker model, averaged over $c_1$ to $c_4$ (solid), and against the baseline attacker (dashed); zero is as many as with no MTD, and below zero is more; a point at 1 is an ASP reduction of 1, no run compromising a target host, or one above 0.99, which Table~\ref{tab:eff-interval-values-asp} tells apart. For each reduction, the first row gives the MTD mechanisms by the layer each rewrites (Table~\ref{tab:defence-mechanisms}), a layer's line the mean over its mechanisms, each deployed alone; the second the random deployment strategy, MTDShield (Appendix~\ref{app:mtdshield}) and the alternative deployment strategy (Table~\ref{tab:deployment-strategies}). Values in Tables~\ref{tab:eff-interval-values} and~\ref{tab:eff-interval-values-asp}. The interval axis is logarithmic; whiskers are 95\,\% percentile bootstrap intervals.}
+  % 2026-10-02 (Marc: "if somebody just read the captions ... they could figure out what's happening";
+  %  results_presentation_standard.md S4, I1-I3, T2, F5): caption rewritten to read the float alone,
+  %  decoding only; metrics stay defined in Section 4.5. Session-written, DRAFT STATE --- ratify on read.
+  \caption[The same MTD measured against each attacker, across the deployment interval]{NCR reduction, panels~(a) to~(f), and ASP reduction, panels~(g) to~(l), (Section~\ref{sec:evaluation-metrics}) against the deployment interval, for the APT attacker model averaged over $c_1$ to $c_4$ (solid, 4\,000 runs per point) and for the baseline attacker (dashed, 1\,000 runs per point). A reduction is 1 when no host is compromised (NCR) or no run compromises a target host (ASP), 0 when as many as with no MTD, and negative when more. For each reduction, the first row gives the MTD mechanisms by the layer each reconfigures (Table~\ref{tab:defence-mechanisms}), each deployed alone, a layer's line the mean over its mechanisms; the second row gives the deployment strategies: random, MTDShield (Appendix~\ref{app:mtdshield}) and alternative (Table~\ref{tab:deployment-strategies}). A point at 1 is a reduction of 1 or one above 0.99, which Table~\ref{tab:eff-interval-values-asp} tells apart. The interval axis is logarithmic; the NCR rows' y-axis starts at $-0.4$, the ASP rows' at $-1$. Whiskers: 95\,\% percentile bootstrap intervals over runs; where none shows, the interval is narrower than the marker. Tables~\ref{tab:eff-interval-values} and~\ref{tab:eff-interval-values-asp} give the values.}
   \label{fig:eff-cross-arm}
 \end{figure}
 
@@ -8280,14 +8295,14 @@ Section~\ref{subsec:aio-disruption}.
 % Section 5.3.3 stays on NCR reduction. Numbers: numbers.json sweep_asp. DRAFT STATE.
 Figure~\ref{fig:eff-cross-arm}(g) to~(l) shows the same comparison on ASP reduction
 (Equation~\ref{eq:asp-reduction}). Against the APT attacker model no run
-compromises a target host up to 500\,s under the host layer and the random
-deployment strategy, and up to 200\,s under the alternative deployment strategy.
+compromises a target host up to 200\,s under each host-layer mechanism, and up
+to 100\,s under the random and the alternative deployment strategies.
 The service layer removes \prelim{0.51} to \prelim{0.79} of its ASP up to 200\,s,
 more than the \prelim{0.21} to \prelim{0.35} of its NCR. Against the baseline
 attacker the layers keep their order: \prelim{0.86} to \prelim{0.97} for the
 service layer up to 200\,s, against \prelim{0.49} to \prelim{0.83} for the host
 layer. At 500\,s the host layer's reduction against the baseline attacker is
-\prelim{-0.22}: more of its runs compromise a target host than with no MTD.
+\prelim{$-0.22$}: more of its runs compromise a target host than with no MTD.
 
 % MERGED 2026-09-30 into fig:eff-cross-arm as panels (g) to (l) (Marc).
 
@@ -8297,10 +8312,10 @@ layer. At 500\,s the host layer's reduction against the baseline attacker is
 Table~\ref{tab:eff-cross-arm} ranks the MTD mechanisms and deployment strategies at 200\,s. The three host-layer
 mechanisms share rank 1 against the APT attacker model and take ranks 2 and 3
 against the baseline attacker; service diversity and port shuffle share rank 1
-against the baseline attacker and take ranks 3 and 5 against the APT attacker
+against the baseline attacker and take ranks 4 and 6 against the APT attacker
 model. The two attackers' rankings are unrelated: Spearman's $\rho$ between their
-NCR reductions is \prelim{-0.03}, with a 95\,\% bootstrap interval over seeds of
-\prelim{-0.19} to \prelim{0.05}.
+NCR reductions is \prelim{$-0.03$}, with a 95\,\% bootstrap interval over seeds of
+\prelim{$-0.19$} to \prelim{0.05}.
 % [CONNECTIVE-PROSE PASS 2026-09-26, ch5 U7 cut] Cut: the third statement
 %  of 5.3.3's object (preamble roadmap; 5.3.3's first sentence), stating
 %  nothing established. SESSION-GENERATED on Marc's 2026-09-26 go-ahead
@@ -8375,7 +8390,10 @@ NCR reductions is \prelim{-0.03}, with a 95\,\% bootstrap interval over seeds of
   \includegraphics{fig_5-3-3b_interval_mechanisms}
   % 2026-09-30 (Marc): the deployment strategies' figure merged in as panels (h) to (j).
   %  Caption session-written from the two it replaces. DRAFT STATE --- ratify on read.
-  \caption[NCR reduction by MTD and attack profile, across the deployment interval]{NCR reduction against the deployment interval for each MTD mechanism deployed alone, panels~(a) to~(g) in rows by the layer it rewrites (Table~\ref{tab:defence-mechanisms}), and for each deployment strategy, panels~(h) to~(j): the random deployment strategy, MTDShield (Appendix~\ref{app:mtdshield}) and the alternative deployment strategy (Table~\ref{tab:deployment-strategies}); for the attack profiles $c_1$ to $c_4$, with the baseline attacker dashed for comparison. Axes, zero and whiskers as in Figure~\ref{fig:eff-cross-arm}(a) to~(f).}
+  % 2026-10-02 (Marc: "if somebody just read the captions ... they could figure out what's happening";
+  %  results_presentation_standard.md S4, I1-I3, T2, F5): caption rewritten to read the float alone,
+  %  decoding only; metrics stay defined in Section 4.5. Session-written, DRAFT STATE --- ratify on read.
+  \caption[NCR reduction by MTD and attack profile, across the deployment interval]{NCR reduction (Section~\ref{sec:evaluation-metrics}) against the deployment interval for each attack profile $c_1$ to $c_4$ of the APT attacker model, with the baseline attacker dashed for comparison, 1\,000 runs per point: each MTD mechanism deployed alone, panels~(a) to~(g), in rows by the layer it reconfigures (Table~\ref{tab:defence-mechanisms}), and each deployment strategy, panels~(h) to~(j): random, MTDShield (Appendix~\ref{app:mtdshield}) and alternative (Table~\ref{tab:deployment-strategies}). NCR reduction is 1 when no host is compromised, 0 when as many as with no MTD, and negative when more. Table~\ref{tab:eff-interval-values} gives the baseline attacker's values, and the APT attacker model's averaged over $c_1$ to $c_4$. The interval axis is logarithmic. Whiskers: 95\,\% percentile bootstrap intervals over runs; where none shows, the interval is narrower than the marker.}
   \label{fig:eff-suppression-profiles}
 \end{figure}
 
@@ -8433,7 +8451,7 @@ diversity is the one mechanism that keeps a reduction against the baseline
 %  on Marc's 2026-09-26 go-ahead (docs/workflows/connective_prose.md;
 %  audit docs/implementation/connective_prose_audit.md); prior text in
 %  git. RATIFIED 2026-09-26 (Marc: 'I accept all this').
-attacker at every interval (\prelim{0.30} at 2\,000\,s). Port shuffle is not told apart from it up to 200\,s, nor OS diversity up to 100\,s, since each shares its Scott--Knott rank there; from 500\,s neither is told apart from
+attacker at every interval (\prelim{0.30} at 2\,000\,s). Port shuffle is not told apart from it up to 200\,s, since the two share a Scott--Knott rank there; OS diversity is told apart from it at every interval. Port shuffle is told apart from zero up to 1\,000\,s, OS diversity up to 500\,s.
 % [CONNECTIVE-PROSE PASS 2026-09-26, S8 profiles] 'move together' /
 %  'separates' named no test; replaced by the values (numbers.json
 %  sweep.by_interval[500].profile; c3 lower bounds 0.82-0.87 against the
@@ -8442,7 +8460,7 @@ attacker at every interval (\prelim{0.30} at 2\,000\,s). Port shuffle is not tol
 %  Marc's 2026-09-26 go-ahead (docs/workflows/connective_prose.md; audit
 %  docs/implementation/connective_prose_audit.md); prior text in git.
 %  RATIFIED 2026-09-26 (Marc: 'I accept all this').
-zero. User shuffle reduces neither attacker's NCR from 100\,s. At 500\,s each host-layer mechanism keeps a larger reduction against $c_3$ than against the other attack profiles, \prelim{0.86} to \prelim{0.91} against \prelim{0.71} to \prelim{0.82}, and the intervals do not overlap.
+User shuffle reduces neither attacker's NCR from 200\,s. At 500\,s each host-layer mechanism keeps a larger reduction against $c_3$ than against the other attack profiles, \prelim{0.86} to \prelim{0.91} against \prelim{0.71} to \prelim{0.82}, and the intervals do not overlap.
 
 % ---- PARAGRAPH 2: between Figure fig:eff-suppression-profiles and Figure fig:eff-schemes-profiles ----
 % REWRITTEN 2026-09-26 on Marc's read ("very rhetorically inflated ... literally we
@@ -10461,8 +10479,12 @@ Figure~\ref{fig:eff-cross-arm} plots, at every deployment interval.
 Tables~\ref{tab:full-movement} and~\ref{tab:full-baseline} give every metric of
 Table~\ref{tab:eff-cross-arm} with its interval, for each attacker.
 
+% 2026-10-02 (results_presentation_standard.md T4: cells never wrap): Tables F.3 and F.4 on one
+%  landscape page, at the house type size, with room for the runs behind each MTTC.
+\begin{landscape}
 \input{tables/tab_F-1_conditions_movement}
 \input{tables/tab_F-1_conditions_baseline}
+\end{landscape}
 
 % 2026-10-01 (Marc: "table 5.7 moves to the appendix"): the vulnerability
 %  memory's pool sweep, in Table 5.6's form. SESSION-GENERATED sentence, DRAFT STATE.

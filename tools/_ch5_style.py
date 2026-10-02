@@ -299,3 +299,18 @@ def bounded(v: float, nd: int = 2, lo: float | None = None, hi: float | None = N
         return r"${<}%.*f$" % (nd, lo + step)
     t = "%.*f" % (nd, v)
     return "$%s$" % ("0." + "0" * nd if t == "-0." + "0" * nd else t)
+
+
+# --- interval names: one name per method in every caption (standard I1, I2) ------
+IV_BOOT = r"95\,\% percentile bootstrap interval over runs"
+IV_MEAN = r"95\,\% interval on the mean (normal approximation)"
+IV_PROP = r"95\,\% Clopper--Pearson interval"
+
+
+def clopper_pearson(k: int, n: int) -> tuple[float, float]:
+    """The exact 95 % interval on a proportion k/n (standard N4: the NCHS
+    proportions standard, Vital Health Stat 2(175), uses it, not Wald)."""
+    from scipy.stats import beta
+    lo = 0.0 if k == 0 else float(beta.ppf(0.025, k, n - k + 1))
+    hi = 1.0 if k == n else float(beta.ppf(0.975, k + 1, n - k))
+    return lo, hi

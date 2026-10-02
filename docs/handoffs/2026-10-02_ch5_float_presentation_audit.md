@@ -60,9 +60,29 @@ the three generators reproduces them.
 
 ---
 
-## B. Proposed (each needs Marc's ruling; nothing applied)
+## B. Ruled 2026-10-02 — Marc accepted every float and caption fix
 
-Ordered by examiner risk. "Content point" items are prose: Marc dictates them.
+Marc: "I accept all the changes that are required and the captions"; wrong
+sentences corrected, their wording left for his own prose session ("very rough
+drafts ... I'll be working on in a future session"). Status per item:
+
+| # | Status |
+|---|---|
+| B1 | **applied**: the sentence corrected to the 1 000-seed facts; five more unwrapped claims in §5.3 corrected the same way (ranks 3 and 5 → 4 and 6; user shuffle's reach; random and alternative "at every interval"; OS diversity told apart from service diversity at every interval; port shuffle and OS diversity told apart from zero to 1 000 s and 500 s; user shuffle "from 200 s"). `\prelim` numbers untouched (handoff 2026-09-30_ch5_reported_corpus.md) |
+| B2 | **applied** to the three negative `\prelim` values |
+| B3 | **applied**: Figure 5.2 and Table 5.3 captions say a deployment's layer, not its mechanism, decides what it disrupts |
+| B4 | **applied**: below zero decoded in both captions; Figure 5.2 also says why blocking every attack action need not delay the next compromise |
+| B5 | **applied**: "at least 78 % of each cell's" deployments (the share dropped is 1–2 % for the APT attacker model and up to 22 % for the baseline attacker's service diversity; the 28 % below was a miscount, dropped / kept rather than dropped / all) |
+| B6 | **applied**: three interval names, one constant each (`IV_BOOT`, `IV_MEAN`, `IV_PROP` in `tools/_ch5_style.py`) |
+| B7 | **applied**: Clopper–Pearson for ASP in Tables 5.2, F.3, F.4 |
+| B8 | prose (Marc); Table 5.4's caption now prints the reference NCR and ASP the reductions are taken against |
+| B9 | **applied**: blank cells; colour scale, 0 and $<$1 decoded |
+| B10 | **applied** |
+| B11 | **applied**: one session-written sentence in §4.5.2 (DRAFT STATE) with `kochanek2024nchs` |
+| B12 | **applied** |
+| B13 | flag stands (FLOATS.md is another session's) |
+
+The original findings follow, kept for the reasoning.
 
 **B1. A §5.3.2 sentence is false at 1 000 seeds, and has no `\prelim` mark** (so
 the 1 000-seed swap will not catch it). *Rule: data, not presentation.*
@@ -101,11 +121,10 @@ MTD" (Section 4.5.3 already allows it).
 
 **B5. Time lost leaves out some deployments, and the share is not reported.**
 *N3.* A deployment that completes after the no-MTD run has ended is dropped
-(Section 4.5.3 declares the rule); the share dropped is 1–3 % for the APT attacker
-model but up to 28 % for the baseline attacker (service diversity 1 548 of 5 572;
-complete and host topology shuffle 21–22 %). **Recommend:** the caption gives the
-range ("over the deployments with a no-MTD comparison: at least 72 % of each
-cell's"), or an Appendix F column.
+(Section 4.5.3 declares the rule); the share dropped is 1–2 % for the APT attacker
+model but up to 22 % for the baseline attacker (service diversity 1 548 of 7 120;
+complete and host topology shuffle 18 %). **Recommend:** the caption gives the
+range ("at least 78 % of each cell's"), or an Appendix F column.
 
 **B6. One interval method, three names.** *I2.* "95 % bootstrap intervals over
 runs" (Table 5.3, Figures 5.1–5.2), "95 % percentile bootstrap interval" (Tables

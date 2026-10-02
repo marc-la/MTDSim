@@ -111,7 +111,7 @@
 %   its result is reported. No value is now a bare default.
 \begin{table}[htbp]
   \centering
-  \caption[The experiment]{The settings of the experiment. A parameter with several values, separated by semicolons, is varied; the rest are held. Arm, MTD and deployment interval are run in every combination; the timing distribution, which governs the interval and the deployment durations, is varied at the 200\,s interval for each MTD mechanism and deployment strategy but MTDShield. A citation names the prior study or the released simulator code that ran the value (Table~\ref{tab:lineage-configurations}); an uncited value is defined in an earlier chapter or argued in the text.}
+  \caption[The experiment]{The settings of the experiment. A parameter with several values, separated by semicolons, is varied; the rest are held. Arm, deployed MTD and deployment interval are run in every combination; the timing distribution, which governs the interval and the deployment durations, is varied at the 200\,s interval for each MTD mechanism and deployment strategy but MTDShield. A citation names the prior study or the released simulator code that ran the value (Table~\ref{tab:lineage-configurations}); an uncited value is defined in an earlier chapter or argued in the text.}
   \label{tab:experiment}
   \tablestyle\setlength{\tabcolsep}{4pt}
   \begin{tabular}{@{}cP{3.4cm}P{10.9cm}@{}}
@@ -128,7 +128,7 @@
     % 2026-10-02 (Marc): the attack graph leaves the Arm row for the ablation; SESSION-WORDED clause, DRAFT STATE.
     & Ablation & the APT attacker model on the attack graph before its partition into attack profiles, under every setting of the MTD rows (Section~\ref{sec:ablation}); the APT attacker model on $c_1$ to $c_4$: every factor of the failure matrix set to one, with no MTD and under IP shuffle and OS diversity at 200\,s and 2\,000\,s; the vulnerability memory off, with no MTD and under service diversity and OS diversity at 200\,s, at 1, 2, 3, 5, 10 and 20 services per operating system \\
     & Attack scenario & targeted \citep{brown2023} \\
-    \multirow{-4}{*}[-0.60cm]{\smash{\rotatebox{90}{\emph{Attacker}}}} & Vulnerability memory & on for the APT attacker model, each earlier success tripling the odds (Section~\ref{subsec:vulnerability-memory}); none for the baseline attacker \\
+    \multirow{-4}{*}[-0.60cm]{\smash{\rotatebox{90}{\emph{Attacker}}}} & Vulnerability memory & on for the APT attacker model, each earlier success on a vulnerability tripling the odds of exploiting it again (Section~\ref{subsec:vulnerability-memory}); none for the baseline attacker \\
     \midrule
     & Deployed & no MTD; each of the seven MTD mechanisms alone \citep{brown2023}; the random deployment strategy; the alternative deployment strategy \citep{zhang2023}; MTDShield, as released \citep{tay2024} \\
     & Deployment interval & 50\,s \citep{zhang2023, ho2024}; 100\,s \citep{zhang2023, ho2024}; 200\,s \citep{zhang2023, ho2024}; 500\,s; 1\,000\,s; 2\,000\,s \\
@@ -137,7 +137,7 @@
     \midrule
     & Time limit & 15\,000\,s \citep{ho2024}; a run ends earlier if the attacker compromises a target, or more than 80\,\% of the hosts \citep{zhang2023} \\
     & Seeds & 1\,000 per combination \citep{arcuri2014hitchhiker}, the same set on every arm \\
-    \multirow{-3}{*}[-0.45cm]{\smash{\rotatebox{90}{\emph{Runs}}}} & Metrics & attacker behaviour: relative tactic occurrence, distinct attack paths, attack rate, attack confidentiality; attack outcome: attack success probability (ASP), network compromise ratio (NCR), mean time to compromise (MTTC); MTD effectiveness: ASP reduction, NCR reduction, attack actions blocked, time lost per MTD deployment (Table~\ref{tab:metrics}) \\
+    \multirow{-3}{*}[-0.45cm]{\smash{\rotatebox{90}{\emph{Runs}}}} & Metrics & attacker behaviour: relative tactic occurrence, distinct attack paths, attack rate, attack confidentiality; attack outcome: attack success probability (ASP), network compromise ratio (NCR), mean time to compromise (MTTC); MTD effectiveness: ASP reduction, NCR reduction, attack actions blocked per MTD deployment, time lost per MTD deployment (Table~\ref{tab:metrics}) \\
     \bottomrule
   \end{tabular}
 \end{table}

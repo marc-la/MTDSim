@@ -44,7 +44,7 @@ import sys
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from _ch5_style import (bounded, mttc_dash_decode, mttc_unreported, BASE_DASH, CNAME, FONT, KEY_H, LABEL, LONG, MARK, PREAMBLE, PROFILES, REPO,  # noqa: E402
+from _ch5_style import (IV_BOOT, IV_MEAN, IV_PROP, bounded, clopper_pearson, mttc_dash_decode, mttc_unreported, BASE_DASH, CNAME, FONT, KEY_H, LABEL, LONG, MARK, PREAMBLE, PROFILES, REPO,  # noqa: E402
                         TAB_DIR, TITLE_H, UNREPORTED, compile_fig, fmt_thousands, key_row, marker,
                         panel_title, write_fig)
 
@@ -308,7 +308,7 @@ VALUE_TABLES = (("ncr reduction", "", "no host compromised",
                  "more hosts compromised than with no MTD", "(a) to~(f)"),
                 ("asp reduction", "-asp", "no run compromising a target host",
                  "more runs compromising a target host than with no MTD", "(g) to~(l)"))
-BOUND_DECODE = r" A value above 0.99 but short of 1 prints as $>0.99$."  # standard P2
+BOUND_DECODE = r" A printed 1.00 is exactly 1; a value above 0.99 but short of 1 prints as $>0.99$."  # standard P2
 
 
 def emit_value_table(sweeps: dict) -> tuple[str, list]:
@@ -332,7 +332,7 @@ def emit_value_table(sweeps: dict) -> tuple[str, list]:
         n = len(ivs)
         w(r"\begin{table}[htbp]")
         w(r"  \centering")
-        w(r"  \caption[%s under each attacker, by MTD and deployment interval]{%s for each MTD mechanism and deployment strategy against the APT attacker model, averaged over $c_1$ to $c_4$, and against the baseline attacker, at each deployment interval; 1 is %s, 0 is as many as with no MTD, and a negative value is %s. Rows grouped as panels~%s of Figure~\ref{fig:eff-cross-arm}; a layer's row gives the mean it plots. Grey text: the 95\,\%% percentile bootstrap interval includes zero; the APT attacker model's cells hold four times as many runs as the baseline attacker's.@BOUND@}" % (name, name, one, neg, panels))
+        w(r"  \caption[%s under each attacker, by MTD and deployment interval]{%s for each MTD mechanism and deployment strategy against the APT attacker model, averaged over $c_1$ to $c_4$, and against the baseline attacker, at each deployment interval; 1 is %s, 0 is as many as with no MTD, and a negative value is %s. Rows grouped as panels~%s of Figure~\ref{fig:eff-cross-arm}; an italic row with values is a layer's mean over its mechanisms, the line the figure plots. Grey text: its %s includes zero; each cell is from 4\,000 runs for the APT attacker model (1\,000 per attack profile) and 1\,000 for the baseline attacker, and a layer's mean from its mechanisms' runs together.@BOUND@}" % (name, name, one, neg, panels, IV_BOOT))
         cap_at = len(L) - 1  # the bound decode joins the caption only if a cell needs it
         w(r"  \label{tab:eff-interval-values%s}" % suffix)
         w(r"  \tablestyle\scriptsize\setlength{\tabcolsep}{3pt}\rowcolors{1}{}{}")  # the groups' rules separate rows; zebra would stripe the headers
@@ -472,8 +472,21 @@ def emit_ranking_table(ranking) -> tuple[str, list]:
     w(r"  \end{tabular}")
     w(r"\end{table}")
     bound = BOUND_DECODE if any("{>}" in x for x in L[cap_at + 1:]) else ""
-    L[cap_at] = (r"  \caption[The MTD mechanisms and deployment strategies ranked against each attacker]{Each MTD mechanism and deployment strategy deployed every %s\,s against the APT attacker model, averaged over $c_1$ to $c_4$, and against the baseline attacker, each ranked by Scott--Knott ESD on the mean hosts compromised per seed (Section~\ref{sec:dimensions}). Rank~1, in bold, is the fewest hosts compromised; rows that share a rank are not told apart. Rows in the APT attacker model's order. Metrics as Table~\ref{tab:metrics}. No MTD is the reference each reduction is taken against, so its rank and reductions are blank.%s%s MTTC is rounded to the precision of its widest interval. The NCR and ASP behind each reduction, and every value's interval, are in Appendix~\ref{app:supplementary-results}.}"
-                 % (fmt_thousands(int(iv)), bound, _dash_decode(reasons)))
+    ref = {arm: blk[arm]["none"] for arm in ("movement", "baseline")}
+
+    def ref_val(r):
+        # the reference values at their own intervals' precision (P1): NCR from its
+        # interval on the mean, ASP from its exact interval
+        lo, hi = clopper_pearson(round(r["asp"] * r["hosts"]["n"]), r["hosts"]["n"])
+        nd_a, nd_n = max(0, -_place((hi - lo) / 2)), max(0, -_place(r["hosts"]["ci95"] / N_HOSTS))
+        return "%.*f" % (nd_n, r["hosts"]["mean"] / N_HOSTS), "%.*f" % (nd_a, r["asp"])
+    (n_m, a_m), (n_b, a_b) = ref_val(ref["movement"]), ref_val(ref["baseline"])
+    seeds = ref["baseline"]["hosts"]["n"]
+    strat = [LONG[c] for c in order if c in STRATEGIES]
+    strat_txt = ", ".join(strat[:-1]) + " and " + strat[-1] if len(strat) > 1 else strat[0]
+    L[cap_at] = (r"  \caption[The MTD mechanisms and deployment strategies ranked against each attacker]{Each MTD mechanism and deployment strategy deployed every %s\,s, ranked against the APT attacker model, averaged over $c_1$ to $c_4$, and against the baseline attacker, on the same %s seeds (4\,000 runs for the APT attacker model, 1\,000 per attack profile). %s are deployment strategies, which decide which mechanism is deployed at each interval (Table~\ref{tab:deployment-strategies}); every other row is one mechanism deployed alone. Rank is by Scott--Knott ESD on the mean hosts compromised per seed, the APT attacker model's averaged over its four attack profiles (Section~\ref{sec:dimensions}): rank~1, in bold, compromises the fewest hosts, and rows that share a rank are not told apart. Rows follow the APT attacker model's ranks. A reduction is 1 when no host is compromised (NCR) or no run compromises a target host (ASP), 0 when as many as with no MTD, and negative when more (Section~\ref{sec:evaluation-metrics}). With no MTD, the reference row, NCR is %s and ASP %s against the APT attacker model, and %s and %s against the baseline attacker; its rank and reductions are blank.%s%s MTTC is pooled over the runs, of any attack profile, that compromise a target host, and rounded to %s\,s, the precision of its widest interval. Tables~\ref{tab:full-movement} and~\ref{tab:full-baseline} give every value's interval and the runs each MTTC is taken over.}"
+                 % (fmt_thousands(int(iv)), fmt_thousands(seeds), strat_txt[:1].upper() + strat_txt[1:], n_m, a_m, n_b, a_b,
+                    bound, _dash_decode(reasons), fmt_thousands(10 ** max(0, MTTC_PLACE))))
     return "\n".join(L) + "\n", facts
 
 
@@ -501,11 +514,11 @@ def emit_full_table(ranking, arm) -> str:
     w("@CAPTION@")
     cap_at = len(L) - 1
     w(r"  \label{tab:full-%s}" % arm)
-    w(r"  \tablestyle\scriptsize\setlength{\tabcolsep}{3pt}")
+    w(r"  \tablestyle")  # house size: the table sits on a landscape page (2026-10-02; T4, cells never wrap)
     C = r">{\centering\arraybackslash}p{%s}"
     # widths so no cell wraps: "< 0.01" and a negative bracket each on one line (2026-10-02 build)
-    w(r"  \begin{tabular}{@{}P{3.0cm}%s%s%s%s%s%s@{}}" % (C % "0.7cm", C % "0.8cm", C % "3.0cm", C % "2.0cm",
-                                                        C % "3.0cm", C % "2.0cm"))
+    w(r"  \begin{tabular}{@{}P{4.7cm}%s%s%s%s%s%s@{}}" % (C % "0.9cm", C % "4.0cm", C % "3.2cm", C % "2.6cm",
+                                                        C % "3.2cm", C % "3.2cm"))
     w(r"    \toprule")
     w(r"    MTD & Rank & ASP & ASP reduction & NCR & NCR reduction & MTTC (s) \\")
     w(r"    \midrule")
@@ -521,30 +534,40 @@ def emit_full_table(ranking, arm) -> str:
     def mttc(iv_):
         if _mttc_unreported(iv_):
             return "---"
-        return r"$%s \pm %s$" % (_at_place(iv_["mean"], mttc_place), hw(iv_["ci95"], mttc_place))
+        # with the runs it is taken over (standard N2: a conditional summary names its denominator)
+        return r"$%s \pm %s$ (%s)" % (_at_place(iv_["mean"], mttc_place), hw(iv_["ci95"], mttc_place),
+                                       fmt_thousands(iv_["n"]))
 
-    def asp(v):
-        return _bounded(v, lo=0.0, hi=1.0)
+    def cp(d):
+        return clopper_pearson(round(d["asp"] * d["hosts"]["n"]), d["hosts"]["n"])
+
+    # ASP to the precision rule too: the place of the column's widest exact interval (P1)
+    asp_nd = max(0, -_place(max((cp(r)[1] - cp(r)[0]) / 2 for r in rows)))
+
+    def asp(d):
+        # ASP with its exact interval (standard N4); never a rounded bound (P2)
+        lo, hi = cp(d)
+        f = lambda v: _bounded(v, asp_nd, lo=0.0, hi=1.0)
+        return r"%s [%s, %s]" % (f(d["asp"]), f(lo), f(hi))
 
     def red(d):
         return r"%s [%s, %s]" % (_num(d["point"]), _num(d["lo"]), _num(d["hi"]))
 
     n = blk["none"]
-    w("    no MTD &  & %s &  & %s &  & %s \\\\" % (asp(n["asp"]), ncr(n["hosts"]), mttc(n["mttc"])))
+    w("    no MTD &  & %s &  & %s &  & %s \\\\" % (asp(n), ncr(n["hosts"]), mttc(n["mttc"])))
     w(r"    \midrule")
     for c in order:
         d = blk["rows"][c]
-        w("    %s & %d & %s & %s & %s & %s & %s \\\\" % (LONG[c], d["rank"], asp(d["asp"]), red(d["asp_reduction"]),
+        w("    %s & %d & %s & %s & %s & %s & %s \\\\" % (LONG[c], d["rank"], asp(d), red(d["asp_reduction"]),
                                                         ncr(d["hosts"]), red(d["ncr_reduction"]), mttc(d["mttc"])))
     w(r"    \bottomrule")
     w(r"  \end{tabular}")
     w(r"\end{table}")
-    body = L[cap_at + 1:]
-    bound = ""
-    if any("{>}" in x or "{<}" in x for x in body):
-        bound = r" A value short of a bound it rounds to prints as $>0.99$ or $<0.01$."
-    L[cap_at] = (r"  \caption[MTD mechanisms and deployment strategies against %s, with intervals]{Each MTD mechanism and deployment strategy deployed every %s\,s against %s, with the rank of Table~\ref{tab:eff-cross-arm}, on the metrics of Table~\ref{tab:metrics}; the first row is the no-MTD reference, whose rank and reductions are blank.%s%s Brackets: a 95\,\%% percentile bootstrap interval; $\pm$: a 95\,\%% interval on the mean (normal approximation).}"
-                 % (LABEL[arm], fmt_thousands(int(iv)), who, bound, _dash_decode(reasons)))
+    seeds = ranking["by_interval"][iv]["baseline"]["none"]["hosts"]["n"]
+    L[cap_at] = (r"  \caption[MTD mechanisms and deployment strategies against %s, with intervals]{Each MTD mechanism and deployment strategy deployed every %s\,s against %s, on the same %s seeds, %s runs per row%s, on the metrics of Table~\ref{tab:metrics}. Rank is from Table~\ref{tab:eff-cross-arm} (Scott--Knott ESD on the mean hosts compromised per seed): rows that share a rank are not told apart. The first row, no MTD, is the reference each reduction is taken against: its rank and reductions are blank. MTTC is taken over the runs that compromise a target host, of any attack profile for the APT attacker model, their number in parentheses.%s Brackets on ASP: a %s; on a reduction: a %s; $\pm$: a %s. Each column is rounded to the precision of its widest interval; $<$ and $>$ mark a value or half-width that would round to 0 or 1 without reaching it.}"
+                 % (LABEL[arm], fmt_thousands(int(iv)), who, fmt_thousands(seeds), fmt_thousands(blk["none"]["hosts"]["n"]),
+                    r" (1\,000 per attack profile)" if arm == "movement" else "", _dash_decode(reasons), IV_PROP, IV_BOOT, IV_MEAN))
+
     return "\n".join(L) + "\n"
 
 

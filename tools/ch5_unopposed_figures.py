@@ -36,7 +36,8 @@ import sys
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from _ch5_style import BASE_DASH, KEY_H, errorbar, key_row, mttc_dash_decode, mttc_unreported, panel_title  # noqa: E402  (the layout, conventions §o)
+from _ch5_style import (BASE_DASH, IV_MEAN, IV_PROP, KEY_H, clopper_pearson, errorbar, key_row,  # noqa: E402
+                        mttc_dash_decode, mttc_unreported, panel_title)  # noqa: E402  (the layout, conventions §o)
 
 REPO = Path(__file__).resolve().parents[1]
 FIG_DIR = REPO / "docs" / "thesis" / "figures"
@@ -243,7 +244,7 @@ def emit_fig_a(core: dict) -> tuple[str, dict]:
             for p, x, cwid in cols:
                 v = share[p].get(t)
                 if v is None:
-                    w(r"\node[text=black!45] at (%.3f,%.3f) {---};" % (x + cwid / 2, y + ch / 2))
+                    pass  # a tactic the profile does not have: blank, not applicable (standard S1)
                 else:
                     fill, white = heat(v / vmax)
                     w(r"\fill[fill=%s] (%.3f,%.3f) rectangle ++(%.3f,%.3f);" % (fill, x, y, cwid, ch))
@@ -253,7 +254,7 @@ def emit_fig_a(core: dict) -> tuple[str, dict]:
         w(r"\node[anchor=west,text=black!70,font=\scriptsize] at (%.3f,%.3f) {%s};" % (GX, (gtop + gbot) / 2, gname if verb else r"\textit{%s}" % gname))
         # the baseline attacker's cell spans the group
         if verb is None:
-            w(r"\node[text=black!45] at (%.3f,%.3f) {---};" % (xb + bw / 2, (gtop + gbot) / 2))
+            pass  # the baseline attacker has no dwell-only tactics: blank, not applicable (S1)
         else:
             v = base.get(verb, 0.0)
             fill, white = heat(v / vmax)
@@ -389,7 +390,7 @@ def emit_table(core: dict) -> str:
     w("% Caption session-written, how-to-read only. DRAFT STATE --- ratify on read.")
     w(r"\begin{table}[htbp]")
     w(r"  \centering")
-    w(r"  \caption[Both attackers with no MTD running]{The attack outcome and the attack rate (Table~\ref{tab:metrics}) with no MTD running, for the baseline attacker and for the APT attacker model on each attack profile, under the setup of Table~\ref{tab:experiment}. Values $\pm$ the half-width of a 95\,\%% interval on the mean (normal approximation), each to the place of its interval's first significant figure; MTTC is taken over the runs that compromise a target host, whose share of all runs is the ASP.%s}" % mttc_dash_decode({mttc_unreported(m[p]["outcome"]["mttc"]) for p in (*PROFILES, "baseline")} - {None}))
+    w(r"  \caption[Both attackers with no MTD running]{The attack outcome and the attack rate with no MTD running (Section~\ref{sec:evaluation-metrics}), for the APT attacker model on each attack profile $c_1$ to $c_4$ and for the baseline attacker, over %s runs each (Table~\ref{tab:experiment}). MTTC is taken over the runs that compromise a target host, whose share of all runs is the ASP: %d to %d runs per attack profile and %d for the baseline attacker.%s Attack rate is per minute of simulated time. Brackets: a %s; $\pm$: a %s. Each value is rounded to the precision of its interval.}" % (fmt_thousands(t[PROFILES[0]]["n"]), min(m[q]["outcome"]["mttc"]["n"] for q in PROFILES), max(m[q]["outcome"]["mttc"]["n"] for q in PROFILES), m["baseline"]["outcome"]["mttc"]["n"], mttc_dash_decode({mttc_unreported(m[p]["outcome"]["mttc"]) for p in (*PROFILES, "baseline")} - {None}), IV_PROP, IV_MEAN))
     w(r"  \label{tab:unopposed-summary}")
     # one header row (2026-09-24, Marc: the class headers read loose; Table 4.3
     # carries the classes), full text width
@@ -403,8 +404,9 @@ def emit_table(core: dict) -> str:
 
     def cells(p: str) -> dict:
         o = m[p]["outcome"]
-        n = t[p]["n"]  # a 95 % interval on a share of runs (normal approximation), as on the other columns
-        return {"asp": (o["asp"], 1.96 * (o["asp"] * (1 - o["asp"]) / n) ** 0.5),
+        n = t[p]["n"]  # ASP: an exact (Clopper-Pearson) interval on a share of runs (standard N4)
+        lo, hi = clopper_pearson(round(o["asp"] * n), n)
+        return {"asp": (o["asp"], (hi - lo) / 2, lo, hi),
                 "ncr": (o["ncr"]["mean"], o["ncr"]["ci95"]),
                 "mttc": None if mttc_unreported(o["mttc"]) else (o["mttc"]["mean"], o["mttc"]["ci95"]),
                 "rate": (m[p]["attack_rate"]["mean"], m[p]["attack_rate"]["ci95"])}
@@ -413,9 +415,14 @@ def emit_table(core: dict) -> str:
     place = {k: _place(max(r[k][1] for r in rows.values() if r[k] is not None))
              for k in ("asp", "ncr", "mttc", "rate")}
 
+    def bracket(v, _hw, lo, hi, pl):
+        nd = max(0, -pl)
+        return "$%.*f$ [$%.*f$, $%.*f$]" % (nd, v, nd, lo, nd, hi)
+
     def row(name: str, p: str) -> str:
         r = rows[p]
-        f = {k: ("---" if r[k] is None else _prec(*r[k], place[k])) for k in r}
+        f = {k: ("---" if r[k] is None else (bracket(*r[k], place[k]) if k == "asp" else _prec(*r[k], place[k])))
+             for k in r}
         return "    %s & %s & %s & %s & %s \\\\" % (name, f["asp"], f["ncr"], f["mttc"], f["rate"])
 
     w(r"    \multicolumn{5}{@{}l}{\textit{%s}} \\" % LABEL["movement"])

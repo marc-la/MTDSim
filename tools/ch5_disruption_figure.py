@@ -31,7 +31,7 @@ import sys
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from _ch5_style import (BASE_DASH, bounded, FONT, KEY_H, LABEL, LONG, PREAMBLE, REPO, axes, compile_fig,  # noqa: E402
+from _ch5_style import (BASE_DASH, IV_BOOT, bounded, FONT, KEY_H, LABEL, LONG, PREAMBLE, REPO, axes, compile_fig,  # noqa: E402
                         errorbar, fmt_thousands, key_row, marker, panel_title, write_fig)
 from ch5_effectiveness_figures import LAYER, PANEL_SINGLES, TICK  # noqa: E402
 
@@ -154,21 +154,78 @@ def _r10(x: float) -> str:
     return ("$-$" + v[1:]) if v.startswith("-") else v
 
 
+# The two metrics' reading, shared by Table 5.3 and Figure 5.2's caption (standard
+# T1, T2, N3; Marc 2026-10-02: the captions alone should explain the float). The
+# layer clause is the simulator's disruption rule (mtd_operation._interrupt_adversary;
+# Section 2.2 states it): a deployment's layer and the attacker's current action
+# decide a disruption, never the mechanism, so a layer's mechanisms block nearly
+# the same share by construction.
+DECODE_BLOCKED = (r"Attack actions blocked per MTD deployment is 1 when every deployment disrupts an attack "
+                  r"action and 0 when none does; a deployment's layer, not its mechanism, decides which attack "
+                  r"actions it can disrupt (Section~\ref{subsec:attacker-model}), so the mechanisms of one layer "
+                  r"block nearly the same share.")
+
+
+def decode_time_lost(C: dict) -> str:
+    """Time lost's reading, with the smallest share of deployments it is taken over (N3)."""
+    kept = min(c["deployments"] / (c["deployments"] + c["dropped"])
+               for k, c in C.items() if k.endswith("|%s" % INTERVAL) and "deployments" in c)
+    return (r"Time lost per MTD deployment is the delay to the attacker's next compromise against the same "
+            r"seed with no MTD; below zero, the next compromise came sooner. It is taken over the deployments "
+            r"that complete while the same seed's run with no MTD is still going, at least %d\,\%% of each "
+            r"cell's." % int(100 * kept))
+
+
+def _place(hw: float) -> int:
+    """The precision rule (Marc 2026-09-30): the place of a half-width's first
+    significant figure (the second when that figure is a 1)."""
+    import math
+    place = math.floor(math.log10(hw)) if hw > 0 else 0
+    if hw > 0 and int(round(hw / 10.0 ** place, 6)) == 1:
+        place -= 1
+    return place
+
+
 def emit_table(d: dict) -> str:
     """Table 5.3: the two metrics of Figure 5.2 with their intervals, rows in the
     figure's order and grouped by layer as its brackets are (2026-09-30)."""
     C = d["cells"]
 
-    def tl(c):
-        lo, hi = c["time_lost_ci95"]
-        return r"%s [%s, %s]" % (_r10(c["time_lost"]), _r10(lo), _r10(hi))
+    # the precision rule (standard P1), per column: each value to the place of its
+    # column's widest interval's half-width (Cole 2015); a true minus in math mode
+    cells = {arm: [C[f"{arm}|{m}|{INTERVAL}"] for m in PANEL_SINGLES] for arm in ("movement", "baseline")}
+    tl_place = {arm: _place(max((c["time_lost_ci95"][1] - c["time_lost_ci95"][0]) / 2 for c in cs))
+                for arm, cs in cells.items()}
+    # a bound that rounds to 0 without being 0 hides whether the interval includes
+    # zero; such a column goes one place finer (standard P2)
+    for arm, cs in cells.items():
+        q = 10.0 ** tl_place[arm]
+        if any(b != 0 and round(b / q) == 0 for c in cs for b in c["time_lost_ci95"]):
+            tl_place[arm] -= 1
+    bl_place = {arm: _place(max((c["blocked_per_deployment"]["hi"] - c["blocked_per_deployment"]["lo"]) / 2 for c in cs))
+                for arm, cs in cells.items()}
 
-    def bl(c):
+    def num(v, place):
+        nd = max(0, -place)
+        t = "%.*f" % (nd, round(v / 10.0 ** place) * 10.0 ** place)
+        return "$0$" if float(t) == 0 else "$%s$" % t
+
+    def tl(c, arm):
+        lo, hi = c["time_lost_ci95"]
+        pl = tl_place[arm]
+        return r"%s [%s, %s]" % (num(c["time_lost"], pl), num(lo, pl), num(hi, pl))
+
+    def bl(c, arm):
         b = c["blocked_per_deployment"]
         # a share of deployments, bounded by 0 and 1, never prints a bound it does not reach (P2)
-        f = lambda v: bounded(v, lo=0.0, hi=1.0).strip("$")
+        nd = max(0, -bl_place[arm])
+        f = lambda v: bounded(v, nd, lo=0.0, hi=1.0)
         return r"%s [%s, %s]" % (f(b["point"]), f(b["lo"]), f(b["hi"]))
 
+    runs = {arm: C[f"{arm}|{PANEL_SINGLES[0]}|{INTERVAL}"]["runs"] for arm in ("movement", "baseline")}
+    # a printed 1.00 is said to be exact, when the table has one (P2)
+    EXACT = (" A printed %s is exact." % ("1." + "0" * max(0, -min(bl_place.values())))) if any(c["blocked_per_deployment"]["point"] == 1.0
+                                              for cs in cells.values() for c in cs) else ""
     L = [
         "% GENERATED by tools/ch5_disruption_figure.py from " + str(NUMBERS.relative_to(REPO)),
         "% (time_lost.py). Do not hand-edit; regenerate. 2026-09-30, the disruption metrics of Section 4.5.3;",
@@ -176,10 +233,11 @@ def emit_table(d: dict) -> str:
         "% DRAFT STATE --- ratify on read.",
         r"\begin{table}[tp]",
         r"  \centering",
-        r"  \caption[What each MTD mechanism costs each attacker]{Attack actions blocked per MTD deployment and time lost per MTD deployment (Section~\ref{subsec:metrics-effectiveness}) for each MTD mechanism deployed alone at the 2\,000\,s deployment interval, for the APT attacker model averaged over its four attack profiles and for the baseline attacker, in the order of Figure~\ref{fig:aio-adaptivity}. Brackets are 95\,\% bootstrap intervals over runs.}",
+        r"  \caption[What each MTD mechanism costs each attacker]{What an MTD deployment costs each attacker: each MTD mechanism deployed alone every 2\,000\,s, against the APT attacker model, its four attack profiles pooled, and against the baseline attacker, in the order of Figure~\ref{fig:aio-adaptivity} (metrics in Section~\ref{subsec:metrics-effectiveness}). " + DECODE_BLOCKED + " " + decode_time_lost(C) + " Each cell is over %s runs for the APT attacker model (1\\,000 per attack profile) and %s for the baseline attacker. Brackets: a %s; each column is rounded to the precision of its widest interval, or one place finer where an interval bound would otherwise round to 0.%s}" % (fmt_thousands(runs["movement"]), fmt_thousands(runs["baseline"]), IV_BOOT, EXACT),
         r"  \label{tab:disruption}",
-        r"  \tablestyle\rowcolors{1}{}{}",  # the layer rows separate the rows; zebra would stripe them
-        r"  \begin{tabular}{@{}P{4.4cm}*{4}{>{\centering\arraybackslash}p{2.55cm}}@{}}",
+        # scriptsize, 3 pt gaps: at footnotesize the 3-decimal brackets exceed the text width (conventions, "Table size")
+        r"  \tablestyle\scriptsize\setlength{\tabcolsep}{3pt}\rowcolors{1}{}{}",  # the layer rows separate the rows; zebra would stripe them
+        r"  \begin{tabular}{@{}P{3.8cm}*{2}{>{\centering\arraybackslash}p{3.0cm}>{\centering\arraybackslash}p{2.4cm}}@{}}",
         r"    \toprule",
         r"    & \multicolumn{2}{c}{APT attacker model} & \multicolumn{2}{c}{Baseline attacker} \\",
         r"    \cmidrule(lr){2-3}\cmidrule(lr){4-5}",
@@ -193,7 +251,8 @@ def emit_table(d: dict) -> str:
             L.append(r"    \midrule")
             L.append(r"    \multicolumn{5}{@{}l}{\textit{%s}} \\" % layer)
         a, b = C[f"movement|{m}|{INTERVAL}"], C[f"baseline|{m}|{INTERVAL}"]
-        L.append(r"    \quad %s & %s & %s & %s & %s \\" % (LONG[m], bl(a), tl(a), bl(b), tl(b)))
+        L.append(r"    \quad %s & %s & %s & %s & %s \\" % (LONG[m], bl(a, "movement"), tl(a, "movement"),
+                                                     bl(b, "baseline"), tl(b, "baseline")))
     L += [r"    \bottomrule", r"  \end{tabular}", r"\end{table}", ""]
     return "\n".join(L)
 
