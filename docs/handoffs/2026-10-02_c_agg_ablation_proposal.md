@@ -6,6 +6,32 @@ answers: docs/handoffs/2026-10-02_c_agg_ablation.md
 
 # Attack profiles as §5.4's ablation: design and change proposal
 
+## Fourth pass, 2026-10-02, 11:30
+
+- **c_agg removed** from §4.2, §4.3, §4.4, §5.1, Table 5.1, Table 5.2, §5.3,
+  Figure 5.4 and the §5.4 scope sentences (commit 1a040d3c). Figure 5.4's
+  regenerated file stays uncommitted with the other §5.3 floats.
+- **Failure-matrix ablation at 1,000 seeds, memory on** (`ablation_numbers_memory.json`):
+  negligible in all five cells on the interval reading.
+  - no MTD +0.07 [+0.03, +0.11]
+  - IP shuffle 200 s +0.13 [+0.057, +0.193]
+  - IP shuffle 2,000 s +0.12 [+0.07, +0.17]
+  - OS diversity 200 s −0.01 [−0.05, +0.04]
+  - OS diversity 2,000 s +0.06 [+0.02, +0.11]
+  - Its "with" NCR equals the partition block's in every cell (0.171, 0.007, 0.114,
+    0.159, 0.174): one model.
+- **Size-matched control merged** (89ca8224). It uses ten stratified random
+  partitions: the 29 weight-carrying flows into 14/6/5/4 and the 9 others into
+  5/1/2/1.
+  - The real partition rebuilds the committed nets byte for byte.
+  - Two construction rulings, both recorded in the manifest:
+    - the overlay guard checks the weighted net, which gives the same bytes on the
+      real nets;
+    - only draws whose every group reaches initial-access are kept (3 of 13
+      rejected).
+  - Runs start automatically when the memory ablation ends:
+    `run_partition_control.sh`, 100 seeds then 1,000.
+
 ## Third pass, 2026-10-02 (Marc's reply to the second)
 
 **Ruled.**
