@@ -6,6 +6,11 @@
 here are mechanisms, not exceptions: where §5.3.1 hit a trap, the rule below is
 the general form.
 
+Every float this path produces must meet
+[`results_presentation_standard.md`](results_presentation_standard.md) (how a
+number prints, what an empty cell means, when a summary is too thin to report)
+before it is ratified.
+
 The path has seven stages. Marc rules twice: once on the run plan (stage 2),
 once on the preliminary read (stage 4). Nothing reaches the tex before both.
 

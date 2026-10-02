@@ -255,3 +255,47 @@ def pm(iv: dict, nd: int = 1) -> str:
 
 def interval_str(point: float, lo: float, hi: float, nd: int = 2) -> str:
     return "$%.*f$ [%.*f, %.*f]" % (nd, point, nd, lo, nd, hi)
+
+
+# --- reporting thresholds shared by every chapter 5 table -----------------------
+# An MTTC is reported only over enough runs (docs/workflows/results_presentation_
+# standard.md N1, Marc 2026-10-02), after the NCHS standard for rates from 2023
+# data (Kochanek et al. 2024, s. 3, p. 18): at least 10 events, and a 95 %
+# interval no wider than 160 % of the estimate. MTTC is a mean over the runs
+# that compromise a target host, not a rate, so the threshold is borrowed by
+# declared analogy.
+MTTC_MIN_RUNS = 10
+MTTC_MAX_REL_WIDTH = 1.6
+
+
+def mttc_unreported(iv: dict | None) -> str | None:
+    """Why an MTTC (``{"n", "mean", "ci95"}``) is not reported, or None when it is."""
+    if not iv or iv["n"] < MTTC_MIN_RUNS:
+        return "runs"
+    if 2 * iv["ci95"] / iv["mean"] > MTTC_MAX_REL_WIDTH:
+        return "width"
+    return None
+
+
+def mttc_dash_decode(reasons: set) -> str:
+    """The caption's decode of the MTTC dash, naming only the reasons that fired."""
+    why = []
+    if "runs" in reasons:
+        why.append("fewer than %d runs compromise a target host" % MTTC_MIN_RUNS)
+    if "width" in reasons:
+        why.append(r"its 95\,\%% interval is wider than %d\,\%% of its value" % round(100 * MTTC_MAX_REL_WIDTH))
+    return (" A dash marks an MTTC not reported: %s." % " or ".join(why)) if why else ""
+
+
+def bounded(v: float, nd: int = 2, lo: float | None = None, hi: float | None = None) -> str:
+    """A value at ``nd`` decimals that never prints a bound of its scale it does
+    not reach (results presentation standard P2, Marc 2026-10-02): a reduction
+    of 0.997 is "> 0.99", not 1.00; an ASP of 0.0003 is "< 0.01", not 0.00.
+    A value that rounds to zero prints no sign."""
+    step = 10.0 ** -nd
+    if hi is not None and v < hi and round(v, nd) >= hi:
+        return r"${>}%.*f$" % (nd, hi - step)  # braced: no relation spacing
+    if lo is not None and v > lo and round(v, nd) <= lo:
+        return r"${<}%.*f$" % (nd, lo + step)
+    t = "%.*f" % (nd, v)
+    return "$%s$" % ("0." + "0" * nd if t == "-0." + "0" * nd else t)
