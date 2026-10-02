@@ -57,6 +57,7 @@ was cut the same day; the behaviour reads stay here for the body sentence.
 from __future__ import annotations
 
 import json
+import os
 from collections import Counter, defaultdict
 from pathlib import Path
 
@@ -67,6 +68,13 @@ import time_lost as TL
 HERE = Path(__file__).resolve().parent
 OUT = HERE / "ablation_numbers.json"
 EXTRA = HERE / "runs_ablation.jsonl"
+# MEMORY=1 (2026-10-02, Marc): both arms with the vulnerability memory on, from
+# runs_ablation_memory.jsonl alone (run_corpus.py ABLATION=1 MEMORY=1), seeds
+# below SEEDS (default every seed written), to ablation_numbers_memory.json.
+MEMORY_ON = os.environ.get("MEMORY") == "1"
+MAX_SEED = int(os.environ.get("SEEDS", 10**9))
+if MEMORY_ON:
+    OUT = HERE / "ablation_numbers_memory.json"
 N_HOSTS = 50
 LABEL = {"none": "no defence", "ip_shuffle": "IP shuffle", "os_diversity": "OS diversity"}
 FOUR = ("objective_exfiltration", "objective_impact", "objective_exfiltration_impact", "objective_none_c2")
@@ -111,17 +119,22 @@ def _behaviour(records: list) -> tuple[Counter, Counter]:
 
 def load() -> list[dict]:
     out, errors = [], 0
-    for path in (TL.RUNS, EXTRA):
+    paths = (HERE / "runs_ablation_memory.jsonl",) if MEMORY_ON else (TL.RUNS, EXTRA)
+    for path in paths:
         if not path.exists():
             continue
         with path.open() as f:
             for line in f:
+                if not line.endswith("\n"):  # the row a running writer has not finished
+                    continue
                 head = line[:400]
                 if not ('"group": "core"' in head or '"group": "blind"' in head):
                     continue
                 if '"regime": "shifted"' not in head or '"objective": "targeted"' not in head:
                     continue
                 r = json.loads(line)
+                if r["seed"] >= MAX_SEED:
+                    continue
                 if r["arm"] != "movement" or r["profile"] not in FOUR or r["condition"] not in CONDS:
                     continue
                 if r["condition"] != "none" and r["interval"] not in INTERVALS:

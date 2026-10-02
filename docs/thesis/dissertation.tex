@@ -8573,9 +8573,60 @@ system, the network of every other result in this chapter.
 
 \input{tables/tab_5-4a_ablation}
 
-\noindent\emph{[Placeholder --- section preamble: every component tested here
-is our judgement; each is removed in turn on the same design, which this
-paragraph declares once.]}
+% 2026-10-02 (Marc: "we chose these three because they were reversible steps
+%  in our method, high risk to validity, and they contributed to a property we
+%  were marking"; "the dwell times cannot be removed"): the selection rule.
+%  Design: docs/handoffs/2026-10-02_c_agg_ablation_proposal.md. DRAFT STATE.
+\noindent\emph{[Placeholder --- section preamble: the three components are the
+steps of the method that can be removed with the APT attacker model still
+running; each is our judgement, and each gives the model one of the eight
+properties (Table~\ref{tab:attacker-properties}): the attack profiles,
+objective conditioning (2); the failure matrix, adaptivity (4); the
+vulnerability memory, learning (7). Every other part cannot run without
+(the dwell times, the tactic-to-action mapping): its values are varied in
+Appendix~\ref{app:sensitivity} instead. Each is removed in turn on the same
+design, which this paragraph declares once.]}
+
+\subsection{Attack profiles by objective}
+\label{subsec:ablation-attack-profiles}
+
+% [NEW 2026-10-02: the third ablation, first in chapter 4's order (Section 4.2
+%  before 4.4.4 and 4.4.5). Marc: "we're just winding back a step, so there
+%  will be overlap". Design and the six moves: handoff
+%  2026-10-02_c_agg_ablation_proposal.md. No new runs: the attack graph ran in
+%  every cell of the reported corpus. Numbers: partition_ablation.py ->
+%  partition_ablation_numbers.json (n = 100 and 1 000). "with" = c1-c4 averaged
+%  with equal weight, as the chapter pools; "without" = the attack graph.
+%  PRELIMINARY READ, 1 000 seeds (d with minus without):
+%    no MTD NCR 0.171 vs 0.189, d -0.28 [-0.35, -0.22]
+%    IP shuffle 200 s 0.007 vs 0.013, d -0.47; NCR reduction 0.96 vs 0.93
+%    IP shuffle 2 000 s 0.114 vs 0.145, d -0.56; NCR reduction 0.33 vs 0.24
+%    OS diversity 200 s d -0.26; 2 000 s d -0.21; NCR reduction within 0.03
+%    |d| >= 0.2 in 48 of 61 cells of the grid; largest IP shuffle 1 000 s, -0.76
+%    distinct attack paths, 1 000 runs each, k = 5: 254 with, 535 without
+%  Not negligible: the pre-declared size-matched control (proposal R5) decides
+%  objective against corpus size. Placeholders only; Marc dictates.]
+\noindent\emph{[Placeholder --- purpose, variant and prediction: the partition
+into attack profiles is our judgement (Section~\ref{sec:attack-profiles});
+without it, the APT attacker model runs on the attack graph
+(Section~\ref{sec:technique-graph}), compiled by the same construction from
+every attack flow, so at each tactic it may follow any objective's flows; if
+the partition matters, the attacker without it takes more distinct attack
+paths and MTD removes a different share of what it compromises; the same
+seeds, every MTD mechanism, deployment strategy and interval of
+Section~\ref{sec:effectiveness} (Table~\ref{tab:experiment}).]}
+
+\noindent\emph{[Placeholder --- manipulation check: distinct attack paths with
+and without the partition, on equal numbers of runs.]}
+
+\noindent\emph{[Placeholder --- outcome: NCR with and without, $d$ and NCR
+reduction at the shared cells (Table~\ref{tab:ablation}); the largest $d$
+anywhere in the grid (Appendix~\ref{app:supplementary-results}).]}
+
+\noindent\emph{[Placeholder --- scope and verdict: what the ablation does not
+separate (the objective from the number of attack flows each net is built
+from); the verdict against the 0.2 threshold; Chapter~\ref{ch:discussion}
+discusses why.]}
 
 \subsection{Failure matrix}
 \label{subsec:ablation-failure-matrix}

@@ -1,10 +1,140 @@
 ---
-status: proposal — awaiting Marc's rulings R1–R12 (nothing in tex, floats or generators edited)
+status: second pass 2026-10-02 — R1, R8, R9 ruled; §5.4.1 placeholders in; partition NOT negligible (prelim), R5 control and the Table 5.1 row await Marc
 created: 2026-10-02
 answers: docs/handoffs/2026-10-02_c_agg_ablation.md
 ---
 
 # Attack profiles as §5.4's ablation: design and change proposal
+
+## Second pass, 2026-10-02 (Marc's reply; supersedes the sections below where they differ)
+
+**Marc's rulings and directions.**
+- Run the failure-matrix and vulnerability-memory ablations with the other
+  components on; 100 seeds for the preliminary read, then 1,000 in the background
+  (R8, yes). Running: `data/results/ch5_defended/run_ablations_1000.sh`.
+- Remove c_agg from §4.3's construction, §5.1's Attacker paragraph, Table 5.1's Arm
+  row and every figure; where §5.3 needs a name, it is "the APT attacker model"
+  (R9, yes).
+- The selection rule, in Marc's words: the three are reversible steps of the
+  method, high risk to validity, and each contributes a property in Table 3.2.
+  The dwell times and the other parts of §4.4 cannot be removed, because the
+  model does not run without them (R1, yes).
+- §5.4 stays in preliminary-result territory. Marc runs through the six moves
+  before any drafting. Keep about 250 words per ablation in mind.
+- The overlap is natural ("winding back a step"). Present it conventionally.
+
+**Done in this pass.**
+- `dissertation.tex`: the §5.4 preamble placeholder now states the rule.
+- **§5.4.1 "Attack profiles by objective"** is added, first, as four placeholders
+  (purpose, variant and prediction; manipulation check; outcome; scope and
+  verdict). A comment holds the preliminary numbers. Build clean: 102 pages,
+  0 undefined.
+- `partition_ablation.py` → `partition_ablation_numbers.json` (n = 100 and 1,000).
+- V1 passed: `run_corpus.py` runs with the modulators off, so the objective set
+  never enters a run.
+- `ablation.py MEMORY=1` reads the failure-matrix ablation with the memory on
+  (`ablation_numbers_memory.json`).
+
+**Preliminary result: the partition is NOT negligible** (1,000 seeds; d is with
+minus without).
+
+| Cell | NCR with | NCR without | d [95 %] | NCR reduction with / without |
+|---|---|---|---|---|
+| no MTD | 0.171 | 0.189 | −0.28 [−0.35, −0.22] | — |
+| IP shuffle 200 s | 0.007 | 0.013 | −0.47 [−0.54, −0.40] | 0.96 / 0.93 |
+| IP shuffle 2,000 s | 0.114 | 0.145 | −0.56 [−0.63, −0.49] | 0.33 / 0.24 |
+| OS diversity 200 s | 0.159 | 0.174 | −0.26 [−0.33, −0.20] | 0.07 / 0.08 |
+| OS diversity 2,000 s | 0.174 | 0.187 | −0.21 [−0.27, −0.14] | −0.02 / 0.01 |
+
+- **Grid:** |d| ≥ 0.2 in 48 of the 61 reported cells. The largest is IP shuffle at
+  1,000 s, −0.76.
+- **Checks:** flow-weighted d is the same sign and as large or larger (−0.37 with no
+  MTD). At the five shared cells, per-campaign d is smaller but still crosses 0.2, except at
+  OS diversity at 2,000 s (−0.17).
+- **Per profile, no MTD:** c1 0.149, c2 0.209, c3 0.172, c4 0.154, the attack
+  graph 0.189. Under IP shuffle at 2,000 s: c1 0.111, c2 0.150, c3 0.088, c4 0.108,
+  the attack graph 0.145. The attack graph sits beside c2, the impact profile,
+  not at the mixture.
+- **Manipulation check:** distinct attack paths over 1,000 runs each, k = 5: 254
+  with, 535 without (k = 8: 752 and 978). The prediction holds.
+- **Relative tactic occurrence:** within 1.6 points on every tactic.
+- **The direction fits the §3 prediction**: without the partition, the attacker
+  compromises more, and IP shuffle removes less of it at the longer interval.
+
+**Table 5.5 preview: all three blocks at 100 seeds, one model** (the memory and
+the failure matrix on wherever they are not the component removed; the three
+no-MTD "with" values now agree at 0.167). Columns are Table 5.5's own. Nothing
+is generated yet.
+
+| Block | MTD | NCR with | NCR without | Cohen's d | NCR reduction with / without |
+|---|---|---|---|---|---|
+| Attack profiles by objective | no MTD | 0.167 | 0.182 | −0.23 [−0.42, −0.03] | — |
+| | IP shuffle, 200 s | 0.006 | 0.010 | −0.30 [−0.55, −0.05] | 0.96 / 0.95 |
+| | IP shuffle, 2,000 s | 0.110 | 0.137 | −0.51 [−0.76, −0.30] | 0.34 / 0.25 |
+| | OS diversity, 200 s | 0.156 | 0.167 | −0.18 [−0.39, +0.02] | 0.07 / 0.08 |
+| | OS diversity, 2,000 s | 0.167 | 0.175 | −0.13 [−0.32, +0.05] | 0.00 / 0.04 |
+| Failure matrix | no MTD | 0.167 | 0.160 | +0.12 [−0.01, +0.25] | — |
+| | IP shuffle, 200 s | 0.006 | 0.006 | +0.04 [−0.18, +0.25] | 0.96 / 0.96 |
+| | IP shuffle, 2,000 s | 0.110 | 0.103 | +0.17 [+0.00, +0.35] | 0.34 / 0.36 |
+| | OS diversity, 200 s | 0.156 | 0.152 | +0.07 [−0.06, +0.21] | 0.07 / 0.05 |
+| | OS diversity, 2,000 s | 0.167 | 0.162 | +0.08 [−0.05, +0.22] | 0.00 / −0.01 |
+| Vulnerability memory | no MTD | 0.167 | 0.163 | +0.08 [+0.01, +0.16] | — |
+| | service diversity, 200 s | 0.106 | 0.104 | +0.05 [+0.01, +0.11] | 0.36 / 0.36 |
+| | OS diversity, 200 s | 0.156 | 0.151 | +0.08 [+0.01, +0.17] | 0.07 / 0.07 |
+
+The table above is Table 5.5 as it would read now. Its sources:
+- the failure-matrix block: `ablation_numbers_memory.json` (100 seeds, memory on);
+- the memory block: the committed `memory_ablation_numbers.json` (100 seeds);
+- the partition block: `partition_ablation_numbers.json` `by_n.100`.
+
+At 100 seeds the partition's point d crosses 0.2 in three of five cells. At
+1,000 seeds it crosses 0.2 in all five; the interval lies wholly beyond 0.2 in four (OS diversity at 2,000 s reaches back to −0.14). The
+failure matrix, now with the memory on, stays under 0.2 at every point, although
+every interval reaches past it at 100 seeds (the point-or-interval ruling, R7; the 1,000-seed run decides).
+
+**What follows from the pre-declared rule (R5).** d ≥ 0.2, so the result cannot
+yet be put down to objective conditioning: the attack graph's net is built from
+29 flows, each profile's from 4 to 14. Attributing it needs the size-matched,
+label-blind control: random partitions of the 29 flows with the profiles' sizes,
+run the same way. It now costs about 70 min per cell at the measured
+9 runs per second, plus the code to compile a net from any set of flows. **Marc's
+ruling: run it at the five shared cells (about 6 h), or report the partition's
+effect with the confound named?**
+
+**Answer to "where does 29 come from, we use 38".**
+- All 38 attack flows are classified (§4.2: 19, 7, 7, 5).
+- §4.3, Equation `eq:base-weight`: "An operator with several attack flows in the
+  corpus counts once, through its flow with the most steps ... 29 of the 38 attack
+  flows carry weight." So the weights are built from 29: c1 14, c2 6, c3 5, c4 4.
+- The confound in plain words: c4's Petri net is built from 4 flows and the attack
+  graph's from 29. A net built from fewer flows has fewer edges and fewer paths,
+  whatever objective the flows share. So an attacker on a smaller net could behave
+  differently because the net is smaller, not because of its objective.
+- A random partition of the same sizes has the smaller nets without the
+  objectives. If it moves like the profiles, the size explains the difference;
+  if it moves like the attack graph, the objective does.
+
+**Table 5.1: the ablations do feature today.** Table 5.1 has an Ablation row, and
+both §5.4 subsections cite it for their settings. Two options:
+- keep the row: one place where a replicator finds every run (recommended);
+- move each ablation's settings into its own subsection, so Table 5.1 is the main
+  experiment only.
+
+The partition ablation needs no run settings of its own (it reuses the main
+grid), so the row gains at most one clause. Marc rules.
+
+**Not yet done (waits on the parallel session's uncommitted `\grouprow` work in
+`dissertation.tex`, `ablation_table.py` and the ch5 generators):**
+- the c_agg removals in the tex and generators;
+- Table 5.5's new block;
+- the Appendix F grid table.
+
+If the tex removals ran before the floats are regenerated, Table 5.2 and Figure 5.4
+would show c_agg with no definition left in the thesis.
+
+---
+
+(First pass follows.)
 
 Design only. Content points, never prose; no float drawn, no generator touched, no
 run made, and the ablation's contrast not computed (§3, "prediction honesty").

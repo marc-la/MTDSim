@@ -41,6 +41,7 @@ OUT = HERE / "runs.jsonl"
 # 100-999 of the core and blind arms, written beside the corpus so the shared
 # stream is never rewritten; ablation.py reads both.
 OUT_ABLATION = HERE / "runs_ablation.jsonl"
+OUT_ABLATION_MEMORY = HERE / "runs_ablation_memory.jsonl"  # MEMORY=1: both arms, memory on
 ABLATION_SEEDS = tuple(range(100, 1_000))
 
 PROFILES = (
@@ -405,17 +406,18 @@ def build_shield_jobs(conditions=SHIELD, intervals=INTERVALS) -> list[dict]:
             for seed in SEEDS for arm, profile in arms for interval in intervals for c in conditions]
 
 
-def build_ablation_jobs(seeds=ABLATION_SEEDS) -> list[dict]:
+def build_ablation_jobs(seeds=ABLATION_SEEDS, rate=None) -> list[dict]:
     """The §5.4 cells, both arms: the four profiles, targeted, under no
-    defence and the spanning pair at both intervals."""
+    defence and the spanning pair at both intervals. ``rate`` is the
+    vulnerability memory's (None: off, as the 2026-09-28 ablation ran)."""
     jobs: list[dict] = []
     for seed in seeds:
         for group, overlay in (("core", OVERLAY), ("blind", "verdict_blind")):
             for p in FOUR:
-                jobs.append(_job(group, "movement", p, "targeted", "none", 0, "shifted", overlay, seed))
-                for interval in INTERVALS:
-                    for c in SPANNING:
-                        jobs.append(_job(group, "movement", p, "targeted", c, interval, "shifted", overlay, seed))
+                cells = [("none", 0)] + [(c, i) for i in INTERVALS for c in SPANNING]
+                for c, i in cells:
+                    job = _job(group, "movement", p, "targeted", c, i, "shifted", overlay, seed)
+                    jobs.append({**job, "exploit_learning_rate": rate} if rate else job)
     return jobs
 
 
@@ -475,6 +477,43 @@ def _resume(path: Path) -> set:
     return done
 
 
+def _truncate_cut_line(path: Path) -> None:
+    """Drop a last line a killed run left without its newline."""
+    with path.open("rb+") as fh:
+        end = fh.seek(0, 2)
+        pos = end
+        while pos > 0:
+            step = min(1 << 20, pos)
+            fh.seek(pos - step)
+            nl = fh.read(step).rfind(b"\n")
+            if nl >= 0:
+                pos = pos - step + nl + 1
+                break
+            pos -= step
+        if pos < end:
+            fh.truncate(pos)
+
+
+def _resume_grouped(path: Path) -> set:
+    """The ablation jobs already written, keyed with their group (core or blind)."""
+    if not path.exists():
+        return set()
+    _truncate_cut_line(path)
+    head = re.compile(rb'"group": "(\w+)", "arm": "\w+", "profile": "(\w+)", "objective": "\w+", '
+                      rb'"condition": "(\w+)", "interval": (\d+), .*?"seed": (\d+)')
+    done = set()
+    with path.open("rb") as fh:
+        for line in fh:
+            m = head.search(line[:1024])
+            if m:
+                g, pr, c, i, sd = m.groups()
+                done.add((g.decode(), pr.decode(), c.decode(), int(i), int(sd)))
+            else:
+                r = json.loads(line)
+                done.add((r["group"], r["profile"], r["condition"], r["interval"], r["seed"]))
+    return done
+
+
 def main() -> int:
     # SHIELD=1 appends MTDShield, random over its four, and the training-builder
     # check to the existing runs.jsonl; the default rebuilds the 2026-09-17 corpus.
@@ -488,6 +527,8 @@ def main() -> int:
     ablation = os.environ.get("ABLATION") == "1"
     if ablation:  # ABLATION=1 writes runs_ablation.jsonl, never runs.jsonl
         jobs = build_ablation_jobs()
+        if os.environ.get("MEMORY") == "1":  # 2026-10-02 (Marc): both arms with the memory on,
+            jobs = build_ablation_jobs(range(int(os.environ.get("SEEDS", 100))), MEMORY_RATE)
     elif sweep:
         jobs = build_shield_jobs(DEFENDED + SHIELD, SWEEP_INTERVALS)
     else:
@@ -495,11 +536,21 @@ def main() -> int:
     if os.environ.get("LIMIT"):  # timing probe: the first N jobs, printed, not written
         jobs = jobs[: int(os.environ["LIMIT"])]
     workers = int(os.environ.get("WORKERS", min(7, os.cpu_count() or 4)))
-    print(f"{len(jobs)} runs on {workers} workers -> {OUT_ABLATION if ablation else OUT}", flush=True)
     started = time.time()
     done = errors = 0
     out = os.devnull if os.environ.get("LIMIT") else (OUT_ABLATION if ablation else OUT)
-    with open(out, "a" if (shield or sweep) else "w", encoding="utf-8") as fh, ProcessPoolExecutor(workers) as pool:
+    if ablation and os.environ.get("MEMORY") == "1":  # seeds 0..SEEDS-1, the reported corpus's model
+        out = os.devnull if os.environ.get("LIMIT") else OUT_ABLATION_MEMORY
+    print(f"{len(jobs)} runs on {workers} workers -> {out}", flush=True)
+    append = shield or sweep
+    if ablation and os.environ.get("MEMORY") == "1" and out != os.devnull:
+        # resumable (2026-10-02, Marc: run to 1 000 in the background, pausable):
+        # the arms share every other key, so the group is part of the job's id
+        done_ids = _resume_grouped(Path(out))
+        jobs = [j for j in jobs if (j["group"], j["profile"], j["condition"], j["interval"], j["seed"]) not in done_ids]
+        append = True
+        print(f"  resuming: {len(done_ids)} already written, {len(jobs)} to run", flush=True)
+    with open(out, "a" if append else "w", encoding="utf-8") as fh, ProcessPoolExecutor(workers) as pool:
         for row in pool.map(dispatch, jobs, chunksize=16):
             fh.write(json.dumps(row) + "\n")
             done += 1

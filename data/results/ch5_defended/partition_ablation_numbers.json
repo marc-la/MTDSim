@@ -1,0 +1,4121 @@
+{
+ "design": "docs/handoffs/2026-10-02_c_agg_ablation_proposal.md",
+ "flow_weights": {
+  "objective_exfiltration": 14,
+  "objective_impact": 6,
+  "objective_exfiltration_impact": 5,
+  "objective_none_c2": 4
+ },
+ "by_n": {
+  "100": {
+   "outcome": {
+    "cells": {
+     "alternative|50": {
+      "n": 100,
+      "ncr_with": 0.00935,
+      "ncr_without": 0.016,
+      "ncr_with_flow_weighted": 0.010386206896551725,
+      "per_profile": {
+       "objective_exfiltration": 0.012000000000000002,
+       "objective_impact": 0.013000000000000001,
+       "objective_exfiltration_impact": 0.005600000000000001,
+       "objective_none_c2": 0.0068000000000000005
+      },
+      "cohen_d": -0.47856008400900807,
+      "cohen_d_ci95": [
+       -0.7104756506720615,
+       -0.2512659967934908
+      ],
+      "check1_flow_weighted_d": -0.3963779592687208,
+      "check1_flow_weighted_d_ci95": [
+       -0.6314495656178072,
+       -0.15899334556974865
+      ],
+      "check2_per_campaign_d": -0.41620213463451683,
+      "check2_per_campaign_d_flow_weighted": -0.34998555343112164,
+      "ncr_reduction_with": 0.9440622195632665,
+      "ncr_reduction_without": 0.9120879120879121
+     },
+     "alternative|100": {
+      "n": 100,
+      "ncr_with": 0.016450000000000003,
+      "ncr_without": 0.029000000000000005,
+      "ncr_with_flow_weighted": 0.01823448275862069,
+      "per_profile": {
+       "objective_exfiltration": 0.0212,
+       "objective_impact": 0.023,
+       "objective_exfiltration_impact": 0.0076,
+       "objective_none_c2": 0.014000000000000002
+      },
+      "cohen_d": -0.6542106071691469,
+      "cohen_d_ci95": [
+       -0.8953985772562195,
+       -0.44455770112550375
+      ],
+      "check1_flow_weighted_d": -0.5500535880599426,
+      "check1_flow_weighted_d_ci95": [
+       -0.8049273264891207,
+       -0.3305370203354458
+      ],
+      "check2_per_campaign_d": -0.5447160925013067,
+      "check2_per_campaign_d_flow_weighted": -0.46939326431759776,
+      "ncr_reduction_with": 0.9015854023332336,
+      "ncr_reduction_without": 0.8406593406593407
+     },
+     "alternative|200": {
+      "n": 100,
+      "ncr_with": 0.046150000000000004,
+      "ncr_without": 0.0634,
+      "ncr_with_flow_weighted": 0.04770344827586207,
+      "per_profile": {
+       "objective_exfiltration": 0.0486,
+       "objective_impact": 0.06559999999999999,
+       "objective_exfiltration_impact": 0.0278,
+       "objective_none_c2": 0.0426
+      },
+      "cohen_d": -0.5794280681138794,
+      "cohen_d_ci95": [
+       -0.8215965835515404,
+       -0.3591499197120609
+      ],
+      "check1_flow_weighted_d": -0.5099340784591807,
+      "check1_flow_weighted_d_ci95": [
+       -0.7684322578265507,
+       -0.26817378016092147
+      ],
+      "check2_per_campaign_d": -0.4587324636829714,
+      "check2_per_campaign_d_flow_weighted": -0.417262270207206,
+      "ncr_reduction_with": 0.723900688004786,
+      "ncr_reduction_without": 0.6516483516483518
+     },
+     "alternative|500": {
+      "n": 100,
+      "ncr_with": 0.09849999999999998,
+      "ncr_without": 0.10880000000000001,
+      "ncr_with_flow_weighted": 0.09424827586206896,
+      "per_profile": {
+       "objective_exfiltration": 0.0796,
+       "objective_impact": 0.13299999999999998,
+       "objective_exfiltration_impact": 0.09519999999999999,
+       "objective_none_c2": 0.0862
+      },
+      "cohen_d": -0.24134499216366212,
+      "cohen_d_ci95": [
+       -0.4651913433692975,
+       -0.006759240134877885
+      ],
+      "check1_flow_weighted_d": -0.3444904208448679,
+      "check1_flow_weighted_d_ci95": [
+       -0.5665529729821045,
+       -0.11360294620269819
+      ],
+      "check2_per_campaign_d": -0.1859649692403242,
+      "check2_per_campaign_d_flow_weighted": -0.2705682435217571,
+      "ncr_reduction_with": 0.4107089440622196,
+      "ncr_reduction_without": 0.4021978021978022
+     },
+     "alternative|1000": {
+      "n": 100,
+      "ncr_with": 0.1402,
+      "ncr_without": 0.1454,
+      "ncr_with_flow_weighted": 0.13346896551724138,
+      "per_profile": {
+       "objective_exfiltration": 0.11319999999999998,
+       "objective_impact": 0.1752,
+       "objective_exfiltration_impact": 0.145,
+       "objective_none_c2": 0.1274
+      },
+      "cohen_d": -0.09662217301890494,
+      "cohen_d_ci95": [
+       -0.3192249012841544,
+       0.13267862907691125
+      ],
+      "check1_flow_weighted_d": -0.22227578171172935,
+      "check1_flow_weighted_d_ci95": [
+       -0.4430286167507414,
+       -0.0008935439804242984
+      ],
+      "check2_per_campaign_d": -0.07800244736517986,
+      "check2_per_campaign_d_flow_weighted": -0.1823868969641825,
+      "ncr_reduction_with": 0.16123242596470222,
+      "ncr_reduction_without": 0.20109890109890116
+     },
+     "alternative|2000": {
+      "n": 100,
+      "ncr_with": 0.1635,
+      "ncr_without": 0.17360000000000003,
+      "ncr_with_flow_weighted": 0.15341379310344827,
+      "per_profile": {
+       "objective_exfiltration": 0.12419999999999998,
+       "objective_impact": 0.20620000000000002,
+       "objective_exfiltration_impact": 0.17860000000000004,
+       "objective_none_c2": 0.145
+      },
+      "cohen_d": -0.17574058489759314,
+      "cohen_d_ci95": [
+       -0.39732508346161816,
+       0.06808282177849112
+      ],
+      "check1_flow_weighted_d": -0.3531175533890174,
+      "check1_flow_weighted_d_ci95": [
+       -0.5882988872707533,
+       -0.11434690814473143
+      ],
+      "check2_per_campaign_d": -0.13807168269602235,
+      "check2_per_campaign_d_flow_weighted": -0.28183553988475196,
+      "ncr_reduction_with": 0.021836673646425164,
+      "ncr_reduction_without": 0.0461538461538461
+     },
+     "complete_topology|50": {
+      "n": 100,
+      "ncr_with": 0.00365,
+      "ncr_without": 0.004200000000000001,
+      "ncr_with_flow_weighted": 0.00469655172413793,
+      "per_profile": {
+       "objective_exfiltration": 0.0068000000000000005,
+       "objective_impact": 0.0038,
+       "objective_exfiltration_impact": 0.0022,
+       "objective_none_c2": 0.0018
+      },
+      "cohen_d": -0.07670930725137365,
+      "cohen_d_ci95": [
+       -0.32727880863974707,
+       0.22097647865661293
+      ],
+      "check1_flow_weighted_d": 0.06417926400481243,
+      "check1_flow_weighted_d_ci95": [
+       -0.19498976511624802,
+       0.373890582950899
+      ],
+      "check2_per_campaign_d": -0.06236437596302105,
+      "check2_per_campaign_d_flow_weighted": 0.05317256014503454,
+      "ncr_reduction_with": 0.9781633263535746,
+      "ncr_reduction_without": 0.9769230769230769
+     },
+     "complete_topology|100": {
+      "n": 100,
+      "ncr_with": 0.007200000000000001,
+      "ncr_without": 0.0114,
+      "ncr_with_flow_weighted": 0.008358620689655172,
+      "per_profile": {
+       "objective_exfiltration": 0.0104,
+       "objective_impact": 0.0098,
+       "objective_exfiltration_impact": 0.0036,
+       "objective_none_c2": 0.005
+      },
+      "cohen_d": -0.3344763660737234,
+      "cohen_d_ci95": [
+       -0.57800740550375,
+       -0.0859615930320687
+      ],
+      "check1_flow_weighted_d": -0.22956997845311342,
+      "check1_flow_weighted_d_ci95": [
+       -0.49415657314922595,
+       0.028181167468319758
+      ],
+      "check2_per_campaign_d": -0.27794469424404716,
+      "check2_per_campaign_d_flow_weighted": -0.19489740567242775,
+      "ncr_reduction_with": 0.9569249177385581,
+      "ncr_reduction_without": 0.9373626373626374
+     },
+     "complete_topology|200": {
+      "n": 100,
+      "ncr_with": 0.0074,
+      "ncr_without": 0.011000000000000001,
+      "ncr_with_flow_weighted": 0.00846896551724138,
+      "per_profile": {
+       "objective_exfiltration": 0.0104,
+       "objective_impact": 0.0096,
+       "objective_exfiltration_impact": 0.004,
+       "objective_none_c2": 0.005600000000000001
+      },
+      "cohen_d": -0.30786398288344646,
+      "cohen_d_ci95": [
+       -0.554241855680102,
+       -0.05019839071304356
+      ],
+      "check1_flow_weighted_d": -0.20327681442974962,
+      "check1_flow_weighted_d_ci95": [
+       -0.4656734438967396,
+       0.06766562585750951
+      ],
+      "check2_per_campaign_d": -0.251351817441454,
+      "check2_per_campaign_d_flow_weighted": -0.16948772336413423,
+      "ncr_reduction_with": 0.9557283876757403,
+      "ncr_reduction_without": 0.9395604395604396
+     },
+     "complete_topology|500": {
+      "n": 100,
+      "ncr_with": 0.03735,
+      "ncr_without": 0.04979999999999998,
+      "ncr_with_flow_weighted": 0.039496551724137935,
+      "per_profile": {
+       "objective_exfiltration": 0.0426,
+       "objective_impact": 0.0498,
+       "objective_exfiltration_impact": 0.0222,
+       "objective_none_c2": 0.034800000000000005
+      },
+      "cohen_d": -0.470279565665411,
+      "cohen_d_ci95": [
+       -0.6949420954125567,
+       -0.23430299389749942
+      ],
+      "check1_flow_weighted_d": -0.37911442325383227,
+      "check1_flow_weighted_d_ci95": [
+       -0.5994836275618328,
+       -0.15262150267970812
+      ],
+      "check2_per_campaign_d": -0.3930202454628761,
+      "check2_per_campaign_d_flow_weighted": -0.3241012300498566,
+      "ncr_reduction_with": 0.7765480107687706,
+      "ncr_reduction_without": 0.7263736263736265
+     },
+     "complete_topology|1000": {
+      "n": 100,
+      "ncr_with": 0.08800000000000001,
+      "ncr_without": 0.11800000000000001,
+      "ncr_with_flow_weighted": 0.08602068965517239,
+      "per_profile": {
+       "objective_exfiltration": 0.0774,
+       "objective_impact": 0.12260000000000001,
+       "objective_exfiltration_impact": 0.06739999999999999,
+       "objective_none_c2": 0.08459999999999997
+      },
+      "cohen_d": -0.6186201275706963,
+      "cohen_d_ci95": [
+       -0.8726190370326157,
+       -0.4036197339039579
+      ],
+      "check1_flow_weighted_d": -0.6569508466659408,
+      "check1_flow_weighted_d_ci95": [
+       -0.9126488640327917,
+       -0.4442637169464438
+      ],
+      "check2_per_campaign_d": -0.5210526301355888,
+      "check2_per_campaign_d_flow_weighted": -0.5646920350035398,
+      "ncr_reduction_with": 0.4735267723601554,
+      "ncr_reduction_without": 0.35164835164835173
+     },
+     "complete_topology|2000": {
+      "n": 100,
+      "ncr_with": 0.13659999999999997,
+      "ncr_without": 0.1464,
+      "ncr_with_flow_weighted": 0.1282689655172414,
+      "per_profile": {
+       "objective_exfiltration": 0.1054,
+       "objective_impact": 0.17359999999999995,
+       "objective_exfiltration_impact": 0.13299999999999998,
+       "objective_none_c2": 0.13440000000000002
+      },
+      "cohen_d": -0.17486346937665642,
+      "cohen_d_ci95": [
+       -0.40188307149985614,
+       0.058560960182957984
+      ],
+      "check1_flow_weighted_d": -0.3242748371677896,
+      "check1_flow_weighted_d_ci95": [
+       -0.5579532264425516,
+       -0.09371381172377886
+      ],
+      "check2_per_campaign_d": -0.1410833008699444,
+      "check2_per_campaign_d_flow_weighted": -0.2675757644515164,
+      "ncr_reduction_with": 0.18276996709542326,
+      "ncr_reduction_without": 0.1956043956043957
+     },
+     "host_topology|50": {
+      "n": 100,
+      "ncr_with": 0.0021000000000000003,
+      "ncr_without": 0.0034,
+      "ncr_with_flow_weighted": 0.002593103448275862,
+      "per_profile": {
+       "objective_exfiltration": 0.0036,
+       "objective_impact": 0.0022,
+       "objective_exfiltration_impact": 0.0012000000000000001,
+       "objective_none_c2": 0.0013999999999999998
+      },
+      "cohen_d": -0.1828987818731354,
+      "cohen_d_ci95": [
+       -0.3732686807442786,
+       0.06942340675010723
+      ],
+      "check1_flow_weighted_d": -0.10846484521091594,
+      "check1_flow_weighted_d_ci95": [
+       -0.31315870276421964,
+       0.13964949235921187
+      ],
+      "check2_per_campaign_d": -0.16042388499839738,
+      "check2_per_campaign_d_flow_weighted": -0.09627442419980381,
+      "ncr_reduction_with": 0.9874364343404128,
+      "ncr_reduction_without": 0.9813186813186813
+     },
+     "host_topology|100": {
+      "n": 100,
+      "ncr_with": 0.00485,
+      "ncr_without": 0.009000000000000001,
+      "ncr_with_flow_weighted": 0.005772413793103449,
+      "per_profile": {
+       "objective_exfiltration": 0.0078000000000000005,
+       "objective_impact": 0.004600000000000001,
+       "objective_exfiltration_impact": 0.0026,
+       "objective_none_c2": 0.0044
+      },
+      "cohen_d": -0.3454654906481373,
+      "cohen_d_ci95": [
+       -0.553712350297177,
+       -0.12753435586096368
+      ],
+      "check1_flow_weighted_d": -0.25895649979787283,
+      "check1_flow_weighted_d_ci95": [
+       -0.47757629621320086,
+       -0.016154342431676256
+      ],
+      "check2_per_campaign_d": -0.3067334773378162,
+      "check2_per_campaign_d_flow_weighted": -0.23273239410709576,
+      "ncr_reduction_with": 0.9709841459766677,
+      "ncr_reduction_without": 0.9505494505494505
+     },
+     "host_topology|200": {
+      "n": 100,
+      "ncr_with": 0.00705,
+      "ncr_without": 0.0108,
+      "ncr_with_flow_weighted": 0.008413793103448275,
+      "per_profile": {
+       "objective_exfiltration": 0.011000000000000001,
+       "objective_impact": 0.008600000000000002,
+       "objective_exfiltration_impact": 0.004,
+       "objective_none_c2": 0.0046
+      },
+      "cohen_d": -0.3123425647766518,
+      "cohen_d_ci95": [
+       -0.5477716072853868,
+       -0.05803893628706618
+      ],
+      "check1_flow_weighted_d": -0.18618416802282728,
+      "check1_flow_weighted_d_ci95": [
+       -0.4429372343049544,
+       0.09219023697599632
+      ],
+      "check2_per_campaign_d": -0.2656436915112893,
+      "check2_per_campaign_d_flow_weighted": -0.1605126332322005,
+      "ncr_reduction_with": 0.9578223152856715,
+      "ncr_reduction_without": 0.9406593406593406
+     },
+     "host_topology|500": {
+      "n": 100,
+      "ncr_with": 0.03735,
+      "ncr_without": 0.05199999999999999,
+      "ncr_with_flow_weighted": 0.03900689655172414,
+      "per_profile": {
+       "objective_exfiltration": 0.04179999999999999,
+       "objective_impact": 0.0478,
+       "objective_exfiltration_impact": 0.02,
+       "objective_none_c2": 0.03980000000000001
+      },
+      "cohen_d": -0.5579145735134181,
+      "cohen_d_ci95": [
+       -0.8152334220066357,
+       -0.3065716497936282
+      ],
+      "check1_flow_weighted_d": -0.4856439824699001,
+      "check1_flow_weighted_d_ci95": [
+       -0.7445654381209879,
+       -0.22895760361909392
+      ],
+      "check2_per_campaign_d": -0.4514700186669107,
+      "check2_per_campaign_d_flow_weighted": -0.40540925237491127,
+      "ncr_reduction_with": 0.7765480107687706,
+      "ncr_reduction_without": 0.7142857142857144
+     },
+     "host_topology|1000": {
+      "n": 100,
+      "ncr_with": 0.08835000000000001,
+      "ncr_without": 0.10700000000000001,
+      "ncr_with_flow_weighted": 0.08673793103448275,
+      "per_profile": {
+       "objective_exfiltration": 0.0794,
+       "objective_impact": 0.1208,
+       "objective_exfiltration_impact": 0.0662,
+       "objective_none_c2": 0.08700000000000001
+      },
+      "cohen_d": -0.41540246674343756,
+      "cohen_d_ci95": [
+       -0.6664676259752885,
+       -0.18777844299313667
+      ],
+      "check1_flow_weighted_d": -0.4551341193096669,
+      "check1_flow_weighted_d_ci95": [
+       -0.700191605430317,
+       -0.22705834820767523
+      ],
+      "check2_per_campaign_d": -0.3334943387693372,
+      "check2_per_campaign_d_flow_weighted": -0.3728006360824256,
+      "ncr_reduction_with": 0.4714328447502242,
+      "ncr_reduction_without": 0.41208791208791207
+     },
+     "host_topology|2000": {
+      "n": 100,
+      "ncr_with": 0.1334,
+      "ncr_without": 0.144,
+      "ncr_with_flow_weighted": 0.12786206896551724,
+      "per_profile": {
+       "objective_exfiltration": 0.11160000000000002,
+       "objective_impact": 0.1618,
+       "objective_exfiltration_impact": 0.134,
+       "objective_none_c2": 0.12619999999999998
+      },
+      "cohen_d": -0.2166695370288153,
+      "cohen_d_ci95": [
+       -0.44287513345825913,
+       0.01426079353914038
+      ],
+      "check1_flow_weighted_d": -0.3273645079108588,
+      "check1_flow_weighted_d_ci95": [
+       -0.5618152915892257,
+       -0.09824486530314216
+      ],
+      "check2_per_campaign_d": -0.1715095847644599,
+      "check2_per_campaign_d_flow_weighted": -0.2647102265892884,
+      "ncr_reduction_with": 0.2019144481005084,
+      "ncr_reduction_without": 0.20879120879120894
+     },
+     "ip_shuffle|50": {
+      "n": 100,
+      "ncr_with": 0.0022,
+      "ncr_without": 0.0024,
+      "ncr_with_flow_weighted": 0.0028620689655172414,
+      "per_profile": {
+       "objective_exfiltration": 0.004200000000000001,
+       "objective_impact": 0.0024,
+       "objective_exfiltration_impact": 0.001,
+       "objective_none_c2": 0.0012000000000000001
+      },
+      "cohen_d": -0.03493335058437486,
+      "cohen_d_ci95": [
+       -0.24584485349598117,
+       0.252867737894022
+      ],
+      "check1_flow_weighted_d": 0.07295901142345496,
+      "check1_flow_weighted_d_ci95": [
+       -0.14007461433130772,
+       0.34616185704981706
+      ],
+      "check2_per_campaign_d": -0.02822960437003176,
+      "check2_per_campaign_d_flow_weighted": 0.06027128486095445,
+      "ncr_reduction_with": 0.9868381693090039,
+      "ncr_reduction_without": 0.9868131868131869
+     },
+     "ip_shuffle|100": {
+      "n": 100,
+      "ncr_with": 0.004350000000000001,
+      "ncr_without": 0.0072,
+      "ncr_with_flow_weighted": 0.005406896551724138,
+      "per_profile": {
+       "objective_exfiltration": 0.0076,
+       "objective_impact": 0.004200000000000001,
+       "objective_exfiltration_impact": 0.0028000000000000004,
+       "objective_none_c2": 0.0028000000000000004
+      },
+      "cohen_d": -0.2890521400792512,
+      "cohen_d_ci95": [
+       -0.5049769154988082,
+       -0.023947374062110224
+      ],
+      "check1_flow_weighted_d": -0.1732165730032831,
+      "check1_flow_weighted_d_ci95": [
+       -0.4091477639460818,
+       0.1065750701270058
+      ],
+      "check2_per_campaign_d": -0.2486134513796206,
+      "check2_per_campaign_d_flow_weighted": -0.1507902286555806,
+      "ncr_reduction_with": 0.9739754711337122,
+      "ncr_reduction_without": 0.9604395604395605
+     },
+     "ip_shuffle|200": {
+      "n": 100,
+      "ncr_with": 0.0063,
+      "ncr_without": 0.0096,
+      "ncr_with_flow_weighted": 0.007862068965517242,
+      "per_profile": {
+       "objective_exfiltration": 0.0108,
+       "objective_impact": 0.0076,
+       "objective_exfiltration_impact": 0.004,
+       "objective_none_c2": 0.0028000000000000004
+      },
+      "cohen_d": -0.2965723006495099,
+      "cohen_d_ci95": [
+       -0.5521823723378289,
+       -0.054193489630041815
+      ],
+      "check1_flow_weighted_d": -0.14330467843548292,
+      "check1_flow_weighted_d_ci95": [
+       -0.4066796701190061,
+       0.11980676459859205
+      ],
+      "check2_per_campaign_d": -0.24818794756451157,
+      "check2_per_campaign_d_flow_weighted": -0.12196019684205821,
+      "ncr_reduction_with": 0.9623093030212384,
+      "ncr_reduction_without": 0.9472527472527472
+     },
+     "ip_shuffle|500": {
+      "n": 100,
+      "ncr_with": 0.03065,
+      "ncr_without": 0.046999999999999986,
+      "ncr_with_flow_weighted": 0.034579310344827585,
+      "per_profile": {
+       "objective_exfiltration": 0.0418,
+       "objective_impact": 0.04,
+       "objective_exfiltration_impact": 0.0144,
+       "objective_none_c2": 0.0264
+      },
+      "cohen_d": -0.6489519096745103,
+      "cohen_d_ci95": [
+       -0.9128551897796447,
+       -0.40228602617055487
+      ],
+      "check1_flow_weighted_d": -0.48494355380326376,
+      "check1_flow_weighted_d_ci95": [
+       -0.7436853502904426,
+       -0.2440291541806034
+      ],
+      "check2_per_campaign_d": -0.522154751862916,
+      "check2_per_campaign_d_flow_weighted": -0.3986562879094429,
+      "ncr_reduction_with": 0.8166317678731678,
+      "ncr_reduction_without": 0.7417582417582418
+     },
+     "ip_shuffle|1000": {
+      "n": 100,
+      "ncr_with": 0.07075000000000001,
+      "ncr_without": 0.1012,
+      "ncr_with_flow_weighted": 0.07546896551724137,
+      "per_profile": {
+       "objective_exfiltration": 0.08199999999999999,
+       "objective_impact": 0.0996,
+       "objective_exfiltration_impact": 0.0374,
+       "objective_none_c2": 0.064
+      },
+      "cohen_d": -0.682890564193364,
+      "cohen_d_ci95": [
+       -0.9203502854350768,
+       -0.4434151946351074
+      ],
+      "check1_flow_weighted_d": -0.5768195370332567,
+      "check1_flow_weighted_d_ci95": [
+       -0.8130925864085438,
+       -0.3384498976345487
+      ],
+      "check2_per_campaign_d": -0.5421186709688657,
+      "check2_per_campaign_d_flow_weighted": -0.4716419617852886,
+      "ncr_reduction_with": 0.5767274902781931,
+      "ncr_reduction_without": 0.44395604395604404
+     },
+     "ip_shuffle|2000": {
+      "n": 100,
+      "ncr_with": 0.11010000000000002,
+      "ncr_without": 0.1368,
+      "ncr_with_flow_weighted": 0.11277931034482759,
+      "per_profile": {
+       "objective_exfiltration": 0.11320000000000001,
+       "objective_impact": 0.1488,
+       "objective_exfiltration_impact": 0.0794,
+       "objective_none_c2": 0.09899999999999999
+      },
+      "cohen_d": -0.5117757357221817,
+      "cohen_d_ci95": [
+       -0.7550817958071994,
+       -0.295414439253177
+      ],
+      "check1_flow_weighted_d": -0.4669879316866525,
+      "check1_flow_weighted_d_ci95": [
+       -0.6993913624946059,
+       -0.25165382342936643
+      ],
+      "check2_per_campaign_d": -0.4030426664508193,
+      "check2_per_campaign_d_flow_weighted": -0.3770930825213279,
+      "ncr_reduction_with": 0.34131020041878524,
+      "ncr_reduction_without": 0.24835164835164847
+     },
+     "mtdshield|50": {
+      "n": 100,
+      "ncr_with": 0.09634999999999999,
+      "ncr_without": 0.10480000000000002,
+      "ncr_with_flow_weighted": 0.09244137931034482,
+      "per_profile": {
+       "objective_exfiltration": 0.08039999999999999,
+       "objective_impact": 0.1162,
+       "objective_exfiltration_impact": 0.10280000000000002,
+       "objective_none_c2": 0.086
+      },
+      "cohen_d": -0.19829714067498572,
+      "cohen_d_ci95": [
+       -0.3933719579690655,
+       -0.004873935119136863
+      ],
+      "check1_flow_weighted_d": -0.305583339899644,
+      "check1_flow_weighted_d_ci95": [
+       -0.5069916233139626,
+       -0.10185263260722721
+      ],
+      "check2_per_campaign_d": -0.16028894526085607,
+      "check2_per_campaign_d_flow_weighted": -0.24536064971705498,
+      "ncr_reduction_with": 0.4235716422375112,
+      "ncr_reduction_without": 0.4241758241758241
+     },
+     "mtdshield|100": {
+      "n": 100,
+      "ncr_with": 0.10015,
+      "ncr_without": 0.10880000000000001,
+      "ncr_with_flow_weighted": 0.09685517241379311,
+      "per_profile": {
+       "objective_exfiltration": 0.086,
+       "objective_impact": 0.12020000000000002,
+       "objective_exfiltration_impact": 0.10599999999999998,
+       "objective_none_c2": 0.08839999999999998
+      },
+      "cohen_d": -0.19582592567988333,
+      "cohen_d_ci95": [
+       -0.4023304488041538,
+       0.027488472614326378
+      ],
+      "check1_flow_weighted_d": -0.27761084521243035,
+      "check1_flow_weighted_d_ci95": [
+       -0.48797655060570766,
+       -0.04887297496699746
+      ],
+      "check2_per_campaign_d": -0.1549350848460065,
+      "check2_per_campaign_d_flow_weighted": -0.22240019712667627,
+      "ncr_reduction_with": 0.40083757104397233,
+      "ncr_reduction_without": 0.4021978021978022
+     },
+     "mtdshield|200": {
+      "n": 100,
+      "ncr_with": 0.11975000000000001,
+      "ncr_without": 0.1264,
+      "ncr_with_flow_weighted": 0.1154,
+      "per_profile": {
+       "objective_exfiltration": 0.10159999999999998,
+       "objective_impact": 0.14539999999999997,
+       "objective_exfiltration_impact": 0.1238,
+       "objective_none_c2": 0.1082
+      },
+      "cohen_d": -0.12329186507171973,
+      "cohen_d_ci95": [
+       -0.33199533537841613,
+       0.10014645650953753
+      ],
+      "check1_flow_weighted_d": -0.21056792341078762,
+      "check1_flow_weighted_d_ci95": [
+       -0.4383094221404588,
+       0.022173483493630082
+      ],
+      "check2_per_campaign_d": -0.1018121321556779,
+      "check2_per_campaign_d_flow_weighted": -0.17428827305270625,
+      "ncr_reduction_with": 0.2835776248878251,
+      "ncr_reduction_without": 0.3054945054945055
+     },
+     "mtdshield|500": {
+      "n": 100,
+      "ncr_with": 0.14345,
+      "ncr_without": 0.14119999999999996,
+      "ncr_with_flow_weighted": 0.13719310344827587,
+      "per_profile": {
+       "objective_exfiltration": 0.11699999999999999,
+       "objective_impact": 0.1776,
+       "objective_exfiltration_impact": 0.1582,
+       "objective_none_c2": 0.121
+      },
+      "cohen_d": 0.03832644586870471,
+      "cohen_d_ci95": [
+       -0.18554207613639817,
+       0.2635453801920977
+      ],
+      "check1_flow_weighted_d": -0.07069417476144173,
+      "check1_flow_weighted_d_ci95": [
+       -0.30177491999143463,
+       0.14769084701670754
+      ],
+      "check2_per_campaign_d": 0.030772714267687733,
+      "check2_per_campaign_d_flow_weighted": -0.057048256985736005,
+      "ncr_reduction_with": 0.1417888124439125,
+      "ncr_reduction_without": 0.2241758241758245
+     },
+     "mtdshield|1000": {
+      "n": 100,
+      "ncr_with": 0.15175,
+      "ncr_without": 0.1558,
+      "ncr_with_flow_weighted": 0.14748965517241377,
+      "per_profile": {
+       "objective_exfiltration": 0.13179999999999997,
+       "objective_impact": 0.18299999999999997,
+       "objective_exfiltration_impact": 0.16519999999999999,
+       "objective_none_c2": 0.127
+      },
+      "cohen_d": -0.07366990371562483,
+      "cohen_d_ci95": [
+       -0.2731973740508347,
+       0.1297378444604092
+      ],
+      "check1_flow_weighted_d": -0.15486843101479736,
+      "check1_flow_weighted_d_ci95": [
+       -0.35548355232556617,
+       0.04118326629977502
+      ],
+      "check2_per_campaign_d": -0.05800717552496643,
+      "check2_per_campaign_d_flow_weighted": -0.12418040653180203,
+      "ncr_reduction_with": 0.09213281483697267,
+      "ncr_reduction_without": 0.1439560439560441
+     },
+     "mtdshield|2000": {
+      "n": 100,
+      "ncr_with": 0.15510000000000002,
+      "ncr_without": 0.1656,
+      "ncr_with_flow_weighted": 0.15262068965517242,
+      "per_profile": {
+       "objective_exfiltration": 0.1406,
+       "objective_impact": 0.18899999999999997,
+       "objective_exfiltration_impact": 0.16040000000000001,
+       "objective_none_c2": 0.1304
+      },
+      "cohen_d": -0.18209129579102745,
+      "cohen_d_ci95": [
+       -0.4009951864787486,
+       0.033222414166526736
+      ],
+      "check1_flow_weighted_d": -0.2317676790177935,
+      "check1_flow_weighted_d_ci95": [
+       -0.4611982683483726,
+       -0.017031568762021086
+      ],
+      "check2_per_campaign_d": -0.145301223516059,
+      "check2_per_campaign_d_flow_weighted": -0.1873140531676559,
+      "ncr_reduction_with": 0.07209093628477392,
+      "ncr_reduction_without": 0.09010989010989023
+     },
+     "none|0": {
+      "n": 100,
+      "ncr_with": 0.16714999999999997,
+      "ncr_without": 0.18200000000000002,
+      "ncr_with_flow_weighted": 0.16370344827586208,
+      "per_profile": {
+       "objective_exfiltration": 0.1498,
+       "objective_impact": 0.20579999999999998,
+       "objective_exfiltration_impact": 0.16340000000000005,
+       "objective_none_c2": 0.14959999999999998
+      },
+      "cohen_d": -0.2300185849635896,
+      "cohen_d_ci95": [
+       -0.4156763586896523,
+       -0.030777137166757368
+      ],
+      "check1_flow_weighted_d": -0.29458476565672936,
+      "check1_flow_weighted_d_ci95": [
+       -0.4854883740586531,
+       -0.09713475858329579
+      ],
+      "check2_per_campaign_d": -0.18779691847979157,
+      "check2_per_campaign_d_flow_weighted": -0.24278369505622951
+     },
+     "os_diversity|50": {
+      "n": 100,
+      "ncr_with": 0.13604999999999998,
+      "ncr_without": 0.142,
+      "ncr_with_flow_weighted": 0.1339103448275862,
+      "per_profile": {
+       "objective_exfiltration": 0.12279999999999999,
+       "objective_impact": 0.1634,
+       "objective_exfiltration_impact": 0.1518,
+       "objective_none_c2": 0.10620000000000002
+      },
+      "cohen_d": -0.11130934271757637,
+      "cohen_d_ci95": [
+       -0.3186432198692965,
+       0.09799528817493128
+      ],
+      "check1_flow_weighted_d": -0.1565198434635281,
+      "check1_flow_weighted_d_ci95": [
+       -0.3690390828049251,
+       0.05807529824939187
+      ],
+      "check2_per_campaign_d": -0.0878910009254229,
+      "check2_per_campaign_d_flow_weighted": -0.12550751117567385,
+      "ncr_reduction_with": 0.1860604247681723,
+      "ncr_reduction_without": 0.21978021978022
+     },
+     "os_diversity|100": {
+      "n": 100,
+      "ncr_with": 0.13565,
+      "ncr_without": 0.1402,
+      "ncr_with_flow_weighted": 0.13475172413793104,
+      "per_profile": {
+       "objective_exfiltration": 0.1262,
+       "objective_impact": 0.16380000000000003,
+       "objective_exfiltration_impact": 0.1478,
+       "objective_none_c2": 0.1048
+      },
+      "cohen_d": -0.08017889126852745,
+      "cohen_d_ci95": [
+       -0.2851745892928137,
+       0.11884856843355093
+      ],
+      "check1_flow_weighted_d": -0.1013582952317903,
+      "check1_flow_weighted_d_ci95": [
+       -0.3128803298910547,
+       0.10488694411114617
+      ],
+      "check2_per_campaign_d": -0.06525919450607462,
+      "check2_per_campaign_d_flow_weighted": -0.0823553901884075,
+      "ncr_reduction_with": 0.18845348489380787,
+      "ncr_reduction_without": 0.22967032967032985
+     },
+     "os_diversity|200": {
+      "n": 100,
+      "ncr_with": 0.15580000000000002,
+      "ncr_without": 0.16740000000000002,
+      "ncr_with_flow_weighted": 0.15322068965517244,
+      "per_profile": {
+       "objective_exfiltration": 0.14119999999999996,
+       "objective_impact": 0.18760000000000002,
+       "objective_exfiltration_impact": 0.16339999999999996,
+       "objective_none_c2": 0.131
+      },
+      "cohen_d": -0.18126095187096872,
+      "cohen_d_ci95": [
+       -0.3878803675094809,
+       0.021474553473761097
+      ],
+      "check1_flow_weighted_d": -0.22776493116780652,
+      "check1_flow_weighted_d_ci95": [
+       -0.4348973959916821,
+       -0.017381672823355617
+      ],
+      "check2_per_campaign_d": -0.14912369017042887,
+      "check2_per_campaign_d_flow_weighted": -0.1885701435575497,
+      "ncr_reduction_with": 0.06790308106491139,
+      "ncr_reduction_without": 0.08021978021978027
+     },
+     "os_diversity|500": {
+      "n": 100,
+      "ncr_with": 0.16895,
+      "ncr_without": 0.1796,
+      "ncr_with_flow_weighted": 0.1647241379310345,
+      "per_profile": {
+       "objective_exfiltration": 0.1486,
+       "objective_impact": 0.2064,
+       "objective_exfiltration_impact": 0.175,
+       "objective_none_c2": 0.1458
+      },
+      "cohen_d": -0.16801528928942625,
+      "cohen_d_ci95": [
+       -0.35702581151536544,
+       0.017810627077808196
+      ],
+      "check1_flow_weighted_d": -0.24426433551344032,
+      "check1_flow_weighted_d_ci95": [
+       -0.4475692485003871,
+       -0.055951312836733026
+      ],
+      "check2_per_campaign_d": -0.13381974393994658,
+      "check2_per_campaign_d_flow_weighted": -0.19609542939720884,
+      "ncr_reduction_with": -0.01076877056536052,
+      "ncr_reduction_without": 0.013186813186813251
+     },
+     "os_diversity|1000": {
+      "n": 100,
+      "ncr_with": 0.16919999999999993,
+      "ncr_without": 0.17679999999999996,
+      "ncr_with_flow_weighted": 0.16709655172413793,
+      "per_profile": {
+       "objective_exfiltration": 0.15659999999999996,
+       "objective_impact": 0.20120000000000002,
+       "objective_exfiltration_impact": 0.17019999999999996,
+       "objective_none_c2": 0.1488
+      },
+      "cohen_d": -0.12712566848553344,
+      "cohen_d_ci95": [
+       -0.3379402405258865,
+       0.0766635783836303
+      ],
+      "check1_flow_weighted_d": -0.17044732716379565,
+      "check1_flow_weighted_d_ci95": [
+       -0.38217529638928277,
+       0.03448467318908395
+      ],
+      "check2_per_campaign_d": -0.10307106078162492,
+      "check2_per_campaign_d_flow_weighted": -0.13884454239101443,
+      "ncr_reduction_with": -0.012264433143882592,
+      "ncr_reduction_without": 0.028571428571428914
+     },
+     "os_diversity|2000": {
+      "n": 100,
+      "ncr_with": 0.16690000000000005,
+      "ncr_without": 0.1748,
+      "ncr_with_flow_weighted": 0.16318620689655172,
+      "per_profile": {
+       "objective_exfiltration": 0.14899999999999997,
+       "objective_impact": 0.2002,
+       "objective_exfiltration_impact": 0.1716,
+       "objective_none_c2": 0.14679999999999999
+      },
+      "cohen_d": -0.1348359947951475,
+      "cohen_d_ci95": [
+       -0.32393079800011904,
+       0.05456949417913735
+      ],
+      "check1_flow_weighted_d": -0.20760751715144107,
+      "check1_flow_weighted_d_ci95": [
+       -0.4025610450075549,
+       -0.01965510382752392
+      ],
+      "check2_per_campaign_d": -0.10757225176273376,
+      "check2_per_campaign_d_flow_weighted": -0.16517131466817075,
+      "ncr_reduction_with": 0.0014956625785217392,
+      "ncr_reduction_without": 0.03956043956043964
+     },
+     "port_shuffle|50": {
+      "n": 100,
+      "ncr_with": 0.10525000000000001,
+      "ncr_without": 0.11079999999999998,
+      "ncr_with_flow_weighted": 0.10297931034482756,
+      "per_profile": {
+       "objective_exfiltration": 0.09459999999999999,
+       "objective_impact": 0.1222,
+       "objective_exfiltration_impact": 0.11199999999999999,
+       "objective_none_c2": 0.09219999999999999
+      },
+      "cohen_d": -0.12691234642906987,
+      "cohen_d_ci95": [
+       -0.3337486803783083,
+       0.07919931035955718
+      ],
+      "check1_flow_weighted_d": -0.18574486719048752,
+      "check1_flow_weighted_d_ci95": [
+       -0.3851318127700841,
+       0.014896778646666418
+      ],
+      "check2_per_campaign_d": -0.10447834680473504,
+      "check2_per_campaign_d_flow_weighted": -0.15337463995168235,
+      "ncr_reduction_with": 0.37032605444211764,
+      "ncr_reduction_without": 0.3912087912087914
+     },
+     "port_shuffle|100": {
+      "n": 100,
+      "ncr_with": 0.10434999999999998,
+      "ncr_without": 0.1084,
+      "ncr_with_flow_weighted": 0.10175172413793103,
+      "per_profile": {
+       "objective_exfiltration": 0.0924,
+       "objective_impact": 0.12440000000000001,
+       "objective_exfiltration_impact": 0.10839999999999998,
+       "objective_none_c2": 0.09219999999999999
+      },
+      "cohen_d": -0.09732369739996578,
+      "cohen_d_ci95": [
+       -0.3068961371292712,
+       0.0981889291834402
+      ],
+      "check1_flow_weighted_d": -0.16849775281137933,
+      "check1_flow_weighted_d_ci95": [
+       -0.38142254930288155,
+       0.03665207056099573
+      ],
+      "check2_per_campaign_d": -0.07766857917455841,
+      "check2_per_campaign_d_flow_weighted": -0.13386663975454846,
+      "ncr_reduction_with": 0.375710439724798,
+      "ncr_reduction_without": 0.4043956043956045
+     },
+     "port_shuffle|200": {
+      "n": 100,
+      "ncr_with": 0.13085,
+      "ncr_without": 0.1378,
+      "ncr_with_flow_weighted": 0.12846896551724138,
+      "per_profile": {
+       "objective_exfiltration": 0.1182,
+       "objective_impact": 0.15839999999999999,
+       "objective_exfiltration_impact": 0.13319999999999999,
+       "objective_none_c2": 0.1136
+      },
+      "cohen_d": -0.1282766446986298,
+      "cohen_d_ci95": [
+       -0.3341464523371091,
+       0.07019867390983194
+      ],
+      "check1_flow_weighted_d": -0.17897582426385897,
+      "check1_flow_weighted_d_ci95": [
+       -0.38451926316349105,
+       0.027400431748479687
+      ],
+      "check2_per_campaign_d": -0.10447950011886598,
+      "check2_per_campaign_d_flow_weighted": -0.14700722032571215,
+      "ncr_reduction_with": 0.2171702064014357,
+      "ncr_reduction_without": 0.24285714285714288
+     },
+     "port_shuffle|500": {
+      "n": 100,
+      "ncr_with": 0.1534,
+      "ncr_without": 0.1638,
+      "ncr_with_flow_weighted": 0.15083448275862069,
+      "per_profile": {
+       "objective_exfiltration": 0.1404,
+       "objective_impact": 0.1816,
+       "objective_exfiltration_impact": 0.15259999999999999,
+       "objective_none_c2": 0.139
+      },
+      "cohen_d": -0.16870467251779797,
+      "cohen_d_ci95": [
+       -0.3669664392462789,
+       0.01163789104135762
+      ],
+      "check1_flow_weighted_d": -0.2197118773080426,
+      "check1_flow_weighted_d_ci95": [
+       -0.41695424264457964,
+       -0.03526185983459463
+      ],
+      "check2_per_campaign_d": -0.13727134482039363,
+      "check2_per_campaign_d_flow_weighted": -0.1797743126750298,
+      "ncr_reduction_with": 0.08226144181872541,
+      "ncr_reduction_without": 0.10000000000000009
+     },
+     "port_shuffle|1000": {
+      "n": 100,
+      "ncr_with": 0.16090000000000004,
+      "ncr_without": 0.17600000000000002,
+      "ncr_with_flow_weighted": 0.16108275862068966,
+      "per_profile": {
+       "objective_exfiltration": 0.1566,
+       "objective_impact": 0.1894,
+       "objective_exfiltration_impact": 0.1522,
+       "objective_none_c2": 0.1454
+      },
+      "cohen_d": -0.24560496401930387,
+      "cohen_d_ci95": [
+       -0.45210745091505483,
+       -0.06323151223767468
+      ],
+      "check1_flow_weighted_d": -0.24995532660328876,
+      "check1_flow_weighted_d_ci95": [
+       -0.46376811065434126,
+       -0.05536294773752207
+      ],
+      "check2_per_campaign_d": -0.19945443267442636,
+      "check2_per_campaign_d_flow_weighted": -0.2062300108416142,
+      "ncr_reduction_with": 0.03739156446305669,
+      "ncr_reduction_without": 0.03296703296703296
+     },
+     "port_shuffle|2000": {
+      "n": 100,
+      "ncr_with": 0.16335,
+      "ncr_without": 0.17980000000000002,
+      "ncr_with_flow_weighted": 0.16207586206896554,
+      "per_profile": {
+       "objective_exfiltration": 0.1536,
+       "objective_impact": 0.19440000000000002,
+       "objective_exfiltration_impact": 0.1618,
+       "objective_none_c2": 0.14359999999999998
+      },
+      "cohen_d": -0.2645008021724389,
+      "cohen_d_ci95": [
+       -0.46884678565713156,
+       -0.06085382858719735
+      ],
+      "check1_flow_weighted_d": -0.29430291427833466,
+      "check1_flow_weighted_d_ci95": [
+       -0.5080645863151991,
+       -0.08616809778980562
+      ],
+      "check2_per_campaign_d": -0.21467492160919469,
+      "check2_per_campaign_d_flow_weighted": -0.24178227675596503,
+      "ncr_reduction_with": 0.02273407119353854,
+      "ncr_reduction_without": 0.012087912087912156
+     },
+     "random|50": {
+      "n": 100,
+      "ncr_with": 0.007150000000000001,
+      "ncr_without": 0.0148,
+      "ncr_with_flow_weighted": 0.008213793103448276,
+      "per_profile": {
+       "objective_exfiltration": 0.01,
+       "objective_impact": 0.0096,
+       "objective_exfiltration_impact": 0.0046,
+       "objective_none_c2": 0.0044
+      },
+      "cohen_d": -0.5040457363286833,
+      "cohen_d_ci95": [
+       -0.724655160822985,
+       -0.27432321557688083
+      ],
+      "check1_flow_weighted_d": -0.42182342647494003,
+      "check1_flow_weighted_d_ci95": [
+       -0.6415505674215853,
+       -0.17835970564282844
+      ],
+      "check2_per_campaign_d": -0.4521595864362914,
+      "check2_per_campaign_d_flow_weighted": -0.3816362641164547,
+      "ncr_reduction_with": 0.9572240502542626,
+      "ncr_reduction_without": 0.9186813186813187
+     },
+     "random|100": {
+      "n": 100,
+      "ncr_with": 0.015599999999999998,
+      "ncr_without": 0.019000000000000003,
+      "ncr_with_flow_weighted": 0.01697931034482759,
+      "per_profile": {
+       "objective_exfiltration": 0.0192,
+       "objective_impact": 0.022399999999999996,
+       "objective_exfiltration_impact": 0.006000000000000001,
+       "objective_none_c2": 0.0148
+      },
+      "cohen_d": -0.21665157514288735,
+      "cohen_d_ci95": [
+       -0.4360506337257094,
+       0.0119915544713407
+      ],
+      "check1_flow_weighted_d": -0.1253760094127714,
+      "check1_flow_weighted_d_ci95": [
+       -0.3548133169206266,
+       0.10670965524696313
+      ],
+      "check2_per_campaign_d": -0.1720476478790946,
+      "check2_per_campaign_d_flow_weighted": -0.1027355134357819,
+      "ncr_reduction_with": 0.9066706551002094,
+      "ncr_reduction_without": 0.8956043956043956
+     },
+     "random|200": {
+      "n": 100,
+      "ncr_with": 0.0414,
+      "ncr_without": 0.054799999999999995,
+      "ncr_with_flow_weighted": 0.04304137931034483,
+      "per_profile": {
+       "objective_exfiltration": 0.045,
+       "objective_impact": 0.0536,
+       "objective_exfiltration_impact": 0.0286,
+       "objective_none_c2": 0.038400000000000004
+      },
+      "cohen_d": -0.46631406513148344,
+      "cohen_d_ci95": [
+       -0.7179626663737074,
+       -0.21674070480277277
+      ],
+      "check1_flow_weighted_d": -0.4033149231612028,
+      "check1_flow_weighted_d_ci95": [
+       -0.6646925589172438,
+       -0.15237306222073763
+      ],
+      "check2_per_campaign_d": -0.3616592799416358,
+      "check2_per_campaign_d_flow_weighted": -0.32403321183418204,
+      "ncr_reduction_with": 0.7523182769967095,
+      "ncr_reduction_without": 0.698901098901099
+     },
+     "random|500": {
+      "n": 100,
+      "ncr_with": 0.09385,
+      "ncr_without": 0.11020000000000002,
+      "ncr_with_flow_weighted": 0.09040000000000002,
+      "per_profile": {
+       "objective_exfiltration": 0.07859999999999999,
+       "objective_impact": 0.1288,
+       "objective_exfiltration_impact": 0.0764,
+       "objective_none_c2": 0.0916
+      },
+      "cohen_d": -0.310915892804603,
+      "cohen_d_ci95": [
+       -0.5441227792551744,
+       -0.06643684510687707
+      ],
+      "check1_flow_weighted_d": -0.37866051398808415,
+      "check1_flow_weighted_d_ci95": [
+       -0.6104022665156226,
+       -0.1355764688782152
+      ],
+      "check2_per_campaign_d": -0.2601517486959845,
+      "check2_per_campaign_d_flow_weighted": -0.3236579516542998,
+      "ncr_reduction_with": 0.4385282680227339,
+      "ncr_reduction_without": 0.39450549450549444
+     },
+     "random|1000": {
+      "n": 100,
+      "ncr_with": 0.13165000000000002,
+      "ncr_without": 0.14659999999999998,
+      "ncr_with_flow_weighted": 0.12696551724137933,
+      "per_profile": {
+       "objective_exfiltration": 0.1108,
+       "objective_impact": 0.17139999999999997,
+       "objective_exfiltration_impact": 0.12480000000000001,
+       "objective_none_c2": 0.11959999999999998
+      },
+      "cohen_d": -0.2671431608192046,
+      "cohen_d_ci95": [
+       -0.5022734655771827,
+       -0.034016241959925926
+      ],
+      "check1_flow_weighted_d": -0.3568031987578458,
+      "check1_flow_weighted_d_ci95": [
+       -0.599005939365232,
+       -0.12261998938135239
+      ],
+      "check2_per_campaign_d": -0.2129555314884562,
+      "check2_per_campaign_d_flow_weighted": -0.2896151441679873,
+      "ncr_reduction_with": 0.21238408615016424,
+      "ncr_reduction_without": 0.1945054945054947
+     },
+     "random|2000": {
+      "n": 100,
+      "ncr_with": 0.1516,
+      "ncr_without": 0.16720000000000002,
+      "ncr_with_flow_weighted": 0.1459448275862069,
+      "per_profile": {
+       "objective_exfiltration": 0.12720000000000004,
+       "objective_impact": 0.19060000000000002,
+       "objective_exfiltration_impact": 0.15360000000000001,
+       "objective_none_c2": 0.135
+      },
+      "cohen_d": -0.2704233223615871,
+      "cohen_d_ci95": [
+       -0.4973488709591883,
+       -0.040999899961797814
+      ],
+      "check1_flow_weighted_d": -0.3756688538055876,
+      "check1_flow_weighted_d_ci95": [
+       -0.5984482617646212,
+       -0.15585157237170388
+      ],
+      "check2_per_campaign_d": -0.20892014758205668,
+      "check2_per_campaign_d_flow_weighted": -0.2978857531463302,
+      "ncr_reduction_with": 0.09303021238408593,
+      "ncr_reduction_without": 0.08131868131868136
+     },
+     "random_four|50": {
+      "n": 100,
+      "ncr_with": 0.00885,
+      "ncr_without": 0.0116,
+      "ncr_with_flow_weighted": 0.01013103448275862,
+      "per_profile": {
+       "objective_exfiltration": 0.012199999999999999,
+       "objective_impact": 0.013199999999999998,
+       "objective_exfiltration_impact": 0.0038,
+       "objective_none_c2": 0.006200000000000001
+      },
+      "cohen_d": -0.23068976310111403,
+      "cohen_d_ci95": [
+       -0.46820206288496297,
+       0.02811777233562164
+      ],
+      "check1_flow_weighted_d": -0.11782371358949194,
+      "check1_flow_weighted_d_ci95": [
+       -0.3585956080505788,
+       0.1434964344070493
+      ],
+      "check2_per_campaign_d": -0.18406592648489825,
+      "check2_per_campaign_d_flow_weighted": -0.09652917550413054,
+      "ncr_reduction_with": 0.9470535447203111,
+      "ncr_reduction_without": 0.9362637362637363
+     },
+     "random_four|100": {
+      "n": 100,
+      "ncr_with": 0.012350000000000002,
+      "ncr_without": 0.023200000000000002,
+      "ncr_with_flow_weighted": 0.013634482758620694,
+      "per_profile": {
+       "objective_exfiltration": 0.0158,
+       "objective_impact": 0.0166,
+       "objective_exfiltration_impact": 0.006600000000000002,
+       "objective_none_c2": 0.0104
+      },
+      "cohen_d": -0.6539869204933887,
+      "cohen_d_ci95": [
+       -0.9115902478946956,
+       -0.4098432315833816
+      ],
+      "check1_flow_weighted_d": -0.562557104277143,
+      "check1_flow_weighted_d_ci95": [
+       -0.8443867924450471,
+       -0.31565354409255414
+      ],
+      "check2_per_campaign_d": -0.5494572079797447,
+      "check2_per_campaign_d_flow_weighted": -0.48121927203056625,
+      "ncr_reduction_with": 0.9261142686209991,
+      "ncr_reduction_without": 0.8725274725274725
+     },
+     "random_four|200": {
+      "n": 100,
+      "ncr_with": 0.032799999999999996,
+      "ncr_without": 0.05140000000000001,
+      "ncr_with_flow_weighted": 0.033731034482758625,
+      "per_profile": {
+       "objective_exfiltration": 0.0352,
+       "objective_impact": 0.04020000000000001,
+       "objective_exfiltration_impact": 0.021,
+       "objective_none_c2": 0.0348
+      },
+      "cohen_d": -0.6380316048264025,
+      "cohen_d_ci95": [
+       -0.8783551728586909,
+       -0.4107755534317157
+      ],
+      "check1_flow_weighted_d": -0.6045760456931103,
+      "check1_flow_weighted_d_ci95": [
+       -0.8464318686790621,
+       -0.3723888303513049
+      ],
+      "check2_per_campaign_d": -0.5484009198994347,
+      "check2_per_campaign_d_flow_weighted": -0.527035676471273,
+      "ncr_reduction_with": 0.8037690696978761,
+      "ncr_reduction_without": 0.7175824175824176
+     },
+     "random_four|500": {
+      "n": 100,
+      "ncr_with": 0.08405000000000003,
+      "ncr_without": 0.0972,
+      "ncr_with_flow_weighted": 0.08053103448275863,
+      "per_profile": {
+       "objective_exfiltration": 0.07,
+       "objective_impact": 0.11060000000000002,
+       "objective_exfiltration_impact": 0.06939999999999999,
+       "objective_none_c2": 0.08620000000000001
+      },
+      "cohen_d": -0.31400513608479946,
+      "cohen_d_ci95": [
+       -0.5516626171162077,
+       -0.05719473204302595
+      ],
+      "check1_flow_weighted_d": -0.4007080019090158,
+      "check1_flow_weighted_d_ci95": [
+       -0.6380963073982691,
+       -0.1509784666014127
+      ],
+      "check2_per_campaign_d": -0.2534049920760871,
+      "check2_per_campaign_d_flow_weighted": -0.3301869420234843,
+      "ncr_reduction_with": 0.4971582411008074,
+      "ncr_reduction_without": 0.46593406593406606
+     },
+     "random_four|1000": {
+      "n": 100,
+      "ncr_with": 0.1235,
+      "ncr_without": 0.132,
+      "ncr_with_flow_weighted": 0.11962068965517242,
+      "per_profile": {
+       "objective_exfiltration": 0.10560000000000003,
+       "objective_impact": 0.16060000000000002,
+       "objective_exfiltration_impact": 0.11580000000000001,
+       "objective_none_c2": 0.11200000000000002
+      },
+      "cohen_d": -0.16494186680953798,
+      "cohen_d_ci95": [
+       -0.41131195090996026,
+       0.07878287679862361
+      ],
+      "check1_flow_weighted_d": -0.24730321125817475,
+      "check1_flow_weighted_d_ci95": [
+       -0.48984495221578983,
+       -0.008728284438343876
+      ],
+      "check2_per_campaign_d": -0.13141862751660582,
+      "check2_per_campaign_d_flow_weighted": -0.1994450294865422,
+      "ncr_reduction_with": 0.2611426862099909,
+      "ncr_reduction_without": 0.27472527472527475
+     },
+     "random_four|2000": {
+      "n": 100,
+      "ncr_with": 0.14385,
+      "ncr_without": 0.15899999999999997,
+      "ncr_with_flow_weighted": 0.14031724137931037,
+      "per_profile": {
+       "objective_exfiltration": 0.12660000000000002,
+       "objective_impact": 0.1826,
+       "objective_exfiltration_impact": 0.1364,
+       "objective_none_c2": 0.1298
+      },
+      "cohen_d": -0.278412010220168,
+      "cohen_d_ci95": [
+       -0.511181598618346,
+       -0.053845236805895064
+      ],
+      "check1_flow_weighted_d": -0.35001075421967015,
+      "check1_flow_weighted_d_ci95": [
+       -0.5958426725394886,
+       -0.11729729515275691
+      ],
+      "check2_per_campaign_d": -0.21490505554285705,
+      "check2_per_campaign_d_flow_weighted": -0.27616298713583165,
+      "ncr_reduction_with": 0.13939575231827683,
+      "ncr_reduction_without": 0.1263736263736266
+     },
+     "service_diversity|50": {
+      "n": 100,
+      "ncr_with": 0.08134999999999999,
+      "ncr_without": 0.08779999999999998,
+      "ncr_with_flow_weighted": 0.07918620689655173,
+      "per_profile": {
+       "objective_exfiltration": 0.072,
+       "objective_impact": 0.09480000000000001,
+       "objective_exfiltration_impact": 0.08519999999999998,
+       "objective_none_c2": 0.07339999999999999
+      },
+      "cohen_d": -0.18759871925226831,
+      "cohen_d_ci95": [
+       -0.39859424653315517,
+       0.03455037362147672
+      ],
+      "check1_flow_weighted_d": -0.26146998870077437,
+      "check1_flow_weighted_d_ci95": [
+       -0.482306495059661,
+       -0.03587373804709573
+      ],
+      "check2_per_campaign_d": -0.14986800583278395,
+      "check2_per_campaign_d_flow_weighted": -0.20774640156513569,
+      "ncr_reduction_with": 0.5133113969488483,
+      "ncr_reduction_without": 0.5175824175824177
+     },
+     "service_diversity|100": {
+      "n": 100,
+      "ncr_with": 0.08000000000000002,
+      "ncr_without": 0.08780000000000002,
+      "ncr_with_flow_weighted": 0.07791034482758621,
+      "per_profile": {
+       "objective_exfiltration": 0.0702,
+       "objective_impact": 0.09759999999999999,
+       "objective_exfiltration_impact": 0.0822,
+       "objective_none_c2": 0.07
+      },
+      "cohen_d": -0.22637699424620533,
+      "cohen_d_ci95": [
+       -0.44241653899935457,
+       -0.011660154043528125
+      ],
+      "check1_flow_weighted_d": -0.3017047528020426,
+      "check1_flow_weighted_d_ci95": [
+       -0.5277552224852136,
+       -0.08415821663426168
+      ],
+      "check2_per_campaign_d": -0.18187130341104263,
+      "check2_per_campaign_d_flow_weighted": -0.23992328316525982,
+      "ncr_reduction_with": 0.5213879748728685,
+      "ncr_reduction_without": 0.5175824175824175
+     },
+     "service_diversity|200": {
+      "n": 100,
+      "ncr_with": 0.10614999999999998,
+      "ncr_without": 0.1076,
+      "ncr_with_flow_weighted": 0.10291724137931034,
+      "per_profile": {
+       "objective_exfiltration": 0.09279999999999998,
+       "objective_impact": 0.12380000000000001,
+       "objective_exfiltration_impact": 0.1106,
+       "objective_none_c2": 0.0974
+      },
+      "cohen_d": -0.033768709000478424,
+      "cohen_d_ci95": [
+       -0.23570419132169873,
+       0.18066196884381386
+      ],
+      "check1_flow_weighted_d": -0.11239357100031526,
+      "check1_flow_weighted_d_ci95": [
+       -0.3130175341411078,
+       0.10672858514728069
+      ],
+      "check2_per_campaign_d": -0.027511935133060966,
+      "check2_per_campaign_d_flow_weighted": -0.09235710936829038,
+      "ncr_reduction_with": 0.3649416691594376,
+      "ncr_reduction_without": 0.4087912087912089
+     },
+     "service_diversity|500": {
+      "n": 100,
+      "ncr_with": 0.1326,
+      "ncr_without": 0.13600000000000004,
+      "ncr_with_flow_weighted": 0.12639999999999996,
+      "per_profile": {
+       "objective_exfiltration": 0.10679999999999999,
+       "objective_impact": 0.1656,
+       "objective_exfiltration_impact": 0.14479999999999998,
+       "objective_none_c2": 0.11320000000000001
+      },
+      "cohen_d": -0.06327851589334176,
+      "cohen_d_ci95": [
+       -0.2559608251068293,
+       0.13962296248141068
+      ],
+      "check1_flow_weighted_d": -0.19017463251663053,
+      "check1_flow_weighted_d_ci95": [
+       -0.38273421570928945,
+       0.017956886869893208
+      ],
+      "check2_per_campaign_d": -0.05107684604197017,
+      "check2_per_campaign_d_flow_weighted": -0.15222929904798876,
+      "ncr_reduction_with": 0.20670056835177975,
+      "ncr_reduction_without": 0.2527472527472526
+     },
+     "service_diversity|1000": {
+      "n": 100,
+      "ncr_with": 0.14959999999999998,
+      "ncr_without": 0.1584,
+      "ncr_with_flow_weighted": 0.1434,
+      "per_profile": {
+       "objective_exfiltration": 0.1254,
+       "objective_impact": 0.17319999999999997,
+       "objective_exfiltration_impact": 0.16459999999999997,
+       "objective_none_c2": 0.1352
+      },
+      "cohen_d": -0.14437305339935544,
+      "cohen_d_ci95": [
+       -0.33407305863471776,
+       0.05857537828340474
+      ],
+      "check1_flow_weighted_d": -0.2527537329714967,
+      "check1_flow_weighted_d_ci95": [
+       -0.44544296447580556,
+       -0.05924079267281826
+      ],
+      "check2_per_campaign_d": -0.11815388385568804,
+      "check2_per_campaign_d_flow_weighted": -0.20884281471732744,
+      "ncr_reduction_with": 0.1049955130122644,
+      "ncr_reduction_without": 0.12967032967032965
+     },
+     "service_diversity|2000": {
+      "n": 100,
+      "ncr_with": 0.15765,
+      "ncr_without": 0.16379999999999995,
+      "ncr_with_flow_weighted": 0.15306206896551725,
+      "per_profile": {
+       "objective_exfiltration": 0.1362,
+       "objective_impact": 0.19220000000000004,
+       "objective_exfiltration_impact": 0.17,
+       "objective_none_c2": 0.13219999999999998
+      },
+      "cohen_d": -0.0981628710805523,
+      "cohen_d_ci95": [
+       -0.3002024869681402,
+       0.11709183365347003
+      ],
+      "check1_flow_weighted_d": -0.178640003589414,
+      "check1_flow_weighted_d_ci95": [
+       -0.38349945963068677,
+       0.036544756332271375
+      ],
+      "check2_per_campaign_d": -0.08050531797272721,
+      "check2_per_campaign_d_flow_weighted": -0.14734490927654184,
+      "ncr_reduction_with": 0.05683517798384663,
+      "ncr_reduction_without": 0.10000000000000042
+     },
+     "user_shuffle|50": {
+      "n": 100,
+      "ncr_with": 0.1866,
+      "ncr_without": 0.20240000000000002,
+      "ncr_with_flow_weighted": 0.18524137931034482,
+      "per_profile": {
+       "objective_exfiltration": 0.17540000000000003,
+       "objective_impact": 0.22640000000000002,
+       "objective_exfiltration_impact": 0.17959999999999998,
+       "objective_none_c2": 0.165
+      },
+      "cohen_d": -0.21424886446085367,
+      "cohen_d_ci95": [
+       -0.417782093373882,
+       -0.01957623779563872
+      ],
+      "check1_flow_weighted_d": -0.23540157322720334,
+      "check1_flow_weighted_d_ci95": [
+       -0.4389457338853802,
+       -0.04081018492414645
+      ],
+      "check2_per_campaign_d": -0.17217943485597514,
+      "check2_per_campaign_d_flow_weighted": -0.1944214109972913,
+      "ncr_reduction_with": -0.11636254860903406,
+      "ncr_reduction_without": -0.11208791208791213
+     },
+     "user_shuffle|100": {
+      "n": 100,
+      "ncr_with": 0.18239999999999998,
+      "ncr_without": 0.19360000000000002,
+      "ncr_with_flow_weighted": 0.17986206896551724,
+      "per_profile": {
+       "objective_exfiltration": 0.1654,
+       "objective_impact": 0.23199999999999998,
+       "objective_exfiltration_impact": 0.1796,
+       "objective_none_c2": 0.15259999999999999
+      },
+      "cohen_d": -0.16214263413040242,
+      "cohen_d_ci95": [
+       -0.3709323172490124,
+       0.04066726536827512
+      ],
+      "check1_flow_weighted_d": -0.20840396991947205,
+      "check1_flow_weighted_d_ci95": [
+       -0.4231790504221781,
+       -0.0009460183035543672
+      ],
+      "check2_per_campaign_d": -0.12847209638188498,
+      "check2_per_campaign_d_flow_weighted": -0.16604380471768806,
+      "ncr_reduction_with": -0.09123541728985951,
+      "ncr_reduction_without": -0.06373626373626373
+     },
+     "user_shuffle|200": {
+      "n": 100,
+      "ncr_with": 0.18559999999999996,
+      "ncr_without": 0.19519999999999998,
+      "ncr_with_flow_weighted": 0.18168965517241378,
+      "per_profile": {
+       "objective_exfiltration": 0.16579999999999998,
+       "objective_impact": 0.23440000000000003,
+       "objective_exfiltration_impact": 0.17259999999999998,
+       "objective_none_c2": 0.1696
+      },
+      "cohen_d": -0.13524230004902632,
+      "cohen_d_ci95": [
+       -0.3465423436974051,
+       0.07895217956630668
+      ],
+      "check1_flow_weighted_d": -0.1972182684854494,
+      "check1_flow_weighted_d_ci95": [
+       -0.41066629749770633,
+       0.010565868820291681
+      ],
+      "check2_per_campaign_d": -0.10642934721700435,
+      "check2_per_campaign_d_flow_weighted": -0.15749906501420746,
+      "ncr_reduction_with": -0.11037989829494466,
+      "ncr_reduction_without": -0.07252747252747227
+     },
+     "user_shuffle|500": {
+      "n": 100,
+      "ncr_with": 0.1772,
+      "ncr_without": 0.1942,
+      "ncr_with_flow_weighted": 0.17682758620689654,
+      "per_profile": {
+       "objective_exfiltration": 0.16879999999999995,
+       "objective_impact": 0.21559999999999999,
+       "objective_exfiltration_impact": 0.17359999999999995,
+       "objective_none_c2": 0.1508
+      },
+      "cohen_d": -0.23626423050137169,
+      "cohen_d_ci95": [
+       -0.43282816769203,
+       -0.029173050725162904
+      ],
+      "check1_flow_weighted_d": -0.24852855829586526,
+      "check1_flow_weighted_d_ci95": [
+       -0.4536278190785073,
+       -0.02616093269375581
+      ],
+      "check2_per_campaign_d": -0.19330943117451194,
+      "check2_per_campaign_d_flow_weighted": -0.20554443146924192,
+      "ncr_reduction_with": -0.06012563565659601,
+      "ncr_reduction_without": -0.06703296703296702
+     },
+     "user_shuffle|1000": {
+      "n": 100,
+      "ncr_with": 0.17600000000000002,
+      "ncr_without": 0.18779999999999997,
+      "ncr_with_flow_weighted": 0.17408965517241382,
+      "per_profile": {
+       "objective_exfiltration": 0.1634,
+       "objective_impact": 0.2156,
+       "objective_exfiltration_impact": 0.1674,
+       "objective_none_c2": 0.1576
+      },
+      "cohen_d": -0.1712382511318449,
+      "cohen_d_ci95": [
+       -0.3764815894880655,
+       0.03572956331512667
+      ],
+      "check1_flow_weighted_d": -0.20688332855639957,
+      "check1_flow_weighted_d_ci95": [
+       -0.4305812170323808,
+       0.009923189640761264
+      ],
+      "check2_per_campaign_d": -0.13862834673863705,
+      "check2_per_campaign_d_flow_weighted": -0.16919403353869522,
+      "ncr_reduction_with": -0.05294645527968922,
+      "ncr_reduction_without": -0.03186813186813153
+     },
+     "user_shuffle|2000": {
+      "n": 100,
+      "ncr_with": 0.17259999999999995,
+      "ncr_without": 0.19120000000000004,
+      "ncr_with_flow_weighted": 0.1692689655172414,
+      "per_profile": {
+       "objective_exfiltration": 0.15639999999999998,
+       "objective_impact": 0.20800000000000002,
+       "objective_exfiltration_impact": 0.16720000000000002,
+       "objective_none_c2": 0.1588
+      },
+      "cohen_d": -0.2669512021934889,
+      "cohen_d_ci95": [
+       -0.46359264924649457,
+       -0.07247321654722039
+      ],
+      "check1_flow_weighted_d": -0.32561615878468153,
+      "check1_flow_weighted_d_ci95": [
+       -0.5338082355463831,
+       -0.1362569942968219
+      ],
+      "check2_per_campaign_d": -0.21999570277618302,
+      "check2_per_campaign_d_flow_weighted": -0.27119863742194444,
+      "ncr_reduction_with": -0.032605444211785795,
+      "ncr_reduction_without": -0.05054945054945059
+     }
+    },
+    "shared": {
+     "none|0": {
+      "n": 100,
+      "ncr_with": 0.16714999999999997,
+      "ncr_without": 0.18200000000000002,
+      "ncr_with_flow_weighted": 0.16370344827586208,
+      "per_profile": {
+       "objective_exfiltration": 0.1498,
+       "objective_impact": 0.20579999999999998,
+       "objective_exfiltration_impact": 0.16340000000000005,
+       "objective_none_c2": 0.14959999999999998
+      },
+      "cohen_d": -0.2300185849635896,
+      "cohen_d_ci95": [
+       -0.4156763586896523,
+       -0.030777137166757368
+      ],
+      "check1_flow_weighted_d": -0.29458476565672936,
+      "check1_flow_weighted_d_ci95": [
+       -0.4854883740586531,
+       -0.09713475858329579
+      ],
+      "check2_per_campaign_d": -0.18779691847979157,
+      "check2_per_campaign_d_flow_weighted": -0.24278369505622951
+     },
+     "ip_shuffle|200": {
+      "n": 100,
+      "ncr_with": 0.0063,
+      "ncr_without": 0.0096,
+      "ncr_with_flow_weighted": 0.007862068965517242,
+      "per_profile": {
+       "objective_exfiltration": 0.0108,
+       "objective_impact": 0.0076,
+       "objective_exfiltration_impact": 0.004,
+       "objective_none_c2": 0.0028000000000000004
+      },
+      "cohen_d": -0.2965723006495099,
+      "cohen_d_ci95": [
+       -0.5521823723378289,
+       -0.054193489630041815
+      ],
+      "check1_flow_weighted_d": -0.14330467843548292,
+      "check1_flow_weighted_d_ci95": [
+       -0.4066796701190061,
+       0.11980676459859205
+      ],
+      "check2_per_campaign_d": -0.24818794756451157,
+      "check2_per_campaign_d_flow_weighted": -0.12196019684205821,
+      "ncr_reduction_with": 0.9623093030212384,
+      "ncr_reduction_without": 0.9472527472527472
+     },
+     "ip_shuffle|2000": {
+      "n": 100,
+      "ncr_with": 0.11010000000000002,
+      "ncr_without": 0.1368,
+      "ncr_with_flow_weighted": 0.11277931034482759,
+      "per_profile": {
+       "objective_exfiltration": 0.11320000000000001,
+       "objective_impact": 0.1488,
+       "objective_exfiltration_impact": 0.0794,
+       "objective_none_c2": 0.09899999999999999
+      },
+      "cohen_d": -0.5117757357221817,
+      "cohen_d_ci95": [
+       -0.7550817958071994,
+       -0.295414439253177
+      ],
+      "check1_flow_weighted_d": -0.4669879316866525,
+      "check1_flow_weighted_d_ci95": [
+       -0.6993913624946059,
+       -0.25165382342936643
+      ],
+      "check2_per_campaign_d": -0.4030426664508193,
+      "check2_per_campaign_d_flow_weighted": -0.3770930825213279,
+      "ncr_reduction_with": 0.34131020041878524,
+      "ncr_reduction_without": 0.24835164835164847
+     },
+     "os_diversity|200": {
+      "n": 100,
+      "ncr_with": 0.15580000000000002,
+      "ncr_without": 0.16740000000000002,
+      "ncr_with_flow_weighted": 0.15322068965517244,
+      "per_profile": {
+       "objective_exfiltration": 0.14119999999999996,
+       "objective_impact": 0.18760000000000002,
+       "objective_exfiltration_impact": 0.16339999999999996,
+       "objective_none_c2": 0.131
+      },
+      "cohen_d": -0.18126095187096872,
+      "cohen_d_ci95": [
+       -0.3878803675094809,
+       0.021474553473761097
+      ],
+      "check1_flow_weighted_d": -0.22776493116780652,
+      "check1_flow_weighted_d_ci95": [
+       -0.4348973959916821,
+       -0.017381672823355617
+      ],
+      "check2_per_campaign_d": -0.14912369017042887,
+      "check2_per_campaign_d_flow_weighted": -0.1885701435575497,
+      "ncr_reduction_with": 0.06790308106491139,
+      "ncr_reduction_without": 0.08021978021978027
+     },
+     "os_diversity|2000": {
+      "n": 100,
+      "ncr_with": 0.16690000000000005,
+      "ncr_without": 0.1748,
+      "ncr_with_flow_weighted": 0.16318620689655172,
+      "per_profile": {
+       "objective_exfiltration": 0.14899999999999997,
+       "objective_impact": 0.2002,
+       "objective_exfiltration_impact": 0.1716,
+       "objective_none_c2": 0.14679999999999999
+      },
+      "cohen_d": -0.1348359947951475,
+      "cohen_d_ci95": [
+       -0.32393079800011904,
+       0.05456949417913735
+      ],
+      "check1_flow_weighted_d": -0.20760751715144107,
+      "check1_flow_weighted_d_ci95": [
+       -0.4025610450075549,
+       -0.01965510382752392
+      ],
+      "check2_per_campaign_d": -0.10757225176273376,
+      "check2_per_campaign_d_flow_weighted": -0.16517131466817075,
+      "ncr_reduction_with": 0.0014956625785217392,
+      "ncr_reduction_without": 0.03956043956043964
+     }
+    },
+    "largest_abs_d": {
+     "cell": "ip_shuffle|1000",
+     "d": -0.682890564193364,
+     "ci95": [
+      -0.9203502854350768,
+      -0.4434151946351074
+     ]
+    },
+    "cells_d_at_least_0_2": [
+     "alternative|100",
+     "alternative|200",
+     "alternative|50",
+     "alternative|500",
+     "complete_topology|100",
+     "complete_topology|1000",
+     "complete_topology|200",
+     "complete_topology|500",
+     "host_topology|100",
+     "host_topology|1000",
+     "host_topology|200",
+     "host_topology|2000",
+     "host_topology|500",
+     "ip_shuffle|100",
+     "ip_shuffle|1000",
+     "ip_shuffle|200",
+     "ip_shuffle|2000",
+     "ip_shuffle|500",
+     "none|0",
+     "port_shuffle|1000",
+     "port_shuffle|2000",
+     "random|100",
+     "random|1000",
+     "random|200",
+     "random|2000",
+     "random|50",
+     "random|500",
+     "service_diversity|100",
+     "user_shuffle|2000",
+     "user_shuffle|50",
+     "user_shuffle|500"
+    ],
+    "cells_interval_past_0_2": [
+     "alternative|100",
+     "alternative|1000",
+     "alternative|200",
+     "alternative|2000",
+     "alternative|50",
+     "alternative|500",
+     "complete_topology|100",
+     "complete_topology|1000",
+     "complete_topology|200",
+     "complete_topology|2000",
+     "complete_topology|50",
+     "complete_topology|500",
+     "host_topology|100",
+     "host_topology|1000",
+     "host_topology|200",
+     "host_topology|2000",
+     "host_topology|50",
+     "host_topology|500",
+     "ip_shuffle|100",
+     "ip_shuffle|1000",
+     "ip_shuffle|200",
+     "ip_shuffle|2000",
+     "ip_shuffle|50",
+     "ip_shuffle|500",
+     "mtdshield|100",
+     "mtdshield|1000",
+     "mtdshield|200",
+     "mtdshield|2000",
+     "mtdshield|50",
+     "mtdshield|500",
+     "none|0",
+     "os_diversity|100",
+     "os_diversity|1000",
+     "os_diversity|200",
+     "os_diversity|2000",
+     "os_diversity|50",
+     "os_diversity|500",
+     "port_shuffle|100",
+     "port_shuffle|1000",
+     "port_shuffle|200",
+     "port_shuffle|2000",
+     "port_shuffle|50",
+     "port_shuffle|500",
+     "random|100",
+     "random|1000",
+     "random|200",
+     "random|2000",
+     "random|50",
+     "random|500",
+     "service_diversity|100",
+     "service_diversity|1000",
+     "service_diversity|200",
+     "service_diversity|2000",
+     "service_diversity|50",
+     "service_diversity|500",
+     "user_shuffle|100",
+     "user_shuffle|1000",
+     "user_shuffle|200",
+     "user_shuffle|2000",
+     "user_shuffle|50",
+     "user_shuffle|500"
+    ],
+    "n_cells_read": 61
+   },
+   "behaviour": {
+    "n": 100,
+    "distinct_attack_paths": {
+     "with_one_profile_per_seed": {
+      "1": 1,
+      "2": 4,
+      "3": 15,
+      "4": 40,
+      "5": 57,
+      "6": 73,
+      "7": 79,
+      "8": 83
+     },
+     "without": {
+      "1": 1,
+      "2": 3,
+      "3": 25,
+      "4": 64,
+      "5": 85,
+      "6": 92,
+      "7": 97,
+      "8": 97
+     }
+    },
+    "relative_tactic_occurrence": {
+     "with_pooled": {
+      "collection": 3.96899209217915,
+      "command-and-control": 15.62460724824927,
+      "credential-access": 6.569574244534152,
+      "defense-impairment": 1.7650577879215954,
+      "discovery": 11.372079812182971,
+      "execution": 12.02360783643429,
+      "exfiltration": 2.4668580362663826,
+      "impact": 4.792451122830125,
+      "initial-access": 2.6181774307877155,
+      "lateral-movement": 9.291312456954408,
+      "persistence": 8.338653810383224,
+      "privilege-escalation": 4.118803319977679,
+      "reconnaissance": 2.200917970811947,
+      "resource-development": 1.1909489887742124,
+      "stealth": 13.657957841712875
+     },
+     "without": {
+      "collection": 5.0205189979378915,
+      "command-and-control": 13.789583290798097,
+      "credential-access": 7.178586741256457,
+      "defense-impairment": 1.5108515894567058,
+      "discovery": 10.05532983523551,
+      "execution": 11.002674615651605,
+      "exfiltration": 4.007840094734478,
+      "impact": 4.263051511872435,
+      "initial-access": 3.1972886339043263,
+      "lateral-movement": 9.373404928642888,
+      "persistence": 8.803773045590967,
+      "privilege-escalation": 3.858796627125911,
+      "reconnaissance": 3.562751383245881,
+      "resource-development": 0.2572531084750607,
+      "stealth": 14.118295596071786
+     }
+    },
+    "tactics_entered": {
+     "with_pooled": 15,
+     "without": 15,
+     "objective_exfiltration": 14,
+     "objective_impact": 12,
+     "objective_exfiltration_impact": 14,
+     "objective_none_c2": 13
+    }
+   }
+  },
+  "1000": {
+   "outcome": {
+    "cells": {
+     "alternative|50": {
+      "n": 1000,
+      "ncr_with": 0.010985000000000002,
+      "ncr_without": 0.019080000000000003,
+      "ncr_with_flow_weighted": 0.011951034482758622,
+      "per_profile": {
+       "objective_exfiltration": 0.013519999999999999,
+       "objective_impact": 0.0146,
+       "objective_exfiltration_impact": 0.00642,
+       "objective_none_c2": 0.0094
+      },
+      "cohen_d": -0.5107175038314399,
+      "cohen_d_ci95": [
+       -0.5831705786496307,
+       -0.43927252284696455
+      ],
+      "check1_flow_weighted_d": -0.4355114706524334,
+      "check1_flow_weighted_d_ci95": [
+       -0.5103231809872599,
+       -0.362175176439486
+      ],
+      "check2_per_campaign_d": -0.4377093200168845,
+      "check2_per_campaign_d_flow_weighted": -0.3802322614233703,
+      "ncr_reduction_with": 0.9357358060081318,
+      "ncr_reduction_without": 0.8990689801100296
+     },
+     "alternative|100": {
+      "n": 1000,
+      "ncr_with": 0.018845000000000004,
+      "ncr_without": 0.0305,
+      "ncr_with_flow_weighted": 0.020024827586206898,
+      "per_profile": {
+       "objective_exfiltration": 0.02184,
+       "objective_impact": 0.02532,
+       "objective_exfiltration_impact": 0.01016,
+       "objective_none_c2": 0.018060000000000003
+      },
+      "cohen_d": -0.5732907753164525,
+      "cohen_d_ci95": [
+       -0.641932733287057,
+       -0.5028900867259245
+      ],
+      "check1_flow_weighted_d": -0.5011754962671956,
+      "check1_flow_weighted_d_ci95": [
+       -0.5711505196052108,
+       -0.42722341506100675
+      ],
+      "check2_per_campaign_d": -0.48460782720312945,
+      "check2_per_campaign_d_flow_weighted": -0.4329728144853433,
+      "ncr_reduction_with": 0.889753415040805,
+      "ncr_reduction_without": 0.8386584849767245
+     },
+     "alternative|200": {
+      "n": 1000,
+      "ncr_with": 0.04869500000000001,
+      "ncr_without": 0.06428000000000002,
+      "ncr_with_flow_weighted": 0.049488965517241384,
+      "per_profile": {
+       "objective_exfiltration": 0.04906,
+       "objective_impact": 0.0665,
+       "objective_exfiltration_impact": 0.03246,
+       "objective_none_c2": 0.04676
+      },
+      "cohen_d": -0.47217708126971636,
+      "cohen_d_ci95": [
+       -0.5429275736429605,
+       -0.39858488535594494
+      ],
+      "check1_flow_weighted_d": -0.439952516904143,
+      "check1_flow_weighted_d_ci95": [
+       -0.5106264511444383,
+       -0.36529804261127813
+      ],
+      "check2_per_campaign_d": -0.3891364238120561,
+      "check2_per_campaign_d_flow_weighted": -0.37165604365557764,
+      "ncr_reduction_with": 0.7151256325503845,
+      "ncr_reduction_without": 0.6599661447312737
+     },
+     "alternative|500": {
+      "n": 1000,
+      "ncr_with": 0.09986500000000001,
+      "ncr_without": 0.11516000000000003,
+      "ncr_with_flow_weighted": 0.09601241379310345,
+      "per_profile": {
+       "objective_exfiltration": 0.08328,
+       "objective_impact": 0.13062,
+       "objective_exfiltration_impact": 0.09248000000000002,
+       "objective_none_c2": 0.09308000000000001
+      },
+      "cohen_d": -0.3303402292616884,
+      "cohen_d_ci95": [
+       -0.40475572311271113,
+       -0.2536523134935492
+      ],
+      "check1_flow_weighted_d": -0.4120179547880417,
+      "check1_flow_weighted_d_ci95": [
+       -0.4846831626821755,
+       -0.33766782608987744
+      ],
+      "check2_per_campaign_d": -0.26617254523379846,
+      "check2_per_campaign_d_flow_weighted": -0.3399557955444999,
+      "ncr_reduction_with": 0.41577207710533237,
+      "ncr_reduction_without": 0.3908167583580193
+     },
+     "alternative|1000": {
+      "n": 1000,
+      "ncr_with": 0.13863500000000004,
+      "ncr_without": 0.1516,
+      "ncr_with_flow_weighted": 0.13128827586206898,
+      "per_profile": {
+       "objective_exfiltration": 0.10936000000000001,
+       "objective_impact": 0.17584000000000002,
+       "objective_exfiltration_impact": 0.14392000000000002,
+       "objective_none_c2": 0.12542
+      },
+      "cohen_d": -0.2514332810659463,
+      "cohen_d_ci95": [
+       -0.3257442310413898,
+       -0.17784742958517663
+      ],
+      "check1_flow_weighted_d": -0.3967807798841384,
+      "check1_flow_weighted_d_ci95": [
+       -0.4713649246159413,
+       -0.32510034814887806
+      ],
+      "check2_per_campaign_d": -0.19566555147854392,
+      "check2_per_campaign_d_flow_weighted": -0.31436056583534894,
+      "ncr_reduction_with": 0.18896071606166065,
+      "ncr_reduction_without": 0.19805332204824377
+     },
+     "alternative|2000": {
+      "n": 1000,
+      "ncr_with": 0.158505,
+      "ncr_without": 0.1683,
+      "ncr_with_flow_weighted": 0.14987999999999999,
+      "per_profile": {
+       "objective_exfiltration": 0.12448000000000002,
+       "objective_impact": 0.19626000000000002,
+       "objective_exfiltration_impact": 0.17312,
+       "objective_none_c2": 0.14016000000000003
+      },
+      "cohen_d": -0.1783330233315446,
+      "cohen_d_ci95": [
+       -0.2504738793437259,
+       -0.10598119566729054
+      ],
+      "check1_flow_weighted_d": -0.3383749135264878,
+      "check1_flow_weighted_d_ci95": [
+       -0.4115688967767304,
+       -0.2651078711449726
+      ],
+      "check2_per_campaign_d": -0.13885906028140865,
+      "check2_per_campaign_d_flow_weighted": -0.26800426456065424,
+      "ncr_reduction_with": 0.0727176997104162,
+      "ncr_reduction_without": 0.10971223021582732
+     },
+     "complete_topology|50": {
+      "n": 1000,
+      "ncr_with": 0.00439,
+      "ncr_without": 0.008039999999999999,
+      "ncr_with_flow_weighted": 0.005195862068965518,
+      "per_profile": {
+       "objective_exfiltration": 0.0067599999999999995,
+       "objective_impact": 0.004900000000000001,
+       "objective_exfiltration_impact": 0.00304,
+       "objective_none_c2": 0.0028599999999999997
+      },
+      "cohen_d": -0.35261125317830494,
+      "cohen_d_ci95": [
+       -0.42479508223994544,
+       -0.2867476307914756
+      ],
+      "check1_flow_weighted_d": -0.2631589582100459,
+      "check1_flow_weighted_d_ci95": [
+       -0.3387874818879884,
+       -0.18707346696224342
+      ],
+      "check2_per_campaign_d": -0.30653477076154284,
+      "check2_per_campaign_d_flow_weighted": -0.23140559828471866,
+      "ncr_reduction_with": 0.9743177231111241,
+      "ncr_reduction_without": 0.9574693186627169
+     },
+     "complete_topology|100": {
+      "n": 1000,
+      "ncr_with": 0.007825,
+      "ncr_without": 0.01382,
+      "ncr_with_flow_weighted": 0.009044827586206897,
+      "per_profile": {
+       "objective_exfiltration": 0.011359999999999999,
+       "objective_impact": 0.009460000000000001,
+       "objective_exfiltration_impact": 0.00458,
+       "objective_none_c2": 0.0059
+      },
+      "cohen_d": -0.4558586915561657,
+      "cohen_d_ci95": [
+       -0.5279561454826329,
+       -0.38137585321651474
+      ],
+      "check1_flow_weighted_d": -0.3480296012294449,
+      "check1_flow_weighted_d_ci95": [
+       -0.4214077879685398,
+       -0.27289291730061366
+      ],
+      "check2_per_campaign_d": -0.3894402799340351,
+      "check2_per_campaign_d_flow_weighted": -0.301585587545502,
+      "ncr_reduction_with": 0.9542223652265481,
+      "ncr_reduction_without": 0.9268937790943715
+     },
+     "complete_topology|200": {
+      "n": 1000,
+      "ncr_with": 0.007875,
+      "ncr_without": 0.013619999999999998,
+      "ncr_with_flow_weighted": 0.009049655172413794,
+      "per_profile": {
+       "objective_exfiltration": 0.011359999999999999,
+       "objective_impact": 0.00918,
+       "objective_exfiltration_impact": 0.0044800000000000005,
+       "objective_none_c2": 0.0064800000000000005
+      },
+      "cohen_d": -0.4385955459016133,
+      "cohen_d_ci95": [
+       -0.5074630408539362,
+       -0.37053818549690154
+      ],
+      "check1_flow_weighted_d": -0.3356170381536902,
+      "check1_flow_weighted_d_ci95": [
+       -0.40649470020992146,
+       -0.26316034438277325
+      ],
+      "check2_per_campaign_d": -0.3731592758412669,
+      "check2_per_campaign_d_flow_weighted": -0.2897662479728538,
+      "ncr_reduction_with": 0.9539298563781554,
+      "ncr_reduction_without": 0.9279517562420652
+     },
+     "complete_topology|500": {
+      "n": 1000,
+      "ncr_with": 0.03872,
+      "ncr_without": 0.055580000000000004,
+      "ncr_with_flow_weighted": 0.039282068965517246,
+      "per_profile": {
+       "objective_exfiltration": 0.039700000000000006,
+       "objective_impact": 0.05136,
+       "objective_exfiltration_impact": 0.019940000000000003,
+       "objective_none_c2": 0.04388
+      },
+      "cohen_d": -0.5763662023797933,
+      "cohen_d_ci95": [
+       -0.6502751884618005,
+       -0.5038544039055532
+      ],
+      "check1_flow_weighted_d": -0.5481094253668976,
+      "check1_flow_weighted_d_ci95": [
+       -0.6244356519919341,
+       -0.47566173849860005
+      ],
+      "check2_per_campaign_d": -0.48056310347148085,
+      "check2_per_campaign_d_flow_weighted": -0.46901902577501475,
+      "ncr_reduction_with": 0.7734811478047211,
+      "ncr_reduction_without": 0.7059881506559458
+     },
+     "complete_topology|1000": {
+      "n": 1000,
+      "ncr_with": 0.08821999999999999,
+      "ncr_without": 0.11176,
+      "ncr_with_flow_weighted": 0.08558827586206896,
+      "per_profile": {
+       "objective_exfiltration": 0.07674,
+       "objective_impact": 0.12016000000000003,
+       "objective_exfiltration_impact": 0.06282,
+       "objective_none_c2": 0.09316
+      },
+      "cohen_d": -0.5419442433916687,
+      "cohen_d_ci95": [
+       -0.6133681797489016,
+       -0.4661197308847785
+      ],
+      "check1_flow_weighted_d": -0.5972412704640786,
+      "check1_flow_weighted_d_ci95": [
+       -0.6694000068968048,
+       -0.5204374277177157
+      ],
+      "check2_per_campaign_d": -0.4373201381281017,
+      "check2_per_campaign_d_flow_weighted": -0.49648372513066413,
+      "ncr_reduction_with": 0.4838973878959839,
+      "ncr_reduction_without": 0.4088023698688109
+     },
+     "complete_topology|2000": {
+      "n": 1000,
+      "ncr_with": 0.13802,
+      "ncr_without": 0.15148000000000003,
+      "ncr_with_flow_weighted": 0.13089586206896553,
+      "per_profile": {
+       "objective_exfiltration": 0.10972000000000001,
+       "objective_impact": 0.17812000000000003,
+       "objective_exfiltration_impact": 0.13422000000000003,
+       "objective_none_c2": 0.13002000000000005
+      },
+      "cohen_d": -0.25292434700247945,
+      "cohen_d_ci95": [
+       -0.32115251047714133,
+       -0.18310186160615088
+      ],
+      "check1_flow_weighted_d": -0.38930559145981725,
+      "check1_flow_weighted_d_ci95": [
+       -0.45884805739397305,
+       -0.3207597541578541
+      ],
+      "check2_per_campaign_d": -0.2016903853910744,
+      "check2_per_campaign_d_flow_weighted": -0.3159423734209679,
+      "ncr_reduction_with": 0.19255857489689066,
+      "ncr_reduction_without": 0.1986881083368598
+     },
+     "host_topology|50": {
+      "n": 1000,
+      "ncr_with": 0.00255,
+      "ncr_without": 0.00484,
+      "ncr_with_flow_weighted": 0.0031082758620689654,
+      "per_profile": {
+       "objective_exfiltration": 0.00424,
+       "objective_impact": 0.0024799999999999996,
+       "objective_exfiltration_impact": 0.00198,
+       "objective_none_c2": 0.0015
+      },
+      "cohen_d": -0.29916231890433376,
+      "cohen_d_ci95": [
+       -0.36774286173505827,
+       -0.2261249213057371
+      ],
+      "check1_flow_weighted_d": -0.21431024333961343,
+      "check1_flow_weighted_d_ci95": [
+       -0.2900062518054874,
+       -0.13535285324717
+      ],
+      "check2_per_campaign_d": -0.2566480409706536,
+      "check2_per_campaign_d_flow_weighted": -0.1857656183645579,
+      "ncr_reduction_with": 0.9850820487319741,
+      "ncr_reduction_without": 0.9743969530258146
+     },
+     "host_topology|100": {
+      "n": 1000,
+      "ncr_with": 0.005525,
+      "ncr_without": 0.009739999999999999,
+      "ncr_with_flow_weighted": 0.006332413793103449,
+      "per_profile": {
+       "objective_exfiltration": 0.00792,
+       "objective_impact": 0.00628,
+       "objective_exfiltration_impact": 0.00348,
+       "objective_none_c2": 0.004420000000000001
+      },
+      "cohen_d": -0.3718757029215592,
+      "cohen_d_ci95": [
+       -0.44154804967446654,
+       -0.2955331611270888
+      ],
+      "check1_flow_weighted_d": -0.290072241455982,
+      "check1_flow_weighted_d_ci95": [
+       -0.36389407730261836,
+       -0.212388753864665
+      ],
+      "check2_per_campaign_d": -0.32183689575881036,
+      "check2_per_campaign_d_flow_weighted": -0.25442713272998496,
+      "ncr_reduction_with": 0.9676777722526106,
+      "ncr_reduction_without": 0.9484765129073212
+     },
+     "host_topology|200": {
+      "n": 1000,
+      "ncr_with": 0.007850000000000001,
+      "ncr_without": 0.01366,
+      "ncr_with_flow_weighted": 0.009062758620689657,
+      "per_profile": {
+       "objective_exfiltration": 0.01142,
+       "objective_impact": 0.0092,
+       "objective_exfiltration_impact": 0.00462,
+       "objective_none_c2": 0.0061600000000000005
+      },
+      "cohen_d": -0.4328761963780904,
+      "cohen_d_ci95": [
+       -0.5038042109689087,
+       -0.3646677956261485
+      ],
+      "check1_flow_weighted_d": -0.3271029662775818,
+      "check1_flow_weighted_d_ci95": [
+       -0.40140862415782985,
+       -0.2507359035469347
+      ],
+      "check2_per_campaign_d": -0.37010581247138297,
+      "check2_per_campaign_d_flow_weighted": -0.2840537090988703,
+      "ncr_reduction_with": 0.9540761108023518,
+      "ncr_reduction_without": 0.9277401608125264
+     },
+     "host_topology|500": {
+      "n": 1000,
+      "ncr_with": 0.03913000000000001,
+      "ncr_without": 0.055260000000000004,
+      "ncr_with_flow_weighted": 0.03975517241379311,
+      "per_profile": {
+       "objective_exfiltration": 0.04050000000000001,
+       "objective_impact": 0.0507,
+       "objective_exfiltration_impact": 0.02042,
+       "objective_none_c2": 0.0449
+      },
+      "cohen_d": -0.5491669024236077,
+      "cohen_d_ci95": [
+       -0.6229402923042414,
+       -0.47951554948795605
+      ],
+      "check1_flow_weighted_d": -0.5196691918709219,
+      "check1_flow_weighted_d_ci95": [
+       -0.596623864010741,
+       -0.44423071917959817
+      ],
+      "check2_per_campaign_d": -0.45254865408473766,
+      "check2_per_campaign_d_flow_weighted": -0.4398696287110447,
+      "ncr_reduction_with": 0.7710825752479011,
+      "ncr_reduction_without": 0.7076809140922555
+     },
+     "host_topology|1000": {
+      "n": 1000,
+      "ncr_with": 0.08807500000000001,
+      "ncr_without": 0.10784,
+      "ncr_with_flow_weighted": 0.08503241379310346,
+      "per_profile": {
+       "objective_exfiltration": 0.07574000000000002,
+       "objective_impact": 0.11816000000000002,
+       "objective_exfiltration_impact": 0.06302,
+       "objective_none_c2": 0.09538000000000002
+      },
+      "cohen_d": -0.4461085603272724,
+      "cohen_d_ci95": [
+       -0.520630456683025,
+       -0.3712314025004377
+      ],
+      "check1_flow_weighted_d": -0.5150047185063645,
+      "check1_flow_weighted_d_ci95": [
+       -0.5914414322278526,
+       -0.4401621322066809
+      ],
+      "check2_per_campaign_d": -0.3599643557115898,
+      "check2_per_campaign_d_flow_weighted": -0.42610820743544603,
+      "ncr_reduction_with": 0.48474566355632254,
+      "ncr_reduction_without": 0.42953872196360565
+     },
+     "host_topology|2000": {
+      "n": 1000,
+      "ncr_with": 0.13626500000000002,
+      "ncr_without": 0.15414000000000003,
+      "ncr_with_flow_weighted": 0.1294496551724138,
+      "per_profile": {
+       "objective_exfiltration": 0.10998000000000002,
+       "objective_impact": 0.17068,
+       "objective_exfiltration_impact": 0.13263999999999998,
+       "objective_none_c2": 0.13176
+      },
+      "cohen_d": -0.33817816474989976,
+      "cohen_d_ci95": [
+       -0.4087377212692208,
+       -0.272255623243073
+      ],
+      "check1_flow_weighted_d": -0.46743742012600975,
+      "check1_flow_weighted_d_ci95": [
+       -0.5408631456460169,
+       -0.40128210429963823
+      ],
+      "check2_per_campaign_d": -0.2703051676823428,
+      "check2_per_campaign_d_flow_weighted": -0.38035204735656497,
+      "ncr_reduction_with": 0.20282563547547305,
+      "ncr_reduction_without": 0.1846170122725348
+     },
+     "ip_shuffle|50": {
+      "n": 1000,
+      "ncr_with": 0.0024100000000000002,
+      "ncr_without": 0.00508,
+      "ncr_with_flow_weighted": 0.0029855172413793102,
+      "per_profile": {
+       "objective_exfiltration": 0.0041600000000000005,
+       "objective_impact": 0.00218,
+       "objective_exfiltration_impact": 0.00206,
+       "objective_none_c2": 0.00124
+      },
+      "cohen_d": -0.324057678879371,
+      "cohen_d_ci95": [
+       -0.3879262871267189,
+       -0.25853349389532143
+      ],
+      "check1_flow_weighted_d": -0.24297505937498784,
+      "check1_flow_weighted_d_ci95": [
+       -0.3130710335653729,
+       -0.16761795570295596
+      ],
+      "check2_per_campaign_d": -0.28546819796043776,
+      "check2_per_campaign_d_flow_weighted": -0.21530836205974754,
+      "ncr_reduction_with": 0.9859010735074736,
+      "ncr_reduction_without": 0.9731273804485823
+     },
+     "ip_shuffle|100": {
+      "n": 1000,
+      "ncr_with": 0.004755,
+      "ncr_without": 0.0091,
+      "ncr_with_flow_weighted": 0.005770344827586207,
+      "per_profile": {
+       "objective_exfiltration": 0.007719999999999999,
+       "objective_impact": 0.0054800000000000005,
+       "objective_exfiltration_impact": 0.0031000000000000003,
+       "objective_none_c2": 0.0027199999999999998
+      },
+      "cohen_d": -0.40691708110553565,
+      "cohen_d_ci95": [
+       -0.48165751955822356,
+       -0.33340645469872693
+      ],
+      "check1_flow_weighted_d": -0.29693765622227847,
+      "check1_flow_weighted_d_ci95": [
+       -0.37616273154456753,
+       -0.219781768708226
+      ],
+      "check2_per_campaign_d": -0.35082403555149766,
+      "check2_per_campaign_d_flow_weighted": -0.25940406648018327,
+      "ncr_reduction_with": 0.9721824085178576,
+      "ncr_reduction_without": 0.9518620397799408
+     },
+     "ip_shuffle|200": {
+      "n": 1000,
+      "ncr_with": 0.00701,
+      "ncr_without": 0.01322,
+      "ncr_with_flow_weighted": 0.008341379310344827,
+      "per_profile": {
+       "objective_exfiltration": 0.010879999999999999,
+       "objective_impact": 0.00848,
+       "objective_exfiltration_impact": 0.00398,
+       "objective_none_c2": 0.0047
+      },
+      "cohen_d": -0.4705153824238249,
+      "cohen_d_ci95": [
+       -0.544876809370642,
+       -0.4000833344142292
+      ],
+      "check1_flow_weighted_d": -0.3525188847949829,
+      "check1_flow_weighted_d_ci95": [
+       -0.43307052411454106,
+       -0.27606138434727123
+      ],
+      "check2_per_campaign_d": -0.4059814202988503,
+      "check2_per_campaign_d_flow_weighted": -0.30818323986749435,
+      "ncr_reduction_with": 0.9589902594553485,
+      "ncr_reduction_without": 0.9300677105374524
+     },
+     "ip_shuffle|500": {
+      "n": 1000,
+      "ncr_with": 0.03223,
+      "ncr_without": 0.05306000000000001,
+      "ncr_with_flow_weighted": 0.03518551724137932,
+      "per_profile": {
+       "objective_exfiltration": 0.04018000000000001,
+       "objective_impact": 0.044480000000000006,
+       "objective_exfiltration_impact": 0.01394,
+       "objective_none_c2": 0.03032
+      },
+      "cohen_d": -0.6986666190356374,
+      "cohen_d_ci95": [
+       -0.7726213030075714,
+       -0.6287111736954724
+      ],
+      "check1_flow_weighted_d": -0.587027051278234,
+      "check1_flow_weighted_d_ci95": [
+       -0.6616787671582279,
+       -0.5187064509247186
+      ],
+      "check2_per_campaign_d": -0.5842431243505415,
+      "check2_per_campaign_d_flow_weighted": -0.5025164440145333,
+      "ncr_reduction_with": 0.8114487963260888,
+      "ncr_reduction_without": 0.7193186627168853
+     },
+     "ip_shuffle|1000": {
+      "n": 1000,
+      "ncr_with": 0.07159,
+      "ncr_without": 0.10610000000000001,
+      "ncr_with_flow_weighted": 0.07515724137931036,
+      "per_profile": {
+       "objective_exfiltration": 0.07962000000000001,
+       "objective_impact": 0.09958000000000002,
+       "objective_exfiltration_impact": 0.03876,
+       "objective_none_c2": 0.0684
+      },
+      "cohen_d": -0.7580170505204649,
+      "cohen_d_ci95": [
+       -0.8303509255487121,
+       -0.6853379047470027
+      ],
+      "check1_flow_weighted_d": -0.6760773794641278,
+      "check1_flow_weighted_d_ci95": [
+       -0.7464337820977032,
+       -0.6047988453198647
+      ],
+      "check2_per_campaign_d": -0.6168582297237543,
+      "check2_per_campaign_d_flow_weighted": -0.5670347886434164,
+      "ncr_reduction_with": 0.5811858308713839,
+      "ncr_reduction_without": 0.4387431231485399
+     },
+     "ip_shuffle|2000": {
+      "n": 1000,
+      "ncr_with": 0.11413,
+      "ncr_without": 0.14456,
+      "ncr_with_flow_weighted": 0.11465862068965518,
+      "per_profile": {
+       "objective_exfiltration": 0.11112000000000001,
+       "objective_impact": 0.15014000000000002,
+       "objective_exfiltration_impact": 0.08754000000000002,
+       "objective_none_c2": 0.10772000000000001
+      },
+      "cohen_d": -0.5554342904740891,
+      "cohen_d_ci95": [
+       -0.6270575614866146,
+       -0.4914495515136877
+      ],
+      "check1_flow_weighted_d": -0.5580963938082543,
+      "check1_flow_weighted_d_ci95": [
+       -0.6285926268615635,
+       -0.4925133891603872
+      ],
+      "check2_per_campaign_d": -0.4479393905337005,
+      "check2_per_campaign_d_flow_weighted": -0.45918255297961136,
+      "ncr_reduction_with": 0.3323193026589055,
+      "ncr_reduction_without": 0.23529411764705888
+     },
+     "mtdshield|50": {
+      "n": 1000,
+      "ncr_with": 0.09925500000000001,
+      "ncr_without": 0.10308000000000002,
+      "ncr_with_flow_weighted": 0.09513103448275863,
+      "per_profile": {
+       "objective_exfiltration": 0.08342000000000002,
+       "objective_impact": 0.11632000000000002,
+       "objective_exfiltration_impact": 0.10388000000000001,
+       "objective_none_c2": 0.09340000000000001
+      },
+      "cohen_d": -0.09498193710210778,
+      "cohen_d_ci95": [
+       -0.1611635754960368,
+       -0.026559152467074146
+      ],
+      "check1_flow_weighted_d": -0.20360467794570822,
+      "check1_flow_weighted_d_ci95": [
+       -0.2693475084414765,
+       -0.13710427116157345
+      ],
+      "check2_per_campaign_d": -0.07859458525941222,
+      "check2_per_campaign_d_flow_weighted": -0.16958164534022577,
+      "ncr_reduction_with": 0.41934068505572286,
+      "ncr_reduction_without": 0.4547185780787134
+     },
+     "mtdshield|100": {
+      "n": 1000,
+      "ncr_with": 0.10417500000000002,
+      "ncr_without": 0.10886000000000001,
+      "ncr_with_flow_weighted": 0.09954344827586208,
+      "per_profile": {
+       "objective_exfiltration": 0.08632000000000002,
+       "objective_impact": 0.12320000000000002,
+       "objective_exfiltration_impact": 0.11036000000000001,
+       "objective_none_c2": 0.09682000000000002
+      },
+      "cohen_d": -0.11266278876616095,
+      "cohen_d_ci95": [
+       -0.17484584091234465,
+       -0.04519485564798945
+      ],
+      "check1_flow_weighted_d": -0.23032048394956275,
+      "check1_flow_weighted_d_ci95": [
+       -0.29371058887972634,
+       -0.164151506997263
+      ],
+      "check2_per_campaign_d": -0.09254211622965222,
+      "check2_per_campaign_d_flow_weighted": -0.19055116861338886,
+      "ncr_reduction_with": 0.3905578143738847,
+      "ncr_reduction_without": 0.42414303851036816
+     },
+     "mtdshield|200": {
+      "n": 1000,
+      "ncr_with": 0.12298,
+      "ncr_without": 0.12988,
+      "ncr_with_flow_weighted": 0.11644620689655173,
+      "per_profile": {
+       "objective_exfiltration": 0.09766000000000002,
+       "objective_impact": 0.14926000000000003,
+       "objective_exfiltration_impact": 0.13414,
+       "objective_none_c2": 0.11086000000000001
+      },
+      "cohen_d": -0.14297542536121102,
+      "cohen_d_ci95": [
+       -0.20667516575250564,
+       -0.07693183642962674
+      ],
+      "check1_flow_weighted_d": -0.2868714686123905,
+      "check1_flow_weighted_d_ci95": [
+       -0.352633601314398,
+       -0.21668260170513376
+      ],
+      "check2_per_campaign_d": -0.11586417888138663,
+      "check2_per_campaign_d_flow_weighted": -0.23397959693400305,
+      "ncr_reduction_with": 0.2805452364934039,
+      "ncr_reduction_without": 0.31294964028776984
+     },
+     "mtdshield|500": {
+      "n": 1000,
+      "ncr_with": 0.145625,
+      "ncr_without": 0.1501,
+      "ncr_with_flow_weighted": 0.1383855172413793,
+      "per_profile": {
+       "objective_exfiltration": 0.11714000000000001,
+       "objective_impact": 0.17656000000000002,
+       "objective_exfiltration_impact": 0.15866000000000002,
+       "objective_none_c2": 0.13014
+      },
+      "cohen_d": -0.08273765181550174,
+      "cohen_d_ci95": [
+       -0.150894909468519,
+       -0.016357938669625545
+      ],
+      "check1_flow_weighted_d": -0.22272462580916855,
+      "check1_flow_weighted_d_ci95": [
+       -0.29121143262058624,
+       -0.15600461018285258
+      ],
+      "check2_per_campaign_d": -0.06690047343093558,
+      "check2_per_campaign_d_flow_weighted": -0.1814007601482937,
+      "ncr_reduction_with": 0.14806797905636648,
+      "ncr_reduction_without": 0.20598815065594578
+     },
+     "mtdshield|1000": {
+      "n": 1000,
+      "ncr_with": 0.15579,
+      "ncr_without": 0.16290000000000004,
+      "ncr_with_flow_weighted": 0.14866482758620692,
+      "per_profile": {
+       "objective_exfiltration": 0.12686,
+       "objective_impact": 0.19056000000000003,
+       "objective_exfiltration_impact": 0.16892000000000001,
+       "objective_none_c2": 0.13682
+      },
+      "cohen_d": -0.1292575877446803,
+      "cohen_d_ci95": [
+       -0.1963426279241667,
+       -0.06275902139588593
+      ],
+      "check1_flow_weighted_d": -0.26568346662983844,
+      "check1_flow_weighted_d_ci95": [
+       -0.3332718088734266,
+       -0.20003356479348916
+      ],
+      "check2_per_campaign_d": -0.10250105929858983,
+      "check2_per_campaign_d_flow_weighted": -0.21252304571384026,
+      "ncr_reduction_with": 0.08860093017813786,
+      "ncr_reduction_without": 0.13827761320355458
+     },
+     "mtdshield|2000": {
+      "n": 1000,
+      "ncr_with": 0.16376000000000002,
+      "ncr_without": 0.17036,
+      "ncr_with_flow_weighted": 0.15726896551724137,
+      "per_profile": {
+       "objective_exfiltration": 0.13650000000000004,
+       "objective_impact": 0.20020000000000004,
+       "objective_exfiltration_impact": 0.17524,
+       "objective_none_c2": 0.14310000000000003
+      },
+      "cohen_d": -0.11435929562987977,
+      "cohen_d_ci95": [
+       -0.18469301741210056,
+       -0.04424065742174274
+      ],
+      "check1_flow_weighted_d": -0.23266495369191978,
+      "check1_flow_weighted_d_ci95": [
+       -0.30495683228693093,
+       -0.16374065968259147
+      ],
+      "check2_per_campaign_d": -0.09089054992410862,
+      "check2_per_campaign_d_flow_weighted": -0.18736916522073654,
+      "ncr_reduction_with": 0.04197501974434714,
+      "ncr_reduction_without": 0.0988150655945832
+     },
+     "none|0": {
+      "n": 1000,
+      "ncr_with": 0.170935,
+      "ncr_without": 0.18904,
+      "ncr_with_flow_weighted": 0.16595517241379312,
+      "per_profile": {
+       "objective_exfiltration": 0.14876000000000003,
+       "objective_impact": 0.20916,
+       "objective_exfiltration_impact": 0.17182000000000003,
+       "objective_none_c2": 0.15400000000000003
+      },
+      "cohen_d": -0.2832122809514976,
+      "cohen_d_ci95": [
+       -0.346333421395485,
+       -0.22455427933295108
+      ],
+      "check1_flow_weighted_d": -0.37150166800912926,
+      "check1_flow_weighted_d_ci95": [
+       -0.4377928694283505,
+       -0.3096290432233432
+      ],
+      "check2_per_campaign_d": -0.23395670182918646,
+      "check2_per_campaign_d_flow_weighted": -0.3101236741004703
+     },
+     "os_diversity|50": {
+      "n": 1000,
+      "ncr_with": 0.1395,
+      "ncr_without": 0.15318000000000004,
+      "ncr_with_flow_weighted": 0.13516827586206898,
+      "per_profile": {
+       "objective_exfiltration": 0.11904000000000002,
+       "objective_impact": 0.17056000000000002,
+       "objective_exfiltration_impact": 0.15636000000000003,
+       "objective_none_c2": 0.11204000000000001
+      },
+      "cohen_d": -0.2615097889181733,
+      "cohen_d_ci95": [
+       -0.3283269054744638,
+       -0.19552249770426058
+      ],
+      "check1_flow_weighted_d": -0.3558564872126364,
+      "check1_flow_weighted_d_ci95": [
+       -0.4234157867563548,
+       -0.2891892444293722
+      ],
+      "check2_per_campaign_d": -0.20934749918734288,
+      "check2_per_campaign_d_flow_weighted": -0.28800349493341265,
+      "ncr_reduction_with": 0.18390031298446774,
+      "ncr_reduction_without": 0.18969530258146405
+     },
+     "os_diversity|100": {
+      "n": 1000,
+      "ncr_with": 0.13875,
+      "ncr_without": 0.15242000000000003,
+      "ncr_with_flow_weighted": 0.13451241379310347,
+      "per_profile": {
+       "objective_exfiltration": 0.11842000000000001,
+       "objective_impact": 0.17022000000000004,
+       "objective_exfiltration_impact": 0.15622000000000003,
+       "objective_none_c2": 0.11014000000000002
+      },
+      "cohen_d": -0.2610849026544625,
+      "cohen_d_ci95": [
+       -0.3257665747536448,
+       -0.19439090562397376
+      ],
+      "check1_flow_weighted_d": -0.35428363364428683,
+      "check1_flow_weighted_d_ci95": [
+       -0.4220347584276251,
+       -0.28658935813093067
+      ],
+      "check2_per_campaign_d": -0.20921265049320384,
+      "check2_per_campaign_d_flow_weighted": -0.2866984389530787,
+      "ncr_reduction_with": 0.18828794571035767,
+      "ncr_reduction_without": 0.1937156157426999
+     },
+     "os_diversity|200": {
+      "n": 1000,
+      "ncr_with": 0.15852,
+      "ncr_without": 0.17414000000000002,
+      "ncr_with_flow_weighted": 0.15364689655172414,
+      "per_profile": {
+       "objective_exfiltration": 0.13566000000000003,
+       "objective_impact": 0.19776000000000005,
+       "objective_exfiltration_impact": 0.16732,
+       "objective_none_c2": 0.13334000000000004
+      },
+      "cohen_d": -0.2642706193273364,
+      "cohen_d_ci95": [
+       -0.33394259127137166,
+       -0.2003330524298309
+      ],
+      "check1_flow_weighted_d": -0.35596671281737813,
+      "check1_flow_weighted_d_ci95": [
+       -0.4264103902620176,
+       -0.290969457070576
+      ],
+      "check2_per_campaign_d": -0.21539301902217944,
+      "check2_per_campaign_d_flow_weighted": -0.2930732832126117,
+      "ncr_reduction_with": 0.07262994705589854,
+      "ncr_reduction_without": 0.07881929750317396
+     },
+     "os_diversity|500": {
+      "n": 1000,
+      "ncr_with": 0.17017000000000002,
+      "ncr_without": 0.18598,
+      "ncr_with_flow_weighted": 0.1646593103448276,
+      "per_profile": {
+       "objective_exfiltration": 0.14612,
+       "objective_impact": 0.20720000000000002,
+       "objective_exfiltration_impact": 0.1768,
+       "objective_none_c2": 0.15056
+      },
+      "cohen_d": -0.26125389067427524,
+      "cohen_d_ci95": [
+       -0.3245405923215861,
+       -0.19877572840826638
+      ],
+      "check1_flow_weighted_d": -0.36156674684857776,
+      "check1_flow_weighted_d_ci95": [
+       -0.42411948263877947,
+       -0.29820626661997723
+      ],
+      "check2_per_campaign_d": -0.21272933533159905,
+      "check2_per_campaign_d_flow_weighted": -0.29785650861124985,
+      "ncr_reduction_with": 0.004475385380407704,
+      "ncr_reduction_without": 0.01618705035971224
+     },
+     "os_diversity|1000": {
+      "n": 1000,
+      "ncr_with": 0.171655,
+      "ncr_without": 0.18890000000000004,
+      "ncr_with_flow_weighted": 0.16625793103448278,
+      "per_profile": {
+       "objective_exfiltration": 0.14770000000000003,
+       "objective_impact": 0.21022000000000002,
+       "objective_exfiltration_impact": 0.17756,
+       "objective_none_c2": 0.15114000000000005
+      },
+      "cohen_d": -0.2774737417639227,
+      "cohen_d_ci95": [
+       -0.34094209943910014,
+       -0.21655366127975198
+      ],
+      "check1_flow_weighted_d": -0.3753630920790006,
+      "check1_flow_weighted_d_ci95": [
+       -0.43800565053043944,
+       -0.3120941022805174
+      ],
+      "check2_per_campaign_d": -0.22785985053197072,
+      "check2_per_campaign_d_flow_weighted": -0.31055060523846184,
+      "ncr_reduction_with": -0.004212127416854283,
+      "ncr_reduction_without": 0.0007405840033853917
+     },
+     "os_diversity|2000": {
+      "n": 1000,
+      "ncr_with": 0.17371,
+      "ncr_without": 0.18682,
+      "ncr_with_flow_weighted": 0.1684337931034483,
+      "per_profile": {
+       "objective_exfiltration": 0.15016000000000002,
+       "objective_impact": 0.21252000000000004,
+       "objective_exfiltration_impact": 0.17858000000000004,
+       "objective_none_c2": 0.15358000000000005
+      },
+      "cohen_d": -0.2065806050706553,
+      "cohen_d_ci95": [
+       -0.2705032841555769,
+       -0.13982013123823914
+      ],
+      "check1_flow_weighted_d": -0.2976152728640276,
+      "check1_flow_weighted_d_ci95": [
+       -0.3616499181093019,
+       -0.22998343554896755
+      ],
+      "check2_per_campaign_d": -0.17041258948793642,
+      "check2_per_campaign_d_flow_weighted": -0.24743922589062428,
+      "ncr_reduction_with": -0.016234241085792744,
+      "ncr_reduction_without": 0.011743546339399114
+     },
+     "port_shuffle|50": {
+      "n": 1000,
+      "ncr_with": 0.109065,
+      "ncr_without": 0.11892000000000001,
+      "ncr_with_flow_weighted": 0.10516275862068966,
+      "per_profile": {
+       "objective_exfiltration": 0.09228,
+       "objective_impact": 0.13162000000000001,
+       "objective_exfiltration_impact": 0.11864000000000001,
+       "objective_none_c2": 0.09372000000000001
+      },
+      "cohen_d": -0.2180846610485216,
+      "cohen_d_ci95": [
+       -0.2850283573629569,
+       -0.1508589286832139
+      ],
+      "check1_flow_weighted_d": -0.31453892354954754,
+      "check1_flow_weighted_d_ci95": [
+       -0.382049900007192,
+       -0.24802713039997706
+      ],
+      "check2_per_campaign_d": -0.18044418912154084,
+      "check2_per_campaign_d_flow_weighted": -0.2617339346962688,
+      "ncr_reduction_with": 0.3619504490010823,
+      "ncr_reduction_without": 0.37092678798137957
+     },
+     "port_shuffle|100": {
+      "n": 1000,
+      "ncr_with": 0.10959999999999999,
+      "ncr_without": 0.11984000000000002,
+      "ncr_with_flow_weighted": 0.10590689655172414,
+      "per_profile": {
+       "objective_exfiltration": 0.09336000000000001,
+       "objective_impact": 0.13254000000000002,
+       "objective_exfiltration_impact": 0.11902000000000001,
+       "objective_none_c2": 0.09348000000000002
+      },
+      "cohen_d": -0.22894430354305614,
+      "cohen_d_ci95": [
+       -0.29225926080577025,
+       -0.16564063125787545
+      ],
+      "check1_flow_weighted_d": -0.3219910599546775,
+      "check1_flow_weighted_d_ci95": [
+       -0.3855497665820611,
+       -0.259567029353722
+      ],
+      "check2_per_campaign_d": -0.1879569015270592,
+      "check2_per_campaign_d_flow_weighted": -0.26567370978900895,
+      "ncr_reduction_with": 0.3588206043232809,
+      "ncr_reduction_without": 0.36606009310198895
+     },
+     "port_shuffle|200": {
+      "n": 1000,
+      "ncr_with": 0.137415,
+      "ncr_without": 0.14820000000000005,
+      "ncr_with_flow_weighted": 0.13230551724137934,
+      "per_profile": {
+       "objective_exfiltration": 0.11536000000000002,
+       "objective_impact": 0.17116000000000003,
+       "objective_exfiltration_impact": 0.1423,
+       "objective_none_c2": 0.12084000000000002
+      },
+      "cohen_d": -0.20520948087929197,
+      "cohen_d_ci95": [
+       -0.2717264738540089,
+       -0.1398448537184444
+      ],
+      "check1_flow_weighted_d": -0.31288310553823745,
+      "check1_flow_weighted_d_ci95": [
+       -0.38094894146752617,
+       -0.2450319591928262
+      ],
+      "check2_per_campaign_d": -0.16754507099817975,
+      "check2_per_campaign_d_flow_weighted": -0.25732243690397877,
+      "ncr_reduction_with": 0.19609793196244185,
+      "ncr_reduction_without": 0.21603893355903492
+     },
+     "port_shuffle|500": {
+      "n": 1000,
+      "ncr_with": 0.15849000000000002,
+      "ncr_without": 0.17244000000000004,
+      "ncr_with_flow_weighted": 0.15324413793103447,
+      "per_profile": {
+       "objective_exfiltration": 0.13594,
+       "objective_impact": 0.19400000000000006,
+       "objective_exfiltration_impact": 0.16084,
+       "objective_none_c2": 0.14318
+      },
+      "cohen_d": -0.23150811694943935,
+      "cohen_d_ci95": [
+       -0.29318647446366314,
+       -0.17263852407028352
+      ],
+      "check1_flow_weighted_d": -0.3288401475453623,
+      "check1_flow_weighted_d_ci95": [
+       -0.38958791795842573,
+       -0.26933775660712844
+      ],
+      "check2_per_campaign_d": -0.1899423117877748,
+      "check2_per_campaign_d_flow_weighted": -0.2722124269419026,
+      "ncr_reduction_with": 0.07280545236493396,
+      "ncr_reduction_without": 0.08781210325856947
+     },
+     "port_shuffle|1000": {
+      "n": 1000,
+      "ncr_with": 0.16390500000000002,
+      "ncr_without": 0.17972000000000002,
+      "ncr_with_flow_weighted": 0.1590696551724138,
+      "per_profile": {
+       "objective_exfiltration": 0.14266000000000004,
+       "objective_impact": 0.19988000000000003,
+       "objective_exfiltration_impact": 0.16418000000000002,
+       "objective_none_c2": 0.14890000000000003
+      },
+      "cohen_d": -0.2560478535814233,
+      "cohen_d_ci95": [
+       -0.3201094389830161,
+       -0.18826711130755425
+      ],
+      "check1_flow_weighted_d": -0.345301846651759,
+      "check1_flow_weighted_d_ci95": [
+       -0.4117874493782707,
+       -0.27902060188273287
+      ],
+      "check2_per_campaign_d": -0.210429645117603,
+      "check2_per_campaign_d_flow_weighted": -0.286349219609564,
+      "ncr_reduction_with": 0.041126744084008404,
+      "ncr_reduction_without": 0.049301735082522224
+     },
+     "port_shuffle|2000": {
+      "n": 1000,
+      "ncr_with": 0.16781000000000001,
+      "ncr_without": 0.18340000000000004,
+      "ncr_with_flow_weighted": 0.1630903448275862,
+      "per_profile": {
+       "objective_exfiltration": 0.14666,
+       "objective_impact": 0.20420000000000005,
+       "objective_exfiltration_impact": 0.16966000000000003,
+       "objective_none_c2": 0.15072000000000002
+      },
+      "cohen_d": -0.2495470335180094,
+      "cohen_d_ci95": [
+       -0.3125603777071529,
+       -0.18954111552027444
+      ],
+      "check1_flow_weighted_d": -0.33518798616930706,
+      "check1_flow_weighted_d_ci95": [
+       -0.3996015918377125,
+       -0.27394592702576154
+      ],
+      "check2_per_campaign_d": -0.20615882627049456,
+      "check2_per_campaign_d_flow_weighted": -0.27920193050966935,
+      "ncr_reduction_with": 0.01828180302454141,
+      "ncr_reduction_without": 0.02983495556495963
+     },
+     "random|50": {
+      "n": 1000,
+      "ncr_with": 0.00856,
+      "ncr_without": 0.015739999999999997,
+      "ncr_with_flow_weighted": 0.009518620689655172,
+      "per_profile": {
+       "objective_exfiltration": 0.01116,
+       "objective_impact": 0.011120000000000001,
+       "objective_exfiltration_impact": 0.00524,
+       "objective_none_c2": 0.00672
+      },
+      "cohen_d": -0.4883047729629013,
+      "cohen_d_ci95": [
+       -0.5594330952077377,
+       -0.4211547182494963
+      ],
+      "check1_flow_weighted_d": -0.4104636587851851,
+      "check1_flow_weighted_d_ci95": [
+       -0.4833819325409165,
+       -0.33978320356062974
+      ],
+      "check2_per_campaign_d": -0.4267546736034823,
+      "check2_per_campaign_d_flow_weighted": -0.36281823676101593,
+      "ncr_reduction_with": 0.949922485155176,
+      "ncr_reduction_without": 0.9167371984765129
+     },
+     "random|100": {
+      "n": 1000,
+      "ncr_with": 0.017065,
+      "ncr_without": 0.02612,
+      "ncr_with_flow_weighted": 0.018227586206896552,
+      "per_profile": {
+       "objective_exfiltration": 0.020019999999999996,
+       "objective_impact": 0.0232,
+       "objective_exfiltration_impact": 0.008960000000000001,
+       "objective_none_c2": 0.016079999999999997
+      },
+      "cohen_d": -0.46826853376579175,
+      "cohen_d_ci95": [
+       -0.5403139380402286,
+       -0.3953083097825367
+      ],
+      "check1_flow_weighted_d": -0.39951878310037836,
+      "check1_flow_weighted_d_ci95": [
+       -0.47489142705320203,
+       -0.3225715223660131
+      ],
+      "check2_per_campaign_d": -0.39394524661059077,
+      "check2_per_campaign_d_flow_weighted": -0.3429718952050271,
+      "ncr_reduction_with": 0.9001667300435838,
+      "ncr_reduction_without": 0.8618281845112146
+     },
+     "random|200": {
+      "n": 1000,
+      "ncr_with": 0.04345000000000001,
+      "ncr_without": 0.060160000000000005,
+      "ncr_with_flow_weighted": 0.04450344827586207,
+      "per_profile": {
+       "objective_exfiltration": 0.04506,
+       "objective_impact": 0.05836,
+       "objective_exfiltration_impact": 0.028079999999999997,
+       "objective_none_c2": 0.042300000000000004
+      },
+      "cohen_d": -0.5439853383589712,
+      "cohen_d_ci95": [
+       -0.6196874979945167,
+       -0.4716113571418124
+      ],
+      "check1_flow_weighted_d": -0.4980548375444308,
+      "check1_flow_weighted_d_ci95": [
+       -0.5758238811385558,
+       -0.42235518715091597
+      ],
+      "check2_per_campaign_d": -0.44228555915070267,
+      "check2_per_campaign_d_flow_weighted": -0.4162317818923363,
+      "ncr_reduction_with": 0.745809810746775,
+      "ncr_reduction_without": 0.6817604739737622
+     },
+     "random|500": {
+      "n": 1000,
+      "ncr_with": 0.097275,
+      "ncr_without": 0.11430000000000001,
+      "ncr_with_flow_weighted": 0.09400758620689656,
+      "per_profile": {
+       "objective_exfiltration": 0.08320000000000002,
+       "objective_impact": 0.12802000000000002,
+       "objective_exfiltration_impact": 0.08178,
+       "objective_none_c2": 0.09610000000000002
+      },
+      "cohen_d": -0.36248144194959353,
+      "cohen_d_ci95": [
+       -0.43785100538000743,
+       -0.2863155470815146
+      ],
+      "check1_flow_weighted_d": -0.4321415597614381,
+      "check1_flow_weighted_d_ci95": [
+       -0.5067220735804301,
+       -0.3575780782759337
+      ],
+      "check2_per_campaign_d": -0.28956443682305405,
+      "check2_per_campaign_d_flow_weighted": -0.3547178244477104,
+      "ncr_reduction_with": 0.4309240354520725,
+      "ncr_reduction_without": 0.39536606009310193
+     },
+     "random|1000": {
+      "n": 1000,
+      "ncr_with": 0.133715,
+      "ncr_without": 0.15244,
+      "ncr_with_flow_weighted": 0.1280544827586207,
+      "per_profile": {
+       "objective_exfiltration": 0.11050000000000001,
+       "objective_impact": 0.16986,
+       "objective_exfiltration_impact": 0.12942,
+       "objective_none_c2": 0.12508000000000002
+      },
+      "cohen_d": -0.34687233316745847,
+      "cohen_d_ci95": [
+       -0.4229525066204754,
+       -0.2733862890309432
+      ],
+      "check1_flow_weighted_d": -0.4578240120780654,
+      "check1_flow_weighted_d_ci95": [
+       -0.5347442287899302,
+       -0.38435106581979744
+      ],
+      "check2_per_campaign_d": -0.27550174291823626,
+      "check2_per_campaign_d_flow_weighted": -0.37046861739474035,
+      "ncr_reduction_with": 0.21774358674349903,
+      "ncr_reduction_without": 0.19360981802793065
+     },
+     "random|2000": {
+      "n": 1000,
+      "ncr_with": 0.15706,
+      "ncr_without": 0.17144000000000004,
+      "ncr_with_flow_weighted": 0.15076344827586205,
+      "per_profile": {
+       "objective_exfiltration": 0.13120000000000004,
+       "objective_impact": 0.19348,
+       "objective_exfiltration_impact": 0.16022000000000003,
+       "objective_none_c2": 0.14334000000000002
+      },
+      "cohen_d": -0.25294631782529037,
+      "cohen_d_ci95": [
+       -0.32856432593745,
+       -0.17770351712070978
+      ],
+      "check1_flow_weighted_d": -0.36885990560396925,
+      "check1_flow_weighted_d_ci95": [
+       -0.4436760010042007,
+       -0.2940733675189018
+      ],
+      "check2_per_campaign_d": -0.1982038309233887,
+      "check2_per_campaign_d_flow_weighted": -0.29413553940166604,
+      "ncr_reduction_with": 0.08117120542896417,
+      "ncr_reduction_without": 0.09310198899703759
+     },
+     "random_four|50": {
+      "n": 1000,
+      "ncr_with": 0.008285,
+      "ncr_without": 0.01434,
+      "ncr_with_flow_weighted": 0.009359310344827586,
+      "per_profile": {
+       "objective_exfiltration": 0.01126,
+       "objective_impact": 0.010900000000000002,
+       "objective_exfiltration_impact": 0.0044599999999999996,
+       "objective_none_c2": 0.00652
+      },
+      "cohen_d": -0.4392306464709756,
+      "cohen_d_ci95": [
+       -0.5119211066843004,
+       -0.3658119791079539
+      ],
+      "check1_flow_weighted_d": -0.348113503775855,
+      "check1_flow_weighted_d_ci95": [
+       -0.42588603526801255,
+       -0.2704108075567041
+      ],
+      "check2_per_campaign_d": -0.37662794656966186,
+      "check2_per_campaign_d_flow_weighted": -0.30302500121478715,
+      "ncr_reduction_with": 0.9515312838213356,
+      "ncr_reduction_without": 0.9241430385103682
+     },
+     "random_four|100": {
+      "n": 1000,
+      "ncr_with": 0.01332,
+      "ncr_without": 0.0204,
+      "ncr_with_flow_weighted": 0.014493793103448276,
+      "per_profile": {
+       "objective_exfiltration": 0.016560000000000002,
+       "objective_impact": 0.017380000000000003,
+       "objective_exfiltration_impact": 0.00684,
+       "objective_none_c2": 0.0125
+      },
+      "cohen_d": -0.43213552976461767,
+      "cohen_d_ci95": [
+       -0.5096505286577274,
+       -0.35061030227163253
+      ],
+      "check1_flow_weighted_d": -0.35008535103458616,
+      "check1_flow_weighted_d_ci95": [
+       -0.4266480749823348,
+       -0.26834437790521304
+      ],
+      "check2_per_campaign_d": -0.36225281169122026,
+      "check2_per_campaign_d_flow_weighted": -0.3003515762657855,
+      "ncr_reduction_with": 0.9220756427881943,
+      "ncr_reduction_without": 0.8920863309352518
+     },
+     "random_four|200": {
+      "n": 1000,
+      "ncr_with": 0.03389500000000001,
+      "ncr_without": 0.04794000000000001,
+      "ncr_with_flow_weighted": 0.03496,
+      "per_profile": {
+       "objective_exfiltration": 0.03606,
+       "objective_impact": 0.044820000000000006,
+       "objective_exfiltration_impact": 0.02128,
+       "objective_none_c2": 0.03342
+      },
+      "cohen_d": -0.5248418349176666,
+      "cohen_d_ci95": [
+       -0.5997373808501848,
+       -0.4510963725572122
+      ],
+      "check1_flow_weighted_d": -0.47422932981471566,
+      "check1_flow_weighted_d_ci95": [
+       -0.5470765391446553,
+       -0.4008400847681768
+      ],
+      "check2_per_campaign_d": -0.4348692460731369,
+      "check2_per_campaign_d_flow_weighted": -0.4031412897137323,
+      "ncr_reduction_with": 0.8017082516746131,
+      "ncr_reduction_without": 0.7464028776978417
+     },
+     "random_four|500": {
+      "n": 1000,
+      "ncr_with": 0.08367000000000001,
+      "ncr_without": 0.10052000000000001,
+      "ncr_with_flow_weighted": 0.08111586206896552,
+      "per_profile": {
+       "objective_exfiltration": 0.07216000000000002,
+       "objective_impact": 0.11128000000000002,
+       "objective_exfiltration_impact": 0.06947999999999999,
+       "objective_none_c2": 0.08176000000000001
+      },
+      "cohen_d": -0.402228138101114,
+      "cohen_d_ci95": [
+       -0.4735860454047673,
+       -0.32849305205338175
+      ],
+      "check1_flow_weighted_d": -0.46248050317292233,
+      "check1_flow_weighted_d_ci95": [
+       -0.5345662715088096,
+       -0.38709827295119614
+      ],
+      "check2_per_campaign_d": -0.3203654086356818,
+      "check2_per_campaign_d_flow_weighted": -0.37833439951266834,
+      "ncr_reduction_with": 0.5105156930997162,
+      "ncr_reduction_without": 0.46826068556919165
+     },
+     "random_four|1000": {
+      "n": 1000,
+      "ncr_with": 0.12309,
+      "ncr_without": 0.13826000000000005,
+      "ncr_with_flow_weighted": 0.1181696551724138,
+      "per_profile": {
+       "objective_exfiltration": 0.1024,
+       "objective_impact": 0.16028000000000003,
+       "objective_exfiltration_impact": 0.11292000000000002,
+       "objective_none_c2": 0.11676000000000002
+      },
+      "cohen_d": -0.3030990437246752,
+      "cohen_d_ci95": [
+       -0.37797285050614643,
+       -0.23144381342963805
+      ],
+      "check1_flow_weighted_d": -0.40542476354494533,
+      "check1_flow_weighted_d_ci95": [
+       -0.48116031378976987,
+       -0.3341313811118383
+      ],
+      "check2_per_campaign_d": -0.23831413348424602,
+      "check2_per_campaign_d_flow_weighted": -0.3257824058778518,
+      "ncr_reduction_with": 0.27990171702694,
+      "ncr_reduction_without": 0.2686203977994073
+     },
+     "random_four|2000": {
+      "n": 1000,
+      "ncr_with": 0.14929000000000003,
+      "ncr_without": 0.16246000000000005,
+      "ncr_with_flow_weighted": 0.1433986206896552,
+      "per_profile": {
+       "objective_exfiltration": 0.12480000000000001,
+       "objective_impact": 0.18608000000000005,
+       "objective_exfiltration_impact": 0.14976000000000003,
+       "objective_none_c2": 0.13652
+      },
+      "cohen_d": -0.24396686506624948,
+      "cohen_d_ci95": [
+       -0.3150559947248925,
+       -0.1734007108490826
+      ],
+      "check1_flow_weighted_d": -0.357560058521939,
+      "check1_flow_weighted_d_ci95": [
+       -0.42825674408099734,
+       -0.2877011530202439
+      ],
+      "check2_per_campaign_d": -0.189937021149307,
+      "check2_per_campaign_d_flow_weighted": -0.2838745312354612,
+      "ncr_reduction_with": 0.12662708046918403,
+      "ncr_reduction_without": 0.14060516292848058
+     },
+     "service_diversity|50": {
+      "n": 1000,
+      "ncr_with": 0.08517,
+      "ncr_without": 0.09152,
+      "ncr_with_flow_weighted": 0.0826,
+      "per_profile": {
+       "objective_exfiltration": 0.07446000000000001,
+       "objective_impact": 0.09908000000000002,
+       "objective_exfiltration_impact": 0.08992000000000001,
+       "objective_none_c2": 0.07722000000000001
+      },
+      "cohen_d": -0.17969649766875412,
+      "cohen_d_ci95": [
+       -0.24366109927320995,
+       -0.11701241610684902
+      ],
+      "check1_flow_weighted_d": -0.2596060078447856,
+      "check1_flow_weighted_d_ci95": [
+       -0.3223691544638022,
+       -0.19680764338346365
+      ],
+      "check2_per_campaign_d": -0.1483149368117007,
+      "check2_per_campaign_d_flow_weighted": -0.21599141772891642,
+      "ncr_reduction_with": 0.5017404276479364,
+      "ncr_reduction_without": 0.5158696572154042
+     },
+     "service_diversity|100": {
+      "n": 1000,
+      "ncr_with": 0.084975,
+      "ncr_without": 0.09182000000000001,
+      "ncr_with_flow_weighted": 0.08236275862068965,
+      "per_profile": {
+       "objective_exfiltration": 0.07412,
+       "objective_impact": 0.09936000000000002,
+       "objective_exfiltration_impact": 0.08900000000000001,
+       "objective_none_c2": 0.07742000000000002
+      },
+      "cohen_d": -0.1918900704215345,
+      "cohen_d_ci95": [
+       -0.2591702425032691,
+       -0.12614497236053498
+      ],
+      "check1_flow_weighted_d": -0.2727635990050206,
+      "check1_flow_weighted_d_ci95": [
+       -0.3406497341135084,
+       -0.20611581731173717
+      ],
+      "check2_per_campaign_d": -0.15960489902284777,
+      "check2_per_campaign_d_flow_weighted": -0.22842569488317063,
+      "ncr_reduction_with": 0.5028812121566677,
+      "ncr_reduction_without": 0.5142826914938636
+     },
+     "service_diversity|200": {
+      "n": 1000,
+      "ncr_with": 0.10869000000000001,
+      "ncr_without": 0.11562,
+      "ncr_with_flow_weighted": 0.10355862068965518,
+      "per_profile": {
+       "objective_exfiltration": 0.08838000000000003,
+       "objective_impact": 0.13146000000000005,
+       "objective_exfiltration_impact": 0.11744000000000002,
+       "objective_none_c2": 0.09748000000000002
+      },
+      "cohen_d": -0.15630302332048304,
+      "cohen_d_ci95": [
+       -0.2226103551640432,
+       -0.0946141924315485
+      ],
+      "check1_flow_weighted_d": -0.279282421786688,
+      "check1_flow_weighted_d_ci95": [
+       -0.3463671719568316,
+       -0.21634632992483482
+      ],
+      "check2_per_campaign_d": -0.12950507766324856,
+      "check2_per_campaign_d_flow_weighted": -0.23306630328643424,
+      "ncr_reduction_with": 0.3641442653640272,
+      "ncr_reduction_without": 0.3883834109183242
+     },
+     "service_diversity|500": {
+      "n": 1000,
+      "ncr_with": 0.1361,
+      "ncr_without": 0.14346,
+      "ncr_with_flow_weighted": 0.12877862068965515,
+      "per_profile": {
+       "objective_exfiltration": 0.10698000000000002,
+       "objective_impact": 0.16646000000000002,
+       "objective_exfiltration_impact": 0.15426,
+       "objective_none_c2": 0.11670000000000001
+      },
+      "cohen_d": -0.14372144753849905,
+      "cohen_d_ci95": [
+       -0.21114859664582397,
+       -0.08087373947902579
+      ],
+      "check1_flow_weighted_d": -0.2967772682563516,
+      "check1_flow_weighted_d_ci95": [
+       -0.3626891825063242,
+       -0.2337559168550286
+      ],
+      "check2_per_campaign_d": -0.11529912855558823,
+      "check2_per_campaign_d_flow_weighted": -0.23927832046021655,
+      "ncr_reduction_with": 0.20379091467516897,
+      "ncr_reduction_without": 0.24111299195937375
+     },
+     "service_diversity|1000": {
+      "n": 1000,
+      "ncr_with": 0.15267000000000003,
+      "ncr_without": 0.15874000000000002,
+      "ncr_with_flow_weighted": 0.14510689655172415,
+      "per_profile": {
+       "objective_exfiltration": 0.12214000000000001,
+       "objective_impact": 0.18636000000000003,
+       "objective_exfiltration_impact": 0.17126000000000002,
+       "objective_none_c2": 0.13092
+      },
+      "cohen_d": -0.11142052061797346,
+      "cohen_d_ci95": [
+       -0.18146242445771607,
+       -0.040473915007606595
+      ],
+      "check1_flow_weighted_d": -0.2570579716912242,
+      "check1_flow_weighted_d_ci95": [
+       -0.3288319403019262,
+       -0.1878397106468075
+      ],
+      "check2_per_campaign_d": -0.08888734759086574,
+      "check2_per_campaign_d_flow_weighted": -0.20674128721435825,
+      "ncr_reduction_with": 0.10685348231783998,
+      "ncr_reduction_without": 0.1602835378755818
+     },
+     "service_diversity|2000": {
+      "n": 1000,
+      "ncr_with": 0.161125,
+      "ncr_without": 0.16810000000000003,
+      "ncr_with_flow_weighted": 0.1544096551724138,
+      "per_profile": {
+       "objective_exfiltration": 0.13316000000000003,
+       "objective_impact": 0.1952,
+       "objective_exfiltration_impact": 0.17788,
+       "objective_none_c2": 0.13826
+      },
+      "cohen_d": -0.12301875391206568,
+      "cohen_d_ci95": [
+       -0.19038869180506202,
+       -0.05369412308068868
+      ],
+      "check1_flow_weighted_d": -0.24941244830791312,
+      "check1_flow_weighted_d_ci95": [
+       -0.3159110311448993,
+       -0.18307210257062484
+      ],
+      "check2_per_campaign_d": -0.09808656350157711,
+      "check2_per_campaign_d_flow_weighted": -0.20023140581595705,
+      "ncr_reduction_with": 0.057390236054640775,
+      "ncr_reduction_without": 0.11077020736352083
+     },
+     "user_shuffle|50": {
+      "n": 1000,
+      "ncr_with": 0.193355,
+      "ncr_without": 0.20876000000000003,
+      "ncr_with_flow_weighted": 0.18711172413793103,
+      "per_profile": {
+       "objective_exfiltration": 0.16560000000000002,
+       "objective_impact": 0.23906,
+       "objective_exfiltration_impact": 0.19844000000000003,
+       "objective_none_c2": 0.17032000000000003
+      },
+      "cohen_d": -0.20191302423549404,
+      "cohen_d_ci95": [
+       -0.26437871952183084,
+       -0.13689608054632407
+      ],
+      "check1_flow_weighted_d": -0.2927579858025617,
+      "check1_flow_weighted_d_ci95": [
+       -0.35655780964400263,
+       -0.2256653518287196
+      ],
+      "check2_per_campaign_d": -0.16575238181870652,
+      "check2_per_campaign_d_flow_weighted": -0.24262237322918503,
+      "ncr_reduction_with": -0.13116096761927043,
+      "ncr_reduction_without": -0.10431654676258995
+     },
+     "user_shuffle|100": {
+      "n": 1000,
+      "ncr_with": 0.190455,
+      "ncr_without": 0.20578000000000002,
+      "ncr_with_flow_weighted": 0.18351931034482757,
+      "per_profile": {
+       "objective_exfiltration": 0.16040000000000004,
+       "objective_impact": 0.23748000000000002,
+       "objective_exfiltration_impact": 0.19582000000000002,
+       "objective_none_c2": 0.16812
+      },
+      "cohen_d": -0.20348136356827193,
+      "cohen_d_ci95": [
+       -0.26902723477316703,
+       -0.13833988775588393
+      ],
+      "check1_flow_weighted_d": -0.3048988733519199,
+      "check1_flow_weighted_d_ci95": [
+       -0.3717886946970894,
+       -0.24153472898011488
+      ],
+      "check2_per_campaign_d": -0.1672589262299481,
+      "check2_per_campaign_d_flow_weighted": -0.25263309258287125,
+      "ncr_reduction_with": -0.11419545441249612,
+      "ncr_reduction_without": -0.08855268726195509
+     },
+     "user_shuffle|200": {
+      "n": 1000,
+      "ncr_with": 0.187955,
+      "ncr_without": 0.20536000000000001,
+      "ncr_with_flow_weighted": 0.18205724137931037,
+      "per_profile": {
+       "objective_exfiltration": 0.16206,
+       "objective_impact": 0.23160000000000003,
+       "objective_exfiltration_impact": 0.18858000000000003,
+       "objective_none_c2": 0.16958
+      },
+      "cohen_d": -0.23874022339887682,
+      "cohen_d_ci95": [
+       -0.3063525818637051,
+       -0.172064003957966
+      ],
+      "check1_flow_weighted_d": -0.3277315166410276,
+      "check1_flow_weighted_d_ci95": [
+       -0.3953639596735672,
+       -0.2636875861458514
+      ],
+      "check2_per_campaign_d": -0.1955827954095255,
+      "check2_per_campaign_d_flow_weighted": -0.2715727862325097,
+      "ncr_reduction_with": -0.09957001199286286,
+      "ncr_reduction_without": -0.08633093525179847
+     },
+     "user_shuffle|500": {
+      "n": 1000,
+      "ncr_with": 0.18203999999999998,
+      "ncr_without": 0.20088000000000003,
+      "ncr_with_flow_weighted": 0.17651517241379314,
+      "per_profile": {
+       "objective_exfiltration": 0.15768000000000001,
+       "objective_impact": 0.22340000000000004,
+       "objective_exfiltration_impact": 0.18270000000000006,
+       "objective_none_c2": 0.16438000000000003
+      },
+      "cohen_d": -0.26723600029688577,
+      "cohen_d_ci95": [
+       -0.33442216549839826,
+       -0.20298401041781983
+      ],
+      "check1_flow_weighted_d": -0.3561159001327484,
+      "check1_flow_weighted_d_ci95": [
+       -0.42154411297293615,
+       -0.2911764214065065
+      ],
+      "check2_per_campaign_d": -0.22042838391729605,
+      "check2_per_campaign_d_flow_weighted": -0.2961863015163995,
+      "ncr_reduction_with": -0.0649662152280106,
+      "ncr_reduction_without": -0.06263224714346172
+     },
+     "user_shuffle|1000": {
+      "n": 1000,
+      "ncr_with": 0.181615,
+      "ncr_without": 0.19818000000000002,
+      "ncr_with_flow_weighted": 0.17650620689655172,
+      "per_profile": {
+       "objective_exfiltration": 0.15846000000000005,
+       "objective_impact": 0.22258000000000003,
+       "objective_exfiltration_impact": 0.18308000000000005,
+       "objective_none_c2": 0.16234000000000004
+      },
+      "cohen_d": -0.24307726599992655,
+      "cohen_d_ci95": [
+       -0.30691283221399723,
+       -0.17780911240967381
+      ],
+      "check1_flow_weighted_d": -0.32608657972259913,
+      "check1_flow_weighted_d_ci95": [
+       -0.3909138277127272,
+       -0.2596415809837163
+      ],
+      "check2_per_campaign_d": -0.19827667750160874,
+      "check2_per_campaign_d_flow_weighted": -0.269099021813517,
+      "ncr_reduction_with": -0.06247989001667298,
+      "ncr_reduction_without": -0.048349555649598086
+     },
+     "user_shuffle|2000": {
+      "n": 1000,
+      "ncr_with": 0.17717000000000002,
+      "ncr_without": 0.19456000000000004,
+      "ncr_with_flow_weighted": 0.17145862068965517,
+      "per_profile": {
+       "objective_exfiltration": 0.15216000000000002,
+       "objective_impact": 0.21926000000000004,
+       "objective_exfiltration_impact": 0.17746000000000003,
+       "objective_none_c2": 0.1598
+      },
+      "cohen_d": -0.2539060987550117,
+      "cohen_d_ci95": [
+       -0.31659883089824525,
+       -0.18759638626583752
+      ],
+      "check1_flow_weighted_d": -0.3486295388346526,
+      "check1_flow_weighted_d_ci95": [
+       -0.4112276432917244,
+       -0.2813211031212808
+      ],
+      "check2_per_campaign_d": -0.21114346170846146,
+      "check2_per_campaign_d_flow_weighted": -0.2920842777844653,
+      "ncr_reduction_with": -0.03647585339456527,
+      "ncr_reduction_without": -0.029200169276343724
+     }
+    },
+    "shared": {
+     "none|0": {
+      "n": 1000,
+      "ncr_with": 0.170935,
+      "ncr_without": 0.18904,
+      "ncr_with_flow_weighted": 0.16595517241379312,
+      "per_profile": {
+       "objective_exfiltration": 0.14876000000000003,
+       "objective_impact": 0.20916,
+       "objective_exfiltration_impact": 0.17182000000000003,
+       "objective_none_c2": 0.15400000000000003
+      },
+      "cohen_d": -0.2832122809514976,
+      "cohen_d_ci95": [
+       -0.346333421395485,
+       -0.22455427933295108
+      ],
+      "check1_flow_weighted_d": -0.37150166800912926,
+      "check1_flow_weighted_d_ci95": [
+       -0.4377928694283505,
+       -0.3096290432233432
+      ],
+      "check2_per_campaign_d": -0.23395670182918646,
+      "check2_per_campaign_d_flow_weighted": -0.3101236741004703
+     },
+     "ip_shuffle|200": {
+      "n": 1000,
+      "ncr_with": 0.00701,
+      "ncr_without": 0.01322,
+      "ncr_with_flow_weighted": 0.008341379310344827,
+      "per_profile": {
+       "objective_exfiltration": 0.010879999999999999,
+       "objective_impact": 0.00848,
+       "objective_exfiltration_impact": 0.00398,
+       "objective_none_c2": 0.0047
+      },
+      "cohen_d": -0.4705153824238249,
+      "cohen_d_ci95": [
+       -0.544876809370642,
+       -0.4000833344142292
+      ],
+      "check1_flow_weighted_d": -0.3525188847949829,
+      "check1_flow_weighted_d_ci95": [
+       -0.43307052411454106,
+       -0.27606138434727123
+      ],
+      "check2_per_campaign_d": -0.4059814202988503,
+      "check2_per_campaign_d_flow_weighted": -0.30818323986749435,
+      "ncr_reduction_with": 0.9589902594553485,
+      "ncr_reduction_without": 0.9300677105374524
+     },
+     "ip_shuffle|2000": {
+      "n": 1000,
+      "ncr_with": 0.11413,
+      "ncr_without": 0.14456,
+      "ncr_with_flow_weighted": 0.11465862068965518,
+      "per_profile": {
+       "objective_exfiltration": 0.11112000000000001,
+       "objective_impact": 0.15014000000000002,
+       "objective_exfiltration_impact": 0.08754000000000002,
+       "objective_none_c2": 0.10772000000000001
+      },
+      "cohen_d": -0.5554342904740891,
+      "cohen_d_ci95": [
+       -0.6270575614866146,
+       -0.4914495515136877
+      ],
+      "check1_flow_weighted_d": -0.5580963938082543,
+      "check1_flow_weighted_d_ci95": [
+       -0.6285926268615635,
+       -0.4925133891603872
+      ],
+      "check2_per_campaign_d": -0.4479393905337005,
+      "check2_per_campaign_d_flow_weighted": -0.45918255297961136,
+      "ncr_reduction_with": 0.3323193026589055,
+      "ncr_reduction_without": 0.23529411764705888
+     },
+     "os_diversity|200": {
+      "n": 1000,
+      "ncr_with": 0.15852,
+      "ncr_without": 0.17414000000000002,
+      "ncr_with_flow_weighted": 0.15364689655172414,
+      "per_profile": {
+       "objective_exfiltration": 0.13566000000000003,
+       "objective_impact": 0.19776000000000005,
+       "objective_exfiltration_impact": 0.16732,
+       "objective_none_c2": 0.13334000000000004
+      },
+      "cohen_d": -0.2642706193273364,
+      "cohen_d_ci95": [
+       -0.33394259127137166,
+       -0.2003330524298309
+      ],
+      "check1_flow_weighted_d": -0.35596671281737813,
+      "check1_flow_weighted_d_ci95": [
+       -0.4264103902620176,
+       -0.290969457070576
+      ],
+      "check2_per_campaign_d": -0.21539301902217944,
+      "check2_per_campaign_d_flow_weighted": -0.2930732832126117,
+      "ncr_reduction_with": 0.07262994705589854,
+      "ncr_reduction_without": 0.07881929750317396
+     },
+     "os_diversity|2000": {
+      "n": 1000,
+      "ncr_with": 0.17371,
+      "ncr_without": 0.18682,
+      "ncr_with_flow_weighted": 0.1684337931034483,
+      "per_profile": {
+       "objective_exfiltration": 0.15016000000000002,
+       "objective_impact": 0.21252000000000004,
+       "objective_exfiltration_impact": 0.17858000000000004,
+       "objective_none_c2": 0.15358000000000005
+      },
+      "cohen_d": -0.2065806050706553,
+      "cohen_d_ci95": [
+       -0.2705032841555769,
+       -0.13982013123823914
+      ],
+      "check1_flow_weighted_d": -0.2976152728640276,
+      "check1_flow_weighted_d_ci95": [
+       -0.3616499181093019,
+       -0.22998343554896755
+      ],
+      "check2_per_campaign_d": -0.17041258948793642,
+      "check2_per_campaign_d_flow_weighted": -0.24743922589062428,
+      "ncr_reduction_with": -0.016234241085792744,
+      "ncr_reduction_without": 0.011743546339399114
+     }
+    },
+    "largest_abs_d": {
+     "cell": "ip_shuffle|1000",
+     "d": -0.7580170505204649,
+     "ci95": [
+      -0.8303509255487121,
+      -0.6853379047470027
+     ]
+    },
+    "cells_d_at_least_0_2": [
+     "alternative|100",
+     "alternative|1000",
+     "alternative|200",
+     "alternative|50",
+     "alternative|500",
+     "complete_topology|100",
+     "complete_topology|1000",
+     "complete_topology|200",
+     "complete_topology|2000",
+     "complete_topology|50",
+     "complete_topology|500",
+     "host_topology|100",
+     "host_topology|1000",
+     "host_topology|200",
+     "host_topology|2000",
+     "host_topology|50",
+     "host_topology|500",
+     "ip_shuffle|100",
+     "ip_shuffle|1000",
+     "ip_shuffle|200",
+     "ip_shuffle|2000",
+     "ip_shuffle|50",
+     "ip_shuffle|500",
+     "none|0",
+     "os_diversity|100",
+     "os_diversity|1000",
+     "os_diversity|200",
+     "os_diversity|2000",
+     "os_diversity|50",
+     "os_diversity|500",
+     "port_shuffle|100",
+     "port_shuffle|1000",
+     "port_shuffle|200",
+     "port_shuffle|2000",
+     "port_shuffle|50",
+     "port_shuffle|500",
+     "random|100",
+     "random|1000",
+     "random|200",
+     "random|2000",
+     "random|50",
+     "random|500",
+     "user_shuffle|100",
+     "user_shuffle|1000",
+     "user_shuffle|200",
+     "user_shuffle|2000",
+     "user_shuffle|50",
+     "user_shuffle|500"
+    ],
+    "cells_interval_past_0_2": [
+     "alternative|100",
+     "alternative|1000",
+     "alternative|200",
+     "alternative|2000",
+     "alternative|50",
+     "alternative|500",
+     "complete_topology|100",
+     "complete_topology|1000",
+     "complete_topology|200",
+     "complete_topology|2000",
+     "complete_topology|50",
+     "complete_topology|500",
+     "host_topology|100",
+     "host_topology|1000",
+     "host_topology|200",
+     "host_topology|2000",
+     "host_topology|50",
+     "host_topology|500",
+     "ip_shuffle|100",
+     "ip_shuffle|1000",
+     "ip_shuffle|200",
+     "ip_shuffle|2000",
+     "ip_shuffle|50",
+     "ip_shuffle|500",
+     "mtdshield|200",
+     "none|0",
+     "os_diversity|100",
+     "os_diversity|1000",
+     "os_diversity|200",
+     "os_diversity|2000",
+     "os_diversity|50",
+     "os_diversity|500",
+     "port_shuffle|100",
+     "port_shuffle|1000",
+     "port_shuffle|200",
+     "port_shuffle|2000",
+     "port_shuffle|50",
+     "port_shuffle|500",
+     "random|100",
+     "random|1000",
+     "random|200",
+     "random|2000",
+     "random|50",
+     "random|500",
+     "service_diversity|100",
+     "service_diversity|200",
+     "service_diversity|50",
+     "service_diversity|500",
+     "user_shuffle|100",
+     "user_shuffle|1000",
+     "user_shuffle|200",
+     "user_shuffle|2000",
+     "user_shuffle|50",
+     "user_shuffle|500"
+    ],
+    "n_cells_read": 61
+   },
+   "behaviour": {
+    "n": 1000,
+    "distinct_attack_paths": {
+     "with_one_profile_per_seed": {
+      "1": 1,
+      "2": 4,
+      "3": 20,
+      "4": 97,
+      "5": 254,
+      "6": 464,
+      "7": 648,
+      "8": 752
+     },
+     "without": {
+      "1": 1,
+      "2": 3,
+      "3": 32,
+      "4": 193,
+      "5": 535,
+      "6": 817,
+      "7": 931,
+      "8": 978
+     }
+    },
+    "relative_tactic_occurrence": {
+     "with_pooled": {
+      "collection": 3.982605087483067,
+      "command-and-control": 15.539482302018966,
+      "credential-access": 6.647574028045025,
+      "defense-impairment": 1.7674589840492394,
+      "discovery": 11.270894438590997,
+      "execution": 12.157471554273673,
+      "exfiltration": 2.4370573470724395,
+      "impact": 4.717444542529259,
+      "initial-access": 2.6213901285091876,
+      "lateral-movement": 9.440330080262306,
+      "persistence": 8.34699514683568,
+      "privilege-escalation": 4.11201941265728,
+      "reconnaissance": 2.2192649876535175,
+      "resource-development": 1.2395298980143927,
+      "stealth": 13.500482062004972
+     },
+     "without": {
+      "collection": 5.02355082271707,
+      "command-and-control": 13.83480690824133,
+      "credential-access": 7.17581699074209,
+      "defense-impairment": 1.5465248480961524,
+      "discovery": 10.119565715332815,
+      "execution": 11.031821721729642,
+      "exfiltration": 3.9580374730862613,
+      "impact": 4.289539769864109,
+      "initial-access": 3.188419075541711,
+      "lateral-movement": 9.384097051878443,
+      "persistence": 8.832079094115834,
+      "privilege-escalation": 3.856004730987552,
+      "reconnaissance": 3.516173230773075,
+      "resource-development": 0.2763213240101783,
+      "stealth": 13.967241242883738
+     }
+    },
+    "tactics_entered": {
+     "with_pooled": 15,
+     "without": 15,
+     "objective_exfiltration": 14,
+     "objective_impact": 12,
+     "objective_exfiltration_impact": 14,
+     "objective_none_c2": 13
+    }
+   }
+  }
+ }
+}

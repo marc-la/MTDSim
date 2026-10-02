@@ -143,16 +143,41 @@ def dispatch(job: dict) -> dict:
         return {"error": f"{type(exc).__name__}: {exc}", **job}
 
 
-def build_jobs(seeds) -> list[dict]:
+def build_jobs(seeds, perfect_seeds=None) -> list[dict]:
+    """Seed-major. ``perfect_seeds``: the every-exploit-succeeds arm only below
+    it (2026-10-02: that arm is JSON-only evidence and stays at 100 seeds)."""
     return [
         {"group": "memory", "memory": m, "pool": pool, "profile": p,
          "condition": c, "interval": i, "seed": s}
         for s in seeds for pool in POOLS for m in MEMORY for p in FOUR for c, i in CONDITIONS
+        if not (m == "perfect" and perfect_seeds is not None and s >= perfect_seeds)
     ]
 
 
+def _job_id(row: dict) -> tuple:
+    return (row["memory"], row["pool"], row["profile"], row["condition"], row["interval"], row["seed"])
+
+
+def _resume(path: Path) -> set:
+    """Jobs already written (error rows too); a line cut off by a kill is dropped."""
+    if not path.exists():
+        return set()
+    data = path.read_bytes()  # small rows (about 90 MB at 1 000 seeds)
+    cut = data.rfind(b"\n") + 1
+    if cut < len(data):
+        with path.open("rb+") as fh:
+            fh.truncate(cut)
+    return {_job_id(json.loads(line)) for line in data[:cut].splitlines() if line.strip()}
+
+
 def main() -> int:
-    jobs = build_jobs(range(int(os.environ.get("SEEDS", 100))))
+    ps = os.environ.get("PERFECT_SEEDS")
+    jobs = build_jobs(range(int(os.environ.get("SEEDS", 100))), int(ps) if ps else None)
+    append = os.environ.get("RESUME") == "1"  # 2026-10-02: extend runs_memory.jsonl, never rewrite it
+    if append and not os.environ.get("LIMIT"):
+        done_ids = _resume(OUT)
+        jobs = [j for j in jobs if _job_id(j) not in done_ids]
+        print(f"  resuming: {len(done_ids)} already written, {len(jobs)} to run", flush=True)
     if os.environ.get("LIMIT"):
         jobs = jobs[: int(os.environ["LIMIT"])]
     workers = int(os.environ.get("WORKERS", min(7, os.cpu_count() or 4)))
@@ -160,7 +185,7 @@ def main() -> int:
     print(f"{len(jobs)} runs on {workers} workers -> {out}", flush=True)
     started = time.time()
     done = errors = 0
-    with open(out, "w", encoding="utf-8") as fh, ProcessPoolExecutor(workers) as pool:
+    with open(out, "a" if append else "w", encoding="utf-8") as fh, ProcessPoolExecutor(workers) as pool:
         for row in pool.map(dispatch, jobs, chunksize=16):
             fh.write(json.dumps(row) + "\n")
             done += 1
