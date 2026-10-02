@@ -571,6 +571,18 @@ owner named.
   `tools/gspn_gadget_figure.py`: c1 0.58, c2 0.64, c3 0.67, c4 0.71; single tactics
   range from 0 to 1.0. The sentence reads as a range over moves. *Fix (T2):* "carries
   on average 58 to 71 per cent".
+- **X14. "An operator with several attack flows in the corpus counts once"
+  (l.4086–4089): the operators are hard-coded groups, and two join different
+  actors.** Verified: `src/mtdsim/l2_subgraph/dedup.py:25` (`OPERATOR_CLUSTERS`)
+  is a fixed list, not the attribution column. One group is the CISA AA22-138B
+  advisory, three flows covering two threat actors; "Lazarus" merges the Sony flow
+  (G0032) with the SWIFT heist (G0082, APT38). The count of 29 is right; the
+  sentence's reason ("one operator's repeated reports") holds only for the groups
+  that are one operator. The dedup is also global, so a group's representative can
+  sit in another profile (the SWIFT heist leaves $c_1$ because Sony sits in $c_2$).
+  T3: whether the two mixed groups are split, or the sentence says "one reporting
+  source or operator", is Marc's. The group list also needs a reason in Appendix B
+  (C6).
 
 **Verified and right** (no entry): 38 flows; 88 % of technique edges from one flow
 (Figure 4.2, Appendix B 419 of 478); 10 of 38 flows mention reconnaissance;
@@ -609,7 +621,7 @@ five attack actions in 60 s and its Jung §5.2 locator (the s45 verification cor
 ## 11. What changed from the preliminary ledger
 
 - **New:** X1 (classification rule), X3 (corpus span), X4 (the overlay reaches two
-  profiles), X5b (property 7), X6 (appendix pointers), X8–X13 (X8 and X9 find
+  profiles), X5b (property 7), X6 (appendix pointers), X8–X14 (X8 and X9 find
   chapters 6 and 5 wrong, not chapter 4); G2, G3 (the backward lean test),
   G5 (the term collisions at the ch3 boundary), G6; F1–F6, T1–T3; C1–C3, C5, C6.
 - **Resolved:** the preliminary X3 (the stopping rule) is traced in code: §4.5 is
