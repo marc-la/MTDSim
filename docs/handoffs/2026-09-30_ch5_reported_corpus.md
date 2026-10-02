@@ -1,5 +1,10 @@
 ---
-status: open — running; launched 2026-09-30 19:04 (commit 648e031a, branch feat/ch5-1000-seeds)
+status: open — the corpus is complete (2026-10-02 00:18: 402 000 runs, 0 errors, every cell at 1 000);
+  analysed (numbers_reported.json, time_lost_numbers_reported.json); the §5.3 floats regenerated in the
+  working tree but NOT committed: they use \grouprow/\grouplabel, which exist only in a parallel session's
+  uncommitted table-style work (dissertation.tex preamble, both generators). Commit them with that work.
+  Left: that commit; Marc's \prelim numbers (§5.3.1's baseline time lost is now negative and told apart
+  from zero under four mechanisms; port shuffle costs the APT attacker model 26 s, told apart from zero)
 created: 2026-09-30
 ---
 

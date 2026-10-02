@@ -48,7 +48,8 @@ from _ch5_style import (BASE_DASH, CNAME, FONT, KEY_H, LABEL, LONG, MARK, PREAMB
                         TAB_DIR, TITLE_H, UNREPORTED, compile_fig, fmt_thousands, key_row, marker,
                         panel_title, write_fig)
 
-NUMBERS = REPO / "data" / "results" / "ch5_defended" / "numbers.json"
+# the reported corpus (1 000 seeds, the vulnerability memory on; 2026-10-02)
+NUMBERS = REPO / "data" / "results" / "ch5_defended" / "numbers_reported.json"
 STEM_HEAD = "fig_5-3-2b_interval_headline"
 STEM_MECH = "fig_5-3-3b_interval_mechanisms"
 STEM_VAL = "tab_F-0a_interval_values"

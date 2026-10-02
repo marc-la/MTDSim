@@ -35,7 +35,8 @@ from _ch5_style import (BASE_DASH, FONT, KEY_H, LABEL, LONG, PREAMBLE, REPO, axe
                         errorbar, fmt_thousands, key_row, marker, panel_title, write_fig)
 from ch5_effectiveness_figures import LAYER, PANEL_SINGLES, TICK  # noqa: E402
 
-NUMBERS = REPO / "data" / "results" / "ch5_defended" / "time_lost_numbers.json"
+# the reported corpus (1 000 seeds, the vulnerability memory on; 2026-10-02)
+NUMBERS = REPO / "data" / "results" / "ch5_defended" / "time_lost_numbers_reported.json"
 TABLE = REPO / "docs" / "thesis" / "tables" / "tab_5-3-1b_disruption.tex"
 STEM = "fig_5-2-2a_disruption_response"
 INTERVAL = 2000
