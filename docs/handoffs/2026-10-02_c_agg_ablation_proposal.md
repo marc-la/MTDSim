@@ -1,10 +1,43 @@
 ---
-status: second pass 2026-10-02 — R1, R8, R9 ruled; §5.4.1 placeholders in; partition NOT negligible (prelim), R5 control and the Table 5.1 row await Marc
+status: third pass 2026-10-02 — R1, R4–R6, R8, R9 ruled; R5 control being built; R7 (interval reading, bold marking) recommended
 created: 2026-10-02
 answers: docs/handoffs/2026-10-02_c_agg_ablation.md
 ---
 
 # Attack profiles as §5.4's ablation: design and change proposal
+
+## Third pass, 2026-10-02 (Marc's reply to the second)
+
+**Ruled.**
+- R5: run the size-matched, label-blind control ("random partitions of the same
+  sizes, run the same way ... a defensible way"). Building in a worktree. The
+  real partition must reproduce the committed nets exactly, and no runs start
+  before the 1,000-seed ablations finish. Design:
+  - shuffle the 38 flows into groups of 19/7/7/5;
+  - build each group by the same pipeline;
+  - K = 10 partitions, at the five shared cells.
+- Remove c_agg everywhere listed (R9). Keep Table 5.1's Ablation row, adding the
+  partition's clause (Marc: "if you think so").
+- 5.4.1 "Attack profiles by objective", in method order (R6). Table 5.5 gets a new
+  first block (R4). The rule is preamble text (R1).
+
+**Table 5.5's verdict marking (Marc: the reader must see at once what is
+negligible and what is not; the supervisor's "bold your headlines").**
+The three readings of one $d$ against the band −0.2 to +0.2:
+- the interval lies wholly inside the band: negligible;
+- wholly outside: a difference;
+- crossing an edge: not resolved at this seed count.
+
+Recommended, on the interval reading (R7):
+- **bold** a $d$ whose interval lies wholly outside the band;
+- plain where it lies wholly inside;
+- a dagger where it crosses an edge;
+- one caption clause decodes the marks.
+
+A word column (negligible / difference / unresolved) is the alternative: plainer,
+but wider. Print the interval to three decimals wherever an edge rounds onto
+0.20. Two cases already do: the partition under OS diversity at 200 s
+(upper −0.2003) and the old failure-matrix IP shuffle at 200 s (upper 0.1999).
 
 ## Second pass, 2026-10-02 (Marc's reply; supersedes the sections below where they differ)
 
