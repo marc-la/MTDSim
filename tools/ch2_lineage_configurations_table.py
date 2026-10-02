@@ -32,13 +32,13 @@ OUT = REPO / "docs" / "thesis" / "tables" / "tab_2-2b_lineage_configurations.tex
 PARAM_WIDTH = 3.0
 STUDY_WIDTH = {"brown2023": 3.7, "zhang2023": 4.6, "ho2024": 3.4}
 
-CAPTION_SHORT = "The configurations of the MTDSim lineage"
+CAPTION_SHORT = "The configurations of the earlier MTDSim studies"
 CAPTION_LONG = (
-    "The configurations the studies of the MTDSim lineage evaluated on. "
-    "Values separated by semicolons were each run; a dash marks a value the "
-    "study does not state. Ho gives the interval and the run's end without a "
-    "unit; the simulator Ho ran counts in seconds \\citep{zhang2023}. "
-    "Tay \\citep{tay2024} states no network, timing or run value."
+    # Reader needs the unit and the dash; why Ho's unlabelled values are
+    # seconds lives in the YAML locators (Marc, 2026-10-01: "too much nuance").
+    "The configurations the earlier MTDSim studies ran. Times are in seconds; "
+    "a dash marks a value the study does not state. Tay \\citep{tay2024} "
+    "states none."
 )
 
 

@@ -1,13 +1,14 @@
 #!/usr/bin/env python3
 """The ch2 §2.2 figure family --- MTDSim at descending levels of abstraction.
 
-Ruled 2026-09-09 (Marc): one crowded plate becomes four floats, each landing
-beside the prose that decodes it.
+Ruled 2026-09-09 (Marc): one crowded plate becomes a family of floats, each
+landing beside the prose that decodes it. Simplified 2026-09-30: Figure 2.3
+(execution scheme / defence module) is cut from the thesis; its HTML sources
+stay on disk but are no longer built.
 
   fig:mtdsim-model    §2.2 preamble   the three modules and their coupling
-  fig:network-model   §2.2.1          the three layers, magnified left to right
-  fig:execution-scheme §2.2.2         the loop the execution scheme runs
-  fig:attacker-model  §2.2.3          what it holds, and its procedure
+  fig:network-model   §2.2.1          (a) the network by level, (b) one host
+  fig:attacker-model  §2.2.3          the attacker's procedure
 
 Each drawing is hand-authored SVG in `tools/ch2_fig2*.html`; this script prints
 each through headless Chromium at natural size, so N px in the source is N px on
@@ -41,14 +42,13 @@ FLOOR_PT = 7.95            # §g's ~8 pt floor, counted at nominal size
 FIGURES = {
     "fig_2-2a_mtdsim_model":     ("ch2_fig21_mtdsim_model.html",   False),
     "fig_2-2-1a_network_model":  ("ch2_fig22_network_model.html",  False),
-    "fig_2-2-2a_execution_scheme": ("ch2_fig23_execution_scheme.html", False),
-    # the drawing the thesis includes (fig:defence-module); restored 2026-09-30
-    "fig_2-2-2a_defence_module": ("ch2_fig23_defence_module.html", True),
     "fig_2-2-3a_attacker_model": ("ch2_fig24_attacker_model.html", False),
 }
 
 # code class -> the presentation name the SVG must carry. The roster names must
 # match Table 2.2; a pool change in code fails the build rather than shipping stale.
+# No figure in FIGURES draws the roster since Figure 2.3 was cut (2026-09-30); the
+# check stays so a future roster drawing can set its flag to True.
 ROSTER = {
     "IPShuffle": "IP shuffle",
     "CompleteTopologyShuffle": "Complete topology shuffle",

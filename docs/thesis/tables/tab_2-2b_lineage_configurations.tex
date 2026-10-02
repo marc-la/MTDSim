@@ -6,31 +6,28 @@
 %   Hosts / Ho: 150  [Table 2 "Simulator Settings", p.19 (Total Nodes 150; held fixed while Ho's "network size" varies, p.19)]
 %   Levels of depth / Brown: 5  [Table I, p.5 ("No. of layers"; levels of depth per p.2)]
 %   Levels of depth / Zhang: 4  [Table 2, p.33 ("Layers", 4 on every network)]
-%   Levels of depth / Ho: ---  [not stated (ho2024.md §B)]
+%   Levels of depth / Ho: ---  [not stated: Table 2 (p.19) lists only Start Time, Finish Time, Total Nodes, Static Degrade Factor; the "3-layer HARM" (p.14) is the model's three graph layers, not levels of depth. The released code (tay2024code) runs a 50-host network, not Ho's 150, so it cannot stand in  [re-read against the PDF 2026-10-01; the absence holds]]
 %   Subnets / Brown: 20  [Table I, p.5]
-%   Subnets / Zhang: ---  [not stated; Table 2 carries no subnet column]
-%   Subnets / Ho: ---  [not stated (ho2024.md §B)]
+%   Subnets / Zhang: ---  [not stated: Table 2 (p.33) has Nodes, Density, Endpoints, Layers only, and the generator (Barabasi-Albert, 4.2.1, p.20) is given no subnet count  [re-read against the PDF 2026-10-01; the absence holds]]
+%   Subnets / Ho: ---  [not stated: Table 2 (p.19) as for levels of depth  [re-read against the PDF 2026-10-01; the absence holds]]
 %   Exposed endpoints / Brown: 20  [Table I, p.5 ("No. of exposed hosts")]
 %   Exposed endpoints / Zhang: 3; 5; 7; 10  [Table 2, p.33 ("Endpoints", one per network)]
-%   Exposed endpoints / Ho: ---  [not stated (ho2024.md §B)]
-%   Attack scenario / Brown: general; targeted, a database host  [III.C.1, p.4 (Scenario 1; Scenario 2, "a specific 'target' host (e.g., a credential database)"); target at level 3 or 4, figure captions p.6]
+%   Exposed endpoints / Ho: ---  [not stated: Table 2 (p.19) as for levels of depth  [re-read against the PDF 2026-10-01; the absence holds]]
+%   Attack scenario / Brown: general; targeted  [III.C.1, p.4 (Scenario 1, "attempting to compromise the whole network"; Scenario 2, "a specific 'target' host (e.g., a credential database)"); target at level 3 or 4, figure captions p.6]
 %   Attack scenario / Zhang: general  [§4.4.1.1, p.28 (only the first scenario refactored)]
 %   Attack scenario / Ho: general  [§3.1, p.15 ("to try to compromise as many hosts as possible")]
-%   Deployment interval / Brown: uniform on 1\,000--5\,000\,ms  [Table I, p.5; §IV, p.5 ("E(T) = 3000 (time in milliseconds)")]
+%   End of run / Brown: whole network compromised; target host compromised  [III.C.1, p.4 (Scenario 1 "attempting to compromise the whole network"; Scenario 2 the target); no time limit stated (brown2023.md §B)]
+%   End of run / Zhang: 80\,\% of the hosts compromised  [p.33 ("the terminating condition for the simulation as the NCR reaching 0.8"); no time limit stated]
+%   End of run / Ho: time limit of 15\,000\,s  [Table 2, p.19 (Finish Time 15000; no unit given, read as seconds: Ho ran Zhang's MTDSimTime (p.14), whose clock counts seconds (zhang2023 p.32, Table 3), and the code compares times against env.now; Ho's one unit label, "Static Degrade Factor 2000(ms)", is a slip, the code's 2000 being on the same seconds clock); no compromise threshold stated ("as many hosts as possible", §3.1, p.15)]
+%   Deployment interval / Brown: uniform on 1--5\,s  [given in ms (1\,000--5\,000); Table I, p.5; §IV, p.5 ("E(T) = 3000 (time in milliseconds)")]
 %   Deployment interval / Zhang: exponential, mean 50; 100; 150; 200\,s  [p.33 ("four MTD Intervals, ranging from 50 to 200 seconds"); levels from the Figure 8 panel titles, p.35; exponential, §4.3.4, p.27]
-%   Deployment interval / Ho: 50; 100; 200  [Table 6, p.23 (no unit given); comparison with the execution schemes at 200, Table 8, p.24]
-%   Deployment duration / Brown: ---  [not stated (provenance.md, IS-TIM-03)]
-%   Deployment duration / Zhang: complete topology shuffle 110\,s, IP shuffle 100\,s, OS diversity 80\,s, optimised OS assignment 80\,s, service diversity 70\,s  [Table 3 "MTD Execution Time", p.34 (standard deviation 0.5 on each)]
-%   Deployment duration / Ho: ---  [not stated (ho2024.md §B)]
-%   Run ends / Brown: attack goal met  [III.C.1, p.4; no time limit stated (brown2023.md §B)]
-%   Run ends / Zhang: 80\,\% of hosts compromised  [p.33 ("the terminating condition for the simulation as the NCR reaching 0.8")]
-%   Run ends / Ho: 15\,000  [Table 2, p.19 (Finish Time 15000; no unit given)]
-%   Runs per combination / Brown: ---  [not stated (brown2023.md §B)]
-%   Runs per combination / Zhang: 100  [p.33 ("run the simulation 100 times for each variable set")]
-%   Runs per combination / Ho: ---  [not stated; the 100 of Table 1 is training episodes, not evaluation runs (ho2024.md §B)]
+%   Deployment interval / Ho: 50; 100; 200\,s  [Table 6, p.23 (no unit given, read as seconds as for the time limit); comparison with the execution schemes at 200, Table 8, p.24]
+%   Runs per configuration / Brown: ---  [not stated: Figures 4-5 report totals and averages with no trial count, and Table I (p.5) has none  [re-read against the PDF 2026-10-01; the absence holds]]
+%   Runs per configuration / Zhang: 100  [p.33 ("run the simulation 100 times for each variable set")]
+%   Runs per configuration / Ho: ---  [not stated: 3.4.1 (p.24) takes "the median of the trials" without their number; the 100 of Table 1 is training episodes, not evaluation runs  [re-read against the PDF 2026-10-01; the absence holds]]
 \begin{table}[htbp]
   \centering
-  \caption[The configurations of the MTDSim lineage]{The configurations the studies of the MTDSim lineage evaluated on. Values separated by semicolons were each run; a dash marks a value the study does not state. Ho gives the interval and the run's end without a unit; the simulator Ho ran counts in seconds \citep{zhang2023}. Tay \citep{tay2024} states no network, timing or run value.}
+  \caption[The configurations of the earlier MTDSim studies]{The configurations the earlier MTDSim studies ran. Times are in seconds; a dash marks a value the study does not state. Tay \citep{tay2024} states none.}
   \label{tab:lineage-configurations}
   \tablestyle
   \begin{tabular}{@{}P{3.0cm}P{3.7cm}P{4.6cm}P{3.4cm}@{}}
@@ -41,11 +38,10 @@
     Levels of depth & 5 & 4 & --- \\
     Subnets & 20 & --- & --- \\
     Exposed endpoints & 20 & 3; 5; 7; 10 & --- \\
-    Attack scenario & general; targeted, a database host & general & general \\
-    Deployment interval & uniform on 1\,000--5\,000\,ms & exponential, mean 50; 100; 150; 200\,s & 50; 100; 200 \\
-    Deployment duration & --- & complete topology shuffle 110\,s, IP shuffle 100\,s, OS diversity 80\,s, optimised OS assignment 80\,s, service diversity 70\,s & --- \\
-    Run ends & attack goal met & 80\,\% of hosts compromised & 15\,000 \\
-    Runs per combination & --- & 100 & --- \\
+    Attack scenario & general; targeted & general & general \\
+    End of run & whole network compromised; target host compromised & 80\,\% of the hosts compromised & time limit of 15\,000\,s \\
+    Deployment interval & uniform on 1--5\,s & exponential, mean 50; 100; 150; 200\,s & 50; 100; 200\,s \\
+    Runs per configuration & --- & 100 & --- \\
     \bottomrule
   \end{tabular}
 \end{table}

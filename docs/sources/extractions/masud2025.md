@@ -79,3 +79,47 @@ Executed attack: **no attacker agent runs.** The "attacker" is a graph node (V_h
 Framing vs execution (all without mechanism): l.96 "defense-adversary interaction model… force rescanning, credential reuse"; l.299 kill chain / ATT&CK / widespread-vs-focused / RoA prioritisation / command channels / fresh scans (ATT&CK is not in the reference list; Hutchins 2011 is the only kill-chain source); l.430 ASP "accounting for the attacker's available resources" (Eq. 1 uses CVSS exploitability only); l.657 "attackers will have to change their strategies"; l.693 future work names "assessment against sophisticated attacks". Terminology: the quantity is written RoA (l.62, l.446), RoC / "Return of attack" (Table 3, Alg. 2–3, §4.2–4.4) and "Return on Cost (RoC)" (l.628) — recorded, not asserted as inconsistency. Two scales (8-VM and 400-VM), one attacker node. Per-CVE costs C_v, C_s (Tables 1–2) are graph parameters, not a budget spent.
 
 Locator verified: "modeled after techniques in the cyber kill chain and MITRE ATT&CK" — PDF page 7 of 17, footer "Computers & Security 153 (2025) 104380 7" → **p. 7 correct** (the earlier open question is closed); same page carries "prioritized by return on attack". Algorithm 2 / §3.5.4 p.9; l.586 p.13; l.657 p.15.
+
+## Fair re-score as an analytical attacker model (2026-10-02, blind pass, PROPOSED — Marc rules)
+
+**Why.** Marc (2026-10-02) asked whether Masud's model had been scored fairly. The
+2026-09-07 rule ("a half needs something the executed attacker does… a paper that
+runs no attacker earns nothing") scores every analytical model zero by construction.
+That contradicts ch3 §3.2, which names analytical models as a legitimate MTD
+evaluation method.
+
+**The pass.** An independent reader scored the whole text (l.1–831) blind to this
+file, the dissertation and the handoffs. Rule: an analytical attacker model is the
+set of assumptions its computation makes about the attacker; credit what enters the
+computation, and report framing separately.
+
+| # | Blind mark | Evidence (line) | Session adjustment |
+|---|---|---|---|
+| 1 | partial | a multi-hop path from an entry VM to the target, re-evaluated per time instance (l.512, l.345, l.628); no campaign state carried between snapshots | keep |
+| 2 | partial | one fixed objective bounds the path set: the database on host 8 (l.188, l.414) | **none**. Column consistency: Kim's single fixed objective scores none, and the lineage's partial rests on two scenarios |
+| 3 | partial | every simple path enumerated and aggregated, none chosen (l.414, l.287) | keep |
+| 4 | partial, borderline none | graph edited and the path set recomputed after each MTD change (l.400, l.299, l.584); the attacker holds no state | keep, flagged borderline |
+| 5 | none | detection only as framing (l.21, l.454) | — |
+| 6 | partial | per-vulnerability cost (Tables 1–2, l.206–232); RoA = risk/cost per VM and path (l.420, l.446), driving no attacker-side choice; Algorithm 3 ranks by centrality (l.468) | keep, flagged borderline (a computed metric) |
+| 7 | none | memory only as framing (l.68, l.536, l.586) | — |
+| 8 | none | scheme logic on the defender's side only (l.192, l.318) | — |
+
+**Framing versus computation.** The framing (the kill chain and ATT&CK, RoA
+prioritisation, "forcing fresh scans and adaptation" at l.299; the
+defence–adversary interaction model at l.96; continuous adaptation at l.651 and
+l.657; a Bayesian attack graph at l.92) does not enter Algorithm 2 (l.408–426) or
+Algorithm 3 (l.464–486).
+
+**Fair credit.** The attacker is modelled at two layers: reachable VMs, and
+exploitable OS and service vulnerabilities, each with a cost. Its full path set,
+success probability, cost and return are recomputed after every MTD change, so each
+shuffle, OS swap or replica measurably changes what it can reach and what reaching
+it costs.
+
+**If ruled, the blast radius:**
+
+- Table 3.3;
+- tab:fidelity-verdict (the ch6 twin);
+- apt_model_criterion.md §(c), the prior-work column;
+- the §3.3.2 Masud paragraph and close;
+- the "strict but generous" rule text in the Table 3.3 comment block.

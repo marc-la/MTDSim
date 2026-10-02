@@ -168,14 +168,25 @@ Preconditions, the targeted scenario and the behaviour-binding forward clause we
 as not leaned on. Voice gate and the forward-use test against Figure 2.1 are pending
 the figure's wiring.
 
-### State of `dissertation.tex`
+### State of `dissertation.tex` (2026-09-30)
 
-**The tex has not been restructured.** It still carries the pre-2026-08-21 skeleton —
-four `\section` blocks (prior work / network model / defence mechanisms / attacker
-model) and a `sec:lineage` label. Cutting it to the shape above is a separate
-ratified pass: four sections become two, three subsections nest under the second, and
-`sec:lineage` disappears (verify nothing `\ref`s it first). Until that pass runs,
-**this file is the authority on ch2's shape and the tex is not.**
+**Redrafted 2026-09-30 on Marc's rulings** (handoff
+[`../../handoffs/2026-09-30_ch2_background_scrutiny.md`](../../handoffs/2026-09-30_ch2_background_scrutiny.md);
+yardstick [`../../workflows/background_conventions.md`](../../workflows/background_conventions.md)).
+Where this README and the tex disagree, the tex and that handoff win; the
+sections above are the 2026-08 design record. The redraft **overturned**:
+
+- Table 2.1, the lineage table. It is cut, and each part is attributed where it
+  is described.
+- The simultaneous deployment strategy, which is dropped.
+- The four-paragraph §2.1, now two paragraphs.
+- The three-magnification Figure 2.2, now the network plus one host.
+- Figure 2.3, which is cut.
+- Figure 2.1's modules listing their sub-figures' panels.
+
+Headings are now *MTD mechanisms and deployment strategies* (§2.2.2) and
+*Baseline attacker* (§2.2.3). The lean test ("nothing enters that a later chapter
+does not lean on") was run fact by fact and is recorded in the handoff.
 
 ## What lands here
 

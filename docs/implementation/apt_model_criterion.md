@@ -123,15 +123,24 @@ under this constraint.
 
 | # | Axis | Literature source | Prior MTD work (thesis Table 3.3, verified 2026-09-07) | This model today |
 |---|---|---|---|---|
-| 1 | Persistence — multi-stage campaign structure | Cho §V-A; Alshamrani §II-A (NIST i), §II-C | half: the lineage's per-host loop repeated across hosts; Kim's phases run in sequence by one script | **DESIGNED** |
-| 2 | Objective conditioning | Alshamrani §II-A, §II-C | half: the lineage's two scenarios condition host preference and the give-up rule as a design-time rule; Masud, Kim none | **DEMONSTRATED** |
-| 3 | Strategic plurality (multi-strategy branching) | Cho §V-D (dim. 2) | half: the lineage's three vectors in a fixed fallback order, never a branch; Masud, Kim none | **DEMONSTRATED** |
-| 4 | Adaptivity to defender resistance | Cho §V-A; Alshamrani §II-A (NIST ii) | half: the lineage's scripted restarts on an MTD block (re-discover, re-scan, switch vector, abandon after N, confusion penalty); Masud, Kim none | **DESIGNED** |
-| 5 | Stealth — evasion and passive reconnaissance | Cho §V-A; Alshamrani §II-C; Jalowski §4.3 | half: Kim's outbound shell chosen to evade a detector the testbed does not contain; lineage, Masud none (active scanning) | **NOT ADDRESSED** |
-| 6 | Incentive-driven rationality | Cho §V-A, §V-D (dim. 3) | half: the lineage's RoA ordering of exploits within a host (Brown); Masud's RoA is an outcome metric the defender consumes; Kim none | **DESIGNED** |
-| 7 | Learning capability | Cho §V-D (dim. 1); Jalowski §4.3 | half: Zhang's exploit-time halving on repeat vulnerabilities, within a run, learns the network not the defender; Masud, Kim none | **DESIGNED** |
-| 8 | MTD-scheme awareness (three Jalowski primitives) | Jalowski §4.1, §4.3 | none in any column | **NOT ADDRESSED** |
+| 1 | Persistence — multi-stage campaign structure | Cho §V-A; Alshamrani §II-A (NIST i), §II-C | **re-scored 2026-10-02:** lineage *full* (a multi-stage cycle repeated host by host until the target, never giving up); Masud partial (a chain of exploits per path, no state across intervals); Kim partial (four stages in one short attempt) | **DESIGNED** |
+| 2 | Objective conditioning | Alshamrani §II-A, §II-C | partial in all three: the lineage's two scenarios (host preference, give-up rule); Masud's one target ends every path; Kim's post-foothold shell for its one objective | **DEMONSTRATED** |
+| 3 | Strategic plurality (multi-strategy branching) | Cho §V-D (dim. 2) | partial: the lineage (experimenter-assigned scenario, fixed fallback order); Masud (every path enumerated, none chosen); Kim none | **DEMONSTRATED** |
+| 4 | Adaptivity to defender resistance | Cho §V-A; Alshamrani §II-A (NIST ii) | partial: the lineage's fixed response per disruption type; Masud's path set recomputed after each deployment (borderline); Kim none | **DESIGNED** |
+| 5 | Stealth — evasion and passive reconnaissance | Cho §V-A; Alshamrani §II-C; Jalowski §4.3 | partial: Kim's outbound shell chosen to evade a detector the testbed does not contain; lineage, Masud none | **NOT ADDRESSED** |
+| 6 | Incentive-driven rationality | Cho §V-A, §V-D (dim. 3) | partial: the lineage's RoA ordering of exploits within a host (only one action type weighed); Masud's per-path cost and RoA, computed, driving no choice; Kim none | **DESIGNED** |
+| 7 | Learning capability | Cho §V-D (dim. 1); Jalowski §4.3 | partial: Zhang's exploit-time halving (learns the network, not the MTD); Masud, Kim none | **DESIGNED** |
+| 8 | MTD-scheme awareness (three Jalowski primitives) | Jalowski §4.1, §4.3 | partial: Kim's success probability computed from the time left before the next MTD deployment (T_k, p. 10), used by no attack action; lineage, Masud none | **NOT ADDRESSED** |
 
+> **Prior-work column RE-SCORED 2026-10-02 (Marc: "the rescored table looks
+> right").** Every row was re-read blind under one model-agnostic rule: an attacker
+> model, executed or computed, is scored on what enters it, and framing is reported
+> separately. This replaces the "strict but generous" rule below, which scored any
+> analytical model zero by construction (Masud). The evidence is in
+> extractions/{brown2023,masud2025,kim2026}.md under "Fair re-score". Marks are now
+> tick / P / cross (thesis Table 3.3). One prior-work cell reaches *full*: the
+> lineage's persistence. The note below is the 2026-09-07 state, kept for the trail.
+>
 > **Prior-work column brought to the thesis's Table 3.3 (2026-09-07).** The
 > column was written from the lit review's §IV-B four-characteristic reading
 > (absent / He et al. only). It now restates the ratified cross-section —

@@ -157,3 +157,36 @@ Executed attacker: a fixed-flowchart agent (host discovery → port scan → cre
 Framing vs execution: "theoretically intelligent adversary" (l.51, §III) vs "All attacker agents… will always follow the attack procedure (as shown in Figure 3)" (l.184, §V.A); Scenario 2 "like APT-style attacks" (l.109) vs HARM-level knowledge only; abstract/intro "realistic attack scenarios… derived using Cyber Kill Chain and MITRE ATT&CK" vs l.184's concession that the framework is inspiration for the flowchart. Skill differentiation is explicitly future work (l.196).
 
 Locators verified against the PDF: "the exploitation skills are not configured to distinguish the different skills of adversaries" — p.7, §V.C (l.196). Also p.4 for the RoA priority stack (l.115) and the Scenario 2 rule (l.109–111); p.5 Table I; p.7 for l.186/192/196. Fig. 3 is an image with no text layer.
+
+## Fair re-score of the MTDSim lineage's attacker model (2026-10-02, blind pass, PROPOSED — Marc rules)
+
+**The pass.** An independent reader scored the lineage blind to every extraction,
+the dissertation and the handoffs. It read Brown, Zhang, Ho and Tay in full and used
+the model-agnostic rule (see masud2025.md, same date). Ho and Tay reuse Zhang's
+attacker unchanged (Ho l.242; Tay l.206).
+
+| # | Blind mark | Evidence | Session proposal |
+|---|---|---|---|
+| 1 | HAS (borderline) | a discovery → scan → credentials, exploit or brute force → C2 → pivot cycle repeated across hosts until the goal, through disruptions (Brown l.115, l.196 "never give up"; Zhang l.420) | **✓**. It runs a multi-stage campaign; that nothing follows C2 is column 2's matter, not this one's |
+| 2 | PARTIAL | two goals; the targeted one prefers hosts on the target's level (Brown l.103, l.109–111); both are "compromise", with no exfiltration or impediment stage; Zhang kept one (l.364) | ∼/P |
+| 3 | PARTIAL | two host-ordering strategies, assigned by the experimenter; methods in a fixed fallback order (Brown l.109, l.115) | P |
+| 4 | PARTIAL | the next action depends on the disruption's type, by a fixed rewind rule (Brown l.121, l.123; Zhang l.382) | P |
+| 5 | NONE | active scanning (Brown l.115); Tay's detection rate is defender-side (l.330) | ✗ |
+| 6 | HAS (narrow) | exploits ordered by RoA, impact as reward (Brown l.115, l.73); only exploit order on a host is weighed; the give-up count is fixed (l.196) | **P**. Table 3.2 says "each attack action", and only one action type is weighed. Flagged for Marc |
+| 7 | PARTIAL | exploit time halved on a reused vulnerability (Zhang l.392); regains a host it compromised before (Brown l.192); none of it about MTD deployments | P |
+| 8 | NONE | the schemes, forced trigger and learning defender are all defender-side (Zhang l.323–327; Ho l.246; Tay) | ✗ |
+
+**Framing that does not enter the model:**
+
+- "theoretically intelligent adversary" (Brown l.51);
+- "APT-style attacks" (l.109);
+- "confusion and uncertainty" (l.17; a time penalty and a rescan, l.186);
+- "adaptively changing actions" (Zhang l.240);
+- "learning capabilities" (Zhang l.392);
+- Ho concedes "only one type of adversary" (l.573).
+
+**Fair credit.** MTDSim replaced the single-step attackers of earlier attack-graph
+and game models with an executing procedure derived from the Kill Chain and ATT&CK.
+That procedure orders exploits by RoA, responds differently to each kind of MTD
+disruption, and drops the assumption that a compromised host stays compromised
+(Brown l.113, l.119–135, l.192).

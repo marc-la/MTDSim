@@ -2,18 +2,32 @@
 
 ## What this chapter does
 
-The literature review (ch3 in the ratified structure, after the background chapter)
-tells each category of prior work as a **chronological story that narrows onto the
-gap** — a method, what it achieved, the limitation that forced the next method —
-never a neutral catalogue. Every cited work earns a sentence of evaluation. The
-categories converge so that, by the chapter's end, the reader concludes the gap
-before being told it: none of the surveyed work evaluates MTD against a post-ingress,
-objective-driven campaign. Its three ratified sections (2026-08-11): a survey of APT
-attackers, attacker models in MTD, and how MTD is evaluated. Citation selection per
-category is the *first* method (sets the direction), the *most established* (test of
-time), and the *latest* (current-year where possible); the introduction later
-compresses this narrowing into a landmark-to-landmark sprint, so notes here should
-mark which works are the landmarks. (Whole-document guidance:
+The literature review (ch3, after the background chapter) argues from the
+literature that MTD has not been evaluated against an attacker that behaves like
+an APT after its foothold. Its shape (as of the 2026-09-30 scrutiny, ledger
+[`../../handoffs/2026-09-30_ch3_lit_review_scrutiny.md`](../../handoffs/2026-09-30_ch3_lit_review_scrutiny.md)):
+three themed strands, each closing on its limitation, then the research gap:
+
+- **§3.1 APT attacker behaviour** (SQ1): the APT and its lifecycle, ATT&CK, attack
+  profiling and Attack Flow; closes on what the curated record lacks (tempo) and
+  where the apparatus lives (outside MTD evaluation).
+- **§3.2 MTD evaluation** (SQ3): defence modelling approaches, metrics
+  (Table 3.1, the field map in Cho's frame), evaluation methods.
+- **§3.3 Attacker models in MTD** (SQ2): the eight properties of an APT attacker
+  that the literature says MTD attacker models lack (Table 3.2, fixed before any
+  scoring), and a comparison of the MTDSim lineage, Masud and Kim against them
+  (Table 3.3).
+- **§3.4 Research gap** (promoted from §3.3.3 on 2026-10-01): the chapter-level
+  close, drawn from all three strands.
+
+Tables 3.2 and 3.3 are the chapter's main exports: chapter 4 builds toward the
+eight properties and §6.3 scores the APT attacker model on them (Table 7.1). The
+genre yardstick is
+[`../../workflows/literature_review_conventions.md`](../../workflows/literature_review_conventions.md):
+themes at the top with a chronology inside each, a funnel onto the gap (this
+reconciles the 2026-08-11 "chronological story" framing with the 2026-09-08
+recast); every cited work earns a sentence of evaluation; the scoring table states
+its row rule and carries no aggregate. (Whole-document guidance:
 [`../_writing_guide.md`](../_writing_guide.md).)
 
 What lands here: *positioning and gap arguments* — research-gap statements, precedent
