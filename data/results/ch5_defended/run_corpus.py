@@ -227,6 +227,10 @@ def _movement(job: dict) -> dict:
         # the vulnerability memory (Section 4.4.5); absent from the 100-seed
         # corpus's jobs, so those re-run byte-identical with it off
         exploit_learning_rate=job.get("exploit_learning_rate"),
+        # the label-blind partition control's nets (run_partition_control.py):
+        # a repo-relative directory of the same construction; absent from every
+        # other job, so those load the committed data/ogasp/petri/ nets as before
+        **({"petri_dir": HERE.parents[2] / job["petri_dir"]} if job.get("petri_dir") else {}),
         **({"mtd_ai": mtd_ai} if mtd_ai is not None else {}),
         **overlay_kw,
     )

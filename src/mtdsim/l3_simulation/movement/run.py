@@ -19,6 +19,7 @@ from __future__ import annotations
 
 import random
 from dataclasses import dataclass
+from pathlib import Path
 from typing import Any, Callable
 
 import numpy as np
@@ -298,6 +299,7 @@ def run_movement(
     token_hold: Any | None = None,
     attack_objective: str = "general",
     target_layer: int | None = None,
+    petri_dir: Path | str | None = None,
 ) -> MovementRunResult:
     """Run one movement-layer simulation and return its :class:`MovementRunResult`.
 
@@ -410,6 +412,14 @@ def run_movement(
     ``"general"`` none of that is installed and the run is byte-identical to
     every run before the objective existed; the 80 % ratio stays its criterion.
 
+    ``petri_dir`` reads the profile's routing net (``<profile>_structural.json``
+    and ``synthetic_overlay.json``) from another directory built by the same
+    rules — the label-blind partition control's random groups, which reuse the
+    four profile names as slot names (``petri/partition_control.py``). Left
+    ``None`` the committed ``data/ogasp/petri/`` nets load exactly as before.
+    Nothing else at this seam is keyed by profile: the controller mapping, the
+    outcome overlay and the dwell catalogue are keyed by tactic.
+
     ``attacker_state`` attaches a within-run :class:`AttackerState` by wrapping
     the three collaborators the walk consumes — :class:`StatefulTiming` reports
     every place entry, :class:`ModulatedOverlay` reports every verdict and
@@ -449,7 +459,11 @@ def run_movement(
         # frozen-state guard is untouched. See exploit_learning_yield_prereg.md.
         adversary.enable_exploit_ledger()
 
-    routing_net = load_routing_net(profile, with_synthetic_overlay=with_synthetic_overlay)
+    routing_net = load_routing_net(
+        profile,
+        with_synthetic_overlay=with_synthetic_overlay,
+        **({"petri_dir": petri_dir} if petri_dir is not None else {}),
+    )
     if uniform_weights:
         routing_net = uniform_weight_variant(routing_net)
     if controller is None:
