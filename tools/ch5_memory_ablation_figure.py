@@ -1,4 +1,5 @@
-"""Figure 5.7 (fig:ablation-memory), §5.4.2 Vulnerability memory: NCR with and
+"""Appendix F figure (fig:ablation-memory; §5.4.3 Vulnerability memory until
+2026-10-02, when it moved beside its table on Marc's ruling): NCR with and
 without the memory, against the number of services per operating system, with
 no MTD (a) and under service diversity at 200 s (b). Reads
 data/results/ch5_defended/memory_ablation_numbers.json; the table beside it
@@ -51,7 +52,7 @@ import math
 from _ch5_style import (FONT, PREAMBLE, REPO, axes, compile_fig, errorbar, key_row, marker,
                         panel_title, write_fig)
 
-STEM = "fig_5-4b_ablation_memory"
+STEM = "fig_F-2_ablation_memory"
 NUMBERS = REPO / "data" / "results" / "ch5_defended" / "memory_ablation_numbers.json"
 HOSTS = 50
 COLS = (("none", "No MTD"), ("service_diversity", r"Service diversity, 200\,s"))

@@ -335,12 +335,12 @@ def emit_value_table(sweeps: dict) -> tuple[str, list]:
         w(r"  \caption[%s under each attacker, by MTD and deployment interval]{%s for each MTD mechanism and deployment strategy against the APT attacker model, its attack profiles $c_1$ to $c_4$ combined, and against the baseline attacker, at each deployment interval; 1 is %s, 0 is as many as with no MTD, and a negative value is %s. Rows grouped as panels~%s of Figure~\ref{fig:eff-cross-arm}; an italic row with values is a layer's mean over its mechanisms, the line the figure plots. Grey text: its %s includes zero; each cell is from 4\,000 runs for the APT attacker model (1\,000 per attack profile) and 1\,000 for the baseline attacker, and a layer's mean from its mechanisms' runs together.@BOUND@}" % (name, name, one, neg, panels, IV_BOOT))
         cap_at = len(L) - 1  # the bound decode joins the caption only if a cell needs it
         w(r"  \label{tab:eff-interval-values%s}" % suffix)
-        w(r"  \tablestyle\scriptsize\setlength{\tabcolsep}{3pt}\rowcolors{1}{}{}")  # the groups' rules separate rows; zebra would stripe the headers
+        w(r"  \tablestyle\scriptsize\setlength{\tabcolsep}{3pt}")  # group rows keep the stripes (Marc, 2026-10-01)
         w(r"  \begin{tabular}{@{}P{3.75cm}*{%d}{>{\centering\arraybackslash}p{0.78cm}}@{}}" % (2 * n))
         w(r"    \toprule")
         w(r"    & \multicolumn{%d}{c}{APT attacker model} & \multicolumn{%d}{c}{Baseline attacker} \\" % (n, n))
         w(r"    \cmidrule(lr){2-%d}\cmidrule(lr){%d-%d}" % (n + 1, n + 2, 2 * n + 1))
-        w(r"    Deployment interval (s) & %s & %s \\" % (" & ".join(fmt_thousands(int(i)) for i in ivs),
+        w(r"    \rowcolor{white}Deployment interval (s) & %s & %s \\" % (" & ".join(fmt_thousands(int(i)) for i in ivs),
                                                        " & ".join(fmt_thousands(int(i)) for i in ivs)))
 
         def cells_of(kind, key):
@@ -356,9 +356,9 @@ def emit_value_table(sweeps: dict) -> tuple[str, list]:
         for header, layer, conds in VALUE_ROWS:
             w(r"    \midrule")
             if layer:  # the plotted mean on the layer's own row
-                w(r"    \textit{%s, mean} & %s \\" % (header, cells_of("layer", layer)))
+                w(r"    \rowcolor{white}\grouplabel{%s, mean} & %s \\" % (header, cells_of("layer", layer)))
             else:
-                w(r"    \multicolumn{%d}{@{}l}{\textit{%s}} \\" % (2 * n + 1, header))
+                w(r"    \grouprow{%d}{%s} \\" % (2 * n + 1, header))
             for c in conds:
                 w("    \\quad %s & %s \\\\" % (LONG[c], cells_of("attacker", c)))
         w(r"    \bottomrule")

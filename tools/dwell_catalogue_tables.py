@@ -53,7 +53,7 @@ FAMILY_LABEL = {
 # the value inherits. It is the value's *shape source*, not the verb the tactic
 # dispatches at run time --- the caption says so, because the two differ.
 PRICED_FROM = {
-    "scan-shaped": "MTDSim's scan actions, one enumeration pass",
+    "scan-shaped": "MTDSim's scan attack actions, one enumeration pass",
     "exploit-shaped": "MTDSim's exploit time, at median complexity",
     "prep-off-network": "no in-simulator dwell",
 }
@@ -155,10 +155,10 @@ def main() -> None:
         f"The anchor families the {len(tactics)} declared dwell times resolve "
         f"onto, so the model carries {len(anchors) - 1} free timing parameters "
         f"rather than {len(tactics)}. \\emph{{Priced from}} names where a "
-        "value's shape came from, which is not the action the tactic dispatches "
+        "value's shape came from, which is not the attack action the tactic dispatches "
         "at run time --- for that mapping see Figure~\\ref{fig:controller-mapping}. "
         "The evidence column reads: \\emph{priced by MTDSim}, the value is the "
-        "simulator's own action cost, inherited and not tuned; \\emph{declared "
+        "simulator's own attack action cost, inherited and not tuned; \\emph{declared "
         "and swept}, a declared value whose robustness across its band is "
         "reported in Appendix~\\ref{app:sensitivity}; \\emph{declared, off-clock}, "
         "no in-simulator dwell at all --- resource development is an immediate "
@@ -182,7 +182,7 @@ def main() -> None:
         "How each declared dwell was arrived at. \\emph{Family} is the anchor the "
         "value takes its shape from (Table~\\ref{tab:dwell-anchors}); "
         "\\emph{Mult.} is the per-family multiplier that separates tactics "
-        "sharing one, which is why two tactics dispatching the same action can "
+        "sharing one, which is why two tactics dispatching the same attack action can "
         "hold different dwells. \\emph{Sweep band} "
         "is the declared band the value may take, in units of its family anchor --- "
         "the band is a \\emph{parameter} declared here, while what happened when "

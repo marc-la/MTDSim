@@ -214,23 +214,23 @@
   \centering
   \caption[The evaluation metrics]{The evaluation metrics and their sources.}
   \label{tab:metrics}
-  \tablestyle\rowcolors{1}{}{}
+  \tablestyle
   \begin{tabular}{@{}P{9.2cm}P{4.2cm}@{}}
     \toprule
     Metric & Source \\
     \midrule
-    \multicolumn{2}{@{}l}{\emph{Attacker behaviour} (Section~\ref{subsec:metrics-behaviour})} \\
+    \rowcolor{white}\multicolumn{2}{@{}l}{\grouplabel{Attacker behaviour} (Section~\ref{subsec:metrics-behaviour})} \\
     \quad Relative tactic occurrence & \citep{rodriguez2024} \\
     \quad Distinct attack paths & this dissertation, after \citep{hong2018} \\
     \quad Attack rate & \citep{zhan2013} \\
     \quad Attack confidentiality & \citep{zaffarano2015} \\
     \addlinespace
-    \multicolumn{2}{@{}l}{\emph{Attack outcome} (Section~\ref{subsec:metrics-outcome})} \\
+    \rowcolor{white}\multicolumn{2}{@{}l}{\grouplabel{Attack outcome} (Section~\ref{subsec:metrics-outcome})} \\
     \quad Attack success probability (ASP) & \citep{cho2020} \\
     \quad Network compromise ratio (NCR) & \citep{zhang2023} \\
     \quad Mean time to compromise (MTTC) & \citep{mcqueen2006, zhang2023} \\
     \addlinespace
-    \multicolumn{2}{@{}l}{\emph{MTD effectiveness} (Section~\ref{subsec:metrics-effectiveness})} \\
+    \rowcolor{white}\multicolumn{2}{@{}l}{\grouplabel{MTD effectiveness} (Section~\ref{subsec:metrics-effectiveness})} \\
     \quad ASP reduction & \citep{alavizadeh2022} \\
     \quad NCR reduction & \citep{alavizadeh2022} \\
     \quad Attack actions blocked per MTD deployment & \citep{brown2023} \\

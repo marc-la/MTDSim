@@ -208,7 +208,7 @@ def write_table(out: dict) -> None:
     body = []
     for cond in out["conditions"]:
         body.append(r"    \addlinespace" if body else "")
-        body.append(rf"    \multicolumn{{6}}{{@{{}}l}}{{\emph{{{COND_LABEL[cond]}}}}} \\")
+        body.append(rf"    \grouprow{{6}}{{{COND_LABEL[cond]}}} \\")
         for pool in out["pools"]:
             r = out["reads"][f"{pool}|{cond}"]
             a, o = r["arms"], r["on_minus_off"]
@@ -228,12 +228,12 @@ def write_table(out: dict) -> None:
          r"succeed, NCR, and Cohen's $d$ on NCR, with minus without, with its 95\,\% bootstrap interval over seeds. An exploit "
          r"the host's operating system rules out is not counted.}"),
         r"  \label{tab:ablation-memory}",
-        r"  \tablestyle\rowcolors{1}{}{}",
+        r"  \tablestyle",  # group rows keep the stripes (Marc, 2026-10-01)
         r"  \begin{tabular}{@{}cccccc@{}}",
         r"    \toprule",
         r"    & \multicolumn{2}{c}{Exploits that succeed} & \multicolumn{3}{c}{NCR} \\",
         r"    \cmidrule(lr){2-3}\cmidrule(lr){4-6}",
-        r"    Services per OS & with & without & with & without & Cohen's $d$ \\",
+        r"    \rowcolor{white}Services per OS & with & without & with & without & Cohen's $d$ \\",
         r"    \midrule",
         *[b for b in body if b],
         r"    \bottomrule",

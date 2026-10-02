@@ -203,11 +203,11 @@ def emit(n_flows: int) -> tuple[str, float, float]:
     svg.rect(drv[0], bas[0], drv[1], bas[1], "inner", rx=4)
     svg.text(ac, bas[0] + 20, "baseline", "lbl", extra=' font-weight="bold"')
     svg.text(ac, bas[0] + 39, "attacker", "lbl", extra=' font-weight="bold"')
-    act = (at[0] + 16, at[0] + 106)
+    act = (at[0] + 10, at[0] + 112)   # wide enough for "attack actions"
     ay = (iy0 + 56, iy0 + 96)
     ayc = (ay[0] + ay[1]) / 2
     svg.rect(act[0], ay[0], act[1], ay[1], "inner", rx=4)
-    svg.text(sum(act) / 2, ayc + 6, "actions", "lbl")
+    svg.text(sum(act) / 2, ayc + 6, "attack actions", "lbl")
     for y in ((apt[0] + apt[1]) / 2, (bas[0] + bas[1]) / 2):
         x0_, y0_, x1_, y1_ = drv[0] - 3, y, act[1] + 5, ayc + (8 if y > ayc else -8)
         L = ((x1_ - x0_) ** 2 + (y1_ - y0_) ** 2) ** 0.5
@@ -233,7 +233,7 @@ def emit(n_flows: int) -> tuple[str, float, float]:
     # (the way MTD holds an attacker back), routed under the modules as there
     ly = iy1 + 22
     svg.path(f"M{sum(d) / 2},{iy1 + 2} V{ly} H{(at[0] + act[1]) / 2} V{iy1 + 5}", "couples", marker="mG")
-    svg.text((d[1] + at[0]) / 2 + 40, ly - 6, "interrupts", "sm halo")
+    svg.text((d[1] + at[0]) / 2 + 40, ly - 6, "disrupts", "sm halo")
 
     # ---------------------------------------------------------------- output
     xm = (at[0] + at[1]) / 2

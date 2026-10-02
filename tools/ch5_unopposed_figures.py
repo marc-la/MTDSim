@@ -159,13 +159,14 @@ TWO_LINE = {p: LABEL[p] for p in FOUR}  # column heads: the codes, one line
 # mapping), so the baseline attacker's verbs line up with the tactics that use them
 # and each of its cells spans its group: no footnote, no repeated value
 # (scrutinise-figure round 1, 2026-09-24). The group names are Figure 2.x's words.
+from _ch5_style import ACTIVITY  # plain phase names (2026-09-30)
 GROUPS = (
-    (r"\texttt{SCAN\_HOST}", "SCAN_HOST", ("reconnaissance",)),
-    (r"\texttt{ENUM\_HOST}", "ENUM_HOST", ("lateral-movement",)),
-    (r"\texttt{SCAN\_PORT}", "SCAN_PORT", ("discovery",)),
-    (r"\texttt{EXPLOIT\_VULN}", "EXPLOIT_VULN", ("initial-access", "execution", "privilege-escalation")),
-    (r"\texttt{BRUTE\_FORCE}", "BRUTE_FORCE", ("credential-access",)),
-    (r"\texttt{SCAN\_NEIGHBOR}", "SCAN_NEIGHBOR", ("command-and-control",)),
+    (ACTIVITY["SCAN_HOST"], "SCAN_HOST", ("reconnaissance",)),
+    (ACTIVITY["ENUM_HOST"], "ENUM_HOST", ("lateral-movement",)),
+    (ACTIVITY["SCAN_PORT"], "SCAN_PORT", ("discovery",)),
+    (ACTIVITY["EXPLOIT_VULN"], "EXPLOIT_VULN", ("initial-access", "execution", "privilege-escalation")),
+    (ACTIVITY["BRUTE_FORCE"], "BRUTE_FORCE", ("credential-access",)),
+    (ACTIVITY["SCAN_NEIGHBOR"], "SCAN_NEIGHBOR", ("command-and-control",)),
     ("dwell-only", None, ("resource-development", "persistence", "stealth", "defense-impairment",
                           "collection", "exfiltration", "impact")),
 )
@@ -396,7 +397,7 @@ def emit_table(core: dict) -> str:
     # carries the classes), full text width
     # natural width, the house table style (scrutiny round 2026-09-30: it was
     # stretched to the text width); the attacker model is a group label row
-    w(r"  \tablestyle\rowcolors{1}{}{}")
+    w(r"  \tablestyle")  # group rows keep the stripes (Marc, 2026-10-01)
     w(r"  \begin{tabular}{@{}lcccc@{}}")
     w(r"    \toprule")
     w(r"    Attacker & ASP & NCR & MTTC (s) & Attack rate (per minute) \\")
@@ -425,7 +426,7 @@ def emit_table(core: dict) -> str:
              for k in r}
         return "    %s & %s & %s & %s & %s \\\\" % (name, f["asp"], f["ncr"], f["mttc"], f["rate"])
 
-    w(r"    \multicolumn{5}{@{}l}{\textit{%s}} \\" % LABEL["movement"])
+    w(r"    \grouprow{5}{%s} \\" % LABEL["movement"])
     for p in PROFILES:
         w(row(r"\quad " + LABEL[p], p))
     w(r"    \midrule")
@@ -451,13 +452,13 @@ def emit_detector_table(core: dict) -> tuple[str, list[str]]:
     w("%   (core.detector_grid). Do not hand-edit; regenerate. 2026-09-30. DRAFT STATE --- ratify on read.")
     w(r"\begin{table}[htbp]")
     w(r"  \centering")
-    w(r"  \caption[Attack confidentiality across the detector's count and window]{Attack confidentiality (\%%) with no MTD running at each count and window of the scan detector (Section~\ref{subsec:metrics-behaviour}), for the APT attacker model on the attack profiles $c_1$ to $c_4$ and for the baseline attacker, with the share of the baseline attacker's actions each setting flags. The declared setting, five actions within 60\,s, is in bold. Every value's 95\,\%% bootstrap interval over runs is within %.1f points.}" %
+    w(r"  \caption[Attack confidentiality across the detector's count and window]{Attack confidentiality (\%%) with no MTD running at each count and window of the scan detector (Section~\ref{subsec:metrics-behaviour}), for the APT attacker model on the attack profiles $c_1$ to $c_4$ and for the baseline attacker, with the share of the baseline attacker's attack actions each setting flags. The declared setting, five attack actions within 60\,s, is in bold. Every value's 95\,\%% bootstrap interval over runs is within %.1f points.}" %
       (100 * max(max(v["hi"] - v["point"], v["point"] - v["lo"]) for g in core["detector_grid"] for v in g["confidentiality"].values())))
     w(r"  \label{tab:detector-memory}")
     w(r"  \tablestyle\setlength{\tabcolsep}{4pt}")
     w(r"  \begin{tabular}{@{}cc*{5}{>{\centering\arraybackslash}p{1.35cm}}>{\centering\arraybackslash}p{2.6cm}@{}}")
     w(r"    \toprule")
-    w(r"    Count & Window (s) & %s & Baseline attacker's actions flagged (\%%) \\" % " & ".join(
+    w(r"    Count & Window (s) & %s & Baseline attacker's attack actions flagged (\%%) \\" % " & ".join(
         r"\shortstack{baseline\\attacker}" if q == "baseline" else LABEL[q] for q in SERIES))
     w(r"    \midrule")
     for g in core["detector_grid"]:

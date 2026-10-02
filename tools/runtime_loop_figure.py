@@ -292,7 +292,7 @@ def emit(order, axis, net, win, durations, mapping, verbs, fmatrix, n_rules,
     for v in verbs:
         w(r"\fill[black!68] (%.3f,%.3f) circle (1.4pt);" % (vx[v], vy_row))
     w(r"\node[anchor=east,text=black!58] at (%.3f,%.3f) {tactics};" % (row_l - 0.20, ty_row))
-    w(r"\node[anchor=east,text=black!58] at (%.3f,%.3f) {actions};" % (row_l - 0.20, vy_row))
+    w(r"\node[anchor=east,align=right,text=black!58] at (%.3f,%.3f) {attack\\actions};" % (row_l - 0.20, vy_row))
     n_mapped = sum(1 for t in order if mapping.get(t))
     facts["mapping"] = (mapping_version, n_mapped, len(order) - n_mapped, len(verbs))
 
@@ -325,7 +325,7 @@ def emit(order, axis, net, win, durations, mapping, verbs, fmatrix, n_rules,
     # ================================================== join to the action ==
     y_act_top = ctrl_bot - H_JOIN
     jm = (ctrl_bot + y_act_top) / 2
-    for n, x, text in ((2, cx[0], "drawn dwell time"), (3, cx[1], "action")):
+    for n, x, text in ((2, cx[0], "drawn dwell time"), (3, cx[1], "attack action")):
         w(r"\draw[->,black!55,line width=0.9pt] (%.3f,%.3f) -- (%.3f,%.3f);" % (x, ctrl_bot - 0.08, x, y_act_top + 0.08))
         badge(w, x + 0.34, jm, n)
         w(r"\node[anchor=west,text=black!58] at (%.3f,%.3f) {%s};" % (x + 0.62, jm, text))

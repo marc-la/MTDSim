@@ -22,8 +22,8 @@ Two classes of string are authored here rather than read, and both are
 presentation text, which §g licenses as part of the figure spec:
 
 1. **Verb names.** Ruled 2026-09-05 (Marc): the six verbs are named as in the
-   simulator's code, in `\texttt`, exactly as Table 2.4 (`tab:attacker-states`)
-   names them — they are the action set's proper names, not raw identifiers
+   simulator's code, in `\texttt` --- OVERTURNED 2026-09-30: plain phase
+   names from `_ch5_style.ACTIVITY`, as Figure 2.3 names them — they are the action set's proper names, not raw identifiers
    leaking from a config file (the §g anti-pattern is tay2024's
    `sensitivity_1.0`; these are the names the dissertation itself uses for
    the states). VERB_ORDER pins the six the mapping may name. The earlier
@@ -82,7 +82,12 @@ VERB_ORDER = ("SCAN_HOST", "ENUM_HOST", "SCAN_PORT", "EXPLOIT_VULN",
 
 
 def verb_tex(verb: str) -> str:
-    return r"\texttt{%s}" % verb.replace("_", r"\_")
+    # Plain phase names since 2026-09-30 (Marc, ch2 redraft: the supervisor
+    # flagged the code names as undefined decoration); the one map is
+    # _ch5_style.ACTIVITY, so Figure 2.3, Figure 4.4, Table B.5 and chapter 5
+    # name each phase the same way.
+    from _ch5_style import ACTIVITY
+    return ACTIVITY[verb]
 
 # One row's reason, distilled from the mapping's own `reason` column for the
 # appendix table (`tab:controller-mapping`). These do NOT appear in the figure:
@@ -95,7 +100,7 @@ REASON = {
                       "foothold --- the substrate's only survey act.",
     "resource-development": "Acquires capability off-target, and no world outside "
                             "the victim network is modelled.",
-    "initial-access": "The only action whose deliberate effect converts a host the "
+    "initial-access": "The only attack action whose deliberate effect converts a host the "
                       "attacker does not own into one it does.",
     "execution": "Applies a vulnerability's effect to a service --- the only act "
                  "of running something on a target.",
@@ -115,12 +120,12 @@ REASON = {
     "lateral-movement": "Pops the next host, makes it current and sets the pivot --- "
                         "the act of moving to a remote system.",
     "command-and-control": "The one row the inherited design states itself: Brown "
-                           "describes this action as command and control revealing "
+                           "describes this attack action as command and control revealing "
                            "connected hosts.",
     "collection": "The substrate has no data --- hosts carry services and "
                   "vulnerabilities, nothing gatherable.",
     "exfiltration": "Neither half exists: nothing to take, and nowhere to send it.",
-    "impact": "No action destroys, encrypts or denies anything, so an objective-band "
+    "impact": "No attack action destroys, encrypts or denies anything, so an objective-band "
               "walk spends time rather than misrepresenting what it is doing.",
 }
 
@@ -257,7 +262,7 @@ def emit(rows: list[dict], entry: dict, axis, stage_of, stage_name) -> str:
       % (SMALL_FONT, STAGE_X + 0.08, hy))
     w(r"\node[anchor=east,font=%s,text=black!60] at (%.2f,%.2f) {ATT\&CK tactic};"
       % (SMALL_FONT, TACTIC_X, hy))
-    w(r"\node[anchor=center,font=%s,text=black!60] at (%.2f,%.2f) {action};"
+    w(r"\node[anchor=center,font=%s,text=black!60] at (%.2f,%.2f) {attack action};"
       % (SMALL_FONT, VERB_CX, hy))
 
     # --- tactic rows ---------------------------------------------------------
@@ -318,7 +323,7 @@ def emit_table(rows: list[dict], entry: dict, axis, stage_of, stage_name) -> str
              r"value it does under the tactic-to-action mapping, "
              r"drawn as Figure~\ref{fig:controller-mapping}. Rows run "
              r"in the tactic axis of that figure, grouped by lifecycle stage. A "
-             r"dash in the action column is a dwell-only tactic: %d of the %d "
+             r"dash in the attack action column is a dwell-only tactic: %d of the %d "
              r"consume simulated time and dispatch nothing, and the reason states "
              r"what the simulator would have to model before the row could be "
              r"mapped.}" % (n_dwell, len(rows)))
@@ -333,7 +338,7 @@ def emit_table(rows: list[dict], entry: dict, axis, stage_of, stage_name) -> str
     L.append(r"\footnotesize")
     L.append(r"\begin{tabular}{@{}l l p{0.46\textwidth}@{}}")
     L.append(r"\toprule")
-    L.append(r"Tactic & Substrate action & Reason \\")
+    L.append(r"Tactic & Attack action & Reason \\")
     L.append(r"\midrule")
     prev_stage = None
     for t in order:

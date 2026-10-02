@@ -7,7 +7,7 @@
 \centering
 \scriptsize
 \setlength{\tabcolsep}{4pt}
-\caption[Derivation of the declared dwell times]{How each declared dwell was arrived at. \emph{Family} is the anchor the value takes its shape from (Table~\ref{tab:dwell-anchors}); \emph{Mult.} is the per-family multiplier that separates tactics sharing one, which is why two tactics dispatching the same action can hold different dwells. \emph{Sweep band} is the declared band the value may take, in units of its family anchor --- the band is a \emph{parameter} declared here, while what happened when the anchors were moved across their bands is reported in Appendix~\ref{app:sensitivity}. The catalogue that carries these values is the chapter's Table~\ref{tab:dwell-catalogue}.}
+\caption[Derivation of the declared dwell times]{How each declared dwell was arrived at. \emph{Family} is the anchor the value takes its shape from (Table~\ref{tab:dwell-anchors}); \emph{Mult.} is the per-family multiplier that separates tactics sharing one, which is why two tactics dispatching the same attack action can hold different dwells. \emph{Sweep band} is the declared band the value may take, in units of its family anchor --- the band is a \emph{parameter} declared here, while what happened when the anchors were moved across their bands is reported in Appendix~\ref{app:sensitivity}. The catalogue that carries these values is the chapter's Table~\ref{tab:dwell-catalogue}.}
 \label{tab:dwell-derivation}
 \begin{tabular}{@{}l l r r c p{0.355\textwidth}@{}}
 \toprule
@@ -17,9 +17,9 @@ Reconnaissance & Scan-shaped & 1.0 & 35.0 & [0.5, 2] & Priced by the simulator a
 Resource development & Off-network prep & --- & 0.0 & --- & Preparation happens off-network, with nothing in-network to meter, so it precedes the simulator's clock. \\
 Initial access & Exploit-shaped & 1.0 & 4.5 & [0.5, 2] & Exploiting a public-facing service is what the simulator's complexity-scaled exploit time already prices. \\
 Execution & Low-and-slow & 0.5 & 22.5 & [0.1, 2] & A fast cross-cutting act in a low-and-slow wrapper: the pacing is the wrapper's, so the estimate leans fast. \\
-Persistence & Low-and-slow & 1.0 & 45.0 & [0.25, 4] & The durability layer built to outlast reboots and reimaging; no simulator action prices holding a foothold. \\
+Persistence & Low-and-slow & 1.0 & 45.0 & [0.25, 4] & The durability layer built to outlast reboots and reimaging; no attack action prices holding a foothold. \\
 Privilege escalation & Exploit-shaped & 1.0 & 4.5 & [0.5, 2] & Canonically vulnerability exploitation, which the simulator prices; the band spans direct exploit to token reuse. \\
-Stealth & Low-and-slow & 1.0 & 45.0 & [0.25, 4] & The group's reference by construction: a pace imposed on every other action, not a discrete dwell. \\
+Stealth & Low-and-slow & 1.0 & 45.0 & [0.25, 4] & The group's reference by construction: a pace imposed on every other tactic, not a discrete dwell. \\
 Defense impairment & Low-and-slow & 0.5 & 22.5 & [0.1, 4] & Widest uncertainty here: evasion is preferred, and disabling defences is a punctuated act before a noisy payload. \\
 Credential access & Exploit-shaped & 1.0 & 4.5 & [0.5, 2] & Dumping and cracking are on-host work the simulator prices, with fast ticket theft as the within-group skew. \\
 Discovery & Scan-shaped & 1.0 & 35.0 & [0.5, 2] & Reconnaissance's interior twin: the same enumeration run from inside a foothold, so it inherits the scan anchor. \\

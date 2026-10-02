@@ -611,8 +611,15 @@ The open list is in
 - **Table size.** `\tablestyle` (footnotesize) at the default gap and natural
   width for number tables; paragraph-column tables fill the text width. A table
   drops to `\scriptsize` with a 3 pt gap only when its natural width at
-  footnotesize exceeds the text width (Tables 5.4 and 5.5, 13 columns). A table
-  with group rows (an italic `\multicolumn` row per group) has no zebra stripes.
+  footnotesize exceeds the text width (Tables 5.4 and 5.5, 13 columns).
+- **Stripes everywhere** (Marc, 2026-10-01; overturns the 2026-09-30 rule that
+  group-row tables go unstriped: two looks in one thesis read as a difference
+  that means nothing). A group row is `\grouprow{<ncols>}{<label>}`, or
+  `\rowcolor{white}\grouplabel{<label>} & ...` when it carries values: it is
+  unshaded and restarts the count, so its first member is shaded like the first
+  body row of a flat table. A two-row header with a `\cmidrule` paints its second
+  row white (`\rowcolor{white}`), because the partial rule counts as a row.
+  `\rowcolors{1}{}{}` is retired.
 - **Figures.** Pack to 15.7 cm; each plot 3.0 cm tall; at most 8 y-ticks; the
   y-axis title on every row of panels; one key per figure where the panels share
   a series encoding, under the panel titles.

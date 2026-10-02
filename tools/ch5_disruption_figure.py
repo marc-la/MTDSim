@@ -111,7 +111,7 @@ def emit(d: dict) -> tuple[str, list[str]]:
     _bars(w, tl, X0, X1, AY0, BH,
           key=lambda v: v["blocked_per_deployment"]["point"],
           lohi=lambda v: (v["blocked_per_deployment"]["lo"], v["blocked_per_deployment"]["hi"]),
-          step=0.25, fmt=lambda v: ("%.2f" % v).rstrip("0").rstrip("."), ylabel=r"Actions blocked",
+          step=0.25, fmt=lambda v: ("%.2f" % v).rstrip("0").rstrip("."), ylabel=r"Attack actions blocked",
           facts=facts, tag="a")
     a_top = panel_title(w, X0, AY0 + BH, "Attack actions blocked per MTD deployment", "a")
     _bars(w, tl, X0, X1, BY0, BH,
@@ -236,20 +236,20 @@ def emit_table(d: dict) -> str:
         r"  \caption[What each MTD mechanism costs each attacker]{What an MTD deployment costs each attacker: each MTD mechanism deployed alone every 2\,000\,s, against the APT attacker model, its attack profiles $c_1$ to $c_4$ combined, and against the baseline attacker, in the order of Figure~\ref{fig:aio-adaptivity} (metrics in Section~\ref{subsec:metrics-effectiveness}). " + DECODE_BLOCKED + " " + decode_time_lost(C) + " Each cell is over %s runs for the APT attacker model (1\\,000 per attack profile) and %s for the baseline attacker. Brackets: a %s; each column is rounded to the precision of its widest interval, or one place finer where an interval bound would otherwise round to 0.%s}" % (fmt_thousands(runs["movement"]), fmt_thousands(runs["baseline"]), IV_BOOT, EXACT),
         r"  \label{tab:disruption}",
         # scriptsize, 3 pt gaps: at footnotesize the 3-decimal brackets exceed the text width (conventions, "Table size")
-        r"  \tablestyle\scriptsize\setlength{\tabcolsep}{3pt}\rowcolors{1}{}{}",  # the layer rows separate the rows; zebra would stripe them
+        r"  \tablestyle\scriptsize\setlength{\tabcolsep}{3pt}",  # group rows keep the stripes (Marc, 2026-10-01)
         r"  \begin{tabular}{@{}P{3.8cm}*{2}{>{\centering\arraybackslash}p{3.0cm}>{\centering\arraybackslash}p{2.4cm}}@{}}",
         r"    \toprule",
         r"    & \multicolumn{2}{c}{APT attacker model} & \multicolumn{2}{c}{Baseline attacker} \\",
         r"    \cmidrule(lr){2-3}\cmidrule(lr){4-5}",
         # the metrics' names, verbatim from Table 4.3 (Marc 2026-09-30: "blocked per run ... I don't recognise")
-        r"    MTD mechanism & Attack actions blocked per MTD deployment & Time lost per MTD deployment (s) & Attack actions blocked per MTD deployment & Time lost per MTD deployment (s) \\",
+        r"    \rowcolor{white}MTD mechanism & Attack actions blocked per MTD deployment & Time lost per MTD deployment (s) & Attack actions blocked per MTD deployment & Time lost per MTD deployment (s) \\",
     ]
     layer = None
     for m in PANEL_SINGLES:
         if LAYER[m] != layer:
             layer = LAYER[m]
             L.append(r"    \midrule")
-            L.append(r"    \multicolumn{5}{@{}l}{\textit{%s}} \\" % layer)
+            L.append(r"    \grouprow{5}{%s} \\" % layer)
         a, b = C[f"movement|{m}|{INTERVAL}"], C[f"baseline|{m}|{INTERVAL}"]
         L.append(r"    \quad %s & %s & %s & %s & %s \\" % (LONG[m], bl(a, "movement"), tl(a, "movement"),
                                                      bl(b, "baseline"), tl(b, "baseline")))

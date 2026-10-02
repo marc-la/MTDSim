@@ -610,7 +610,7 @@ def _matrix_table(rs: RuleSet, dec: dict, verdict: str, version: str, label: str
     L.append(r"\centering\tiny")
     L.append(r"\setlength{\tabcolsep}{2.2pt}")
     L.append(r"\caption[The complete %s weight set as committed]{"
-             r"The complete %s weight set (\texttt{%s}): rows are the source tactic $a$ whose action "
+             r"The complete %s weight set (\texttt{%s}): rows are the source tactic $a$ whose attack action "
              r"returned the %s verdict, columns the candidate next tactic $b$; every cell is "
              r"rule value $\times$ $d(a,b)$ (decomposition in Figure~\ref{fig:%s-weight-decomposition} "
              r"for the failure set). Stage-grouped axis; the diagonal is not a pair (self-loops are the "

@@ -112,7 +112,7 @@ def main() -> None:
         if isinstance(r, str):
             if body:
                 body.append(r"    \addlinespace")
-            body.append(rf"    \multicolumn{{6}}{{@{{}}l}}{{{r}}} \\")
+            body.append(rf"    \grouprow{{6}}{{{r[len(chr(92)+'emph{'):-1]}}} \\")
         else:
             body.append("    " + " & ".join(r) + r" \\")
     tex = [
@@ -129,12 +129,12 @@ def main() -> None:
          r"over seeds, and NCR reduction (Section~\ref{sec:evaluation-metrics}). Bold: the interval lies wholly beyond "
          r"$\pm 0.2$; $\dagger$: it crosses $\pm 0.2$; otherwise it lies within.}"),
         r"  \label{tab:ablation}",
-        r"  \tablestyle\rowcolors{1}{}{}",
+        r"  \tablestyle",  # group rows keep the stripes (Marc, 2026-10-01)
         r"  \begin{tabular}{@{}lccccc@{}}",
         r"    \toprule",
         r"    & \multicolumn{3}{c}{NCR} & \multicolumn{2}{c}{NCR reduction} \\",
         r"    \cmidrule(lr){2-4}\cmidrule(lr){5-6}",
-        r"    MTD & with & without & Cohen's $d$ & with & without \\",
+        r"    \rowcolor{white}MTD & with & without & Cohen's $d$ & with & without \\",
         r"    \midrule",
     ] + body + [r"    \bottomrule", r"  \end{tabular}", r"\end{table}", ""]
     TABLE.write_text("\n".join(tex), encoding="utf-8")
