@@ -22,12 +22,14 @@ TEXTWIDTH_CM = 455.24 / 28.45  # 16.0 cm, measured
 PACK_CM = 15.7                 # natural width a full-width figure packs to
 FONT = r"\footnotesize"
 
+# The attack graph before partition (corpus profile "aggregate", once c_agg)
+# left every chapter 5 float on 2026-10-02 (Marc): it is Section 5.4.1's
+# ablation arm, read there by data/results/ch5_defended/partition_ablation.py.
 PROFILES = (
     "objective_exfiltration",
     "objective_impact",
     "objective_exfiltration_impact",
     "objective_none_c2",
-    "aggregate",
 )
 FOUR = PROFILES[:4]
 LABEL = {

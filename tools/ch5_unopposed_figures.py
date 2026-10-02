@@ -51,8 +51,7 @@ PROFILES = (
     "objective_impact",
     "objective_exfiltration_impact",
     "objective_none_c2",
-    "aggregate",
-)
+)  # the attack graph before partition left Table 5.2 on 2026-10-02 (Section 5.4.1's ablation arm)
 FOUR = PROFILES[:4]
 # presentation names, mapped here and never read from the corpus (§g)
 LABEL = {
@@ -390,7 +389,7 @@ def emit_table(core: dict) -> str:
     w("% Caption session-written, how-to-read only. DRAFT STATE --- ratify on read.")
     w(r"\begin{table}[htbp]")
     w(r"  \centering")
-    w(r"  \caption[Both attackers with no MTD running]{The attack outcome and the attack rate (Table~\ref{tab:metrics}) with no MTD running, for the baseline attacker and for the APT attacker model on each attack profile and on the aggregate $c_{\mathrm{agg}}$, under the setup of Table~\ref{tab:experiment}. Values $\pm$ the half-width of a 95\,\% interval, each to the place of its interval's first significant figure; MTTC is taken over the runs that compromise a target host, whose share of all runs is the ASP.}")
+    w(r"  \caption[Both attackers with no MTD running]{The attack outcome and the attack rate (Table~\ref{tab:metrics}) with no MTD running, for the baseline attacker and for the APT attacker model on each attack profile, under the setup of Table~\ref{tab:experiment}. Values $\pm$ the half-width of a 95\,\% interval, each to the place of its interval's first significant figure; MTTC is taken over the runs that compromise a target host, whose share of all runs is the ASP.}")
     w(r"  \label{tab:unopposed-summary}")
     # one header row (2026-09-24, Marc: the class headers read loose; Table 4.3
     # carries the classes), full text width

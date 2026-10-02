@@ -4599,7 +4599,7 @@ partitions were considered and dismissed
 %      terminal tactic".
 
 They are not four disjoint graphs, because they come from the same
-attack graph, which is run beside them as the aggregate $c_{\mathrm{agg}}$.
+attack graph.
 They differ by what edges exist (Figure~\ref{fig:attack-profiles}). Flows from the same APT group, where there are several incidents, tend to
 go to the same attack profile, which is consistent with a stable objective
 per group: three of the seven flows in the double extortion profile come from
@@ -4727,8 +4727,7 @@ weights; any other marking is \emph{tangible}. Inhibitor arcs and
 further priority levels belong to the general definition and are not
 used here.
 
-Each attack profile $c$ of Section~\ref{sec:attack-profiles}, and the
-aggregate $c_{\mathrm{agg}}$ by the same construction, compiles
+Each attack profile $c$ of Section~\ref{sec:attack-profiles} compiles
 to a GSPN $\mathcal{N}_c = (P_c, T_T, T_I, I, O, W_c, M_0)$, where:
 \begin{enumerate}[nosep, leftmargin=*]
   \item $P_c = \{p\} \cup \{\hat{p}\}$: one tangible place $p$ for each
@@ -5101,7 +5100,8 @@ and~\ref{tab:overlay-failure-rules}).
 %  for Marc's redraft; DRAFT STATE.]
 Appendix~\ref{app:sensitivity} varies these values one at a time and reports
 what changes \citep{tenbroeke2016}. Section~\ref{sec:ablation} removes
-the failure matrix and reports what changes. Three values are not tested: the
+the partition into attack profiles, the failure matrix and the
+vulnerability memory in turn and reports what changes. Three values are not tested: the
 per-tactic dwell multipliers, $\sigma$, and the choice of one attack flow per
 operator.
 % INSERTION A APPLIED 2026-09-18 --- DRAFT STATE, ratify on read (Marc's
@@ -6387,8 +6387,7 @@ attacker's or MTD's.
 \textbf{Attacker.} The baseline attacker of
 Section~\ref{subsec:attacker-model}, and the APT attacker model of
 Chapter~\ref{ch:attacker-model} on each of its four attack profiles $c_1$ to
-$c_4$ and on the aggregate $c_{\mathrm{agg}}$, the attack graph of
-Section~\ref{sec:technique-graph} before it is partitioned into profiles. Both pursue the targeted attack scenario
+$c_4$. Both pursue the targeted attack scenario
 (Table~\ref{tab:attacker-objectives}).
 % 2026-09-20 (P1, P6; setup handoff §AL1 1a, 1f, §AM; Marc: "we default to the
 %  targeted for the movement attacker so I don't even think the split is even
@@ -7741,13 +7740,13 @@ only; track it, or move the point to the limitations in Chapter 6}.
 %  docs/implementation/connective_prose_audit.md); prior text in git.
 %  RATIFIED 2026-09-26 (Marc: 'I accept all this').
 Every effect is taken against the same attacker's no-MTD runs of Section~\ref{sec:attacker-in-operation}. Where the APT attacker model is one
-line or column, it pools $c_1$ to $c_4$ with equal weight; $c_{\mathrm{agg}}$
+line or column, it pools $c_1$ to $c_4$ with equal weight.
 % [CONNECTIVE-PROSE PASS 2026-09-26, ch5 U5b rule] The decision rule
 %  declared in the word the body uses ('told apart'). SESSION-GENERATED on
 %  Marc's 2026-09-26 go-ahead (docs/workflows/connective_prose.md; audit
 %  docs/implementation/connective_prose_audit.md); prior text in git.
 %  RATIFIED 2026-09-26 (Marc: 'I accept all this').
-appears separately in Section~\ref{subsec:eff-under-defence}. An effect is told apart from zero when its 95\,\% interval excludes zero, and MTD mechanisms and deployment strategies that
+An effect is told apart from zero when its 95\,\% interval excludes zero, and MTD mechanisms and deployment strategies that
 share a Scott--Knott rank are not told apart
 (Section~\ref{sec:dimensions}).
 Section~\ref{subsec:aio-disruption} shows what a single deployment does to each
@@ -8374,7 +8373,7 @@ NCR reductions is \prelim{-0.03}, with a 95\,\% bootstrap interval over seeds of
   \includegraphics{fig_5-3-3b_interval_mechanisms}
   % 2026-09-30 (Marc): the deployment strategies' figure merged in as panels (h) to (j).
   %  Caption session-written from the two it replaces. DRAFT STATE --- ratify on read.
-  \caption[NCR reduction by MTD and attack profile, across the deployment interval]{NCR reduction against the deployment interval for each MTD mechanism deployed alone, panels~(a) to~(g) in rows by the layer it rewrites (Table~\ref{tab:defence-mechanisms}), and for each deployment strategy, panels~(h) to~(j): the random deployment strategy, MTDShield (Appendix~\ref{app:mtdshield}) and the alternative deployment strategy (Table~\ref{tab:deployment-strategies}); for the attack profiles $c_1$ to $c_4$ and the aggregate $c_{\mathrm{agg}}$, with the baseline attacker dashed for comparison. Axes, zero and whiskers as in Figure~\ref{fig:eff-cross-arm}(a) to~(f).}
+  \caption[NCR reduction by MTD and attack profile, across the deployment interval]{NCR reduction against the deployment interval for each MTD mechanism deployed alone, panels~(a) to~(g) in rows by the layer it rewrites (Table~\ref{tab:defence-mechanisms}), and for each deployment strategy, panels~(h) to~(j): the random deployment strategy, MTDShield (Appendix~\ref{app:mtdshield}) and the alternative deployment strategy (Table~\ref{tab:deployment-strategies}); for the attack profiles $c_1$ to $c_4$, with the baseline attacker dashed for comparison. Axes, zero and whiskers as in Figure~\ref{fig:eff-cross-arm}(a) to~(f).}
   \label{fig:eff-suppression-profiles}
 \end{figure}
 
@@ -8698,8 +8697,8 @@ The NCR reduction of each MTD mechanism differs by at most 0.02 between the two
 models.
 
 The ablation covers two of the seven MTD mechanisms, both deployment
-intervals and $c_1$ to $c_4$; the other mechanisms, the deployment strategies and
-$c_{\mathrm{agg}}$ were not run without the failure matrix. Within that scope,
+intervals and $c_1$ to $c_4$; the other mechanisms and the deployment strategies were not run without the
+failure matrix. Within that scope,
 the results of this chapter do not depend on the failure matrix.
 Chapter~\ref{ch:discussion} discusses why.
 
@@ -8823,7 +8822,7 @@ on NCR, its $d$ stays below 0.2 at every pool, although under service diversity
 it is largest with the smallest pool.
 The ablation
 covers two of the seven MTD mechanisms at one deployment interval; the
-other mechanisms, the deployment strategies and $c_{\mathrm{agg}}$ were not run
+other mechanisms and the deployment strategies were not run
 without the memory. Within that scope, the results of this chapter do not
 depend on the vulnerability memory. Chapter~\ref{ch:discussion} discusses why.
 
