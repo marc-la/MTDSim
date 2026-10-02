@@ -8559,6 +8559,19 @@ raised in the regime runs is not yet investigated}
 %  means). Cohen names 0.2 a small effect; "negligible" below it is the
 %  convention built on that, so the sentence says so and does not put the
 %  word in Cohen's mouth. DRAFT STATE --- ratify on read.
+% 2026-10-02 SESSION-DRAFTED from Marc's selection rule ("reversible steps in
+%  our method ... high risk to validity ... contributed to a property we were
+%  marking"; the dwell times "cannot be removed"), replacing the preamble
+%  placeholder. DRAFT STATE, ratify on read.
+Three steps of the method can be removed with the APT attacker model still
+running: the partition into attack profiles, the failure matrix and the
+vulnerability memory. Each is our judgement, and so a risk to the validity of
+this chapter's results, and each gives the model one property of an APT
+attacker (Table~\ref{tab:attacker-properties}): objective conditioning,
+adaptivity and learning. The other parts of the model, such as the tactic
+dwell times, cannot be removed, and Appendix~\ref{app:sensitivity} varies
+their values instead.
+
 Each ablation compares the APT attacker model with and without one component,
 on the same seeds. The difference is measured by Cohen's $d$: the difference
 between the two means divided by their standard deviation over seeds, reported
@@ -8569,24 +8582,11 @@ variation from one seed to the next.
 % 2026-10-01 (Marc: "one table 5.6 covering both ablations in one form"; "the
 %  main headline figure of 5.4 [is] the table and both of the subsections talk
 %  about it"): SESSION-GENERATED sentence introducing it. DRAFT STATE.
-Table~\ref{tab:ablation} gives both ablations with 20 services per operating
-system, the network of every other result in this chapter.
+Table~\ref{tab:ablation} gives the three ablations with 20 services per
+operating system, the network of every other result in this chapter.
 
 \input{tables/tab_5-4a_ablation}
 
-% 2026-10-02 (Marc: "we chose these three because they were reversible steps
-%  in our method, high risk to validity, and they contributed to a property we
-%  were marking"; "the dwell times cannot be removed"): the selection rule.
-%  Design: docs/handoffs/2026-10-02_c_agg_ablation_proposal.md. DRAFT STATE.
-\noindent\emph{[Placeholder --- section preamble: the three components are the
-steps of the method that can be removed with the APT attacker model still
-running; each is our judgement, and each gives the model one of the eight
-properties (Table~\ref{tab:attacker-properties}): the attack profiles,
-objective conditioning (2); the failure matrix, adaptivity (4); the
-vulnerability memory, learning (7). Every other part cannot run without
-(the dwell times, the tactic-to-action mapping): its values are varied in
-Appendix~\ref{app:sensitivity} instead. Each is removed in turn on the same
-design, which this paragraph declares once.]}
 
 \subsection{Attack profiles by objective}
 \label{subsec:ablation-attack-profiles}
@@ -8607,27 +8607,64 @@ design, which this paragraph declares once.]}
 %    distinct attack paths, 1 000 runs each, k = 5: 254 with, 535 without
 %  Not negligible: the pre-declared size-matched control (proposal R5) decides
 %  objective against corpus size. Placeholders only; Marc dictates.]
-\noindent\emph{[Placeholder --- purpose, variant and prediction: the partition
-into attack profiles is our judgement (Section~\ref{sec:attack-profiles});
-without it, the APT attacker model runs on the attack graph
-(Section~\ref{sec:technique-graph}), compiled by the same construction from
-every attack flow, so at each tactic it may follow any objective's flows; if
-the partition matters, the attacker without it takes more distinct attack
-paths and MTD removes a different share of what it compromises; the same
-seeds, every MTD mechanism, deployment strategy and interval of
-Section~\ref{sec:effectiveness} (Table~\ref{tab:experiment}).]}
+% 2026-10-02 DRAFT STATE, SESSION-DRAFTED on Marc's ask ("draft attack
+%  profile by objective ... use some of my language ... my thinking and
+%  logic ... don't go too deep into the nuance"), in the moves of 5.4.2 and
+%  5.4.3: purpose (his: different objectives warrant different behaviour;
+%  the profiles captured it; does it change the outcome of MTD evaluation?),
+%  variant, prediction, manipulation check, outcome, scope. His expectation
+%  (outcomes similar, because the profiles drive the simulator's existing
+%  attack actions) is chapter 6's, with the why. Numbers:
+%  partition_ablation_numbers.json, n = 1 000: distinct attack paths over the
+%  first five steps, 1 000 runs each (with: one profile per seed in turn);
+%  the grid has 61 settings (no MTD; ten MTD conditions x six intervals), d
+%  negative in all 61, the interval wholly beyond 0.2 in 30, inside in 7,
+%  crossing in 24. Weight-carrying flows: 14, 6, 5, 4 of 29 (Section 4.3's
+%  operator rule). The control's result is owed (run_partition_control.sh).
+%  RATIFY ON READ.
+The attack profiles rest on APT attackers with different objectives behaving
+differently (Section~\ref{sec:attack-profiles}), and $c_1$ to $c_4$ do
+behave differently: they open their campaigns along different attack paths
+(Figure~\ref{fig:aio-coverage}(b)). The partition into attack profiles is our
+judgement, so this section tests whether it also changes any result of this
+chapter. Without the partition, the APT attacker model runs on the attack
+graph itself (Section~\ref{sec:technique-graph}), built by the same
+construction from every attack flow, so at each tactic it may follow the flows
+of any objective. If the partition matters, the attacker without it should
+take more distinct attack paths, and MTD should remove a different share of
+what it compromises. The attack graph ran beside $c_1$ to $c_4$ on the same
+1\,000 seeds, with no MTD and under every MTD mechanism and deployment
+strategy at every deployment interval (Table~\ref{tab:experiment}).
 
-\noindent\emph{[Placeholder --- manipulation check: distinct attack paths with
-and without the partition, on equal numbers of runs.]}
+Removing the partition changes where the attacker goes. Over its first five
+steps, the attacker without the partition takes 535 distinct attack paths in
+1\,000 runs; with it, taking each attack profile in turn, 254.
 
-\noindent\emph{[Placeholder --- outcome: NCR with and without, $d$ and NCR
-reduction at the shared cells (Table~\ref{tab:ablation}); the largest $d$
-anywhere in the grid (Appendix~\ref{app:supplementary-results}).]}
+Removing the partition also changes what the attacker achieves
+(Table~\ref{tab:ablation}). With no MTD, the attacker without it compromises
+more of the network: NCR is 0.189 against 0.171, and $d$ is $-0.28$. The
+difference carries into MTD effectiveness. Under IP shuffle at 2\,000\,s, NCR
+reduction is 0.24 without the partition and 0.33 with it; under OS diversity
+the two differ by at most 0.03. Across all 61 settings of MTD mechanism,
+deployment strategy and interval, the attacker without the partition
+compromises more in every one, and the interval of $d$ lies wholly beyond the
+negligible band in 30 of them (Table~\ref{tab:ablation-attack-profiles}).
 
-\noindent\emph{[Placeholder --- scope and verdict: what the ablation does not
-separate (the objective from the number of attack flows each net is built
-from); the verdict against the 0.2 threshold; Chapter~\ref{ch:discussion}
-discusses why.]}
+The partition does two things at once: it sorts the attack flows by
+objective, and it builds each Petri net from fewer of them, 4 to 14 of the 29
+that carry weight against all 29 for the attack graph. A net built from fewer
+flows offers fewer attack paths, whatever their objective. To separate the
+two, ten random partitions of the attack flows, each group the same size as
+an attack profile, were built and run in the same way.
+\noindent\emph{[Placeholder --- the size-matched control's result: where the
+random partitions' NCR and NCR reduction sit between $c_1$ to $c_4$ and the
+attack graph, at the five settings of Table~\ref{tab:ablation}.]}
+
+The ablation covers every MTD mechanism, deployment strategy and interval of
+this chapter. \emph{[Placeholder --- verdict, after the control: the results
+of this chapter depend on the partition by a small to medium effect, and the
+control attributes it to the objective, to the number of attack flows, or to
+both.]} Chapter~\ref{ch:discussion} discusses why.
 
 \subsection{Failure matrix}
 \label{subsec:ablation-failure-matrix}
@@ -8679,21 +8716,21 @@ deployment intervals (Table~\ref{tab:experiment}).
 %  no-MTD "with" rows differ (0.169 against 0.167).
 Removing the failure matrix changes where the attacker goes after a failure.
 After a failed initial access, the model with the
-failure matrix goes back to reconnaissance in 0.75 to 0.83 of cases on $c_1$,
+failure matrix goes back to reconnaissance in 0.76 to 0.83 of cases on $c_1$,
 $c_3$ and $c_4$ (on $c_1$, the weight of 0.750 that Figure~\ref{fig:gspn-gadget}
 draws), and the model without it in 0.08 to 0.10.
 On $c_2$ the model goes back to reconnaissance after
 no failed initial access, with or without the failure matrix.
 
-\owed{Removing the failure matrix does not change what the attacker achieves
-(Table~\ref{tab:ablation}).}{Section 5.4.1: the failure-matrix ablation ran with
-the vulnerability memory off; rerun both arms with the memory on at 1\,000 seeds,
-after which Table~\ref{tab:ablation}'s two no-MTD rows with each component agree (now 0.169
-against 0.167)} With no MTD and under IP shuffle and OS diversity at both
-intervals, $d$ is below 0.2. The largest is 0.13, under
-IP shuffle at 200\,s; there
-its interval reaches the edge of the negligible band, and everywhere else
-it lies inside it. In four of the five cells the model with the
+% 2026-10-02: the owed rerun is done (both arms with the vulnerability memory
+%  on, 1 000 seeds, ablation_numbers_memory.json; the with arm equals the
+%  partition block's). Numbers updated, owed mark closed; the IP shuffle 200 s
+%  interval is now [+0.057, +0.193], inside the band, so the edge clause goes.
+%  SESSION-EDITED, DRAFT STATE.
+Removing the failure matrix does not change what the attacker achieves
+(Table~\ref{tab:ablation}). With no MTD and under IP shuffle and OS diversity
+at both intervals, $d$ is below 0.2 and every interval lies inside the
+negligible band. The largest is 0.13, under IP shuffle at 200\,s. In four of the five cells the model with the
 failure matrix compromises more, the opposite direction to the prediction.
 The NCR reduction of each MTD mechanism differs by at most 0.02 between the two
 models.
@@ -9139,6 +9176,22 @@ exploit action, not the attacker's odds, limits what it can take
 (Section~\ref{sec:ablation}). Property 6: blank, with one sentence (a cost
 model is not part of the evaluated model) --- the mark in the table changes
 only on Marc's ruling.]}
+
+% 2026-10-02: Marc's reasoning for the attack-profile ablation (Section
+%  5.4.1), held here because the why is chapter 6's. Content points only.
+\noindent\emph{[Placeholder --- property 2 read like properties 4 and 7, with
+the opposite result: the attack profiles capture different behaviour
+(Figure~\ref{fig:aio-coverage}(b)) and, unlike the failure matrix and the
+vulnerability memory, they also change the outcome
+(Section~\ref{subsec:ablation-attack-profiles}). The expectation was that they
+would not: the profiles drive the simulator's existing attack actions, a
+finite set of blunt instruments, so much of each objective's behaviour is
+standardised away where the model joins MTDSim (Marc: ``you can speak, but
+you can only say three words''). Why the outcome moves anyway, from the
+size-matched control: the objective, or the size of the net, a larger and
+more connected net offering the attacker more attack paths. What it means for
+MTD evaluation: whether one attacker built from the whole corpus stands in
+for attackers with one objective.]}
 
 \noindent\emph{[Placeholder --- what the capture licenses: 38 attack flows
 give an envelope of documented behaviour, not one named group; the model can
@@ -10413,6 +10466,14 @@ Table~\ref{tab:eff-cross-arm} with its interval, for each attacker.
 
 % 2026-10-01 (Marc: "table 5.7 moves to the appendix"): the vulnerability
 %  memory's pool sweep, in Table 5.6's form. SESSION-GENERATED sentence, DRAFT STATE.
+% 2026-10-02: the attack profiles' ablation over the whole grid, cited by
+%  Section 5.4.1's outcome paragraph. SESSION-DRAFTED sentence, DRAFT STATE.
+Table~\ref{tab:ablation-attack-profiles} gives the attack profiles' ablation
+(Section~\ref{subsec:ablation-attack-profiles}) at every MTD mechanism,
+deployment strategy and deployment interval.
+
+\input{tables/tab_F-3_ablation_attack_profiles}
+
 Table~\ref{tab:ablation-memory} gives the vulnerability memory's ablation
 (Section~\ref{subsec:ablation-vulnerability-memory}) at every number of services
 per operating system.
