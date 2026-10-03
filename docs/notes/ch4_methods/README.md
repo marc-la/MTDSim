@@ -10,7 +10,7 @@ the material allows**. The chapter
 opener states what chapter 3 left unmeasured, the eight properties the model
 aims at and the sub-question each section answers; then five sections (shape as
 of the 2026-10-02 scrutiny, `docs/handoffs/2026-10-02_ch4_attacker_model_scrutiny.md`):
-4.1 *Attack graph construction* (what the graph is, then the corpus and the
+4.1 *Attack graph from attack flows* (renamed 2026-10-03; what the graph is, then the corpus and the
 resolution), 4.2 *Attack profiles by objective* (the four profiles first, then
 the stated-objective classification), 4.3 *Generalised stochastic Petri-net
 formalism* (the net per profile, the pre-intrusion overlay in c3 and c4, the

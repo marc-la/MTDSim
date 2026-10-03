@@ -132,20 +132,20 @@ def emit(n_flows: int) -> tuple[str, float, float]:
     nyc = (ny0 + ny1) / 2
     # the input, outside the built frame: the attack flows were drawn by
     # CTID's analysts, not by this dissertation
-    inp = (12, 168)
+    inp = (8, 162)
     stack(svg, inp[0], ny0, inp[1], ny1)
     svg.text(sum(inp) / 2, nyc - 8, f"{n_flows} attack flows", "title")
     svg.text(sum(inp) / 2, nyc + 16, "cyber threat", "sm")
     svg.text(sum(inp) / 2, nyc + 34, "intelligence", "sm")
 
     # the built frame: the APT attacker model, this dissertation's part
-    fx0, fx1, fy0, fy1 = 250, 894, 8, 166
+    fx0, fx1, fy0, fy1 = 270, 894, 8, 166   # room for 'aggregate' between the flows' cards and the frame
     svg.rect(fx0, fy0, fx1, fy1, "built", rx=7)
     svg.text(fx0 + 16, fy0 + 26, "Building the APT attacker model", "title", anchor="start")
 
-    g = (268, 398)          # attack graph
-    p = (492, 652)          # attack profiles
-    n = (756, 872)          # profile nets
+    g = (286, 418)          # attack graph
+    p = (502, 658)          # attack profiles
+    n = (762, 872)          # Petri nets
     svg.rect(g[0], ny0, g[1], ny1, "nodeA")
     svg.text(sum(g) / 2, nyc + 6, "Attack graph", "title")
     stack(svg, p[0], ny0, p[1], ny1, cls="nodeA")
@@ -154,7 +154,7 @@ def emit(n_flows: int) -> tuple[str, float, float]:
     svg.text(sum(n) / 2, nyc + 6, "Petri nets", "title")   # Marc 2026-09-25: one term, the Petri net (was "profile net")
 
     # the three processes inside row 1 (BECOMES)
-    for (x0, x1), lines, sec in (((inp[1], g[0]), ["combine"], "§4.1"),
+    for (x0, x1), lines, sec in (((inp[1], g[0]), ["aggregate"], "§4.1"),   # Marc 2026-10-03: aggregate, one verb dissertation-wide
                                  ((g[1], p[0]), ["split by", "objective"], "§4.2"),
                                  ((p[1], n[0]), ["make", "executable"], "§4.3")):
         svg.path(f"M{x0 + 4},{nyc} H{x1 - 4}", "becomes acc", marker="mA")

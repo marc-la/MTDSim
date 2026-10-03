@@ -388,7 +388,7 @@ We recover the behaviour of APT attackers from cyber threat intelligence
 (CTI), the threat reports that security firms and government agencies
 publish on attacks they have investigated. Our source is 38 attack flows,
 graphs of an attack's steps that analysts drew by hand from CTI reports
-\citep{ctid2025attackflow}. We combine the 38 attack flows into one
+\citep{ctid2025attackflow}. We aggregate the 38 attack flows into one
 graph, then split it into attack profiles by operational objective, such
 as stealing data. Each attack profile records the steps taken by
 attackers with that objective, and how often each step led to the next.
@@ -1529,11 +1529,11 @@ reliable, but covers only the incidents analysts have drawn.
 This dissertation uses manual attack profiling, with Attack Flow, a
 language from MITRE's Center for Threat-Informed Defense (CTID) for
 recording the order of an incident's techniques \citep{ctid2025attackflow}.
-A \emph{flow} is one incident recorded in Attack Flow, from the condition
+An \emph{attack flow} is one incident recorded in Attack Flow, from the condition
 it starts in to the condition it ends in \citep{ctid2025attackflow}. CTID
-publishes a corpus of flows that analysts drew from publicly reported
+publishes a corpus of attack flows that analysts drew from publicly reported
 incidents \citep{ctid2025attackflow}. Figure~\ref{fig:attack-flow-volt-typhoon}
-shows a flow drawn for this dissertation from the Volt Typhoon advisory
+shows an attack flow drawn for this dissertation from the Volt Typhoon advisory
 \citep{cisaaa24038a}.
 % [DICTATED 2026-09-03 (slot 1: the so-what), repaired per pass 2+3a.
 % Repair log: self-correction "execute sorry operationalise" resolved
@@ -1690,7 +1690,7 @@ shows a flow drawn for this dissertation from the Volt Typhoon advisory
   \includegraphics{fig_3-1-3a_attack_flow_volt_typhoon}
   % [CH3 REDRAFT ROUND 2, 2026-10-01, F2] T/F tabs removed from the figure; the caption says only how to read it. Ratify on read.
   % [CH3 REDRAFT ROUND 15, 2026-10-01, F2 caption] Provenance is the prose's ("drawn for this dissertation from the Volt Typhoon advisory"); start and end are the drawing's own tags. The caption names the figure.
-  \caption[A flow of the Volt Typhoon campaign]{A flow of the Volt Typhoon
+  \caption[An attack flow of the Volt Typhoon campaign]{An attack flow of the Volt Typhoon
   campaign \citep{cisaaa24038a}.}
   \label{fig:attack-flow-volt-typhoon}
 \end{figure}
@@ -1759,7 +1759,7 @@ shows a flow drawn for this dissertation from the Volt Typhoon advisory
 % [CH3 REDRAFT ROUND 14, 2026-10-01, 3.1.3 exit] Claim first, then its evidence; "timing" for "tempo" (the plain word; tempo left 3.1.1 in round 11). The uncited "sits within the threat-intelligence and incident-response literature, outside MTD evaluation" narrowed to what the cited works themselves show (Marc: "is that the case ... it's an unsighted claim"); whether MTD evaluations use attack profiles is 3.3.2's to show. Ratify on read.
 Attack profiling recovers the order of an attack's techniques, but not
 their timing. Attack Flow can record when each technique started and
-ended, but the flows in the corpus almost never do, and ATT\&CK dates each
+ended, but the attack flows in the corpus almost never do, and ATT\&CK dates each
 campaign only to the month \citep{ctid2025attackflow, mitre2026attackkb}.
 MTD must therefore decide when to move (Section~\ref{sec:mtd-concept})
 without the attacker's timing. Deploying too often costs service
@@ -3779,11 +3779,16 @@ Chapter~\ref{ch:experiments} answers \ref{sq:evaluate}.
 % the graph cannot represent. (Consensus-thresholds disclosure removed
 % per Marc's ruling, 2026-08-16 --- the lossless/views record lives in
 % the repo, not the chapter.)
-\section{Attack graph construction}
+\section{Attack graph from attack flows}
 \label{sec:technique-graph}
-% [2026-10-03, Marc's yes] "We aggregated" -> "We combined": one verb for the
-%  process, as Chapter 1, Figure 4.1 and Figure 4.2's caption. The noun
-%  "aggregate" in the opening definition stays (terminology row). DRAFT STATE.
+% [2026-10-03, Marc's ruling, round 2] Heading: "construction" was the vague
+%  word; the heading names input and output, as "Attack profiles by
+%  objective" names output and rule. AGGREGATE is the verb dissertation-wide
+%  (overturns the morning's "combined": aggregate says the edges are counted;
+%  ch1, Figure 4.1's label, Figure 4.2's caption and this section swept).
+%  ATTACK FLOW verbatim dissertation-wide, never bare "flow" or "incident"
+%  for one (ch3 defines it; ch3--ch5 and App. B captions swept; the App. B
+%  tables and the Figure 4.2/4.4 generators still to sweep). DRAFT STATE.
 
 % DRAFT STATE (2026-08-16): passes 1--5 COMPLETE; Marc signed the unit
 % off at ~400 words (leave-and-forget until the next editing round).
@@ -3822,7 +3827,7 @@ and each edge is weighted by the number of attack flows that drew it. A
 step between two techniques of the same tactic is not an edge: the time an
 attacker spends within a tactic is its dwell time
 (Section~\ref{subsec:dwell-times}). The corpus is sparse, so an edge weight
-counts flows; it does not on its own drive the APT attacker model
+counts attack flows; it does not on its own drive the APT attacker model
 (Section~\ref{sec:petri-formalism}).
 
 % FIGURE (2026-09-25): the section 4.1 zoom of Figure 4.1's first arrow
@@ -3835,23 +3840,23 @@ counts flows; it does not on its own drive the APT attacker model
 \begin{figure}[t]
   \centering
   \includegraphics{fig_4-1a_attack_graph_construction}
-  \caption[How the attack flows are combined into the attack graph]{How
-  the 38 attack flows are combined into the attack graph (ATT\&CK v19.1): two
-  flows as drawn, the same two mapped to tactics and combined (blue: the edges
+  \caption[How the attack flows are aggregated into the attack graph]{How
+  the 38 attack flows are aggregated into the attack graph (ATT\&CK v19.1): two
+  attack flows as drawn, the same two mapped to tactics and aggregated (blue: the edges
   both draw), then all 38.}
   \label{fig:attack-graph-construction}
 \end{figure}
 
-We built the attack graph from CTID's corpus of flows
+We built the attack graph from CTID's corpus of attack flows
 (Section~\ref{subsec:profiling}), because a human analyst drew every
 dependency in it. Co-occurrence mining gave low coverage and keyword
-mining poor fidelity (Appendix~\ref{app:cooccurrence}). We combined the
+mining poor fidelity (Appendix~\ref{app:cooccurrence}). We aggregated the
 38 usable attack flows (Appendix~\ref{app:full-graph}) by adding the
 graphs together (Figure~\ref{fig:attack-graph-construction}): we stripped
 out all of the unnecessary details, such as specific attack procedures or
 human analyst notes. We chose tactics as the nodes, trading fidelity for
 coverage: 88\,\% of the technique-to-technique edges came from a single
-flow, against 39\,\% of the tactic-to-tactic edges
+attack flow, against 39\,\% of the tactic-to-tactic edges
 (Figure~\ref{fig:attack-graph-construction}). There is also precedent for
 using tactics as the node granularity \citep{rodriguez2024}.
 
@@ -3893,13 +3898,13 @@ Section~\ref{sec:petri-formalism} draws these edges in.
 APT attackers differ by objective, and the objective shapes their
 behaviour \citep{alshamrani2019}; one model of the whole attack graph would
 mix them. We therefore partition the attack graph into four attack
-profiles, each the attack graph restricted to the flows of one objective:
+profiles, each the attack graph restricted to the attack flows of one objective:
 the attack profile of Section~\ref{subsec:profiling}, recovered from many
-incidents rather than one. From here on they are referred to by index:
-$c_1$, the exfiltration objective (19 flows); $c_2$, the impact objective
+attack flows rather than one. From here on they are referred to by index:
+$c_1$, the exfiltration objective (19 attack flows); $c_2$, the impact objective
 (7); $c_3$, double extortion, which we define as containing both impact
 and exfiltration in the same attack flow (7); and $c_4$, no realised
-objective (5, four after one flow per APT group,
+objective (5, four after one attack flow per APT group,
 Section~\ref{sec:petri-formalism}). Exfiltration and impact are two of the
 objectives of Section~\ref{subsec:apt}: ATT\&CK records the impediment of
 mission-critical components under its Impact tactic. Six other partitions
@@ -3930,18 +3935,18 @@ evident through the attack flows that the analysts drew.
 
 Following Alshamrani et al.~\citep{alshamrani2019}, we treat the tactics
 before the objective as common to all APT attackers, and classify each
-flow by the objective its sources state: the CTID description, the
+attack flow by the objective its sources state: the CTID description, the
 ATT\&CK group page and vendor reports. The terminal tactic, the last tactic
-a flow reaches, disagrees with the stated objective on 19 of the 38 flows,
+an attack flow reaches, disagrees with the stated objective on 19 of the 38 attack flows,
 14 of them because the report stops before the objective is reached
 (Appendix~\ref{app:classification-audit}).
 
 They are not four disjoint graphs, because they come from the same
 attack graph.
-They differ by what edges exist (Figure~\ref{fig:attack-profiles}). Flows
-from the same APT group, where there are several incidents, tend to go to
+They differ by what edges exist (Figure~\ref{fig:attack-profiles}). Attack flows
+from the same APT group, where there are several, tend to go to
 the same attack profile, which is consistent with a stable objective per
-group: three of the seven flows in the double extortion profile come from
+group: three of the seven attack flows in the double extortion profile come from
 Wizard Spider, the group behind Conti ransomware, which is known for double
 extortion.
 % [CUT per ruling: "The idea is to capture ..." (fluff); the numbers
@@ -4084,14 +4089,14 @@ to a Petri net of this form, $\mathcal{N}_c = (P_c, T_T, T_I, I, O, W_c, M_0)$, 
   consumes a stochastic amount of time; a tactic whose declared time is
   zero is immediate;
   \item $T_I = \{t_{pq}\}$: one immediate transition per tactic pair
-  $p \to q$ that the profile's flows draw, from $\hat{p}$ to $q$; there
+  $p \to q$ that the profile's attack flows draw, from $\hat{p}$ to $q$; there
   are no self-loops, because time spent within a tactic is carried by
   $\tau_p$;
   \item $I$ and $O$ are the arcs these imply,
   $p \to \tau_p \to \hat{p} \to t_{pq} \to q$, every arc of weight one;
   \item $W_c(\tau_p) = 1/\mu_p$, where $\mu_p$ is the declared mean dwell
   of tactic $p$ (Section~\ref{subsec:dwell-times}), and
-  $W_c(t_{pq}) = w_c(p, q)$, the proportion of the profile's flows
+  $W_c(t_{pq}) = w_c(p, q)$, the proportion of the profile's attack flows
   leaving $p$ that do so along $p \to q$,
   \begin{equation}
     w_c(p, q) = \frac{\lvert \mathcal{A}_c(p \to q) \rvert}
@@ -4101,7 +4106,7 @@ to a Petri net of this form, $\mathcal{N}_c = (P_c, T_T, T_I, I, O, W_c, M_0)$, 
   where $\mathcal{A}_c(p \to q)$ is the set of attack flows in $c$ that draw
   the pair, so a place's out-weights sum to one. An APT group with several
   attack flows in the corpus, or one advisory reporting several, counts once,
-  through its flow with the most steps, so that one group's repeated reports
+  through its attack flow with the most steps, so that one group's repeated reports
   do not outweigh the rest:
   29 of the 38 attack flows carry weight;
   \item $M_0$ places one token on reconnaissance, the first tactic of the
@@ -4117,7 +4122,7 @@ inert here; concurrency is a parameter this dissertation does not exercise.
 We drew in synthetic out-transitions from reconnaissance to resource
 development to initial access, as well as a backwards transition from
 initial access to reconnaissance. This \emph{pre-intrusion overlay} is a
-sub-Petri-net in its own right: we add it where a profile's flows do not
+sub-Petri-net in its own right: we add it where a profile's attack flows do not
 already lead from reconnaissance to initial access, which is in $c_3$ and
 $c_4$. In the terms of Equation~\ref{eq:gspn} it is a second set of
 immediate transitions with declared weights: the whole out-mass of a place
@@ -4158,7 +4163,7 @@ Every factor of $F_{\text{success}}$ and $F_{\text{none}}$ is one, so on a
 success, or at a tactic that dispatches no attack action, the token routes on
 the base weights $w_c$; $F_{\text{failure}}$ is the failure matrix of
 Section~\ref{subsec:failure-matrix}. Success needs no factor of its own:
-every flow in the corpus records steps that succeeded, so the base
+every attack flow in the corpus records steps that succeeded, so the base
 weights already are the success policy.
 % [2026-09-13: A4 sentence landed on Marc's ratification of the fourteen-item
 %  proposal (chat, this date); source register: handoff 2026-09-08_ch4_s43_gspn_formalism.md
@@ -4442,7 +4447,7 @@ APT group, and the vulnerability memory's factor of three.
 Appendix~\ref{app:movement} gives the reason for the first three
 (Tables~\ref{tab:dwell-derivation}, \ref{tab:controller-mapping}
 and~\ref{tab:overlay-failure-rules}), and Section~\ref{sec:petri-formalism}
-for $\sigma$ and for one flow per APT group.
+for $\sigma$ and for one attack flow per APT group.
 % [2026-09-26 SIMPLIFIED (Marc: the one-factor-at-a-time sentence was "very
 %  hard to follow ... keep it simple and I can redraft it"). "Dwell family" and
 %  "scaling rate" were used here before 4.4.2 and 4.4.4 define them. Placeholder
@@ -8000,7 +8005,7 @@ behave differently: they open their campaigns along different attack paths
 judgement, so this section tests whether it also changes any result of this
 chapter. Without the partition, the APT attacker model runs on the attack
 graph itself (Section~\ref{sec:technique-graph}), built by the same
-construction from every attack flow, so at each tactic it may follow the flows
+construction from every attack flow, so at each tactic it may follow the attack flows
 of any objective. If the partition matters, the attacker without it should
 take more distinct attack paths, and MTD should remove a different share of
 what it compromises. The attack graph ran beside $c_1$ to $c_4$ on the same
@@ -8024,7 +8029,7 @@ negligible band in 30 of them (Table~\ref{tab:ablation-attack-profiles}).
 The partition does two things at once: it sorts the attack flows by
 objective, and it builds each Petri net from fewer of them, 4 to 14 of the 29
 that carry weight against all 29 for the attack graph. A net built from fewer
-flows offers fewer attack paths, whatever their objective. To separate the
+attack flows offers fewer attack paths, whatever their objective. To separate the
 two, ten random partitions of the attack flows, each group the same size as
 an attack profile, were built and run in the same way.
 \noindent\emph{[Placeholder --- the size-matched control's result: where the
@@ -8958,16 +8963,16 @@ March 2026, with its own reference list.
 \begin{figure}[p]
   \centering
   \includegraphics{fig_B-1a_gap_flow_exemplar}
-  \caption[One incident as the analyst drew it]{One incident as the
-  analyst drew it: the CISA AA22-138B VMware Workspace ONE flow (TA1),
+  \caption[One attack flow as the analyst drew it]{One attack flow as the
+  analyst drew it: the CISA AA22-138B VMware Workspace ONE attack flow (TA1),
   reproduced from the Attack Flow corpus (v3.1.1, Attack Flow schema
   2.0.0) with procedures and analyst notes stripped. Eleven nodes and
   eleven dependencies span six ATT\&CK tactics. Each box carries the
   technique identifier, the technique name, and in grey the tactic the
-  technique belongs to; the filled box is where the flow begins. The
+  technique belongs to; the filled box is where the attack flow begins. The
   diamond is Attack Flow's AND operator: both branches into it are
-  required before the flow continues. This is the input to the
-  aggregation --- one such graph per incident, 38 of them.}
+  required before the attack flow continues. This is the input to the
+  aggregation --- one such graph per attack flow, 38 of them.}
   \label{fig:app-flow-exemplar}
 \end{figure}
 
@@ -8976,19 +8981,19 @@ March 2026, with its own reference list.
   \centering
   \includegraphics{fig_B-1b_gap_technique_graph}
   \caption[The attack graph at technique level]{The
-  attack graph at technique level, over all 38 usable incidents: 124 techniques
+  attack graph at technique level, over all 38 attack flows: 124 techniques
   and 478 directed technique-to-technique edges (Attack Flow corpus
   v3.1.1; ATT\&CK Enterprise v19.1). Techniques are banded by their
   tactic, top to bottom in kill-chain order, and carry their identifier
   alone so that every box holds the dissertation's smallest readable type; the
   band label gives the tactic and, in italic, how many of its techniques
-  the corpus uses. Edge weight is the number of incidents that drew that
-  edge: shading and thickness run from a hairline at one incident to the
+  the corpus uses. Edge weight is the number of attack flows that drew that
+  edge: shading and thickness run from a hairline at one attack flow to the
   darkest at four, the highest any technique-to-technique edge reaches.
   Edges that run backwards through the kill chain are drawn in blue. A
-  filled box is a technique some incident started at; a blue-outlined box
-  is one some incident ended at. 419 of the 478 edges --- 88\,\% --- were
-  drawn by exactly one incident, which is what the haze in this figure
+  filled box is a technique some attack flow started at; a blue-outlined box
+  is one some attack flow ended at. 419 of the 478 edges --- 88\,\% --- were
+  drawn by exactly one attack flow, which is what the haze in this figure
   is: at this resolution the corpus is mostly single accounts of single
   campaigns rather than recurring structure.}
   \label{fig:app-technique-graph}
@@ -8999,15 +9004,15 @@ March 2026, with its own reference list.
 \begin{figure}[p]
   \centering
   \includegraphics{fig_B-1c_gap_technique_core}
-  \caption[The attack graph at technique level, above one incident]{The same
-  attack graph at technique level with the single-incident tail removed: only
-  edges drawn by two or more incidents are kept, and the fragments that
+  \caption[The attack graph at technique level, above one attack flow]{The same
+  attack graph at technique level with the edges drawn by one attack flow removed: only
+  edges drawn by two or more attack flows are kept, and the fragments that
   leaves --- connected components of fewer than three techniques --- are
   dropped with them, leaving 35 techniques and 55 edges of the original
   124 and 478. Banding, shading and the entry and objective marks are as
   in Figure~\ref{fig:app-technique-graph}, with the identifier and name
   on one line now that there is room for them. An edge carries a number
-  only where more than two incidents drew it; the unnumbered edges are
+  only where more than two attack flows drew it; the unnumbered edges are
   all at the threshold of two. What survives is thin: four tactics
   (execution, stealth, discovery, command and control) keep five or more
   techniques between them and most of the rest of the kill chain reduces
@@ -9025,7 +9030,7 @@ March 2026, with its own reference list.
   tactic level --- the resolution the method carries forward. Every
   technique-to-technique edge is rolled up to its pair of tactics, so an
   edge's weight is the number of attack flows that drew it; the 55 edges
-  shown are those drawn by three or more flows, out of 122 in the attack
+  shown are those drawn by three or more attack flows, out of 122 in the attack
   graph (Attack Flow corpus v3.1.1; ATT\&CK
   Enterprise v19.1). States are laid out in kill-chain reading order,
   left to right and wrapping, and carry the number of techniques the
@@ -9034,7 +9039,7 @@ March 2026, with its own reference list.
   are drawn in blue. The three states drawn in grey ---
   reconnaissance, resource development and defense impairment --- have no
   edge at or above the threshold, which is the corpus's
-  pre-intrusion sparsity: those tactics are recorded in incidents but
+  pre-intrusion sparsity: those tactics are recorded in attack flows but
   rarely as a step some later step depends on.}
   \label{fig:app-tactic-graph}
 \end{figure}
