@@ -3863,10 +3863,15 @@ within a tactic is its dwell time (Section~\ref{subsec:dwell-times}).
 \begin{figure}[t]
   \centering
   \includegraphics{fig_4-1a_attack_graph_construction}
+  % [POLISH 2026-10-03, Marc: "what is the purpose of these patterns and
+  %  colours ... they're supposed to be clear and intuitive". The dash is cut
+  %  (the Collection band carries the step within one tactic); line width is
+  %  the weight in every row; one arrow per tactic band down to its box. The
+  %  caption no longer decodes marks.]
   \caption[How attack flows are aggregated into the attack graph]{Part of
-  two attack flows aggregated into the attack graph. Dashed: a step within
-  one tactic. Blue: the edge both attack flows draw, through different
-  techniques. Numbers: edge weights.}
+  two attack flows aggregated into the attack graph. The two blue steps,
+  through different techniques, become one edge of weight 2, drawn twice as
+  thick.}
   \label{fig:attack-graph-construction}
 \end{figure}
 

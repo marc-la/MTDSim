@@ -12,16 +12,21 @@ What the reader leaves with (section 4.1's points, nothing else):
   T1  each technique in an attack flow stands for its tactic (the technique
       boxes sit in their tactic's column, under the tactic's name);
   T2  a step between two techniques of the same tactic is not an edge (one
-      such step, in grey, and nothing for it in the aggregate);
+      such step inside the Collection band, and nothing for it once the band
+      narrows to its one tactic box; the dash that marked it was CUT
+      2026-10-03 --- Marc: a pattern the caption must decode is not intuitive);
   T3  aggregating counts: two attack flows that step from collection to
       stealth through different techniques give that edge weight 2;
   (T4, the 88 %/39 % bars, CUT 2026-10-03, Marc: section 4.1's prose already
       says it; the example's two technique edges becoming one tactic edge is
       the picture of it. The facts are still printed below.)
 
-One colour, one meaning: blue is the edge both attack flows draw --- the two
-different technique edges in the attack flows and the one tactic edge they
-become. Everything else is ink or grey.
+Two encodings, each read without a key (Marc 2026-10-03): line WIDTH is the
+edge weight in every row (an edge one attack flow draws is thin, the edge two
+draw is twice as thick); the one colour, blue, is the edge both attack flows
+draw --- the two thin technique steps and the one thick tactic edge they
+become. Each tactic's band narrows by an arrow to its one tactic box: that is
+the aggregation. Everything else is ink or grey.
 
 The example is chosen by rule, never by name:
   * the pair --- among attack flows whose techniques form one connected
@@ -90,7 +95,8 @@ GUT = 160                  # the left gutter: row names
 BOX_W, BOX_H = 140, 48     # a technique box
 SLOT_GAP = 36              # between two boxes in one tactic column
 COL_GAP = 56               # between tactic columns
-TAC_W, TAC_H = 140, 40     # a tactic box in the aggregate
+TAC_W, TAC_H = 140, 48     # a tactic box in the aggregate
+LINE_W = 2.0               # an edge one attack flow draws; the line width is the weight
 
 
 # ------------------------------------------------------------------ the data --
@@ -165,11 +171,15 @@ class SVG:
         self.parts.append(f'<rect class="{cls}" x="{x0:.1f}" y="{y0:.1f}" width="{x1 - x0:.1f}" '
                           f'height="{y1 - y0:.1f}" rx="{rx}"/>')
 
-    def arrow(self, x0, y0, x1, y1, hot=False, dash=False):
-        col, w, m = (ACCENT, 3.0, "hot") if hot else ((FAINT, 1.6, "cold") if dash else (INK, 1.6, "ink"))
-        d = ' stroke-dasharray="5 4"' if dash else ""
+    def arrow(self, x0, y0, x1, y1, hot=False, weight=1):
+        """Line width is edge weight, the same rule in every row: one attack flow
+        draws a thin line; the edge two draw is twice as thick (Marc 2026-10-03:
+        the two thin blue steps become one thick blue edge)."""
+        col = ACCENT if hot else INK
+        w = LINE_W * weight
+        m = f"{'hot' if hot else 'ink'}{weight}"
         self.parts.append(f'<path d="M{x0:.1f},{y0:.1f} L{x1:.1f},{y1:.1f}" stroke="{col}" stroke-width="{w}" '
-                          f'fill="none"{d} marker-end="url(#{m})"/>')
+                          f'fill="none" marker-end="url(#{m})"/>')
 
 
 def boxed_name(svg, cx, cy, name, cls="tech", w=BOX_W, h=BOX_H, text_cls="name"):
@@ -208,7 +218,7 @@ def emit(gap, axis, pair, excerpt, flow_name, facts):
     svg = SVG()
     y_head = 24
     y_rows = [78, 152]                  # the two attack flows
-    y_agg = 262                         # the aggregate
+    y_agg = 272                         # the aggregate
 
     # the header row: the attack flows, by tactic; each tactic a light band down
     # through the attack flows, so the techniques in it read as that tactic
@@ -235,17 +245,17 @@ def emit(gap, axis, pair, excerpt, flow_name, facts):
         for k, ln in enumerate(nm):
             svg.text(GUT - 12, y + 5 + (k - (len(nm) - 1) / 2) * 18, ln, "name", anchor="end")
         for s, d in st:
-            same = tac_of[s] == tac_of[d]
             hot = (tac_of[s], tac_of[d]) == (p, q)
-            svg.arrow(pos[s] + BOX_W / 2 + 2, y, pos[d] - BOX_W / 2 - 4, y, hot=hot, dash=same)
+            svg.arrow(pos[s] + BOX_W / 2 + 2, y, pos[d] - BOX_W / 2 - 4, y, hot=hot)
         for tid in seq:
             boxed_name(svg, pos[tid], y, name_of[tid])
 
-    # the step between: every technique to its tactic, the edges counted
-    xm = GUT + 10
-    ya, yb = y_rows[-1] + BOX_H / 2 + 12, y_agg - TAC_H / 2 - 12
-    svg.add(f'<path d="M{xm:.1f},{ya:.1f} V{yb - 4:.1f}" stroke="{INK}" stroke-width="1.8" fill="none" marker-end="url(#ink)"/>')
-    svg.text(xm + 12, (ya + yb) / 2 + 6, "aggregate", "lbl", anchor="start")
+    # the step between: each tactic's band narrows to its one tactic box
+    ya, yb = y_rows[-1] + BOX_H / 2 + 10, y_agg - TAC_H / 2
+    for t in tactics:
+        svg.add(f'<path d="M{col_cx[t]:.1f},{ya + 3:.1f} V{yb - 5:.1f}" stroke="{INK2}" stroke-width="1.8" '
+                f'fill="none" marker-end="url(#down)"/>')
+    svg.text(GUT - 12, (ya + yb) / 2 + 6, "aggregate", "lbl", anchor="end")
 
     # the aggregate: one box per tactic, each edge weighted by the attack flows that draw it
     W = tactic_edges(gap, set(steps))                   # the whole pair, then restricted to the excerpt
@@ -258,7 +268,7 @@ def emit(gap, axis, pair, excerpt, flow_name, facts):
     for a, b in sorted(shown, key=lambda e: order.index(e[0])):
         hot = (a, b) == (p, q)
         x0, x1 = col_cx[a] + TAC_W / 2 + 2, col_cx[b] - TAC_W / 2 - 4
-        svg.arrow(x0, y_agg, x1, y_agg, hot=hot)
+        svg.arrow(x0, y_agg, x1, y_agg, hot=hot, weight=weight[(a, b)])
         svg.text((x0 + x1) / 2, y_agg - 10, str(weight[(a, b)]), "title acc" if hot else "title")
     for t in tactics:
         boxed_name(svg, col_cx[t], y_agg, axis.label[t].capitalize(), cls="tac", w=TAC_W, h=TAC_H, text_cls="lbl")
@@ -267,7 +277,8 @@ def emit(gap, axis, pair, excerpt, flow_name, facts):
 
     defs = "".join(f'<marker id="{m}" viewBox="0 0 10 10" refX="8" refY="5" markerUnits="userSpaceOnUse" '
                    f'markerWidth="{sz}" markerHeight="{sz}" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="{c}"/></marker>'
-                   for m, c, sz in (("ink", INK, 10), ("hot", ACCENT, 13), ("cold", FAINT, 10)))
+                   for m, c, sz in (("ink1", INK, 11), ("hot1", ACCENT, 11), ("ink2", INK, 16), ("hot2", ACCENT, 16),
+                                    ("down", INK2, 11)))
     style = STYLE + f"  .acc {{ fill:{ACCENT}; }}\n"
     h_cm = WIDTH_CM * height / PX
     html = (f'<!doctype html><html><head><meta charset="utf-8"><style>{style}'
