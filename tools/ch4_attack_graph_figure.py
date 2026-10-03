@@ -74,7 +74,7 @@ MAX_TECHNIQUES = 10        # per attack flow, for the example pair
 MIN_SHARED_TACTIC = 1
 
 INK, INK2, FAINT, CHROME, ACCENT = "#333", "#6e6e6e", "#9a9a9a", "#ececec", "#1f548c"
-SIZES = {"title": 19, "lbl": 17, "sm": 15.5, "name": 15.5}
+SIZES = {"title": 19, "lbl": 17, "lblb": 17, "sm": 15.5, "name": 15.5}
 
 STYLE = f"""
   html, body {{ margin:0; background:#fff; }}
@@ -85,7 +85,8 @@ STYLE = f"""
   .sm    {{ font-size:15.5px; fill:{INK2}; }}
   .name  {{ font-size:15.5px; }}
   .tech  {{ fill:#fff; stroke:{INK}; stroke-width:1.4; }}
-  .tac   {{ fill:#fff; stroke:{INK}; stroke-width:1.8; }}
+  .tac   {{ fill:#fff; stroke:{INK}; stroke-width:2.6; }}
+  .lblb  {{ font-size:17px; font-weight:bold; }}
   .band  {{ fill:#f3f3f3; }}
   .halo  {{ paint-order:stroke; stroke:#fff; stroke-width:5px; stroke-linejoin:round; }}
 """
@@ -255,7 +256,9 @@ def emit(gap, axis, pair, excerpt, flow_name, facts):
     for t in tactics:
         svg.add(f'<path d="M{col_cx[t]:.1f},{ya + 3:.1f} V{yb - 5:.1f}" stroke="{INK2}" stroke-width="1.8" '
                 f'fill="none" marker-end="url(#down)"/>')
-    svg.text(GUT - 12, (ya + yb) / 2 + 6, "aggregate", "lbl", anchor="end")
+    # the verb beside the arrows, as Figure 4.1 places its verbs (in the gutter it
+    # read as a third row name under the attack flows, Marc 2026-10-03)
+    svg.text(col_cx[tactics[0]] + 12, (ya + yb) / 2 + 6, "aggregate", "lbl", anchor="start")
 
     # the aggregate: one box per tactic, each edge weighted by the attack flows that draw it
     W = tactic_edges(gap, set(steps))                   # the whole pair, then restricted to the excerpt
@@ -271,7 +274,7 @@ def emit(gap, axis, pair, excerpt, flow_name, facts):
         svg.arrow(x0, y_agg, x1, y_agg, hot=hot, weight=weight[(a, b)])
         svg.text((x0 + x1) / 2, y_agg - 10, str(weight[(a, b)]), "title acc" if hot else "title")
     for t in tactics:
-        boxed_name(svg, col_cx[t], y_agg, axis.label[t].capitalize(), cls="tac", w=TAC_W, h=TAC_H, text_cls="lbl")
+        boxed_name(svg, col_cx[t], y_agg, axis.label[t].capitalize(), cls="tac", w=TAC_W, h=TAC_H, text_cls="lblb")
 
     height = y_agg + TAC_H / 2 + 4
 
