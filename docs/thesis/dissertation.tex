@@ -3723,6 +3723,14 @@ performs against the APT attacker model compared with the baseline attacker
 %  cannot tell which mechanism deployed; ch7 future work lists both). The
 %  figure leads the roadmap as its own subject-first sentence; each SQ is
 %  named in the sentence that answers it.
+% [ROUND 5, 2026-10-03, Marc: the limits read as "something bad" before the
+%  reader meets the model; Figure 4.1 shows the pipeline, not the
+%  sub-questions] The model is described first; the exclusion is one short
+%  sentence after the scope sentence, without reasons (stealth's lives in
+%  §4.5 and ch6, scheme awareness's in ch7). The figure sentence says what
+%  the figure draws: the pipeline from the 38 attack flows to MTDSim, its
+%  stages in section order. "Six of the eight" is design intent and holds
+%  whichever way stealth is scored in ch6.
 % [ROUND 4, 2026-10-03] CORRECTION of round 3: scheme awareness does NOT
 %  need MTDSim to change --- the run wrapper already recovers the interrupting
 %  mechanism's name (attacker.py InterruptSource: "record enrichment; neither
@@ -3736,14 +3744,14 @@ The MTD evaluations surveyed in Chapter~\ref{ch:litreview} leave how MTD
 performs against APT attackers unmeasured, because their attacker models lack
 properties of an APT attacker. This chapter defines an APT attacker model
 built to meet six of the eight properties of
-Section~\ref{subsec:attacker-criterion}. Stealth needs a detection model,
-which MTDSim lacks, and scheme awareness, reasoning about which MTD mechanism
-deploys and when, is left to future work. The APT attacker
-model takes the same attack actions as the baseline attacker, but the Petri
-net of its attack profile chooses its next tactic at runtime. It is a proof of
-concept: it tests whether an attacker that behaves like an APT changes what an
-MTD evaluation measures. Figure~\ref{fig:pipeline} shows the method, which
-answers the three sub-questions in turn. Sections~\ref{sec:technique-graph}
+Section~\ref{subsec:attacker-criterion}. It takes the same attack actions as
+the baseline attacker, but the Petri net of its attack profile chooses its
+next tactic at runtime. It is a proof of concept: it tests whether an attacker
+that behaves like an APT changes what an MTD evaluation measures. Stealth and
+scheme awareness, the other two properties, are left to future work.
+Figure~\ref{fig:pipeline} shows the pipeline that builds the model from 38
+attack flows and runs it in MTDSim, and the sections follow its stages in
+order. Sections~\ref{sec:technique-graph}
 and~\ref{sec:attack-profiles} answer \ref{sq:capture}: they recover the
 behaviour of APT attackers from CTI as an attack graph and four attack
 profiles. Sections~\ref{sec:petri-formalism} and~\ref{sec:execution} answer
