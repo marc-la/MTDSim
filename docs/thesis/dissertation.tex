@@ -3450,6 +3450,7 @@ performs against the APT attacker model compared with the baseline attacker
 % =====================================================================
 \chapter{APT attacker model}
 \label{ch:attacker-model}
+% [RETIRED 2026-10-03: the slot sentence is cut from the preamble; §4.4 preamble carries it.]
 % SIGNPOST SLOT, Marc's sentence (ruled 2026-09-13; no retitle --- "APT attacker
 % model" is the model description by position and by the 2026-09-04 naming
 % ruling). The chapter's opening roadmap carries ONE sentence saying that this
@@ -3693,24 +3694,37 @@ performs against the APT attacker model compared with the baseline attacker
 %  docs/implementation/connective_prose_audit.md); prior text in git.
 %  RATIFIED 2026-09-26 (Marc: 'I accept all this').
 % [CH3 REDRAFT ROUND 66, twin] the foothold claim retired with 3.4's (false since the baseline's persistence is full); now 3.4's gap sentence. Ratify on read.
+% [PREAMBLE REWRITE 2026-10-03, Marc: "not written strongly ... the last two
+%  sentences of the two paragraphs ... ruining the clarity"; one paragraph, as a
+%  chapter preamble is] Gap -> model -> what it is -> map. Changes: the gap
+%  stated as ch3's causal finding (ch3 l. "therefore remains unmeasured");
+%  "aims to" -> "designed to"; "behavioural fidelity" (used nowhere else) ->
+%  what is tested in plain terms; "in the real world" -> "from CTI" and "our
+%  existing simulator" -> "MTDSim" (the wording of SQ1 and SQ2, overturning the
+%  2026-09-04 do-not-re-flag on merit: the simulator is inherited, and CTI is
+%  the source SQ1 names); each section pair now says what it produces;
+%  "draws each step" CUT (a step is §4.5's defined term, one tactic executed);
+%  the metrics' provenance stated (Table 4.3: nine of eleven cited); the
+%  2026-09-13 SIGNPOST SLOT sentence ("Every assumption ... takes the model as
+%  given") CUT --- §4.4's preamble now carries what Chapter 5 varies and what
+%  it does not. DRAFT STATE, ratify on read; prior text in git.
 The MTD evaluations surveyed in Chapter~\ref{ch:litreview} leave how MTD
-performs against APT attackers unmeasured. The APT
-attacker model this chapter defines aims to meet the eight properties of
-Section~\ref{subsec:attacker-criterion}. The APT attacker model shares the
-baseline attacker's attack actions, but its choice of the next tactic is set at
-runtime by the Petri net of its attack profile. It is a proof of concept,
-testing whether behavioural fidelity changes existing MTD evaluation.
-
-Sections~\ref{sec:technique-graph} and~\ref{sec:attack-profiles} ground the
-model in CTI to recover the behaviour of APT attackers in the real world
-(\ref{sq:capture}). Sections~\ref{sec:petri-formalism}
-and~\ref{sec:execution} make that behaviour executable as Petri nets and
-join them to our existing simulator (\ref{sq:model}).
-Figure~\ref{fig:pipeline} draws each step, and
-Section~\ref{sec:evaluation-metrics} defines the metrics with which
-Chapter~\ref{ch:experiments} answers \ref{sq:evaluate}. Every assumption the
-model makes is stated where the symbol it constrains is declared, and
-Chapter~\ref{ch:experiments} takes the model as given.
+performs against APT attackers unmeasured, because their attacker models lack
+properties of an APT attacker. This chapter defines an APT attacker model
+designed to meet the eight properties of
+Section~\ref{subsec:attacker-criterion}. It takes the same attack actions as
+the baseline attacker, but the Petri net of its attack profile chooses its
+next tactic at runtime. It is a proof of concept: it tests whether an attacker
+that behaves like an APT changes what an MTD evaluation measures.
+Sections~\ref{sec:technique-graph} and~\ref{sec:attack-profiles} recover the
+behaviour of APT attackers from CTI as an attack graph and four attack
+profiles (\ref{sq:capture}). Sections~\ref{sec:petri-formalism}
+and~\ref{sec:execution} execute each attack profile as a Petri net inside
+MTDSim (\ref{sq:model}). Section~\ref{sec:evaluation-metrics} defines the
+metrics, nine of the eleven from published work, with which
+Chapter~\ref{ch:experiments} answers \ref{sq:evaluate}.
+Figure~\ref{fig:pipeline} marks each part of the method with the section
+that describes it.
 
 % 1 unit (L0--L1). The campaign corpus and its snapshot; aggregating
 % flows into tactic dependencies. Answers capture. Disclosures: what
