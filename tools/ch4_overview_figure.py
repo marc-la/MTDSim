@@ -176,10 +176,9 @@ def emit(n_flows: int) -> tuple[str, float, float]:
     d = (26, 170)                            # MTD (narrowed 2026-10-02 so the
     nw = (270, 426)                          # Network  "reconfigures" label fits)
     at = (536, 882)                          # Attacker
-    ym = (iy0 + iy1) / 2
-    sy0, sy1 = ym - 38, ym + 38              # MTD and Network: titles only, so shorter (as Figure 2.1)
+    ym = (iy0 + iy1) / 2                     # the row's one centre line: every coupling runs on it
     for (x0, x1), icon, title, w in ((d, "mtdic", "MTD", 44), (nw, "netic", "Network", 76)):
-        svg.rect(x0, sy0, x1, sy1, "module")
+        svg.rect(x0, iy0, x1, iy1, "module")
         cx = (x0 + x1) / 2 - w / 2 + 6
         svg.add(f'<g transform="translate({cx - 22:.1f},{ym})"><use href="#{icon}"/></g>')
         svg.text(cx, ym + 7, title, "title", anchor="start")
@@ -192,17 +191,17 @@ def emit(n_flows: int) -> tuple[str, float, float]:
     # both drive the same actions. The APT attacker model sits under the join.
     ac = sum(n) / 2
     drv = (ac - 58, ac + 58)
-    apt = (iy0 + 10, iy0 + 56)
-    bas = (iy0 + 86, iy0 + 132)
+    apt = (ym - 60, ym - 14)                 # the two attackers, symmetric about the centre line
+    bas = (ym + 14, ym + 60)
     svg.rect(drv[0], apt[0], drv[1], apt[1], "peer", rx=4)
     svg.text(ac, apt[0] + 20, "APT attacker", "lbl", extra=' font-weight="bold"')
     svg.text(ac, apt[0] + 39, "model", "lbl", extra=' font-weight="bold"')
-    svg.text(ac, (apt[1] + bas[0]) / 2 + 6, "or", "lbl", extra=' font-style="italic"')
+    svg.text(ac, ym + 6, "or", "lbl", extra=' font-style="italic"')
     svg.rect(drv[0], bas[0], drv[1], bas[1], "inner", rx=4)
     svg.text(ac, bas[0] + 20, "baseline", "lbl", extra=' font-weight="bold"')
     svg.text(ac, bas[0] + 39, "attacker", "lbl", extra=' font-weight="bold"')
     act = (at[0] + 16, at[0] + 146)   # wide enough for "attack actions", with margin
-    ay = (iy0 + 56, iy0 + 96)
+    ay = (ym - 20, ym + 20)
     ayc = (ay[0] + ay[1]) / 2
     svg.rect(act[0], ay[0], act[1], ay[1], "inner", rx=4)
     svg.text(sum(act) / 2, ayc + 6, "attack actions", "lbl")
@@ -223,14 +222,15 @@ def emit(n_flows: int) -> tuple[str, float, float]:
     cy2 = ym
     svg.path(f"M{d[1] + 3},{cy2} H{nw[0] - 4}", "couples", marker="mG")
     svg.text((d[1] + nw[0]) / 2, cy2 - 10, "reconfigures", "sm halo")  # registry row 64 (2026-09-30), as Figure 2.1
-    svg.path(f"M{act[0] - 3},{ayc + 8} L{nw[1] + 4},{cy2}", "couples", marker="mG")
-    svg.text((nw[1] + at[0]) / 2, cy2 + 26, "compromises", "sm halo")
+    svg.path(f"M{act[0] - 3},{cy2} H{nw[1] + 4}", "couples", marker="mG")
+    svg.text((nw[1] + at[0]) / 2, cy2 - 10, "compromises", "sm halo")
 
     # Figure 2.1's fourth coupling: each rewrite interrupts the attacker mid-action
     # (the way MTD holds an attacker back), routed under the modules as there
     ly = iy1 + 22
-    svg.path(f"M{sum(d) / 2},{sy1 + 2} V{ly} H{(at[0] + act[1]) / 2} V{iy1 + 5}", "couples", marker="mG")
-    svg.text((d[1] + at[0]) / 2 + 40, ly - 6, "disrupts", "sm halo")
+    xa = sum(act) / 2                        # up into the Attacker, under its attack actions
+    svg.path(f"M{sum(d) / 2},{iy1 + 2} V{ly} H{xa} V{iy1 + 5}", "couples", marker="mG")
+    svg.text((sum(d) / 2 + xa) / 2, ly + 5, "disrupts", "sm halo")   # on the line, as Figure 2.1
 
     # ---------------------------------------------------------------- output
     xm = (at[0] + at[1]) / 2

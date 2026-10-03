@@ -3781,6 +3781,9 @@ Chapter~\ref{ch:experiments} answers \ref{sq:evaluate}.
 % the repo, not the chapter.)
 \section{Attack graph construction}
 \label{sec:technique-graph}
+% [2026-10-03, Marc's yes] "We aggregated" -> "We combined": one verb for the
+%  process, as Chapter 1, Figure 4.1 and Figure 4.2's caption. The noun
+%  "aggregate" in the opening definition stays (terminology row). DRAFT STATE.
 
 % DRAFT STATE (2026-08-16): passes 1--5 COMPLETE; Marc signed the unit
 % off at ~400 words (leave-and-forget until the next editing round).
@@ -3842,7 +3845,7 @@ counts flows; it does not on its own drive the APT attacker model
 We built the attack graph from CTID's corpus of flows
 (Section~\ref{subsec:profiling}), because a human analyst drew every
 dependency in it. Co-occurrence mining gave low coverage and keyword
-mining poor fidelity (Appendix~\ref{app:cooccurrence}). We aggregated the
+mining poor fidelity (Appendix~\ref{app:cooccurrence}). We combined the
 38 usable attack flows (Appendix~\ref{app:full-graph}) by adding the
 graphs together (Figure~\ref{fig:attack-graph-construction}): we stripped
 out all of the unnecessary details, such as specific attack procedures or
@@ -4281,6 +4284,12 @@ Figure~\ref{fig:gspn-gadget} draws one tactic of one Petri net.
 %  (docs/workflows/connective_prose.md; audit
 %  docs/implementation/connective_prose_audit.md); prior text in git.
 %  RATIFIED 2026-09-26 (Marc: 'I accept all this').
+% [JOIN DEFINED 2026-10-03, Marc's yes] "the join" was used here first and
+%  defined nowhere (Figure 4.1 drew the word until its 2026-10-03 round, now
+%  "integrate with MTDSim"); one sentence at first use, the ratified
+%  paragraph untouched. DRAFT STATE.
+The join links a Petri net to MTDSim: it turns each tactic into an attack
+action in MTDSim and returns the attack action's verdict to the Petri net.
 The Petri net leaves two things to the join: the declared inputs
 (the mean dwell $\mu_p$ of each tactic, the mapping $\varphi$, the failure
 matrix $F_{\text{failure}}$) and the mechanics (the verdict $v$ by which
