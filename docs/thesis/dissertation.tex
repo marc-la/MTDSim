@@ -8056,15 +8056,36 @@ that carry weight against all 29 for the attack graph. A net built from fewer
 attack flows offers fewer attack paths, whatever their objective. To separate the
 two, ten random partitions of the attack flows, each group the same size as
 an attack profile, were built and run in the same way.
-\noindent\emph{[Placeholder --- the size-matched control's result: where the
-random partitions' NCR and NCR reduction sit between $c_1$ to $c_4$ and the
-attack graph, at the five settings of Table~\ref{tab:ablation}.]}
+
+% [2026-10-03 DRAFT STATE, SESSION-DRAFTED: the control's result and the
+%  verdict, filling the two placeholders. RATIFY ON READ. Numbers:
+%  partition_control.py -> partition_control_numbers.json, n = 1 000 seeds,
+%  10 partitions, 74 500 + earlier runs, 0 errors. NCR (agg / real / random
+%  mean): none 0.189 / 0.171 / 0.121; IPS 200 0.013 / 0.007 / 0.007; IPS 2000
+%  0.145 / 0.114 / 0.078; OSD 200 0.174 / 0.159 / 0.113; OSD 2000 0.187 /
+%  0.174 / 0.121. Real above all ten random partitions in 4 of 5 settings
+%  (d real vs random +0.16 to +2.32 there); IPS 200 s at the floor, real 5th
+%  of 11. NCR reduction (agg / real / random mean [range]): IPS 200 0.93 /
+%  0.96 / 0.94 [0.88, 0.97]; IPS 2000 0.24 / 0.33 / 0.35 [0.20, 0.44]; OSD
+%  200 0.08 / 0.07 / 0.06 [0.04, 0.10]; OSD 2000 0.01 / -0.02 / -0.00
+%  [-0.02, 0.01]. Real-vs-random d and reductions from a scratch read of the
+%  same runs (pc_extra.py), not yet in the numbers file.]
+The random partitions compromise less than either. With no MTD, their NCR is
+0.121 on average over the ten, against 0.171 with the attack profiles and
+0.189 without the partition. The attack profiles compromise more than every
+random partition in four of the five settings of Table~\ref{tab:ablation};
+in the fifth, IP shuffle at 200\,s, NCR is below 0.015 in every arm. NCR
+reduction with the attack profiles lies among the random partitions'. Under
+IP shuffle at 2\,000\,s it is 0.35 on average over the random partitions
+(0.20 to 0.44), against 0.33 with the attack profiles and 0.24 without the
+partition; under OS diversity the three differ by at most 0.03.
 
 The ablation covers every MTD mechanism, deployment strategy and interval of
-this chapter. \emph{[Placeholder --- verdict, after the control: the results
-of this chapter depend on the partition by a small to medium effect, and the
-control attributes it to the objective, to the number of attack flows, or to
-both.]} Chapter~\ref{ch:discussion} discusses why.
+this chapter. Removing the partition raises what the attacker compromises,
+by a small to medium effect. Sorting the attack flows by objective keeps
+more of that compromise than a partition of the same sizes. The change in
+NCR reduction is what any partition of these sizes produces.
+Chapter~\ref{ch:discussion} discusses why.
 
 \subsection{Failure matrix}
 \label{subsec:ablation-failure-matrix}
@@ -8568,8 +8589,11 @@ would not: the profiles drive the simulator's existing attack actions, a
 finite set of blunt instruments, so much of each objective's behaviour is
 standardised away where the model joins MTDSim (Marc: ``you can speak, but
 you can only say three words''). Why the outcome moves anyway, from the
-size-matched control: the objective, or the size of the net, a larger and
-more connected net offering the attacker more attack paths. What it means for
+size-matched control (2026-10-03, 1\,000 seeds): the shift in NCR reduction
+is the size of the net's, a larger and more connected net offering the
+attacker more attack paths (random partitions of the same sizes give it:
+IP shuffle 2\,000\,s, 0.35 against 0.33); sorting by objective keeps the
+attacker compromising more than any size-matched random partition. What it means for
 MTD evaluation: whether one attacker built from the whole corpus stands in
 for attackers with one objective.]}
 
