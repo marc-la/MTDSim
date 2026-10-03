@@ -169,7 +169,7 @@ def emit(n_flows: int) -> tuple[str, float, float]:
     my0 = fy1 + 62
     iy0 = my0 + 40
     iy1 = iy0 + 140
-    my1 = iy1 + 36
+    my1 = iy1 + 16                           # disrupts runs inside the row now: no band below it
     mx0, mx1 = 12, 894
     svg.rect(mx0, my0, mx1, my1, "used", rx=7)
     svg.text(mx0 + 16, my0 + 26, "MTDSim", "title", anchor="start")
@@ -177,8 +177,9 @@ def emit(n_flows: int) -> tuple[str, float, float]:
     nw = (270, 426)                          # Network  "reconfigures" label fits)
     at = (536, 882)                          # Attacker
     ym = (iy0 + iy1) / 2                     # the row's one centre line: every coupling runs on it
+    sy0, sy1 = ym - 36, ym + 36              # MTD and Network hold a title only: sized to it, on the centre line
     for (x0, x1), icon, title, w in ((d, "mtdic", "MTD", 44), (nw, "netic", "Network", 76)):
-        svg.rect(x0, iy0, x1, iy1, "module")
+        svg.rect(x0, sy0, x1, sy1, "module")
         cx = (x0 + x1) / 2 - w / 2 + 6
         svg.add(f'<g transform="translate({cx - 22:.1f},{ym})"><use href="#{icon}"/></g>')
         svg.text(cx, ym + 7, title, "title", anchor="start")
@@ -227,10 +228,9 @@ def emit(n_flows: int) -> tuple[str, float, float]:
 
     # Figure 2.1's fourth coupling: each rewrite interrupts the attacker mid-action
     # (the way MTD holds an attacker back), routed under the modules as there
-    ly = iy1 + 22
-    xa = sum(act) / 2                        # up into the Attacker, under its attack actions
-    svg.path(f"M{sum(d) / 2},{iy1 + 2} V{ly} H{xa} V{iy1 + 5}", "couples", marker="mG")
-    svg.text((sum(d) / 2 + xa) / 2, ly + 5, "disrupts", "sm halo")   # on the line, as Figure 2.1
+    ly = sy1 + 22                            # one bend: down from MTD, across into the Attacker's side
+    svg.path(f"M{sum(d) / 2},{sy1 + 2} V{ly} H{at[0] - 4}", "couples", marker="mG")
+    svg.text((sum(d) / 2 + at[0]) / 2, ly + 5, "disrupts", "sm halo")   # on the line, as Figure 2.1
 
     # ---------------------------------------------------------------- output
     xm = (at[0] + at[1]) / 2
