@@ -5,10 +5,9 @@ aggregated into the attack graph (the first arrow of fig:pipeline, "aggregate").
 REBUILT 2026-10-03 (Marc: the previous three-band figure, with a second,
 38-flow attack graph drawn as a 15 x 15 grid, was "written off as confusing";
 the full attack graph lives in Appendix B). The figure is one worked example,
-at the abstraction of Figures 2.1--2.3 and 4.1, plus the one number section
-4.1's choice of tactics rests on.
+at the abstraction of Figures 2.1--2.3 and 4.1.
 
-What the reader leaves with (section 4.1's four points, nothing else):
+What the reader leaves with (section 4.1's points, nothing else):
 
   T1  each technique in an attack flow stands for its tactic (the technique
       boxes sit in their tactic's column, under the tactic's name);
@@ -16,9 +15,9 @@ What the reader leaves with (section 4.1's four points, nothing else):
       such step, in grey, and nothing for it in the aggregate);
   T3  aggregating counts: two attack flows that step from collection to
       stealth through different techniques give that edge weight 2;
-  T4  why tactics: across all 38 attack flows, 88 % of the edges between
-      techniques are drawn by one attack flow alone, against 39 % of the
-      edges between tactics (two bars).
+  (T4, the 88 %/39 % bars, CUT 2026-10-03, Marc: section 4.1's prose already
+      says it; the example's two technique edges becoming one tactic edge is
+      the picture of it. The facts are still printed below.)
 
 One colour, one meaning: blue is the edge both attack flows draw --- the two
 different technique edges in the attack flows and the one tactic edge they
@@ -83,9 +82,6 @@ STYLE = f"""
   .tech  {{ fill:#fff; stroke:{INK}; stroke-width:1.4; }}
   .tac   {{ fill:#fff; stroke:{INK}; stroke-width:1.8; }}
   .band  {{ fill:#f3f3f3; }}
-  .rule  {{ stroke:{CHROME}; stroke-width:1.2; }}
-  .bar   {{ fill:#8c8c8c; }}
-  .track {{ fill:#f1f1f1; }}
   .halo  {{ paint-order:stroke; stroke:#fff; stroke-width:5px; stroke-linejoin:round; }}
 """
 
@@ -213,7 +209,6 @@ def emit(gap, axis, pair, excerpt, flow_name, facts):
     y_head = 24
     y_rows = [78, 152]                  # the two attack flows
     y_agg = 262                         # the aggregate
-    y_bars = 336
 
     # the header row: the attack flows, by tactic; each tactic a light band down
     # through the attack flows, so the techniques in it read as that tactic
@@ -268,18 +263,7 @@ def emit(gap, axis, pair, excerpt, flow_name, facts):
     for t in tactics:
         boxed_name(svg, col_cx[t], y_agg, axis.label[t].capitalize(), cls="tac", w=TAC_W, h=TAC_H, text_cls="lbl")
 
-    # the reason for tactics, over all the attack flows
-    svg.add(f'<line class="rule" x1="8" y1="{y_bars - 30}" x2="{PX - 8}" y2="{y_bars - 30}"/>')
-    svg.text(8, y_bars - 4, f"Edges drawn by one attack flow alone, across all {facts['n_flows']}:", "lbl", anchor="start")
-    bx0, bx1 = GUT + 120, PX - 70
-    for k, (lab, pct) in enumerate((("between techniques", facts["tech_single_pct"]),
-                                    ("between tactics", facts["tac_single_pct"]))):
-        yb0 = y_bars + 14 + k * 30
-        svg.text(bx0 - 12, yb0 + 15, lab, "lbl", anchor="end")
-        svg.rect(bx0, yb0, bx1, yb0 + 20, "track", rx=2)
-        svg.rect(bx0, yb0, bx0 + (bx1 - bx0) * pct / 100, yb0 + 20, "bar", rx=2)
-        svg.text(bx0 + (bx1 - bx0) * pct / 100 + 8, yb0 + 16, f"{pct} %", "lbl", anchor="start")
-    height = y_bars + 14 + 2 * 30 + 6
+    height = y_agg + TAC_H / 2 + 4
 
     defs = "".join(f'<marker id="{m}" viewBox="0 0 10 10" refX="8" refY="5" markerUnits="userSpaceOnUse" '
                    f'markerWidth="{sz}" markerHeight="{sz}" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="{c}"/></marker>'
@@ -330,6 +314,8 @@ def main() -> None:
     fa, fb, shared = pick_pair(tech, edges, tac_of)
     excerpt = pick_excerpt((fa, fb), shared, edges, tac_of, axis.matrix_order)
     names = {}
+    # the pair is drawn from the whole corpus, unattributed attack flows included:
+    # section 4.1 discloses the corpus's make-up rather than curate the example
     for f in (fa, fb):
         y = (REPO / "data" / "gap" / "flows" / f"{f}.yaml").read_text()
         names[f] = short_name(next(ln.split(":", 1)[1].strip() for ln in y.splitlines() if ln.startswith("flow_name:")))
