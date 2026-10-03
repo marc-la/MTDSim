@@ -3523,14 +3523,26 @@ performs against the APT attacker model compared with the baseline attacker
 % (tools/pipeline_ladder_figure.py) becomes the section 4.1 zoom (Part C).
 % CAPTION: DRAFT STATE --- session stand-in, passed by the scrutiny's
 % readers; Marc's to rewrite, ratify-on-read. "38" is the generator's count.
+% FIGURE + CAPTION ROUND (Marc 2026-10-03, with the preamble): one colour,
+% one meaning --- blue outlines and arrows mark what this dissertation builds
+% (the three built artefacts were black inside a blue frame; the verbs were
+% blue text, hard to read; now ink, as Figure 2.1's). Cut as already given
+% by Chapter 2 or not needed: "the simulator of Chapter 2", the MTD and
+% Network sub-labels ("MTD mechanisms" duplicated its title), "one Petri net
+% per run", "per attacker" (inexact: metrics are per combination, §4.5).
+% "join to MTDSim" -> "integrate with MTDSim", the §4.4 heading's verb and
+% its first sentence's ("integrates the Petri nets with MTDSim through the
+% join"); "the join" stays the prose noun (terminology row: figure no longer
+% draws the word). "drive" -> "choose", the preamble's verb; the "attack
+% actions" box widened (its text overflowed). Caption: the pipeline, in the
+% preamble's words, and the colour key; the section-arrow clause cut (the
+% §-labels explain themselves). DRAFT STATE.
 \begin{figure}[t]
   \centering
   \includegraphics{fig_4-0a_method_overview}
-  \caption[The APT attacker model and where it runs]{The APT attacker
-  model: built from 38 attack flows and joined to MTDSim, which runs either
-  it or the baseline attacker; both are measured. Blue marks the APT
-  attacker model and how it is built; each arrow marked with a section is
-  described in that section.}
+  \caption[The pipeline that builds and runs the APT attacker model]{The
+  pipeline that builds the APT attacker model from 38 attack flows and runs
+  it in MTDSim. Blue marks what this dissertation builds.}
   \label{fig:pipeline}
 \end{figure}
 
@@ -3740,6 +3752,10 @@ performs against the APT attacker model compared with the baseline attacker
 %  stands (Section 4.5: "MTDSim has no traffic and no detection mechanism").
 %  No partial mark for scheme awareness: nothing the attacker decides reads the
 %  mechanism or the timing. Stealth partial vs none: Marc's ruling, open.
+% [ROUND 6, 2026-10-03, with the Figure 4.1 round] the figure sentence ends at
+%  the pipeline: "the sections follow its stages in order" cut ("stage" is a
+%  deprecated class noun for the parts, terminology row; the figure's
+%  section labels and the next three sentences carry the order). DRAFT STATE.
 The MTD evaluations surveyed in Chapter~\ref{ch:litreview} leave how MTD
 performs against APT attackers unmeasured, because their attacker models lack
 properties of an APT attacker. This chapter defines an APT attacker model
@@ -3750,8 +3766,7 @@ next tactic at runtime. It is a proof of concept: it tests whether an attacker
 that behaves like an APT changes what an MTD evaluation measures. Stealth and
 scheme awareness, the other two properties, are left to future work.
 Figure~\ref{fig:pipeline} shows the pipeline that builds the model from 38
-attack flows and runs it in MTDSim, and the sections follow its stages in
-order. Sections~\ref{sec:technique-graph}
+attack flows and runs it in MTDSim. Sections~\ref{sec:technique-graph}
 and~\ref{sec:attack-profiles} answer \ref{sq:capture}: they recover the
 behaviour of APT attackers from CTI as an attack graph and four attack
 profiles. Sections~\ref{sec:petri-formalism} and~\ref{sec:execution} answer

@@ -71,6 +71,7 @@ STYLE = f"""
   .verb  {{ font-size:17px; }}
   .acc   {{ fill:{ACCENT}; }}
   .node  {{ fill:#fff; stroke:{INK}; stroke-width:1.6; }}
+  .nodeA {{ fill:#fff; stroke:{ACCENT}; stroke-width:1.6; }}
   .inner {{ fill:#fff; stroke:{INK2}; stroke-width:1.6; }}
   .card  {{ fill:#fff; stroke:{FAINT}; stroke-width:1.3; }}
   .built {{ fill:none; stroke:{ACCENT}; stroke-width:1.8; }}
@@ -112,16 +113,16 @@ class SVG:
 def process_label(svg, x, y_top, lines, section, below_y):
     """A process: its verb (one or two lines) above the arrow, its section below."""
     for k, ln in enumerate(lines):
-        svg.text(x, y_top + k * 19, ln, "verb halo", extra=f' style="fill:{ACCENT}"')
+        svg.text(x, y_top + k * 19, ln, "verb halo")
     svg.text(x, below_y, section, "xref")
 
 
-def stack(svg, x0, y0, x1, y1, depth=2):
+def stack(svg, x0, y0, x1, y1, depth=2, cls="node"):
     """A box with cards behind it: 'several of these' (the flows, the profiles,
     the nets). The one way a count is drawn on this figure."""
     for k in range(depth, 0, -1):
         svg.rect(x0 + 6 * k, y0 - 6 * k, x1 + 6 * k, y1 - 6 * k, "card")
-    svg.rect(x0, y0, x1, y1, "node")
+    svg.rect(x0, y0, x1, y1, cls)
 
 
 def emit(n_flows: int) -> tuple[str, float, float]:
@@ -140,16 +141,16 @@ def emit(n_flows: int) -> tuple[str, float, float]:
     # the built frame: the APT attacker model, this dissertation's part
     fx0, fx1, fy0, fy1 = 250, 894, 8, 166
     svg.rect(fx0, fy0, fx1, fy1, "built", rx=7)
-    svg.text(fx0 + 16, fy0 + 26, "Building the APT attacker model", "title acc", anchor="start")
+    svg.text(fx0 + 16, fy0 + 26, "Building the APT attacker model", "title", anchor="start")
 
     g = (268, 398)          # attack graph
     p = (492, 652)          # attack profiles
     n = (756, 872)          # profile nets
-    svg.rect(g[0], ny0, g[1], ny1, "node")
+    svg.rect(g[0], ny0, g[1], ny1, "nodeA")
     svg.text(sum(g) / 2, nyc + 6, "Attack graph", "title")
-    stack(svg, p[0], ny0, p[1], ny1)
+    stack(svg, p[0], ny0, p[1], ny1, cls="nodeA")
     svg.text(sum(p) / 2, nyc + 6, "Attack profiles", "title")
-    stack(svg, n[0], ny0, n[1], ny1)
+    stack(svg, n[0], ny0, n[1], ny1, cls="nodeA")
     svg.text(sum(n) / 2, nyc + 6, "Petri nets", "title")   # Marc 2026-09-25: one term, the Petri net (was "profile net")
 
     # the three processes inside row 1 (BECOMES)
@@ -172,19 +173,16 @@ def emit(n_flows: int) -> tuple[str, float, float]:
     mx0, mx1 = 12, 894
     svg.rect(mx0, my0, mx1, my1, "used", rx=7)
     svg.text(mx0 + 16, my0 + 26, "MTDSim", "title", anchor="start")
-    svg.text(mx0 + 16 + 84, my0 + 26, "the simulator of Chapter 2", "xref", anchor="start")
     d = (26, 170)                            # MTD (narrowed 2026-10-02 so the
     nw = (270, 426)                          # Network  "reconfigures" label fits)
     at = (536, 882)                          # Attacker
-    for (x0, x1), icon, title, sub in ((d, "mtdic", "MTD", "MTD mechanisms"),
-                                       (nw, "netic", "Network", "hosts and services")):
-        svg.rect(x0, iy0, x1, iy1, "module")
-        cx = (x0 + x1) / 2
-        svg.add(f'<g transform="translate({cx - 44:.1f},{iy0 + 30})"><use href="#{icon}"/></g>')
-        svg.text(cx - 26, iy0 + 37, title, "title", anchor="start")
-        first, rest_ = sub.split(" ", 1)
-        svg.text(cx, iy0 + 84, first, "lbl")
-        svg.text(cx, iy0 + 104, rest_, "lbl")
+    ym = (iy0 + iy1) / 2
+    sy0, sy1 = ym - 38, ym + 38              # MTD and Network: titles only, so shorter (as Figure 2.1)
+    for (x0, x1), icon, title, w in ((d, "mtdic", "MTD", 44), (nw, "netic", "Network", 76)):
+        svg.rect(x0, sy0, x1, sy1, "module")
+        cx = (x0 + x1) / 2 - w / 2 + 6
+        svg.add(f'<g transform="translate({cx - 22:.1f},{ym})"><use href="#{icon}"/></g>')
+        svg.text(cx, ym + 7, title, "title", anchor="start")
     svg.rect(at[0], iy0, at[1], iy1, "module")
     svg.add(f'<g transform="translate({at[0] + 26},{iy0 + 30})"><use href="#hacker"/></g>')
     svg.text(at[0] + 46, iy0 + 37, "Attacker", "title", anchor="start")
@@ -197,13 +195,13 @@ def emit(n_flows: int) -> tuple[str, float, float]:
     apt = (iy0 + 10, iy0 + 56)
     bas = (iy0 + 86, iy0 + 132)
     svg.rect(drv[0], apt[0], drv[1], apt[1], "peer", rx=4)
-    svg.text(ac, apt[0] + 20, "APT attacker", "lbl", extra=f' style="fill:{ACCENT};font-weight:bold"')
-    svg.text(ac, apt[0] + 39, "model", "lbl", extra=f' style="fill:{ACCENT};font-weight:bold"')
+    svg.text(ac, apt[0] + 20, "APT attacker", "lbl", extra=' font-weight="bold"')
+    svg.text(ac, apt[0] + 39, "model", "lbl", extra=' font-weight="bold"')
     svg.text(ac, (apt[1] + bas[0]) / 2 + 6, "or", "lbl", extra=' font-style="italic"')
     svg.rect(drv[0], bas[0], drv[1], bas[1], "inner", rx=4)
     svg.text(ac, bas[0] + 20, "baseline", "lbl", extra=' font-weight="bold"')
     svg.text(ac, bas[0] + 39, "attacker", "lbl", extra=' font-weight="bold"')
-    act = (at[0] + 10, at[0] + 112)   # wide enough for "attack actions"
+    act = (at[0] + 16, at[0] + 146)   # wide enough for "attack actions", with margin
     ay = (iy0 + 56, iy0 + 96)
     ayc = (ay[0] + ay[1]) / 2
     svg.rect(act[0], ay[0], act[1], ay[1], "inner", rx=4)
@@ -214,16 +212,15 @@ def emit(n_flows: int) -> tuple[str, float, float]:
         k = (L - 13) / L                      # the head (13 px) hangs past the line's end
         svg.path(f"M{x0_},{y0_} L{x0_ + (x1_ - x0_) * k:.1f},{y0_ + (y1_ - y0_) * k:.1f}", "drives", marker="mD")
     # (drive is run-time, drawn in the grey of the other in-simulator relations)
-    svg.text((drv[0] + act[1]) / 2 + 6, ayc + 6, "drive", "sm halo")
+    svg.text((drv[0] + act[1]) / 2 + 4, ayc + 6, "choose", "sm halo")
 
     # the join: a step of this dissertation (thin, the accent), into the APT attacker model
     svg.path(f"M{ac},{ny1 + 3} V{apt[0] - 4}", "becomes acc", marker="mA")
-    svg.text(ac - 14, fy1 + 30, "join to MTDSim", "verb halo", anchor="end", extra=f' style="fill:{ACCENT}"')
-    svg.text(ac - 14, fy1 + 48, "one Petri net per run", "sm halo", anchor="end")
-    svg.text(ac + 14, fy1 + 30, "§4.4", "xref halo", anchor="start")
+    svg.text(ac - 14, fy1 + 36, "integrate with MTDSim", "verb halo", anchor="end")
+    svg.text(ac + 14, fy1 + 36, "§4.4", "xref halo", anchor="start")
 
     # Figure 2.1's couplings, grey: MTD reconfigures the network, the actions compromise it
-    cy2 = (iy0 + iy1) / 2 + 10
+    cy2 = ym
     svg.path(f"M{d[1] + 3},{cy2} H{nw[0] - 4}", "couples", marker="mG")
     svg.text((d[1] + nw[0]) / 2, cy2 - 10, "reconfigures", "sm halo")  # registry row 64 (2026-09-30), as Figure 2.1
     svg.path(f"M{act[0] - 3},{ayc + 8} L{nw[1] + 4},{cy2}", "couples", marker="mG")
@@ -232,7 +229,7 @@ def emit(n_flows: int) -> tuple[str, float, float]:
     # Figure 2.1's fourth coupling: each rewrite interrupts the attacker mid-action
     # (the way MTD holds an attacker back), routed under the modules as there
     ly = iy1 + 22
-    svg.path(f"M{sum(d) / 2},{iy1 + 2} V{ly} H{(at[0] + act[1]) / 2} V{iy1 + 5}", "couples", marker="mG")
+    svg.path(f"M{sum(d) / 2},{sy1 + 2} V{ly} H{(at[0] + act[1]) / 2} V{iy1 + 5}", "couples", marker="mG")
     svg.text((d[1] + at[0]) / 2 + 40, ly - 6, "disrupts", "sm halo")
 
     # ---------------------------------------------------------------- output
@@ -240,8 +237,7 @@ def emit(n_flows: int) -> tuple[str, float, float]:
     oy0, oy1 = my1 + 52, my1 + 52 + 56
     ox0, ox1 = xm - 120, xm + 120
     svg.rect(ox0, oy0, ox1, oy1, "node")
-    svg.text(xm, (oy0 + oy1) / 2 - 3, "Evaluation metrics", "title")
-    svg.text(xm, (oy0 + oy1) / 2 + 19, "per attacker", "sm")
+    svg.text(xm, (oy0 + oy1) / 2 + 7, "Evaluation metrics", "title")
     svg.path(f"M{xm},{my1 + 3} V{oy0 - 4}", "becomes")
     svg.text(xm + 14, my1 + 22, "measure", "verb halo", anchor="start")
     svg.text(xm + 14, my1 + 41, "§4.5", "xref", anchor="start")
