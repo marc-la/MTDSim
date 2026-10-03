@@ -3723,13 +3723,22 @@ performs against the APT attacker model compared with the baseline attacker
 %  cannot tell which mechanism deployed; ch7 future work lists both). The
 %  figure leads the roadmap as its own subject-first sentence; each SQ is
 %  named in the sentence that answers it.
+% [ROUND 4, 2026-10-03] CORRECTION of round 3: scheme awareness does NOT
+%  need MTDSim to change --- the run wrapper already recovers the interrupting
+%  mechanism's name (attacker.py InterruptSource: "record enrichment; neither
+%  is read by the walk"), and the MTD interval is a run parameter. The
+%  exclusion is scope (criterion axis 8: ruled out on timeframe; the
+%  metric-manipulation route closed on evidence 2026-08-09). Stealth's reason
+%  stands (Section 4.5: "MTDSim has no traffic and no detection mechanism").
+%  No partial mark for scheme awareness: nothing the attacker decides reads the
+%  mechanism or the timing. Stealth partial vs none: Marc's ruling, open.
 The MTD evaluations surveyed in Chapter~\ref{ch:litreview} leave how MTD
 performs against APT attackers unmeasured, because their attacker models lack
 properties of an APT attacker. This chapter defines an APT attacker model
 built to meet six of the eight properties of
-Section~\ref{subsec:attacker-criterion}. The other two need changes to MTDSim
-itself: stealth needs a detection model to evade, and scheme awareness needs
-the attacker to observe which MTD mechanism deploys and when. The APT attacker
+Section~\ref{subsec:attacker-criterion}. Stealth needs a detection model,
+which MTDSim lacks, and scheme awareness, reasoning about which MTD mechanism
+deploys and when, is left to future work. The APT attacker
 model takes the same attack actions as the baseline attacker, but the Petri
 net of its attack profile chooses its next tactic at runtime. It is a proof of
 concept: it tests whether an attacker that behaves like an APT changes what an
