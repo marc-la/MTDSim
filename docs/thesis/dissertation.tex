@@ -3714,20 +3714,31 @@ performs against the APT attacker model compared with the baseline attacker
 %  awareness" (apt_model_criterion.md: 5 and 8 NOT ADDRESSED, the rest
 %  DESIGNED or DEMONSTRATED); "nine of the eleven" CUT; the figure sentence
 %  CUT and the figure cited by the roadmap's lead sentence.
+% [ROUND 3, 2026-10-03, Marc: claim the six strongly and answer the examiner's
+%  "why not the other two"; no bracketed references (flow); SQ1--SQ3 treated
+%  alike; subject first] The scope sentence gives the reason as a boundary:
+%  both properties need MTDSim to change, and this dissertation changes the
+%  attacker (exposure.py: the simulator offers "no detection model to be
+%  stealthy against"; the join returns one failure verdict, so the attacker
+%  cannot tell which mechanism deployed; ch7 future work lists both). The
+%  figure leads the roadmap as its own subject-first sentence; each SQ is
+%  named in the sentence that answers it.
 The MTD evaluations surveyed in Chapter~\ref{ch:litreview} leave how MTD
 performs against APT attackers unmeasured, because their attacker models lack
 properties of an APT attacker. This chapter defines an APT attacker model
 built to meet six of the eight properties of
-Section~\ref{subsec:attacker-criterion}, all but stealth and scheme awareness.
-It takes the same attack actions as the baseline attacker, but the Petri net
-of its attack profile chooses its next tactic at runtime. It is a proof of
+Section~\ref{subsec:attacker-criterion}. The other two need changes to MTDSim
+itself: stealth needs a detection model to evade, and scheme awareness needs
+the attacker to observe which MTD mechanism deploys and when. The APT attacker
+model takes the same attack actions as the baseline attacker, but the Petri
+net of its attack profile chooses its next tactic at runtime. It is a proof of
 concept: it tests whether an attacker that behaves like an APT changes what an
-MTD evaluation measures. The method answers the three sub-questions in turn
-(Figure~\ref{fig:pipeline}). Sections~\ref{sec:technique-graph}
-and~\ref{sec:attack-profiles} recover the behaviour of APT attackers from CTI
-as an attack graph and four attack profiles (\ref{sq:capture}).
-Sections~\ref{sec:petri-formalism} and~\ref{sec:execution} execute each attack
-profile as a Petri net inside MTDSim (\ref{sq:model}).
+MTD evaluation measures. Figure~\ref{fig:pipeline} shows the method, which
+answers the three sub-questions in turn. Sections~\ref{sec:technique-graph}
+and~\ref{sec:attack-profiles} answer \ref{sq:capture}: they recover the
+behaviour of APT attackers from CTI as an attack graph and four attack
+profiles. Sections~\ref{sec:petri-formalism} and~\ref{sec:execution} answer
+\ref{sq:model}: they execute each attack profile as a Petri net inside MTDSim.
 Section~\ref{sec:evaluation-metrics} defines the metrics with which
 Chapter~\ref{ch:experiments} answers \ref{sq:evaluate}.
 
