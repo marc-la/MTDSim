@@ -4415,6 +4415,10 @@ input from the simulator; integrated, the run is two-way.
 % meanings for arrows): blue is the loop and nothing else; boxes in ink;
 % two arrow kinds (the loop, the net's arcs); MTDSim's couplings not drawn
 % (Figure 4.1's); step 5 back to the decision place; step 6 on its arc.
+% ROUND 4 (Marc: F is in the formal definition, so why outside the net?):
+% the dwell times (W's rates) and the failure matrix (F) drawn inside the
+% Petri net under what they set; the mapping alone outside; MTDSim's
+% modules share a top and a bottom, their rows aligned.
 % Regenerate, never hand-edit. CAPTION: DRAFT STATE.
 \begin{figure}[tbp]
   \centering
@@ -4423,8 +4427,9 @@ input from the simulator; integrated, the run is two-way.
   with MTDSim: the step ``integrate with MTDSim'' of
   Figure~\ref{fig:pipeline}, enlarged. The Petri net, in the marks of
   Figure~\ref{fig:gspn-gadget}, is drawn at initial access in $c_1$, with
-  three of its eight successors. Blue traces one iteration of the loop,
-  numbered by step.}
+  three of its eight successors. The dwell times and the failure matrix are
+  part of the Petri net (Equation~\ref{eq:vc-net}), each drawn under the
+  element it sets. Blue traces one iteration of the loop, numbered by step.}
   \label{fig:runtime-loop}
 % [CH4 SCRUTINY 2026-10-02, F5: regenerated --- "Defender" -> "MTD" (Figure
 %  2.1's module), the vulnerability memory drawn in the attacker box in the
@@ -4451,10 +4456,13 @@ action consumes its tactic's drawn time and nothing further. One iteration
 of the loop runs in six steps, numbered as in Figure~\ref{fig:runtime-loop}:
 \begin{enumerate}[nosep, leftmargin=*]
   \item the token's tactic leaves the Petri net;
-  \item the tactic's mean dwell $\mu_p$ is drawn through an exponential and
-  consumed as simulated time;
+  % [2026-10-04: steps 2 and 3 swapped to the code's order (movement/attacker.py
+  %  _walk: controller.phase_for(place), then timing.draw(place), then the
+  %  attack action runs for the drawn time) and to Figure 4.5's lanes.]
   \item the tactic-to-action mapping resolves the tactic to an attack action, or to
   dwell-only, in which case nothing is dispatched and no verdict returns;
+  \item the tactic's mean dwell $\mu_p$ is drawn through an exponential and
+  consumed as simulated time;
   \item a dispatched attack action's verdict, success or failure, returns
   from MTDSim;
   \item on failure the failure matrix reweights the token's out-transitions
