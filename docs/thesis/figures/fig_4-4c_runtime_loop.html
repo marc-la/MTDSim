@@ -48,6 +48,7 @@
 <defs>
   <marker id="mA" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="userSpaceOnUse" markerWidth="13" markerHeight="13" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#1f548c"/></marker>
   <marker id="mS" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="userSpaceOnUse" markerWidth="10" markerHeight="10" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#333"/></marker>
+  <marker id="mG" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="userSpaceOnUse" markerWidth="10" markerHeight="10" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#6e6e6e"/></marker>
 
   <!-- icons: hooded attacker, wired network, moving target (the attack lands on the target's stale position, dotted; the target has moved, solid); each centred on the origin, ~28 px -->
   <g id="hacker"><g transform="scale(0.062) translate(-256,-256)" fill="#333"><path d="M475.3571,413.24a69.9,69.9,0,0,0-39.8845-57.4407l-39.9287-18.7987,21.5791-44.5621a89.4527,89.4527,0,0,0,.0025-77.9684L359.7988,96.0682C317.7933,9.3105,194.2088,9.31,152.2019,96.0666L94.87,214.4745a89.445,89.445,0,0,0,.0049,77.9692l21.581,44.5569L76.5256,355.8a69.898,69.898,0,0,0-39.8831,57.439l-3.612,43.3773a22.5157,22.5157,0,0,0,22.4381,24.3842H456.5337A22.5134,22.5134,0,0,0,478.97,456.6187ZM364,260.1205a107.9746,107.9746,0,0,1-98.1035,107.5V341.1249a9.8965,9.8965,0,0,0-19.793,0v26.4957A107.9746,107.9746,0,0,1,148,260.1205V203.44a28.8192,28.8192,0,0,1,28.8193-28.8193H335.1806A28.8193,28.8193,0,0,1,364,203.44Z"/><path d="M321.8213,275.9979a9.91,9.91,0,0,0-12.3135,6.6709,13.5776,13.5776,0,0,1-26.0156,0,9.9026,9.9026,0,1,0-18.9844,5.6426,33.3877,33.3877,0,0,0,63.9844,0A9.9125,9.9125,0,0,0,321.8213,275.9979Z"/><path d="M240.8213,275.9979a9.8908,9.8908,0,0,0-12.3135,6.6709,13.5776,13.5776,0,0,1-26.0156,0,9.9026,9.9026,0,1,0-18.9844,5.6426,33.3877,33.3877,0,0,0,63.9844,0A9.9125,9.9125,0,0,0,240.8213,275.9979Z"/><path d="M319,227.4384H283a9.8965,9.8965,0,1,0,0,19.7929h36a9.8965,9.8965,0,1,0,0-19.7929Z"/><path d="M193,247.2313h36a9.8965,9.8965,0,1,0,0-19.7929H193a9.8965,9.8965,0,1,0,0,19.7929Z"/></g></g>
@@ -107,12 +108,14 @@
 <text class="xref" x="572.0" y="496.0" text-anchor="end">§4.4.4</text>
 <g transform="translate(46,465.0)"><use href="#hacker"/></g>
 <text class="lbl" x="66.0" y="472.0" font-weight="bold">Attacker</text>
-<rect class="module" x="640.0" y="418.0" width="236.0" height="44.0" rx="5"/>
-<g transform="translate(707.0,440.0) scale(0.8)"><use href="#netic"/></g>
-<text class="lbl" x="729.0" y="446.0" font-weight="bold">Network</text>
-<rect class="module" x="640.0" y="470.0" width="236.0" height="44.0" rx="5"/>
-<g transform="translate(722.0,492.0) scale(0.8)"><use href="#mtdic"/></g>
-<text class="lbl" x="744.0" y="498.0" font-weight="bold">MTD</text>
+<rect class="module" x="676.0" y="418.0" width="200.0" height="44.0" rx="5"/>
+<g transform="translate(725.0,440.0) scale(0.8)"><use href="#netic"/></g>
+<text class="lbl" x="747.0" y="446.0" font-weight="bold">Network</text>
+<rect class="module" x="676.0" y="470.0" width="200.0" height="44.0" rx="5"/>
+<g transform="translate(740.0,492.0) scale(0.8)"><use href="#mtdic"/></g>
+<text class="lbl" x="762.0" y="498.0" font-weight="bold">MTD</text>
+<path class="couples" d="M673,492.0 H604" marker-end="url(#mG)"/>
+<text class="sm" x="638.0" y="483.0" text-anchor="middle">disrupts</text>
 <path class="loop" d="M200,126 V307" marker-end="url(#mA)"/>
 <path class="loop" d="M200,365 V424" marker-end="url(#mA)"/>
 <circle class="badge" cx="212.0" cy="290.0" r="12"/>

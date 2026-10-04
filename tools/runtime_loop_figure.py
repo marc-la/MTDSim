@@ -31,7 +31,10 @@ The rules it keeps (as tools/ch4_overview_figure.py, its sibling):
     so the eye follows one colour round the loop; everything else is ink, and
     the boxes are outlined in ink (in this figure everything above MTDSim is
     built, so a "built" colour told the reader nothing);
-  * arrows of two kinds only: the loop's steps (blue, heavy, numbered) and the
+  * one grey coupling, subtle and secondary (round 8, Marc: the idle MTD box
+    is decoration, but MTDSim must not compete with the loop): MTD disrupts
+    the Attacker, the one MTDSim relation the loop reads;
+  * otherwise arrows of two kinds only: the loop's steps (blue, heavy, numbered) and the
     Petri net's arcs (ink, thin, the marks of Figure 4.4); MTDSim's own
     couplings (compromises, reconfigures, disrupts) are not drawn: they are
     Figure 4.1's and Figure 2.1's, not the loop's;
@@ -221,11 +224,18 @@ def emit(succ: list[str]) -> tuple[str, float, float]:
     svg.add(f'<g transform="translate({at[0] + 30},{amid - 1})"><use href="#hacker"/></g>')
     svg.text(at[0] + 50, amid + 6, "Attacker", "lbl", anchor="start", extra=BOLD)
     for (y0, y1), icon, title, w in ((top, "netic", "Network", 70), (bot, "mtdic", "MTD", 40)):
-        x0, x1 = 640, 876
+        x0, x1 = 676, 876
         svg.rect(x0, y0, x1, y1, "module")
         cx, cy = (x0 + x1) / 2 - w / 2 + 6, (y0 + y1) / 2
         svg.add(f'<g transform="translate({cx - 22:.1f},{cy}) scale(0.8)"><use href="#{icon}"/></g>')
         svg.text(cx, cy + 6, title, "lbl", anchor="start", extra=BOLD)
+
+    # MTD's one relation the loop reads, subtle and secondary (thin, grey, as
+    # Figures 2.1 and 4.1 draw MTDSim's couplings): a deployment disrupts the
+    # attacker, which is one way a verdict becomes a failure (Marc, round 8)
+    ymd = (bot[0] + bot[1]) / 2
+    svg.path(f"M{676 - 3},{ymd} H{at[1] + 4}", "couples", marker="mG")
+    svg.text((at[1] + 676) / 2, ymd - 9, "disrupts", "sm")
 
     lab1, lab2 = (py1 + my0) / 2 + 6, (my0 + BH + sy0) / 2 + 6   # the gaps between frames
     labp = ry0 - 22                                            # the in-net steps, one baseline
@@ -256,6 +266,7 @@ def emit(succ: list[str]) -> tuple[str, float, float]:
     defs = f"""<defs>
   <marker id="mA" {head}><path d="M0,0 L10,5 L0,10 z" fill="{ACCENT}"/></marker>
   <marker id="mS" {small}><path d="M0,0 L10,5 L0,10 z" fill="{INK}"/></marker>
+  <marker id="mG" {small}><path d="M0,0 L10,5 L0,10 z" fill="{INK2}"/></marker>
 {ICONS}
 </defs>"""
     h_cm = WIDTH_CM * height / PX
