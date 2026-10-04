@@ -3877,7 +3877,7 @@ tactic $q$ wherever an attack flow steps from a technique of $p$ to a
 technique of $q$, and its weight is the number of attack flows that draw
 it (Figure~\ref{fig:attack-graph-construction}). A step between two
 techniques of the same tactic is not an edge: the time an attacker spends
-within a tactic is its dwell time (Section~\ref{subsec:dwell-times}).
+within a tactic is its tactic duration (Section~\ref{subsec:dwell-times}).
 
 % FIGURE (REBUILT 2026-10-03, Marc: the three-band version, with a second
 % attack graph as a 15 x 15 grid, was "written off as confusing"). One worked
@@ -4233,9 +4233,9 @@ $p$.
   \item[Arcs $I$, $O$:] those of the chain
   $p \to \tau_p \to \hat{p} \to t_{pq} \to q$.
   \item[Weights $W$:] each timed transition has rate
-  $W(\tau_p) = 1/\mu_p$, so that its delay has mean $\mu_p$, the mean dwell
+  $W(\tau_p) = 1/\mu_p$, so that its delay has mean $\mu_p$, the mean duration
   of tactic $p$ (Section~\ref{subsec:dwell-times}). Resource development has
-  a mean dwell of zero, so its transition is immediate. Each immediate
+  a mean duration of zero, so its transition is immediate. Each immediate
   transition has the \emph{base weight} of its edge $p \to q$, the share of
   the attack profile's attack flows leaving $p$ that go to $q$:
   \begin{equation}
@@ -4472,7 +4472,7 @@ Figure~\ref{fig:runtime-loop}:
   \item the token's tactic leaves the Petri net;
   \item the tactic-to-action mapping turns the tactic into one of MTDSim's
   attack actions;
-  \item the tactic's dwell time, the delay of its timed transition, is drawn
+  \item the tactic's duration, the delay of its timed transition, is drawn
   from an exponential of mean $\mu_p$, and the attack action runs for that
   time;
   \item the attack action's verdict, success or failure, returns from MTDSim;
@@ -4482,7 +4482,7 @@ Figure~\ref{fig:runtime-loop}:
   \item the token fires one immediate transition to the next tactic, and the
   loop repeats.
 \end{enumerate}
-The drawn dwell \emph{replaces} the attack action's own cost in MTDSim: the
+The drawn duration \emph{replaces} the attack action's own cost in MTDSim: the
 attack action takes its tactic's drawn time and nothing further. An attack
 action fails if its preconditions were missing (for example, an exploit of a
 vulnerability not yet scanned for), or if an MTD deployment disrupts it
@@ -4671,7 +4671,7 @@ and the choice of one attack flow per APT group.
 %  Source register: handoff 2026-09-17_ch5_s51_sensitivity_overhaul.md D5
 %  insertion A + S5 defect D-4.
 
-\subsection{Tactic dwell times}
+\subsection{Tactic durations}
 \label{subsec:dwell-times}
 
 % [CH4 SCRUTINY 2026-10-02, ledger D1--D6, X5, applied on Marc's accept-all:
@@ -4682,7 +4682,7 @@ and the choice of one attack flow per APT group.
 %  development is a fifth, zero group: tactic_durations.json). Prior text in
 %  git (3f6b4f8c). DRAFT STATE --- ratify on read.]
 Each tactic consumes some time in the simulator, of mean $\mu_p$
-(Section~\ref{sec:petri-formalism}), as the baseline attacker's attack actions did. Per-tactic dwell times are reported neither in the literature nor in CTI
+(Section~\ref{sec:petri-formalism}), as the baseline attacker's attack actions did. Tactic durations are reported neither in the literature nor in CTI
 vendor reports, which give the length of a whole intrusion
 (Chapter~\ref{ch:intro}); models that time attack steps declare their
 values~\citep{bland2020, mcqueen2006, mendonca2023}. Here they are
@@ -4695,7 +4695,7 @@ the Petri net does not supply.
 % [CUT 2026-09-08: "There is no MITRE tactic mapping to time resource." (the
 %  sentence before carries it) and "How long does reconnaissance take?"]
 
-We derived the dwell times from MTDSim's six attack actions, using their
+We derived the tactic durations from MTDSim's six attack actions, using their
 costs directly where they apply and extrapolating the rest. The 14 tactics
 on the network resolve onto four families. Two take the simulator's costs unchanged: the scan-shaped family,
 one enumeration pass at 35 seconds, for the tactics whose work is
@@ -4788,11 +4788,11 @@ of time.
 %  execution shares the verb at 22.5 s, so the sentence holds as the
 %  assumption it states, not as a universal.]
 
-The exponential is a modelling choice, not a claim that attacker dwell is
+The exponential is a modelling choice, not a claim that tactic durations are
 exponentially distributed. The exponential draw makes the times stochastic
-(the base dwell times $\mu_p$ are not), and there is evidence in the
+(the mean durations $\mu_p$ are not), and there is evidence in the
 literature for stochastic attack behaviour~\citep{holm2014, madan2004,
-bland2020}. The dwell times are model parameters anchored to this simulator,
+bland2020}. The tactic durations are model parameters anchored to this simulator,
 not real-world measurements.
 % [2026-09-25: the must-carry placed from its ruled wording (Marc: 'fix all
 %  the facts'); reword freely.]
@@ -4822,10 +4822,10 @@ not real-world measurements.
 The tactic-to-action mapping sends each tactic, a place of the
 Petri net, to at most one of the simulator's attack actions. We found no
 published mapping, so the mapping is declared. Where there is
-no mapping, the tactic is dwell-only: it consumes time in the simulator and
-dispatches nothing. The dwell-only is a concession: the baseline attacker's
+no mapping, the tactic is unmapped: it consumes time in the simulator and
+dispatches nothing. Leaving a tactic unmapped is a concession: the baseline attacker's
 attack actions that we are plugging into have gaps; seven of the 15
-tactics are dwell-only (Figure~\ref{fig:controller-mapping}).
+tactics are unmapped (Figure~\ref{fig:controller-mapping}).
 % [RULED 2026-08-20, do not re-flag: the zero-or-one constraint sentence
 %  stays (Marc withdrew it as a pass-5 cut candidate; the black box's
 %  re-proposal rejected 2026-09-08).]
@@ -4834,9 +4834,9 @@ tactics are dwell-only (Figure~\ref{fig:controller-mapping}).
 %  table's [3b].]
 % [STRUCTURE 2026-10-04: moved from the runtime loop subsection; its
 %  pointer back to this subsection cut.]
-At a dwell-only tactic there is no verdict. A deployment that lands during a
-dwell-only tactic cuts the dwell short and costs the attacker the confusion
-penalty. At a dwell-only tactic MTD is felt as cost, never
+At an unmapped tactic there is no verdict. A deployment that lands during an
+unmapped tactic cuts its duration short and costs the attacker the confusion
+penalty. At an unmapped tactic MTD is felt as cost, never
 as a change of route.
 
 % [2026-09-13: A6 sentences landed on Marc's ratification of the fourteen-item
@@ -4868,7 +4868,7 @@ as a change of route.
   \caption[The tactic-to-action mapping]{The tactic-to-action mapping.
   Each ATT\&CK tactic dispatches at most one of the simulator's six
   attack actions; the seven in blue against
-  an empty slot have no mapping and are dwell-only. Bands are the lifecycle
+  an empty slot are unmapped. Bands are the lifecycle
   stages of Section~\ref{subsec:apt}. Table~\ref{tab:controller-mapping} gives the reason for each row.}
   \label{fig:controller-mapping}
 \end{figure}
@@ -5045,7 +5045,7 @@ judgement. Hosts that run the same service version carry the same
 vulnerabilities, so a vulnerability exploited once recurs. The memory
 extends Zhang's halving of the exploitation time on a vulnerability
 exploited on an earlier host \citep{zhang2023} from a saving in time to a
-raised chance of success; dwell times still come from
+raised chance of success; tactic durations still come from
 Section~\ref{subsec:dwell-times}. It is learning, property 7 of
 Section~\ref{subsec:attacker-criterion}, in part: like Zhang's halving
 (Section~\ref{subsec:recent-threat-models}), it learns the network, not the
@@ -6697,7 +6697,7 @@ profile shows more of it than the baseline attacker, and $c_3$ the least.
   % 2026-10-02 (Marc: "if somebody just read the captions ... they could figure out what's happening";
   %  results_presentation_standard.md S4, I1-I3, T2, F5): caption rewritten to read the float alone,
   %  decoding only; metrics stay defined in Section 4.5. Session-written, DRAFT STATE --- ratify on read.
-  \caption[How each attacker acts with no MTD running]{How each attacker acts with no MTD running: the APT attacker model on each attack profile $c_1$ to $c_4$, and the baseline attacker, over 1\,000 runs each (metrics in Section~\ref{subsec:metrics-behaviour}). A step is one tactic for the APT attacker model and one attack action for the baseline attacker. (a)~Relative tactic occurrence, the percentage of each attacker's steps taken in each tactic, on one colour scale, darker for a larger share; 0 is exact and $<$1 is above 0 but under 1. Rows are grouped by the attack action each tactic dispatches, named on the left (Section~\ref{subsec:tactic-verb-mapping}); a dwell-only tactic dispatches none. The baseline attacker has no tactics, so its column gives the percentage of its steps in each attack action. A blank cell is a tactic the attacker does not have. (b)~Distinct attack paths among each attacker's 1\,000 runs, a path being the sequence of a run's first $k$ steps: 1 is every run opening alike, 1\,000 every run taking its own path; the baseline attacker takes 1 to 3. (c)~Attack confidentiality, higher for an attacker with fewer attack actions flagged by a scan detector that flags any attack action that is the fifth within 60\,s; the axis starts at 80\,\%, the dashed line is the baseline attacker, and the 95\,\% percentile bootstrap intervals over runs are narrower than the markers. The key above~(b) also serves~(c).}
+  \caption[How each attacker acts with no MTD running]{How each attacker acts with no MTD running: the APT attacker model on each attack profile $c_1$ to $c_4$, and the baseline attacker, over 1\,000 runs each (metrics in Section~\ref{subsec:metrics-behaviour}). A step is one tactic for the APT attacker model and one attack action for the baseline attacker. (a)~Relative tactic occurrence, the percentage of each attacker's steps taken in each tactic, on one colour scale, darker for a larger share; 0 is exact and $<$1 is above 0 but under 1. Rows are grouped by the attack action each tactic dispatches, named on the left (Section~\ref{subsec:tactic-verb-mapping}); an unmapped tactic dispatches none. The baseline attacker has no tactics, so its column gives the percentage of its steps in each attack action. A blank cell is a tactic the attacker does not have. (b)~Distinct attack paths among each attacker's 1\,000 runs, a path being the sequence of a run's first $k$ steps: 1 is every run opening alike, 1\,000 every run taking its own path; the baseline attacker takes 1 to 3. (c)~Attack confidentiality, higher for an attacker with fewer attack actions flagged by a scan detector that flags any attack action that is the fifth within 60\,s; the axis starts at 80\,\%, the dashed line is the baseline attacker, and the 95\,\% percentile bootstrap intervals over runs are narrower than the markers. The key above~(b) also serves~(c).}
   \label{fig:aio-coverage}
 \end{figure}
 
@@ -6896,7 +6896,7 @@ attacker: its ASP is under a quarter of the baseline attacker's,
 its NCR \prelim{0.14} to \prelim{0.20} against \prelim{0.49}, and its MTTC,
 over the \prelim{5} to \prelim{13} runs in 100 that compromise a target host,
 \prelim{11\,000} to \prelim{13\,000}\,s against \prelim{9\,000}\,s. Its pace is an
-input: each step lasts the dwell time declared for its tactic
+input: each step lasts the duration declared for its tactic
 (Section~\ref{subsec:dwell-times}). Because a run ends when a target is taken,
 \prelim{40}\,\% of the baseline attacker's runs last to the time limit, against
 \prelim{87} to \prelim{95}\,\% of the APT attacker model's. Its attack rate is
@@ -6934,10 +6934,10 @@ to $c_4$, $c_4$ the lowest, against \prelim{83}\,\% for the baseline attacker.
 Attack rate and attack confidentiality together record stealth
 (Section~\ref{subsec:metrics-behaviour}), and the APT attacker model has the
 lower attack rate and the higher attack confidentiality. The detector counts
-attack actions, so the two are one observation. \owed{Counting the dwell-only steps as
+attack actions, so the two are one observation. \owed{Counting the unmapped steps as
 attack actions lowers the profiles' attack confidentiality to \prelim{68} to
 \prelim{83}\,\%, at or below the baseline attacker's}{Section 5.2: attack
-confidentiality with dwell-only steps counted as attack actions was measured in a dry run
+confidentiality with unmapped steps counted as attack actions was measured in a dry run
 only; track it, or move the point to the limitations in Chapter 6}.
 
 
@@ -8032,7 +8032,7 @@ vulnerability memory. Each is our judgement, and so a risk to the validity of
 this chapter's results, and each gives the model one property of an APT
 attacker (Table~\ref{tab:attacker-properties}): objective conditioning,
 adaptivity and learning. The other parts of the model, such as the tactic
-dwell times, cannot be removed, and Appendix~\ref{app:sensitivity} varies
+durations, cannot be removed, and Appendix~\ref{app:sensitivity} varies
 their values instead.
 
 Each ablation compares the APT attacker model with and without one component,
@@ -8384,11 +8384,11 @@ evaluation, and bounds it.]}
 % point D below), persistence_duration_premise.md (G).
 \noindent\emph{[Placeholder --- (1) Less success, more slowly: NCR and the
 first compromise against the baseline attacker's; the mechanism (seven of
-fifteen tactics hold the attacker in dwell; dispatched attack actions failing a
+fifteen tactics are unmapped and only take time; dispatched attack actions failing a
 precondition); an APT is defined by persistence toward an objective, not by
 speed; pace is a declared input; the model is not competing with the baseline
-attacker. (2) Quieter: lower attack rate, higher attack confidentiality; dwell
-spaces the attack actions the detector counts; the field's outcome metrics cannot see
+attacker. (2) Quieter: lower attack rate, higher attack confidentiality; time on
+unmapped tactics spaces the attack actions the detector counts; the field's outcome metrics cannot see
 this, which is why an APT attacker model is needed; one observation against a
 declared detector, property 5 stays blank. (3) Behaviour differs by
 objective: openings differ between profiles; why $c_3$ stalls; bounded by the
@@ -8855,7 +8855,7 @@ Section~\ref{sec:ablation}. Residual: the claim is that the APT attacker model
 changes the answer, not which of its parts does.]}
 
 \noindent\emph{[Placeholder --- construct validity: the adopted attack actions and
-the tactic-to-action mapping (the standing bound); the declared dwell times and
+the tactic-to-action mapping (the standing bound); the declared tactic durations and
 the low-and-slow family; the failure matrix; attack confidentiality read
 through a declared detector; time lost per MTD deployment as a lower bound;
 objective classification by one coder. Mitigations: the robustness analyses of
@@ -9188,11 +9188,11 @@ gives them.
 % Table generated by tools/dwell_catalogue_tables.py from
 % data/ogasp/tactic_durations.json (reasons: short_justification, reworded
 % 2026-10-04 in the chapter's terms).
-\section{How each tactic dwell time was set}
+\section{How each tactic duration was set}
 \label{app:dwell-derivation}
 
 Table~\ref{tab:dwell-derivation} gives the family, multiplier and band of
-each dwell time of Section~\ref{subsec:dwell-times}, and the reason for
+each tactic duration of Section~\ref{subsec:dwell-times}, and the reason for
 each.
 
 \input{tables/tab_B-4a_dwell_derivation}
@@ -9206,7 +9206,7 @@ each.
 
 Table~\ref{tab:controller-mapping} gives the reason for each row of the
 tactic-to-action mapping of Section~\ref{subsec:tactic-verb-mapping}. A
-tactic is dwell-only where the simulator has nothing for it to act on.
+tactic is unmapped where the simulator has nothing for it to act on.
 
 \input{tables/tab_B-5a_controller_mapping_reasons}
 \FloatBarrier
@@ -9306,7 +9306,7 @@ read the same perturbations family by family and parameter by parameter.
 %   transcribed from rate_feasibility_study.md §8 and §10. Re-read that
 %   record before citing if the study is ever re-run.
 
-\section{Robustness of the declared dwell times across their bands}
+\section{Robustness of the declared tactic durations across their bands}
 \label{app:dwell-robustness}
 
 % [prose slot --- Marc] the framing. What this section is evidence OF: the
@@ -9333,7 +9333,7 @@ read the same perturbations family by family and parameter by parameter.
 %     - the honest limit: the per-profile ordering is indeterminate at ten
 %       seeds --- a power failure, not a parameter failure.
 
-Each dwell family was moved as a whole across its band, the per-tactic
+Each duration family was moved as a whole across its band, the per-tactic
 multipliers of Appendix~\ref{app:dwell-derivation} riding along unchanged, with
 the other three families at their declared values. Table~\ref{tab:anchor-sensitivity}
 gives distinct hosts reached at both band ends against the declared value with
@@ -9350,8 +9350,8 @@ band ends separate from the centre by more than a host.
   % the body only if its form is one a sentence cannot carry.
   \includegraphics[width=0.78\textwidth]{fig_C-1a_sens_dwell_family}
   % CAPTION DRAFT STATE 2026-09-17 --- voice pass owed.
-  \caption[Hosts reached against the low-and-slow family's dwell]{Distinct
-  hosts reached as the low-and-slow family's dwell is moved across its band,
+  \caption[Hosts reached against the low-and-slow family's duration]{Distinct
+  hosts reached as the low-and-slow family's duration is moved across its band,
   as a multiple of its declared value, the other families held, with no
 % [CONNECTIVE-PROSE PASS 2026-09-26, DS appendix caption] Marc 2026-09-26:
 %  'deployment strategies is very clear ... change everything to
@@ -9364,7 +9364,7 @@ band ends separate from the centre by more than a host.
   \label{fig:sens-dwell-anchor}
 \end{figure}
 
-\section{The exponential dwell family}
+\section{The exponential draw}
 \label{app:exponential-shape}
 
 % [prose slot --- Marc] the shape defence. The spine, from
@@ -9410,7 +9410,7 @@ The draw around each declared mean is exponential (Section~\ref{subsec:dwell-tim
 The substitution here keeps every mean and concentrates the draw around it (an
 Erlang-4, the sum of four exponentials of a quarter of the mean), on the
 low-and-slow family only, paired run for run with the declared draw at the
-declared dwell and at the top of the family's band.
+declared duration and at the top of the family's band.
 
 \input{tables/tab_C-2a_shape_substitution}
 
@@ -9627,8 +9627,8 @@ any would make the agent this dissertation's rather than Tay's.
   each such layer's output about 30-fold at inference.
   \item Doing nothing was never a learning target: no transition for it was
   stored in training.
-  \item The detection input codes the attacker's current attack action. The APT
-  attacker model's dwell is no attack action, so it reads as nothing detected, the same
+  \item The detection input codes the attacker's current attack action. An unmapped
+  tactic of the APT attacker model dispatches no attack action, so it reads as nothing detected, the same
   value as a missed detection.
   \item The agent was trained at one decision tick, against the baseline
   attacker, on 100-host networks (Table~\ref{tab:mtdshield-configuration}).

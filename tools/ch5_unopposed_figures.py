@@ -167,7 +167,7 @@ GROUPS = (
     (ACTIVITY["EXPLOIT_VULN"], "EXPLOIT_VULN", ("initial-access", "execution", "privilege-escalation")),
     (ACTIVITY["BRUTE_FORCE"], "BRUTE_FORCE", ("credential-access",)),
     (ACTIVITY["SCAN_NEIGHBOR"], "SCAN_NEIGHBOR", ("command-and-control",)),
-    ("dwell-only", None, ("resource-development", "persistence", "stealth", "defense-impairment",
+    ("unmapped", None, ("resource-development", "persistence", "stealth", "defense-impairment",
                           "collection", "exfiltration", "impact")),
 )
 TACTIC_NAME = dict(TACTICS)

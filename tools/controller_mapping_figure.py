@@ -323,7 +323,7 @@ def emit_table(rows: list[dict], entry: dict, axis, stage_of, stage_name) -> str
     L.append(r"\centering")
     L.append(r"\caption[Reasons for the tactic-to-action mapping]{The reason for each "
              r"row of the tactic-to-action mapping (Figure~\ref{fig:controller-mapping}), "
-             r"grouped by lifecycle stage. A dash marks a dwell-only tactic; its reason "
+             r"grouped by lifecycle stage. A dash marks an unmapped tactic; its reason "
              r"says what the simulator lacks.}")
     L.append(r"\label{tab:controller-mapping}")
     # \footnotesize, and the reason column takes the width the two fixed columns

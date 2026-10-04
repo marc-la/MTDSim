@@ -6,14 +6,14 @@
 \begin{table}[htbp]
   \centering
   % CAPTION DRAFT STATE 2026-09-17 --- voice pass owed.
-  \caption[The declared inputs and what moved]{Each value the attacker model was given rather than derived, grouped by the three inputs of Section~\ref{sec:execution}: the value declared, the range it was moved across with the other inputs held at their declared values, and what happened to distinct hosts reached, read against the interval at the declared value under no MTD and under the random deployment strategy at both intervals. The dwell ranges follow the evidence tiers of Appendix~\ref{app:dwell-derivation}; the failure-matrix ranges bracket the declared value on both sides (Appendix~\ref{app:weight-sets}). The draw's shape and the mapping have no range and are compared against the alternative that was tried; the nine failure rules are single argued values, held one by one and removed together by the ablation of Section~\ref{sec:ablation}. Averaged over the four profiles, 400 runs per cell; the per-value readings are the sections that follow.}
+  \caption[The declared inputs and what moved]{Each value the attacker model was given rather than derived, grouped by the three inputs of Section~\ref{sec:execution}: the value declared, the range it was moved across with the other inputs held at their declared values, and what happened to distinct hosts reached, read against the interval at the declared value under no MTD and under the random deployment strategy at both intervals. The duration ranges follow the evidence tiers of Appendix~\ref{app:dwell-derivation}; the failure-matrix ranges bracket the declared value on both sides (Appendix~\ref{app:weight-sets}). The draw's shape and the mapping have no range and are compared against the alternative that was tried; the nine failure rules are single argued values, held one by one and removed together by the ablation of Section~\ref{sec:ablation}. Averaged over the four profiles, 400 runs per cell; the per-value readings are the sections that follow.}
   \label{tab:parameter-register}
   \tablestyle\setlength{\tabcolsep}{4pt}
   \begin{tabular}{@{}P{1.6cm}P{2.8cm}P{1.9cm}P{2.5cm}P{6.4cm}@{}}
     \toprule
     & Input & Declared & Moved across & What moved \\
     \midrule
-    \emph{Dwell times} & scan-shaped family & 35\,s & $\times0.5$ to $\times2$ & moved: 8.6 / 8.1 / 7.3 hosts at $\times0.5$ / declared / $\times2$ under no MTD, 0.7 lost per doubling (Appendix~\ref{app:dwell-robustness}) \\
+    \emph{Tactic durations} & scan-shaped family & 35\,s & $\times0.5$ to $\times2$ & moved: 8.6 / 8.1 / 7.3 hosts at $\times0.5$ / declared / $\times2$ under no MTD, 0.7 lost per doubling (Appendix~\ref{app:dwell-robustness}) \\
      & exploit-shaped family & 4.5\,s & $\times0.5$ to $\times2$ & inert \\
      & low-and-slow family & 45\,s & $\times0.25$ to $\times4$ & moved: 13.4 / 8.1 / 3.0 hosts at $\times0.25$ / declared / $\times4$ under no MTD, 2.6 lost per doubling (Appendix~\ref{app:dwell-robustness}) \\
      & objective family & 36\,s & $\times0.5$ to $\times2$ & moved: 8.5 / 8.1 / 7.4 hosts at $\times0.5$ / declared / $\times2$ under no MTD, 0.6 lost per doubling (Appendix~\ref{app:dwell-robustness}) \\

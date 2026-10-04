@@ -323,7 +323,7 @@ def frag_body(out: dict) -> str:
                 f"(Appendix~\\ref{{app:dwell-robustness}})")
 
     def shape_effect() -> str:
-        # Every paired difference, at the declared dwell and at the corner, under
+        # Every paired difference, at the declared duration and at the corner, under
         # each condition: inert where its interval covers zero; otherwise the
         # sign and the largest magnitude, so the cell never rests on one
         # borderline cell.
@@ -358,7 +358,7 @@ def frag_body(out: dict) -> str:
                 f"(Appendix~\\ref{{app:decay-robustness}})")
 
     rows = [
-        ("Dwell times", [
+        ("Tactic durations", [
             ("scan-shaped family", "35\\,s", "$\\times0.5$ to $\\times2$", family_effect("scan-shaped")),
             ("exploit-shaped family", "4.5\\,s", "$\\times0.5$ to $\\times2$", family_effect("exploit-shaped")),
             ("low-and-slow family", "45\\,s", "$\\times0.25$ to $\\times4$", family_effect("stealth-low-and-slow")),
@@ -388,7 +388,7 @@ def frag_body(out: dict) -> str:
       r"grouped by the three inputs of Section~\ref{sec:execution}: the value declared, the range it was moved across "
       r"with the other inputs held at their declared values, and what happened to distinct hosts reached, read against "
       r"the interval at the declared value under no MTD and under the random deployment strategy at both intervals. "
-      r"The dwell ranges follow the evidence tiers of Appendix~\ref{app:dwell-derivation}; the failure-matrix ranges "
+      r"The duration ranges follow the evidence tiers of Appendix~\ref{app:dwell-derivation}; the failure-matrix ranges "
       r"bracket the declared value on both sides (Appendix~\ref{app:weight-sets}). The draw's shape and the mapping "
       r"have no range and are compared against the alternative that was tried; the nine failure rules are single argued "
       r"values, held one by one and removed together by the ablation of Section~\ref{sec:ablation}. "
@@ -421,7 +421,7 @@ def frag_families(out: dict) -> str:
     w(r"\centering\footnotesize")
     w(r"% CAPTION DRAFT STATE 2026-09-17 --- voice pass owed.")
     w(r"\caption[Hosts reached at each family's band ends against its declared value]{Distinct hosts reached "
-      r"at each dwell family's band ends against its declared value, the family moved as a whole with the "
+      r"at each duration family's band ends against its declared value, the family moved as a whole with the "
       r"other three held, under no MTD and under the random deployment strategy at each interval. Averaged over the four "
       r"profiles, 400 runs per cell; intervals are 95\,\%. A family is inert when both ends sit inside the "
       r"interval at the declared value under no MTD and under the random deployment strategy at each interval; the verdict column reads the criterion fixed "
@@ -459,14 +459,14 @@ def frag_shape(out: dict) -> str:
     w(r"\centering\footnotesize")
     w(r"% CAPTION DRAFT STATE 2026-09-17 --- voice pass owed.")
     w(r"\caption[The same-mean shape substitution]{Distinct hosts reached under a same-mean Erlang-4 draw on the "
-      r"low-and-slow family against the declared exponential, paired by profile and seed, at the declared dwell and "
+      r"low-and-slow family against the declared exponential, paired by profile and seed, at the declared duration and "
       r"at the top of the family's band. Averaged over the four profiles, 400 pairs per cell; intervals are 95\,\%. "
       r"The sign column counts the pairs in which the concentrated draw reached fewer, the same, and more hosts.}")
     w(r"\label{tab:shape-substitution}")
     w(r"\tablestyle\setlength{\tabcolsep}{4pt}")
     w(r"\begin{tabular}{@{}P{2.6cm}P{2.6cm}>{\centering\arraybackslash}p{1.9cm}>{\centering\arraybackslash}p{1.9cm}>{\centering\arraybackslash}p{2.0cm}>{\centering\arraybackslash}p{2.6cm}@{}}")
     w(r"\toprule")
-    w(r"Dwell & MTD & Erlang-4 & Exponential & Difference & Pairs lower / tied / higher \\")
+    w(r"Duration & MTD & Erlang-4 & Exponential & Difference & Pairs lower / tied / higher \\")
     w(r"\midrule")
     for li, (label, title) in enumerate((("centre", "declared"), ("lowslow_x4", "low-and-slow $\\times4$"))):
         rows = [(cond, interval, out["shape"][label].get(f"four|{cond}@{interval}")) for cond, interval in CONDITIONS]

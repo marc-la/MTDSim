@@ -195,7 +195,7 @@ def emit(succ: list[str]) -> tuple[str, float, float]:
 
     # the two declared inputs that are part of the net, directly under what they set
     ry0 = py1 - 12 - BH
-    box(xt, ry0, "Tactic dwell times", "§4.4.1")
+    box(xt, ry0, "Tactic durations", "§4.4.1")
     box(xb, ry0, "Failure matrix", "§4.4.3")
     # the one outside it, between the net and MTDSim
     my0 = py1 + 40
@@ -246,7 +246,7 @@ def emit(succ: list[str]) -> tuple[str, float, float]:
     step_label(svg, xp, lab2, 2, "attack action")
     # the timed transition's lane: step 3, the drawn dwell time is its delay
     svg.path(f"M{xt},{ry0 - 3} V{yc + 23}", "loop", marker="mA")
-    step_label(svg, xt, labp, 3, "dwell time")
+    step_label(svg, xt, labp, 3, "duration")
     # the decision place's lane: step 4, the verdict, splits just below the net
     jy = py1 + 38
     svg.add(f'<path class="loop" d="M{xd},{act[2]} V{jy}"/>')

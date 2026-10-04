@@ -79,10 +79,10 @@ def main() -> None:
     # what the model runs with --- tactic and mean dwell, nothing else. The
     # families, the evidence badges and the multipliers are the appendix's
     # (tab:dwell-anchors, tab:dwell-derivation below).
-    short = "Declared per-tactic dwell times"
+    short = "Declared tactic durations"
     caption = (
-        "The dwell times declared for each tactic: the mean "
-        "dwell $\\mu_p$ of Section~\\ref{sec:petri-formalism}, the \\emph{mean} of an "
+        "The durations declared for each tactic: the mean "
+        "duration $\\mu_p$ of Section~\\ref{sec:petri-formalism}, the \\emph{mean} of an "
         "exponential draw; tactic names follow "
         f"ATT\\&CK~v{pin}. How each value "
         "was arrived at is Appendix~\\ref{app:dwell-derivation}."
@@ -94,7 +94,7 @@ def main() -> None:
          rf"\caption[{short}]{{{caption}}}", r"\label{tab:dwell-catalogue}",
          r"\tablestyle",
          r"\begin{tabular}{@{}l r@{}}", r"\toprule",
-         r"Tactic & Mean dwell $\mu_p$ (s) \\", r"\midrule"]
+         r"Tactic & Mean duration $\mu_p$ (s) \\", r"\midrule"]
     for name in axis.matrix_order:
         e = tactics[name]
         L.append(f"{esc(axis.label[name])} & {num(e['duration_s'])} \\\\")
@@ -109,9 +109,9 @@ def main() -> None:
     # remaining fact, each family's value, is now the Family cell here, and the
     # repo-path footnote is cut (voice.md §e). Reasons are the catalogue's
     # short_justification, rewritten in the chapter's terms the same day.
-    short_a = "How each tactic dwell time was set"
+    short_a = "How each tactic duration was set"
     caption_a = (
-        "How each dwell time of Table~\\ref{tab:dwell-catalogue} was set "
+        "How each tactic duration of Table~\\ref{tab:dwell-catalogue} was set "
         "(Section~\\ref{subsec:dwell-times}): the value of the tactic's family, in "
         "brackets, times its multiplier. \\emph{Band} is the declared range of the "
         "multiplier."
@@ -119,8 +119,8 @@ def main() -> None:
     A = [banner, r"\begin{table}[htbp]", r"\centering",
          rf"\caption[{short_a}]{{{caption_a}}}", r"\label{tab:dwell-derivation}",
          r"\tablestyle",
-         r"\begin{tabular}{@{}P{0.15\textwidth} P{0.13\textwidth} r r c P{0.30\textwidth}@{}}", r"\toprule",
-         r"Tactic & Family (s) & Multiplier & Dwell (s) & Band & Reason \\",
+         r"\begin{tabular}{@{}P{0.15\textwidth} P{0.13\textwidth} r r c P{0.29\textwidth}@{}}", r"\toprule",
+         r"Tactic & Family (s) & Multiplier & Duration (s) & Band & Reason \\",
          r"\midrule"]
     for name in axis.matrix_order:
         e = tactics[name]
