@@ -4402,14 +4402,21 @@ gives both sets of weights at initial access in $c_1$.
 %  network" vague; "ordered procedure" not the term; "the next choice" of what):
 %  the point first; the attack actions named as Section 2.2.3 lists them; the
 %  baseline's "fixed procedure" (2.2.3's term); the choice named. DRAFT STATE.]
-The APT attacker model integrates its Petri net with MTDSim in one loop. The
-Petri net chooses the attacker's next tactic. MTDSim's attack actions carry
-out tactics on the network: they scan hosts and ports, exploit
-vulnerabilities and brute-force accounts, and each returns a verdict. The
-loop calls these attack actions one at a time, in the order the Petri net
-chooses, in place of the baseline attacker's fixed procedure
-(Section~\ref{subsec:attacker-model}). Each verdict sets the weights with
-which the Petri net chooses the next tactic.
+% [ROUND 5, 2026-10-04 (Marc: round 4's P1 "bombarding them with different
+%  terminologies that don't tie into anywhere"; "the loop" vague; "what's the
+%  order"; the fixed procedure "what?"; "sets the weights, is that right?"; the
+%  cut contrast "was also the motivation"): three ideas only, each in a term
+%  Section 4.3 or 2.2.3 defined (tactic, attack action, verdict, token,
+%  immediate transitions). The motivation back, plainly; the attack-action list
+%  and the fixed procedure cut (the chapter opener says the model takes the
+%  baseline attacker's attack actions); the loop defined where it is named;
+%  "selects" because a success keeps the base weights. DRAFT STATE.]
+The Petri net of an attack profile chooses the attacker's next tactic, but it
+cannot carry the tactic out. MTDSim's attack actions carry tactics out on the
+network, and each returns a verdict. The APT attacker model integrates the two
+in one loop: the tactic the token reaches runs as one of MTDSim's attack
+actions, and the attack action's verdict selects the weights of the immediate
+transitions that take the token to the next tactic.
 
 % FIGURE (2026-10-04): fig:runtime-loop REBUILT as section 4.4's headline (Marc:
 % section 4.4 is Figure 4.1's "integrate with MTDSim" arrow enlarged, so it is a
@@ -4514,8 +4521,8 @@ vulnerability not yet scanned for), or if an MTD deployment disrupts it
 %  terms as the subject; the sources one clause; the memory said as it works.]
 The tactic durations (Section~\ref{subsec:dwell-times}), the tactic-to-action
 mapping (Section~\ref{subsec:tactic-verb-mapping}) and the failure matrix
-(Section~\ref{subsec:failure-matrix}) are the three inputs of the loop that
-the attack flows do not give. Their values come from MTDSim's attack-action
+(Section~\ref{subsec:failure-matrix}) are the loop's three inputs that the
+attack flows do not give. Their values come from MTDSim's attack-action
 costs where these exist, and otherwise from the literature or our judgement;
 each subsection gives the test that varies them.
 Section~\ref{subsec:vulnerability-memory} adds the vulnerability memory to
