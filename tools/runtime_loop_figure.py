@@ -35,11 +35,16 @@ The rules it keeps (as tools/ch4_overview_figure.py, its sibling):
     Petri net's arcs (ink, thin, the marks of Figure 4.4); MTDSim's own
     couplings (compromises, reconfigures, disrupts) are not drawn: they are
     Figure 4.1's and Figure 2.1's, not the loop's;
-  * step 5 goes straight up into the immediate transitions, which the failure
-    matrix reweights (Equation 4.4), and the blue path runs on through the
-    transition step 6 fires (round 5, Marc: the failure matrix reweights the
-    immediate transitions); a success changes no weight, so the verdict's
-    success arm and both junction dots are cut, and the caption says it;
+  * the verdict splits once (round 6, Marc: "what happened to the success?"):
+    a failure enters the failure matrix, which reweights the immediate
+    transitions (5, Equation 4.4); a success goes straight to the decision
+    place, which chooses on the base weights; both routes meet at the
+    transition step 6 fires, the successor of largest weight after a failure
+    (reconnaissance, as Figure 4.4(b)), read from the overlay, never typed;
+  * step 3 points up into the timed transition (round 6, Marc: the dwell time
+    is the timed transition's delay), as step 5 points up into the immediate
+    transitions: each declared input inside the net points at what it sets;
+    the attack action runs for that delay, which 4.4's prose states;
   * one grid, two lanes (round 2, Marc: "visually overwhelming ... things are
     not really aligned"): what goes down runs on the left, what comes back up
     on the right, the closed-loop convention; each box sits under the element
@@ -74,11 +79,12 @@ from _tactic_axis import load_axis  # noqa: E402
 from ch4_overview_figure import (  # noqa: E402  one style, one icon set, one type scale
     ACCENT, FACE_SCALE, FLOOR_PT, ICONS, INK, INK2, PX, STYLE, SVG, WIDTH_CM,
 )
+from mtdsim.l3_simulation.controller.outcome import load_outcome_overlay  # noqa: E402
 from mtdsim.l3_simulation.movement.net import load_routing_net  # noqa: E402
 
 OUT_DIR = REPO / "docs" / "thesis" / "figures"
 STEM = "fig_4-4c_runtime_loop"
-PROFILE, PLACE, N_SUCC = "objective_exfiltration", "initial-access", 3
+PROFILE, PLACE, OVERLAY = "objective_exfiltration", "initial-access", "v4_failure_only"
 
 EXTRA_STYLE = f"""
   .frame  {{ fill:none; stroke:{INK2}; stroke-width:1.4; }}
@@ -169,9 +175,9 @@ def emit(succ: list[str]) -> tuple[str, float, float]:
         svg.path(f"M{xb + 4},{y} H{xq - rq - 3}", cls, marker=mk)
         svg.add(f'<circle class="pl" cx="{xq}" cy="{y}" r="{rq}"/>')
         svg.text(xq + rq + 8, y + 6, name, "lbl", anchor="start")
-    bx, by = xd + (xb - xd) * 0.5, yc + (ys[CH] - yc) * 0.5
+    bx, by = xd + (xb - xd) * 0.6, yc + (ys[CH] - yc) * 0.6
     badge(svg, bx, by, 6)
-    svg.text(bx - 18, by + 26, "next tactic", "verb halo", anchor="end")
+    svg.text(xd + 10, by + 30, "next tactic", "verb halo", anchor="start")
 
     # the two declared inputs that are part of the net, directly under what they set
     ry0 = py1 - 12 - BH
@@ -214,14 +220,21 @@ def emit(succ: list[str]) -> tuple[str, float, float]:
     svg.path(f"M{xp},{my0 + BH + 3} V{act[2] - 4}", "loop", marker="mA")
     step_label(svg, xp, lab1, 1, "tactic")
     step_label(svg, xp, lab2, 2, "attack action")
-    # the timed transition's lane: step 3, the drawn dwell time
-    svg.path(f"M{xt},{ry0 + BH + 3} V{act[2] - 4}", "loop", marker="mA")
-    step_label(svg, xt, lab2, 3, "dwell time")
+    # the timed transition's lane: step 3, the drawn dwell time is the timed
+    # transition's delay (the attack action runs for that time: 4.4's rule)
+    svg.path(f"M{xt},{ry0 - 3} V{yc + 23}", "loop", marker="mA")
+    step_label(svg, xt, (yc + 20 + ry0) / 2 + 6, 3, "dwell time")
     # the immediate transitions' lane: step 4, the verdict; a failure enters the
     # failure matrix, which reweights the immediate transitions (5)
-    svg.path(f"M{xb},{act[2]} V{ry0 + BH + 3}", "loop", marker="mA")
+    jy = py1 + 38                              # the verdict splits, just below the net
+    svg.add(f'<path class="loop" d="M{xb},{act[2]} V{jy}"/>')
+    svg.add(f'<circle class="dot" cx="{xb}" cy="{jy}" r="3.5"/>')
     step_label(svg, xb, lab2, 4, "verdict")
-    svg.text(xb + 12, lab1, "failure", "verb halo", anchor="start")
+    svg.path(f"M{xb},{jy} V{ry0 + BH + 3}", "loop", marker="mA")
+    svg.text(xb + 12, jy - 10, "failure", "verb halo", anchor="start")
+    # success: straight to the decision place, which chooses on the base weights
+    svg.path(f"M{xb},{jy} H{xd} V{yc + rd + 3}", "loop", marker="mA")
+    svg.text((xd + xb) / 2, jy + 22, "success", "verb halo")
     svg.path(f"M{xb},{ry0} V{ys[-1] + 16}", "loop", marker="mA")
     step_label(svg, xb, (ys[-1] + 13 + ry0) / 2 + 6, 5, "reweights")
     my1 = sy1
@@ -263,9 +276,16 @@ def main() -> None:
     axis = load_axis()
     net = load_routing_net(PROFILE, with_synthetic_overlay=True)
     base = net.base_out_weights(PLACE)
-    top = sorted((q for q, w in base.items() if w > 0),
-                 key=lambda q: (-base[q], axis.matrix_order.index(q)))[:N_SUCC]
+    # the successors drawn: the two of largest base weight, then the one of
+    # largest weight after a failure, which step 6 fires (Figure 4.4(b): after
+    # a failure, most of the weight moves to reconnaissance)
+    routed = load_outcome_overlay(version=OVERLAY).compose(PLACE, "failure", base)
+    order = lambda q: axis.matrix_order.index(q)
+    fail_top = max((q for q in base if base[q] > 0), key=lambda q: (routed.get(q, 0.0), -order(q)))
+    top = sorted((q for q in base if base[q] > 0 and q != fail_top),
+                 key=lambda q: (-base[q], order(q)))[:2] + [fail_top]
     succ = [axis.label[q] for q in top]
+    print(f"fired at step 6: {axis.label[fail_top]} (base {base[fail_top]:.3f}, after a failure {routed[fail_top]:.3f})")
     html, h_cm, floor = emit(succ)
     if floor < FLOOR_PT:
         raise SystemExit(f"smallest type prints at {floor:.2f} pt (< {FLOOR_PT} pt floor)")

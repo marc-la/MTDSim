@@ -4423,6 +4423,11 @@ input from the simulator; integrated, the run is two-way.
 % step 5 straight up into them; the success arm and junction dots cut (a
 % success changes no weight; the caption says so); frame titles on the
 % border; MTDSim compressed.
+% ROUND 6 (Marc: "what happened to the success?"; the dwell time is the
+% timed transition's delay): the verdict splits again, success straight to
+% the decision place, failure through the failure matrix; step 3 points up
+% into the timed transition; the successor step 6 fires is the one of
+% largest weight after a failure (reconnaissance), read from the overlay.
 % Regenerate, never hand-edit. CAPTION: DRAFT STATE.
 \begin{figure}[tbp]
   \centering
@@ -4433,9 +4438,7 @@ input from the simulator; integrated, the run is two-way.
   Figure~\ref{fig:gspn-gadget}, is drawn at initial access in $c_1$, with
   three of its eight successors. The dwell times and the failure matrix are
   part of the Petri net (Equation~\ref{eq:vc-net}), each drawn under the
-  element it sets. Only a failure is drawn: after a success, the immediate
-  transitions keep their base weights. Blue traces one iteration of the
-  loop, numbered by step.}
+  element it sets. Blue traces one iteration of the loop, numbered by step.}
   \label{fig:runtime-loop}
 % [CH4 SCRUTINY 2026-10-02, F5: regenerated --- "Defender" -> "MTD" (Figure
 %  2.1's module), the vulnerability memory drawn in the attacker box in the
