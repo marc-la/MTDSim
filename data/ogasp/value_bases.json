@@ -1,0 +1,20 @@
+{
+  "_what": "Words for tab:value-bases (Appendix C): every value of the APT attacker model, its basis, where its reason is given, and the test that varies or removes it. Rendered by tools/value_bases_table.py. Replaces the four-bases list of the 4.4 preamble (Marc 2026-10-04: two sentences in the body, the list as a table). Each row checked against the 4.4 preamble's four-bases paragraph (git d1d0dcaf) and Table C.1 (tab:parameter-register); the exponential draw is the one row the paragraph did not list (Appendix C tests it).",
+  "_empty_cell": "A blank test cell means not applicable: the value is taken from the corpus, MTDSim or the literature and is not varied.",
+  "bases": ["Corpus", "MTDSim", "Literature", "Our judgement"],
+  "rows": [
+    {"value": "Base weights of the Petri nets", "basis": "Corpus", "reason": "Section~\\ref{sec:petri-formalism}", "test": ""},
+    {"value": "Membership of each attack profile", "basis": "Corpus", "reason": "Section~\\ref{sec:attack-profiles}", "test": ""},
+    {"value": "Scan-shaped and exploit-shaped tactic durations", "basis": "MTDSim", "reason": "Section~\\ref{subsec:dwell-times}", "test": "varied, Appendix~\\ref{app:dwell-robustness}"},
+    {"value": "Confusion penalty", "basis": "MTDSim", "reason": "Section~\\ref{subsec:attacker-model}", "test": ""},
+    {"value": "Order of the lifecycle stages", "basis": "Literature", "reason": "Section~\\ref{subsec:apt}", "test": ""},
+    {"value": "Low-and-slow and objective-execution tactic durations", "basis": "Our judgement", "reason": "Table~\\ref{tab:dwell-derivation}", "test": "varied, Appendix~\\ref{app:dwell-robustness}"},
+    {"value": "Per-tactic duration multipliers", "basis": "Our judgement", "reason": "Table~\\ref{tab:dwell-derivation}", "test": "not tested"},
+    {"value": "Exponential draw", "basis": "Our judgement", "reason": "Section~\\ref{subsec:dwell-times}", "test": "substituted, Appendix~\\ref{app:exponential-shape}"},
+    {"value": "Tactic-to-action mapping", "basis": "Our judgement", "reason": "Table~\\ref{tab:controller-mapping}", "test": "substituted, Appendix~\\ref{app:experiment-one}"},
+    {"value": "Failure-matrix values", "basis": "Our judgement", "reason": "Table~\\ref{tab:overlay-failure-rules}", "test": "removed, Section~\\ref{sec:ablation}"},
+    {"value": "Share of weight given to the pre-intrusion overlay", "basis": "Our judgement", "reason": "Section~\\ref{sec:petri-formalism}", "test": "not tested"},
+    {"value": "One attack flow per APT group", "basis": "Our judgement", "reason": "Section~\\ref{sec:petri-formalism}", "test": "not tested"},
+    {"value": "Vulnerability memory's factor of three", "basis": "Our judgement", "reason": "Section~\\ref{subsec:vulnerability-memory}", "test": "removed, Section~\\ref{subsec:ablation-vulnerability-memory}"}
+  ]
+}

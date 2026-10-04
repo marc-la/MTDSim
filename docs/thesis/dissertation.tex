@@ -4488,27 +4488,30 @@ action fails if its preconditions were missing (for example, an exploit of a
 vulnerability not yet scanned for), or if an MTD deployment disrupts it
 (Section~\ref{subsec:attacker-model}).
 
-What the APT attacker model takes from MTDSim, it shares with the baseline
-attacker: the six attack actions, the deployment schedule, the confusion
-penalty (Section~\ref{subsec:attacker-model}) and the targeted attack scenario
-of Table~\ref{tab:attacker-objectives}. In that scenario the attacker attacks
-a target host if one is visible, and otherwise prefers the hosts nearest the
-target's level. The APT attacker model changes two things about an attack
-action, both declared in this section: how long it takes
-(Section~\ref{subsec:dwell-times}) and, for an exploit, its odds after earlier
-successes (Section~\ref{subsec:vulnerability-memory}). A difference between
-the two attackers' runs is therefore a difference in the attacker and nothing
-else. The attack actions also set the ceiling of this dissertation: the APT
-attacker model can only be as good as the attack actions it adopts.
+% [P3, P4 ROUND 2, 2026-10-04 (Marc: "I get a bit lost at paragraph three ... not
+%  very clear or motivated"; "start with the subject ... important stuff first,
+%  then the motivation becomes clearer"). P3 opens on why it matters (Chapter 5
+%  compares the two attackers); the targeting rule's detail moved to 4.5, where
+%  every run's scenario is stated (its placement was Marc's, 2026-09-20: flagged).
+%  P4 names the four parts outright. DRAFT STATE.]
+Chapter~\ref{ch:experiments} compares the APT attacker model with the baseline
+attacker, so the two share what MTDSim supplies: the six attack actions, the
+deployment schedule, the confusion penalty (Section~\ref{subsec:attacker-model})
+and the targeted attack scenario of Table~\ref{tab:attacker-objectives}. The
+APT attacker model changes two things about an attack action, both declared in
+this section: how long it takes (Section~\ref{subsec:dwell-times}) and, for an
+exploit, its odds after earlier successes
+(Section~\ref{subsec:vulnerability-memory}). A difference between the two
+attackers' runs is therefore a difference in the attacker. The attack actions
+also bound this dissertation: the APT attacker model can only be as good as the
+attack actions it adopts.
 
-Sections~\ref{subsec:dwell-times} to~\ref{subsec:failure-matrix} declare the
-three inputs the loop reads. Two of them, the dwell times and the failure
-matrix, are part of the Petri net (Equation~\ref{eq:vc-net}); the
-tactic-to-action mapping lies outside it, between the Petri net and MTDSim.
-Section~\ref{subsec:vulnerability-memory} adds the attacker's memory of the
-vulnerabilities it has exploited to MTDSim's exploit attack action. Each
-subsection says what its part is, where its values come from and what tests
-it.
+Four parts of the APT attacker model are declared, one subsection each: the
+tactic durations (Section~\ref{subsec:dwell-times}), the tactic-to-action
+mapping (Section~\ref{subsec:tactic-verb-mapping}), the failure matrix
+(Section~\ref{subsec:failure-matrix}) and the vulnerability memory
+(Section~\ref{subsec:vulnerability-memory}). Each subsection says what its part
+is, where its values come from and what tests it.
 
 % [HISTORY: the ruling comments of the 4.4 preamble's paragraphs before the
 %  2026-10-04 redraft, kept for the trail; the prose they annotate is in git
@@ -4646,27 +4649,17 @@ it.
 %  Appendix C does. Record: docs/handoffs/2026-09-25_ch4_mark_risk_ledger.md.
 %  DRAFT STATE, ratify on read.]
 
-Each value in the APT attacker model has one of four bases. The base weights
-and the membership of each attack profile come from the corpus. The
-scan-shaped and exploit-shaped dwell times and the 20-second confusion penalty
-come from the simulator: they are MTDSim's own costs. The order of the
-lifecycle stages the failure matrix reads (Section~\ref{subsec:failure-matrix})
-comes from the literature \citep{hutchins2011, alshamrani2019}. The remaining
-values are our judgement: the dwell times of the tactics no attack action prices, the
-tactic-to-action mapping, the values of the failure matrix, the share of weight given to
-the pre-intrusion overlay, the choice of one attack flow per
-APT group, and the vulnerability memory's factor of three.
-Appendix~\ref{app:movement} gives the reason for the first three
-(Tables~\ref{tab:dwell-derivation}, \ref{tab:controller-mapping}
-and~\ref{tab:overlay-failure-rules}), and Section~\ref{sec:petri-formalism}
-for the overlay's share and for one attack flow per APT group.
-% [2026-09-26 SIMPLIFIED (Marc: the one-factor-at-a-time sentence was "very
-%  hard to follow ... keep it simple and I can redraft it"). "Dwell family" and
-%  "scaling rate" were used here before 4.4.2 and 4.4.4 define them. Placeholder
-%  for Marc's redraft; DRAFT STATE.]
-Chapter~\ref{ch:experiments} varies or removes every other value; three are
-not tested: the per-tactic dwell multipliers, the overlay's share, and the choice of
-one attack flow per APT group.
+% [FOUR BASES -> TWO SENTENCES + TABLE, 2026-10-04 (Marc: "each value has one of
+%  four bases, I don't really understand any of that"; ruled: two sentences in the
+%  body, the list as a generated table, tools/value_bases_table.py). The ruled
+%  2026-09-25 content is kept whole, row by row, in the table; prior paragraph and
+%  its 2026-09-26 comment in git d1d0dcaf. DRAFT STATE.]
+Every value in the APT attacker model comes from one of four bases: the corpus,
+MTDSim's own costs, the literature or our judgement
+(Table~\ref{tab:value-bases} gives each value with its basis, its reason and its
+test). Chapter~\ref{ch:experiments} varies or removes every value of our
+judgement except three: the per-tactic duration multipliers, the overlay's share
+and the choice of one attack flow per APT group.
 % INSERTION A APPLIED 2026-09-18 --- DRAFT STATE, ratify on read (Marc's
 %  green light this date: "swept is wrong, we kind of just chose them ... we
 %  chose them to our best of knowledge after consulting the literature").
@@ -5094,8 +5087,12 @@ Section~\ref{sec:future-work} returns to it.
 % in the same handoff. Rounds 2-3 in git. DRAFT STATE --- ratify on read.
 Chapter~\ref{ch:experiments} answers \ref{sq:evaluate} with the metrics of
 Table~\ref{tab:metrics}. Every run follows the targeted attack scenario
-(Section~\ref{subsec:attacker-model}): the attacker aims at a target host, and
-the run ends when it compromises one, when it has compromised more than
+(Section~\ref{subsec:attacker-model}).
+% [2026-10-04: the targeting rule moved here from the 4.4 preamble (Marc's
+%  placement, 2026-09-20, flagged); session-joined to this sentence. DRAFT STATE.]
+The attacker attacks a target host if one is visible, and otherwise prefers the
+hosts nearest the target's level; the run ends when it compromises a target
+host, when it has compromised more than
 80\,\% of the hosts, or at the time limit. Each metric
 is computed over the runs of one combination of Table~\ref{tab:experiment}:
 one attacker at one deployment interval, with no MTD or under one MTD
@@ -9276,11 +9273,16 @@ product.
 % LEAD DRAFT STATE 2026-09-20 --- connective prose (green-lit), ratify-on-read.
 % Was the lead of C.1 pointing at the body's Table 5.1; the table now leads the
 % appendix (the body section was cut, see the note at the head of ch5).
+% [2026-10-04: the bases table added first, the four-bases list of the 4.4
+%  preamble as a table (generated, tools/value_bases_table.py). DRAFT STATE.]
+Table~\ref{tab:value-bases} lists every value of the APT attacker model with
+its basis, where its reason is given and the test that varies or removes it.
 Table~\ref{tab:parameter-register} lists the values chosen for the attacker
 model in Section~\ref{sec:execution} and what happened when each was moved, at
 the configuration of Section~\ref{sec:dimensions}. The sections that follow
 read the same perturbations family by family and parameter by parameter.
 
+\input{tables/tab_C-0b_value_bases}
 \input{tables/tab_C-0a_declared_inputs}
 
 % =====================================================================
