@@ -4474,7 +4474,7 @@ Figure~\ref{fig:runtime-loop}:
   attack actions;
   \item the tactic's duration, the delay of its timed transition, is drawn
   from an exponential of mean $\mu_p$, and the attack action runs for that
-  time;
+  time in place of its own cost in MTDSim;
   \item the attack action's verdict, success or failure, returns from MTDSim;
   \item after a failure, the failure matrix reweights the immediate
   transitions (Equation~\ref{eq:routing}); after a success, they keep their
@@ -4482,36 +4482,35 @@ Figure~\ref{fig:runtime-loop}:
   \item the token fires one immediate transition to the next tactic, and the
   loop repeats.
 \end{enumerate}
-The drawn duration \emph{replaces} the attack action's own cost in MTDSim: the
-attack action takes its tactic's drawn time and nothing further. An attack
-action fails if its preconditions were missing (for example, an exploit of a
+% [ROUND 3, 2026-10-04 (Marc: "the attack action takes its tactic's drawn time and
+%  nothing further does the same as the first part"; "why drawn duration, why not
+%  tactic duration as in the diagram"): the replace-not-add rule is one clause of
+%  step 3. DRAFT STATE.]
+An attack action fails if its preconditions were missing (for example, an exploit of a
 vulnerability not yet scanned for), or if an MTD deployment disrupts it
 (Section~\ref{subsec:attacker-model}).
 
-% [P3, P4 ROUND 2, 2026-10-04 (Marc: "I get a bit lost at paragraph three ... not
-%  very clear or motivated"; "start with the subject ... important stuff first,
-%  then the motivation becomes clearer"). P3 opens on why it matters (Chapter 5
-%  compares the two attackers); the targeting rule's detail moved to 4.5, where
-%  every run's scenario is stated (its placement was Marc's, 2026-09-20: flagged).
-%  P4 names the four parts outright. DRAFT STATE.]
-Chapter~\ref{ch:experiments} compares the APT attacker model with the baseline
-attacker, so the two share what MTDSim supplies: the six attack actions, the
-deployment schedule, the confusion penalty (Section~\ref{subsec:attacker-model})
-and the targeted attack scenario of Table~\ref{tab:attacker-objectives}. The
-APT attacker model changes two things about an attack action, both declared in
-this section: how long it takes (Section~\ref{subsec:dwell-times}) and, for an
-exploit, its odds after earlier successes
-(Section~\ref{subsec:vulnerability-memory}). A difference between the two
-attackers' runs is therefore a difference in the attacker. The attack actions
-also bound this dissertation: the APT attacker model can only be as good as the
-attack actions it adopts.
-
-Four parts of the APT attacker model are declared, one subsection each: the
-tactic durations (Section~\ref{subsec:dwell-times}), the tactic-to-action
-mapping (Section~\ref{subsec:tactic-verb-mapping}), the failure matrix
-(Section~\ref{subsec:failure-matrix}) and the vulnerability memory
-(Section~\ref{subsec:vulnerability-memory}). Each subsection says what its part
-is, where its values come from and what tests it.
+% [ROUND 3, 2026-10-04 (Marc: "I still don't think the structure is right";
+%  "declared ... who marked their declaration as such"; the four bases "vague";
+%  Table C.1 "nuance the reader doesn't need" here). The preamble is three jobs:
+%  why (P1), the loop (Figure 4.5 and its steps), what the attack flows do not
+%  give (this paragraph). Moved out: the comparison design ("a difference between
+%  the two attackers' runs is ... the attacker") to a parked comment at chapter
+%  5's setup (out of chapter: Marc to rule); the two declared changes (step 3 and
+%  4.4.4 say them); the ceiling to 4.4.2, beside the attack actions' gaps (the
+%  chapter 6 pointer follows); the four bases and the three untested values to
+%  Appendix C's opener, beside Table C.1 (each subsection states its own basis).
+%  Prior text in git 0cbbfa48. DRAFT STATE.]
+The attack flows give each Petri net its structure and its base weights. They
+do not give the three inputs the loop reads: how long each tactic takes
+(Section~\ref{subsec:dwell-times}), which attack action it runs
+(Section~\ref{subsec:tactic-verb-mapping}) and where a failed attack action
+leads (Section~\ref{subsec:failure-matrix}). We set each from MTDSim's own
+attack-action costs where they exist, and otherwise from the literature or our
+judgement; its subsection gives the source of its values and how
+Chapter~\ref{ch:experiments} tests them. Section~\ref{subsec:vulnerability-memory} adds a fourth part to
+MTDSim's exploit attack action: the attacker's memory of the vulnerabilities it
+has exploited.
 
 % [HISTORY: the ruling comments of the 4.4 preamble's paragraphs before the
 %  2026-10-04 redraft, kept for the trail; the prose they annotate is in git
@@ -4649,17 +4648,6 @@ is, where its values come from and what tests it.
 %  Appendix C does. Record: docs/handoffs/2026-09-25_ch4_mark_risk_ledger.md.
 %  DRAFT STATE, ratify on read.]
 
-% [FOUR BASES -> TWO SENTENCES + TABLE, 2026-10-04 (Marc: "each value has one of
-%  four bases, I don't really understand any of that"; ruled: two sentences in the
-%  body, the list as a generated table, tools/value_bases_table.py). The ruled
-%  2026-09-25 content is kept whole, row by row, in the table; prior paragraph and
-%  its 2026-09-26 comment in git d1d0dcaf. DRAFT STATE.]
-Every value in the APT attacker model comes from one of four bases: the corpus,
-MTDSim's own costs, the literature or our judgement
-(Table~\ref{tab:value-bases} gives each value with its basis, its reason and its
-test). Chapter~\ref{ch:experiments} varies or removes every value of our
-judgement except three: the per-tactic duration multipliers, the overlay's share
-and the choice of one attack flow per APT group.
 % INSERTION A APPLIED 2026-09-18 --- DRAFT STATE, ratify on read (Marc's
 %  green light this date: "swept is wrong, we kind of just chose them ... we
 %  chose them to our best of knowledge after consulting the literature").
@@ -4838,6 +4826,10 @@ At an unmapped tactic there is no verdict. A deployment that lands during an
 unmapped tactic cuts its duration short and costs the attacker the confusion
 penalty. At an unmapped tactic MTD is felt as cost, never
 as a change of route.
+% [ROUND 3, 2026-10-04: the ceiling moved here from the 4.4 preamble, beside the
+%  attack actions' gaps it follows from (MUST-CARRY; chapter 6 cites it here).]
+The attack actions also set the ceiling of this dissertation: the APT attacker
+model can only be as good as the attack actions it adopts.
 
 % [2026-09-13: A6 sentences landed on Marc's ratification of the fourteen-item
 %  proposal (chat, this date); source register: handoff 2026-09-08_ch4_s43_gspn_formalism.md
@@ -6173,7 +6165,15 @@ Spearman's $\rho$ compares the two attackers' rankings.
 %  RATIFIED 2026-09-26 (Marc: 'I accept all this').
 times, one run per seed, the number Arcuri and Briand
 \citep{arcuri2014hitchhiker} recommend for randomised algorithms. Every
-combination uses the same seeds, and a seed fixes the network. Each run is a terminating simulation: it ends at the
+combination uses the same seeds, and a seed fixes the network.
+% [PARKED 2026-10-04 from the 4.4 preamble (round 3), OUT OF CHAPTER, Marc to
+%  rule: the comparison design belongs here. Candidate sentence: "Both attackers
+%  run on the same MTDSim: the same six attack actions, deployment schedule,
+%  confusion penalty and targeted attack scenario. The APT attacker model changes
+%  two things about an attack action, its duration (Section 4.4.1) and, for an
+%  exploit, its odds after earlier successes (Section 4.4.4), so a difference
+%  between the two attackers' runs is a difference in the attacker."]
+Each run is a terminating simulation: it ends at the
 first of the stopping events in Table~\ref{tab:experiment}, fixed before it
 starts \citep{law2015}, so no warm-up period is needed \citep{currie2016}.
 % REBUILT 2026-09-18 on Marc's read: "that reads like compaction for an LLM ...
@@ -8663,7 +8663,7 @@ for attackers with one objective.]}
 \noindent\emph{[Placeholder --- what the capture licenses: 38 attack flows
 give an envelope of documented behaviour, not one named group; the model can
 only be as good as the attack actions it adopts
-(Section~\ref{subsec:runtime-mechanics}).]}
+(Section~\ref{subsec:tactic-verb-mapping}).]}
 
 \begin{table}[htbp]
   \centering
@@ -9275,8 +9275,12 @@ product.
 % appendix (the body section was cut, see the note at the head of ch5).
 % [2026-10-04: the bases table added first, the four-bases list of the 4.4
 %  preamble as a table (generated, tools/value_bases_table.py). DRAFT STATE.]
-Table~\ref{tab:value-bases} lists every value of the APT attacker model with
-its basis, where its reason is given and the test that varies or removes it.
+Every value of the APT attacker model comes from one of four bases: the Attack
+Flow corpus, MTDSim's own attack-action costs, the literature or our judgement.
+Table~\ref{tab:value-bases} lists each value with its basis, where its reason is
+given and the test that varies or removes it. Three values of our judgement are
+not tested: the per-tactic duration multipliers, the overlay's share and the
+choice of one attack flow per APT group.
 Table~\ref{tab:parameter-register} lists the values chosen for the attacker
 model in Section~\ref{sec:execution} and what happened when each was moved, at
 the configuration of Section~\ref{sec:dimensions}. The sections that follow
