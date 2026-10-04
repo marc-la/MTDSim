@@ -3955,7 +3955,15 @@ the pre-intrusion overlay.
 %  of every profile: execution, stealth, discovery, command and control;
 %  "execution, stealth and C2" alone read as cherry-picked) and says the
 %  objective rows differ by the classification's design. Prior text in git
-%  (39544a76, 0847a5dc). DRAFT STATE --- ratify on read.]
+%  (39544a76, 0847a5dc).
+%  ROUND 3 (Marc, same day: naming c1 "exfiltration" when 9 of its 19 attack
+%  flows never draw the exfiltration tactic, and one draws impact, borrows
+%  ATT&CK's term "in this cheeky way"): Table 4.1 and the figure headers now
+%  say what the SOURCES report the attacker did (stole data, impeded systems,
+%  both, neither); ATT&CK's tactic names appear only as tactics, the rows of
+%  Figure 4.3. "Impeded systems" = encrypted, destroyed or hijacked them
+%  (paragraph 2); hijacking is ATT&CK's resource hijacking, under impact.
+%  DRAFT STATE --- ratify on read.]
 APT attackers with different objectives act differently after the
 foothold (Section~\ref{subsec:apt}), so one model of the whole attack
 graph would mix their behaviour. We therefore split the attack graph into
@@ -3972,10 +3980,11 @@ tactic of its own: the attacker stays in the network and never moves on to
 exfiltration or impediment \citep{alshamrani2019}. For each attack flow,
 we read its CTID description and, where that did not settle the
 objective, the ATT\&CK group page and the cited report. We recorded
-whether the attacker reached exfiltration, impact, both or neither
+what the sources report the attacker did: stole data, impeded the victim's
+systems by encrypting, destroying or hijacking them, both, or neither
 (Table~\ref{tab:attack-profiles}). Both and neither are attack profiles of
 their own, because each attack flow belongs to one attack profile only:
-seven attack flows reached both, mostly ransomware that stole data and
+seven attack flows did both, mostly ransomware that stole data and
 encrypted it, and counting them in two attack profiles would weigh them
 twice. An attacker positioning for future operations and one evicted
 before its objective look alike in CTI, so $c_4$ holds both.
@@ -3988,11 +3997,11 @@ before its objective look alike in CTI, so $c_4$ holds both.
   \tablestyle
   \begin{tabular}{@{}llrl@{}}
     \toprule
-    Attack profile & The attacker reached & Attack flows & Example \\
+    Attack profile & The sources report that the attacker & Attack flows & Example \\
     \midrule
-    $c_1$ & exfiltration & 19 & SolarWinds \\
-    $c_2$ & impact & 7 & NotPetya \\
-    $c_3$ & exfiltration and impact & 7 & Conti Ransomware \\
+    $c_1$ & stole data & 19 & SolarWinds \\
+    $c_2$ & impeded systems & 7 & NotPetya \\
+    $c_3$ & both & 7 & Conti Ransomware \\
     $c_4$ & neither & 5 & Hancitor DLL \\
     \bottomrule
   \end{tabular}
@@ -4038,8 +4047,8 @@ each attack profile reach. Execution, stealth, discovery and command and
 control appear in more than half the attack flows of every attack profile,
 and reconnaissance and resource development in fewer than half of any
 (Section~\ref{sec:technique-graph}). The attack profiles differ in
-exfiltration and impact, by which Table~\ref{tab:attack-profiles}
-classifies them. They also differ in collection, which the classification
+exfiltration and impact, the tactics of the two objectives
+Table~\ref{tab:attack-profiles} classifies by. They also differ in collection, which the classification
 does not read: it appears in 14 of the 19 attack flows of $c_1$, and in one
 attack flow each of $c_2$ and $c_3$. Each attack profile becomes its own
 Petri net (Section~\ref{sec:petri-formalism}). The Petri net chooses the
@@ -9246,8 +9255,8 @@ March 2026, with its own reference list.
   \caption[Edges of the four attack profiles]{Edges of the four attack
   profiles: each cell is an edge from the tactic of its row to the tactic of
   its column, darker where more of the attack profile's attack flows draw it.
-  The outlined column is the tactic Table~\ref{tab:attack-profiles}
-  classifies the attack profile by.}
+  The outlined column is the tactic of the objective
+  Table~\ref{tab:attack-profiles} classifies the attack profile by.}
   \label{fig:profile-edges}
 \end{figure}
 

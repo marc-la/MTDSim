@@ -30,8 +30,9 @@ Form, from two cold reads (a CS-student read and a visualisation critique,
     development (until ATT&CK v8 these two tactics were the separate
     PRE-ATT&CK matrix; section 4.1's pre-intrusion gap), and before
     exfiltration (the two tactics Table 4.1 classifies by);
-  * each column headed by its code, what its attackers reached (Table 4.1's
-    words verbatim) and its size, so a reader discounts the five attack
+  * each column headed by its code, what the sources report its attackers
+    did (Table 4.1's words verbatim, never a tactic's name: 9 of c1's 19
+    attack flows never draw the exfiltration tactic) and its size, so a reader discounts the five attack
     flows of c4 unaided; no counts in the cells (the k/n are printed below,
     for the prose); greys only (Figure 4.1 spends the accent on what this
     dissertation builds).
@@ -116,8 +117,7 @@ def reach(gap, flows: set[str], tactic: str) -> int:
 
 
 def head_lines(p: str) -> list[str]:
-    words = PROFILE_LABEL[p]
-    return ["exfiltration", "and impact"] if words == "exfiltration and impact" else [words]
+    return [PROFILE_LABEL[p]]
 
 
 def emit(gap, axis, prof):
@@ -140,7 +140,7 @@ def emit(gap, axis, prof):
     for k, p in enumerate(PROFILE_ORDER):
         cx = COL0 + k * COL_W
         flows = prof[p][0]
-        # codes on one top line, sizes on one bottom line; c3's words take two
+        # codes on one top line, Table 4.1's words, sizes on one bottom line
         lines = head_lines(p)
         yb = y_rows - 14
         svg.text(cx, yb, f"{len(flows)} attack flows", "sm")

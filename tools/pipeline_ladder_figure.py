@@ -89,13 +89,15 @@ PROFILE_ORDER = (
     "objective_exfiltration_impact",
     "objective_none_c2",
 )
-# Table 4.1's words for what each profile's attackers reached (Marc 2026-10-04:
-# the profiles are c1-c4 only, so these are definitions, not names; "double
-# extortion" CUT --- one of its seven attack flows is not one).
+# Table 4.1's words: what the SOURCES report each profile's attackers did
+# (Marc 2026-10-04: the profiles are c1-c4 only, so these are definitions, not
+# names; "double extortion" CUT --- one of its seven attack flows is not one;
+# ATT&CK's tactic names CUT here too --- 9 of c1's 19 attack flows never draw
+# the exfiltration tactic, so naming c1 after it borrowed the term).
 PROFILE_LABEL = {
-    "objective_exfiltration": "exfiltration",
-    "objective_impact": "impact",
-    "objective_exfiltration_impact": "exfiltration and impact",
+    "objective_exfiltration": "stole data",
+    "objective_impact": "impeded systems",
+    "objective_exfiltration_impact": "both",
     "objective_none_c2": "neither",
 }
 # the profile codes chapter 4 declares (§4.3; Marc's ruling 2026-09-22): this
