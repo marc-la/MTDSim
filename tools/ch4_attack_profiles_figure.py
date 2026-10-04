@@ -65,7 +65,7 @@ REPO = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(REPO / "tools"))
 from _tactic_axis import load_axis  # noqa: E402
 from pipeline_ladder_figure import (  # noqa: E402  the artefact readers
-    OBJECTIVE_TACTICS, PETRI_DIR, PROFILE_CODE, PROFILE_LABEL, PROFILE_ORDER, SUB,
+    OBJECTIVE_TACTICS, PETRI_DIR, PROFILE_CODE, PROFILE_ORDER, SUB,
     load_classes, load_gap, load_net,
 )
 
@@ -303,8 +303,9 @@ def emit(prof, axis) -> tuple[str, float, float]:
                                 outline=OBJ_COLUMNS[p])
         svg.add(frag)
         svg.sizes += sizes
-        svg.text(x0, ym - 9, f'{code(p)}<tspan font-weight="bold">{PROFILE_LABEL[p]}</tspan> ({len(flows)} flows)',
-                 "lbl", raw=True)
+        # the code only: Table 4.1 gives each profile's two answers (2026-10-04,
+        # the stand-alone labels collided across the c3 and c4 panels)
+        svg.text(x0, ym - 9, f'{code(p)} ({len(flows)} attack flows)', "lbl", raw=True)
     # the column names, once, in the band both grid rows touch
     yc = y_band + BAND / 2
     for x0 in COLS:

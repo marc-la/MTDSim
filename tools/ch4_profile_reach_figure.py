@@ -37,12 +37,14 @@ Form, from two cold reads (a CS-student read and a visualisation critique,
   * the key a row of five discs labelled only at its ends, so it reads as a
     continuous scale (five labelled anchors read as bins: "do we round
     down?");
-  * each column headed by its code and what the sources report its
-    attackers did (Table 4.1's words verbatim, never a tactic's name: 9 of
-    c1's 19 attack flows never draw the exfiltration tactic). Marc
-    2026-10-04: no sizes and no key title, since Table 4.1 gives the sizes on
-    the facing page and the caption says what the disc is; no counts in the cells (the k/n are printed below,
-    for the prose); greys only (Figure 4.1 spends the accent on what this
+  * each column headed by its code and Table 4.1's two questions as rows of
+    yes and no (round 3, Marc 2026-10-04: "both" and "neither" could not
+    stand alone), above a rule, so the classification sits directly over the
+    exfiltration and impact rows it is compared with; never a tactic's name
+    (9 of c1's 19 attack flows never draw the exfiltration tactic). No sizes
+    and no key title, since Table 4.1 gives the sizes and the caption says
+    what the disc is; no counts in the cells (the k/n are printed below, for
+    the prose); greys only (Figure 4.1 spends the accent on what this
     dissertation builds).
 
 A tactic is reached by an attack flow when one of its techniques stands for
@@ -66,7 +68,7 @@ REPO = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(REPO / "tools"))
 from _tactic_axis import load_axis, load_stages  # noqa: E402
 from ch4_attack_profiles_figure import AGG, code, profiles  # noqa: E402  same guards, same code glyph
-from pipeline_ladder_figure import PROFILE_LABEL, PROFILE_ORDER, load_classes, load_gap  # noqa: E402
+from pipeline_ladder_figure import PROFILE_ORDER, REPORTS, load_classes, load_gap  # noqa: E402
 
 OUT_DIR = REPO / "docs" / "thesis" / "figures"
 STEM = "fig_4-2b_profile_reach"
@@ -123,16 +125,18 @@ def reach(gap, flows: set[str], tactic: str) -> int:
     return len({f for n in gap["nodes"].values() if n["primary_tactic"] == tactic for f in n["flow_ids"]} & flows)
 
 
-def head_lines(p: str) -> list[str]:
-    return [PROFILE_LABEL[p]]
+QUESTIONS = ("Stole data", "Impeded systems")   # Table 4.1's two columns, in its words
 
 
 def emit(gap, axis, prof):
     stage_of, stage_name = load_stages()
     order = axis.stage_grouped_order(stage_of)
     svg = SVG()
-    n_head = 1 + max(len(head_lines(p)) for p in PROFILE_ORDER)
-    y_rows = n_head * HEAD_LINE + 14
+    # the code, then Table 4.1's two questions as rows of yes and no, then a rule
+    y_code = HEAD_LINE
+    y_q = [y_code + 8 + (j + 0.5) * ROW_H for j in range(len(QUESTIONS))]
+    y_rule = y_code + 8 + len(QUESTIONS) * ROW_H + 4
+    y_rows = y_rule + 4
     ys = {t: y_rows + (i + 0.5) * ROW_H for i, t in enumerate(order)}
     height = y_rows + len(order) * ROW_H + 4
     # the stage bands: a faint fill on alternate stages, the name at the left
@@ -143,14 +147,17 @@ def emit(gap, axis, prof):
             svg.add(f'<rect x="0" y="{y0:.1f}" width="{COL0 + 3.5 * COL_W:.1f}" height="{y1 - y0:.1f}" fill="{BAND}"/>')
         svg.text(STAGE_X, (y0 + y1) / 2 + 5.5, stage_name[st], "sm", anchor="start")
 
+    for j, q in enumerate(QUESTIONS):
+        svg.text(NAME_R, y_q[j] + 6, q, anchor="end")
+    svg.add(f'<line x1="0" y1="{y_rule:.1f}" x2="{COL0 + 3.5 * COL_W:.1f}" y2="{y_rule:.1f}" '
+            f'stroke="{RING}" stroke-width="1"/>')
     counts = {}
     for k, p in enumerate(PROFILE_ORDER):
         cx = COL0 + k * COL_W
         flows = prof[p][0]
-        # the code, then Table 4.1's words; the sizes are Table 4.1's, not repeated
-        yb = y_rows - 12
-        svg.text(cx, yb - HEAD_LINE, code(p), raw=True)
-        svg.text(cx, yb, head_lines(p)[0])
+        svg.text(cx, y_code, code(p), raw=True)
+        for j, yes in enumerate(REPORTS[p]):
+            svg.text(cx, y_q[j] + 6, "yes" if yes else "no")
         for t in order:
             c = reach(gap, flows, t)
             counts[(p, t)] = (c, len(flows))
