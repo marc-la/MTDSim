@@ -1109,14 +1109,43 @@ positioning for future operations \citep{alshamrani2019, nist2011sp80039}.
 % citation. E2 ruled same day: the espionage-contrast sentence KEEPS
 % its pared (C7) form --- do not re-flag.]
 
-Its operation follows a five-stage lifecycle: reconnaissance, foothold
-establishment, lateral movement, exfiltration or impediment, and
-post-operation cleanup \citep{alshamrani2019}. The first two stages are
-the same for every APT attacker; the last three depend on its objective
-\citep{alshamrani2019}. Volt Typhoon, for one, performed discovery without
-exfiltrating data, pre-positioning for possible future operational
-technology (OT) disruption: the positioning objective
-\citep{cisaaa24038a, nist2011sp80039}.
+% [CH3 3.1.1 P2 REDRAFT, 2026-10-04, Marc: the four stages are a synthesis of
+%  the literature, so they belong here, not first in 4.4.4 ("we can't use
+%  something that we haven't defined in the literature review"). One
+%  lifecycle, not two: the four stages stated as OUR grouping (no source has
+%  these four; Alshamrani's five are themselves a merge of Mandiant's seven and
+%  Ussath's three; Che Mat finds the models vary "only slight[ly] in the
+%  titles and the number of phases", extractions/chemat2024.md Table 4). Stage
+%  names verbatim from the first sentence (Marc: prepare / foothold / operate /
+%  act did not line up with them). Last stage "actions on objectives" (Marc's
+%  ruling: "objective" is the attacker's objective, 4.2's classification key;
+%  the Cyber Kill Chain's phase name, whose scope also holds lateral
+%  movement). Foothold = what initial access gains (4.4.4's rule); intrusion =
+%  foothold + running code (initial access + execution). Cut: Alshamrani's five
+%  stage names (three are ATT&CK tactic names, met in 3.1.2), cleanup (only
+%  Alshamrani has it; nothing downstream uses it), "performed discovery without
+%  exfiltrating data" (a tactic name before 3.1.2; CISA reports credential
+%  databases exfiltrated, not bulk data). Positioning stays in post-intrusion
+%  operations: Alshamrani II-C (it "does not enter stages 4-5"); Volt Typhoon:
+%  footholds for at least five years, pre-positioning to disrupt OT in a
+%  future crisis (CISA, high confidence). The tactic-to-stage seating is ours
+%  and stays in chapter 4 (lifecycle_consensus.md). Previous text in git.
+%  DRAFT STATE, ratify on read.]
+We group the stages of published lifecycle models of an attack
+\citep{hutchins2011, mandiant2013, alshamrani2019} into four: preparation,
+intrusion, post-intrusion operations and actions on objectives. The models
+differ in the names and number of their stages but follow a comparable
+cycle \citep{chemat2024}. In preparation, the attacker researches its
+target and builds its tools; in intrusion, it gains a foothold on a host in
+the target's network and runs its code there; in post-intrusion operations,
+it moves through the network undetected; in actions on objectives, it
+steals data or impedes the victim's systems. Preparation and intrusion are
+the same for every APT attacker; post-intrusion operations and actions on
+objectives depend on its objective \citep{alshamrani2019}. An attacker
+positioning for future operations stays in post-intrusion operations
+\citep{alshamrani2019}. Volt Typhoon, for example, held footholds in US
+critical infrastructure networks for at least five years, to disrupt their
+operational technology in a future crisis \citep{cisaaa24038a}.
 
 % [G5 DRAFT, dictated by Marc 2026-09-02; repaired (pass 2+3a),
 % arranged to the scaffold order on his ask. 3b WALK DONE 2026-09-02
@@ -4047,15 +4076,15 @@ or by APT group, leave most attack flows unclassified
   \label{fig:attack-profiles}
 \end{figure}
 
+% [2026-10-04: the stages now defined in 3.1.1 (was a forward reference to
+%  4.4.4); "objective" -> "actions on objectives" (Marc's ruling). DRAFT STATE.]
 Figure~\ref{fig:attack-profiles} groups the tactics by the four stages of
-an attack's lifecycle that Section~\ref{subsec:failure-matrix} takes from
-the literature: preparation, intrusion, post-intrusion operations and
-objective. Preparation is sparse: reconnaissance and resource development
+Section~\ref{subsec:apt}. Preparation is sparse: reconnaissance and resource development
 appear in fewer than half the attack flows of any attack profile
 (Section~\ref{sec:technique-graph}). Intrusion and post-intrusion
 operations are shared: execution, stealth, discovery and command and
 control appear in more than half the attack flows of every attack profile.
-The attack profiles differ at the objective: in exfiltration and impact, the
+The attack profiles differ in actions on objectives: in exfiltration and impact, the
 tactics of the two objectives Table~\ref{tab:attack-profiles} classifies
 by, and in collection, which the classification does not read. Collection
 appears in 14 of the 19 attack flows of $c_1$, and in one attack flow each
@@ -4926,7 +4955,7 @@ tactics are dwell-only (Figure~\ref{fig:controller-mapping}).
   Each ATT\&CK tactic dispatches at most one of the simulator's six
   attack actions; the seven in blue against
   an empty slot have no mapping and are dwell-only. Bands are the lifecycle
-  stages of Section~\ref{subsec:failure-matrix}. Table~\ref{tab:controller-mapping} gives the reason for each row.}
+  stages of Section~\ref{subsec:apt}. Table~\ref{tab:controller-mapping} gives the reason for each row.}
   \label{fig:controller-mapping}
 \end{figure}
 
@@ -4991,13 +5020,13 @@ The failure matrix encodes one principle: a failure without a foothold sends
 the attacker back to reconnaissance, and a failure with a foothold keeps it in
 its current stage. A foothold is what initial access gains: a failure at
 reconnaissance or initial access has none, and a failure at any later
-tactic holds one. The stages are the four that lifecycle models of an attack
-share~\citep{hutchins2011, alshamrani2019, mandiant2013, chemat2024}:
-preparation, intrusion, post-intrusion operations and objective. The first
-four of the five stages of Section~\ref{subsec:apt} correspond to them in
-order. ATT\&CK
-imposes no order on its tactics, so this order is imported from those models
-and not observed in the corpus. A rule of forward and backward alone does not
+tactic holds one. The stages are the four of Section~\ref{subsec:apt}.
+% [2026-10-04: the stages and their citations moved to 3.1.1 (Marc: the
+%  synthesis belongs in the literature review); "objective" -> "actions on
+%  objectives". DRAFT STATE.]
+ATT\&CK
+imposes no order on its tactics, so this order is imported from the lifecycle
+models and not observed in the corpus. A rule of forward and backward alone does not
 fit these stages. Eight of the 15 tactics (Figure~\ref{fig:controller-mapping}) fall in
 post-intrusion operations, and in every attack profile a move to another
 tactic of that stage carries on average 58 to 71 per cent of a post-intrusion tactic's base weight.
@@ -5005,8 +5034,8 @@ Figure~\ref{fig:gspn-gadget} shows both halves of the principle in $c_1$.
 After a failed initial access, which leaves no foothold, the weight on
 reconnaissance rises from 0.062 to 0.750 and each move that needs a foothold
 falls to about a quarter of its weight. After a failed credential access, the
-moves to other post-intrusion tactics gain weight, and the moves on to the
-objective and back to intrusion lose it.
+moves to other post-intrusion tactics gain weight, and the moves on to
+actions on objectives and back to intrusion lose it.
 
 The values are set by rules that apply this principle, and a move across two
 stages is scaled down by declared rates; Appendix~\ref{app:weight-sets} gives

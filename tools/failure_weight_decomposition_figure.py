@@ -133,7 +133,7 @@ TACTIC_SHORT = {
     "exfiltration": "Exfiltration",
     "impact": "Impact",
 }
-STAGE_SHORT = {0: "preparation", 1: "intrusion", 2: "post-intrusion", 3: "objective"}
+STAGE_SHORT = {0: "preparation", 1: "intrusion", 2: "post-intrusion", 3: "actions on objectives"}
 
 # --- geometry (cm) ---------------------------------------------------------
 # Two presets, because the printed type size is the invariant (conventions §h):
