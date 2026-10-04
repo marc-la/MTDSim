@@ -4428,15 +4428,25 @@ input from the simulator; integrated, the run is two-way.
 % the decision place, failure through the failure matrix; step 3 points up
 % into the timed transition; the successor step 6 fires is the one of
 % largest weight after a failure (reconnaissance), read from the overlay.
+% ROUND 7, SCRUTINISED (scrutinise-figure: two cold readers, one with no
+% caption, and the pitfall auditor; a fresh figure-only reader re-checked):
+% the marks named in place (timed transition, decision place, immediate
+% transitions), so the caption's pointer to Figure 4.4's key is cut; step 5
+% into an enclosure of all the immediate transitions (all three readers had
+% read it as reweighting one); the verdict in the decision place's lane
+% (success straight up, failure one turn), so the Attacker spans only the
+% lanes that meet it; "+" cut; step 5's word "weights"; step 6 and its
+% word on the arc it fires. Open for Marc: step 3's direction; the idle
+% Network and MTD boxes.
 % Regenerate, never hand-edit. CAPTION: DRAFT STATE.
 \begin{figure}[tbp]
   \centering
   \includegraphics{fig_4-4c_runtime_loop}
   \caption[The Petri net integrated with MTDSim]{The Petri net integrated
   with MTDSim: the step ``integrate with MTDSim'' of
-  Figure~\ref{fig:pipeline}, enlarged. The Petri net, in the marks of
-  Figure~\ref{fig:gspn-gadget}, is drawn at initial access in $c_1$, with
-  three of its eight successors. The dwell times and the failure matrix are
+  Figure~\ref{fig:pipeline}, enlarged. The Petri net is drawn at initial
+  access in $c_1$, with three of its eight successors. The dwell times and
+  the failure matrix are
   part of the Petri net (Equation~\ref{eq:vc-net}), each drawn under the
   element it sets. Blue traces one iteration of the loop, numbered by step.}
   \label{fig:runtime-loop}
