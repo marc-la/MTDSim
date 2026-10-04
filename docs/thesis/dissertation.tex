@@ -4179,23 +4179,34 @@ four attack profiles.
 %  attackers completed every step they drew); the join paragraph reframed as
 %  what the Petri net still lacks, which defines the join; Figure 4.4 (b) and (c)
 %  worked into the text. DRAFT STATE.]
+% [ROUND 4, 2026-10-04 (Marc: "90% of the way ... that little clarity touch"):
+%  a sentence pass on Gopen & Swan 1990 (subject next to its verb; one stress
+%  candidate per sentence, the new point at its end) and Knuth et al. 1989
+%  rule 2 (no sentence opens on a symbol): P1's first sentence split (two
+%  points); the token's job its own sentence; the firing rule two sentences;
+%  "whose rate" disambiguated; list items open on words; the overlay named,
+%  then listed; "which returns failure" disambiguated. The extension is the
+%  larger tuple, the genre's convention (Bland 2020: PNPSC = the standard
+%  tuple plus new elements). The bridge paragraph is cut: the 4.4 preamble,
+%  next, says the same. DRAFT STATE.]
 Stochastic Petri nets are an established formalism in MTD evaluation
-\citep{chobenasher2018, mendonca2023}, and Cai et al.\ compare MTD techniques
-with a generalised stochastic Petri net (GSPN) \citep{cai2016}. We follow
-this convention and formalise each attack profile as a GSPN. An attack profile
-gives only the edges between tactics and their weights. A GSPN adds a token,
-which marks the tactic the attacker is on, and two kinds of transition. A
-timed transition models the time the attacker spends on a tactic, and an
-immediate transition models its choice of the next tactic.
+\citep{chobenasher2018, mendonca2023}. Cai et al.\ compare MTD techniques
+with one variant in particular, the generalised stochastic Petri net (GSPN)
+\citep{cai2016}. We follow this convention and formalise each attack profile
+as a GSPN. An attack profile gives only the edges between tactics and their
+weights. A GSPN adds a token and two kinds of transition. The token marks the
+tactic the attacker is on. A timed transition models the time the attacker
+spends on a tactic, and an immediate transition models its choice of the next
+tactic.
 
 A GSPN is a directed bipartite graph of places and transitions
 \citep{marsan1984}. Tokens sit on places. A transition is enabled when each of
-its input places holds a token, and firing it moves a token from each input
-place to each output place. A \emph{timed} transition fires after an
-exponentially distributed delay, whose \emph{rate} is one over its mean. An
-\emph{immediate} transition fires in zero time and takes priority over timed
-ones; when several are enabled, one fires with probability proportional to its
-weight. Following Ajmone Marsan et al.\ \citep{marsan1995}, a GSPN is the tuple
+its input places holds a token. Firing it moves a token from each input place
+to each output place. A \emph{timed} transition fires after a delay drawn
+from an exponential distribution; its \emph{rate} is one over the mean delay.
+An \emph{immediate} transition fires in zero time and takes priority over
+timed ones. Of several enabled immediate transitions, one fires, with
+probability proportional to its weight. Following Ajmone Marsan et al.\ \citep{marsan1995}, a GSPN is the tuple
 \begin{equation}
   \mathcal{N} = (P, T, I, O, W, M_0),
   \label{eq:gspn}
@@ -4206,27 +4217,27 @@ transition and the weight of each immediate one; and $M_0$ the initial
 marking, the number of tokens on each place. The full definition adds
 inhibitor arcs and priority levels, which this dissertation does not use.
 
-The Petri net $\mathcal{N}_c$ of an attack profile $c$
-(Section~\ref{sec:attack-profiles}) is built as follows; only its places and
-weights depend on $c$. Figure~\ref{fig:gspn-gadget}(a) draws it for one
-tactic $p$.
+Each attack profile $c$ (Section~\ref{sec:attack-profiles}) gives a Petri
+net $\mathcal{N}_c$, built as follows. Only its places and weights depend on
+$c$. Figure~\ref{fig:gspn-gadget}(a) draws the construction for one tactic
+$p$.
 \begin{description}[nosep, leftmargin=1em]
   \item[Places $P$:] one place $p$ for each tactic of the attack profile and,
   for each, a decision place $\hat{p}$ at which the next tactic is chosen.
-  \item[Transitions $T$:] for each tactic $p$, a timed transition $\tau_p$
-  from $p$ to $\hat{p}$, whose firing is the attacker carrying out the tactic;
-  and for each edge $p \to q$ of the attack profile with a base weight above
-  zero (Equation~\ref{eq:base-weight}), an immediate transition $t_{pq}$ from
-  $\hat{p}$ to $q$. No transition leads from a tactic back to itself: the time
-  spent in a tactic is the delay of $\tau_p$.
+  \item[Transitions $T$:] a timed transition $\tau_p$ from each tactic $p$
+  to its decision place $\hat{p}$, whose firing is the attacker carrying out
+  the tactic; and an immediate transition $t_{pq}$ from $\hat{p}$ to $q$ for
+  each edge $p \to q$ of the attack profile with a base weight above zero
+  (Equation~\ref{eq:base-weight}). No transition leads from a tactic back to
+  itself: the time spent in a tactic is the delay of $\tau_p$.
   \item[Arcs $I$, $O$:] those of the chain
   $p \to \tau_p \to \hat{p} \to t_{pq} \to q$.
-  \item[Weights $W$:] $W(\tau_p) = 1/\mu_p$, so that the delay of $\tau_p$
-  has mean $\mu_p$, the mean dwell of tactic $p$
-  (Section~\ref{subsec:dwell-times}); resource development, whose mean dwell
-  is zero, has an immediate transition in place of $\tau_p$. $W(t_{pq})$ is
-  the \emph{base weight} of $p \to q$, the share of the attack profile's
-  attack flows leaving $p$ that go to $q$:
+  \item[Weights $W$:] each timed transition has rate
+  $W(\tau_p) = 1/\mu_p$, so that its delay has mean $\mu_p$, the mean dwell
+  of tactic $p$ (Section~\ref{subsec:dwell-times}). Resource development has
+  a mean dwell of zero, so its transition is immediate. Each immediate
+  transition has the \emph{base weight} of its edge $p \to q$, the share of
+  the attack profile's attack flows leaving $p$ that go to $q$:
   \begin{equation}
     W(t_{pq}) = \frac{n(p, q)}{\sum_{q'} n(p, q')},
     \label{eq:base-weight}
@@ -4234,16 +4245,16 @@ tactic $p$.
   where $n(p, q)$ is the number of the attack profile's attack flows that
   draw $p \to q$. The base weights count each APT group once, through its
   attack flow with the most steps, so that a group reported several times
-  does not outweigh the rest; they rest on 29 of the 38 attack flows.
-  \item[Initial marking $M_0$:] one token on reconnaissance. With one token
-  the attacker pursues one line of the campaign at a time: where an attack
-  flow draws parallel branches, the token follows one of them.
+  does not outweigh the rest. They rest on 29 of the 38 attack flows.
+  \item[Initial marking $M_0$:] one token on reconnaissance. The single token
+  means the attacker pursues one line of the campaign at a time: where an
+  attack flow draws parallel branches, the token follows one of them.
 \end{description}
 
 In $c_3$ and $c_4$, no attack flow leads on from reconnaissance, so the token
 could not leave the place it starts on. For these two attack profiles we add
-the \emph{pre-intrusion overlay}, three immediate transitions that none of
-their attack flows draws: from reconnaissance to resource development, from
+the \emph{pre-intrusion overlay}. It consists of three immediate transitions
+that none of their attack flows draws: from reconnaissance to resource development, from
 resource development to initial access, and from initial access back to
 reconnaissance, for an attacker whose intrusion fails. Their weights are
 declared. A place with no transition of its own sends all its weight through
@@ -4268,14 +4279,15 @@ alone, an attacker that fails would carry on as though it had succeeded. A
 GSPN cannot route on the verdict: its weights are constants, or functions of
 the marking, and the verdict comes from MTDSim, outside the Petri net.
 
-We therefore extend the GSPN with one element, the failure matrix $F$, a
+We therefore extend the GSPN with one element, the failure matrix $F$: a
 declared factor between zero and one for each pair of tactics
-(Section~\ref{subsec:failure-matrix}). The Petri net of attack profile $c$ is
-then the pair
+(Section~\ref{subsec:failure-matrix}). The Petri net of attack profile $c$
+becomes the tuple
 \begin{equation}
-  (\mathcal{N}_c, F).
+  (P, T, I, O, W, M_0, F),
   \label{eq:vc-net}
 \end{equation}
+whose first six elements are those of $\mathcal{N}_c$.
 When $\tau_p$ fires and its attack action fails, $F$ scales the weights of
 the immediate transitions out of $\hat{p}$:
 \begin{equation}
@@ -4286,21 +4298,12 @@ the immediate transitions out of $\hat{p}$:
 After a success, or at a tactic that dispatches no attack action, the
 immediate transitions keep their base weights. A factor of zero disables a
 transition for that firing only; places, transitions and arcs never change.
-An MTD deployment can also cut a timed transition short, which returns
-failure if an attack action was in flight
-(Section~\ref{subsec:runtime-mechanics}). Figure~\ref{fig:gspn-gadget}(b)
+An MTD deployment can also cut a timed transition short; if an attack action
+was in flight, its verdict is failure (Section~\ref{subsec:runtime-mechanics}). Figure~\ref{fig:gspn-gadget}(b)
 gives both sets of weights at initial access in $c_1$.
 
-% [BRIDGE, ROUND 2 reframe (Marc: "it's not completely joined ... we still
-%  need a few more things"): what the Petri net lacks to run in MTDSim. ROUND 3
-%  (Marc: "I don't like the word join ... that's literally the title,
-%  integration with MTDSim"): "join" retired chapter-wide; 4.4 integrates.]
-The Petri net cannot yet run in MTDSim. It lacks three declared inputs: the
-mean dwell $\mu_p$ of each tactic, the tactic-to-action mapping, which turns a
-tactic into one of MTDSim's attack actions, and the values of the failure
-matrix $F$. It also lacks two mechanics: the return of each verdict from
-MTDSim, and what the token does at a dead end. Section~\ref{sec:execution}
-supplies all five as it integrates the Petri net with MTDSim.
+% [BRIDGE paragraph CUT in round 4 (Marc: "that reads like it's going to be
+%  the 4.4 preamble, which is literally next"). Prior text in git c25d05a5.]
 
 % FIGURE fig:gspn-gadget --- generated by tools/gspn_gadget_figure.py from the
 % c1 routing net (primary corpus variant, overlay as run), the v4_failure_only
@@ -4311,7 +4314,7 @@ supplies all five as it integrates the Petri net with MTDSim.
 % profile", stale since the 4.2 relabel), "gadget" off the panels. Round 3
 % (Marc: the foothold contrast "is more of a nuanced point"): panel (c) off,
 % one worked tactic; the caption says what to look at. DRAFT STATE.
-\begin{figure}[htbp]
+\begin{figure}[tbp]
   \centering
   \includegraphics{fig_4-3a_gspn_gadget}
   \caption[One tactic of a Petri net]{One tactic of a Petri net. (a)~The
