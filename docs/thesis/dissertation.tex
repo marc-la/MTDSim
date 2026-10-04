@@ -4383,19 +4383,27 @@ gives both sets of weights at initial access in $c_1$.
 %  "Section 4.4".]
 \label{subsec:runtime-mechanics}
 
-% [CONNECTIVE-PROSE PASS 2026-09-26, P8 4.4 preamble] Connective part only
-%  (P8, narrowed: the 2026-09-25 'four bases' paragraph below is ruled and
-%  untouched). 'which supplies what the nets cannot' repeated the 4.3
-%  bridge; the source-code simile cut; the subsections given roles. The
-%  recap paragraph below is removed by the next edit. SESSION-GENERATED on
-%  Marc's 2026-09-26 go-ahead (docs/workflows/connective_prose.md; audit
-%  docs/implementation/connective_prose_audit.md); prior text in git.
-%  RATIFIED 2026-09-26 (Marc: 'I accept all this').
-% [ROUND 3 of 4.3, 2026-10-04: "join" retired (Marc); this opener otherwise
-%  as ratified 2026-09-26.]
-This section integrates the Petri nets $\mathcal{N}_c$ with MTDSim. A Petri
-net run on its own produces a timeline of what the attacker did, with no
-input from the simulator; integrated, the run is two-way.
+% [PREAMBLE REDRAFT 2026-10-04 (Marc: "I'm just completely lost by the structure";
+%  "there's no rhyme or reason to these sentences"; his dictation kept where it
+%  works). Four jobs, in the order an examiner expects of a section opener that
+%  carries its headline figure: why the section exists (P1), the figure and its
+%  walkthrough (P2), what the overview guarantees and its limit (P3), the map
+%  to the subsections and the standard each meets (P4, with the four bases).
+%  Moved out: the dwell-only clause of step 2 (4.4.2 says it); the dead end to
+%  4.4.3, beside the stall (Marc: an implementation detail); "the one time the
+%  Petri net does not supply" to 4.4.1 (a timing fact). Repaired: "the six
+%  attack actions ... held identical for both attackers" overstated it (the
+%  vulnerability memory is the APT attacker model's only, Marc 2026-09-28, and
+%  the drawn dwell replaces an attack action's own cost), so P3 says the attack
+%  actions are shared and names the two declared changes; step 5's "the base
+%  weights stand" -> 4.3's "keep their base weights". Prior text and its
+%  ruling comments: git 3ce6e0b5, and the history block below. DRAFT STATE.]
+The Petri net of an attack profile chooses the attacker's next tactic, but it
+acts on nothing. MTDSim's attack actions act on the network, and each returns
+a verdict. The APT attacker model integrates the two in one loop. It calls
+MTDSim's attack actions one at a time, in the order its Petri net chooses, in
+place of the baseline attacker's ordered procedure. Each verdict then shapes
+the next choice.
 
 % FIGURE (2026-10-04): fig:runtime-loop REBUILT as section 4.4's headline (Marc:
 % section 4.4 is Figure 4.1's "integrate with MTDSim" arrow enlarged, so it is a
@@ -4445,13 +4453,12 @@ input from the simulator; integrated, the run is two-way.
 \begin{figure}[tbp]
   \centering
   \includegraphics{fig_4-4c_runtime_loop}
+  % [CAPTION TIGHTENED 2026-10-04, preamble redraft (Marc: the details flow
+  %  into the prose; the quoted step of Figure 4.1 is the section's own
+  %  title). DRAFT STATE.]
   \caption[The Petri net integrated with MTDSim]{The Petri net integrated
-  with MTDSim: the step ``integrate with MTDSim'' of
-  Figure~\ref{fig:pipeline}, enlarged. The Petri net is drawn at initial
-  access in $c_1$, with three of its eight successors. The dwell times and
-  the failure matrix are
-  part of the Petri net (Equation~\ref{eq:vc-net}), each drawn under the
-  element it sets. Blue traces one iteration of the loop, numbered by step.}
+  with MTDSim, drawn at initial access in $c_1$ with three of its eight
+  successors. Blue traces one iteration of the loop, numbered by step.}
   \label{fig:runtime-loop}
 % [CH4 SCRUTINY 2026-10-02, F5: regenerated --- "Defender" -> "MTD" (Figure
 %  2.1's module), the vulnerability memory drawn in the attacker box in the
@@ -4459,6 +4466,63 @@ input from the simulator; integrated, the run is two-way.
 %  the caption says how to read the bands. DRAFT STATE --- ratify on read.]
 \end{figure}
 
+One iteration of the loop runs in six steps, numbered as in
+Figure~\ref{fig:runtime-loop}:
+\begin{enumerate}[nosep, leftmargin=*]
+  \item the token's tactic leaves the Petri net;
+  \item the tactic-to-action mapping turns the tactic into one of MTDSim's
+  attack actions;
+  \item the tactic's dwell time, the delay of its timed transition, is drawn
+  from an exponential of mean $\mu_p$, and the attack action runs for that
+  time;
+  \item the attack action's verdict, success or failure, returns from MTDSim;
+  \item after a failure, the failure matrix reweights the immediate
+  transitions (Equation~\ref{eq:routing}); after a success, they keep their
+  base weights;
+  \item the token fires one immediate transition to the next tactic, and the
+  loop repeats.
+\end{enumerate}
+The drawn dwell \emph{replaces} the attack action's own cost in MTDSim: the
+attack action takes its tactic's drawn time and nothing further. An attack
+action fails if its preconditions were missing (for example, an exploit of a
+vulnerability not yet scanned for), or if an MTD deployment disrupts it
+(Section~\ref{subsec:attacker-model}).
+
+What the APT attacker model takes from MTDSim, it shares with the baseline
+attacker: the six attack actions, the deployment schedule, the confusion
+penalty (Section~\ref{subsec:attacker-model}) and the targeted attack scenario
+of Table~\ref{tab:attacker-objectives}. In that scenario the attacker attacks
+a target host if one is visible, and otherwise prefers the hosts nearest the
+target's level. The APT attacker model changes two things about an attack
+action, both declared in this section: how long it takes
+(Section~\ref{subsec:dwell-times}) and, for an exploit, its odds after earlier
+successes (Section~\ref{subsec:vulnerability-memory}). A difference between
+the two attackers' runs is therefore a difference in the attacker and nothing
+else. The attack actions also set the ceiling of this dissertation: the APT
+attacker model can only be as good as the attack actions it adopts.
+
+Sections~\ref{subsec:dwell-times} to~\ref{subsec:failure-matrix} declare the
+three inputs the loop reads. Two of them, the dwell times and the failure
+matrix, are part of the Petri net (Equation~\ref{eq:vc-net}); the
+tactic-to-action mapping lies outside it, between the Petri net and MTDSim.
+Section~\ref{subsec:vulnerability-memory} adds the attacker's memory of the
+vulnerabilities it has exploited to MTDSim's exploit attack action. Each
+subsection says what its part is, where its values come from and what tests
+it.
+
+% [HISTORY: the ruling comments of the 4.4 preamble's paragraphs before the
+%  2026-10-04 redraft, kept for the trail; the prose they annotate is in git
+%  3ce6e0b5.]
+% [CONNECTIVE-PROSE PASS 2026-09-26, P8 4.4 preamble] Connective part only
+%  (P8, narrowed: the 2026-09-25 'four bases' paragraph below is ruled and
+%  untouched). 'which supplies what the nets cannot' repeated the 4.3
+%  bridge; the source-code simile cut; the subsections given roles. The
+%  recap paragraph below is removed by the next edit. SESSION-GENERATED on
+%  Marc's 2026-09-26 go-ahead (docs/workflows/connective_prose.md; audit
+%  docs/implementation/connective_prose_audit.md); prior text in git.
+%  RATIFIED 2026-09-26 (Marc: 'I accept all this').
+% [ROUND 3 of 4.3, 2026-10-04: "join" retired (Marc); this opener otherwise
+%  as ratified 2026-09-26.]
 % [CH4 SCRUTINY 2026-10-02, ledger R1--R9, X2, X9, F5, applied on Marc's
 %  accept-all: "duration" / "all the tactic timing" -> dwell time (registry
 %  row 54, over the 2026-08-20 wording); the loop's six steps moved from
@@ -4469,35 +4533,9 @@ input from the simulator; integrated, the run is two-way.
 %  _pay_interrupt_cost); "sink" -> dead end (R5); Jalowski's ask is ch3's
 %  (R7); the extensibility clause to 7.2 (R8). Prior text in git (3f6b4f8c).
 %  DRAFT STATE --- ratify on read.]
-The APT attacker model calls each attack action on its own, outside the baseline
-attacker's procedure, and supplies its dwell time, so that the
-Petri net supplies every dwell time of the APT attacker model at
-runtime, the firing time of $\tau_p$. A drawn dwell \emph{replaces} the
-dispatched attack action's native cost rather than adding to it: an attack
-action consumes its tactic's drawn time and nothing further. One iteration
-of the loop runs in six steps, numbered as in Figure~\ref{fig:runtime-loop}:
-\begin{enumerate}[nosep, leftmargin=*]
-  \item the token's tactic leaves the Petri net;
   % [2026-10-04: steps 2 and 3 swapped to the code's order (movement/attacker.py
   %  _walk: controller.phase_for(place), then timing.draw(place), then the
   %  attack action runs for the drawn time) and to Figure 4.5's lanes.]
-  \item the tactic-to-action mapping resolves the tactic to an attack action, or to
-  dwell-only, in which case nothing is dispatched and no verdict returns;
-  \item the tactic's mean dwell $\mu_p$ is drawn through an exponential and
-  consumed as simulated time;
-  \item a dispatched attack action's verdict, success or failure, returns
-  from MTDSim;
-  \item on failure the failure matrix reweights the token's out-transitions
-  (Equation~\ref{eq:routing}); on success, and after a dwell-only tactic,
-  the base weights stand;
-  \item the token fires the chosen immediate transition, and the loop
-  repeats.
-\end{enumerate}
-
-The verdict comes from MTDSim. An attack action fails if its
-preconditions were missing (for example, an exploit of a vulnerability not
-yet scanned for), or if an MTD deployment disrupts it
-(Section~\ref{subsec:attacker-model}).
 % PLACEHOLDER 2026-09-24 (as above; results context §8g-5 content point 1: the
 % explicit and the emergent parts of a disruption). Verified: the penalty and the
 % lost host are charged by the one call both attackers share
@@ -4515,12 +4553,6 @@ yet scanned for), or if an MTD deployment disrupts it
 % one again, and the failure matrix routes on those failures. The baseline attacker
 % instead restarts its script in a phase set by the layer
 % (Section~\ref{subsec:attacker-model}).]}
-When the token reaches a dead end, a place the corpus gave no exit, it
-retraces the edge it travelled, a concession to the thinness of the corpus.
-
-The APT attacker model is given the targeted attack scenario of
-Table~\ref{tab:attacker-objectives}. It attacks a target host if one is
-visible, and otherwise prefers the hosts nearest the target's level.
 % [2026-09-20: P2 of the §5.2 split-stream scrutiny (setup handoff §AL1 1b, §AM),
 %  session-drafted, accepted by Marc in chat; PLACEMENT IS HIS. Chapter 4 never
 %  said the movement attacker takes an objective of Table 2.5, whose caption
@@ -4538,12 +4570,6 @@ visible, and otherwise prefers the hosts nearest the target's level.
 %  --- fig:runtime-loop's numbered joins and §4.3's routing sentence carry
 %  it; "This is verdict-conditioned re-weighting ... encodes direction" moved
 %  to the failure-matrix unit; the two sentences restating Eq. 4.4 cut.]
-
-The confusion penalty (Section~\ref{subsec:attacker-model}) is the one
-time the Petri net does not supply. It belongs to the simulator, with the
-six attack actions and the deployment schedule, and all three are held
-identical for both attackers, so that a difference between their runs is a
-difference in the attacker and nothing else.
 % [2026-09-13: A11 sentences landed on Marc's ratification of the fourteen-item
 %  proposal (chat, this date); source register: handoff 2026-09-08_ch4_s43_gspn_formalism.md
 %  §7.2. Ratify-on-read.]
@@ -4554,10 +4580,6 @@ difference in the attacker and nothing else.
 %  after "sinks".]
 % [RULED, do not re-flag] routing-ablatability must-carry CUT from this unit;
 %   guarantee stays repo-side (attacker_state_seam.md); ch6 cites it there.
-
-The ceiling of this dissertation lies in the attack actions that we are adopting
-from the simulator: the APT attacker model can only be as good
-as what we adopt.
 % [MUST-CARRY: the mapping as a chosen input, the standing caveat bounding
 %  every claim in the results chapter (ch5 cites it). Moved 2026-09-08 to
 %  close the mechanics unit; ", and that would produce a more useful attacker
@@ -4567,16 +4589,11 @@ as what we adopt.
 %  sentence carry it; ch7 has the future work).]
 % [2026-09-26 connective-prose pass: the preamble's "scoped it down" is
 %  removed (P8b); this sentence and the ch4 opener now carry the scope.]
-
 % [STRUCTURE 2026-10-04 (Marc: the runtime loop and the preamble are one
 %  thing; Figure 4.5 is the headline; each subsection is one declared part
 %  of the model, what it is, where its value comes from, what tests it).
 %  Roadmap moved here from the opener; "runtime loop" -> "loop" (no
 %  subsection by that name now). PURE MOVE otherwise; DRAFT STATE.]
-Sections~\ref{subsec:dwell-times} to~\ref{subsec:failure-matrix} declare the
-three inputs the loop reads, and Section~\ref{subsec:vulnerability-memory}
-adds the attacker's memory of the vulnerabilities it has exploited, which
-sits in the exploit attack action, not in the loop.
 % [CH4 SCRUTINY 2026-10-02, ledger I1--I3, C4, X6, applied on Marc's
 %  accept-all: the OWED 2026-09-28 memory clause landed (I1) and the factor of
 %  three joins the judgement list (I2); "Appendix B gives the reason for each"
@@ -4596,7 +4613,6 @@ sits in the exploit attack action, not in the loop.
 %  representative ..."): §4.3 carries the argument ("needs them to depend on
 %  what happened in the simulator") and the example ("cut short by an MTD
 %  mutation, which returns failure"). Reversible from git 9a333c48.
-
 % [E2 SWEEP 2026-09-22: the three layer names DISSOLVED on the supervisor's
 %  ruling (not layers; names only on a needs basis) and Marc's (no names).
 %  What L0--L3 produce is the profile net; what MTDSim has is the baseline
@@ -4620,7 +4636,6 @@ sits in the exploit attack action, not in the loop.
 %  2026-09-26 go-ahead (docs/workflows/connective_prose.md; audit
 %  docs/implementation/connective_prose_audit.md); prior text in git.
 %  RATIFIED 2026-09-26 (Marc: 'I accept all this').
-
 % [2026-09-25 SUPERVISOR SCREEN, step 1 (Marc: "just push it in for now";
 %  conventional terms over descriptive ones). REPLACES "We chose each of them
 %  to the best of our judgement after consulting the literature; whether any
@@ -4630,6 +4645,7 @@ sits in the exploit attack action, not in the loop.
 %  terms (docs/sources/methodology/tenbroeke2016_abm_sa.md), which name what
 %  Appendix C does. Record: docs/handoffs/2026-09-25_ch4_mark_risk_ledger.md.
 %  DRAFT STATE, ratify on read.]
+
 Each value in the APT attacker model has one of four bases. The base weights
 and the membership of each attack profile come from the corpus. The
 scan-shaped and exploit-shaped dwell times and the 20-second confusion penalty
@@ -4678,6 +4694,11 @@ vendor reports, which give the length of a whole intrusion
 (Chapter~\ref{ch:intro}); models that time attack steps declare their
 values~\citep{bland2020, mcqueen2006, mendonca2023}. Here they are
 parameters of the model.
+% [PREAMBLE REDRAFT 2026-10-04: moved here from the 4.4 preamble (Marc: a
+%  timing fact); "It belongs to the simulator ... nothing else" is the 4.4
+%  preamble's third paragraph now.]
+The confusion penalty (Section~\ref{subsec:attacker-model}) is the one time
+the Petri net does not supply.
 % [CUT 2026-09-08: "There is no MITRE tactic mapping to time resource." (the
 %  sentence before carries it) and "How long does reconnaissance take?"]
 
@@ -4948,6 +4969,10 @@ The values are set by rules that apply this principle, and a move across two
 stages is scaled down by declared rates; Appendix~\ref{app:weight-sets} gives
 each rule, its value and its reason, and the full matrix. No value was fitted
 to the corpus or to an evaluation outcome.
+% [PREAMBLE REDRAFT 2026-10-04: the dead end moved here from the 4.4 preamble,
+%  beside the stall it is contrasted with (Marc: an implementation detail).]
+When the token reaches a dead end, a place the corpus gave no exit, it
+retraces the edge it travelled, a concession to the thinness of the corpus.
 % [STRUCTURE 2026-10-04: the stall, moved from the runtime loop subsection;
 %  only the failure matrix can cause one.]
 A place whose every exit the failure matrix has
