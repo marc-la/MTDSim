@@ -26,14 +26,22 @@ Form, from two cold reads (a CS-student read and a visualisation critique,
     visible dot, not a near-white grey. A continuous grey shade in the same
     layout was built and cold-read beside it, and lost: the 1/19 cell read as
     none, and nobody could rank the middle greys;
-  * two gaps, both from the sources rather than invented: after resource
-    development (until ATT&CK v8 these two tactics were the separate
-    PRE-ATT&CK matrix; section 4.1's pre-intrusion gap), and before
-    exfiltration (the two tactics Table 4.1 classifies by);
-  * each column headed by its code, what the sources report its attackers
-    did (Table 4.1's words verbatim, never a tactic's name: 9 of c1's 19
-    attack flows never draw the exfiltration tactic) and its size, so a reader discounts the five attack
-    flows of c4 unaided; no counts in the cells (the k/n are printed below,
+  * the rows grouped by the four lifecycle stages the thesis already uses
+    (section 4.4's failure matrix; data/ogasp/controller/
+    lifecycle_consensus.json), in the band style of the controller-mapping
+    figure, the same family: stage name small and grey at the left, a faint
+    fill on alternate stages. The three takeaways are then the stages:
+    preparation sparse, intrusion and post-intrusion shared, objective
+    different. (Marc 2026-10-04: this replaced two unexplained gaps, after
+    resource development and before exfiltration);
+  * the key a row of five discs labelled only at its ends, so it reads as a
+    continuous scale (five labelled anchors read as bins: "do we round
+    down?");
+  * each column headed by its code and what the sources report its
+    attackers did (Table 4.1's words verbatim, never a tactic's name: 9 of
+    c1's 19 attack flows never draw the exfiltration tactic). Marc
+    2026-10-04: no sizes and no key title, since Table 4.1 gives the sizes on
+    the facing page and the caption says what the disc is; no counts in the cells (the k/n are printed below,
     for the prose); greys only (Figure 4.1 spends the accent on what this
     dissertation builds).
 
@@ -56,7 +64,7 @@ from pathlib import Path
 
 REPO = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(REPO / "tools"))
-from _tactic_axis import load_axis  # noqa: E402
+from _tactic_axis import load_axis, load_stages  # noqa: E402
 from ch4_attack_profiles_figure import AGG, code, profiles  # noqa: E402  same guards, same code glyph
 from pipeline_ladder_figure import PROFILE_LABEL, PROFILE_ORDER, load_classes, load_gap  # noqa: E402
 
@@ -68,6 +76,7 @@ FACE_SCALE = 0.92
 FLOOR_PT = 7.95
 
 INK, INK2, RING = "#333", "#6e6e6e", "#8c8c8c"   # the ring dark enough to tell 4/5 from all
+BAND = "#f5f5f5"           # black!4, the controller-mapping figure's stage fill
 SIZES = {"lbl": 17, "sm": 15.5}
 
 STYLE = f"""
@@ -79,15 +88,13 @@ STYLE = f"""
 """
 
 # geometry, px at 900 wide
-NAME_R = 262               # tactic names end here (right-aligned)
-COL0, COL_W = 335, 148     # first column's centre; column pitch
+STAGE_X = 6                # stage names start here
+NAME_R = 352               # tactic names end here (right-aligned)
+COL0, COL_W = 432, 128     # first column's centre; column pitch
 ROW_H = 28
 R = 11.5                   # the ring: the whole attack profile
-GAP = 15                   # each of the two source-given gaps
-GAP_AFTER = ("resource-development",)
-GAP_BEFORE = ("exfiltration",)
 HEAD_LINE = 19
-KEY = ((0, "none"), (0.25, "a quarter"), (0.5, "half"), (0.75, "three quarters"), (1, "all"))
+KEY = (0, 0.25, 0.5, 0.75, 1)      # labelled at the ends only: a continuous scale
 
 
 class SVG:
@@ -121,32 +128,29 @@ def head_lines(p: str) -> list[str]:
 
 
 def emit(gap, axis, prof):
-    order = axis.matrix_order
+    stage_of, stage_name = load_stages()
+    order = axis.stage_grouped_order(stage_of)
     svg = SVG()
-    n_head = 1 + max(len(head_lines(p)) for p in PROFILE_ORDER) + 1
-    y_rows = n_head * HEAD_LINE + 22
-    # the rows, with the two gaps
-    ys, y = {}, y_rows
-    for t in order:
-        if t in GAP_BEFORE:
-            y += GAP
-        ys[t] = y + ROW_H / 2
-        y += ROW_H
-        if t in GAP_AFTER:
-            y += GAP
-    height = y + 4
+    n_head = 1 + max(len(head_lines(p)) for p in PROFILE_ORDER)
+    y_rows = n_head * HEAD_LINE + 14
+    ys = {t: y_rows + (i + 0.5) * ROW_H for i, t in enumerate(order)}
+    height = y_rows + len(order) * ROW_H + 4
+    # the stage bands: a faint fill on alternate stages, the name at the left
+    for st in sorted(set(stage_of.values())):
+        rows = [t for t in order if stage_of[t] == st]
+        y0, y1 = ys[rows[0]] - ROW_H / 2, ys[rows[-1]] + ROW_H / 2
+        if st % 2:
+            svg.add(f'<rect x="0" y="{y0:.1f}" width="{COL0 + 3.5 * COL_W:.1f}" height="{y1 - y0:.1f}" fill="{BAND}"/>')
+        svg.text(STAGE_X, (y0 + y1) / 2 + 5.5, stage_name[st], "sm", anchor="start")
 
     counts = {}
     for k, p in enumerate(PROFILE_ORDER):
         cx = COL0 + k * COL_W
         flows = prof[p][0]
-        # codes on one top line, Table 4.1's words, sizes on one bottom line
-        lines = head_lines(p)
-        yb = y_rows - 14
-        svg.text(cx, yb, f"{len(flows)} attack flows", "sm")
-        svg.text(cx, yb - (n_head - 1) * HEAD_LINE, code(p), raw=True)
-        for i, ln in enumerate(lines):
-            svg.text(cx, yb - (n_head - 2 - i) * HEAD_LINE, ln)
+        # the code, then Table 4.1's words; the sizes are Table 4.1's, not repeated
+        yb = y_rows - 12
+        svg.text(cx, yb - HEAD_LINE, code(p), raw=True)
+        svg.text(cx, yb, head_lines(p)[0])
         for t in order:
             c = reach(gap, flows, t)
             counts[(p, t)] = (c, len(flows))
@@ -154,17 +158,15 @@ def emit(gap, axis, prof):
     for t in order:
         svg.text(NAME_R, ys[t] + 6, axis.label[t].capitalize(), anchor="end")
 
-    # the key, under the columns: the scale is continuous; five anchors
+    # the key, under the columns: five discs labelled at the ends only
     mid = COL0 + 1.5 * COL_W
-    ky = height + 26
-    svg.text(mid, ky, "Share of the attack profile's attack flows that reach the tactic:", "sm")
-    words = [w for _, w in KEY]
-    widths = [2 * R + 10 + 7.6 * len(w) for w in words]      # ring, gap, word (15.5 px Nimbus ~ 7.6 px a letter)
-    x = mid - (sum(widths) + 26 * (len(KEY) - 1)) / 2
-    for (share, word), w in zip(KEY, widths):
-        svg.cell(x + R, ky + 30, share)
-        svg.text(x + 2 * R + 10, ky + 35.5, word, "sm", anchor="start")
-        x += w + 26
+    ky = height - 8                    # no title: the caption says what the disc is
+    pitch = 2 * R + 14
+    x0 = mid - (len(KEY) - 1) * pitch / 2
+    for i, share in enumerate(KEY):
+        svg.cell(x0 + i * pitch, ky + 30, share)
+    svg.text(x0 - R - 10, ky + 35.5, "none", "sm", anchor="end")
+    svg.text(x0 + (len(KEY) - 1) * pitch + R + 10, ky + 35.5, "all", "sm", anchor="start")
     height = ky + 30 + R + 4
 
     h_cm = WIDTH_CM * height / PX
@@ -221,7 +223,7 @@ def main() -> None:
 
     print("--- facts (read from the artefacts; the caption and prose may quote them) ---")
     print("tactic".ljust(22) + "".join(f"c{k + 1}".rjust(8) for k in range(4)))
-    for t in axis.matrix_order:
+    for t in axis.stage_grouped_order(load_stages()[0]):
         print(t.ljust(22) + "".join(f"{counts[(p, t)][0]}/{counts[(p, t)][1]}".rjust(8) for p in PROFILE_ORDER))
     print(f"size / type: {WIDTH_CM} x {h_cm:.2f} cm; smallest type {floor:.2f} pt nominal")
 
