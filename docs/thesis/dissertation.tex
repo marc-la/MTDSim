@@ -188,7 +188,7 @@ commonly test it against simplified attackers that follow a fixed
 sequence of steps. MTD evaluated only against a simplified
 attacker gives little confidence against a long, staged campaign. This
 work builds an attacker model from published reports of real intrusion
-campaigns, with profiles distinguished by operational objective. An
+campaigns, with profiles distinguished by objective. An
 existing MTD simulator is then run under identical conditions, once with
 its own simplified attacker and once with the new model. Preliminary
 results show that IP shuffling and topology shuffling do the most to
@@ -389,7 +389,7 @@ We recover the behaviour of APT attackers from cyber threat intelligence
 publish on attacks they have investigated. Our source is 38 attack flows,
 graphs of an attack's steps that analysts drew by hand from CTI reports
 \citep{ctid2025attackflow}. We aggregate the 38 attack flows into one
-graph, then split it into attack profiles by operational objective, such
+graph, then split it into attack profiles by objective, such
 as stealing data. Each attack profile records the steps taken by
 attackers with that objective, and how often each step led to the next.
 We execute each profile in MTDSim, an existing MTD simulator
@@ -3928,36 +3928,81 @@ the pre-intrusion overlay.
 \section{Attack profiles by objective}
 \label{sec:attack-profiles}
 
-% ---- Pass 5b, 2026-08-17: Marc's further cuts applied --- the "idea to
-% ---- capture" opener, the numbers clause, the second concession, the
-% ---- skeleton close all gone; the concession reparented to P4 as his one
-% ---- confidence sentence; the operator point as his one characteristic
-% ---- sentence + the Conti example. Deletions + his dictated sentences only.
+% [§4.2 REDRAFT, Marc 2026-10-04: "I cannot decipher it"; the examiner's
+%  questions are why split, what are the four, why four (not more, not
+%  fewer), where positioning went, how the profiles differ. One purpose per
+%  paragraph: why split; the four attack profiles; why the sources decide;
+%  what the profiles change. RULED that day: plain "objective" (3.1.1's
+%  definition); the profiles are $c_1$ to $c_4$ only, defined once in
+%  Table 4.1 ("double extortion" and the other names CUT: the Mac crypto
+%  stealer is not double extortion, and a name is one more term); the
+%  motivation paragraph CUT (nobody has asked; App. B.3 row 1 keeps it); the
+%  Wizard Spider check CUT (the ATT&CK group page was one of the sources the
+%  classification read, so groups landing in one profile is partly by
+%  construction). "Four after one attack flow per APT group" CUT here:
+%  Section 4.3 states the rule where it applies. Checked: the 19/7/7/5 split
+%  and the three adjudicated flows from data/gasp/metadata_audit.csv; 19/38
+%  and 14 from Table B.3 (tools/gasp_partition_candidates.py); the reach
+%  counts in paragraph 4 from data/gap/gap_v0.5.json under the audit
+%  classes (execution 13/19, 7/7, 7/7, 5/5; stealth 16/19, 5/7, 5/7, 4/5;
+%  command and control 17/19, 6/7, 5/7, 4/5; collection 14/19, 1/7, 1/7,
+%  2/5; c3 reaches exfiltration in 3/7); positioning never entering
+%  stages 4--5 from docs/sources/extractions/alshamrani2019.md. Paragraph 4
+%  is written for the bar-chart Figure 4.3 (mock shown to Marc, ruling
+%  open). Prior text in git (39544a76). DRAFT STATE --- ratify on read.]
+APT attackers with different objectives act differently after the
+foothold (Section~\ref{subsec:apt}), so one model of the whole attack
+graph would mix their behaviour. We therefore split the attack graph into
+four attack profiles by objective, $c_1$ to $c_4$. Each attack profile is
+the attack graph built, as in Section~\ref{sec:technique-graph}, from the
+attack flows of one objective.
 
-% [CH4 SCRUTINY 2026-10-02, ledger S2, B1--B5, X1, C1, C2, applied on Marc's
-%  accept-all. S2: the partition leads. B1: "We cannot produce an APT attacker
-%  model that could be considered behavioural" said the opposite of its point.
-%  C1: binds ch3 3.1.3's "attack profile" (one recovered order) to this
-%  section's (the flows of one objective). C2: joins ch3 3.1.1's objectives.
-%  X1: the classifier is the STATED OBJECTIVE (Table B.3 adopts it and dismisses
-%  the terminal tactic, which disagrees on 19 of 38, 14 of them because the
-%  report stops before the objective); the old text described the dismissed
-%  scheme. B4: c4 runs on four flows after one flow per operator (dedup.py).
-%  Prior text in git (3f6b4f8c). DRAFT STATE --- ratify on read.]
-APT attackers differ by objective, and the objective shapes their
-behaviour \citep{alshamrani2019}; one model of the whole attack graph would
-mix them. We therefore partition the attack graph into four attack
-profiles, each the attack graph restricted to the attack flows of one objective:
-the attack profile of Section~\ref{subsec:profiling}, recovered from many
-attack flows rather than one. From here on they are referred to by index:
-$c_1$, the exfiltration objective (19 attack flows); $c_2$, the impact objective
-(7); $c_3$, double extortion, which we define as containing both impact
-and exfiltration in the same attack flow (7); and $c_4$, no realised
-objective (5, four after one attack flow per APT group,
-Section~\ref{sec:petri-formalism}). Exfiltration and impact are two of the
-objectives of Section~\ref{subsec:apt}: ATT\&CK records the impediment of
-mission-critical components under its Impact tactic. Six other partitions
-were considered and dismissed (Appendix~\ref{app:rejected-partitions}).
+The objectives are those of Section~\ref{subsec:apt}: data exfiltration,
+impediment of mission-critical components, and positioning for future
+operations. ATT\&CK records data exfiltration as its exfiltration tactic,
+and impediment under its impact tactic, which also covers hijacking the
+victim's computing resources \citep{mitre2026attackv19}. Positioning has no
+tactic of its own: the attacker stays in the network and never moves on to
+exfiltration or impediment \citep{alshamrani2019}. For each attack flow,
+we read its CTID description and, where that did not settle the
+objective, the ATT\&CK group page and the cited report. We recorded
+whether the attacker reached exfiltration, impact, both or neither
+(Table~\ref{tab:attack-profiles}). Both and neither are attack profiles of
+their own, because each attack flow belongs to one attack profile only:
+seven attack flows reached both, mostly ransomware that stole data and
+encrypted it, and counting them in two attack profiles would weigh them
+twice. An attacker positioning for future operations and one evicted
+before its objective look alike in CTI, so $c_4$ holds both.
+
+\begin{table}[ht]
+  \centering
+  % [ht]: at [t] it floated above the section heading of 4.2.
+  \caption[The four attack profiles]{The four attack profiles.}
+  \label{tab:attack-profiles}
+  \tablestyle
+  \begin{tabular}{@{}llrl@{}}
+    \toprule
+    Attack profile & The attacker reached & Attack flows & Example \\
+    \midrule
+    $c_1$ & exfiltration & 19 & SolarWinds \\
+    $c_2$ & impact & 7 & NotPetya \\
+    $c_3$ & exfiltration and impact & 7 & Conti Ransomware \\
+    $c_4$ & neither & 5 & Hancitor DLL \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+The classification reads the sources rather than the attack flow, because
+an attack flow draws only what its report describes. The last tactic of an
+attack flow disagrees with its sources on 19 of the 38 attack flows; on 14
+of them, the attack flow stops before the objective its sources report
+(Appendix~\ref{app:rejected-partitions}). Ransomware reports, for one,
+rarely describe the theft of data: three of the seven attack flows of
+$c_3$ reach exfiltration (Figure~\ref{fig:attack-profiles}). The sources
+left three attack flows open, and we classified them from the cited report
+(Appendix~\ref{app:classification-audit}). Finer partitions, by motivation
+or by APT group, leave most attack flows unclassified
+(Appendix~\ref{app:rejected-partitions}).
 
 % FIGURE (2026-09-25): the section 4.2 zoom of Figure 4.1's second arrow
 % (E8 handoff, Part C). Generated by tools/ch4_attack_profiles_figure.py (SVG,
@@ -3965,6 +4010,11 @@ were considered and dismissed (Appendix~\ref{app:rejected-partitions}).
 % profiles as tactic-by-tactic grids (the attack graph itself closes Figure 4.2), each drawing only the edges its own
 % flows drew; the build fails if a panel drifts from its Petri net's
 % flow-backed transitions. Three scrutiny rounds, clean.
+% [2026-10-04, Marc: "decoration ... I don't know what the blue columning
+%  does ... the from and to I didn't even realise". PROPOSED: four bar charts,
+%  one per attack profile, the share of its attack flows reaching each tactic
+%  (Wilke 2019, sec. 6.2 and 17.3: length over area, small multiples over
+%  grouped bars); these grids move to Appendix B. Ruling open.]
 % CAPTION: DRAFT STATE --- session stand-in, Marc's to rewrite.
 \begin{figure}[t]
   \centering
@@ -3975,43 +4025,17 @@ were considered and dismissed (Appendix~\ref{app:rejected-partitions}).
   \label{fig:attack-profiles}
 \end{figure}
 
-Motivation is an analyst inference; what an APT attacker did is recorded.
-Although motivation is a taxonomy built into the Structured Threat
-Information Expression (STIX) and well defined, it is left unpopulated in
-the ATT\&CK STIX data set, in ATT\&CK groups and in Attack Flow. Objective
-then becomes what the attacker has been observed to have done, and this is
-evident through the attack flows that the analysts drew.
-
-Following Alshamrani et al.~\citep{alshamrani2019}, we treat the tactics
-before the objective as common to all APT attackers, and classify each
-attack flow by the objective its sources state: the CTID description, the
-ATT\&CK group page and vendor reports. The terminal tactic, the last tactic
-an attack flow reaches, disagrees with the stated objective on 19 of the 38 attack flows,
-14 of them because the report stops before the objective is reached
-(Appendix~\ref{app:classification-audit}).
-
-They are not four disjoint graphs, because they come from the same
-attack graph.
-They differ by what edges exist (Figure~\ref{fig:attack-profiles}). Attack flows
-from the same APT group, where there are several, tend to go to
-the same attack profile, which is consistent with a stable objective per
-group: three of the seven attack flows in the double extortion profile come from
-Wizard Spider, the group behind Conti ransomware, which is known for double
-extortion.
-% [CUT per ruling: "The idea is to capture ..." (fluff); the numbers
-%      clause ": the four profiles share twelve tactics, and what
-%      distinguishes them is the objective tactic ..." (not yours); the
-%      skeleton close paragraph.]
-% [TRANSPLANTED, repaired: "As a characteristic of the flows ... single-
-%      digit number of APT groups" from your ruling.]
-% [ONE FLAG, then dropped: the cut clause was the record's verified "what
-%      distinguishes them" (the objective tactic; tactic_profile_statistics
-%      8). "They differ by what transitions exist" is now the unit's only
-%      structural statement of what L2 hands L3. Reinstate in your words or
-%      leave --- your call, not re-raised.]
-% [APPLIED: "As a characteristic ... single-digit number of APT groups"
-%      cut; the Granted sentence re-dictated (APT group; objective attack
-%      profile).]
+The four attack profiles share most tactics and differ at the objective
+(Figure~\ref{fig:attack-profiles}). Execution, stealth and command and
+control appear in most attack flows of every attack profile. Exfiltration
+and impact separate them, and so does collection, the gathering of data
+before exfiltration: it appears in 14 of the 19 attack flows of $c_1$, and
+in one attack flow of each attack profile with impact. Each attack profile
+becomes its own Petri net (Section~\ref{sec:petri-formalism}), which
+chooses the attacker's next tactic only among the edges its attack flows
+drew, so the attacker's choices depend on its objective.
+Section~\ref{subsec:ablation-attack-profiles} tests whether the partition
+changes the results.
 
 % 1 unit (L3). The formalism, the alternatives ranked in a sentence each
 % (a feasibility study sits behind the choice; single-token walk over
