@@ -4026,17 +4026,26 @@ the pre-intrusion overlay.
 %  read.]
 APT attackers with different objectives act differently after the foothold
 (Section~\ref{subsec:apt}). The attack graph of
+% [ROUND 6, 2026-10-04, clarity pass (Marc: "90% of the way there"): "class"
+%  and "in the same way" CUT (extraneous terms); an attack profile is said as
+%  what it is, a subgraph of the attack graph with its own weights; P2 leads
+%  with the three objectives and says why positioning gets no question (it has
+%  no action of its own); P3 says the routine once and the three decisions
+%  once; "not a reliable answer" (rhetorical) -> what the attack flow lacks;
+%  "turns ... into" -> formalises; "removes the split" -> ablates. DRAFT STATE.]
 Section~\ref{sec:technique-graph} is built from all 38 attack flows, so it
 averages the behaviour of attackers with different objectives. We therefore
-classify the attack flows by objective and build an attack graph from each
-class in the same way: the four attack profiles, $c_1$ to $c_4$.
+split it by objective into four attack profiles, $c_1$ to $c_4$. Each attack
+profile is a subgraph of the attack graph: the edges its attack flows draw,
+weighted by those attack flows alone.
 
-Two of the three objectives of Section~\ref{subsec:apt} end in actions on
-objectives: the attacker steals data, or it impedes the victim's systems by
-encrypting, destroying or hijacking them. The third, positioning for future
-operations, never reaches that stage (Section~\ref{subsec:apt}). We
-therefore asked two questions of each attack flow: did the attacker steal
-data, and did it impede the victim's systems? Their yes-or-no answers give
+Section~\ref{subsec:apt} gives three objectives. Data exfiltration and
+impediment each have an action in actions on objectives: the attacker steals
+data, or it impedes the victim's systems by encrypting, destroying or
+hijacking them. Positioning for future operations has no action of its own,
+because the attacker stays in post-intrusion operations. We therefore asked
+two questions of each attack flow: did the attacker steal data, and did it
+impede the victim's systems? Their yes-or-no answers give
 the four attack profiles of Table~\ref{tab:attack-profiles}. An attack flow
 that did both belongs to $c_3$ alone, so no edge weight counts it twice.
 Six of the seven attack flows of $c_3$ are ransomware that stole data and
@@ -4063,12 +4072,13 @@ campaign.
   \end{tabular}
 \end{table}
 
-We answered both questions from the CTID description of each attack flow,
-together with its ATT\&CK group page or the threat report it cites. For
-three attack flows these left an answer open, and we decided it from the
-threat report (Appendix~\ref{app:classification-audit}). The attack flow
-itself is not a reliable answer, because its analyst drew only the steps its
-report describes, so it can stop short of the objective. Only 10 of the 19
+We answered both questions from the CTID description of each attack flow
+and, where that was not enough, its ATT\&CK group page or the threat report
+it cites. Three attack flows stayed open after these sources, and we decided
+them ourselves (Appendix~\ref{app:classification-audit}). We did not read the
+answers off the attack flow, because its analyst drew only the steps the
+threat report describes, and these can stop short of the objective. Only 10
+of the 19
 attack flows of $c_1$ reach the exfiltration tactic, although the sources of
 all 19 report the theft (Figure~\ref{fig:attack-profiles}).
 
@@ -4110,13 +4120,14 @@ of $c_2$ or $c_4$ reaches exfiltration, and none of $c_4$ reaches impact.
 Collection, which neither question asks about, appears in 14 of the 19
 attack flows of $c_1$ but in only one each of $c_2$ and $c_3$.
 
-Section~\ref{sec:petri-formalism} turns each attack profile into its own
-Petri net, whose attacker chooses its next tactic only among the edges its
-attack flows drew. Two attack profiles that reach the same tactics can
+Section~\ref{sec:petri-formalism} formalises each attack profile as a Petri
+net, whose attacker chooses its next tactic only among the edges its attack
+flows drew. Two attack profiles that reach the same tactics can
 therefore move between them differently (Appendix~\ref{app:profile-edges}).
-Section~\ref{subsec:ablation-attack-profiles} removes the split: it runs the
-APT attacker model on the attack graph of Section~\ref{sec:technique-graph}
-and compares its results with those of the four attack profiles.
+Section~\ref{subsec:ablation-attack-profiles} ablates the split: it runs the
+APT attacker model on the whole attack graph of
+Section~\ref{sec:technique-graph} and compares the results with those of the
+four attack profiles.
 
 % 1 unit (L3). The formalism, the alternatives ranked in a sentence each
 % (a feasibility study sits behind the choice; single-token walk over
