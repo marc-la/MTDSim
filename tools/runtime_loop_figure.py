@@ -1,438 +1,304 @@
 #!/usr/bin/env python3
-"""Dissertation figure: the movement attacker's runtime loop (fig:runtime-loop,
-§4.4 Mechanics and the join to MTDSim).
+"""Dissertation figure: the headline of section 4.4 (fig:runtime-loop) --- the
+Petri net integrated with MTDSim, as boxes and the six numbered steps of one
+iteration of the loop.
 
-Restored 2026-09-08 as its own float on the supervisor's verdict (relayed by
-Marc; handoff docs/handoffs/2026-09-08_ch4_fig41_redesign.md): the loop had
-been folded into the chapter-opening ladder on 2026-09-05, where it was
-understood but too small. This is that lower half, inflated to the text
-width and drawn at \\footnotesize --- the drawing is the same, the scale is
-not. Three bands on one axis:
+Rebuilt 2026-10-04 (Marc: section 4.4 is the "integrate with MTDSim" arrow of
+Figure 4.1, enlarged, so it is drawn as a sub-model diagram in Figure 4.1's
+boxes; "the big point of this is the arrows and the numbering"). Replaces the
+TikZ drawing of 2026-09-08, whose three glyphs (dwell bars, mapping lines,
+matrix heat map) were thumbnails of floats the subsections already show, whose
+Petri-net fragment dropped the decision place and had no key, and whose
+colour carried no single meaning. Prior generator in git (c25d05a5).
 
-  MOVEMENT LAYER (built)     the net, as the fragment fig:pipeline draws at
-                             L3 (same window rule, imported from
-                             tools/pipeline_ladder_figure.py, so the two
-                             figures cannot drift apart): the token in a
-                             tactic-place, its timed dwell, the weighted
-                             routing out of it
-  CONTROLLER LAYER (built)   the three declared inputs as glyphs: dwell times
-                             and the exponential draw, the tactic-to-verb
-                             mapping, the failure matrix
-  ACTION LAYER (inherited)   attacker (with the vulnerability memory) / network / MTD, subdued
+The rules it keeps (as tools/ch4_overview_figure.py, its sibling):
 
-and the six numbered joins that trace one iteration: (1) tactic down,
-(2) drawn dwell time and (3) verb down into the action layer, (4) verdict
-up, splitting into a failure arm that enters the failure matrix and a
-success arm that bypasses the controller band on the right, (5) re-weighting
-up, (6) the token's next tactic on the net.
+  * three groups, one per band, top to bottom: the Petri net (section 4.3),
+    drawn in Figure 4.4's marks with a key; the three declared inputs as
+    boxes, named as the subsection headings name them, with the subsection
+    number (4.4.1 to 4.4.3), left to right in subsection order; MTDSim, its
+    three modules and icons as Figure 2.1 draws them (Attacker, Network, MTD,
+    in Figure 2.1's order, so every step drops straight into the Attacker),
+    with the vulnerability memory (4.4.4) inside the Attacker;
+  * one colour, one meaning, as Figure 4.1: a blue outline marks what this
+    dissertation builds; all text is ink; the token is ink, as in Figure 4.4;
+  * arrows: the loop's steps in ink, each with its number and one word;
+    MTDSim's own couplings in grey, as Figures 2.1 and 4.1;
+  * no data drawn: the boxes are named, not pictured; the subsections hold
+    the values.
 
-Every glyph is drawn from a tracked artefact --- the dwell catalogue, the
-controller mapping registry, the outcome-overlay rule set, the structural
-net --- and the tactic axis is checked against the pinned bundle. Nothing is
-typed. The pins a caption states are printed to stdout.
+The Petri net is the one Figure 4.4(b) draws: initial access in c1, with the
+three successors of largest base weight (read from the routing net, never
+typed). Step 6 is drawn on the first of them.
+
+Printed through Chromium like the other SVG figures (figure_table_conventions
+§(n)), at \\textwidth.
 
 Usage:
   PYTHONPATH=src python tools/runtime_loop_figure.py
-      [--mapping v2_partial] [--overlay-version v4_failure_only] [--no-compile]
-
-Style: TikZ at the document's 12 pt base, house figure sans, greys carry the
-structure, one accent marks what this thesis builds. Packed to 16 cm and
-included at natural size. Written to docs/thesis/figures/fig_4-4c_runtime_loop.tex
-(+ .pdf unless --no-compile).
+      [--out-dir DIR] [--stem STEM] [--png] [--no-pdf]
 """
 from __future__ import annotations
 
 import argparse
-import csv
-import json
-import math
-import subprocess
 import sys
 from pathlib import Path
 
 REPO = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(REPO / "src"))
 sys.path.insert(0, str(REPO / "tools"))
-
 from _tactic_axis import load_axis  # noqa: E402
-from pipeline_ladder_figure import (  # noqa: E402
-    PROFILE_LABEL, PROFILE_ORDER, load_classes, load_gap, load_net, net_window,
+from ch4_overview_figure import (  # noqa: E402  one style, one icon set, one type scale
+    ACCENT, FACE_SCALE, FLOOR_PT, ICONS, INK, INK2, PX, STYLE, SVG, WIDTH_CM,
 )
-from mtdsim.l3_simulation.controller.outcome import load_overlay_registry  # noqa: E402
-from mtdsim.l3_simulation.controller.rules import (  # noqa: E402
-    compile_pair,
-    load_rule_set,
-    spec_from_registry_entry,
-)
+from mtdsim.l3_simulation.movement.net import load_routing_net  # noqa: E402
 
-DURATIONS_JSON = REPO / "data" / "ogasp" / "tactic_durations.json"
-MAPPING_DIR = REPO / "data" / "ogasp" / "controller" / "mappings"
 OUT_DIR = REPO / "docs" / "thesis" / "figures"
 STEM = "fig_4-4c_runtime_loop"
+PROFILE, PLACE, N_SUCC = "objective_exfiltration", "initial-access", 3
 
-# --- geometry (cm) ---------------------------------------------------------
-WIDTH = 16.0
-ROT_X = 0.20            # x of the rotated band labels
-GUT_R = 1.75            # right edge of the L3 / L4 labels
-BAND_L = 1.95           # left edge of the content bands
-BAND_R = 15.12          # right edge (the success bypass runs outside it)
-PAD = 0.22
-
-H_MOVE = 3.05           # the net fragment
-H_JOIN = 1.45           # a between-band join
-H_CTRL = 3.95           # the controller band
-H_ACT = 1.95            # the action band
-
-ACCENT = "accent"
-F = r"\footnotesize"    # 10 pt at natural size; the floor is 8 pt
-
-
-# ---------------------------------------------------------------- loading --
-def load_durations() -> dict[str, float]:
-    doc = json.loads(DURATIONS_JSON.read_text())
-    return {k: float(v["duration_s"]) for k, v in doc["tactics"].items()}
+EXTRA_STYLE = f"""
+  .arc    {{ stroke:{INK2}; stroke-width:1.6; fill:none; }}
+  .arcOn  {{ stroke:{INK}; stroke-width:2.4; fill:none; }}
+  .pl     {{ fill:#fff; stroke:{INK}; stroke-width:1.8; }}
+  .dpl    {{ fill:#fff; stroke:{INK}; stroke-width:1.8; stroke-dasharray:4 3; }}
+  .timed  {{ fill:#fff; stroke:{INK}; stroke-width:1.8; }}
+  .imm    {{ fill:{INK}; stroke:none; }}
+  .tok    {{ fill:{INK}; stroke:none; }}
+  .step   {{ stroke:{INK}; stroke-width:2; fill:none; }}
+  .badge  {{ fill:#fff; stroke:{INK}; stroke-width:1.5; }}
+  .bnum   {{ font-size:15.5px; font-weight:bold; fill:{INK}; }}
+  .dot    {{ fill:{INK}; stroke:none; }}
+"""
 
 
-def load_mapping(version: str) -> tuple[dict[str, str | None], list[str]]:
-    rows = list(csv.DictReader((MAPPING_DIR / f"{version}.csv").open(encoding="utf-8")))
-    mapping: dict[str, str | None] = {}
-    verbs: list[str] = []
-    for r in rows:
-        verb = (r["sim_phase"] or "").strip()
-        disp = r["disposition"].strip()
-        if not verb and disp != "dwell-only":
-            raise SystemExit(f"{version}: {r['tactic']} is silent without a dwell-only "
-                             "disposition -- the registry invariant is broken")
-        mapping[r["tactic"]] = verb or None
-        if verb and verb not in verbs:
-            verbs.append(verb)
-    return mapping, verbs
+def badge(svg: SVG, x: float, y: float, n: int) -> None:
+    """A step number: a circled numeral, big enough to be found."""
+    svg.add(f'<circle class="badge" cx="{x:.1f}" cy="{y:.1f}" r="12"/>')
+    svg.sizes.append(15.5)
+    svg.add(f'<text class="bnum" x="{x:.1f}" y="{y + 5.5:.1f}" text-anchor="middle">{n}</text>')
 
 
-def failure_cells(order: list[str], version: str):
-    rs = load_rule_set()
-    reg = load_overlay_registry()
-    try:
-        entry = next(v for v in reg.versions if v.name == version)
-    except StopIteration:
-        raise SystemExit(f"unknown overlay version {version!r}")
-    spec = spec_from_registry_entry(entry.spec)
-    out = {}
-    for a in order:
-        for b in order:
-            if a == b:
-                continue
-            out[(a, b)] = compile_pair(rs, "failure", a, b, spec)["v"]
-    return out, len(rs.order["failure"])
+def step_label(svg: SVG, x: float, y: float, n: int, words: str, side: str = "right") -> None:
+    """Badge plus its one word, beside an arrow; `side` is where the pair sits."""
+    if side == "right":
+        badge(svg, x + 12, y - 6, n)
+        svg.text(x + 30, y, words, "verb halo", anchor="start")
+    else:
+        svg.text(x - 30, y, words, "verb halo", anchor="end")
+        badge(svg, x - 12, y - 6, n)
 
 
-# ------------------------------------------------------------- primitives --
-def band(w, y_top, y_bot, colour, fill=None):
-    opt = f"draw={colour},line width=0.5pt,rounded corners=2pt"
-    if fill:
-        opt += f",fill={fill}"
-    w(r"\draw[%s] (%.3f,%.3f) rectangle (%.3f,%.3f);" % (opt, BAND_L, y_bot, BAND_R, y_top))
+def emit(succ: list[str]) -> tuple[str, float, float]:
+    svg = SVG()
+    X0, X1 = 8, 892
 
+    # ------------------------------------------------------------ Petri net
+    py0, py1 = 8, 226
+    svg.rect(X0, py0, X1, py1, "built", rx=7)
+    svg.text(X0 + 16, py0 + 28, "Petri net", "title", anchor="start")
+    svg.text(X0 + 108, py0 + 28, "§4.3", "xref", anchor="start")
 
-def rot_label(w, y_top, y_bot, text, colour):
-    w(r"\node[rotate=90,anchor=center,font=%s,text=%s] at (%.3f,%.3f) {%s};"
-      % (F, colour, ROT_X, (y_top + y_bot) / 2, text))
-
-
-def badge(w, x, y, n):
-    w(r"\node[circle,draw=black!60,fill=white,text=black!70,inner sep=0.6pt,minimum size=11pt,"
-      r"line width=0.4pt,font=%s] at (%.3f,%.3f) {%d};" % (F, x, y, n))
-
-
-# ------------------------------------------------------------------ bands --
-def emit(order, axis, net, win, durations, mapping, verbs, fmatrix, n_rules,
-         mapping_version, overlay_version) -> tuple[str, dict]:
-    idx = {t: i for i, t in enumerate(order)}
-    L: list[str] = []
-    w = L.append
-    w(r"\documentclass[tikz,12pt,border=2pt]{standalone}")
-    w(r"\usepackage[T1]{fontenc}")
-    w(r"\usepackage[scaled=0.92]{helvet}")
-    w(r"\renewcommand{\familydefault}{\sfdefault}")
-    w(r"\usetikzlibrary{arrows.meta,positioning,calc,decorations.pathreplacing}")
-    w(r"\definecolor{accent}{RGB}{31,84,140}")
-    w(r"\definecolor{accentlight}{RGB}{200,214,232}")
-    w(r"\begin{document}")
-    w(r"\begin{tikzpicture}[x=1cm,y=1cm,>={Stealth[length=1.8mm]},"
-      r" every node/.style={font=%s,inner sep=0pt}]" % F)
-    facts: dict[str, object] = {}
-
-    # ============================================== the movement layer band ==
-    y = 0.0
-    mv_top = y
-    # the net fragment: places on a readable pitch, names beneath
-    have = {(t["src_tactic"], t["dst_tactic"]) for t in net["transitions"]}
-    inner = [(a, b) for a in win for b in win if a != b and (a, b) in have]
-    R = 0.24
-    pitch = 2.75
-    fx = {t: BAND_L + 1.35 + k * pitch for k, t in enumerate(win)}
-    ys = mv_top - PAD - 1.12
-    tok = win[1]                       # the marking fig:pipeline's "after" state shows
-    T_DX, I_DX, I_P = R + 0.36, R + 0.84, 0.26
-    for k, t in enumerate(win):
-        x = fx[t]
-        live = (t == tok)
-        pc = "black" if live else "black!45"
-        outs = sorted((b for a, b in inner if a == t),
-                      key=lambda b: (idx[b] < idx[t], abs(idx[b] - idx[t])))
-        if outs:
-            tx = x + T_DX
-            w(r"\draw[%s,line width=0.5pt] (%.3f,%.3f) -- (%.3f,%.3f);" % (pc, x + R, ys, tx - 0.07, ys))
-            w(r"\draw[%s,fill=white,line width=%s] (%.3f,%.3f) rectangle (%.3f,%.3f);"
-              % (pc, "0.8pt" if live else "0.5pt", tx - 0.07, ys - 0.24, tx + 0.07, ys + 0.24))
-            n = len(outs)
-            for j, b in enumerate(outs):
-                iy = ys + (j - (n - 1) / 2) * I_P
-                ix = x + I_DX
-                hot = live and b == win[2]
-                colr = ACCENT if hot else ("black!70" if live else "black!28")
-                lw = "1.0pt" if hot else "0.5pt"
-                w(r"\draw[%s,line width=%s] (%.3f,%.3f) -- (%.3f,%.3f);" % (colr, lw, tx + 0.07, ys, ix - 0.05, iy))
-                w(r"\fill[%s] (%.3f,%.3f) rectangle (%.3f,%.3f);" % (colr, ix - 0.05, iy - 0.15, ix + 0.05, iy + 0.15))
-                fwd = idx[b] > idx[t]
-                x2 = fx[b] - R - 0.03 if fwd else fx[b] + R + 0.03
-                dist = abs(idx[b] - idx[t])
-                if fwd and dist == 1:
-                    w(r"\draw[->,%s,line width=%s] (%.3f,%.3f) -- (%.3f,%.3f);" % (colr, lw, ix + 0.05, iy, x2, ys))
-                else:
-                    lift = (0.50 + 0.22 * dist) if fwd else -(0.46 + 0.12 * dist)
-                    mid = (ix + x2) / 2
-                    w(r"\draw[->,%s,line width=%s] (%.3f,%.3f) .. controls (%.3f,%.3f) and (%.3f,%.3f) .. (%.3f,%.3f);"
-                      % (colr, lw, ix + 0.05, iy, ix + 0.05 + 0.3 * (x2 - ix), ys + lift,
-                         x2 - 0.3 * (x2 - ix), ys + lift, x2, ys))
-                if hot:   # the badge sits on the arrow itself; the caption decodes it
-                    badge(w, (ix + x2) / 2, ys, 6)
-        w(r"\draw[%s,fill=white,line width=%s] (%.3f,%.3f) circle (%.3f);"
-          % (pc, "0.8pt" if live else "0.5pt", x, ys, R))
-        w(r"\node[anchor=north,align=center,text=black!58] at (%.3f,%.3f) {%s};"
-          % (x, ys - R - 0.50, axis.label[t].replace(" ", r"\\", 1)))
-        if live:
-            w(r"\fill[%s] (%.3f,%.3f) circle (0.10);" % (ACCENT, x, ys))
-            cx_, cy_ = x + T_DX, ys + 0.62
-            w(r"\draw[black!60,line width=0.5pt] (%.3f,%.3f) circle (0.15);" % (cx_, cy_))
-            w(r"\draw[black!60,line width=0.5pt] (%.3f,%.3f) -- (%.3f,%.3f) -- (%.3f,%.3f);"
-              % (cx_, cy_ + 0.09, cx_, cy_, cx_ + 0.07, cy_))
-            w(r"\node[anchor=west,text=black!58] at (%.3f,%.3f) {dwell};" % (cx_ + 0.24, cy_))
-    y = mv_top - H_MOVE
-    w(r"\node[anchor=south east,align=right,text=black!58] at (%.3f,%.3f) {one Petri net, a fragment};"
-      % (BAND_R - 0.18, y + 0.14))
-    band(w, mv_top, y, "accent!45")
-    rot_label(w, mv_top, y, "Petri net", "accent")
-    mv_bot = y
-    facts["net"] = (len(net["places"]), len(net["transitions"]), win)
-
-    # ================================================== the two-way joins ==
-    x_a, x_b = BAND_L + 2.9, BAND_R - 2.9
-    y_ctrl_top = mv_bot - H_JOIN
-    jm = (mv_bot + y_ctrl_top) / 2
-    w(r"\draw[->,accent!70,line width=0.9pt] (%.3f,%.3f) -- (%.3f,%.3f);" % (x_a, mv_bot - 0.08, x_a, y_ctrl_top + 0.08))
-    w(r"\node[anchor=east,text=accent] at (%.3f,%.3f) {tactic};" % (x_a - 0.14, jm))
-    badge(w, x_a + 0.34, jm, 1)
-    w(r"\draw[->,accent!70,line width=0.9pt] (%.3f,%.3f) -- (%.3f,%.3f);" % (x_b, y_ctrl_top + 0.08, x_b, mv_bot - 0.08))
-    w(r"\node[anchor=west,text=accent] at (%.3f,%.3f) {re-weighting};" % (x_b + 0.14, jm))
-    badge(w, x_b - 0.34, jm, 5)
-
-    # ============================================== the controller layer ==
-    y = y_ctrl_top
-    ctrl_top = y
-    cell_w = (BAND_R - BAND_L - 1.0) / 3
-    cx = [BAND_L + 0.5 + cell_w * (i + 0.5) for i in range(3)]
-    head_y = y - 0.38
-    body_top = y - 0.80
-    body_bot = ctrl_top - H_CTRL + 0.36
-    for i in (1, 2):
-        sx = BAND_L + 0.5 + cell_w * i
-        w(r"\draw[black!22,line width=0.4pt] (%.3f,%.3f) -- (%.3f,%.3f);" % (sx, ctrl_top - 0.2, sx, ctrl_top - H_CTRL + 0.18))
-
-    # (i) dwell times + the exponential draw
-    w(r"\node at (%.3f,%.3f) {Dwell times};" % (cx[0], head_y))
-    bar_x0 = cx[0] - cell_w / 2 + 0.36
-    bar_max = 1.70
-    dmax = max(durations.values())
-    bpitch = (body_top - body_bot) / (len(order) - 1)
-    for i, t in enumerate(order):
-        by = body_top - i * bpitch
-        ln = bar_max * durations[t] / dmax
-        w(r"\draw[black!45,line width=0.25pt] (%.3f,%.3f) -- (%.3f,%.3f);" % (bar_x0, by, bar_x0 + bar_max, by))
-        if ln > 0:
-            w(r"\draw[black!68,line width=1.3pt] (%.3f,%.3f) -- (%.3f,%.3f);" % (bar_x0, by, bar_x0 + ln, by))
-    ex_x0 = bar_x0 + bar_max + 0.55
-    ex_w, ex_h = 1.20, (body_top - body_bot) - 0.62
-    ey0 = body_bot + 0.62
-    w(r"\draw[black!30,line width=0.35pt] (%.3f,%.3f) -- (%.3f,%.3f) -- (%.3f,%.3f);"
-      % (ex_x0, ey0 + ex_h, ex_x0, ey0, ex_x0 + ex_w, ey0))
-    pts = ["(%.3f,%.3f)" % (ex_x0 + (k / 30) * ex_w, ey0 + ex_h * math.exp(-3.1 * k / 30)) for k in range(31)]
-    w(r"\draw[black!70,line width=0.7pt] " + " -- ".join(pts) + ";")
-    w(r"\draw[->,black!45,line width=0.45pt] (%.3f,%.3f) -- (%.3f,%.3f);"
-      % (bar_x0 + bar_max + 0.12, (body_top + body_bot) / 2, ex_x0 - 0.12, (body_top + body_bot) / 2))
-    w(r"\node[anchor=north,align=center,text=black!58] at (%.3f,%.3f) {exponential\\draw};" % (ex_x0 + ex_w / 2, ey0 - 0.08))
-
-    # (ii) the tactic-to-verb mapping (horizontal: tactics above, verbs below)
-    w(r"\node at (%.3f,%.3f) {Tactic-to-action mapping};" % (cx[1], head_y))
-    row_l, row_r = cx[1] - 0.80, cx[1] + 1.75
-    ty_row, vy_row = body_top - 0.16, body_bot + 0.16
-    tp = (row_r - row_l) / (len(order) - 1)
-    tx = {t: row_l + i * tp for i, t in enumerate(order)}
-    vp = (row_r - row_l) / max(len(verbs) - 1, 1)
-    vx = {v: row_l + i * vp for i, v in enumerate(verbs)}
-    for t in order:
-        v = mapping.get(t)
-        if v:
-            w(r"\draw[black!45,line width=0.35pt] (%.3f,%.3f) -- (%.3f,%.3f);" % (tx[t], ty_row, vx[v], vy_row))
-    for t in order:
-        if mapping.get(t):
-            w(r"\fill[black!68] (%.3f,%.3f) circle (1.1pt);" % (tx[t], ty_row))
+    # the key, Figure 4.4's marks and words, down the band's left edge
+    kx, ky = 40, py0 + 62
+    key = (("pl", "place"), ("dpl", "decision place"), ("timed", "timed transition"),
+           ("imm", "immediate transition"), ("tok", "token"))
+    for k, (cls, words) in enumerate(key):
+        y = ky + 27 * k
+        if cls in ("pl", "dpl"):
+            svg.add(f'<circle class="{cls}" cx="{kx}" cy="{y}" r="9"/>')
+        elif cls == "timed":
+            svg.add(f'<rect class="timed" x="{kx - 4}" y="{y - 10}" width="8" height="20"/>')
+        elif cls == "imm":
+            svg.add(f'<rect class="imm" x="{kx - 2.5}" y="{y - 10}" width="5" height="20"/>')
         else:
-            w(r"\draw[black!42,line width=0.4pt] (%.3f,%.3f) circle (1.1pt);" % (tx[t], ty_row))
-    for v in verbs:
-        w(r"\fill[black!68] (%.3f,%.3f) circle (1.4pt);" % (vx[v], vy_row))
-    w(r"\node[anchor=east,text=black!58] at (%.3f,%.3f) {tactics};" % (row_l - 0.20, ty_row))
-    w(r"\node[anchor=east,align=right,text=black!58] at (%.3f,%.3f) {attack\\actions};" % (row_l - 0.20, vy_row))
-    n_mapped = sum(1 for t in order if mapping.get(t))
-    facts["mapping"] = (mapping_version, n_mapped, len(order) - n_mapped, len(verbs))
+            svg.add(f'<circle class="tok" cx="{kx}" cy="{y}" r="5"/>')
+        svg.text(kx + 20, y + 5.5, words, "sm", anchor="start")
 
-    # (iii) the failure matrix
-    w(r"\node at (%.3f,%.3f) {Failure matrix};" % (cx[2], head_y))
-    side = min(1.75, body_top - body_bot)
-    cs = side / len(order)
-    mx0 = cx[2] - side / 2
-    my0 = body_top - (body_top - body_bot - side) / 2
-    for i, a in enumerate(order):
-        for j, b in enumerate(order):
-            if a == b:
-                w(r"\fill[black!8] (%.3f,%.3f) rectangle (%.3f,%.3f);"
-                  % (mx0 + j * cs, my0 - i * cs - cs, mx0 + j * cs + cs, my0 - i * cs))
-                continue
-            v = fmatrix[(a, b)]
-            if v <= 0:
-                continue
-            lvl = int(round(6 + 68 * min(max(v, 0.0), 1.0)))
-            w(r"\fill[black!%d] (%.3f,%.3f) rectangle (%.3f,%.3f);"
-              % (lvl, mx0 + j * cs, my0 - i * cs - cs, mx0 + j * cs + cs, my0 - i * cs))
-    w(r"\draw[black!35,line width=0.35pt] (%.3f,%.3f) rectangle (%.3f,%.3f);" % (mx0, my0 - side, mx0 + side, my0))
-    facts["failure"] = (overlay_version, len(order), n_rules)
+    yc = 108                                   # the net's axis
+    xp, xt, xd, xb, xq = 300, 440, 590, 668, 714
+    rp, rq = 20, 16
+    ys = [yc - 52, yc, yc + 52]                # successor rows
+    # the token's place
+    svg.add(f'<circle class="pl" cx="{xp}" cy="{yc}" r="{rp}"/>')
+    svg.add(f'<circle class="tok" cx="{xp}" cy="{yc}" r="6"/>')
+    svg.text(xp, yc + rp + 22, "Initial access", "lbl")
+    # its timed transition and decision place
+    svg.add(f'<rect class="timed" x="{xt - 6}" y="{yc - 20}" width="12" height="40"/>')
+    svg.add(f'<circle class="dpl" cx="{xd}" cy="{yc}" r="18"/>')
+    svg.path(f"M{xp + rp + 2},{yc} H{xt - 9}", "arc", marker="mS")
+    svg.path(f"M{xt + 7},{yc} H{xd - 21}", "arc", marker="mS")
+    # immediate transitions and successor places; step 6 fires the first
+    for k, (y, name) in enumerate(zip(ys, succ)):
+        on = k == 0
+        cls, mk = ("arcOn", "mSk") if on else ("arc", "mS")
+        dx, dy = xb - 4 - xd, y - yc
+        L = (dx * dx + dy * dy) ** 0.5
+        sx, sy = xd + 18 * dx / L, yc + 18 * dy / L
+        svg.path(f"M{sx:.1f},{sy:.1f} L{xb - 6},{y}", cls, marker=mk)
+        svg.add(f'<rect class="imm" x="{xb - 3}" y="{y - 16}" width="6" height="32"/>')
+        svg.path(f"M{xb + 4},{y} H{xq - rq - 3}", cls, marker=mk)
+        svg.add(f'<circle class="pl" cx="{xq}" cy="{y}" r="{rq}"/>')
+        svg.text(xq + rq + 8, y + 6, name, "lbl", anchor="start")
+    badge(svg, (xd + xb) / 2 - 8, ys[0] + 6, 6)
 
-    y = ctrl_top - H_CTRL
-    band(w, ctrl_top, y, "accent!45")
-    rot_label(w, ctrl_top, y, "Integration", "accent")
-    ctrl_bot = y
+    # ------------------------------------------------------------ the three declared inputs
+    iy0, iy1 = 268, 348
+    boxes = {"dwell": (30, 250), "map": (290, 480), "fm": (640, 880)}
+    for key_, lines, sec in (("dwell", ["Tactic dwell times"], "§4.4.1"),
+                             ("map", ["Tactic-to-action", "mapping"], "§4.4.2"),
+                             ("fm", ["Failure matrix"], "§4.4.3")):
+        x0, x1 = boxes[key_]
+        svg.rect(x0, iy0, x1, iy1, "nodeA")
+        cx = (x0 + x1) / 2
+        top = (iy0 + iy1) / 2 - 10 * len(lines) + (1 if len(lines) == 1 else 2)
+        for k, ln in enumerate(lines):
+            svg.text(cx, top + 21 * k, ln, "title")
+        svg.text(cx, top + 21 * len(lines) + 4, sec, "xref")
+    xdw = sum(boxes["dwell"]) / 2
+    xmp = sum(boxes["map"]) / 2
+    xfm = sum(boxes["fm"]) / 2
 
-    # ================================================== join to the action ==
-    y_act_top = ctrl_bot - H_JOIN
-    jm = (ctrl_bot + y_act_top) / 2
-    for n, x, text in ((2, cx[0], "drawn dwell time"), (3, cx[1], "attack action")):
-        w(r"\draw[->,black!55,line width=0.9pt] (%.3f,%.3f) -- (%.3f,%.3f);" % (x, ctrl_bot - 0.08, x, y_act_top + 0.08))
-        badge(w, x + 0.34, jm, n)
-        w(r"\node[anchor=west,text=black!58] at (%.3f,%.3f) {%s};" % (x + 0.62, jm, text))
-    xv = cx[2]
-    y_split = y_act_top + 0.50
-    w(r"\draw[->,black!55,line width=0.9pt] (%.3f,%.3f) -- (%.3f,%.3f);" % (xv, y_act_top + 0.08, xv, ctrl_bot - 0.08))
-    badge(w, xv - 0.34, y_act_top + 0.26, 4)
-    w(r"\node[anchor=east,text=black!58] at (%.3f,%.3f) {verdict};" % (xv - 0.62, y_act_top + 0.26))
-    w(r"\node[anchor=east,text=black!58] at (%.3f,%.3f) {failure};" % (xv - 0.14, ctrl_bot - 0.34))
-    # The success arm bypasses the controller band on the right, then turns
-    # back INTO the movement band and lands beside (5): on success the token
-    # routes on the base weights, so the arrow must reach the net, not stop
-    # at the band's corner (Marc, 2026-09-08: "make sure the success arrow
-    # is drawn and goes to the right place"). It re-enters below the
-    # "re-weighting" label so the two never cross.
-    byp_x = BAND_R + 0.36
-    x_s = BAND_R - 0.45
-    y_land = ctrl_top + 0.30
-    w(r"\draw[->,black!55,line width=0.9pt,rounded corners=3pt] (%.3f,%.3f) -- (%.3f,%.3f) -- (%.3f,%.3f) -- (%.3f,%.3f) -- (%.3f,%.3f);"
-      % (xv, y_split, byp_x, y_split, byp_x, y_land, x_s, y_land, x_s, mv_bot - 0.08))
-    w(r"\node[rotate=90,anchor=center,text=black!58] at (%.3f,%.3f) {success};" % (byp_x + 0.26, (y_split + y_land) / 2))
+    # step 1: the tactic leaves the Petri net, to both boxes that read it
+    fy = 246
+    svg.path(f"M{xp},{yc + rp + 32} V{fy}", "step", marker="")
+    svg.add(f'<path class="step" d="M{xdw},{fy} H{xmp}"/>')
+    svg.add(f'<circle class="dot" cx="{xp}" cy="{fy}" r="3.5"/>')
+    for x in (xdw, xmp):
+        svg.path(f"M{x},{fy} V{iy0 - 3}", "step", marker="mI")
+    step_label(svg, xp, 200, 1, "tactic")
 
-    # ===================================================== the action layer ==
-    act_top = y_act_top
-    band(w, act_top, act_top - H_ACT, "black!22", "black!4")
-    rot_label(w, act_top, act_top - H_ACT, "MTDSim", "black!55")
-    # "MTD", not "Defender": Figure 2.1's module name since 2026-09-30 (registry
-    # row 73). The vulnerability memory sits in the attacker's exploit action,
-    # not in the join (ch4 scrutiny 2026-10-02, F5; OWED 2026-09-28).
-    boxes = ["Attacker", "Network", "MTD"]
-    bw = 3.2
-    bxs = [BAND_L + 0.7 + bw / 2, (BAND_L + BAND_R) / 2, BAND_R - 0.7 - bw / 2]
-    by_c = act_top - H_ACT / 2 - 0.12
-    for title, bx in zip(boxes, bxs):
-        w(r"\draw[black!38,fill=white,line width=0.5pt,rounded corners=1.6pt] (%.3f,%.3f) rectangle (%.3f,%.3f);"
-          % (bx - bw / 2, by_c - 0.40, bx + bw / 2, by_c + 0.40))
-        if title == "Attacker":
-            w(r"\node[align=center] at (%.3f,%.3f) {Attacker\\[-2pt]{\scriptsize\color{accent}+ vulnerability memory}};" % (bx, by_c))
-        else:
-            w(r"\node at (%.3f,%.3f) {%s};" % (bx, by_c, title))
-    for i in (0, 2):
-        x1 = bxs[i] + (bw / 2 if i == 0 else -bw / 2)
-        x2 = bxs[1] + (-bw / 2 if i == 0 else bw / 2)
-        w(r"\draw[<->,black!45,line width=0.55pt] (%.3f,%.3f) -- (%.3f,%.3f);"
-          % (x1 + 0.06 * (1 if i == 0 else -1), by_c, x2 + 0.06 * (-1 if i == 0 else 1), by_c))
-    w(r"\node[anchor=north,text=black!50] at (%.3f,%.3f) {inherited from MTDSim};" % ((BAND_L + BAND_R) / 2, act_top - 0.08))
-    act_bot = act_top - H_ACT
+    # ------------------------------------------------------------ MTDSim
+    my0, my1 = 424, 632
+    svg.rect(X0, my0, X1, my1, "used", rx=7)
+    svg.text(X0 + 16, my0 + 28, "MTDSim", "title", anchor="start")
+    # Attacker, Figure 2.1's order: Attacker, Network, MTD
+    at = (24, 618, my0 + 40, my1 - 14)
+    svg.rect(at[0], at[2], at[1], at[3], "module")
+    act = (120, 604, at[2] + 20, at[2] + 60)              # attack actions
+    svg.rect(act[0], act[2], act[1], act[3], "inner", rx=4)
+    svg.text((act[0] + act[1]) / 2, act[2] + 26, "attack actions", "lbl")
+    vm = (300, 560, act[3] + 18, act[3] + 58)             # the vulnerability memory, ours
+    svg.rect(vm[0], vm[2], vm[1], vm[3], "peer", rx=4)
+    svg.text((vm[0] + vm[1]) / 2 - 22, vm[2] + 26, "+ vulnerability memory", "lbl")
+    svg.text(vm[1] - 12, vm[2] + 26, "§4.4.4", "xref", anchor="end")
+    svg.add(f'<g transform="translate({at[0] + 30},{at[3] - 28})"><use href="#hacker"/></g>')
+    svg.text(at[0] + 50, at[3] - 21, "Attacker", "title", anchor="start")
+    # Network and MTD, the right-hand column
+    nw = (720, 880, act[2] - 6, act[3] + 6)                # on the attack actions' line
+    md = (720, 880, at[3] - 48, at[3])                     # room between for 'reconfigures'
+    for (x0, x1, y0, y1), icon, title, w in ((nw, "netic", "Network", 76), (md, "mtdic", "MTD", 44)):
+        svg.rect(x0, y0, x1, y1, "module")
+        cx, cy = (x0 + x1) / 2 - w / 2 + 6, (y0 + y1) / 2
+        svg.add(f'<g transform="translate({cx - 22:.1f},{cy})"><use href="#{icon}"/></g>')
+        svg.text(cx, cy + 7, title, "title", anchor="start")
+    ya = (act[2] + act[3]) / 2
+    svg.path(f"M{act[1] + 3},{ya} H{nw[0] - 4}", "couples", marker="mG")
+    svg.text((at[1] + nw[0]) / 2, ya - 10, "compromises", "sm halo")
+    xr = (md[0] + md[1]) / 2
+    svg.path(f"M{xr},{md[2] - 2} V{nw[3] + 4}", "couples", marker="mG")
+    svg.text(xr - 10, (nw[3] + md[2]) / 2 + 6, "reconfigures", "sm halo", anchor="end")
+    ymd = (md[2] + md[3]) / 2
+    svg.path(f"M{md[0] - 3},{ymd} H{at[1] + 4}", "couples", marker="mG")
+    svg.text((at[1] + md[0]) / 2, ymd - 10, "disrupts", "sm halo")
 
-    w(r"\end{tikzpicture}")
-    w(r"\end{document}")
-    facts["height_cm"] = abs(act_bot) + 0.1
-    facts["width_cm"] = byp_x + 0.5 - ROT_X + 0.2
-    return "\n".join(L) + "\n", facts
+    # steps 2 and 3: down into the attack actions
+    svg.path(f"M{xdw},{iy1 + 3} V{act[2] - 4}", "step", marker="mI")
+    step_label(svg, xdw, 396, 2, "dwell time")
+    svg.path(f"M{xmp},{iy1 + 3} V{act[2] - 4}", "step", marker="mI")
+    step_label(svg, xmp, 396, 3, "attack action")
+
+    # step 4: the verdict, up out of the attack actions; failure through the
+    # failure matrix, success straight to the choice
+    xv, jy = xd, 388
+    svg.add(f'<path class="step" d="M{xv},{act[2]} V{jy}"/>')
+    svg.add(f'<circle class="dot" cx="{xv}" cy="{jy}" r="3.5"/>')
+    step_label(svg, xv, 450, 4, "verdict")
+    svg.path(f"M{xv},{jy} H{xfm} V{iy1 + 3}", "step", marker="mI")
+    svg.text((xv + xfm) / 2 + 10, jy - 10, "failure", "verb halo")
+    # step 5: the weights reach the decision place, from either arm
+    my = 246
+    svg.add(f'<path class="step" d="M{xv},{jy} V{my}"/>')
+    svg.text(xv - 10, (iy0 + iy1) / 2 + 6, "success", "verb halo", anchor="end")
+    svg.add(f'<path class="step" d="M{xfm},{iy0} V{my} H{xv}"/>')
+    svg.add(f'<circle class="dot" cx="{xv}" cy="{my}" r="3.5"/>')
+    svg.path(f"M{xv},{my} V{yc + 21}", "step", marker="mI")
+    step_label(svg, xv, 190, 5, "weights")
+
+    height = my1 + 8
+    head = 'viewBox="0 0 10 10" refX="9" refY="5" markerUnits="userSpaceOnUse" markerWidth="13" markerHeight="13" orient="auto-start-reverse"'
+    small = 'viewBox="0 0 10 10" refX="9" refY="5" markerUnits="userSpaceOnUse" markerWidth="10" markerHeight="10" orient="auto"'
+    defs = f"""<defs>
+  <marker id="mI" {head}><path d="M0,0 L10,5 L0,10 z" fill="{INK}"/></marker>
+  <marker id="mG" {head}><path d="M0,0 L10,5 L0,10 z" fill="{INK2}"/></marker>
+  <marker id="mS" {small}><path d="M0,0 L10,5 L0,10 z" fill="{INK2}"/></marker>
+  <marker id="mSk" {small}><path d="M0,0 L10,5 L0,10 z" fill="{INK}"/></marker>
+{ICONS}
+</defs>"""
+    h_cm = WIDTH_CM * height / PX
+    html = f"""<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<title>fig:runtime-loop --- the Petri net integrated with MTDSim (generated by tools/runtime_loop_figure.py; do not hand-edit)</title>
+<style>{STYLE}{EXTRA_STYLE}
+  body {{ width:{PX}px; }}
+  @media print {{ @page {{ size:{WIDTH_CM}cm {h_cm:.3f}cm; margin:0; }} body {{ width:{WIDTH_CM}cm; }} svg {{ width:{WIDTH_CM}cm; height:{h_cm:.3f}cm; }} }}
+</style></head>
+<body>
+<svg id="fig" viewBox="0 0 {PX} {height}" width="{PX}" height="{height}" xmlns="http://www.w3.org/2000/svg">
+{defs}
+{chr(10).join(p.replace('marker-end="url(#)"', '') for p in svg.parts)}
+</svg>
+</body></html>
+"""
+    floor = min(svg.sizes) * (WIDTH_CM / 2.54 * 72) / PX / FACE_SCALE
+    return html, h_cm, floor
 
 
-# ------------------------------------------------------------------- main --
 def main() -> None:
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    ap.add_argument("--mapping", default="v2_partial")
-    ap.add_argument("--overlay-version", default="v4_failure_only")
-    ap.add_argument("--no-compile", action="store_true")
-    args = ap.parse_args()
+    ap.add_argument("--out-dir", type=Path, default=OUT_DIR, help="mocks go to the scratchpad, not the thesis")
+    ap.add_argument("--stem", default=STEM)
+    ap.add_argument("--png", action="store_true")
+    ap.add_argument("--no-pdf", action="store_true")
+    a = ap.parse_args()
 
-    gap, order = load_gap()
     axis = load_axis()
-    axis.check_against(order)
-    # the fragment: the same profile fig:pipeline draws (flow A's class), same window rule
-    from pipeline_ladder_figure import flow_graphs, pick_pair
-    cls = load_classes()
-    tech, edges = flow_graphs(gap)
-    fa, _fb, _shared = pick_pair(tech, edges, cls)
-    prof = cls[fa]
-    net = load_net(prof)
-    win = net_window(net, order)
-    durations = load_durations()
-    mapping, verbs = load_mapping(args.mapping)
-    fmatrix, n_rules = failure_cells(order, args.overlay_version)
-    missing = [t for t in order if t not in durations or t not in mapping]
-    if missing:
-        raise SystemExit(f"tactics absent from the dwell catalogue or the mapping: {missing}")
-
-    tex, facts = emit(order, axis, net, win, durations, mapping, verbs, fmatrix, n_rules,
-                      args.mapping, args.overlay_version)
-    OUT_DIR.mkdir(parents=True, exist_ok=True)
-    path = OUT_DIR / f"{STEM}.tex"
-    path.write_text(tex)
-    print(f"wrote {path.relative_to(REPO)}")
-    if not args.no_compile:
-        r = subprocess.run(["pdflatex", "-interaction=nonstopmode", "-halt-on-error",
-                            f"-output-directory={OUT_DIR}", str(path)], capture_output=True, text=True)
-        if r.returncode:
-            print(r.stdout[-3000:])
-            raise SystemExit("pdflatex failed")
-        for ext in (".aux", ".log"):
-            (OUT_DIR / f"{STEM}{ext}").unlink(missing_ok=True)
-        print(f"wrote {(OUT_DIR / (STEM + '.pdf')).relative_to(REPO)}")
-
-    print("--- facts (all read from tracked artefacts) ---")
-    print(f"ATT&CK bundle                : v{axis.version}, {len(order)} tactics")
-    np_, nt, win = facts["net"]
-    print(f"net drawn                    : {PROFILE_LABEL[prof]} -- {np_} places, {nt} transitions; fragment {win}")
-    print(f"dwell catalogue              : {len(durations)} tactics, {sum(1 for v in durations.values() if v == 0)} at zero")
-    mv, nm, nd, nv = facts["mapping"]
-    print(f"mapping ({mv})       : {nm} mapped, {nd} dwell-only, {nv} verbs")
-    ov, nr, nrule = facts["failure"]
-    print(f"failure matrix ({ov}) : {nr} x {nr - 1} ordered pairs, {nrule} rules")
-    print(f"drawn size                   : ~{facts['width_cm']:.2f} x {facts['height_cm']:.2f} cm (type {F} = 10pt at natural size)")
+    net = load_routing_net(PROFILE, with_synthetic_overlay=True)
+    base = net.base_out_weights(PLACE)
+    top = sorted((q for q, w in base.items() if w > 0),
+                 key=lambda q: (-base[q], axis.matrix_order.index(q)))[:N_SUCC]
+    succ = [axis.label[q] for q in top]
+    html, h_cm, floor = emit(succ)
+    if floor < FLOOR_PT:
+        raise SystemExit(f"smallest type prints at {floor:.2f} pt (< {FLOOR_PT} pt floor)")
+    a.out_dir.mkdir(parents=True, exist_ok=True)
+    html_path = a.out_dir / f"{a.stem}.html"
+    html_path.write_text(html)
+    print(f"wrote {html_path}")
+    h_px = round(PX * h_cm / WIDTH_CM)
+    if not a.no_pdf or a.png:
+        from playwright.sync_api import sync_playwright
+        with sync_playwright() as pw:
+            b = pw.chromium.launch()
+            pg = b.new_page(viewport={"width": PX, "height": h_px}, device_scale_factor=2)
+            pg.goto(html_path.as_uri())
+            pg.wait_for_timeout(300)
+            # every text inside the figure's width: nothing clipped at the right edge
+            right = pg.evaluate("Math.max(...[...document.querySelectorAll('text')].map(t => t.getBBox().x + t.getBBox().width))")
+            if right > PX - 4:
+                raise SystemExit(f"text runs to x={right:.0f} px, past the figure's width")
+            if a.png:
+                pg.locator("#fig").screenshot(path=str(a.out_dir / f"{a.stem}.png"))
+                print(f"preview {a.out_dir / (a.stem + '.png')}")
+            if not a.no_pdf:
+                pg.emulate_media(media="print")
+                pg.pdf(path=str(a.out_dir / f"{a.stem}.pdf"), width=f"{WIDTH_CM}cm", height=f"{h_cm:.3f}cm",
+                       margin={"top": "0", "right": "0", "bottom": "0", "left": "0"},
+                       print_background=True, prefer_css_page_size=False)
+                print(f"wrote {a.out_dir / (a.stem + '.pdf')}")
+            b.close()
+    print(f"--- facts: {PROFILE} {PLACE}; successors drawn {succ} of {sum(1 for w in base.values() if w > 0)}; "
+          f"{WIDTH_CM} x {h_cm:.2f} cm; smallest type {floor:.2f} pt nominal; rightmost text {right:.0f} px")
 
 
 if __name__ == "__main__":
