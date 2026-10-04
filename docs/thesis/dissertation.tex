@@ -4398,12 +4398,18 @@ gives both sets of weights at initial access in $c_1$.
 %  actions are shared and names the two declared changes; step 5's "the base
 %  weights stand" -> 4.3's "keep their base weights". Prior text and its
 %  ruling comments: git 3ce6e0b5, and the history block below. DRAFT STATE.]
-The Petri net of an attack profile chooses the attacker's next tactic, but it
-acts on nothing. MTDSim's attack actions act on the network, and each returns
-a verdict. The APT attacker model integrates the two in one loop. It calls
-MTDSim's attack actions one at a time, in the order its Petri net chooses, in
-place of the baseline attacker's ordered procedure. Each verdict then shapes
-the next choice.
+% [ROUND 4, 2026-10-04 (Marc: the opening contrast "seems cliche"; "act on the
+%  network" vague; "ordered procedure" not the term; "the next choice" of what):
+%  the point first; the attack actions named as Section 2.2.3 lists them; the
+%  baseline's "fixed procedure" (2.2.3's term); the choice named. DRAFT STATE.]
+The APT attacker model integrates its Petri net with MTDSim in one loop. The
+Petri net chooses the attacker's next tactic. MTDSim's attack actions carry
+out tactics on the network: they scan hosts and ports, exploit
+vulnerabilities and brute-force accounts, and each returns a verdict. The
+loop calls these attack actions one at a time, in the order the Petri net
+chooses, in place of the baseline attacker's fixed procedure
+(Section~\ref{subsec:attacker-model}). Each verdict sets the weights with
+which the Petri net chooses the next tactic.
 
 % FIGURE (2026-10-04): fig:runtime-loop REBUILT as section 4.4's headline (Marc:
 % section 4.4 is Figure 4.1's "integrate with MTDSim" arrow enlarged, so it is a
@@ -4501,16 +4507,20 @@ vulnerability not yet scanned for), or if an MTD deployment disrupts it
 %  chapter 6 pointer follows); the four bases and the three untested values to
 %  Appendix C's opener, beside Table C.1 (each subsection states its own basis).
 %  Prior text in git 0cbbfa48. DRAFT STATE.]
-The attack flows give each Petri net its structure and its base weights. They
-do not give the three inputs the loop reads: how long each tactic takes
-(Section~\ref{subsec:dwell-times}), which attack action it runs
-(Section~\ref{subsec:tactic-verb-mapping}) and where a failed attack action
-leads (Section~\ref{subsec:failure-matrix}). We set each from MTDSim's own
-attack-action costs where they exist, and otherwise from the literature or our
-judgement; its subsection gives the source of its values and how
-Chapter~\ref{ch:experiments} tests them. Section~\ref{subsec:vulnerability-memory} adds a fourth part to
-MTDSim's exploit attack action: the attacker's memory of the vulnerabilities it
-has exploited.
+% [ROUND 4, 2026-10-04 (Marc: "the first sentence is not the important one";
+%  "they", "inputs", "the loop reads" vague; "why don't we just use the
+%  terminology of the sections"; the source sentence "loses its track"; the
+%  memory described too trivially): the three inputs named by their subsection
+%  terms as the subject; the sources one clause; the memory said as it works.]
+The tactic durations (Section~\ref{subsec:dwell-times}), the tactic-to-action
+mapping (Section~\ref{subsec:tactic-verb-mapping}) and the failure matrix
+(Section~\ref{subsec:failure-matrix}) are the three inputs of the loop that
+the attack flows do not give. Their values come from MTDSim's attack-action
+costs where these exist, and otherwise from the literature or our judgement;
+each subsection gives the test that varies them.
+Section~\ref{subsec:vulnerability-memory} adds the vulnerability memory to
+MTDSim's exploit attack action: each earlier success on a vulnerability
+raises the APT attacker model's odds of exploiting it again.
 
 % [HISTORY: the ruling comments of the 4.4 preamble's paragraphs before the
 %  2026-10-04 redraft, kept for the trail; the prose they annotate is in git
