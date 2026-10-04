@@ -43,8 +43,8 @@ Inputs: data/gap/flows/<flow_id>.yaml (38 active flows), data/gasp/metadata_audi
 --check exits non-zero if the recomputation does not reproduce the CSV columns
 or the pinned numbers (used by tests/l2_subgraph/test_structural_baseline.py).
 --tex writes docs/thesis/tables/tab_B-2a_objective_classification_audit.tex — the
-appendix-ready per-class tables (flow, terminal read, stated objective, source,
-confidence) the chapter points at; regenerate whenever the CSV changes.
+appendix table section 4.2 points at: the sources that answered each attack flow,
+grouped by attack profile; regenerate whenever the CSV changes.
 --write-descriptive rewrites the CSV's four descriptive structural columns
 (terminal_techniques, terminal_tactics, reaches_exfiltration, reaches_impact)
 from this tool, leaving every other column byte-identical. Run once (2026-08-17)
@@ -178,30 +178,14 @@ def write_descriptive() -> None:
 
 TEX_OUT = ROOT / "docs" / "thesis" / "tables" / "tab_B-2a_objective_classification_audit.tex"
 FLOWS_DIR = ROOT / "data" / "gap" / "flows"
-GAP_JSON = ROOT / "data" / "gap" / "gap_v0.5.json"
+# The audit's class labels, in Table 4.1's order, to the attack profile key the
+# thesis prints as c1 to c4 (pipeline_ladder_figure.PROFILE_ORDER).
 CLASS_ORDER = [
-    ("steal_data", "objective_exfiltration", "Exfiltration objective"),
-    ("impediment", "objective_impact", "Impact objective"),
-    ("double_extortion", "objective_exfiltration_impact", "Double extortion (exfiltration and impact)"),
-    ("position_for_future", "objective_none_c2", "No realised objective"),
+    ("steal_data", "objective_exfiltration"),
+    ("impediment", "objective_impact"),
+    ("double_extortion", "objective_exfiltration_impact"),
+    ("position_for_future", "objective_none_c2"),
 ]
-READ_LABEL = {"exfil": "exfiltration", "impact": "impact", "both": "both", "neither": "neither"}
-
-# Tactic display names, shared with the appendix figures so a tactic is spelled
-# the same wherever the thesis prints it (conventions §g: no raw identifiers in
-# a float; §i: ATT&CK's own US spelling inside proper names).
-sys.path.insert(0, str(Path(__file__).resolve().parent))
-from gap_appendix_figures import TACTIC_LABEL  # noqa: E402
-
-
-def _tactic_list(tactics: list[str]) -> str:
-    if not tactics:
-        return "(none: cyclic)"
-    return ", ".join(TACTIC_LABEL.get(t, t).lower() for t in tactics).capitalize()
-# The chapter's own count at sec:attack-profiles: "19 of the 38 attack flows
-# land in a different category from the one defined by the terminal tactic
-# alone". The override column IS that count, so it is gated here.
-EXPECT_OVERRIDDEN = 19
 
 
 def _tex(s: str) -> str:
@@ -295,98 +279,81 @@ def _sources_cell(row: dict, vendor_ids: str | None) -> str:
     return "; ".join(parts)
 
 
-def _pins() -> dict[str, str]:
-    g = json.loads(GAP_JSON.read_text())
-    ref = g["corpus_ref"]
-    return {"flow_corpus": ref.split("@", 1)[1].split(" ", 1)[0] if "@" in ref else ref,
-            "attack": g["attack_source"].replace("enterprise-attack-", ""),
-            "schema": g["attack_flow_schema_version"]}
-
-
 def write_tex() -> None:
+    """Appendix B: the sources that answered section 4.2's two questions.
+
+    Round 2026-10-04 (Marc: the appendix was drafted before the terms were
+    standardised; "is it relevant ... are we answering that question"). Section
+    4.2 cites this table for one thing: which sources answered each attack
+    flow, and which three the sources left open. So it prints one row per
+    attack flow, grouped by attack profile, and one column per source beyond
+    the CTID description (read for all 38). Cut from the 2026-08-20 tables: the
+    terminal read, terminal tactics and override columns (they argued the
+    19-of-38 override count section 4.2 no longer makes), the confidence column
+    (all 38 high, so it said nothing), and four repeated captions. The audit's
+    "in_flow_only" (six flows) is not printed: the CTID description decided
+    those six and the drawn attack flow agreed, and section 4.2 says the answers
+    were not read off the attack flow.
+    """
+    def code(key: str) -> str:  # the c_k Table 4.1 prints, in CLASS_ORDER's order
+        return f"$c_{{{[k for _, k in CLASS_ORDER].index(key) + 1}}}$"
     rows = list(csv.DictReader(open(AUDIT)))
     vendor_by_flow = vendor_citations(rows)
-    by_class: dict[str, list[dict]] = {k: [] for k, _, _ in CLASS_ORDER}
-    overridden = 0
+    by_class: dict[str, list[dict]] = {k: [] for k, _ in CLASS_ORDER}
     for r in rows:
-        read, techs, tacs = read_terminal(load_flow(r["flow_id"]))
-        exact, _ = concordance(read, r["stated_objective"])
-        r["_read"] = READ_LABEL[read]
-        r["_tacs"] = _tactic_list(tacs)
-        r["_override"] = "maintained" if exact else "overridden"
-        r["_sources"] = _sources_cell(r, vendor_by_flow.get(r["flow_id"]))
-        overridden += 0 if exact else 1
+        if "ctid_blurb" not in r["source_used"]:
+            raise SystemExit(f"{r['flow_id']}: no CTID description read; the caption says every one was")
+        toks = [t.strip() for t in r["source_used"].split("+")]
+        r["_notes"] = "\\propmet" if "ctid_flow_narrative" in toks else ""
+        r["_group"] = next((_tex(t.split(":", 1)[1]) for t in toks if t.startswith("attack_group:")), "")
+        r["_report"] = vendor_by_flow.get(r["flow_id"], "")
+        r["_ours"] = "\\propmet" if any(t.startswith("marc_ruling") for t in toks) else ""
         by_class[r["stated_objective"]].append(r)
-    tally = Counter(r["metadata_confidence"] for r in rows)
-    if overridden != EXPECT_OVERRIDDEN:
-        raise SystemExit(
-            f"REFUSING TO EMIT: {overridden} flows overridden, the chapter says "
-            f"{EXPECT_OVERRIDDEN}. Reconcile sec:attack-profiles before regenerating.")
-    p = _pins()
+    n_ours = sum(1 for r in rows if r["_ours"])
 
-    out = []
-    out.append("% GENERATED by tools/gasp_structural_baseline.py --tex from")
-    out.append("%   data/gasp/metadata_audit.csv (classification, confidence, sources read) and")
-    out.append("%   data/gap/flows/*.yaml (the analyst's own citation list, carried through from")
-    out.append("%   the tracked corpus bundles in data/gap/_corpus_stix/). Terminal read = Def A,")
-    out.append("%   the L1 contraction; see docs/implementation/pipeline/gasp/structural_baseline.md.")
-    out.append("% Do not hand-edit; regenerate. Requires booktabs + array (both in the preamble).")
-    out.append(f"% At generation: {len(rows)} flows, {overridden} overridden / "
-               f"{len(rows) - overridden} maintained, confidence "
-               + ", ".join(f"{k} {tally[k]}" for k in ("high", "medium", "low")) + ".")
-    out.append("")
-    out.append("\\newcolumntype{A}[1]{>{\\raggedright\\arraybackslash}p{#1}}")
-    out.append("")
-    for csv_label, tactic_label, title in CLASS_ORDER:
+    out = [
+        "% GENERATED by tools/gasp_structural_baseline.py --tex from",
+        "%   data/gasp/metadata_audit.csv (classification and sources read) and",
+        "%   data/gap/flows/*.yaml (the analyst's own citation list, carried through from",
+        "%   the tracked corpus bundles in data/gap/_corpus_stix/).",
+        "% Do not hand-edit; regenerate. DRAFT STATE (2026-10-04 appendix pass): caption",
+        "%   session-drafted, ratify on read.",
+        f"% At generation: {len(rows)} attack flows, {n_ours} decided by the author.",
+        "",
+        "\\begin{table}[htbp]",
+        "\\centering",
+        "\\caption[The sources that answered each attack flow]{The sources that answered "
+        "the two questions of Section~\\ref{sec:attack-profiles} for each attack flow, "
+        "grouped by attack profile (Table~\\ref{tab:attack-profiles}). The CTID description "
+        "of every attack flow was read \\citep{ctid2025attackflow}; the columns give what else "
+        "was. \\emph{Step notes} are the analyst's notes on the steps of the attack flow. "
+        "\\emph{ATT\\&CK group} is the group page read \\citep{mitre2026attackv19}. "
+        "\\emph{Decided by us} marks the attack flows these sources left open.}",
+        "\\label{tab:profile-sources}",
+        "\\tablestyle",
+        "\\begin{tabular}{@{}P{0.38\\textwidth}ccP{0.17\\textwidth}c@{}}",
+        "\\toprule",
+        "Attack flow & \\shortstack{Step\\\\notes} & \\shortstack{ATT\\&CK\\\\group} & Threat report & "
+        "\\shortstack{Decided\\\\by us} \\\\",
+        "\\midrule",
+    ]
+    for k, (csv_label, key) in enumerate(CLASS_ORDER):
         rs = by_class[csv_label]
-        n_over = sum(1 for r in rs if r["_override"] == "overridden")
-        cap = (
-            f"{title} (\\texttt{{{_tex(tactic_label)}}}, $n={len(rs)}$): "
-            "how each flow in the class was classified. \\emph{Terminal read} is what "
-            "the flow's dependency graph gives on its own --- the objective tactic of "
-            "its terminal techniques, listed beside it --- and \\emph{override} records "
-            "whether the assigned class kept that reading or set it aside for what the "
-            f"sources attest; {n_over} of the {len(rs)} flows here are overridden. "
-            "\\emph{Sources} lists what was read to decide the class: the per-flow "
-            "blurb on the corpus index \\citep{ctid2025attackflow}, the flow's own "
-            "narrative or structure, the ATT\\&CK Group page the flow is attributed "
-            "to \\citep{mitre2026attackv19}, and the vendor or government report itself. "
-            "Corpus: Attack Flow published "
-            f"export {p['flow_corpus']} (schema {p['schema']}), {len(rows)} usable "
-            f"incidents, ATT\\&CK Enterprise v{p['attack']}."
-        )
-        if any("author adjudication" in r["_sources"] for r in rs):
-            cap += (" \\emph{Author adjudication} marks a flow whose class was settled "
-                    "by a reading of the cited advisory, recorded in the project's audit "
-                    "trail.")
-        out.append("\\begin{table}[htbp]")
-        out.append("\\centering")
-        out.append("\\scriptsize")
-        out.append("\\setlength{\\tabcolsep}{4pt}")
-        out.append(f"\\caption[{_tex(title)}: per-flow classification]{{{cap}}}")
-        out.append(f"\\label{{tab:objective-audit-{tactic_label.replace('objective_', '').replace('_', '-')}}}")
-        out.append("\\begin{tabular}{@{}A{0.175\\textwidth}A{0.100\\textwidth}A{0.245\\textwidth}"
-                   "A{0.100\\textwidth}A{0.225\\textwidth}A{0.045\\textwidth}@{}}")
-        out.append("\\toprule")
-        out.append("Flow & Terminal read & Terminal tactics & Override & Sources & Conf. \\\\")
-        out.append("\\midrule")
-        for r in sorted(rs, key=lambda x: x["flow_id"]):
-            out.append(f"{_tex(r['flow_name'])} & {r['_read']} & {_tex(r['_tacs'])} & "
-                       f"{r['_override']} & {r['_sources']} & {r['metadata_confidence']} \\\\")
-        out.append("\\bottomrule")
-        out.append("\\end{tabular}")
-        out.append("\\end{table}")
-        out.append("")
+        if k:
+            out.append("\\midrule")
+        out.append(f"\\grouprow{{5}}{{{code(key)} ({len(rs)} attack flows)}} \\\\")
+        for r in sorted(rs, key=lambda x: x["flow_name"].lower()):
+            out.append(f"{_tex(r['flow_name'])} & {r['_notes']} & {r['_group']} & "
+                       f"{r['_report']} & {r['_ours']} \\\\")
+    out += ["\\bottomrule", "\\end{tabular}", "\\end{table}", ""]
 
     TEX_OUT.parent.mkdir(parents=True, exist_ok=True)
     TEX_OUT.write_text("\n".join(out))
     print(f"wrote {TEX_OUT}")
-    print(f"  {len(rows)} flows; {overridden} overridden / {len(rows) - overridden} maintained")
-    print(f"  confidence: {dict(tally)}")
+    print(f"  {len(rows)} attack flows; " + ", ".join(
+        f"{code(key)} {len(by_class[c])}" for c, key in CLASS_ORDER) + f"; {n_ours} decided by the author")
     print(f"  cited reports: {len(set(vendor_by_flow.values()))} distinct citations "
-          f"over {len(vendor_by_flow)} flows")
-    print(f"  pins: Attack Flow {p['flow_corpus']} (schema {p['schema']}); "
-          f"ATT&CK Enterprise v{p['attack']}")
+          f"over {len(vendor_by_flow)} attack flows")
 
 
 def main(check: bool = False) -> int:

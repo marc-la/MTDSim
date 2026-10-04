@@ -1,5 +1,10 @@
 """Emit the rejected-partition appendix table (app:rejected-partitions).
 
+NOT IN THE THESIS since 2026-10-04 (appendix pass, Marc approved the cut): the
+section 4.2 redraft no longer says "six other partitions were considered", so
+the table answered a question the chapter does not ask. The tool and its
+output stay as the repo-side record; partition_decision.md holds the argument.
+
 Why: §4.2.2 says "Six other partitions were considered and dismissed" and
 points at the appendix for them. This writes that float from a tracked ledger
 plus the artefacts themselves, so no number on the page is typed.

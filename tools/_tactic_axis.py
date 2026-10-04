@@ -117,16 +117,18 @@ def load_axis(bundle: Path = BUNDLE) -> TacticAxis:
     return TacticAxis(order, label, str(collections[0]["x_mitre_version"]))
 
 
-def load_stages(path: Path = LIFECYCLE) -> tuple[dict[str, int], dict[int, str]]:
+def load_stages(path: Path = LIFECYCLE, short: bool = True) -> tuple[dict[str, int], dict[int, str]]:
     """The lifecycle-consensus staging: `tactic -> stage`, and `stage -> name`.
 
     Stage names are shortened to the form the figure family prints — the
     consensus spells stage 2 "post-intrusion operations", which is a caption
-    phrase, not a band label.
+    phrase, not a band label. `short=False` keeps the names of section 3.1.1,
+    for tables, which have the room.
     """
     doc = json.loads(path.read_text())
     stage_of = dict(doc["stage_of"])
     stage_name = {int(k): v.split(" (")[0] for k, v in doc["stages"].items()}
-    stage_name = {k: ("post-intrusion" if v.startswith("post-intrusion") else v)
-                  for k, v in stage_name.items()}
+    if short:
+        stage_name = {k: ("post-intrusion" if v.startswith("post-intrusion") else v)
+                      for k, v in stage_name.items()}
     return stage_of, stage_name

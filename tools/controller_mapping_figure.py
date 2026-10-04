@@ -96,37 +96,39 @@ def verb_tex(verb: str) -> str:
 # 2026-08-20). Wording is drafted here and owed a pass, as `tab:experiment-one`
 # was; the tactic and action columns beside them are read from the CSV.
 REASON = {
-    "reconnaissance": "Builds the queue of attackable hosts from the current "
-                      "foothold --- the substrate's only survey act.",
-    "resource-development": "Acquires capability off-target, and no world outside "
-                            "the victim network is modelled.",
-    "initial-access": "The only attack action whose deliberate effect converts a host the "
-                      "attacker does not own into one it does.",
-    "execution": "Applies a vulnerability's effect to a service --- the only act "
-                 "of running something on a target.",
-    "persistence": "A compromised host stays compromised unconditionally, so there "
-                   "is no access artefact to plant or maintain.",
-    "privilege-escalation": "The substrate has no privilege dimension; the stand-in "
-                            "is exploited impact accruing toward the threshold at "
-                            "which a host falls.",
-    "stealth": "Nothing observes the attacker, so there is no state evasion could "
-               "alter --- the model's stealth gap, made explicit.",
-    "defense-impairment": "MTD scheduling is a defender-side process the attacker "
-                          "can neither observe nor touch.",
-    "credential-access": "Attempts a login against the current host from the pool of "
-                         "compromised usernames --- T1110 with no interpretation.",
-    "discovery": "Enumerates the open ports reachable on the current host (T1046), "
-                 "which is what lets a later exploit run at all.",
-    "lateral-movement": "Pops the next host, makes it current and sets the pivot --- "
-                        "the act of moving to a remote system.",
-    "command-and-control": "The one row the inherited design states itself: Brown "
-                           "describes this attack action as command and control revealing "
-                           "connected hosts.",
-    "collection": "The substrate has no data --- hosts carry services and "
-                  "vulnerabilities, nothing gatherable.",
-    "exfiltration": "Neither half exists: nothing to take, and nowhere to send it.",
-    "impact": "No attack action destroys, encrypts or denies anything, so an objective-band "
-              "walk spends time rather than misrepresenting what it is doing.",
+    # Reworded 2026-10-04 (appendix pass): the chapter's terms (attack action,
+    # foothold, dwell-only, the simulator), no technique IDs, no "substrate".
+    "reconnaissance": "Finds the hosts the attacker can attack from its current "
+                      "host: the simulator's only survey of the network.",
+    "resource-development": "Building tools happens off the target's network, "
+                            "which the simulator does not model.",
+    "initial-access": "The only attack action that gives the attacker a host it "
+                      "did not hold.",
+    "execution": "An exploit is the only way the simulator runs the attacker's "
+                 "code on a host.",
+    "persistence": "A compromised host stays compromised, so there is no "
+                   "foothold to keep.",
+    "privilege-escalation": "The simulator has no privilege levels; each further "
+                            "exploit brings a host closer to compromise instead.",
+    "stealth": "Nothing in the simulator watches the attacker, so there is "
+               "nothing to hide from.",
+    "defense-impairment": "The MTD schedule runs on the defender's side; the "
+                          "attacker can neither see nor change it.",
+    "credential-access": "Tries the usernames already stolen against the current "
+                         "host: a brute-force login.",
+    "discovery": "Lists the open ports of the current host, which a later "
+                 "exploit needs.",
+    "lateral-movement": "Moves the attacker to the next host, which becomes its "
+                        "current host.",
+    "command-and-control": "The one row MTDSim's design names itself: Brown "
+                           "describes this attack action as command and control "
+                           "revealing connected hosts \\citep{brown2023}.",
+    "collection": "Hosts in the simulator carry services and vulnerabilities, "
+                  "but no data to gather.",
+    "exfiltration": "There is no data to take, and nowhere outside the network "
+                    "to send it.",
+    "impact": "No attack action encrypts, destroys or hijacks a system, so the "
+              "tactic only takes time.",
 }
 
 # --- geometry (cm) ---------------------------------------------------------
@@ -319,14 +321,10 @@ def emit_table(rows: list[dict], entry: dict, axis, stage_of, stage_name) -> str
     L.append(r"% GENERATED by tools/controller_mapping_figure.py --- do not hand-edit.")
     L.append(r"\begin{table}[htbp]")
     L.append(r"\centering")
-    L.append(r"\caption[Why each tactic maps as it does]{Why each tactic holds the "
-             r"value it does under the tactic-to-action mapping, "
-             r"drawn as Figure~\ref{fig:controller-mapping}. Rows run "
-             r"in the tactic axis of that figure, grouped by lifecycle stage. A "
-             r"dash in the attack action column is a dwell-only tactic: %d of the %d "
-             r"consume simulated time and dispatch nothing, and the reason states "
-             r"what the simulator would have to model before the row could be "
-             r"mapped.}" % (n_dwell, len(rows)))
+    L.append(r"\caption[Reasons for the tactic-to-action mapping]{The reason for each "
+             r"row of the tactic-to-action mapping (Figure~\ref{fig:controller-mapping}), "
+             r"grouped by lifecycle stage. A dash marks a dwell-only tactic; its reason "
+             r"says what the simulator lacks.}")
     L.append(r"\label{tab:controller-mapping}")
     # \footnotesize, and the reason column takes the width the two fixed columns
     # leave: at this size "Command and control" is ~98pt and "Credential brute
@@ -335,15 +333,18 @@ def emit_table(rows: list[dict], entry: dict, axis, stage_of, stage_name) -> str
     # rows of reason run past the text block at \normalsize (33.6pt overfull
     # \hbox) and at \small (60.6pt too tall for the page). \footnotesize both
     # shortens the lines and widens the column, so fewer cells wrap.
-    L.append(r"\footnotesize")
-    L.append(r"\begin{tabular}{@{}l l p{0.46\textwidth}@{}}")
+    L.append(r"\tablestyle")
+    L.append(r"\begin{tabular}{@{}l l P{0.52\textwidth}@{}}")
     L.append(r"\toprule")
     L.append(r"Tactic & Attack action & Reason \\")
     L.append(r"\midrule")
     prev_stage = None
     for t in order:
-        if prev_stage is not None and stage_of[t] != prev_stage:
-            L.append(r"\addlinespace")
+        if stage_of[t] != prev_stage:
+            # the stage as a group row, as the figure's bands name it
+            if prev_stage is not None:
+                L.append(r"\midrule")
+            L.append(r"\grouprow{3}{%s} \\" % stage_name[stage_of[t]])
         prev_stage = stage_of[t]
         verb = by_tactic[t]["sim_phase"]
         action = verb_tex(verb) if verb else "---"
@@ -375,7 +376,7 @@ def main() -> None:
 
     TAB_DIR.mkdir(parents=True, exist_ok=True)
     tab_path = TAB_DIR / f"{TAB_STEM}.tex"
-    tab_path.write_text(emit_table(rows, entry, axis, stage_of, stage_name))
+    tab_path.write_text(emit_table(rows, entry, axis, stage_of, load_stages(short=False)[1]))
     print(f"wrote {tab_path.relative_to(REPO)}")
 
     # the numbers and pins the caption quotes -- printed for cross-checking

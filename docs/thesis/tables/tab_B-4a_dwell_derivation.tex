@@ -5,31 +5,28 @@
 
 \begin{table}[htbp]
 \centering
-\scriptsize
-\setlength{\tabcolsep}{4pt}
-\caption[Derivation of the declared dwell times]{How each declared dwell was arrived at. \emph{Family} is the anchor the value takes its shape from (Table~\ref{tab:dwell-anchors}); \emph{Mult.} is the per-family multiplier that separates tactics sharing one, which is why two tactics dispatching the same attack action can hold different dwells. \emph{Sweep band} is the declared band the value may take, in units of its family anchor --- the band is a \emph{parameter} declared here, while what happened when the anchors were moved across their bands is reported in Appendix~\ref{app:sensitivity}. The catalogue that carries these values is the chapter's Table~\ref{tab:dwell-catalogue}.}
+\caption[How each tactic dwell time was set]{How each dwell time of Table~\ref{tab:dwell-catalogue} was set (Section~\ref{subsec:dwell-times}): the value of the tactic's family, in brackets, times its multiplier. \emph{Band} is the declared range of the multiplier.}
 \label{tab:dwell-derivation}
-\begin{tabular}{@{}l l r r c p{0.355\textwidth}@{}}
+\tablestyle
+\begin{tabular}{@{}P{0.15\textwidth} P{0.13\textwidth} r r c P{0.30\textwidth}@{}}
 \toprule
-Tactic & Family & Mult. & Value (s) & Sweep band & Why this value \\
+Tactic & Family (s) & Multiplier & Dwell (s) & Band & Reason \\
 \midrule
-Reconnaissance & Scan-shaped & 1.0 & 35.0 & [0.5, 2] & Priced by the simulator as one enumeration pass; the band covers the slower staged tempo it does not meter. \\
-Resource development & Off-network prep & --- & 0.0 & --- & Preparation happens off-network, with nothing in-network to meter, so it precedes the simulator's clock. \\
-Initial access & Exploit-shaped & 1.0 & 4.5 & [0.5, 2] & Exploiting a public-facing service is what the simulator's complexity-scaled exploit time already prices. \\
-Execution & Low-and-slow & 0.5 & 22.5 & [0.1, 2] & A fast cross-cutting act in a low-and-slow wrapper: the pacing is the wrapper's, so the estimate leans fast. \\
-Persistence & Low-and-slow & 1.0 & 45.0 & [0.25, 4] & The durability layer built to outlast reboots and reimaging; no attack action prices holding a foothold. \\
-Privilege escalation & Exploit-shaped & 1.0 & 4.5 & [0.5, 2] & Canonically vulnerability exploitation, which the simulator prices; the band spans direct exploit to token reuse. \\
-Stealth & Low-and-slow & 1.0 & 45.0 & [0.25, 4] & The group's reference by construction: a pace imposed on every other tactic, not a discrete dwell. \\
-Defense impairment & Low-and-slow & 0.5 & 22.5 & [0.1, 4] & Widest uncertainty here: evasion is preferred, and disabling defences is a punctuated act before a noisy payload. \\
-Credential access & Exploit-shaped & 1.0 & 4.5 & [0.5, 2] & Dumping and cracking are on-host work the simulator prices, with fast ticket theft as the within-group skew. \\
-Discovery & Scan-shaped & 1.0 & 35.0 & [0.5, 2] & Reconnaissance's interior twin: the same enumeration run from inside a foothold, so it inherits the scan anchor. \\
-Lateral movement & Exploit-shaped & 1.0 & 4.5 & [0.25, 4] & Usually a remote login the simulator prices, but a span from fast worm to slow manual pivot earns a wider band. \\
-Collection & Objective execution & 1.0 & 36.0 & [0.5, 2] & The reference act of gathering before exfiltration; a throughput floor keeps the band at fast grab to slow harvest. \\
-Command and control & Low-and-slow & 1.0 & 45.0 & [0.25, 4] & A low-signal channel beaconing on a cadence, not a discrete act; its interval is what an MTD move competes against. \\
-Exfiltration & Objective execution & 1.0 & 36.0 & [0.25, 4] & The terminal theft act; the band spans a fast bulk burst to a slow fragmented trickle above a throughput floor. \\
-Impact & Objective execution & 1.0 & 36.0 & [0.1, 5] & The terminal payload: a fast decisive burst for ransomware, never reached for espionage --- hence the widest band. \\
+Reconnaissance & Scan-shaped (35.0) & 1.0 & 35.0 & [0.5, 2] & Enumeration, as one scan pass is in the simulator; the band allows slower, staged reconnaissance. \\
+Resource development & Off-network (0.0) & --- & 0.0 & --- & Happens off the target's network, out of the defender's sight, so it takes no simulated time. \\
+Initial access & Exploit-shaped (4.5) & 1.0 & 4.5 & [0.5, 2] & Exploiting a public-facing service, which the simulator's exploit cost already covers. \\
+Execution & Low-and-slow (45.0) & 0.5 & 22.5 & [0.1, 2] & Quick in itself but paced by the quiet tactics around it, so half the family value, with a band that leans fast. \\
+Persistence & Low-and-slow (45.0) & 1.0 & 45.0 & [0.25, 4] & Keeping a foothold through reboots is quiet holding work, which no attack action costs. \\
+Privilege escalation & Exploit-shaped (4.5) & 1.0 & 4.5 & [0.5, 2] & Usually a vulnerability exploit; the band runs from an exploit to reusing a stolen token. \\
+Stealth & Low-and-slow (45.0) & 1.0 & 45.0 & [0.25, 4] & The family's reference: a pace the attacker keeps throughout the attack, not one act. \\
+Defense impairment & Low-and-slow (45.0) & 0.5 & 22.5 & [0.1, 4] & A short act before a noisy payload, so half the family value; attackers prefer to evade defences, so the band is wide. \\
+Credential access & Exploit-shaped (4.5) & 1.0 & 4.5 & [0.5, 2] & Dumping and cracking credentials is on-host work like an exploit; stealing a ticket is faster. \\
+Discovery & Scan-shaped (35.0) & 1.0 & 35.0 & [0.5, 2] & The enumeration of reconnaissance, run from inside a foothold. \\
+Lateral movement & Exploit-shaped (4.5) & 1.0 & 4.5 & [0.25, 4] & Usually a remote login, costed as an exploit; the band is wide because a worm moves fast and a person slowly. \\
+Collection & Objective-execution (36.0) & 1.0 & 36.0 & [0.5, 2] & The family's reference: gathering data, from a quick grab to a slow harvest. \\
+Command and control & Low-and-slow (45.0) & 1.0 & 45.0 & [0.25, 4] & A quiet channel that beacons on a cadence, not one act. \\
+Exfiltration & Objective-execution (36.0) & 1.0 & 36.0 & [0.25, 4] & Sending the data out, from a fast bulk transfer to a slow trickle. \\
+Impact & Objective-execution (36.0) & 1.0 & 36.0 & [0.1, 5] & Encrypting, destroying or hijacking systems; these payloads vary most in time, so the band is the widest. \\
 \bottomrule
-\addlinespace[2pt]
-\multicolumn{6}{@{}p{0.96\textwidth}@{}}{\scriptsize Values, bands and rationales are emitted from the declared catalogue (\texttt{data/ogasp/tactic\_durations.json}, v0-uncalibrated); tactic names follow ATT\&CK~v19.1. A degenerate band (resource development) is shown as a dash: the tactic is off-clock, so there is nothing to sweep.}\\
 \end{tabular}
 \end{table}

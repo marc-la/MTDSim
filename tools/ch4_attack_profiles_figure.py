@@ -330,7 +330,10 @@ def emit(prof, axis) -> tuple[str, float, float]:
         svg.text(kx + sw + 8, yy + 13.5, lab, "tick")
     yy = ky + 26 + 4 * 25 + 14
     svg.add(f'<rect class="obj" x="{kx + 4:.1f}" y="{yy:.1f}" width="{sw * 0.6:.1f}" height="{sw + 8}"/>')
-    svg.text(kx + sw + 8, yy + 18, "objective", "tick")
+    # appendix pass 2026-10-04: "objective" cut (the word is the attacker's
+    # objective); the outline is the profile's yes in Table 4.1
+    svg.text(kx + sw + 8, yy + 10, "stole data or", "tick")
+    svg.text(kx + sw + 8, yy + 26, "impeded systems", "tick")
 
     html = f"""<!doctype html>
 <html lang="en"><head><meta charset="utf-8">

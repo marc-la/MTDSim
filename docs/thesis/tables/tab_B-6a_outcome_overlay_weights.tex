@@ -4,22 +4,23 @@
 % Do not hand-edit; regenerate. Requires booktabs + graphicx (both in the preamble).
 
 \begin{table}[htbp]
-\centering\scriptsize
-\caption[The declared failure rules of the outcome overlay]{The failure rules of the outcome overlay, in match order (first match wins), with the value each declares, its provenance tier and its one-sentence rationale, as carried in the rule ledger. The key letter is the one the decomposition figure prints in each cell.}
+\centering
+\caption[The rules of the failure matrix]{The rules that set the failure matrix (Section~\ref{subsec:failure-matrix}). After a failure at one tactic, the first rule that matches the move to the next tactic gives its value, which the distance factor of Table~\ref{tab:overlay-distance-kernel} then scales. Back, within and forward are by lifecycle stage. The letters are those of Figure~\ref{fig:failure-weight-decomposition}(a).}
 \label{tab:overlay-failure-rules}
-\begin{tabular}{@{}l l r p{0.17\textwidth} p{0.42\textwidth}@{}}
+\tablestyle
+\begin{tabular}{@{}c P{0.40\textwidth} r P{0.40\textwidth}@{}}
 \toprule
-Key & Rule & Value & Tier & Rationale \\
+Rule & Applies to & Value & Reason \\
 \midrule
-A & \texttt{ia\_gate\_foothold} & 0.02 & attested-pattern/\allowbreak declared-magnitude & initial-access failed => no foothold, so a foothold-dependent destination is out of reach \\
-B & \texttt{recon\_gate\_initial\_access} & 0.4 & attested-pattern/\allowbreak declared-magnitude & reconnaissance failed (nothing found) => breaking in is weaker, but not impossible \\
-C & \texttt{recon\_gate\_deep} & 0.05 & attested-pattern/\allowbreak declared-magnitude & reconnaissance failed => a deep post-intrusion move is implausible with no foothold \\
-D & \texttt{preintrusion\_damper} & 0.25 & declared-judgement & post-intrusion failure falling all the way back to a pre-foothold tactic is a minor, not modal, regress \\
-E & \texttt{execution\_damper} & 0.35 & declared-judgement & re-running code against a held foothold is a forward-level retry-continuation, not a penalised regress \\
-F & \texttt{backward} & 0.9 & declared-judgement & fall back / regress — the natural 'back to the drawing board' move on failure \\
-G & \texttt{lateral} & 0.7 & declared-judgement & try a same-phase sibling tactic — an alternative route to the same objective \\
-H & \texttt{forward\_from\_foothold} & 0.35 & declared-judgement & forward after failure from a held foothold: a retry-then-advance is possible but not modal \\
-I & \texttt{forward\_from\_prep} & 0.3 & declared-judgement & forward after failure from a pre-foothold stage is unlikely (the dependency did not land) \\
+A & After a failed initial access, a move to a tactic that needs a foothold & 0.02 & No foothold was gained, so these moves are almost out of reach. \\
+B & After a failed reconnaissance, a move to initial access & 0.4 & Nothing was found, so breaking in is harder but still possible. \\
+C & After a failed reconnaissance, a move to a tactic that needs a foothold & 0.05 & With no foothold, a move deep into the network is implausible. \\
+D & After a failure with a foothold, a move back to a tactic without one & 0.25 & Falling right back to before the foothold is an uncommon response. \\
+E & Any other move back to execution & 0.35 & Running code again on a held foothold continues the attack. \\
+F & Any other move back: from initial access to preparation, or from actions on objectives to post-intrusion operations & 0.9 & Going back one stage is the common response to a failure. \\
+G & A move within the same stage & 0.7 & Another tactic of the stage is an alternative route. \\
+H & A move forward, with a foothold & 0.35 & Advancing straight after a failure is possible but uncommon. \\
+I & A move forward, without a foothold & 0.3 & The step the next one depends on did not succeed. \\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -31,58 +32,17 @@ I & \texttt{forward\_from\_prep} & 0.3 & declared-judgement & forward after fail
 %   The retired success rules remain in outcome_rules.json, unconsulted.
 
 \begin{table}[htbp]
-\centering\scriptsize
-\caption[The lifecycle-distance kernel and its declared parameters]{The lifecycle-distance kernel: the four consensus stages the signed offset $\Delta = s(b) - s(a)$ is measured over, and the three declared parameters with their provenance tier and the band the sensitivity study sweeps. $d(a,b) = 1$ for $\Delta = 0$, $\gamma^{\Delta-1}$ for $\Delta \geq 1$, $\delta^{|\Delta|-1}$ for $\Delta \leq -1$; a value below $z$ reads as exactly $0$.}
+\centering
+\caption[The distance factor of the failure matrix]{The distance factor that scales each rule value by the lifecycle stages a move crosses. A move within a stage or to the next keeps its rule value; each further stage forward multiplies it by $\gamma$, and each further stage back by $\delta$. A factor below $z$ is zero. Appendix~\ref{app:decay-robustness} moves each parameter across its band.}
 \label{tab:overlay-distance-kernel}
-\begin{tabular}{@{}c p{0.36\textwidth} p{0.50\textwidth}@{}}
+\tablestyle
+\begin{tabular}{@{}l r l@{}}
 \toprule
-$s$ & Stage & Tactics \\
+Parameter & Value & Band \\
 \midrule
-0 & preparation & reconnaissance, resource development \\
-1 & intrusion & initial access, execution \\
-2 & post-intrusion operations (weakly ordered internally, by consensus) & persistence, privilege escalation, stealth, defense impairment, credential access, discovery, lateral movement, command and control \\
-3 & actions on objectives & collection, exfiltration, impact \\
-\bottomrule
-\end{tabular}
-\par\vspace{0.6em}
-\begin{tabular}{@{}l r p{0.30\textwidth} l@{}}
-\toprule
-Parameter & Value & Tier & Sweep band \\
-\midrule
-$\gamma$ (forward decay) & 0.25 & attested-pattern/\allowbreak declared-magnitude & \{0.1, 0.5\} \\
-$\delta$ (backward decay) & 0.25 & declared-judgement & \{0.1, 0.5\} \\
-$z$ (zero floor) & 0.1 & declared-judgement & \{0, 0.05, 0.1\} \\
-\bottomrule
-\end{tabular}
-\end{table}
-
-\begin{table}[htbp]
-\centering\tiny
-\setlength{\tabcolsep}{2.2pt}
-\caption[The complete failure weight set as committed]{The complete failure weight set (\texttt{v4\_failure\_only}): rows are the source tactic $a$ whose attack action returned the failure verdict, columns the candidate next tactic $b$; every cell is rule value $\times$ $d(a,b)$ (decomposition in Figure~\ref{fig:failure-weight-decomposition} for the failure set). Stage-grouped axis; the diagonal is not a pair (self-loops are the stepping layer's bounded retry, not an overlay cell).}
-\label{tab:overlay-failure-set}
-\begin{tabular}{@{}lrrrrrrrrrrrrrrr@{}}
-\toprule
-$a \downarrow\quad b \rightarrow$ & \rotatebox{90}{Recon.} & \rotatebox{90}{Res. dev.} & \rotatebox{90}{Init. access} & \rotatebox{90}{Execution} & \rotatebox{90}{Persistence} & \rotatebox{90}{Priv. esc.} & \rotatebox{90}{Stealth} & \rotatebox{90}{Def. imp.} & \rotatebox{90}{Cred. access} & \rotatebox{90}{Discovery} & \rotatebox{90}{Lat. move.} & \rotatebox{90}{C2} & \rotatebox{90}{Collection} & \rotatebox{90}{Exfiltration} & \rotatebox{90}{Impact} \\
-\midrule
-Reconnaissance & -- & 0.7 & 0.4 & 0.05 & 0.0125 & 0.0125 & 0.0125 & 0.0125 & 0.0125 & 0.0125 & 0.0125 & 0.0125 & 0 & 0 & 0 \\
-Resource development & 0.7 & -- & 0.3 & 0.3 & 0.075 & 0.075 & 0.075 & 0.075 & 0.075 & 0.075 & 0.075 & 0.075 & 0 & 0 & 0 \\
-\addlinespace[2pt]
-Initial access & 0.9 & 0.9 & -- & 0.02 & 0.02 & 0.02 & 0.02 & 0.02 & 0.02 & 0.02 & 0.02 & 0.02 & 0.005 & 0.005 & 0.005 \\
-Execution & 0.25 & 0.25 & 0.7 & -- & 0.35 & 0.35 & 0.35 & 0.35 & 0.35 & 0.35 & 0.35 & 0.35 & 0.0875 & 0.0875 & 0.0875 \\
-\addlinespace[2pt]
-Persistence & 0.0625 & 0.0625 & 0.25 & 0.35 & -- & 0.7 & 0.7 & 0.7 & 0.7 & 0.7 & 0.7 & 0.7 & 0.35 & 0.35 & 0.35 \\
-Privilege escalation & 0.0625 & 0.0625 & 0.25 & 0.35 & 0.7 & -- & 0.7 & 0.7 & 0.7 & 0.7 & 0.7 & 0.7 & 0.35 & 0.35 & 0.35 \\
-Stealth & 0.0625 & 0.0625 & 0.25 & 0.35 & 0.7 & 0.7 & -- & 0.7 & 0.7 & 0.7 & 0.7 & 0.7 & 0.35 & 0.35 & 0.35 \\
-Defense impairment & 0.0625 & 0.0625 & 0.25 & 0.35 & 0.7 & 0.7 & 0.7 & -- & 0.7 & 0.7 & 0.7 & 0.7 & 0.35 & 0.35 & 0.35 \\
-Credential access & 0.0625 & 0.0625 & 0.25 & 0.35 & 0.7 & 0.7 & 0.7 & 0.7 & -- & 0.7 & 0.7 & 0.7 & 0.35 & 0.35 & 0.35 \\
-Discovery & 0.0625 & 0.0625 & 0.25 & 0.35 & 0.7 & 0.7 & 0.7 & 0.7 & 0.7 & -- & 0.7 & 0.7 & 0.35 & 0.35 & 0.35 \\
-Lateral movement & 0.0625 & 0.0625 & 0.25 & 0.35 & 0.7 & 0.7 & 0.7 & 0.7 & 0.7 & 0.7 & -- & 0.7 & 0.35 & 0.35 & 0.35 \\
-Command and control & 0.0625 & 0.0625 & 0.25 & 0.35 & 0.7 & 0.7 & 0.7 & 0.7 & 0.7 & 0.7 & 0.7 & -- & 0.35 & 0.35 & 0.35 \\
-\addlinespace[2pt]
-Collection & 0 & 0 & 0.0625 & 0.0875 & 0.9 & 0.9 & 0.9 & 0.9 & 0.9 & 0.9 & 0.9 & 0.9 & -- & 0.7 & 0.7 \\
-Exfiltration & 0 & 0 & 0.0625 & 0.0875 & 0.9 & 0.9 & 0.9 & 0.9 & 0.9 & 0.9 & 0.9 & 0.9 & 0.7 & -- & 0.7 \\
-Impact & 0 & 0 & 0.0625 & 0.0875 & 0.9 & 0.9 & 0.9 & 0.9 & 0.9 & 0.9 & 0.9 & 0.9 & 0.7 & 0.7 & -- \\
+$\gamma$, forward & 0.25 & \{0.1, 0.5\} \\
+$\delta$, back & 0.25 & \{0.1, 0.5\} \\
+$z$, floor & 0.1 & \{0, 0.05, 0.1\} \\
 \bottomrule
 \end{tabular}
 \end{table}

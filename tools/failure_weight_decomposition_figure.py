@@ -346,8 +346,11 @@ def emit_figure(rs: RuleSet, spec: RuleSpec, verdict: str, dec: dict, version: s
     # (a) the verdict kernel — rule value, keyed by rule letter
     vals_a = {p: c["kernel"] for p, c in dec.items()}
     lab_a = {p: _value_letter(c["kernel"], keys[c["rule"]]) for p, c in dec.items()}
-    hdr_a = (r"(a)\; %s kernel: the value of the first-matching declared rule "
-             r"(rule key A--%s, below)" % (verdict, keys[rs.order[verdict][-1]]))
+    # Round 2026-10-04 (appendix pass): the panel heads in section 4.4.4's
+    # words --- rule value, distance factor, failure matrix; no "kernel", no
+    # "consensus", no version string, and no in-figure key (Table B.x carries
+    # each rule's letter, the pairs it covers and its reason).
+    hdr_a = r"(a)\; the value of the first rule that matches each move, with its letter"
     y = emit_panel(w, y, order, rs, vals_a, lab_a, hdr_a, show_col_labels=True) - PANEL_GAP
 
     # (b) the distance kernel
@@ -357,20 +360,16 @@ def emit_figure(rs: RuleSet, spec: RuleSpec, verdict: str, dec: dict, version: s
         dl = c["delta"]
         sign = "+" if dl > 0 else ("" if dl == 0 else "-")
         lab_b[p] = "%s$_{%s%d}$" % (_fmt(c["d"]), sign, abs(dl))
-    hdr_b = (r"(b)\; lifecycle-distance kernel $d(a,b)$ over the four consensus stages, the signed stage "
-             r"offset $\Delta=s(b)-s(a)$ as subscript: "
-             r"$d=1$ for $|\Delta|\le 1$, $\gamma^{\Delta-1}$ forward, $\delta^{|\Delta|-1}$ backward, "
-             r"$d<z$ reads as 0 ($\gamma=%s$, $\delta=%s$, $z=%s$)" % (_fmt(k.gamma), _fmt(k.delta_ratio), _fmt(k.z)))
+    hdr_b = (r"(b)\; the distance factor, with the stages the move crosses as subscript "
+             r"($\gamma=%s$, $\delta=%s$, $z=%s$)" % (_fmt(k.gamma), _fmt(k.delta_ratio), _fmt(k.z)))
     y = emit_panel(w, y, order, rs, vals_b, lab_b, hdr_b, show_col_labels=True) - PANEL_GAP
 
     # (c) the product — the committed weight set
     vals_c = {p: c["v"] for p, c in dec.items()}
     lab_c = {p: _fmt(c["v"]) for p, c in dec.items()}
-    hdr_c = (r"(c)\; the %s weight set $=$ (a)\,$\times$\,(b), as committed "
-             r"(\texttt{%s})" % (verdict, _esc(version)))
+    hdr_c = r"(c)\; the %s matrix $=$ (a)\,$\times$\,(b)" % verdict
     y = emit_panel(w, y, order, rs, vals_c, lab_c, hdr_c, show_col_labels=True)
 
-    emit_key(w, rs, verdict, keys, y, "rule key (match order; value $\\times$ $d$ gives the cell in (c)):")
     w(r"\end{tikzpicture}")
     w(r"\end{document}")
     return "\n".join(L) + "\n"
@@ -535,27 +534,62 @@ def emit_bands_figure(rs: RuleSet, spec: RuleSpec, dec: dict, census: Counter, v
 # appendix tables
 # --------------------------------------------------------------------------
 
+# What each failure rule covers and why, in section 4.4.4's terms (appendix
+# pass, 2026-10-04). The ledger's rule ids and rationales stay in
+# outcome_rules.json; these are the printed wording, read against the match
+# logic of mtdsim.l3_simulation.controller.rules._failure_rule. A move is back,
+# within a stage or forward by the lifecycle stages of section 3.1.1;
+# reconnaissance, resource development and initial access are the tactics
+# without a foothold. A rule with no wording here stops the build.
+RULE_TEXT = {
+    "ia_gate_foothold": ("After a failed initial access, a move to a tactic that needs a foothold",
+                         "No foothold was gained, so these moves are almost out of reach."),
+    "recon_gate_initial_access": ("After a failed reconnaissance, a move to initial access",
+                                  "Nothing was found, so breaking in is harder but still possible."),
+    "recon_gate_deep": ("After a failed reconnaissance, a move to a tactic that needs a foothold",
+                        "With no foothold, a move deep into the network is implausible."),
+    "preintrusion_damper": ("After a failure with a foothold, a move back to a tactic without one",
+                            "Falling right back to before the foothold is an uncommon response."),
+    "execution_damper": ("Any other move back to execution",
+                         "Running code again on a held foothold continues the attack."),
+    # rules A to E leave only two kinds of move back for F: initial access to
+    # preparation, and actions on objectives to post-intrusion operations
+    "backward": ("Any other move back: from initial access to preparation, or from "
+                 "actions on objectives to post-intrusion operations",
+                 "Going back one stage is the common response to a failure."),
+    "lateral": ("A move within the same stage",
+                "Another tactic of the stage is an alternative route."),
+    "forward_from_foothold": ("A move forward, with a foothold",
+                              "Advancing straight after a failure is possible but uncommon."),
+    "forward_from_prep": ("A move forward, without a foothold",
+                          "The step the next one depends on did not succeed."),
+}
+
+
 def _rules_table(rs: RuleSet, verdict: str, label: str) -> list[str]:
     keys = rule_keys(rs, verdict)
     rules = {r["id"]: r for r in rs.doc[f"{verdict}_rules"]}
+    missing = [rid for rid in rs.order[verdict] if rid not in RULE_TEXT]
+    if missing:
+        raise SystemExit(f"no printed wording for rule(s): {', '.join(missing)}")
     L = []
     L.append(r"\begin{table}[htbp]")
-    L.append(r"\centering\scriptsize")
-    L.append(r"\caption[The declared %s rules of the outcome overlay]{The %s rules of the "
-             r"outcome overlay, in match order (first match wins), with the "
-             r"value each declares, its provenance tier and its one-sentence rationale, as carried in the "
-             r"rule ledger. The key letter is the one the decomposition figure prints in each cell.}"
-             % (verdict, verdict))
+    L.append(r"\centering")
+    L.append(r"\caption[The rules of the failure matrix]{The rules that set the failure "
+             r"matrix (Section~\ref{subsec:failure-matrix}). After a failure at one tactic, "
+             r"the first rule that matches the move to the next tactic gives its value, which "
+             r"the distance factor of Table~\ref{tab:overlay-distance-kernel} then scales. "
+             r"Back, within and forward are by lifecycle stage. The letters are those of "
+             r"Figure~\ref{fig:failure-weight-decomposition}(a).}")
     L.append(r"\label{%s}" % label)
-    L.append(r"\begin{tabular}{@{}l l r p{0.17\textwidth} p{0.42\textwidth}@{}}")
+    L.append(r"\tablestyle")
+    L.append(r"\begin{tabular}{@{}c P{0.40\textwidth} r P{0.40\textwidth}@{}}")
     L.append(r"\toprule")
-    L.append(r"Key & Rule & Value & Tier & Rationale \\")
+    L.append(r"Rule & Applies to & Value & Reason \\")
     L.append(r"\midrule")
     for rid in rs.order[verdict]:
-        r = rules[rid]
-        tier = _esc(r["provenance_tier"]).replace("/", r"/\allowbreak ")
-        L.append(r"%s & \texttt{%s} & %s & %s & %s \\" % (
-            keys[rid], _esc(rid), _fmt(float(r["value"])), tier, _esc(r["rationale"])))
+        cover, reason = RULE_TEXT[rid]
+        L.append(r"%s & %s & %s & %s \\" % (keys[rid], cover, _fmt(float(rules[rid]["value"])), reason))
     L.append(r"\bottomrule")
     L.append(r"\end{tabular}")
     L.append(r"\end{table}")
@@ -563,40 +597,30 @@ def _rules_table(rs: RuleSet, verdict: str, label: str) -> list[str]:
 
 
 def _kernel_table(rs: RuleSet, spec: RuleSpec, label: str) -> list[str]:
+    """The three distance parameters (appendix pass, 2026-10-04: the stage
+    table is cut, section 3.1.1 lists the stages and the figure's axis groups
+    by them; the tier column is cut, section 4.4.4 says every value is our
+    judgement)."""
     declared = rs.consensus["declared_parameters"]
-    stages = rs.consensus["stages"]
     L = []
     L.append(r"\begin{table}[htbp]")
-    L.append(r"\centering\scriptsize")
-    L.append(r"\caption[The lifecycle-distance kernel and its declared parameters]{"
-             r"The lifecycle-distance kernel: the four consensus stages the signed offset "
-             r"$\Delta = s(b) - s(a)$ is measured over, and the three declared parameters with their "
-             r"provenance tier and the band the sensitivity study sweeps. "
-             r"$d(a,b) = 1$ for $\Delta = 0$, $\gamma^{\Delta-1}$ for $\Delta \geq 1$, "
-             r"$\delta^{|\Delta|-1}$ for $\Delta \leq -1$; a value below $z$ reads as exactly $0$.}")
+    L.append(r"\centering")
+    L.append(r"\caption[The distance factor of the failure matrix]{The distance factor that "
+             r"scales each rule value by the lifecycle stages a move crosses. A move within a "
+             r"stage or to the next keeps its rule value; each further stage forward multiplies "
+             r"it by $\gamma$, and each further stage back by $\delta$. A factor below $z$ is "
+             r"zero. Appendix~\ref{app:decay-robustness} moves each parameter across its band.}")
     L.append(r"\label{%s}" % label)
-    L.append(r"\begin{tabular}{@{}c p{0.36\textwidth} p{0.50\textwidth}@{}}")
+    L.append(r"\tablestyle")
+    L.append(r"\begin{tabular}{@{}l r l@{}}")
     L.append(r"\toprule")
-    L.append(r"$s$ & Stage & Tactics \\")
+    L.append(r"Parameter & Value & Band \\")
     L.append(r"\midrule")
-    order = stage_grouped_order(rs)
-    for s in sorted(int(x) for x in stages):
-        names = ", ".join(TACTIC_LABEL[t].lower() if t != "command-and-control" else "command and control"
-                          for t in order if rs.stage_of[t] == s)
-        L.append(r"%d & %s & %s \\" % (s, _esc(str(stages[str(s)])), _esc(names)))
-    L.append(r"\bottomrule")
-    L.append(r"\end{tabular}")
-    L.append(r"\par\vspace{0.6em}")
-    L.append(r"\begin{tabular}{@{}l r p{0.30\textwidth} l@{}}")
-    L.append(r"\toprule")
-    L.append(r"Parameter & Value & Tier & Sweep band \\")
-    L.append(r"\midrule")
-    sym = {"gamma": r"$\gamma$ (forward decay)", "delta_ratio": r"$\delta$ (backward decay)", "z": r"$z$ (zero floor)"}
+    sym = {"gamma": r"$\gamma$, forward", "delta_ratio": r"$\delta$, back", "z": r"$z$, floor"}
     for pname in ("gamma", "delta_ratio", "z"):
         p = declared[pname]
         band = ", ".join(_fmt(float(x)) for x in p["sweep"])
-        tier = _esc(p["tier"]).replace("/", r"/\allowbreak ")
-        L.append(r"%s & %s & %s & \{%s\} \\" % (sym[pname], _fmt(float(p["value"])), tier, band))
+        L.append(r"%s & %s & \{%s\} \\" % (sym[pname], _fmt(float(p["value"])), band))
     L.append(r"\bottomrule")
     L.append(r"\end{tabular}")
     L.append(r"\end{table}")
@@ -659,8 +683,8 @@ def emit_tables(rs: RuleSet, spec: RuleSpec, version: str) -> str:
         L.append(r"%   The retired success rules remain in outcome_rules.json, unconsulted.")
         L.append("")
         L += _kernel_table(rs, spec, "tab:overlay-distance-kernel")
-        L.append("")
-        L += _matrix_table(rs, decompose(rs, spec, "failure"), "failure", version, "tab:overlay-failure-set")
+        # No full-matrix table since 2026-10-04: it was the decomposition
+        # figure's panel (c), cell for cell.
         return "\n".join(L) + "\n"
     L += _rules_table(rs, "success", "tab:overlay-success-rules")
     L.append("")

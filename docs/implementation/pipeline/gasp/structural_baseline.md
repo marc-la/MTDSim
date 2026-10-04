@@ -214,10 +214,13 @@ two flags, no re-grades:
 - Test: [`tests/l2_subgraph/test_structural_baseline.py`](../../../../tests/l2_subgraph/test_structural_baseline.py)
   — pins 7 / 11 / 1 / 19, 19 exact / 15 any-overlap, per-flow column
   reproduction, and the 35 / 1 / 2 tally with the named low / medium flows.
-- Appendix tables: [`docs/thesis/tables/objective_classification_audit.tex`](../../../thesis/tables/objective_classification_audit.tex)
-  — four booktabs tables (one per class: flow, terminal read, terminal tactics,
-  source, confidence), generated, `\input`-ready, no new packages; labels
-  `tab:objective-audit-{exfiltration,impact,exfiltration-impact,none-c2}`.
+- Appendix table: [`docs/thesis/tables/tab_B-2a_objective_classification_audit.tex`](../../../thesis/tables/tab_B-2a_objective_classification_audit.tex)
+  — since 2026-10-04 one table, `tab:profile-sources`: one row per attack flow,
+  grouped by attack profile, with the sources read beyond the CTID description
+  (step notes, ATT&CK group page, threat report) and the three author
+  decisions. The terminal read and override columns are no longer printed:
+  §4.2 no longer cites the 19-of-38 count, which this record and the test
+  above still pin.
 - CSV: `data/gasp/metadata_audit.csv` (descriptive + confidence columns),
   `data/gasp/classification.csv` (carried-through confidence).
 - Per-flow trail: [`per_flow_justifications.md`](per_flow_justifications.md)
