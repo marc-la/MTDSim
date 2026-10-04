@@ -21,11 +21,14 @@ What the reader leaves with (section 4.1's points, nothing else):
       says it; the example's two technique edges becoming one tactic edge is
       the picture of it. The facts are still printed below.)
 
-Two encodings, each read without a key (Marc 2026-10-03): line WIDTH is the
-edge weight in every row (an edge one attack flow draws is thin, the edge two
-draw is twice as thick); the one colour, blue, is the edge both attack flows
-draw --- the two thin technique steps and the one thick tactic edge they
-become. Each tactic's band narrows by an arrow to its one tactic box: that is
+One style throughout (Marc 2026-10-04: "inconsistent design detracts from
+clarity unless motivated"): every box and every line is drawn alike, in ink,
+as Figure 4.1 draws its own; the one added mark is the weight printed on each
+tactic edge, the textbook notation for a weighted graph. CUT that day: the
+blue on the edge both attack flows draw (Figure 4.1, on the same page, spends
+blue on what this dissertation builds), the line width as weight (it repeated
+the printed number), and the heavier, bold tactic boxes (the row name
+"Attack graph" already says what kind of node they are). Each tactic's band narrows by an arrow to its one tactic box: that is
 the aggregation. Everything else is ink or grey.
 
 The example is chosen by rule, never by name:
@@ -73,8 +76,8 @@ FLOOR_PT = 7.95
 MAX_TECHNIQUES = 10        # per attack flow, for the example pair
 MIN_SHARED_TACTIC = 1
 
-INK, INK2, FAINT, CHROME, ACCENT = "#333", "#6e6e6e", "#9a9a9a", "#ececec", "#1f548c"
-SIZES = {"title": 19, "lbl": 17, "lblb": 17, "sm": 15.5, "name": 15.5}
+INK, INK2, FAINT, CHROME = "#333", "#6e6e6e", "#9a9a9a", "#ececec"
+SIZES = {"title": 19, "lbl": 17, "sm": 15.5, "name": 15.5}
 
 STYLE = f"""
   html, body {{ margin:0; background:#fff; }}
@@ -85,8 +88,6 @@ STYLE = f"""
   .sm    {{ font-size:15.5px; fill:{INK2}; }}
   .name  {{ font-size:15.5px; }}
   .tech  {{ fill:#fff; stroke:{INK}; stroke-width:1.4; }}
-  .tac   {{ fill:#fff; stroke:{INK}; stroke-width:2.6; }}
-  .lblb  {{ font-size:17px; font-weight:bold; }}
   .band  {{ fill:#f3f3f3; }}
   .halo  {{ paint-order:stroke; stroke:#fff; stroke-width:5px; stroke-linejoin:round; }}
 """
@@ -97,7 +98,7 @@ BOX_W, BOX_H = 140, 48     # a technique box
 SLOT_GAP = 36              # between two boxes in one tactic column
 COL_GAP = 56               # between tactic columns
 TAC_W, TAC_H = 140, 48     # a tactic box in the aggregate
-LINE_W = 2.0               # an edge one attack flow draws; the line width is the weight
+LINE_W = 2.0               # every edge, whatever its weight (the weight is printed)
 
 
 # ------------------------------------------------------------------ the data --
@@ -172,15 +173,10 @@ class SVG:
         self.parts.append(f'<rect class="{cls}" x="{x0:.1f}" y="{y0:.1f}" width="{x1 - x0:.1f}" '
                           f'height="{y1 - y0:.1f}" rx="{rx}"/>')
 
-    def arrow(self, x0, y0, x1, y1, hot=False, weight=1):
-        """Line width is edge weight, the same rule in every row: one attack flow
-        draws a thin line; the edge two draw is twice as thick (Marc 2026-10-03:
-        the two thin blue steps become one thick blue edge)."""
-        col = ACCENT if hot else INK
-        w = LINE_W * weight
-        m = f"{'hot' if hot else 'ink'}{weight}"
-        self.parts.append(f'<path d="M{x0:.1f},{y0:.1f} L{x1:.1f},{y1:.1f}" stroke="{col}" stroke-width="{w}" '
-                          f'fill="none" marker-end="url(#{m})"/>')
+    def arrow(self, x0, y0, x1, y1):
+        """Every edge is drawn alike; a tactic edge's weight is printed beside it."""
+        self.parts.append(f'<path d="M{x0:.1f},{y0:.1f} L{x1:.1f},{y1:.1f}" stroke="{INK}" stroke-width="{LINE_W}" '
+                          f'fill="none" marker-end="url(#ink1)"/>')
 
 
 def boxed_name(svg, cx, cy, name, cls="tech", w=BOX_W, h=BOX_H, text_cls="name"):
@@ -246,8 +242,7 @@ def emit(gap, axis, pair, excerpt, flow_name, facts):
         for k, ln in enumerate(nm):
             svg.text(GUT - 12, y + 5 + (k - (len(nm) - 1) / 2) * 18, ln, "name", anchor="end")
         for s, d in st:
-            hot = (tac_of[s], tac_of[d]) == (p, q)
-            svg.arrow(pos[s] + BOX_W / 2 + 2, y, pos[d] - BOX_W / 2 - 4, y, hot=hot)
+            svg.arrow(pos[s] + BOX_W / 2 + 2, y, pos[d] - BOX_W / 2 - 4, y)
         for tid in seq:
             boxed_name(svg, pos[tid], y, name_of[tid])
 
@@ -269,20 +264,19 @@ def emit(gap, axis, pair, excerpt, flow_name, facts):
             raise SystemExit(f"excerpt weight {weight[e]} exceeds the pair's {len(W.get(e, ()))} on {e}")
     svg.text(GUT - 12, y_agg + 6, "Attack graph", "title", anchor="end")
     for a, b in sorted(shown, key=lambda e: order.index(e[0])):
-        hot = (a, b) == (p, q)
         x0, x1 = col_cx[a] + TAC_W / 2 + 2, col_cx[b] - TAC_W / 2 - 4
-        svg.arrow(x0, y_agg, x1, y_agg, hot=hot, weight=weight[(a, b)])
-        svg.text((x0 + x1) / 2, y_agg - 10, str(weight[(a, b)]), "title acc" if hot else "title")
+        svg.arrow(x0, y_agg, x1, y_agg)
+        svg.text((x0 + x1) / 2, y_agg - 10, str(weight[(a, b)]), "lbl")
     for t in tactics:
-        boxed_name(svg, col_cx[t], y_agg, axis.label[t].capitalize(), cls="tac", w=TAC_W, h=TAC_H, text_cls="lblb")
+        boxed_name(svg, col_cx[t], y_agg, axis.label[t].capitalize(), w=TAC_W, h=TAC_H)
 
     height = y_agg + TAC_H / 2 + 4
 
     defs = "".join(f'<marker id="{m}" viewBox="0 0 10 10" refX="8" refY="5" markerUnits="userSpaceOnUse" '
                    f'markerWidth="{sz}" markerHeight="{sz}" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="{c}"/></marker>'
-                   for m, c, sz in (("ink1", INK, 11), ("hot1", ACCENT, 11), ("ink2", INK, 16), ("hot2", ACCENT, 16),
+                   for m, c, sz in (("ink1", INK, 11),
                                     ("down", INK2, 11)))
-    style = STYLE + f"  .acc {{ fill:{ACCENT}; }}\n"
+    style = STYLE
     h_cm = WIDTH_CM * height / PX
     html = (f'<!doctype html><html><head><meta charset="utf-8"><style>{style}'
             f'@page {{ size:{WIDTH_CM}cm {h_cm:.3f}cm; margin:0; }}</style></head><body>'
