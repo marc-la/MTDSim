@@ -4140,342 +4140,154 @@ four attack profiles.
 % analytical track are not wanted in the chapter --- the record holds
 % them (stochastic_timing_design.md §1).
 
-\section{Generalised stochastic Petri-net formalism}
+\section{Petri-net formalism}
 \label{sec:petri-formalism}
 
-% ---- Marc's pass-5 compression (2026-08-18), written in with his rulings
-%      on the session's scrutiny of it applied. Earlier pass records live
-%      in the drafting handoff and git history. Order ruled: why GSPN >
-%      the model > pre-intrusion solution > limits that carry to L4. ----
-% [APPLIED 2026-08-18: topic sentence (b), Marc's own words from the first
-%   dictation, chosen over (a) the question.]
-% [CH4 SCRUTINY 2026-10-02, ledger P1--P8, X4, X14, S3, T1, applied on Marc's
-%  accept-all: the choice first and each alternative one clause (P1); places,
-%  not markings, named (P2); the implementation note cut (P3); "plug and play"
-%  and the not-X-but-Y cut (P4, P5); the unused extension slot cut (P6); the
-%  overlay moved up to its first use (S3), its reach corrected to c3 and c4
-%  (X4: synthetic_overlay.json; c1 and c2 already bridge reconnaissance to
-%  initial access), sigma's reason stated, dictation residue cut (P7); M0 is
-%  reconnaissance in every reported run; "operator" -> "APT group, or one
-%  advisory" (X14: dedup.py's clusters). Prior text in git (3f6b4f8c).
-%  DRAFT STATE --- ratify on read.]
-The attack profiles need an executable form, and a Petri net gives one.
-% [RULED 2026-08-18, do not re-flag] the 37% number stays out (not needed);
-%   "declared and kept apart from the observed profiles" stays out
-%   (implicit in "sub-Petri-net ... we join it").
-We use the generalised stochastic Petri net (GSPN)~\citep{marsan1984},
-whose immediate transitions model the choice of the next tactic. A
-stochastic Petri net times every transition, and a deterministic and
-stochastic Petri net adds a fixed delay the model does not need; the attack
-graph of Section~\ref{sec:technique-graph} supplies no timing, and a
-directed acyclic graph cannot hold its cycles. Stochastic Petri nets have
-precedent in MTD evaluation~\citep{cai2016, chobenasher2018, mendonca2023}.
-% [APPLIED, your ruling] the sentence head restored ("We ruled out attack
-%   graphs, which we already have from L1, because ...").
-% [APPLIED 2026-08-18] SPN / DSPN / GSPN-in-the-middle clause (yours).
+% [REDRAFT 2026-10-04, Marc: "I'm just generally lost when I'm reading this";
+%  the supervisor accepted the formalism on 2026-09-22 (register E9) and left
+%  the notation to be simplified to the standard symbols. Rules applied, each
+%  sourced: Halmos 1970 s15 ("the best notation is no notation"; no symbol
+%  used once), Knuth et al. 1989 rules 2, 11, 13--15 (no sentence opens on a
+%  symbol; define twice, in words and in symbols; prose readable with the
+%  formulas skipped; one notation per thing; no needless subscripts), the
+%  genre's own order (Bland 2020 after Murata: standard tuple, then the
+%  instance as a where-list, then the extension as a larger tuple).
+%  OVERTURNED on merit, Marc to confirm:
+%   * P1's elimination argument (SPN times every transition, DSPN adds a fixed
+%     delay, a DAG cannot hold the cycles; 2026-08-18 rulings): the choice is
+%     the field's convention, and is now said so, with the positive reason.
+%   * the 7-tuple with T_T, T_I -> the standard 6-tuple (E9); the instance no
+%     longer re-subscripts the tuple (P_c, W_c): c is fixed, said once.
+%   * w_c(p,q) -> W(t_pq), and |A_c(p->q)| -> the count n(p,q): one weight
+%     symbol, not two; F_v, V, F_success, F_none -> F alone (success and no
+%     verdict both use the base weights, so the family carried two all-ones
+%     members); sigma -> "one-tenth" (never used in a formula); "vanishing",
+%     "tangible", "verdict-conditioned" cut (nothing later uses them).
+%   * the notation table (tab:gspn-notation) cut: every symbol is now defined
+%     in one list in one section, and Figure 4.4 draws them.
+%  KEPT, ratified: the zero-factor sentence (2026-09-08), the success-needs-no-
+%  factor sentence (A4), the join paragraph (2026-09-26, symbols updated).
+%  Prior text and its ruling comments: git ac2dd7c4. DRAFT STATE.]
+Stochastic Petri nets are an established formalism in MTD evaluation
+\citep{chobenasher2018, mendonca2023}, and Cai et al.\ compare MTD techniques
+with a generalised stochastic Petri net (GSPN) \citep{cai2016}. We follow
+this convention and formalise each attack profile as a GSPN. An attack profile
+gives only the edges between tactics and their weights. The GSPN adds the
+attacker's position and the time each tactic takes, and its two kinds of
+transition model the two things the attacker does at each tactic: it spends
+the tactic's time, and it chooses the next tactic.
 
-% DRAFT STATE (2026-09-08): P2 is the FORMALISM, SESSION-PROPOSED on
-% Marc's green light ("honestly it's very dry stuff, I'm happy for you
-% to put a proposal to this") --- RATIFY ON READ, voice pass owed. Shape
-% is the corpus's convention (Bland 2020 §2.1; Chiola/Marsan's 5-tuple in
-% the ICS GSPN paper; Mendonça 2023 §2.3): attribute, state the standard
-% tuple once, define this work's net as an instance with an enumerated
-% where-list, then the extension in one sentence + one display. Marc's
-% own P2 sentences are carried INSIDE the where-list where they fit
-% (self-loops, one token, construct before execution, plug and play,
-% "consumes some stochastic amount of time") --- his words, moved, not
-% rewritten. Design record: handoffs/2026-09-08_ch4_s43_gspn_formalism.md
-% §8 (rulings R1--R6). Tuple form: the compact (P, T_T, T_I, I, O, W, M0)
-% rather than Marsan's eight (inhibitor arcs and priorities beyond
-% immediate-over-timed are unused and said so). [3b] "we write it as" ---
-% or "is the tuple"; [3b] \mathcal{N} vs plain N; [3b] the modulator
-% product in Eq. 4.3 is IN (R3 recommended) --- cut the clause if the
-% slot is not wanted in ch4; [3b] "verdict" is the code's word --- keep,
-% or "outcome". Symbols introduced here are the chapter's from now on:
-% \mu_p, w_c, \tau_p, t_{pq}, \hat p, v, F_v, M_0; §4.4 re-keys to them
-% in Marc's later pass. Bib: marsan1984 / marsan1995 are VERIFY stubs.
-% ROUND 2 (2026-09-08, Marc: "you can reconstruct everything if needed
-% ... make sure the following convention ... so it's clear that OK now
-% we've got the formalism"): rebuilt to Bland's order end to end ---
-% standard tuple + firing semantics + unused elements named; the profile
-% net as an instance, six-item where-list; the EXTENSION AS A NAMED
-% OBJECT (the pair (N_c, F), "verdict-conditioned profile net"), which is
-% what the convention does with its own extension (PNPSC = the standard
-% tuple + new elements) and what the first draft only did in prose;
-% eq:routing now shows the reported configuration exactly and the modulator
-% slot is one prose sentence (R3 resolved that way: the display is what
-% runs, the arms are named where they run); a closing sentence declares
-% the symbols the chapter's vocabulary and points at Table 4.x. Marc's
-% sentences reconstructed, not carried, on his licence. RULED 2026-09-08
-% (Marc): "with the verdict"; the zero-factor sentence STAYS as the exact
-% statement (a zero disables the transition for that firing only, so it
-% cannot fire --- twelve cells of the failure matrix are zero). Open:
-% the name "verdict-conditioned" (R2), the tex's own phrase from §4.4.2.
-% §4.1--§4.2 are NOT re-keyed (Marc's question, 2026-09-08; session
-% recommendation accepted in principle): the formalism begins where the
-% executable object begins, at L3; L0--L2 are construction, described in
-% prose, and their only formal-looking statement (the L1 graph) is
-% informal by design. §4.3 reaches back with "each attack profile c of
-% Section 4.2", which is the join. One §4.4 re-key item noted: §4.4.1's
-% "base transition weights are recurrence values" must become w_c, the
-% flow proportion of Eq. 4.2 --- the L1 edge weight is a count, the net
-% weight a proportion, and §4.4 currently blurs them.
-A GSPN is a directed bipartite graph of places and transitions in which
-every transition is either \emph{timed}, firing after an exponentially
-distributed delay, or \emph{immediate}, firing in zero time and with
-priority over the timed ones \citep{marsan1984}. Following Ajmone
-Marsan et al.\ \citep{marsan1995}, a GSPN is the tuple
+A GSPN is a directed bipartite graph of places and transitions
+\citep{marsan1984}. Tokens sit on places. A transition is enabled when each of
+its input places holds a token, and firing it moves a token from each input
+place to each output place. A \emph{timed} transition fires after an
+exponentially distributed delay. An \emph{immediate} transition fires in zero
+time, before any timed one; when several are enabled, one fires with
+probability proportional to its weight. Following Ajmone Marsan et
+al.\ \citep{marsan1995}, a GSPN is the tuple
 \begin{equation}
-  \mathcal{N} = (P, T_T, T_I, I, O, W, M_0),
+  \mathcal{N} = (P, T, I, O, W, M_0),
   \label{eq:gspn}
 \end{equation}
-where $P$ is a finite set of places; $T_T$ and $T_I$ are the disjoint
-finite sets of timed and immediate transitions; $I$ and $O$ are the
-input and output arcs, from places to transitions and from transitions
-to places; $W$ assigns a firing rate to each timed transition and a
-weight to each immediate one; and $M_0$ is the initial marking, the
-number of tokens on each place. A marking that enables an immediate
-transition is \emph{vanishing} and is left in zero time, the enabled
-immediate transitions firing with probability proportional to their
-weights; any other marking is \emph{tangible}. Inhibitor arcs and
-further priority levels belong to the general definition and are not
-used here.
+where $P$ is the set of places; $T$ the set of transitions, each timed or
+immediate; $I$ and $O$ the input and output arcs; $W$ the rate of each timed
+transition, the reciprocal of its mean delay, and the weight of each immediate
+one; and $M_0$ the initial marking, the number of tokens on each place. The
+full definition adds inhibitor arcs and priority levels, which this
+dissertation does not use.
 
-Each attack profile $c$ of Section~\ref{sec:attack-profiles} compiles
-to a Petri net of this form, $\mathcal{N}_c = (P_c, T_T, T_I, I, O, W_c, M_0)$, where:
-\begin{enumerate}[nosep, leftmargin=*]
-  \item $P_c = \{p\} \cup \{\hat{p}\}$: one place $p$ for each
-  Enterprise ATT\&CK tactic~\citep{mitre2026attackv19} present in the
-  profile, and one decision place $\hat{p}$ for each, which the token leaves in zero
-  time, at which the next
-  tactic is chosen;
-  \item $T_T = \{\tau_p\}$: one timed transition per tactic, from $p$ to
-  $\hat{p}$, whose firing is the attacker's execution of that tactic and
-  consumes a stochastic amount of time; a tactic whose declared time is
-  zero is immediate;
-  \item $T_I = \{t_{pq}\}$: one immediate transition per tactic pair
-  $p \to q$ that the profile's attack flows draw, from $\hat{p}$ to $q$; there
-  are no self-loops, because time spent within a tactic is carried by
-  $\tau_p$;
-  \item $I$ and $O$ are the arcs these imply,
-  $p \to \tau_p \to \hat{p} \to t_{pq} \to q$, every arc of weight one;
-  \item $W_c(\tau_p) = 1/\mu_p$, where $\mu_p$ is the declared mean dwell
-  of tactic $p$ (Section~\ref{subsec:dwell-times}), and
-  $W_c(t_{pq}) = w_c(p, q)$, the proportion of the profile's attack flows
-  leaving $p$ that do so along $p \to q$,
+Each attack profile $c$ becomes a Petri net $\mathcal{N}_c$ by the same
+construction, so the four Petri nets differ only in their places and weights.
+Figure~\ref{fig:gspn-gadget}(a) draws the construction for one tactic $p$:
+\begin{description}[nosep, leftmargin=1em]
+  \item[Places $P$:] one place $p$ for each tactic of the attack profile and,
+  for each, a decision place $\hat{p}$ at which the next tactic is chosen.
+  \item[Transitions $T$:] for each tactic $p$, a timed transition $\tau_p$
+  from $p$ to $\hat{p}$, whose firing is the attacker carrying out the tactic;
+  and for each edge $p \to q$ of the attack profile with a positive base
+  weight (below), an immediate transition $t_{pq}$ from $\hat{p}$ to $q$. No
+  transition leads from a tactic back to itself: the time spent in a tactic is
+  the delay of $\tau_p$.
+  \item[Arcs $I$, $O$:] those of the chain
+  $p \to \tau_p \to \hat{p} \to t_{pq} \to q$.
+  \item[Weights $W$:] $W(\tau_p) = 1/\mu_p$, where $\mu_p$ is the mean dwell
+  of tactic $p$ (Section~\ref{subsec:dwell-times}); resource development,
+  whose mean dwell is zero, has an immediate transition in place of $\tau_p$.
+  $W(t_{pq})$ is the \emph{base weight} of $p \to q$: of the attack profile's
+  attack flows that leave $p$, the share that go to $q$,
   \begin{equation}
-    w_c(p, q) = \frac{\lvert \mathcal{A}_c(p \to q) \rvert}
-                     {\sum_{q'} \lvert \mathcal{A}_c(p \to q') \rvert},
+    W(t_{pq}) = \frac{n(p, q)}{\sum_{q'} n(p, q')},
     \label{eq:base-weight}
   \end{equation}
-  where $\mathcal{A}_c(p \to q)$ is the set of attack flows in $c$ that draw
-  the pair, so a place's out-weights sum to one. An APT group with several
-  attack flows in the corpus, or one advisory reporting several, counts once,
-  through its attack flow with the most steps, so that one group's repeated reports
-  do not outweigh the rest:
-  29 of the 38 attack flows carry weight;
-  \item $M_0$ places one token on reconnaissance, the first tactic of the
-  pre-intrusion overlay defined below.
-\end{enumerate}
-$T_I$ is the set of pairs with $w_c > 0$. $\mathcal{N}_c$ is constructed before the simulator runs. The
-construction is the same for every profile and only $P_c$ and $W_c$
-vary, so each attack profile is an input to one construction. One token
-is a choice about the attacker: it pursues one line of the campaign at a
-time, so the AND structure Attack Flow preserves stays
-inert here; concurrency is a parameter this dissertation does not exercise.
+  where $n(p, q)$ is the number of the attack profile's attack flows that
+  draw $p \to q$. An APT group with several attack flows in the corpus, or one
+  advisory reporting several, counts once, through its attack flow with the
+  most steps, so that no group's repeated reports outweigh the rest: 29 of the
+  38 attack flows carry weight.
+  \item[Initial marking $M_0$:] one token on reconnaissance.
+\end{description}
+One token means that the attacker pursues one line of the campaign at a time,
+although some attack flows draw parallel branches.
 
-We drew in synthetic out-transitions from reconnaissance to resource
-development to initial access, as well as a backwards transition from
-initial access to reconnaissance. This \emph{pre-intrusion overlay} is a
-sub-Petri-net in its own right: we add it where a profile's attack flows do not
-already lead from reconnaissance to initial access, which is in $c_3$ and
-$c_4$. In the terms of Equation~\ref{eq:gspn} it is a second set of
-immediate transitions with declared weights: the whole out-mass of a place
-the corpus left with no out-transition, and otherwise a declared minority
-share $\sigma = 0.1$, so the base weights keep nine-tenths of the place's
-out-mass. APT attackers reconnoitre before they intrude
-(Section~\ref{sec:apt-survey}), and no defence in MTDSim observes it.
-% [2026-09-13: A7 sentences landed on Marc's ratification of the fourteen-item
-%  proposal (chat, this date); source register: handoff 2026-09-08_ch4_s43_gspn_formalism.md
-%  §7.2. Ratify-on-read.]
+The attack graph is sparsest before initial access
+(Section~\ref{sec:technique-graph}). Where an attack profile's attack flows do
+not lead from reconnaissance to initial access, in $c_3$ and $c_4$, we add the
+\emph{pre-intrusion overlay}: immediate transitions from reconnaissance to
+resource development, from resource development to initial access, and back
+from initial access to reconnaissance. No attack flow draws them, so their
+weights are declared. An overlay transition out of a place with no other way
+out takes all of the place's weight; any other takes one-tenth, so that the
+base weights keep nine-tenths, in their own proportions.
 
-A GSPN's immediate weights are constants, or functions of the marking.
-The APT attacker model needs them to depend on what happened
-in the simulator, so we extend the Petri net with the verdict. A
-\emph{verdict-conditioned} Petri net is the pair
+A GSPN's weights are constants, or functions of the marking. The APT attacker
+model needs the choice of the next tactic to depend on whether the tactic's
+attack action succeeded in MTDSim, the attack action's \emph{verdict}
+(Section~\ref{subsec:runtime-mechanics}). We therefore extend each Petri net
+with the failure matrix $F$ (Section~\ref{subsec:failure-matrix}), a declared
+factor between zero and one for each pair of tactics; the extended Petri net
+is the pair $(\mathcal{N}_c, F)$. When $\tau_p$ fires and its attack action
+has failed, the immediate transitions out of $\hat{p}$ fire with weights
 \begin{equation}
-  (\mathcal{N}_c, F), \qquad F = \{F_v : v \in V\},
-  \label{eq:vc-net}
-\end{equation}
-where $V = \{\text{success}, \text{failure}, \text{none}\}$ is the set
-of verdicts the token routes on (success and failure as the simulator
-returns them for the attack action a tactic dispatched,
-Section~\ref{sec:execution}; none at a tactic that dispatches no
-attack action), and each $F_v : P_c \times P_c \to [0, 1]$ is a declared
-factor on tactic pairs. When $\tau_p$ fires and the verdict is $v$,
-the immediate transitions out of $\hat{p}$ fire with weights
-\begin{equation}
-  W_c(t_{pq} \mid v) =
-  \frac{w_c(p, q)\, F_v(p, q)}
-       {\sum_{q'} w_c(p, q')\, F_v(p, q')}.
+  W(t_{pq} \mid \text{failure}) =
+  \frac{W(t_{pq})\, F(p, q)}{\sum_{q'} W(t_{pq'})\, F(p, q')}.
   \label{eq:routing}
 \end{equation}
-% [2026-09-26: "are the identity" -> "every factor ... is one": the factors
-%  multiply element by element, so the neutral element is the all-ones matrix,
-%  not the identity matrix a mathematically trained reader would take the word
-%  for (Marc: "is identity the right word here?").]
-Every factor of $F_{\text{success}}$ and $F_{\text{none}}$ is one, so on a
-success, or at a tactic that dispatches no attack action, the token routes on
-the base weights $w_c$; $F_{\text{failure}}$ is the failure matrix of
-Section~\ref{subsec:failure-matrix}. Success needs no factor of its own:
-every attack flow in the corpus records steps that succeeded, so the base
-weights already are the success policy.
-% [2026-09-13: A4 sentence landed on Marc's ratification of the fourteen-item
-%  proposal (chat, this date); source register: handoff 2026-09-08_ch4_s43_gspn_formalism.md
-%  §7.2. Ratify-on-read.]
-Places, transitions and arcs are
-untouched; a factor of zero disables a transition for that firing only.
-A timed transition may also be cut short by an MTD deployment, which
-returns failure if an attack action was in flight
-(Section~\ref{subsec:runtime-mechanics}).
+After a success, or at a tactic that dispatches no attack action, the base
+weights stand. Success needs no factor of its own: every attack flow in the
+corpus records steps that succeeded, so the base weights already route the
+attacker after a success. A factor of zero disables a transition for that
+firing only; places, transitions and arcs never change. A timed transition
+may also be cut short by an MTD deployment, which returns failure if an
+attack action was in flight (Section~\ref{subsec:runtime-mechanics}).
 
-The rest of this chapter and the evaluation are stated in these terms;
-Table~\ref{tab:gspn-notation} collects the symbols, and
-Figure~\ref{fig:gspn-gadget} draws one tactic of one Petri net.
-% SUPERSEDED (Marc's dictated P2, for reversibility; its sentences
-% survive inside the where-list above except the two below):
-%   "Petri nets have their places, which are the Enterprise ATT\&CK
-%   tactics~\citep{mitre2026attackv19}. The transitions are tactic--tactic
-%   pairs. Self-loops are dropped, because those are represented through
-%   the dwell times we are providing. We are using one token, placed at
-%   the earliest tactic --- reconnaissance with the pre-intrusion overlay
-%   in place, and in lieu of that, initial access. We construct this
-%   Petri net before execution of the simulator. The places in GSPN allow
-%   us to produce stochastic times. The attacker agent consumes some
-%   stochastic amount of time to perform a procedure to achieve a goal,
-%   which is the tactic. Each tactic has a time associated with it, drawn
-%   exponentially to provide stochasticity to the simulator, and the
-%   out-transitions are immediate. The GSPN structure is plug and play, so
-%   we can put in our various attack profiles as an input into these Petri
-%   nets, and this provides separation and discipline."
-%   NOT carried: "The places in GSPN allow us to produce stochastic
-%   times." (item 2 + item 5 say it) and "Each tactic has a time
-%   associated with it, drawn exponentially to provide stochasticity to
-%   the simulator, and the out-transitions are immediate." (item 5 and
-%   the opening sentence say it). Flip either back on read.
-
-% FIGURE fig:gspn-gadget --- generated by tools/gspn_gadget_figure.py
-% (2026-09-08) from the exfiltration profile's routing net (primary corpus
-% variant, overlay as run), the v4_failure_only overlay composed by the
-% controller's own compose(), tactic_durations.json and the pinned bundle.
-% Genre figure_table_conventions.md §d5 in Marsan's drawing convention
-% (circle = place, dashed = vanishing, hollow bar = timed, solid bar =
-% immediate, dot = token), legend inside the figure. Design record and the
-% numbers: handoff 2026-09-08_ch4_s43_gspn_formalism.md §8.3. R7 (Marc,
-% 2026-09-08): T_I is the positive-weight pair set, so (b) draws the eight
-% transitions with w_c > 0 and not the two zero-weight pairs the net file
-% carries (collection, privilege-escalation). Words live in the caption,
-% not the panel (Marc, 2026-09-08). Natural size (§h): 451pt of the
-% 455.24pt text block. CAPTION IS DRAFTED, NOT RATIFIED --- voice pass.
-\begin{figure}[htbp]
-  \centering
-  \includegraphics{fig_4-3a_gspn_gadget}
-  % [CH4 SCRUTINY 2026-10-02, F4: the caption decoded the marks panel (a)'s
-%  legend already carries, and narrated the account 4.4.4 gives; cut to how to
-%  read it. "drawn as a GSPN" cut (registry row 47). DRAFT STATE.]
-  \caption[One tactic of a Petri net]{One tactic of a Petri net. (a)~One
-  tactic in general, with the legend for every mark. (b)~Initial access in
-  $c_1$, the exfiltration profile, and (c)~credential access in the same
-  profile: the successors are the pairs with $w_c > 0$
-  (Equation~\ref{eq:base-weight}), listed by weight, beside, in blue,
-  $W_c(t_{pq} \mid \mathrm{failure})$ of Equation~\ref{eq:routing}. Under a
-  success verdict the base weights stand.}
-  \label{fig:gspn-gadget}
-\end{figure}
-
-% NOTATION TABLE (2026-09-08, session, ratify on read): the
-% standardisation instrument --- every symbol the chapter uses from here
-% on, once, with where it is declared. Typed, not generated: symbols, not
-% values. Rows for phi, R, d, gamma/delta/z are the symbols §4.4 and
-% App. B.6 will carry once §4.4 is re-keyed (Marc's later pass); App. B.6
-% already uses gamma, delta, z and the rule letters. [3b] phi for the
-% tactic-to-verb mapping --- the mapping has no symbol anywhere yet;
-% [3b] "Declared in" as the third head, or "Section".
-\begin{table}[htbp]
-  \centering
-  % ROUND 2026-09-29 (Marc: "why do we have secondary definitions in 4.1?"): the
-  % Meaning column names each symbol and no longer re-defines it; the definition
-  % is where the third column points. A table for lookup at a glance. Prior
-  % glosses in git. DRAFT STATE --- ratify on read.
-  \caption[Symbols of the attacker model]{Symbols of the attacker model
-  and where each is declared.}
-  \label{tab:gspn-notation}
-  \tablestyle
-  \begin{tabular}{@{}lP{7.4cm}l@{}}
-    \toprule
-    Symbol & Meaning & Declared in \\
-    \midrule
-    $c$ & an attack profile & \S\ref{sec:attack-profiles} \\
-    $\mathcal{N}_c$ & the Petri net of profile $c$ & \S\ref{sec:petri-formalism} \\
-    $p$, $\hat{p}$ & a tactic place; its decision place & \S\ref{sec:petri-formalism} \\
-    $\tau_p$ & the timed transition of tactic $p$ & \S\ref{sec:petri-formalism} \\
-    $t_{pq}$ & the immediate transition from $p$ to $q$ & \S\ref{sec:petri-formalism} \\
-    $\mu_p$ & the mean dwell of tactic $p$ & \S\ref{subsec:dwell-times}, Table~\ref{tab:dwell-catalogue} \\
-    $w_c(p,q)$ & the base weight of $p \to q$ & Eq.~\ref{eq:base-weight} \\
-    $\sigma$ & the pre-intrusion overlay's share & \S\ref{sec:petri-formalism} \\
-    $M_0$ & the initial marking & \S\ref{sec:petri-formalism} \\
-    $v \in V$ & a verdict & Eq.~\ref{eq:vc-net} \\
-    $F_v$ & the factor under verdict $v$ & Eq.~\ref{eq:vc-net} \\
-    $F_{\text{failure}}$ & the failure matrix & \S\ref{subsec:failure-matrix} \\
-    $\varphi$ & the tactic-to-action mapping & \S\ref{subsec:tactic-verb-mapping} \\
-    \bottomrule
-  \end{tabular}
-\end{table}
-% [APPLIED, your ruling] "(see sensitivity analysis ch6)" deleted --- the
-%   closing paragraph already sends parameters to L4, which declares and
-%   points at ch6.
-% [RULED 2026-08-18, do not re-flag] the ownership fold ("supplies only
-%   the structure ... policy emerges through execution; that is L4") CUT
-%   by Marc --- reads as a limitation/characterisation; the ceiling
-%   paragraph's "L4 deals with this" carries the boundary. ¶2 + ¶3 merged
-%   (our model = structure + semantics) --- four paragraphs, matching the
-%   ruled order. "Generalised" coexistence clause: not important.
-
-% [APPLIED, your ruling] PRE-ATT\&CK head dropped as lit-review background
-%   (strom2018mitre / mitre2020attackv8 stay in the bib for ch3); the
-%   fragment repaired by deletion only ("and these" removed).
-% [APPLIED 2026-08-18] M6 justification sentence.
-
-% [CONNECTIVE-PROSE PASS 2026-09-26, P10 4.3 close] Terms matched to 4.4
-%  and the notation table ('declared inputs', 'mean dwell'); 'the
-%  exponential defence of the dwell times' dropped (a justification, not
-%  something the join supplies); the gloss repeating v cut. Marc's colon
-%  and parentheses kept. SESSION-GENERATED on Marc's 2026-09-26 go-ahead
-%  (docs/workflows/connective_prose.md; audit
-%  docs/implementation/connective_prose_audit.md); prior text in git.
-%  RATIFIED 2026-09-26 (Marc: 'I accept all this').
-% [JOIN DEFINED 2026-10-03, Marc's yes] "the join" was used here first and
-%  defined nowhere (Figure 4.1 drew the word until its 2026-10-03 round, now
-%  "integrate with MTDSim"); one sentence at first use, the ratified
-%  paragraph untouched. DRAFT STATE.
+% [JOIN paragraph: RATIFIED 2026-09-26, "the join" defined 2026-10-03. The
+%  2026-10-04 redraft changed only the symbols: the mapping is named, not
+%  phi; F_failure -> F; "the verdict v by which F_v reweights the token's
+%  out-transitions at runtime" -> "the verdict" (Equation 4.3 says what it does).]
 The join links a Petri net to MTDSim: it turns each tactic into an attack
 action in MTDSim and returns the attack action's verdict to the Petri net.
 The Petri net leaves two things to the join: the declared inputs
-(the mean dwell $\mu_p$ of each tactic, the mapping $\varphi$, the failure
-matrix $F_{\text{failure}}$) and the mechanics (the verdict $v$ by which
-$F_v$ reweights the token's out-transitions at runtime; the dead-end
-retrace).
-Section~\ref{sec:execution} supplies these through the join.
-% [RE-KEYED 2026-09-08 with §4.4's four units: phi and F_failure are
-%  declared values (§4.4.2--4.4.4), the verdict v the mechanic (§4.4.1).
-%  Two symbol bindings on Marc's sentence, nothing else touched.]
-% [PROPOSED 2026-09-08: the two symbols inserted, nothing else touched;
-%   §4.4's own re-key to them is Marc's later pass.]
-% [note] the "dwell times exist nowhere -> inherently arbitrary ->
-%   justified against the literature -> swept in ch6" sentence moved out
-%   of L3 with this compression; it is 4.4.1's opening obligation
-%   (skeleton comment carries it).
+(the mean dwell $\mu_p$ of each tactic, the tactic-to-action mapping, the
+failure matrix $F$) and the mechanics (the verdict, and the retrace at a dead
+end). Section~\ref{sec:execution} supplies these through the join.
 
+% FIGURE fig:gspn-gadget --- generated by tools/gspn_gadget_figure.py from the
+% c1 routing net (primary corpus variant, overlay as run), the v4_failure_only
+% failure matrix composed by the controller's own compose(),
+% tactic_durations.json and the pinned bundle. Marsan's drawing convention,
+% legend inside the figure. Regenerate, never hand-edit. 2026-10-04: symbols
+% to the redraft (W, no w_c / W_c), panel titles to c_1 (was "the exfiltration
+% profile", stale since the 4.2 relabel), "gadget" off the panels. DRAFT STATE.
+\begin{figure}[htbp]
+  \centering
+  \includegraphics{fig_4-3a_gspn_gadget}
+  \caption[One tactic of a Petri net]{One tactic of a Petri net. (a)~One
+  tactic $p$ in general, with the legend for every mark. (b)~Initial access
+  and (c)~credential access in $c_1$: each successor $q$ with its base weight
+  $W(t_{pq})$ (Equation~\ref{eq:base-weight}) and, in blue, its weight after a
+  failure, $W(t_{pq} \mid \text{failure})$ (Equation~\ref{eq:routing}).}
+  \label{fig:gspn-gadget}
+\end{figure}
 
 
 % ---- PASS 5 APPLIED 2026-09-08 (split-stream: white box + black box, merged;
@@ -4600,25 +4412,25 @@ not in the join.
 %  Appendix C does. Record: docs/handoffs/2026-09-25_ch4_mark_risk_ledger.md.
 %  DRAFT STATE, ratify on read.]
 Each value in the APT attacker model has one of four bases. The base weights
-$w_c$ and the membership of each attack profile come from the corpus. The
+and the membership of each attack profile come from the corpus. The
 scan-shaped and exploit-shaped dwell times and the 20-second confusion penalty
 come from the simulator: they are MTDSim's own costs. The order of the
 lifecycle stages the failure matrix reads (Section~\ref{subsec:failure-matrix})
 comes from the literature \citep{hutchins2011, alshamrani2019}. The remaining
 values are our judgement: the dwell times of the tactics no attack action prices, the
 tactic-to-action mapping, the values of the failure matrix, the share of weight given to
-the pre-intrusion tactics ($\sigma$), the choice of one attack flow per
+the pre-intrusion overlay, the choice of one attack flow per
 APT group, and the vulnerability memory's factor of three.
 Appendix~\ref{app:movement} gives the reason for the first three
 (Tables~\ref{tab:dwell-derivation}, \ref{tab:controller-mapping}
 and~\ref{tab:overlay-failure-rules}), and Section~\ref{sec:petri-formalism}
-for $\sigma$ and for one attack flow per APT group.
+for the overlay's share and for one attack flow per APT group.
 % [2026-09-26 SIMPLIFIED (Marc: the one-factor-at-a-time sentence was "very
 %  hard to follow ... keep it simple and I can redraft it"). "Dwell family" and
 %  "scaling rate" were used here before 4.4.2 and 4.4.4 define them. Placeholder
 %  for Marc's redraft; DRAFT STATE.]
 Chapter~\ref{ch:experiments} varies or removes every other value; three are
-not tested: the per-tactic dwell multipliers, $\sigma$, and the choice of
+not tested: the per-tactic dwell multipliers, the overlay's share, and the choice of
 one attack flow per APT group.
 % INSERTION A APPLIED 2026-09-18 --- DRAFT STATE, ratify on read (Marc's
 %  green light this date: "swept is wrong, we kind of just chose them ... we
@@ -4655,7 +4467,7 @@ of the loop runs in six steps, numbered as in Figure~\ref{fig:runtime-loop}:
   \item the token's tactic enters the join;
   \item the tactic's mean dwell $\mu_p$ is drawn through an exponential and
   consumed as simulated time;
-  \item the mapping $\varphi$ resolves the tactic to an attack action, or to
+  \item the tactic-to-action mapping resolves the tactic to an attack action, or to
   dwell-only, in which case nothing is dispatched and no verdict returns;
   \item a dispatched attack action's verdict, success or failure, returns
   from MTDSim;
@@ -4716,7 +4528,7 @@ visible, and otherwise prefers the hosts nearest the target's level.
 %  the caption says how to read the bands. DRAFT STATE --- ratify on read.]
 \end{figure}
 
-The verdict $v$ comes from MTDSim. An attack action fails if its
+The verdict comes from MTDSim. An attack action fails if its
 preconditions were missing (for example, an exploit of a vulnerability not
 yet scanned for), or if an MTD deployment disrupts it
 (Section~\ref{subsec:attacker-model}). The join can tell a
@@ -4726,7 +4538,7 @@ routing: the failure matrix is declared over one failure verdict, not two.
 %  proposal (chat, this date); source register: handoff 2026-09-08_ch4_s43_gspn_formalism.md
 %  §7.2. Ratify-on-read.]
 At a dwell-only tactic (one with no mapped attack action,
-Section~\ref{subsec:tactic-verb-mapping}) there is no verdict ($v = \text{none}$). A deployment that lands during a
+Section~\ref{subsec:tactic-verb-mapping}) there is no verdict. A deployment that lands during a
 dwell-only tactic cuts the dwell short and costs the attacker the confusion
 penalty. At a dwell-only tactic MTD is felt as cost, never
 as a change of route.
@@ -4959,9 +4771,9 @@ not real-world measurements.
 \subsection{Tactic-to-action mapping}
 \label{subsec:tactic-verb-mapping}
 
-The tactic-to-action mapping $\varphi$ sends each tactic, a place of the
+The tactic-to-action mapping sends each tactic, a place of the
 Petri net, to at most one of the simulator's attack actions. We found no
-published mapping, so $\varphi$ is declared. Where there is
+published mapping, so the mapping is declared. Where there is
 no mapping, the tactic is dwell-only: it consumes time in the simulator and
 dispatches nothing. The dwell-only is a concession: the baseline attacker's
 attack actions that we are plugging into have gaps; seven of the 15
@@ -5038,14 +4850,14 @@ in.
 %  printed by tools/gspn_gadget_figure.py (stage_shares), stages from the
 %  lifecycle consensus; the same run prints the stage-by-stage shift.
 %  Previous text in git (commit 3379daa4). DRAFT STATE, ratify on read.]
-The base weights $w_c$ of Equation~\ref{eq:base-weight} are the proportions
+The base weights of Equation~\ref{eq:base-weight} are the proportions
 of a profile's attack flows that take each out-transition, and we assume the
 observed out-transitions are the complete set of choices open to the attacker:
 the Attack Flow corpus is all we have to draw on, and a different corpus would
 give a different net. These reports record only the steps that succeeded
 (survivorship bias), so the base weights say where an attacker goes after a
 success and nothing about where it goes after a failure. The failure matrix,
-$F_{\text{failure}}$ of Equation~\ref{eq:vc-net}, supplies the failure routing.
+$F$ of Equation~\ref{eq:routing}, supplies the failure routing.
 It is a separate input, independent of the nets and of the simulator's attack actions,
 and every value in it is our judgement.
 

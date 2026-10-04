@@ -391,8 +391,8 @@ def frag_body(out: dict) -> str:
       r"The dwell ranges follow the evidence tiers of Appendix~\ref{app:dwell-derivation}; the failure-matrix ranges "
       r"bracket the declared value on both sides (Appendix~\ref{app:weight-sets}). The draw's shape and the mapping "
       r"have no range and are compared against the alternative that was tried; the nine failure rules are single argued "
-      r"values, held one by one and removed together by the ablation of Section~\ref{sec:ablation}. In the notation of Chapter~\ref{ch:attacker-model} the rows are $\mu_p$, $\tau_p$, "
-      r"$\varphi$, $\gamma$, $\delta$, $z$ and $R$. Averaged over the four profiles, 400 runs per cell; the per-value "
+      r"values, held one by one and removed together by the ablation of Section~\ref{sec:ablation}. "
+      r"Averaged over the four profiles, 400 runs per cell; the per-value "
       r"readings are the sections that follow.}")
     w(r"  \label{tab:parameter-register}")
     w(r"  \tablestyle\setlength{\tabcolsep}{4pt}")

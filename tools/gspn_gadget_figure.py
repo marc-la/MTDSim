@@ -4,16 +4,17 @@ The formalism section (§4.3) states the net as a tuple; this figure shows the
 shape the tuple names, for a reader who has never seen a Petri net. Two
 panels, Marsan's drawing convention, decoded in an in-figure legend:
 
-* **(a)** the generic gadget of one tactic ``p``: the tangible tactic place
-  with the token, the timed transition ``tau_p`` (hollow bar, rate ``1/mu_p``),
-  the vanishing decision place ``p-hat`` (dashed circle), and the fan of
-  weighted immediate transitions ``t_pq`` (solid bars) to the successors;
-* **(b)** the same gadget on one real place of one profile net, with two
-  ledger columns beside the successor places: the base weight ``w_c(p,q)``
-  of Eq. base-weight and, in the accent, the failure-verdict weight
-  ``W_c(t_pq | failure)`` of Eq. routing. The accent column is the one thing
-  the figure is about — the verdict-conditioned reweighting the section adds
-  to the GSPN.
+* **(a)** one tactic ``p`` in general: the tactic place with the token, the
+  timed transition ``tau_p`` (hollow bar, rate ``1/mu_p``), the decision place
+  ``p-hat`` (dashed circle), and the fan of immediate transitions ``t_pq``
+  (solid bars) to the successors;
+* **(b)**, **(c)** one real tactic of ``c_1`` each, with two ledger columns
+  beside the successor places: the base weight ``W(t_pq)`` of Eq. base-weight
+  and, in the accent, the weight after a failure ``W(t_pq | failure)`` of Eq.
+  routing. The accent column is what the section adds to the GSPN.
+  Symbols follow the 2026-10-04 redraft of section 4.3 (the standard tuple,
+  E9): ``w_c`` and ``W_c`` became ``W``; "gadget", "tangible" and "vanishing"
+  are off the figure (the text no longer uses them).
 
 Everything numeric is read, never typed:
 
@@ -27,7 +28,7 @@ Everything numeric is read, never typed:
   ``_tactic_axis``.
 
 Ruling R7 (2026-09-08): ``T_I`` is the positive-weight pair set, so only
-transitions with ``w_c > 0`` are drawn; the routing net carries the wider L2
+transitions with ``W(t_pq) > 0`` are drawn; the routing net carries the wider L2
 pair set with zero weights that never fire, and the two are behaviourally
 identical (handoff 2026-09-08_ch4_s43_gspn_formalism.md §8.3).
 
@@ -54,6 +55,7 @@ sys.path.insert(0, str(REPO / "src"))
 sys.path.insert(0, str(REPO / "tools"))
 
 from _tactic_axis import load_axis  # noqa: E402
+from pipeline_ladder_figure import PROFILE_CODE  # noqa: E402  the c_k of Table 4.1
 from mtdsim.l3_simulation.controller.outcome import load_outcome_overlay  # noqa: E402
 from mtdsim.l3_simulation.movement.measures import load_stage_of  # noqa: E402
 from mtdsim.l3_simulation.movement.net import PROFILES, load_routing_net  # noqa: E402
@@ -116,17 +118,16 @@ def panel_a() -> list[str]:
             rf"\node[right=2pt of q{i},lab] {{${q}$}};",
             rf"\draw[arc] (ph) -- (t{i}); \draw[arc] (t{i}) -- (q{i});",
             rf"\node[lab,anchor=south west,inner sep=1pt] at ({X_BAR+0.12},{y+dy+0.06}) {{$t_{{p{q}}}$}};",
-            rf"\node[lab,anchor=north west,inner sep=1pt] at ({X_BAR+0.12},{y+dy-0.06}) {{$w_c(p,{q})$}};",
         ]
     out.append(rf"\node[lab] at ({X_Q+0.6},{y-0.7}) {{$\vdots$}};")
     # legend, inside the figure (genre convention)
     lx, ly = 10.1, y + 1.4
     out += [
-        rf"\node[place,minimum size=4mm] (lp) at ({lx},{ly}) {{}}; \node[right=2pt of lp,lab] {{place (tangible: the token dwells)}};",
-        rf"\node[vplace,minimum size=4mm] (lv) at ({lx},{ly-0.55}) {{}}; \node[right=2pt of lv,lab] {{decision place (vanishing: zero time)}};",
-        rf"\node[timed,minimum height=4mm,minimum width=2mm] (lt) at ({lx},{ly-1.1}) {{}}; \node[right=2pt of lt,lab] {{timed transition, exponential delay}};",
-        rf"\node[imm,minimum height=4mm] (li) at ({lx},{ly-1.65}) {{}}; \node[right=2pt of li,lab] {{immediate transition, weighted}};",
-        rf"\fill ({lx},{ly-2.2}) circle (0.9mm); \node[lab,anchor=west] at ({lx+0.2},{ly-2.2}) {{the token ($M_0$: one)}};",
+        rf"\node[place,minimum size=4mm] (lp) at ({lx},{ly}) {{}}; \node[right=2pt of lp,lab] {{place (a tactic)}};",
+        rf"\node[vplace,minimum size=4mm] (lv) at ({lx},{ly-0.55}) {{}}; \node[right=2pt of lv,lab] {{decision place (zero time)}};",
+        rf"\node[timed,minimum height=4mm,minimum width=2mm] (lt) at ({lx},{ly-1.1}) {{}}; \node[right=2pt of lt,lab] {{timed transition (exponential delay)}};",
+        rf"\node[imm,minimum height=4mm] (li) at ({lx},{ly-1.65}) {{}}; \node[right=2pt of li,lab] {{immediate transition (weighted)}};",
+        rf"\fill ({lx},{ly-2.2}) circle (0.9mm); \node[lab,anchor=west] at ({lx+0.2},{ly-2.2}) {{token}};",
     ]
     return out
 
@@ -143,7 +144,7 @@ def panel_b(place: str, rows: list[tuple[str, float, float]], mu: float,
     y_mid = y_top - ROW * (n - 1) / 2
     k = letter
     out = [
-        rf"\node[head,anchor=west] at ({X_P-0.6},{y_top+0.9}) {{({k})\enspace The same gadget on \emph{{{tex_escape(axis.label[place].lower())}}} in the {tex_escape(profile_label)} profile}};",
+        rf"\node[head,anchor=west] at ({X_P-0.6},{y_top+0.9}) {{({k})\enspace {tex_escape(axis.label[place])} in {profile_label}}};",
         rf"\node[place] ({k}p) at ({X_P},{y_mid}) {{}}; \fill ({k}p) circle (0.9mm);",
         # the tactic name broken at its spaces so that a long name (credential
         # access) does not widen the figure past \textwidth
@@ -154,8 +155,8 @@ def panel_b(place: str, rows: list[tuple[str, float, float]], mu: float,
         rf"\node[vplace] ({k}ph) at ({X_PHAT},{y_mid}) {{}};",
         rf"\node[below=2pt of {k}ph,lab] {{$\hat{{p}}$}};",
         rf"\draw[arc] ({k}p) -- ({k}tau); \draw[arc] ({k}tau) -- ({k}ph);",
-        rf"\node[lab,anchor=west] at ({X_W},{y_top+0.5}) {{$w_c(p,q)$}};",
-        rf"\node[lab,anchor=west,accent] at ({X_WF},{y_top+0.5}) {{$W_c(t_{{pq}}\mid\mathrm{{failure}})$}};",
+        rf"\node[lab,anchor=west] at ({X_W},{y_top+0.5}) {{$W(t_{{pq}})$}};",
+        rf"\node[lab,anchor=west,accent] at ({X_WF},{y_top+0.5}) {{$W(t_{{pq}}\mid\mathrm{{failure}})$}};",
     ]
     for i, (q, w, wf) in enumerate(rows, 1):
         y = y_top - ROW * (i - 1)
@@ -219,7 +220,7 @@ def main() -> None:
     net = load_routing_net(args.profile, with_synthetic_overlay=True)
     overlay = load_outcome_overlay(version=args.overlay)
     durations = json.loads(DURATIONS.read_text())["tactics"]
-    profile_label = args.profile.removeprefix("objective_").replace("_", " + ")
+    profile_label = f"$c_{{{PROFILE_CODE[args.profile]}}}$"
 
     def ledger(place):
         if place not in net.places:
@@ -251,11 +252,11 @@ def main() -> None:
     # the numbers the caption quotes
     print(f"profile={args.profile}  place={args.place}  ATT&CK={axis.version}  "
           f"overlay={args.overlay}  variant=primary  mu={mu:g} s")
-    print(f"out-transitions in the routing net: {len(base)}; drawn (w_c > 0): "
+    print(f"out-transitions in the routing net: {len(base)}; drawn (W > 0): "
           f"{len(rows)}; zero-weight, not drawn: {len(dropped)} "
           f"({', '.join(dropped) or 'none'})")
     for q, w, wf in rows:
-        print(f"  {axis.label[q]:22s} w_c={w:.3f}  W_c|failure={wf:.3f}")
+        print(f"  {axis.label[q]:22s} W={w:.3f}  W|failure={wf:.3f}")
     top = max(rows, key=lambda r: r[2])
     print(f"failure verdict: mass to {axis.label[top[0]]} = {top[2]:.3f} "
           f"(base {top[1]:.3f})")
@@ -264,7 +265,7 @@ def main() -> None:
     print(f"panel (c): place={args.place_c}  mu={mu_c:g} s  drawn {len(rows_c)}; "
           f"zero-weight, not drawn: {len(dropped_c)}")
     for q, w, wf in rows_c:
-        print(f"  {axis.label[q]:22s} w_c={w:.3f}  W_c|failure={wf:.3f}")
+        print(f"  {axis.label[q]:22s} W={w:.3f}  W|failure={wf:.3f}")
 
     if not args.no_compile:
         r = subprocess.run(["pdflatex", "-interaction=nonstopmode", "-halt-on-error",
