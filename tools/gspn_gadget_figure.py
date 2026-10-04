@@ -8,13 +8,17 @@ panels, Marsan's drawing convention, decoded in an in-figure legend:
   timed transition ``tau_p`` (hollow bar, rate ``1/mu_p``), the decision place
   ``p-hat`` (dashed circle), and the fan of immediate transitions ``t_pq``
   (solid bars) to the successors;
-* **(b)**, **(c)** one real tactic of ``c_1`` each, with two ledger columns
+* **(b)** one real tactic of ``c_1`` (initial access), with two ledger columns
   beside the successor places: the base weight ``W(t_pq)`` of Eq. base-weight
   and, in the accent, the weight after a failure ``W(t_pq | failure)`` of Eq.
   routing. The accent column is what the section adds to the GSPN.
   Symbols follow the 2026-10-04 redraft of section 4.3 (the standard tuple,
   E9): ``w_c`` and ``W_c`` became ``W``; "gadget", "tangible" and "vanishing"
-  are off the figure (the text no longer uses them).
+  are off the figure (the text no longer uses them). Round 2 (Marc, same day:
+  "is that something that is important for the reader"): panel (c), the
+  post-intrusion tactic, is off by default --- section 4.3 needs one worked
+  tactic, and section 4.4.4 states the second half of the principle in words.
+  ``--place-c credential-access`` restores it.
 
 Everything numeric is read, never typed:
 
@@ -209,8 +213,8 @@ def main() -> None:
                                  formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--profile", default="objective_exfiltration")
     ap.add_argument("--place", default="initial-access")
-    ap.add_argument("--place-c", default="credential-access",
-                    help="the post-intrusion tactic panel (c) draws")
+    ap.add_argument("--place-c", default=None,
+                    help="a post-intrusion tactic for an optional panel (c); off by default")
     ap.add_argument("--overlay", default="v4_failure_only",
                     help="outcome-overlay version from the registry")
     ap.add_argument("--no-compile", action="store_true")
@@ -235,13 +239,14 @@ def main() -> None:
         return base, rows, dropped, float(durations[place]["duration_s"]), durations[place]["attack_tactic_id"]
 
     base, rows, dropped, mu, attack_id = ledger(args.place)
-    base_c, rows_c, dropped_c, mu_c, attack_id_c = ledger(args.place_c)
 
     body = PREAMBLE.splitlines()
     body += panel_a()
     body += panel_b(args.place, rows, mu, axis, profile_label, attack_id, "b", -2.3)
-    y_top_c = -2.3 - ROW * (len(rows) - 1) - 2.0
-    body += panel_b(args.place_c, rows_c, mu_c, axis, profile_label, attack_id_c, "c", y_top_c)
+    if args.place_c:
+        base_c, rows_c, dropped_c, mu_c, attack_id_c = ledger(args.place_c)
+        y_top_c = -2.3 - ROW * (len(rows) - 1) - 2.0
+        body += panel_b(args.place_c, rows_c, mu_c, axis, profile_label, attack_id_c, "c", y_top_c)
     body += [r"\end{tikzpicture}", r"\end{document}", ""]
 
     OUT_DIR.mkdir(parents=True, exist_ok=True)
@@ -262,10 +267,11 @@ def main() -> None:
           f"(base {top[1]:.3f})")
     print("the principle's numbers (section 4.4.4):")
     stage_shares(overlay)
-    print(f"panel (c): place={args.place_c}  mu={mu_c:g} s  drawn {len(rows_c)}; "
-          f"zero-weight, not drawn: {len(dropped_c)}")
-    for q, w, wf in rows_c:
-        print(f"  {axis.label[q]:22s} W={w:.3f}  W|failure={wf:.3f}")
+    if args.place_c:
+        print(f"panel (c): place={args.place_c}  mu={mu_c:g} s  drawn {len(rows_c)}; "
+              f"zero-weight, not drawn: {len(dropped_c)}")
+        for q, w, wf in rows_c:
+            print(f"  {axis.label[q]:22s} W={w:.3f}  W|failure={wf:.3f}")
 
     if not args.no_compile:
         r = subprocess.run(["pdflatex", "-interaction=nonstopmode", "-halt-on-error",

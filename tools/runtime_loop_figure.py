@@ -319,7 +319,7 @@ def emit(order, axis, net, win, durations, mapping, verbs, fmatrix, n_rules,
 
     y = ctrl_top - H_CTRL
     band(w, ctrl_top, y, "accent!45")
-    rot_label(w, ctrl_top, y, "Join", "accent")
+    rot_label(w, ctrl_top, y, "Integration", "accent")
     ctrl_bot = y
 
     # ================================================== join to the action ==

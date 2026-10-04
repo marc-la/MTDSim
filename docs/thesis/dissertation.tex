@@ -3932,7 +3932,7 @@ come from one attack flow alone: 88\,\%, against 39\,\% of the edges
 between tactics (Appendix~\ref{app:full-graph}). An edge
 weight needs several attack flows behind it, because
 Section~\ref{sec:petri-formalism} turns the weights into the probability of
-each next tactic. Tactics also make the join smaller: it maps 15 tactics,
+each next tactic. Tactics also make the tactic-to-action mapping smaller: it maps 15 tactics,
 rather than the 124 techniques the attack flows use, to MTDSim's six attack
 actions (Section~\ref{sec:execution}).
 
@@ -4186,9 +4186,7 @@ this convention and formalise each attack profile as a GSPN. An attack profile
 gives only the edges between tactics and their weights. A GSPN adds a token,
 which marks the tactic the attacker is on, and two kinds of transition. A
 timed transition models the time the attacker spends on a tactic, and an
-immediate transition models its choice of the next tactic. We use the GSPN as
-Ajmone Marsan et al.\ define it, with one extension: the choice of the next
-tactic depends on whether the tactic's attack action succeeded.
+immediate transition models its choice of the next tactic.
 
 A GSPN is a directed bipartite graph of places and transitions
 \citep{marsan1984}. Tokens sit on places. A transition is enabled when each of
@@ -4253,39 +4251,56 @@ the overlay. A place with transitions of its own gives the overlay transition
 one-tenth of its weight, and its own transitions share the other nine-tenths
 in their proportions.
 
-The one extension is the verdict. A GSPN's weights are constants, or
-functions of the marking, but the APT attacker model chooses its next tactic
-by whether the tactic's attack action succeeded in MTDSim: the attack
-action's \emph{verdict} (Section~\ref{subsec:runtime-mechanics}). We add the
-failure matrix $F$ (Section~\ref{subsec:failure-matrix}), a declared factor
-between zero and one for each pair of tactics; the extended Petri net is the
-pair $(\mathcal{N}_c, F)$. When $\tau_p$ fires and its attack action has
-failed, $F$ scales the weights of the immediate transitions out of $\hat{p}$:
+% [ROUND 3, 2026-10-04 (Marc: "one extension is the verdict ... an extension
+%  for the sake of an extension"; "the motivation isn't there"): the why first,
+%  in its own paragraph (attack actions fail; the base weights describe
+%  success; a GSPN cannot read a verdict from outside the net), then the
+%  extension as one added element of the formalism, displayed as the pair
+%  (inherit, then extend: Bland's PNPSC convention), then the rule. The P1
+%  announcement is cut: it made the extension read as part of the GSPN, and it
+%  named Ajmone Marsan twice. The failure causes stay in 4.4.1. DRAFT STATE.]
+Each attack action the APT attacker model runs in MTDSim succeeds or fails;
+this outcome is the attack action's \emph{verdict}
+(Section~\ref{subsec:runtime-mechanics}). The base weights describe where an
+attacker goes after a success, because an attack flow draws only the steps
+its attacker completed (Section~\ref{subsec:failure-matrix}). Routed on them
+alone, an attacker that fails would carry on as though it had succeeded. A
+GSPN cannot route on the verdict: its weights are constants, or functions of
+the marking, and the verdict comes from MTDSim, outside the Petri net.
+
+We therefore extend the GSPN with one element, the failure matrix $F$, a
+declared factor between zero and one for each pair of tactics
+(Section~\ref{subsec:failure-matrix}). The Petri net of attack profile $c$ is
+then the pair
+\begin{equation}
+  (\mathcal{N}_c, F).
+  \label{eq:vc-net}
+\end{equation}
+When $\tau_p$ fires and its attack action fails, $F$ scales the weights of
+the immediate transitions out of $\hat{p}$:
 \begin{equation}
   W(t_{pq} \mid \text{failure}) =
   \frac{W(t_{pq})\, F(p, q)}{\sum_{q'} W(t_{pq'})\, F(p, q')}.
   \label{eq:routing}
 \end{equation}
 After a success, or at a tactic that dispatches no attack action, the
-immediate transitions keep their base weights. A success needs no factor,
-because an attack flow draws only the steps its attacker completed. A factor
-of zero disables a transition for that firing only; places, transitions and
-arcs never change. An MTD deployment can also cut a timed transition short,
-which returns failure if an attack action was in flight
+immediate transitions keep their base weights. A factor of zero disables a
+transition for that firing only; places, transitions and arcs never change.
+An MTD deployment can also cut a timed transition short, which returns
+failure if an attack action was in flight
 (Section~\ref{subsec:runtime-mechanics}). Figure~\ref{fig:gspn-gadget}(b)
-and~(c) give the base weights and the weights after a failure at two tactics
-of $c_1$.
+gives both sets of weights at initial access in $c_1$.
 
-% [JOIN paragraph, ROUND 2 reframe (Marc: "it's not completely joined ... we
-%  still need a few more things"): what the Petri net lacks to run in MTDSim,
-%  and that Section 4.4 supplies it; the join is defined as that supply. Prior
-%  wording (ratified 2026-09-26) in git.]
+% [BRIDGE, ROUND 2 reframe (Marc: "it's not completely joined ... we still
+%  need a few more things"): what the Petri net lacks to run in MTDSim. ROUND 3
+%  (Marc: "I don't like the word join ... that's literally the title,
+%  integration with MTDSim"): "join" retired chapter-wide; 4.4 integrates.]
 The Petri net cannot yet run in MTDSim. It lacks three declared inputs: the
 mean dwell $\mu_p$ of each tactic, the tactic-to-action mapping, which turns a
 tactic into one of MTDSim's attack actions, and the values of the failure
 matrix $F$. It also lacks two mechanics: the return of each verdict from
 MTDSim, and what the token does at a dead end. Section~\ref{sec:execution}
-supplies these as the \emph{join} between the Petri net and MTDSim.
+supplies all five as it integrates the Petri net with MTDSim.
 
 % FIGURE fig:gspn-gadget --- generated by tools/gspn_gadget_figure.py from the
 % c1 routing net (primary corpus variant, overlay as run), the v4_failure_only
@@ -4293,19 +4308,19 @@ supplies these as the \emph{join} between the Petri net and MTDSim.
 % tactic_durations.json and the pinned bundle. Marsan's drawing convention,
 % legend inside the figure. Regenerate, never hand-edit. 2026-10-04: symbols
 % to the redraft (W, no w_c / W_c), panel titles to c_1 (was "the exfiltration
-% profile", stale since the 4.2 relabel), "gadget" off the panels. Round 2:
-% the caption says why there are two tactics (either side of the foothold,
-% 4.4.4 reads both). DRAFT STATE.
+% profile", stale since the 4.2 relabel), "gadget" off the panels. Round 3
+% (Marc: the foothold contrast "is more of a nuanced point"): panel (c) off,
+% one worked tactic; the caption says what to look at. DRAFT STATE.
 \begin{figure}[htbp]
   \centering
   \includegraphics{fig_4-3a_gspn_gadget}
   \caption[One tactic of a Petri net]{One tactic of a Petri net. (a)~The
   construction for one tactic $p$, with the legend for every mark.
-  (b)~Initial access and (c)~credential access in $c_1$, a tactic before the
-  foothold and one after it (Section~\ref{subsec:failure-matrix}): each
-  successor $q$ with its base weight $W(t_{pq})$ and, in blue, its weight after
-  a failure, $W(t_{pq} \mid \text{failure})$
-  (Equations~\ref{eq:base-weight} and~\ref{eq:routing}).}
+  (b)~Initial access in $c_1$: each successor $q$ with its base weight
+  $W(t_{pq})$ and, in blue, its weight after a failure,
+  $W(t_{pq} \mid \text{failure})$ (Equations~\ref{eq:base-weight}
+  and~\ref{eq:routing}). After a failure, most of the weight moves to
+  reconnaissance.}
   \label{fig:gspn-gadget}
 \end{figure}
 
@@ -4369,15 +4384,16 @@ supplies these as the \emph{join} between the Petri net and MTDSim.
 %  Marc's 2026-09-26 go-ahead (docs/workflows/connective_prose.md; audit
 %  docs/implementation/connective_prose_audit.md); prior text in git.
 %  RATIFIED 2026-09-26 (Marc: 'I accept all this').
-This section integrates the Petri nets $\mathcal{N}_c$ with MTDSim through
-the join. A Petri net run on its own produces a timeline of what the
-attacker did, with no input from the simulator; the join makes the run
-two-way. Section~\ref{subsec:runtime-mechanics} gives the runtime mechanics
-of the join, and Sections~\ref{subsec:dwell-times}
-to~\ref{subsec:failure-matrix} declare the three inputs the join carries.
-Section~\ref{subsec:vulnerability-memory} adds the attacker's memory of the
-vulnerabilities it has exploited, which sits in the exploit attack action,
-not in the join.
+% [ROUND 3 of 4.3, 2026-10-04: "join" retired (Marc); this opener otherwise
+%  as ratified 2026-09-26.]
+This section integrates the Petri nets $\mathcal{N}_c$ with MTDSim. A Petri
+net run on its own produces a timeline of what the attacker did, with no
+input from the simulator; integrated, the run is two-way.
+Section~\ref{subsec:runtime-mechanics} gives the runtime loop, and
+Sections~\ref{subsec:dwell-times} to~\ref{subsec:failure-matrix} declare the
+three inputs it reads. Section~\ref{subsec:vulnerability-memory} adds the
+attacker's memory of the vulnerabilities it has exploited, which sits in the
+exploit attack action, not in the runtime loop.
 % [CH4 SCRUTINY 2026-10-02, ledger I1--I3, C4, X6, applied on Marc's
 %  accept-all: the OWED 2026-09-28 memory clause landed (I1) and the factor of
 %  three joins the judgement list (I2); "Appendix B gives the reason for each"
@@ -4476,7 +4492,7 @@ one attack flow per APT group.
 %  _pay_interrupt_cost); "sink" -> dead end (R5); Jalowski's ask is ch3's
 %  (R7); the extensibility clause to 7.2 (R8). Prior text in git (3f6b4f8c).
 %  DRAFT STATE --- ratify on read.]
-The join calls each attack action on its own, outside the baseline
+The APT attacker model calls each attack action on its own, outside the baseline
 attacker's procedure, and supplies its dwell time, so that the
 Petri net supplies every dwell time of the APT attacker model at
 runtime, the firing time of $\tau_p$. A drawn dwell \emph{replaces} the
@@ -4484,7 +4500,7 @@ dispatched attack action's native cost rather than adding to it: an attack
 action consumes its tactic's drawn time and nothing further. One iteration
 of the loop runs in six steps, numbered as in Figure~\ref{fig:runtime-loop}:
 \begin{enumerate}[nosep, leftmargin=*]
-  \item the token's tactic enters the join;
+  \item the token's tactic leaves the Petri net;
   \item the tactic's mean dwell $\mu_p$ is drawn through an exponential and
   consumed as simulated time;
   \item the tactic-to-action mapping resolves the tactic to an attack action, or to
@@ -4535,9 +4551,9 @@ visible, and otherwise prefers the hosts nearest the target's level.
   \includegraphics{fig_4-4c_runtime_loop}
   \caption[The APT attacker model's runtime loop]{The APT attacker model's
   runtime loop. The Petri-net band shows a fragment of one attack profile's
-  Petri net, the join band the join's three declared inputs as glyphs, and
+  Petri net, the integration band its three declared inputs as glyphs, and
   the MTDSim band the simulator, with the vulnerability memory added to its
-  attacker. Accented edges carry the net's traffic and grey edges the join to the
+  attacker. Accented edges carry the net's traffic and grey edges the calls into the
   simulator; the accented note in the MTDSim band is this dissertation's
   addition. The numbers are the steps of
   Section~\ref{subsec:runtime-mechanics}.}
@@ -4551,7 +4567,7 @@ visible, and otherwise prefers the hosts nearest the target's level.
 The verdict comes from MTDSim. An attack action fails if its
 preconditions were missing (for example, an exploit of a vulnerability not
 yet scanned for), or if an MTD deployment disrupts it
-(Section~\ref{subsec:attacker-model}). The join can tell a
+(Section~\ref{subsec:attacker-model}). The APT attacker model can tell a
 disruption from an unmet precondition, and it discards the distinction before
 routing: the failure matrix is declared over one failure verdict, not two.
 % [2026-09-13: A5 sentence landed on Marc's ratification of the fourteen-item
@@ -4895,7 +4911,7 @@ models and not observed in the corpus. A rule of forward and backward alone does
 fit these stages. Eight of the 15 tactics (Figure~\ref{fig:controller-mapping}) fall in
 post-intrusion operations, and in every attack profile a move to another
 tactic of that stage carries on average 58 to 71 per cent of a post-intrusion tactic's base weight.
-Figure~\ref{fig:gspn-gadget} shows both halves of the principle in $c_1$.
+Figure~\ref{fig:gspn-gadget}(b) shows the first half in $c_1$.
 After a failed initial access, which leaves no foothold, the weight on
 reconnaissance rises from 0.062 to 0.750 and each move that needs a foothold
 falls to about a quarter of its weight. After a failed credential access, the
