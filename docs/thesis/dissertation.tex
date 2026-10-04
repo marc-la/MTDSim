@@ -1131,7 +1131,7 @@ positioning for future operations \citep{alshamrani2019, nist2011sp80039}.
 %  future crisis (CISA, high confidence). The tactic-to-stage seating is ours
 %  and stays in chapter 4 (lifecycle_consensus.md). Previous text in git.
 %  DRAFT STATE, ratify on read.]
-We group the stages of published lifecycle models of an attack
+This dissertation groups the stages of published lifecycle models of an attack
 \citep{hutchins2011, mandiant2013, alshamrani2019} into four: preparation,
 intrusion, post-intrusion operations and actions on objectives. The models
 differ in the names and number of their stages but follow a comparable
@@ -4010,27 +4010,40 @@ the pre-intrusion overlay.
 %  Water's zero-confidence step (no longer a stand-out once c1 is "stole
 %  data"). The last line now says how 5.4.1 tests the partition. DRAFT STATE,
 %  ratify on read.]
+% [4.2 ROUND 5, 2026-10-04, Marc's line flags: "pools" then "average" (one
+%  word: averages); "groups" -> classify / class; "each of these four attack
+%  graphs is an attack profile" (said once, in the definition); why two
+%  questions and not three (positioning never reaches actions on objectives,
+%  3.1.1, so it is the no/no answer: no third question, no eight profiles);
+%  "the two answers" -> their yes-or-no answers; c4 said as the catch-all it
+%  is; "partitions by motivation or APT group" CUT ("answering a question
+%  nobody's asking"; Appendix B.3 now unreferenced from the body, flagged).
+%  P3: the sources named (CTID description + ATT&CK group page or the cited
+%  threat report: metadata_audit.csv source_used, every row); the limitation
+%  said as one. P4: preparation CUT (4.1 says it; the figure shows it); the
+%  colon that restated its own clause CUT; the objective rows described as
+%  they are drawn. P5: 5.4.1 said as what it does. DRAFT STATE, ratify on
+%  read.]
 APT attackers with different objectives act differently after the foothold
 (Section~\ref{subsec:apt}). The attack graph of
-Section~\ref{sec:technique-graph} pools all 38 attack flows, so its edge
-weights average over attackers with different objectives. We therefore split
-the attack flows into four groups by objective and build an attack graph from
-each group in the same way. Each of these four attack graphs is an attack
-profile: $c_1$ to $c_4$.
+Section~\ref{sec:technique-graph} is built from all 38 attack flows, so it
+averages the behaviour of attackers with different objectives. We therefore
+classify the attack flows by objective and build an attack graph from each
+class in the same way: the four attack profiles, $c_1$ to $c_4$.
 
-Two of the three objectives of Section~\ref{subsec:apt} are reached in
-actions on objectives: the attacker steals data, or it impedes the victim's
-systems by encrypting, destroying or hijacking them. We asked two questions
-of each attack flow: did the attacker steal data, and did it impede the
-victim's systems? The two answers give the four attack profiles of
-Table~\ref{tab:attack-profiles}. An attack flow that did both belongs to
-$c_3$ alone, so no edge weight counts it twice. Six of the seven attack
-flows of $c_3$ are ransomware that stole data and then encrypted the
-systems. The five attack flows of $c_4$ did neither: three attackers were
-removed from the network before they acted, one positioned for future
-operations, and one ran an adware campaign. Partitions by motivation or by
-APT group leave most attack flows unclassified
-(Appendix~\ref{app:rejected-partitions}).
+Two of the three objectives of Section~\ref{subsec:apt} end in actions on
+objectives: the attacker steals data, or it impedes the victim's systems by
+encrypting, destroying or hijacking them. The third, positioning for future
+operations, never reaches that stage (Section~\ref{subsec:apt}). We
+therefore asked two questions of each attack flow: did the attacker steal
+data, and did it impede the victim's systems? Their yes-or-no answers give
+the four attack profiles of Table~\ref{tab:attack-profiles}. An attack flow
+that did both belongs to $c_3$ alone, so no edge weight counts it twice.
+Six of the seven attack flows of $c_3$ are ransomware that stole data and
+then encrypted the systems. The five attack flows of $c_4$ did neither,
+whatever the reason: three attackers were removed from the network before
+they acted, one positioned for future operations, and one ran an adware
+campaign.
 
 \begin{table}[ht]
   % [ht]: at [t] it floated above the section heading of 4.2.
@@ -4050,14 +4063,14 @@ APT group leave most attack flows unclassified
   \end{tabular}
 \end{table}
 
-We answered the two questions from the sources of each attack flow: its
-CTID description and, where that did not settle them, the ATT\&CK group page
-and the cited report. For three attack flows the sources did not settle the
-answers, and we decided them from the cited report
-(Appendix~\ref{app:classification-audit}). We did not answer from the attack
-flow itself, because it draws only what its report describes: only 10 of the
-19 attack flows of $c_1$ reach the exfiltration tactic, although the sources
-of all 19 report the theft (Figure~\ref{fig:attack-profiles}).
+We answered both questions from the CTID description of each attack flow,
+together with its ATT\&CK group page or the threat report it cites. For
+three attack flows these left an answer open, and we decided it from the
+threat report (Appendix~\ref{app:classification-audit}). The attack flow
+itself is not a reliable answer, because its analyst drew only the steps its
+report describes, so it can stop short of the objective. Only 10 of the 19
+attack flows of $c_1$ reach the exfiltration tactic, although the sources of
+all 19 report the theft (Figure~\ref{fig:attack-profiles}).
 
 % FIGURE (REBUILT 2026-10-04, Marc: the grids were "decoration ... I don't
 % know what the blue columning does"; a bar-chart mock was "a lot of numbers
@@ -4080,32 +4093,30 @@ of all 19 report the theft (Figure~\ref{fig:attack-profiles}).
 \begin{figure}[t]
   \centering
   \includegraphics{fig_4-2b_profile_reach}
-  \caption[The tactics each attack profile reaches]{The share of each
-  attack profile's attack flows that reach each tactic.}
+  \caption[The tactics each attack profile reaches]{The share of the
+  attack flows of each attack profile (Table~\ref{tab:attack-profiles}) that
+  reach each tactic.}
   \label{fig:attack-profiles}
 \end{figure}
 
 % [2026-10-04: the stages now defined in 3.1.1 (was a forward reference to
 %  4.4.4); "objective" -> "actions on objectives" (Marc's ruling). DRAFT STATE.]
 Figure~\ref{fig:attack-profiles} groups the tactics by the four stages of
-Section~\ref{subsec:apt}. Preparation is sparse: reconnaissance and resource
-development appear in fewer than half the attack flows of every attack
-profile (Section~\ref{sec:technique-graph}). Intrusion and post-intrusion
-operations are shared: execution, stealth, discovery and command and control
-appear in more than half the attack flows of every attack profile. The
-attack profiles differ in actions on objectives, in collection as well as in
-exfiltration and impact. Collection, which neither question asks about,
-appears in 14 of the 19 attack flows of $c_1$ and in one attack flow each of
-$c_2$ and $c_3$.
+Section~\ref{subsec:apt}. Before actions on objectives, the attack profiles
+share their most common tactics: execution, stealth, discovery and command
+and control appear in more than half the attack flows of every attack
+profile. The attack profiles differ in actions on objectives. No attack flow
+of $c_2$ or $c_4$ reaches exfiltration, and none of $c_4$ reaches impact.
+Collection, which neither question asks about, appears in 14 of the 19
+attack flows of $c_1$ but in only one each of $c_2$ and $c_3$.
 
-Each attack profile becomes its own Petri net
-(Section~\ref{sec:petri-formalism}). Its attacker chooses the next tactic
-only among the edges its attack flows drew, so two attack profiles that reach
-the same tactics can still move between them differently
-(Appendix~\ref{app:profile-edges}).
-Section~\ref{subsec:ablation-attack-profiles} tests whether the partition
-changes the results, by running the APT attacker model on the attack graph
-of Section~\ref{sec:technique-graph} instead.
+Section~\ref{sec:petri-formalism} turns each attack profile into its own
+Petri net, whose attacker chooses its next tactic only among the edges its
+attack flows drew. Two attack profiles that reach the same tactics can
+therefore move between them differently (Appendix~\ref{app:profile-edges}).
+Section~\ref{subsec:ablation-attack-profiles} removes the split: it runs the
+APT attacker model on the attack graph of Section~\ref{sec:technique-graph}
+and compares its results with those of the four attack profiles.
 
 % 1 unit (L3). The formalism, the alternatives ranked in a sentence each
 % (a feasibility study sits behind the choice; single-token walk over
