@@ -14,7 +14,8 @@ colour carried no single meaning. Prior generator in git (c25d05a5).
 The rules it keeps (as tools/ch4_overview_figure.py, its sibling):
 
   * three groups, one per band, top to bottom: the Petri net (section 4.3),
-    drawn in Figure 4.4's marks with a key; the three declared inputs as
+    drawn in Figure 4.4's marks (no key: Figure 4.4, the page before, carries
+    it, and the caption points there); the three declared inputs as
     boxes, named as the subsection headings name them, with the subsection
     number (4.4.1 to 4.4.3), left to right in subsection order; MTDSim, its
     three modules and icons as Figure 2.1 draws them (Attacker, Network, MTD,
@@ -24,6 +25,13 @@ The rules it keeps (as tools/ch4_overview_figure.py, its sibling):
     dissertation builds; all text is ink; the token is ink, as in Figure 4.4;
   * arrows: the loop's steps in ink, each with its number and one word;
     MTDSim's own couplings in grey, as Figures 2.1 and 4.1;
+  * one grid, two lanes (round 2, Marc: "visually overwhelming ... things are
+    not really aligned"): what goes down runs on the left, what comes back up
+    on the right, the closed-loop convention; each box sits under the element
+    of the net it acts on (the failure matrix under the immediate transitions
+    it reweights, the verdict's success arm under the decision place); every
+    arrow is one straight vertical, bar step 1's fork and the failure arm's
+    one turn; one box width; box names at label size, not title size;
   * no data drawn: the boxes are named, not pictured; the subsections hold
     the values.
 
@@ -90,140 +98,115 @@ def step_label(svg: SVG, x: float, y: float, n: int, words: str, side: str = "ri
 
 
 def emit(succ: list[str]) -> tuple[str, float, float]:
+    """One grid, two lanes. Columns: C1 dwell, C2 mapping (the down lane, both
+    fed by step 1 from the token's place, which sits midway over them); C3 the
+    decision place, the verdict and the success arm; C4 the immediate
+    transitions and, under them, the failure matrix that reweights them (the up
+    lane). Every arrow is one straight vertical on its column, bar the fork of
+    step 1 and the failure arm's one turn."""
     svg = SVG()
     X0, X1 = 8, 892
+    C1, C2, C3, C4 = 126, 360, 510, 666
+    BOLD = ' font-weight="bold"'
 
     # ------------------------------------------------------------ Petri net
-    py0, py1 = 8, 226
+    py0, py1 = 8, 166
     svg.rect(X0, py0, X1, py1, "built", rx=7)
     svg.text(X0 + 16, py0 + 28, "Petri net", "title", anchor="start")
     svg.text(X0 + 108, py0 + 28, "§4.3", "xref", anchor="start")
-
-    # the key, Figure 4.4's marks and words, down the band's left edge
-    kx, ky = 40, py0 + 62
-    key = (("pl", "place"), ("dpl", "decision place"), ("timed", "timed transition"),
-           ("imm", "immediate transition"), ("tok", "token"))
-    for k, (cls, words) in enumerate(key):
-        y = ky + 27 * k
-        if cls in ("pl", "dpl"):
-            svg.add(f'<circle class="{cls}" cx="{kx}" cy="{y}" r="9"/>')
-        elif cls == "timed":
-            svg.add(f'<rect class="timed" x="{kx - 4}" y="{y - 10}" width="8" height="20"/>')
-        elif cls == "imm":
-            svg.add(f'<rect class="imm" x="{kx - 2.5}" y="{y - 10}" width="5" height="20"/>')
-        else:
-            svg.add(f'<circle class="tok" cx="{kx}" cy="{y}" r="5"/>')
-        svg.text(kx + 20, y + 5.5, words, "sm", anchor="start")
-
-    yc = 108                                   # the net's axis
-    xp, xt, xd, xb, xq = 300, 440, 590, 668, 714
+    yc = 96                                    # the net's axis
+    xp = (C1 + C2) / 2                         # the token's place, over the fork
+    xt = (xp + C3) / 2                         # its timed transition
+    xd, xb, xq = C3, C4, C4 + 52               # decision place; immediate transitions; successors
     rp, rq = 20, 16
-    ys = [yc - 52, yc, yc + 52]                # successor rows
-    # the token's place
+    ys = [yc - 40, yc, yc + 40]
     svg.add(f'<circle class="pl" cx="{xp}" cy="{yc}" r="{rp}"/>')
     svg.add(f'<circle class="tok" cx="{xp}" cy="{yc}" r="6"/>')
-    svg.text(xp, yc + rp + 22, "Initial access", "lbl")
-    # its timed transition and decision place
+    svg.text(xp - rp - 10, yc + 6, "Initial access", "lbl", anchor="end")
     svg.add(f'<rect class="timed" x="{xt - 6}" y="{yc - 20}" width="12" height="40"/>')
     svg.add(f'<circle class="dpl" cx="{xd}" cy="{yc}" r="18"/>')
     svg.path(f"M{xp + rp + 2},{yc} H{xt - 9}", "arc", marker="mS")
     svg.path(f"M{xt + 7},{yc} H{xd - 21}", "arc", marker="mS")
-    # immediate transitions and successor places; step 6 fires the first
     for k, (y, name) in enumerate(zip(ys, succ)):
-        on = k == 0
-        cls, mk = ("arcOn", "mSk") if on else ("arc", "mS")
+        cls, mk = ("arcOn", "mSk") if k == 0 else ("arc", "mS")
         dx, dy = xb - 4 - xd, y - yc
         L = (dx * dx + dy * dy) ** 0.5
-        sx, sy = xd + 18 * dx / L, yc + 18 * dy / L
-        svg.path(f"M{sx:.1f},{sy:.1f} L{xb - 6},{y}", cls, marker=mk)
-        svg.add(f'<rect class="imm" x="{xb - 3}" y="{y - 16}" width="6" height="32"/>')
+        svg.path(f"M{xd + 18 * dx / L:.1f},{yc + 18 * dy / L:.1f} L{xb - 6},{y}", cls, marker=mk)
+        svg.add(f'<rect class="imm" x="{xb - 3}" y="{y - 14}" width="6" height="28"/>')
         svg.path(f"M{xb + 4},{y} H{xq - rq - 3}", cls, marker=mk)
         svg.add(f'<circle class="pl" cx="{xq}" cy="{y}" r="{rq}"/>')
         svg.text(xq + rq + 8, y + 6, name, "lbl", anchor="start")
-    badge(svg, (xd + xb) / 2 - 8, ys[0] + 6, 6)
+    step_label(svg, xd + 8, ys[0] - 6, 6, "next tactic", side="left")
 
     # ------------------------------------------------------------ the three declared inputs
-    iy0, iy1 = 268, 348
-    boxes = {"dwell": (30, 250), "map": (290, 480), "fm": (640, 880)}
-    for key_, lines, sec in (("dwell", ["Tactic dwell times"], "§4.4.1"),
-                             ("map", ["Tactic-to-action", "mapping"], "§4.4.2"),
-                             ("fm", ["Failure matrix"], "§4.4.3")):
-        x0, x1 = boxes[key_]
-        svg.rect(x0, iy0, x1, iy1, "nodeA")
-        cx = (x0 + x1) / 2
-        top = (iy0 + iy1) / 2 - 10 * len(lines) + (1 if len(lines) == 1 else 2)
-        for k, ln in enumerate(lines):
-            svg.text(cx, top + 21 * k, ln, "title")
-        svg.text(cx, top + 21 * len(lines) + 4, sec, "xref")
-    xdw = sum(boxes["dwell"]) / 2
-    xmp = sum(boxes["map"]) / 2
-    xfm = sum(boxes["fm"]) / 2
+    iy0, iy1 = 214, 270
+    HW = 110                                   # one width for the three boxes
+    for cx, name, sec in ((C1, "Tactic dwell times", "§4.4.1"),
+                          (C2, "Tactic-to-action mapping", "§4.4.2"),
+                          (C4, "Failure matrix", "§4.4.3")):
+        svg.rect(cx - HW, iy0, cx + HW, iy1, "nodeA")
+        svg.text(cx, iy0 + 24, name, "lbl", extra=BOLD)
+        svg.text(cx, iy0 + 45, sec, "xref")
 
     # step 1: the tactic leaves the Petri net, to both boxes that read it
-    fy = 246
-    svg.path(f"M{xp},{yc + rp + 32} V{fy}", "step", marker="")
-    svg.add(f'<path class="step" d="M{xdw},{fy} H{xmp}"/>')
+    fy = 194
+    svg.add(f'<path class="step" d="M{xp},{yc + rp + 2} V{fy}"/>')
+    svg.add(f'<path class="step" d="M{C1},{fy} H{C2}"/>')
     svg.add(f'<circle class="dot" cx="{xp}" cy="{fy}" r="3.5"/>')
-    for x in (xdw, xmp):
+    for x in (C1, C2):
         svg.path(f"M{x},{fy} V{iy0 - 3}", "step", marker="mI")
-    step_label(svg, xp, 200, 1, "tactic")
+    step_label(svg, xp, 152, 1, "tactic")
 
     # ------------------------------------------------------------ MTDSim
-    my0, my1 = 424, 632
+    my0, my1 = 330, 514
     svg.rect(X0, my0, X1, my1, "used", rx=7)
     svg.text(X0 + 16, my0 + 28, "MTDSim", "title", anchor="start")
-    # Attacker, Figure 2.1's order: Attacker, Network, MTD
-    at = (24, 618, my0 + 40, my1 - 14)
+    at = (16, 576, my0 + 34, my1 - 12)                    # Attacker
     svg.rect(at[0], at[2], at[1], at[3], "module")
-    act = (120, 604, at[2] + 20, at[2] + 60)              # attack actions
+    act = (32, 560, at[2] + 14, at[2] + 50)               # attack actions
     svg.rect(act[0], act[2], act[1], act[3], "inner", rx=4)
-    svg.text((act[0] + act[1]) / 2, act[2] + 26, "attack actions", "lbl")
-    vm = (300, 560, act[3] + 18, act[3] + 58)             # the vulnerability memory, ours
+    svg.text((act[0] + act[1]) / 2, act[2] + 24, "attack actions", "lbl")
+    vm = (300, 560, act[3] + 26, act[3] + 58)             # the vulnerability memory, ours
     svg.rect(vm[0], vm[2], vm[1], vm[3], "peer", rx=4)
-    svg.text((vm[0] + vm[1]) / 2 - 22, vm[2] + 26, "+ vulnerability memory", "lbl")
-    svg.text(vm[1] - 12, vm[2] + 26, "§4.4.4", "xref", anchor="end")
-    svg.add(f'<g transform="translate({at[0] + 30},{at[3] - 28})"><use href="#hacker"/></g>')
-    svg.text(at[0] + 50, at[3] - 21, "Attacker", "title", anchor="start")
-    # Network and MTD, the right-hand column
-    nw = (720, 880, act[2] - 6, act[3] + 6)                # on the attack actions' line
-    md = (720, 880, at[3] - 48, at[3])                     # room between for 'reconfigures'
-    for (x0, x1, y0, y1), icon, title, w in ((nw, "netic", "Network", 76), (md, "mtdic", "MTD", 44)):
+    svg.text(vm[0] + 14, vm[2] + 22, "+ vulnerability memory", "lbl", anchor="start")
+    svg.text(vm[1] - 12, vm[2] + 22, "§4.4.4", "xref", anchor="end")
+    svg.add(f'<g transform="translate({at[0] + 30},{vm[2] + 15})"><use href="#hacker"/></g>')
+    svg.text(at[0] + 50, vm[2] + 22, "Attacker", "lbl", anchor="start", extra=BOLD)
+    ya = (act[2] + act[3]) / 2
+    nw = (700, 876, ya - 24, ya + 24)                     # Network, on the attack actions' line
+    md = (700, 876, at[3] - 44, at[3])                    # MTD, below it, room for 'reconfigures'
+    for (x0, x1, y0, y1), icon, title, w in ((nw, "netic", "Network", 70), (md, "mtdic", "MTD", 40)):
         svg.rect(x0, y0, x1, y1, "module")
         cx, cy = (x0 + x1) / 2 - w / 2 + 6, (y0 + y1) / 2
-        svg.add(f'<g transform="translate({cx - 22:.1f},{cy})"><use href="#{icon}"/></g>')
-        svg.text(cx, cy + 7, title, "title", anchor="start")
-    ya = (act[2] + act[3]) / 2
+        svg.add(f'<g transform="translate({cx - 22:.1f},{cy}) scale(0.85)"><use href="#{icon}"/></g>')
+        svg.text(cx, cy + 6, title, "lbl", anchor="start", extra=BOLD)
     svg.path(f"M{act[1] + 3},{ya} H{nw[0] - 4}", "couples", marker="mG")
-    svg.text((at[1] + nw[0]) / 2, ya - 10, "compromises", "sm halo")
-    xr = (md[0] + md[1]) / 2
+    svg.text((at[1] + nw[0]) / 2 + 6, ya - 10, "compromises", "sm halo")
+    xr = (md[0] + md[1]) / 2 + 40
     svg.path(f"M{xr},{md[2] - 2} V{nw[3] + 4}", "couples", marker="mG")
     svg.text(xr - 10, (nw[3] + md[2]) / 2 + 6, "reconfigures", "sm halo", anchor="end")
     ymd = (md[2] + md[3]) / 2
     svg.path(f"M{md[0] - 3},{ymd} H{at[1] + 4}", "couples", marker="mG")
     svg.text((at[1] + md[0]) / 2, ymd - 10, "disrupts", "sm halo")
 
-    # steps 2 and 3: down into the attack actions
-    svg.path(f"M{xdw},{iy1 + 3} V{act[2] - 4}", "step", marker="mI")
-    step_label(svg, xdw, 396, 2, "dwell time")
-    svg.path(f"M{xmp},{iy1 + 3} V{act[2] - 4}", "step", marker="mI")
-    step_label(svg, xmp, 396, 3, "attack action")
+    # the down lane: steps 2 and 3 into the attack actions
+    ly = 306
+    for x, n, words in ((C1, 2, "dwell time"), (C2, 3, "attack action")):
+        svg.path(f"M{x},{iy1 + 3} V{act[2] - 4}", "step", marker="mI")
+        step_label(svg, x, ly, n, words)
 
-    # step 4: the verdict, up out of the attack actions; failure through the
-    # failure matrix, success straight to the choice
-    xv, jy = xd, 388
-    svg.add(f'<path class="step" d="M{xv},{act[2]} V{jy}"/>')
-    svg.add(f'<circle class="dot" cx="{xv}" cy="{jy}" r="3.5"/>')
-    step_label(svg, xv, 450, 4, "verdict")
-    svg.path(f"M{xv},{jy} H{xfm} V{iy1 + 3}", "step", marker="mI")
-    svg.text((xv + xfm) / 2 + 10, jy - 10, "failure", "verb halo")
-    # step 5: the weights reach the decision place, from either arm
-    my = 246
-    svg.add(f'<path class="step" d="M{xv},{jy} V{my}"/>')
-    svg.text(xv - 10, (iy0 + iy1) / 2 + 6, "success", "verb halo", anchor="end")
-    svg.add(f'<path class="step" d="M{xfm},{iy0} V{my} H{xv}"/>')
-    svg.add(f'<circle class="dot" cx="{xv}" cy="{my}" r="3.5"/>')
-    svg.path(f"M{xv},{my} V{yc + 21}", "step", marker="mI")
-    step_label(svg, xv, 190, 5, "weights")
+    # the up lane: step 4, the verdict, splits; success to the decision place,
+    # failure through the failure matrix, which reweights the immediate transitions (5)
+    jy = 300
+    svg.add(f'<path class="step" d="M{C3},{act[2]} V{jy}"/>')
+    svg.add(f'<circle class="dot" cx="{C3}" cy="{jy}" r="3.5"/>')
+    step_label(svg, C3, my0 + 28, 4, "verdict")
+    svg.path(f"M{C3},{jy} V{yc + 21}", "step", marker="mI")
+    svg.text(C3 + 10, iy0 - 14, "success", "verb halo", anchor="start")
+    svg.path(f"M{C3},{jy} H{C4} V{iy1 + 3}", "step", marker="mI")
+    svg.text((C3 + C4) / 2 + 8, jy - 10, "failure", "verb halo")
+    svg.path(f"M{C4},{iy0} V{ys[-1] + 17}", "step", marker="mI")
+    step_label(svg, C4, (py1 + iy0) / 2 + 6, 5, "reweights")
 
     height = my1 + 8
     head = 'viewBox="0 0 10 10" refX="9" refY="5" markerUnits="userSpaceOnUse" markerWidth="13" markerHeight="13" orient="auto-start-reverse"'
