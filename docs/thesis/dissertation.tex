@@ -4777,92 +4777,80 @@ model can only be as good as the attack actions it adopts.
 \subsection{Tactic durations}
 \label{subsec:dwell-times}
 
-% [ROUND 2, 2026-10-05 (Marc: "exposed to MTD deployments, I don't know what
-%  that means"; the families "we don't really explain"; "there must have been
-%  six different times, I don't know why we discarded two"; why 45 and 22.5;
-%  reconnaissance "technically off network" too; Table 4.2 "vague", its caption
-%  mirroring the prose; present the baseline's timings and how they became the
-%  tactic durations; the literature gap said honestly: a duration is a property
-%  of the model, CTI timings differ per incident). Five paragraphs, each an
-%  examiner's question: why durations and why declared (P1: pace and
-%  disruption; the attack flows hold no times; CTI gives whole intrusions, ch1's
-%  four months; MTDSim's clock); what MTDSim had and why a duration replaces it
-%  (P2: the six costs, verified mtdnetwork/data/constants.py ATTACK_DURATION and
-%  services.py exploit_time; Brown gives only the complexity range, so the
-%  costs carry no citation); the two families MTDSim costs and the two costs
-%  that set none (P3: credential access and lateral movement priced by their
-%  usual technique, per the catalogue's profiles 09 and 11); the three declared
-%  families with each value's reason (P4: 45 s below the 200 s interval, the
-%  catalogue's rationale; 22.5 s; 36 s between a scan pass and 45 s; off-network
-%  against reconnaissance); the test and the exponential (P5). Table 4.2
-%  regenerated one row per family value with what each is set from, recomputed
-%  from MTDSim's constants and asserted against the catalogue. Figure 4.5
-%  regenerated: the duration runs through the timed transition into MTDSim.
-%  Kept, ruled: the three-citation sentence (2026-08-20); the four-not-15
-%  sentence. The must-carry caveat now said in P1 (MTDSim's clock); the closing
-%  "not real-world measurements" sentence cut. Round 1 in git aa44af08.
-%  DRAFT STATE.]
-The tactic durations set how long each tactic runs in MTDSim, at step~3 of
-Figure~\ref{fig:runtime-loop}. They set the pace of the APT attacker model,
-and the longer a tactic runs, the more likely an MTD deployment disrupts it.
-Neither the attack flows nor the literature give these durations. The attack
-flows record which techniques an attack used and in what order, but not how
-long each took. CTI vendor reports give the length of a whole intrusion, a
-median of four months (Chapter~\ref{ch:intro}), and do not split it by
-tactic. A tactic's duration must also fit MTDSim's clock, on which an attack
-action takes seconds and a deployment comes every 200~s by default
-(Section~\ref{subsec:defence-mechanisms}), so a real tactic lasting hours
-would span dozens of deployments. Models that time attack steps declare
-their values~\citep{bland2020, mcqueen2006, mendonca2023}, and we declared
-ours from the costs of MTDSim's attack actions.
+% [ROUND 3, 2026-10-05 (Marc: lost from halfway into P1; "family" and
+%  "shape" "so vague"; the "value from" column moves the question to "how did
+%  you choose ten times"; "we didn't replace it, we were forced to"; state the
+%  principles plainly: comparable with the baseline attacker, MTDSim's own
+%  values and time scale where possible, judgement where needed, and do not
+%  hide that they are declared). ROOT CAUSE of rounds 1-2: the prose walked the
+%  duration catalogue's internal construction (families, anchors, multipliers,
+%  coined names) instead of the reader's question, "how long does each tactic
+%  take, and why that long?". Rebuilt on the catalogue's recorded principle
+%  (tactic_durations.json meta.scale_convention: the absolute scale anchored to
+%  MTDSim so results stay comparable; the relative lengths judged): P1 what,
+%  why it matters, why declared, the principle; P2 why per tactic (forced:
+%  tactics and attack actions do not line up); P3 the two reference points
+%  MTDSim gives and the six tactics set from them, with the one honest
+%  divergence (credential access and brute force); P4 the nine declared by
+%  judgement, each with its reason; P5 the test and the exponential. No coined
+%  names: "family", "-shaped", "low-and-slow", "objective-execution" and "scan
+%  pass" cut from the prose and Table 4.2 (whose rows now say what the tactics
+%  do and what each value was set from: MTDSim, or declared). Figure 4.5: step
+%  3 one continuous line through the timed transition. Round 2 in git
+%  61ac2319. DRAFT STATE.]
+The \emph{tactic durations} set how long each tactic runs in MTDSim, at
+step~3 of Figure~\ref{fig:runtime-loop}. They set the APT attacker model's
+pace, and the longer a tactic runs, the more likely an MTD deployment
+disrupts it. CTI vendor reports do not give them, because they time a whole
+intrusion, a median of four months (Chapter~\ref{ch:intro}).
+Chapter~\ref{ch:experiments} compares the APT attacker model with the
+baseline attacker under the same MTD deployments, so we kept the model on
+MTDSim's time scale, where an attack action takes seconds and a deployment
+comes every 200~s by default (Section~\ref{subsec:defence-mechanisms}). We
+took a tactic's duration from MTDSim's costs where the tactic's work
+resembles an attack action's, and declared it where it does not.
 
-MTDSim gives each attack action a cost, the time it takes to run. Scanning
-for hosts, enumerating a host and scanning neighbours each cost 5~s,
-scanning ports 25~s and brute force 20~s. An exploit costs 15~s times one
-minus the vulnerability's complexity, which lies between 0.4 and
-1~\citep{brown2023}, so it takes up to 9~s, and 4.5~s at the median. In the
-APT attacker model, a tactic's duration replaces the cost of its attack
-action, because tactics that map to the same attack action need not take
-the same time. Initial access, execution and privilege escalation all map
-to exploit, for example, but execution takes 22.5~s and the other two
-4.5~s.
+MTDSim gives each attack action a cost, the time it takes to run, but the
+Petri net times tactics, and tactics do not line up one to one with attack
+actions. Seven tactics have no attack action, and tactics that share one
+need not take the same time. Initial access, execution and privilege
+escalation, for example, all map to exploit, yet execution takes 22.5~s and
+the other two 4.5~s. A tactic's duration therefore replaces the cost of its
+attack action, which runs for that duration.
+Table~\ref{tab:dwell-catalogue} gives each tactic's mean duration and what
+it was set from.
 
-Table~\ref{tab:dwell-catalogue} groups the 15 tactics into five families by
-the work they usually do, and gives each family one mean duration. Two
-families take their values from MTDSim's costs. The scan-shaped family, for
-reconnaissance and discovery, takes one scan pass over a host, which scans
-for hosts, the host's ports and its neighbours, 35~s in all. The
-exploit-shaped family, for initial access, privilege escalation, credential
-access and lateral movement, takes the median exploit cost. Credential
-access and lateral movement take this value although they map to brute
-force and enumerate host, because a family prices the technique its tactics
-usually use. Credential access usually dumps the credentials stored on a
-host, and lateral movement usually logs in to the next host remotely. Both
-are short acts on one host, as an exploit is, so the costs of brute force
-and enumerate host set no family's value.
+Two of MTDSim's costs serve as reference points. An exploit costs 15~s
+times one minus the vulnerability's complexity, which lies between 0.4 and
+1~\citep{brown2023}, so it takes 4.5~s at the median. Initial access,
+privilege escalation, credential access and lateral movement are each a
+brief act on one host, as an exploit is, so each takes 4.5~s. MTDSim's
+three scans, for hosts, for a host's ports and for its neighbours, take 5,
+25 and 5~s, and reconnaissance and discovery, which survey hosts as the
+three scans do, take their sum, 35~s. A tactic's duration follows the work
+the tactic usually does, so it can differ from the cost of the attack action
+it maps to. Credential access maps to brute force, which costs 20~s, but it
+usually dumps the credentials stored on a host, a brief act like an exploit.
 
 \input{tables/tab_4-4a_dwell_catalogue}
 
-The other three families do work that no attack action in MTDSim does, so we
-declared their values. The low-and-slow family holds persistence, stealth
-and command and control, which the attacker keeps up quietly over time. We
-set it at ten times the exploit-shaped value, 45~s, longer than any attack
-action but well below the 200~s deployment interval, so that a deployment
-does not disrupt every such tactic. Execution and defense impairment are
-short acts carried out among these quiet tactics, so they take half its
-value. The objective-execution family holds collection, exfiltration and
-impact, which gather, send out or destroy data. We set it at eight times
-the exploit-shaped value, 36~s, above a scan pass, because moving data takes
-longer than surveying a host, and below the low-and-slow value, because it
-is one act while the low-and-slow tactics continue. Resource development
-takes no time, because the attacker develops its resources before it
-reaches the target's network. Reconnaissance also gathers information off
-the network, but in MTDSim it scans the target's hosts, so it takes the
-scan-shaped value.
+We declared the other nine durations by judgement, placing each against
+these reference points, as other models that time attack steps declare
+theirs~\citep{bland2020, mcqueen2006, mendonca2023}. Persistence, stealth
+and command and control are kept up quietly over time, so they take the
+longest, 45~s. That is longer than any attack action but well below the
+200~s deployment interval, so a deployment does not cut every one of them
+short. Execution and defense impairment are short acts that the attacker
+carries out among these quiet tactics, so they take half that, 22.5~s.
+Collection, exfiltration and impact move or destroy data, which we judged to
+take about as long as the three scans, 36~s. Resource development takes no
+time, because the attacker develops its resources before the attack reaches
+the target's network.
 
-The tactic durations therefore rest on four family values rather than 15,
-and Appendix~\ref{app:dwell-robustness} moves each across a band, one at a
-time~\citep{tenbroeke2016}. Each tactic's duration is drawn from an
+Because most of these durations are judgements,
+Appendix~\ref{app:dwell-robustness} moves each shared duration across a
+band, one at a time, and shows how much the results depend on
+it~\citep{tenbroeke2016}. Each tactic's duration is drawn from an
 exponential of its mean duration $\mu_p$, because the timed transitions of a
 GSPN fire after exponential delays (Section~\ref{sec:petri-formalism}). A
 duration that varies from run to run also matches the evidence that attack

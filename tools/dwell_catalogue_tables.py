@@ -43,13 +43,27 @@ OUT_DIR = REPO / "docs" / "thesis" / "tables"
 # came from. Names only --- every *value* is read from the catalogue
 # (conventions §g: presentation names are part of the spec and are mapped here,
 # never raw identifiers in the float; §h: no value typed).
-FAMILY_LABEL = {
-    "scan-shaped": "Scan-shaped",
-    "exploit-shaped": "Exploit-shaped",
-    "stealth-low-and-slow": "Low-and-slow",
-    "objective-execution": "Objective-execution",
-    "prep-off-network": "Off-network",
+# Round 3, 2026-10-05 (Marc: "family" and "shape" are "so vague"; the coined
+# names are cut from the chapter): each set of tactics sharing a duration is
+# described by the work its tactics do, and its value by what it was set from.
+WORK = {
+    ("exploit-shaped", 1.0): "A brief act on one host",
+    ("scan-shaped", 1.0): "Survey hosts",
+    ("stealth-low-and-slow", 1.0): "Kept up quietly over time",
+    ("stealth-low-and-slow", 0.5): "Short acts among the quiet tactics",
+    ("objective-execution", 1.0): "Move or destroy data",
+    ("prep-off-network", 0.0): "Off the network, before the attack",
 }
+ROW_ORDER = list(WORK)
+# The reference value each appendix row multiplies, named as the chapter names it.
+REFERENCE = {
+    "exploit-shaped": "Median exploit",
+    "scan-shaped": "Three scans",
+    "stealth-low-and-slow": "Declared",
+    "objective-execution": "Declared",
+    "prep-off-network": "---",
+}
+
 
 def esc(s: str) -> str:
     """LaTeX-escape a presentation string."""
@@ -93,46 +107,38 @@ def main() -> None:
     exploit_s = cost["EXPLOIT_VULN"] * (1 - median_cx)
     assert abs(scan_s - anchors["scan-shaped"]["duration_s"]) < 1e-9, scan_s
     assert abs(exploit_s - anchors["exploit-shaped"]["duration_s"]) < 1e-9, exploit_s
-    ex = anchors["exploit-shaped"]["duration_s"]
 
     def source(anchor: str, mult: float) -> str:
-        if anchor == "prep-off-network":
-            return "Off the target's network"
-        if mult != 1.0:
-            return f"${mult:g} \\times$ {FAMILY_LABEL[anchor].lower()}"
         if anchor == "scan-shaped":
-            return ("Scan host + scan port + scan neighbours "
+            return ("MTDSim's three scans "
                     f"(${' + '.join(str(cost[k]) for k in scan)}$\\,s)")
         if anchor == "exploit-shaped":
-            return (f"Median exploit cost, ${cost['EXPLOIT_VULN']} \\times "
-                    f"(1 - {median_cx:g})$\\,s")
-        return f"${anchors[anchor]['duration_s'] / ex:g} \\times$ exploit-shaped"
+            return "MTDSim's median exploit cost"
+        return "Declared"
 
     rows: dict[tuple[str, float], list[str]] = {}
     for name in axis.matrix_order:
         e = tactics[name]
         rows.setdefault((e["anchor"], e["relative_multiplier"]), []).append(name)
-    fam_order = list(FAMILY_LABEL)
-    keys = sorted(rows, key=lambda k: (fam_order.index(k[0]), -k[1]))
+    assert set(rows) == set(WORK), set(rows) ^ set(WORK)
+    keys = sorted(rows, key=ROW_ORDER.index)
 
-    short = "The tactic durations by family"
+    short = "The tactic durations"
     caption = (
-        "The tactic durations by family, with the tactics in each family and "
-        "what the family's value is set from. Attack actions are named as in "
-        "Figure~\\ref{fig:controller-mapping}; "
+        "The mean duration of each tactic, with what it was set from. "
         "Appendix~\\ref{app:dwell-derivation} gives each tactic's reason."
     )
     L = [banner, r"\begin{table}[htbp]", r"\centering",
          rf"\caption[{short}]{{{caption}}}", r"\label{tab:dwell-catalogue}",
          r"\tablestyle",
-         r"\begin{tabular}{@{}l P{0.27\textwidth} P{0.25\textwidth} r@{}}", r"\toprule",
-         r"Family & Tactics & Value from & Mean duration $\mu_p$ (s) \\", r"\midrule"]
+         r"\begin{tabular}{@{}P{0.29\textwidth} P{0.21\textwidth} P{0.21\textwidth} r@{}}", r"\toprule",
+         r"Tactics & What they do & Set from & Mean duration $\mu_p$ (s) \\", r"\midrule"]
     for anchor, mult in keys:
         names = [axis.label[n] for n in rows[(anchor, mult)]]
         names = [names[0]] + [n[0].lower() + n[1:] for n in names[1:]]
         mu = {tactics[n]["duration_s"] for n in rows[(anchor, mult)]}
         assert len(mu) == 1, mu
-        L.append(f"{FAMILY_LABEL[anchor]} & {esc(', '.join(names))} & "
+        L.append(f"{esc(', '.join(names))} & {WORK[(anchor, mult)]} & "
                  f"{source(anchor, mult)} & {num(mu.pop())} \\\\")
     L += [r"\bottomrule", r"\end{tabular}", r"\end{table}", ""]
     (OUT_DIR / "tab_4-4a_dwell_catalogue.tex").write_text("\n".join(L))
@@ -148,22 +154,23 @@ def main() -> None:
     short_a = "How each tactic duration was set"
     caption_a = (
         "How each tactic duration of Table~\\ref{tab:dwell-catalogue} was set "
-        "(Section~\\ref{subsec:dwell-times}): the value of the tactic's family, in "
-        "brackets, times its multiplier. \\emph{Band} is the declared range of the "
+        "(Section~\\ref{subsec:dwell-times}): a reference value, in brackets, "
+        "times the tactic's multiplier. \\emph{Band} is the declared range of the "
         "multiplier."
     )
     A = [banner, r"\begin{table}[htbp]", r"\centering",
          rf"\caption[{short_a}]{{{caption_a}}}", r"\label{tab:dwell-derivation}",
          r"\tablestyle",
          r"\begin{tabular}{@{}P{0.15\textwidth} P{0.13\textwidth} r r c P{0.29\textwidth}@{}}", r"\toprule",
-         r"Tactic & Family (s) & Multiplier & Duration (s) & Band & Reason \\",
+         r"Tactic & Reference (s) & Multiplier & Duration (s) & Band & Reason \\",
          r"\midrule"]
     for name in axis.matrix_order:
         e = tactics[name]
         lo, hi = e["sweep_range"]
         band = "---" if lo == hi == 0 else f"[{lo:g}, {hi:g}]"
         mult = "---" if e["anchor"] == "prep-off-network" else f"{e['relative_multiplier']:.1f}"
-        fam = f"{FAMILY_LABEL[e['anchor']]} ({num(anchors[e['anchor']]['duration_s'])})"
+        fam = ("---" if e["anchor"] == "prep-off-network" else
+               f"{REFERENCE[e['anchor']]} ({num(anchors[e['anchor']]['duration_s'])})")
         A.append(f"{esc(axis.label[name])} & {fam} & {mult} & "
                  f"{num(e['duration_s'])} & {band} & {esc(e['short_justification'])} \\\\")
     A += [r"\bottomrule", r"\end{tabular}", r"\end{table}", ""]

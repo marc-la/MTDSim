@@ -250,8 +250,11 @@ def emit(succ: list[str]) -> tuple[str, float, float]:
     step_label(svg, xp, lab2, 2, "attack action")
     # the timed transition's lane: step 3, the mean into the transition, the
     # drawn duration on into MTDSim, where the attack action runs for it
-    svg.path(f"M{xt},{dy0 + BH + 3} V{yc - 23}", "loop", marker="mA")
-    svg.path(f"M{xt},{yc + 23} V{act[2] - 2}", "loop", marker="mA")
+    # ONE line (Marc, round 2: two arrowheads "read like two separate
+    # arrows"): drawn through the transition, which is redrawn on top, so the
+    # mean enters it and the drawn duration leaves it on the same stroke
+    svg.path(f"M{xt},{dy0 + BH} V{act[2] - 2}", "loop", marker="mA")
+    svg.add(f'<rect class="timed" x="{xt - 6}" y="{yc - 20}" width="12" height="40"/>')
     step_label(svg, xt, labp, 3, "duration")
     # the decision place's lane: step 4, the verdict, splits just below the net
     jy = py1 + 38

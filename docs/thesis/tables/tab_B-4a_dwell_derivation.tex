@@ -5,28 +5,28 @@
 
 \begin{table}[htbp]
 \centering
-\caption[How each tactic duration was set]{How each tactic duration of Table~\ref{tab:dwell-catalogue} was set (Section~\ref{subsec:dwell-times}): the value of the tactic's family, in brackets, times its multiplier. \emph{Band} is the declared range of the multiplier.}
+\caption[How each tactic duration was set]{How each tactic duration of Table~\ref{tab:dwell-catalogue} was set (Section~\ref{subsec:dwell-times}): a reference value, in brackets, times the tactic's multiplier. \emph{Band} is the declared range of the multiplier.}
 \label{tab:dwell-derivation}
 \tablestyle
 \begin{tabular}{@{}P{0.15\textwidth} P{0.13\textwidth} r r c P{0.29\textwidth}@{}}
 \toprule
-Tactic & Family (s) & Multiplier & Duration (s) & Band & Reason \\
+Tactic & Reference (s) & Multiplier & Duration (s) & Band & Reason \\
 \midrule
-Reconnaissance & Scan-shaped (35.0) & 1.0 & 35.0 & [0.5, 2] & Enumeration, as one scan pass is in the simulator; the band allows slower, staged reconnaissance. \\
-Resource development & Off-network (0.0) & --- & 0.0 & --- & Happens off the target's network, out of the defender's sight, so it takes no simulated time. \\
-Initial access & Exploit-shaped (4.5) & 1.0 & 4.5 & [0.5, 2] & Exploiting a public-facing service, which the simulator's exploit cost already covers. \\
-Execution & Low-and-slow (45.0) & 0.5 & 22.5 & [0.1, 2] & Quick in itself but paced by the quiet tactics around it, so half the family value, with a band that leans fast. \\
-Persistence & Low-and-slow (45.0) & 1.0 & 45.0 & [0.25, 4] & Keeping a foothold through reboots is quiet holding work, which no attack action costs. \\
-Privilege escalation & Exploit-shaped (4.5) & 1.0 & 4.5 & [0.5, 2] & Usually a vulnerability exploit; the band runs from an exploit to reusing a stolen token. \\
-Stealth & Low-and-slow (45.0) & 1.0 & 45.0 & [0.25, 4] & The family's reference: a pace the attacker keeps throughout the attack, not one act. \\
-Defense impairment & Low-and-slow (45.0) & 0.5 & 22.5 & [0.1, 4] & A short act before a noisy payload, so half the family value; attackers prefer to evade defences, so the band is wide. \\
-Credential access & Exploit-shaped (4.5) & 1.0 & 4.5 & [0.5, 2] & Dumping and cracking credentials is on-host work like an exploit; stealing a ticket is faster. \\
-Discovery & Scan-shaped (35.0) & 1.0 & 35.0 & [0.5, 2] & The enumeration of reconnaissance, run from inside a foothold. \\
-Lateral movement & Exploit-shaped (4.5) & 1.0 & 4.5 & [0.25, 4] & Usually a remote login, costed as an exploit; the band is wide because a worm moves fast and a person slowly. \\
-Collection & Objective-execution (36.0) & 1.0 & 36.0 & [0.5, 2] & The family's reference: gathering data, from a quick grab to a slow harvest. \\
-Command and control & Low-and-slow (45.0) & 1.0 & 45.0 & [0.25, 4] & A quiet channel that beacons on a cadence, not one act. \\
-Exfiltration & Objective-execution (36.0) & 1.0 & 36.0 & [0.25, 4] & Sending the data out, from a fast bulk transfer to a slow trickle. \\
-Impact & Objective-execution (36.0) & 1.0 & 36.0 & [0.1, 5] & Encrypting, destroying or hijacking systems; these payloads vary most in time, so the band is the widest. \\
+Reconnaissance & Three scans (35.0) & 1.0 & 35.0 & [0.5, 2] & Enumeration, as one scan pass is in the simulator; the band allows slower, staged reconnaissance. \\
+Resource development & --- & --- & 0.0 & --- & Happens off the target's network, out of the defender's sight, so it takes no simulated time. \\
+Initial access & Median exploit (4.5) & 1.0 & 4.5 & [0.5, 2] & Exploiting a public-facing service, which the simulator's exploit cost already covers. \\
+Execution & Declared (45.0) & 0.5 & 22.5 & [0.1, 2] & Quick in itself but paced by the quiet tactics around it, so half the family value, with a band that leans fast. \\
+Persistence & Declared (45.0) & 1.0 & 45.0 & [0.25, 4] & Keeping a foothold through reboots is quiet holding work, which no attack action costs. \\
+Privilege escalation & Median exploit (4.5) & 1.0 & 4.5 & [0.5, 2] & Usually a vulnerability exploit; the band runs from an exploit to reusing a stolen token. \\
+Stealth & Declared (45.0) & 1.0 & 45.0 & [0.25, 4] & The family's reference: a pace the attacker keeps throughout the attack, not one act. \\
+Defense impairment & Declared (45.0) & 0.5 & 22.5 & [0.1, 4] & A short act before a noisy payload, so half the family value; attackers prefer to evade defences, so the band is wide. \\
+Credential access & Median exploit (4.5) & 1.0 & 4.5 & [0.5, 2] & Dumping and cracking credentials is on-host work like an exploit; stealing a ticket is faster. \\
+Discovery & Three scans (35.0) & 1.0 & 35.0 & [0.5, 2] & The enumeration of reconnaissance, run from inside a foothold. \\
+Lateral movement & Median exploit (4.5) & 1.0 & 4.5 & [0.25, 4] & Usually a remote login, costed as an exploit; the band is wide because a worm moves fast and a person slowly. \\
+Collection & Declared (36.0) & 1.0 & 36.0 & [0.5, 2] & The family's reference: gathering data, from a quick grab to a slow harvest. \\
+Command and control & Declared (45.0) & 1.0 & 45.0 & [0.25, 4] & A quiet channel that beacons on a cadence, not one act. \\
+Exfiltration & Declared (36.0) & 1.0 & 36.0 & [0.25, 4] & Sending the data out, from a fast bulk transfer to a slow trickle. \\
+Impact & Declared (36.0) & 1.0 & 36.0 & [0.1, 5] & Encrypting, destroying or hijacking systems; these payloads vary most in time, so the band is the widest. \\
 \bottomrule
 \end{tabular}
 \end{table}
