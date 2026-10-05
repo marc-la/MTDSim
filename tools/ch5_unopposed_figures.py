@@ -196,7 +196,7 @@ def emit_fig_a(core: dict) -> tuple[str, dict]:
     (the metrics design; scrutinise-figure round 1 amendments, 2026-09-24):
     (a) share of steps per tactic, a colour heat map with rows grouped by the verb
     each tactic dispatches and the baseline attacker's verbs spanning their groups;
-    (b) attack path variation, vertical bars by opening length (2 to 8; length 1 is
+    (b) distinct openings, vertical bars by opening length (2 to 8; length 1 is
     zero for every attacker by construction); (c) attack confidentiality against
     the alarm level (level 1 is zero by construction and is not drawn)."""
     m = core["metrics"]
@@ -265,7 +265,7 @@ def emit_fig_a(core: dict) -> tuple[str, dict]:
         w(r"\draw[black!55,line width=0.4pt] (%.3f,%.3f) rectangle (%.3f,%.3f);" % (X0, gbot, X0 + len(FOUR) * cw, gtop))
         y -= GG
 
-    # ---- (b) distinct attack paths, (c) attack confidentiality, side by side ----
+    # ---- (b) distinct openings, (c) attack confidentiality, side by side ----
     # 2026-09-30 (Marc: attack confidentiality "as a panel (c) ... it doesn't need
     # full width"). (b) is lines, not bars: forty bars do not read at half width.
     # Scrutiny round, 2026-09-30 (Marc; cold readers and critics): (b)'s axis names
@@ -288,7 +288,7 @@ def emit_fig_a(core: dict) -> tuple[str, dict]:
          xticks=[(k, xb_(k)) for k in ks],
          yticks=[(v, yb(v)) for v in range(0, nruns + 1, nruns // 4)],
          xlabel=r"First $k$ steps", ylabel="")
-    w(r"\node[rotate=90,anchor=south,align=center] at (%.3f,%.3f) {Distinct attack paths\\(of %s runs)};"
+    w(r"\node[rotate=90,anchor=south,align=center] at (%.3f,%.3f) {Distinct openings\\(of %s runs)};"
       % (XB0 - 0.8, (YB0 + YB1) / 2, fmt_thousands(nruns)))
     for p in SERIES:
         pts = [(xb_(k), yb(paths[p][str(k)])) for k in ks]
@@ -325,7 +325,7 @@ def emit_fig_a(core: dict) -> tuple[str, dict]:
     key_row(w, XB0, key_y, [(LABEL[p], "dashed" if p == "baseline" else "line", CNAME[p],
                              "square" if p == "baseline" else MARK[p]) for p in SERIES], xmax=XC1)
     title_y = key_y + KEY_H / 2 + 0.05
-    panel_title(w, XB0, title_y, "Distinct attack paths", "b")
+    panel_title(w, XB0, title_y, "Distinct openings", "b")
     panel_title(w, XC0, title_y, r"Attack confidentiality", "c")
     w(r"\end{tikzpicture}")
     w(r"\end{document}")
