@@ -5081,34 +5081,39 @@ parameters.
 %  vulnerabilities, not about the MTD deployments it observes". Kept, ruled:
 %  "triples the odds", the factor as our judgement, property 7 in part (B0),
 %  the diversity-pool hypothesis and its test. DRAFT STATE.]
+% [ROUND 2, 2026-10-05 (Marc: P1 "very strong", but S3 clunky ("an exploit
+%  of a vulnerability it has exploited") and the last sentence four clauses;
+%  "the baseline attacker runs without the memory" wrong, it has its own, the
+%  halved exploit time ("the original vulnerability memory"); "the halving"
+%  vague; "erases" not the word; two pointers to Section 5.4.3; P2 and P3 split
+%  for no reason, learning belongs with the why). Two paragraphs: why (P1,
+%  property 7 now closes it), how and what we expect (P2, the recurrence leads
+%  into the hypothesis). One pointer to the ablation. The baseline's halved
+%  time is named as a memory; the memory "updates an existing feature and
+%  beefs it up" (Marc). "Like the halving" cut. DRAFT STATE.]
 The \emph{vulnerability memory} extends MTDSim's exploit attack action so that
 the APT attacker model is more likely to exploit a vulnerability it has
 exploited before. An attacker that remembers which exploits succeeded can
 reuse them, and so succeeds more often as its attack goes on. The baseline
-attacker already learns from its exploits: an exploit of a vulnerability it
-has exploited before takes half the time
-(Section~\ref{subsec:attacker-model}). In the APT attacker model the tactic
-duration replaces the exploit's time (step~3 of
-Figure~\ref{fig:runtime-loop}), so the halving cannot reach it, and the memory
-acts on the exploit's chance of success instead.
+attacker already remembers the vulnerabilities it has exploited: exploiting
+one again takes it half the time (Section~\ref{subsec:attacker-model}). In the
+APT attacker model, the tactic duration replaces the exploit's time (step~3
+of Figure~\ref{fig:runtime-loop}), so the baseline attacker's memory saves it
+no time. The vulnerability memory acts on the chance of success instead. It
+gives the APT attacker model learning, property~7 of
+Table~\ref{tab:attacker-properties}, in part: it learns about
+vulnerabilities, not about the MTD deployments it observes.
 
 Each earlier success on a vulnerability, on any host, triples the attacker's
 odds of exploiting it again (the odds its attack complexity sets,
-Section~\ref{subsec:network-model}). Hosts that run the same service carry the
-same vulnerabilities, so the attacker meets the same vulnerability on more
-than one host. The memory lasts the whole run, and no MTD deployment erases
-it. The factor of three is our judgement, and the baseline attacker runs
-without the memory. Section~\ref{subsec:ablation-vulnerability-memory} tests
-whether any result depends on the memory, by running the APT attacker model
-without it.
-
-The memory gives the APT attacker model learning, property~7 of
-Table~\ref{tab:attacker-properties}, in part: like the halving, it learns
-about vulnerabilities, not about the MTD deployments it observes. We expect
-the memory to matter more when the \emph{diversity pool}, the services each
-operating system can run, is small: hosts then run the same services more
-often, so a vulnerability recurs on more of them.
-Section~\ref{subsec:ablation-vulnerability-memory} tests it.
+Section~\ref{subsec:network-model}). The factor of three is our judgement.
+The memory lasts the whole run, through every MTD deployment. Hosts that run
+the same service carry the same vulnerabilities, so the attacker meets the
+same vulnerability on more than one host. We therefore expect the memory to
+matter more when the \emph{diversity pool}, the services each operating
+system can run, is small, because hosts then run the same services more
+often. Section~\ref{subsec:ablation-vulnerability-memory} tests this
+expectation, and whether any result depends on the memory.
 
 \section{Evaluation metrics}
 \label{sec:evaluation-metrics}
