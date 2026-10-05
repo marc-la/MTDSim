@@ -5,19 +5,19 @@
 
 \begin{table}[htbp]
 \centering
-\caption[The tactic durations]{The mean duration of each tactic, its source and, for a judgement, the two times it was placed between. Appendix~\ref{app:dwell-derivation} gives each tactic's reason.}
+\caption[The tactic durations]{The mean duration of each tactic, and its source. Appendix~\ref{app:dwell-derivation} gives each tactic's reason.}
 \label{tab:dwell-catalogue}
 \tablestyle
-\begin{tabular}{@{}P{0.25\textwidth} P{0.21\textwidth} P{0.31\textwidth} >{\raggedleft\arraybackslash}p{0.11\textwidth}@{}}
+\begin{tabular}{@{}P{0.42\textwidth} P{0.32\textwidth} >{\raggedleft\arraybackslash}p{0.16\textwidth}@{}}
 \toprule
-Tactics & Source & Placed between & Mean duration $\mu_p$ (s) \\
+Tactics & Source & Mean duration $\mu_p$ (s) \\
 \midrule
-Initial access, privilege escalation, credential access, lateral movement & Median time of MTDSim's exploit &  & 4.5 \\
-Reconnaissance, discovery & Total time of MTDSim's scans for hosts, ports and neighbours ($5 + 25 + 5$\,s) &  & 35.0 \\
-Persistence, stealth, command and control & Judgement & Scanning ports (25\,s) and the deployment interval (200\,s) & 45.0 \\
-Execution, defense impairment & Judgement & An exploit (4.5\,s) and persistence, stealth, command and control (45\,s) & 22.5 \\
-Collection, exfiltration, impact & Judgement & Reconnaissance, discovery (35\,s) and persistence, stealth, command and control (45\,s) & 36.0 \\
-Resource development & Judgement &  & 0.0 \\
+Initial access, privilege escalation, credential access, lateral movement & Median time of MTDSim's exploit & 4.5 \\
+Reconnaissance, discovery & Total time of MTDSim's scans for hosts, ports and neighbours ($5 + 25 + 5$\,s) & 35.0 \\
+Persistence, stealth, command and control & Judgement & 45.0 \\
+Execution, defense impairment & Judgement & 22.5 \\
+Collection, exfiltration, impact & Judgement & 36.0 \\
+Resource development & Judgement & 0.0 \\
 \bottomrule
 \end{tabular}
 \end{table}

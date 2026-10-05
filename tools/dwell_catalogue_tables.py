@@ -125,6 +125,8 @@ def main() -> None:
     # rationale: ODD 2020, TRACE 2014, STRESS 2019; guidance record
     # docs/implementation/pipeline/ogasp/judgement_parameter_presentation_guidance.md):
     # each judgement value is placed between two times the model already has.
+    # Round 8 (2026-10-05): the prose states the bounds, one sentence per group,
+    # so the column is cut; the assertion stays, checking the prose's numbers.
     # The bounds are read from MTDSim's constants and the catalogue and the value
     # asserted between them, so the table cannot claim a placement it breaks.
     deploy_s = constants.MTD_TRIGGER_INTERVAL["random"][0]
@@ -153,15 +155,14 @@ def main() -> None:
 
     short = "The tactic durations"
     caption = (
-        "The mean duration of each tactic, its source and, for a judgement, the two "
-        "times it was placed between. "
+        "The mean duration of each tactic, and its source. "
         "Appendix~\\ref{app:dwell-derivation} gives each tactic's reason."
     )
     L = [banner, r"\begin{table}[htbp]", r"\centering",
          rf"\caption[{short}]{{{caption}}}", r"\label{tab:dwell-catalogue}",
          r"\tablestyle",
-         r"\begin{tabular}{@{}P{0.25\textwidth} P{0.21\textwidth} P{0.31\textwidth} >{\raggedleft\arraybackslash}p{0.11\textwidth}@{}}", r"\toprule",
-         r"Tactics & Source & Placed between & Mean duration $\mu_p$ (s) \\", r"\midrule"]
+         r"\begin{tabular}{@{}P{0.42\textwidth} P{0.32\textwidth} >{\raggedleft\arraybackslash}p{0.16\textwidth}@{}}", r"\toprule",
+         r"Tactics & Source & Mean duration $\mu_p$ (s) \\", r"\midrule"]
     for anchor, mult in keys:
         names = [axis.label[n] for n in rows[(anchor, mult)]]
         names = [names[0]] + [n[0].lower() + n[1:] for n in names[1:]]
@@ -169,7 +170,8 @@ def main() -> None:
         assert len(mu) == 1, mu
         m = mu.pop()
         L.append(f"{esc(', '.join(names))} & "
-                 f"{source(anchor, mult)} & {between(anchor, mult, m)} & {num(m)} \\\\")
+                 f"{source(anchor, mult)} & {num(m)} \\\\")
+        between(anchor, mult, m)  # asserts the bounds the prose states
     L += [r"\bottomrule", r"\end{tabular}", r"\end{table}", ""]
     (OUT_DIR / "tab_4-4a_dwell_catalogue.tex").write_text("\n".join(L))
 

@@ -4816,8 +4816,7 @@ has one parameter, its mean, so each tactic needs one value, its
 \emph{mean duration}~$\mu_p$. Chapter~\ref{ch:experiments} compares
 the APT attacker model with the baseline attacker under the same MTD
 deployments, so we kept the mean durations on the scale of the baseline
-attacker's attack actions, which take seconds
-(Section~\ref{subsec:attacker-model}).
+attacker's attack actions (Section~\ref{subsec:attacker-model}).
 
 MTDSim cannot supply every mean duration. The Petri net times each tactic,
 but MTDSim times only its attack actions, and seven tactics are unmapped
@@ -4830,51 +4829,55 @@ MTDSim for six tactics, and our judgement for the other nine.
 
 \input{tables/tab_4-4a_dwell_catalogue}
 
-Where a tactic does the work of an attack action, it takes that attack
-action's time. Initial access, privilege escalation, credential access and
-lateral movement each act briefly on one host, as an exploit does, so each
-takes 4.5~s, the median time of an exploit, which takes 0 to 9~s.
-Reconnaissance and discovery survey a network, as MTDSim's scans for hosts,
-for a host's ports and for its neighbours do together, so each takes the
-three scans' total, 35~s. The attack action whose work a tactic resembles
-need not be the one it maps to. Credential access maps to brute force,
-which takes 20~s, but its usual technique dumps the credentials stored on a
-host, a brief act like an exploit.
+Six tactics do the same work as one of MTDSim's attack actions, and take
+that attack action's time (Section~\ref{subsec:attacker-model}). Initial
+access, privilege escalation, credential access and lateral movement each act
+briefly on one host, as the exploit attack action does, so each takes the
+median time of the exploit attack action, 4.5~s. Reconnaissance and
+discovery survey a network, as MTDSim's scans for hosts, ports and
+neighbours do together, so each takes the total time of the three scans,
+35~s. Credential access takes 4.5~s although it maps to brute force, which
+takes 20~s, because its usual technique copies the credentials already
+stored on a host, a brief act on one host.
 
-% [ROUND 7, 2026-10-05 (Marc: the test paragraph "very very big", it
-%  "gets lost" in the appendix detail, which should live in Appendix C.1 with
-%  a pointer here; how the nine tactics are grouped is the open question).
-%  P4 gains the grouping, by the work the tactics do; P5 keeps what the test
-%  asks and what it found, and the design (bands, what fixed multiples
-%  measure, criterion, fixed before the run, the one-at-a-time limit, the
-%  untested baseline comparison) moves to Appendix C.1, as ODD section 4.3
-%  and Briggs VI-13 place it. DRAFT STATE.]
-No data give the other nine mean durations, since CTI vendor reports time
-whole intrusions, so we set them by judgement, as other models that time
-attack steps do where data are missing~\citep{mcqueen2006, bland2020,
-mendonca2023}. We grouped the nine by the work they do and gave each group
-one mean duration: persistence, stealth and command and control are kept up
-quietly throughout an attack; execution and defense impairment are brief
-acts, such as running a payload or disabling a defence, that the attacker
-paces to stay hidden; and collection, exfiltration and impact move or
-destroy data. We placed each group's mean duration between two times the
-model already has (Table~\ref{tab:dwell-catalogue}). Persistence, stealth
-and command and control, for example, last longer than any attack action,
-the longest of which, scanning ports, takes 25~s. They stay well under the
-200~s default deployment interval (Section~\ref{subsec:defence-mechanisms}), so
-that how often deployments come still changes how many of them are
-disrupted. We chose 45~s, and no evidence favours it over another value in
-that range. Resource development takes no time, because the attacker
-develops its resources before the attack reaches the target's network.
+% [ROUND 8, 2026-10-05 (Marc's sentence-by-sentence read: "No data give the
+%  other nine" unclear; "placed between" unclear, and is it lower and upper
+%  bounds; P4 still loses him; P5 reads bolted on, with "survive", "band",
+%  "moving" and the 11-180 s unexplained, and the shape test answers a
+%  question nobody asked; "exploit" used in more than one sense). P3 opens
+%  on the six tactics, says "the exploit attack action" throughout, drops
+%  the 0-9 s Section 2.2.3 gives, and says the credential access case
+%  plainly. P4: one sentence per group in one pattern (what the group does,
+%  its value, the two times it sits between), so Table 4.2's
+%  "Placed between" column goes; the 200 s bound gets its consequence. P5:
+%  what Appendix C.1 does in the chapter's terms and what it found; the
+%  shape test is left to Appendix C. DRAFT STATE.]
+No source times the other nine tactics, since CTI vendor reports time whole
+intrusions, so we set their mean durations by judgement, as other models
+that time attack steps do where data are missing~\citep{mcqueen2006,
+bland2020, mendonca2023}. We grouped the nine by the work they do and gave
+each group one mean duration between two times the model already has.
+Persistence, stealth and command and control are kept up quietly throughout
+an attack, so we set them at 45~s, longer than the longest attack action,
+scanning ports (25~s), and well under the 200~s default deployment interval
+(Section~\ref{subsec:defence-mechanisms}). If they outlasted the deployment
+interval, a deployment would disrupt nearly every one of them, and a shorter or
+longer interval would change little. Execution and defense impairment are brief acts, such as running a
+payload or disabling a defence, that the attacker paces to stay hidden, so
+we set them at 22.5~s, longer than the exploit attack action (4.5~s) and
+shorter than persistence, stealth and command and control (45~s). Collection, exfiltration and impact move or
+destroy data, so we set them at 36~s, longer than reconnaissance (35~s) and
+shorter than persistence, stealth and command and control. Resource development takes no time, because the
+attacker develops its resources before the attack reaches the target's
+network.
 
-Appendix~\ref{app:dwell-robustness} tests whether the results survive the
-mean durations we chose, by moving each value that several tactics share
-across a band, one at a time~\citep{tenbroeke2016}. Across its band, from 11
-to 180~s, the 45~s mean duration moves the hosts the APT attacker model reaches with no
-MTD from 13.4 to 3.0, and no other mean duration moves them by more than
-about one host. Appendix~\ref{app:exponential-shape} replaces the
-exponential delay with a less variable one of the same mean, which changes
-the hosts reached by less than one.
+No evidence favours these values over others between the same two times.
+Appendix~\ref{app:dwell-robustness} therefore reruns the APT attacker model
+with each of the four mean durations that several tactics share, 4.5, 35, 36
+and 45~s, halved and doubled one at a time, and 45~s also quartered and
+quadrupled~\citep{tenbroeke2016}. The number of hosts the attacker reaches
+depends most on the 45~s of persistence, stealth and command and control, and
+no other mean duration moves it by more than about one host.
 
 \subsection{Failure matrix}
 \label{subsec:failure-matrix}
