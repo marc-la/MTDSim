@@ -4842,39 +4842,39 @@ need not be the one it maps to. Credential access maps to brute force,
 which takes 20~s, but its usual technique dumps the credentials stored on a
 host, a brief act like an exploit.
 
+% [ROUND 7, 2026-10-05 (Marc: the test paragraph "very very big", it
+%  "gets lost" in the appendix detail, which should live in Appendix C.1 with
+%  a pointer here; how the nine tactics are grouped is the open question).
+%  P4 gains the grouping, by the work the tactics do; P5 keeps what the test
+%  asks and what it found, and the design (bands, what fixed multiples
+%  measure, criterion, fixed before the run, the one-at-a-time limit, the
+%  untested baseline comparison) moves to Appendix C.1, as ODD section 4.3
+%  and Briggs VI-13 place it. DRAFT STATE.]
 No data give the other nine mean durations, so we set them by judgement, as
 other models that time attack steps do where data are
-missing~\citep{mcqueen2006, bland2020, mendonca2023}. We placed each between
-two times the model already has and chose a value between them
-(Table~\ref{tab:dwell-catalogue}). Persistence, stealth and command and
-control, for example, are kept up quietly throughout an attack, so they last
-longer than any attack action, the longest of which, scanning ports, takes
-25~s. They stay well under the 200~s default deployment interval
-(Section~\ref{subsec:defence-mechanisms}), so that how often deployments
-come still changes how many of them are disrupted. We chose 45~s, and no
-evidence favours it over another value in that range. Resource development
-is the exception: it takes no time, because the attacker develops its
-resources before the attack reaches the target's network.
+missing~\citep{mcqueen2006, bland2020, mendonca2023}. We grouped the nine by
+the work they do and gave each group one mean duration: persistence, stealth
+and command and control are kept up quietly throughout an attack; execution
+and defense impairment are brief acts, such as running a payload or
+disabling a defence; and collection, exfiltration and impact move or destroy
+data. We placed each group's mean duration between two times the model
+already has (Table~\ref{tab:dwell-catalogue}). Persistence, stealth and
+command and control, for example, last longer than any attack action, the
+longest of which, scanning ports, takes 25~s, and stay well under the 200~s
+default deployment interval (Section~\ref{subsec:defence-mechanisms}), so
+that how often deployments come still changes how many of them are
+disrupted. We chose 45~s, and no evidence favours it over another value in
+that range. Resource development takes no time, because the attacker
+develops its resources before the attack reaches the target's network.
 
-Appendix~\ref{app:dwell-robustness} tests whether the results survive the mean
-durations we chose, and which matter most~\citep{tenbroeke2016}. It moves each
-of the four mean durations that several tactics share, 4.5, 35, 36 and
-45~s, one at a time from half to twice its value, and the 45~s from a
-quarter to four times, 11 to 180~s, so that it reaches up to the deployment
-interval. Bands of fixed multiples measure how much the results respond to
-a value, and do not estimate how far the value might be
-wrong~\citep{briggs2012}. At each band end, the test counts the distinct
-hosts the APT attacker model reaches with no MTD and under the random
-deployment strategy at 200 and 2\,000~s, and a result depends on a mean
-duration if that count leaves the 95\,\% interval at the chosen value. We
-fixed the bands and this criterion before the run and changed no value
-after it. Moving one value at a time leaves interactions between them
-untested~\citep{saltelli2019}, and the comparison with the baseline attacker
-was not repeated across the bands. The 45~s moves the hosts reached most,
-from 13.4 at 11~s to 3.0 at 180~s with no MTD, and no other mean duration
-moves them by more than about one host. Appendix~\ref{app:exponential-shape}
-replaces the exponential delay with a less variable one of the same mean,
-which changes the hosts reached by less than one.
+Appendix~\ref{app:dwell-robustness} tests whether the results survive the
+mean durations we chose, by moving each value that several tactics share
+across a band, one at a time~\citep{tenbroeke2016}. Across its band, from 11
+to 180~s, the 45~s moves the hosts the APT attacker model reaches with no
+MTD from 13.4 to 3.0, and no other mean duration moves them by more than
+about one host. Appendix~\ref{app:exponential-shape} replaces the
+exponential delay with a less variable one of the same mean, which changes
+the hosts reached by less than one.
 
 \subsection{Failure matrix}
 \label{subsec:failure-matrix}
@@ -9260,19 +9260,31 @@ read the same perturbations value by value.
 %     - the honest limit: the per-profile ordering is indeterminate at ten
 %       seeds --- a power failure, not a parameter failure.
 
-% [DRAFT STATE 2026-10-05, with Section 4.4.2 round 5: the families named by
-%  their values and the bands given in seconds; the bands and criterion said
-%  to precede the run (ch5_s51_sensitivity_findings.md section 2).]
-Each of the four mean durations that several tactics share was moved to both
-ends of its band, one at a time, with the other three held at their declared
-values (Section~\ref{subsec:dwell-times}). The tactics set from a value moved
-with it, so execution and defense impairment stayed at half of 45\,s. The
-bands and the criterion were set before the run.
-Table~\ref{tab:anchor-sensitivity} gives the distinct hosts reached at both
-band ends and at the declared value, with no MTD and under the random
-deployment strategy at 200\,s and 2\,000\,s. Figure~\ref{fig:sens-dwell-anchor}
-draws the 45\,s of persistence, stealth and command and control, the mean
-duration that moves the hosts reached most.
+% [DRAFT STATE 2026-10-05, with Section 4.4.2 round 7: the test's design
+%  moved here from the chapter (bands and what fixed multiples measure, the
+%  criterion, fixed before the run, the one-at-a-time limit, the untested
+%  baseline comparison), in the order the field reports it (guidance record
+%  docs/implementation/pipeline/ogasp/judgement_parameter_presentation_guidance.md).]
+Each of the four mean durations that several tactics share
+(Section~\ref{subsec:dwell-times}) was moved to both ends of a band, one at
+a time, with the other three held at their chosen values. The tactics set
+from a value moved with it, so execution and defense impairment stayed at
+half of 45\,s. Each band runs from half to twice its value, and the band of
+the 45\,s from a quarter to four times, 11.25 to 180\,s, so that it reaches
+up to the deployment interval. Bands of fixed multiples measure how much the
+results respond to a value, and do not estimate how far the value might be
+wrong~\citep{briggs2012}.
+
+At each band end, the test counts the distinct hosts the APT attacker model
+reaches with no MTD and under the random deployment strategy at 200 and
+2\,000\,s. A mean duration is inert when the count at both band ends stays
+inside the 95\,\% interval at its chosen value, and moved otherwise. The
+bands and this criterion were fixed before the run, and no value was changed
+after it. Moving one value at a time leaves interactions between the values
+untested~\citep{saltelli2019}, and the comparison with the baseline attacker
+was not repeated across the bands. Table~\ref{tab:anchor-sensitivity} gives
+the counts, and Figure~\ref{fig:sens-dwell-anchor} draws the 45\,s of
+persistence, stealth and command and control, which moves them most.
 
 \input{tables/tab_C-1a_family_sensitivity}
 
