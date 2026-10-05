@@ -4788,98 +4788,93 @@ model can only be as good as the attack actions it adopts.
 \subsection{Tactic durations}
 \label{subsec:dwell-times}
 
-% [ROUND 5, 2026-10-05 (Marc: round 4 "a lot stronger in structure"; P1-P3
-%  clear; the unmapped tactics still taking time is "the most important
-%  point" but lost in a closing clause; "three scans" and "an exploit's median
-%  time" vague; why a *mean* duration; P4/P5: was it judgement or the
-%  sensitivity analysis, are the bands judgement's, does a declaration need a
-%  sensitivity analysis at all, "shows which results depend on each" says
-%  what; "judgement" and "declared" two words for one thing). Edits on the
-%  round-4 base: P2 gives the unmapped point its own sentence and introduces
-%  the random duration with its mean, so Table 4.2's column is read as a
-%  mean; P3 names the scans and the exploit's 0-9 s; P4 states each judgement
-%  as a range between named times and a value chosen inside it; P5 is the
-%  robustness test alone: judgement fixes a range, no evidence picks the
-%  value, Appendix C.1 moves each shared value across a band covering that
-%  range, what it measures, what counts as depending, that nothing was tuned,
-%  and what moved; P6 the exponential. "Judgement" is the basis throughout
-%  (Table 4.2's source column says so); "declared" stays the umbrella word of
-%  Section 4.4's preamble. Round 4 in git f505b1c8. DRAFT STATE.]
+% [ROUND 6, 2026-10-05 (Marc: rounds 4-5 "cycling the same vague and
+%  hard-to-follow reasoning" from P4 on, "typically means the structure is
+%  wrong"; look for how the field presents judgement values; mean duration
+%  never defined; six paragraphs not warranted). Restructured on the field's
+%  guidance (docs/implementation/pipeline/ogasp/
+%  judgement_parameter_presentation_guidance.md: ODD 2020, TRACE 2014, STRESS
+%  2019, Briggs 2012, Saltelli 2019, McQueen 2006): a parameter table carries
+%  each value, its source and, for a judgement, the two times it was placed
+%  between; the judgement is stated once as an assumption, with one worked
+%  example, and not argued further; the robustness test is a separate
+%  paragraph in the field's order (what it tests, what moves, the bands and
+%  what they measure, the output and criterion fixed before the run, the
+%  one-at-a-time limit and the untested comparison with the baseline
+%  attacker, the result). P1 defines the mean duration through the
+%  exponential delay, so the old closing paragraph folds in; the shape test
+%  joins the robustness paragraph. Five paragraphs. Round 5 in git 7c3b9598.
+%  DRAFT STATE.]
 The \emph{tactic durations} set how long each tactic runs in MTDSim, at
 step~3 of Figure~\ref{fig:runtime-loop}. They set the APT attacker model's
 pace, and the longer a tactic runs, the more likely an MTD deployment
-disrupts it. CTI vendor reports do not give them, because they time whole
-intrusions. Chapter~\ref{ch:experiments} compares the APT attacker model
-with the baseline attacker under the same MTD deployments, so we kept the
-tactic durations on the scale of the baseline attacker's attack actions,
-which take seconds (Section~\ref{subsec:attacker-model}). Where a tactic
-does the work of an attack action, it takes that attack action's time;
-otherwise we set its duration by judgement.
+disrupts it. A tactic's duration is random each time it runs, an
+exponential delay, because the timed transitions of a GSPN fire after
+exponential delays (Section~\ref{sec:petri-formalism}) and attack behaviour
+is stochastic~\citep{holm2014, madan2004, bland2020}. An exponential delay
+has one parameter, its mean, so each tactic needs one value, its
+\emph{mean duration}~$\mu_p$. CTI vendor reports give no mean durations,
+because they time whole intrusions. Chapter~\ref{ch:experiments} compares
+the APT attacker model with the baseline attacker under the same MTD
+deployments, so we kept the mean durations on the scale of the baseline
+attacker's attack actions, which take seconds
+(Section~\ref{subsec:attacker-model}).
 
-The Petri net times each tactic by its own timed transition, but MTDSim
-times only its attack actions. Seven tactics are unmapped
-(Section~\ref{subsec:tactic-verb-mapping}). MTDSim does not carry them out,
-but each still takes the attacker time, so MTDSim's times cannot pace the
-APT attacker model alone, and each tactic needs a duration of its own. Each
-time a tactic runs, its duration is random, an exponential delay whose mean
-is the tactic's mean duration $\mu_p$ (Section~\ref{sec:petri-formalism}),
-and the attack action it maps to runs for that duration in place of the
-attack action's time. Table~\ref{tab:dwell-catalogue} gives each tactic's
-mean duration and its source.
-
-Six tactics take their mean durations from MTDSim's attack actions
-(Section~\ref{subsec:attacker-model}). Initial access, privilege escalation,
-credential access and lateral movement each act briefly on one host, as an
-exploit does, so each takes 4.5~s, the median time of an exploit, which
-takes 0 to 9~s. Reconnaissance and discovery survey a network, as MTDSim's
-scans for hosts, for a host's ports and for its neighbours do together, so
-each takes the three scans' total, 35~s. A tactic takes the time of the
-attack action its work resembles, which need not be the one it maps to.
-Credential access maps to brute force, which takes 20~s, but its usual
-technique dumps the credentials stored on a host, a brief act like an
-exploit.
+MTDSim cannot supply every mean duration. The Petri net times each tactic,
+but MTDSim times only its attack actions, and seven tactics are unmapped
+(Section~\ref{subsec:tactic-verb-mapping}). MTDSim does not carry an
+unmapped tactic out, but the tactic still takes the attacker time. Each
+tactic therefore has a mean duration of its own, and the attack action it
+maps to runs for the tactic's duration in place of the attack action's time.
+Table~\ref{tab:dwell-catalogue} gives each mean duration and its source:
+MTDSim for six tactics, and our judgement for the other nine.
 
 \input{tables/tab_4-4a_dwell_catalogue}
 
-We set the other nine mean durations by judgement, as other models that
-time attack steps set theirs~\citep{bland2020, mcqueen2006, mendonca2023}.
-Judgement places each between two known times, and we chose a value between
-them. Persistence, stealth and command and control are kept up
-quietly throughout an attack, so they take longer than any attack action,
-the longest of which, scanning ports, takes 25~s. They take less than the
-200~s default deployment interval (Section~\ref{subsec:defence-mechanisms}),
-so that how often deployments come still changes how many of them are
-disrupted. We set them at 45~s. Execution and defense impairment are brief
-acts, such as running a payload or disabling a defence, that the attacker
-paces to stay hidden, so they take longer than an exploit and less than
-persistence, stealth and command and control. We set them at 22.5~s, half
-of 45~s. Collection, exfiltration and impact move or destroy data, which we
-judged to take at least as long as surveying a network and less than
-persistence, stealth and command and control. We set them at 36~s. Resource
-development takes no time, because the attacker develops its resources
-before the attack reaches the target's network.
+Where a tactic does the work of an attack action, it takes that attack
+action's time. Initial access, privilege escalation, credential access and
+lateral movement each act briefly on one host, as an exploit does, so each
+takes 4.5~s, the median time of an exploit, which takes 0 to 9~s.
+Reconnaissance and discovery survey a network, as MTDSim's scans for hosts,
+for a host's ports and for its neighbours do together, so each takes the
+three scans' total, 35~s. The attack action whose work a tactic resembles
+need not be the one it maps to. Credential access maps to brute force,
+which takes 20~s, but its usual technique dumps the credentials stored on a
+host, a brief act like an exploit.
 
-Judgement fixes the range of each of these mean durations, but no evidence
-favours one value in it over another. Appendix~\ref{app:dwell-robustness}
-therefore tests whether the results depend on the value
-chosen~\citep{tenbroeke2016}. It moves each of the four mean durations that
-several tactics share, 4.5, 35, 36 and 45~s, to both ends of a band, one at
-a time with the others held, and counts the distinct hosts the attacker
-reaches with no MTD and under the random deployment strategy at 200~s and
-2\,000~s. The band for 45~s, for example, runs from 11 to 180~s, from below
-the longest attack action to near the deployment interval. A result depends
-on a mean duration if moving it to a band end shifts the hosts reached
-outside the 95\,\% interval at the chosen value. We set every value and band
-before the test and changed none after it. The 45~s moves the hosts reached
-most, from 13.4 at 11~s to 3.0 at 180~s with no MTD; no other mean duration
-moves them by more than about one host.
+No data give the other nine mean durations, so we set them by judgement, as
+other models that time attack steps do where data are
+missing~\citep{mcqueen2006, bland2020, mendonca2023}. We placed each between
+two times the model already has and chose a value between them
+(Table~\ref{tab:dwell-catalogue}). Persistence, stealth and command and
+control, for example, are kept up quietly throughout an attack, so they last
+longer than any attack action, the longest of which, scanning ports, takes
+25~s. They stay well under the 200~s default deployment interval
+(Section~\ref{subsec:defence-mechanisms}), so that how often deployments
+come still changes how many of them are disrupted. We chose 45~s, and no
+evidence favours it over another value in that range. Resource development
+is the exception: it takes no time, because the attacker develops its
+resources before the attack reaches the target's network.
 
-Tactic durations are exponential because the timed transitions of a GSPN
-fire after exponential delays (Section~\ref{sec:petri-formalism}). A tactic
-duration that varies from run to run also matches the evidence that attack
-behaviour is stochastic~\citep{holm2014, madan2004, bland2020}, and
-Appendix~\ref{app:exponential-shape} replaces the exponential delay with a
-less variable one of the same mean.
+Appendix~\ref{app:dwell-robustness} tests whether the results survive the mean
+durations we chose, and which matter most~\citep{tenbroeke2016}. It moves each
+of the four mean durations that several tactics share, 4.5, 35, 36 and
+45~s, one at a time from half to twice its value, and the 45~s from a
+quarter to four times, 11 to 180~s, so that it reaches up to the deployment
+interval. Bands of fixed multiples measure how much the results respond to
+a value, and do not estimate how far the value might be
+wrong~\citep{briggs2012}. At each band end, the test counts the distinct
+hosts the APT attacker model reaches with no MTD and under the random
+deployment strategy at 200 and 2\,000~s, and a result depends on a mean
+duration if that count leaves the 95\,\% interval at the chosen value. We
+fixed the bands and this criterion before the run and changed no value
+after it. Moving one value at a time leaves interactions between them
+untested~\citep{saltelli2019}, and the comparison with the baseline attacker
+was not repeated across the bands. The 45~s moves the hosts reached most,
+from 13.4 at 11~s to 3.0 at 180~s with no MTD, and no other mean duration
+moves them by more than about one host. Appendix~\ref{app:exponential-shape}
+replaces the exponential delay with a less variable one of the same mean,
+which changes the hosts reached by less than one.
 
 \subsection{Failure matrix}
 \label{subsec:failure-matrix}
