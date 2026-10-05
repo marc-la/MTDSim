@@ -3,10 +3,12 @@
 Two floats from one declared family, emitted from `data/ogasp/tactic_durations.json`
 so no value is ever typed (`figure_table_conventions.md` §h):
 
-* `tab:dwell-catalogue` (§4.4.2) --- the **what**: one panel, tactic and mean
-  dwell, nothing else. Marc's ruling 2026-09-08 (pass 5, front-loading): the
-  chapter table prescribes what the model runs with; the why belongs to the
-  appendix and the sensitivity analysis.
+* `tab:dwell-catalogue` (§4.4.2) --- the **families**: one row per family
+  value, with its tactics, what the value is set from (MTDSim's costs, or a
+  multiple of another family) and the mean duration. Since 2026-10-05 (Marc:
+  the per-tactic table "reads like 15 random numbers"; "how they came from
+  MTDSim and the baseline attacker"), overturning the one-panel ruling of
+  2026-09-08 on merit.
 * `tab:dwell-derivation` (`app:dwell-derivation`) --- the **why**: per-tactic
   family (with its value), multiplier, band and reason. The anchor-families
   table (`tab:dwell-anchors`) was cut 2026-10-04: section 4.4.2 says it.
@@ -32,6 +34,8 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 from _tactic_axis import load_axis  # noqa: E402
 
 REPO = Path(__file__).resolve().parent.parent
+sys.path.insert(0, str(REPO))
+from mtdnetwork.data import constants  # noqa: E402  MTDSim's attack-action costs
 CATALOGUE = REPO / "data" / "ogasp" / "tactic_durations.json"
 OUT_DIR = REPO / "docs" / "thesis" / "tables"
 
@@ -75,32 +79,61 @@ def main() -> None:
               f"% Do not hand-edit; regenerate. Requires booktabs (already in the preamble).\n")
 
     # ---------------------------------------------------------- chapter ----
-    # A FAMILY COLUMN since 2026-10-05 (Marc: the one-panel table "reads like
-    # 15 random numbers ... where do you get them from"; overturns the
-    # 2026-09-08 one-panel ruling on merit). Tactic, family, mean duration: the
-    # family traces each value to its source, which section 4.4.2 gives; the
-    # multipliers, bands and reasons stay the appendix's (tab:dwell-derivation).
-    short = "Declared tactic durations"
+    # ONE ROW PER FAMILY VALUE since 2026-10-05 (Marc: the per-tactic table
+    # "reads like 15 random numbers ... where do you get them from"; the
+    # families "we don't really explain"). Each row: the family, its tactics,
+    # what its value is set from, and the value. The two families MTDSim costs
+    # are recomputed here from MTDSim's own constants and checked against the
+    # catalogue, so the table cannot claim a source the value does not have.
+    # Per-tactic multipliers, bands and reasons stay the appendix's.
+    cost = constants.ATTACK_DURATION
+    scan = ("SCAN_HOST", "SCAN_PORT", "SCAN_NEIGHBOR")
+    scan_s = sum(cost[k] for k in scan)
+    median_cx = (constants.VULN_MIN_COMPLEXITY + 1) / 2
+    exploit_s = cost["EXPLOIT_VULN"] * (1 - median_cx)
+    assert abs(scan_s - anchors["scan-shaped"]["duration_s"]) < 1e-9, scan_s
+    assert abs(exploit_s - anchors["exploit-shaped"]["duration_s"]) < 1e-9, exploit_s
+    ex = anchors["exploit-shaped"]["duration_s"]
+
+    def source(anchor: str, mult: float) -> str:
+        if anchor == "prep-off-network":
+            return "Off the target's network"
+        if mult != 1.0:
+            return f"${mult:g} \\times$ {FAMILY_LABEL[anchor].lower()}"
+        if anchor == "scan-shaped":
+            return ("Scan host + scan port + scan neighbours "
+                    f"(${' + '.join(str(cost[k]) for k in scan)}$\\,s)")
+        if anchor == "exploit-shaped":
+            return (f"Median exploit cost, ${cost['EXPLOIT_VULN']} \\times "
+                    f"(1 - {median_cx:g})$\\,s")
+        return f"${anchors[anchor]['duration_s'] / ex:g} \\times$ exploit-shaped"
+
+    rows: dict[tuple[str, float], list[str]] = {}
+    for name in axis.matrix_order:
+        e = tactics[name]
+        rows.setdefault((e["anchor"], e["relative_multiplier"]), []).append(name)
+    fam_order = list(FAMILY_LABEL)
+    keys = sorted(rows, key=lambda k: (fam_order.index(k[0]), -k[1]))
+
+    short = "The tactic durations by family"
     caption = (
-        "The mean duration $\\mu_p$ of each tactic "
-        "(Section~\\ref{subsec:dwell-times}) and the family it takes its value "
-        "from; each tactic's duration is drawn from an exponential of this mean. "
-        f"Tactic names follow ATT\\&CK~v{pin}. "
-        "Appendix~\\ref{app:dwell-derivation} gives each tactic's multiplier and "
-        "reason."
+        "The tactic durations by family, with the tactics in each family and "
+        "what the family's value is set from. Attack actions are named as in "
+        "Figure~\\ref{fig:controller-mapping}; "
+        "Appendix~\\ref{app:dwell-derivation} gives each tactic's reason."
     )
-    # ch4 scrutiny 2026-10-02 (T2): the repo version string is off the caption
-    # (voice.md §e), mu_p points at its declaration (not Eq. 4.1), and the
-    # chapter table takes the house style (\tablestyle, stripes).
     L = [banner, r"\begin{table}[htbp]", r"\centering",
          rf"\caption[{short}]{{{caption}}}", r"\label{tab:dwell-catalogue}",
          r"\tablestyle",
-         r"\begin{tabular}{@{}l l r@{}}", r"\toprule",
-         r"Tactic & Family & Mean duration $\mu_p$ (s) \\", r"\midrule"]
-    for name in axis.matrix_order:
-        e = tactics[name]
-        L.append(f"{esc(axis.label[name])} & {FAMILY_LABEL[e['anchor']]} & "
-                 f"{num(e['duration_s'])} \\\\")
+         r"\begin{tabular}{@{}l P{0.27\textwidth} P{0.25\textwidth} r@{}}", r"\toprule",
+         r"Family & Tactics & Value from & Mean duration $\mu_p$ (s) \\", r"\midrule"]
+    for anchor, mult in keys:
+        names = [axis.label[n] for n in rows[(anchor, mult)]]
+        names = [names[0]] + [n[0].lower() + n[1:] for n in names[1:]]
+        mu = {tactics[n]["duration_s"] for n in rows[(anchor, mult)]}
+        assert len(mu) == 1, mu
+        L.append(f"{FAMILY_LABEL[anchor]} & {esc(', '.join(names))} & "
+                 f"{source(anchor, mult)} & {num(mu.pop())} \\\\")
     L += [r"\bottomrule", r"\end{tabular}", r"\end{table}", ""]
     (OUT_DIR / "tab_4-4a_dwell_catalogue.tex").write_text("\n".join(L))
 

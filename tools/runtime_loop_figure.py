@@ -44,10 +44,12 @@ The rules it keeps (as tools/ch4_overview_figure.py, its sibling):
     place, which chooses on the base weights; both routes meet at the
     transition step 6 fires, the successor of largest weight after a failure
     (reconnaissance, as Figure 4.4(b)), read from the overlay, never typed;
-  * step 3 points up into the timed transition (round 6, Marc: the dwell time
-    is the timed transition's delay), as step 5 points up into the immediate
-    transitions: each declared input inside the net points at what it sets;
-    the attack action runs for that delay, which 4.4's prose states;
+  * step 3 runs from the tactic durations through the timed transition into
+    MTDSim (2026-10-05, Marc: the duration "doesn't flow into MTDSim at all";
+    round 6 had it stop at the transition, whose delay it is). The box sits
+    above the transition, so one straight vertical carries the mean into the
+    transition and the drawn duration on to the attack actions, which run for
+    it; step 5 still points up into the immediate transitions it reweights;
   * one grid, two lanes (round 2, Marc: "visually overwhelming ... things are
     not really aligned"): what goes down runs on the left, what comes back up
     on the right, the closed-loop convention; each box sits under the element
@@ -158,9 +160,10 @@ def emit(succ: list[str]) -> tuple[str, float, float]:
         svg.text(cx, y0 + 42, sec, "xref")
 
     # ------------------------------------------------------------ Petri net
-    py0, py1 = 14, 270
+    py0, py1 = 14, 319
     frame(py0, py1, "frame", "Petri net", 76, "§4.3")
-    yc = 104
+    dy0 = py0 + 20                             # the tactic durations, above the transition they time
+    yc = dy0 + BH + 67
     rp, rq, rd = 20, 15, 18
     ys = [yc - 38, yc, yc + 38]
     CH = len(ys) - 1                           # the successor step 6 fires
@@ -168,7 +171,7 @@ def emit(succ: list[str]) -> tuple[str, float, float]:
     svg.add(f'<circle class="tok" cx="{xp}" cy="{yc}" r="6"/>')
     svg.text(xp - rp - 10, yc + 6, "Initial access", "lbl", anchor="end")
     svg.add(f'<rect class="timed" x="{xt - 6}" y="{yc - 20}" width="12" height="40"/>')
-    svg.text(xt, yc - 30, "timed transition", "sm")
+    svg.text(xt - 12, yc - 28, "timed transition", "sm", anchor="end")
     svg.add(f'<circle class="dpl" cx="{xd}" cy="{yc}" r="{rd}"/>')
     svg.text(xd, yc - 30, "decision place", "sm")
     svg.path(f"M{xp + rp + 2},{yc} H{xt - 9}", "arc", marker="mS")
@@ -196,7 +199,7 @@ def emit(succ: list[str]) -> tuple[str, float, float]:
     # the two declared inputs that are part of the net, directly under what they set
     ry0 = py1 - 12 - BH
     # 2026-10-05: subsections reordered to the loop (mapping 4.4.1, durations 4.4.2)
-    box(xt, ry0, "Tactic durations", "§4.4.2")
+    box(xt, dy0, "Tactic durations", "§4.4.2")
     box(xb, ry0, "Failure matrix", "§4.4.3")
     # the one outside it, between the net and MTDSim
     my0 = py1 + 40
@@ -245,8 +248,10 @@ def emit(succ: list[str]) -> tuple[str, float, float]:
     svg.path(f"M{xp},{my0 + BH + 3} V{act[2] - 2}", "loop", marker="mA")
     step_label(svg, xp, lab1, 1, "tactic")
     step_label(svg, xp, lab2, 2, "attack action")
-    # the timed transition's lane: step 3, the drawn dwell time is its delay
-    svg.path(f"M{xt},{ry0 - 3} V{yc + 23}", "loop", marker="mA")
+    # the timed transition's lane: step 3, the mean into the transition, the
+    # drawn duration on into MTDSim, where the attack action runs for it
+    svg.path(f"M{xt},{dy0 + BH + 3} V{yc - 23}", "loop", marker="mA")
+    svg.path(f"M{xt},{yc + 23} V{act[2] - 2}", "loop", marker="mA")
     step_label(svg, xt, labp, 3, "duration")
     # the decision place's lane: step 4, the verdict, splits just below the net
     jy = py1 + 38
