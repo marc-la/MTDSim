@@ -1,3 +1,11 @@
+% ROUND 6, 2026-10-05 (Marc: the Property column "reads as a bit sparse",
+% properties in two groups unexplained; "it's actually worse having it there";
+% the gaps between the groups and the stripes read as inconsistent). The
+% Property column is DROPPED (round 5 overturned; the property each metric
+% records is in the 4.5 preamble and the 4.5.1 and 4.5.3 openers); caption back
+% to the metrics and their sources; the \addlinespace gaps are gone, so the
+% group rows alone mark the groups (stripes kept by the 2026-10-01 house
+% ruling until Marc rules on them thesis-wide). DRAFT STATE --- ratify on read.
 % ROUND 5, 2026-10-05 (Marc accepted the section 4.5 frame): a Property column,
 % the property of an APT attacker (Table 3.2) each metric records, so the table
 % shows the preamble's argument: the adopted metrics record none, the added ones
@@ -218,29 +226,27 @@
 % which §4.4.1 says have no action in flight (metrics_semantics.md §d2).
 \begin{table}[htbp]
   \centering
-  \caption[The evaluation metrics]{The evaluation metrics, the property of an APT attacker each records, and their sources.}
+  \caption[The evaluation metrics]{The evaluation metrics and their sources.}
   \label{tab:metrics}
   \tablestyle
-  \begin{tabular}{@{}llP{4.1cm}@{}}
+  \begin{tabular}{@{}lP{6.0cm}@{}}
     \toprule
-    Metric & Property & Source \\
+    Metric & Source \\
     \midrule
-    \rowcolor{white}\multicolumn{3}{@{}l}{\grouplabel{Attacker behaviour} (Section~\ref{subsec:metrics-behaviour})} \\
-    \quad Relative tactic occurrence & Objective conditioning & \citep{rodriguez2024} \\
-    \quad Distinct attack paths & Strategic plurality & this dissertation, after \citep{hong2018} \\
-    \quad Attack rate & Stealth & \citep{zhan2013} \\
-    \quad Attack confidentiality & Stealth & \citep{zaffarano2015} \\
-    \addlinespace
-    \rowcolor{white}\multicolumn{3}{@{}l}{\grouplabel{Attack outcome} (Section~\ref{subsec:metrics-outcome})} \\
-    \quad Attack success probability (ASP) & & \citep{cho2020} \\
-    \quad Network compromise ratio (NCR) & & \citep{zhang2023} \\
-    \quad Mean time to compromise (MTTC) & & \citep{mcqueen2006, zhang2023} \\
-    \addlinespace
-    \rowcolor{white}\multicolumn{3}{@{}l}{\grouplabel{MTD effectiveness} (Section~\ref{subsec:metrics-effectiveness})} \\
-    \quad ASP reduction & & \citep{alavizadeh2022} \\
-    \quad NCR reduction & & \citep{alavizadeh2022} \\
-    \quad Attack actions blocked per MTD deployment & & \citep{brown2023} \\
-    \quad Time lost per MTD deployment & Adaptivity & this dissertation, after \citep{royston2013} \\
+    \rowcolor{white}\multicolumn{2}{@{}l}{\grouplabel{Attacker behaviour} (Section~\ref{subsec:metrics-behaviour})} \\
+    \quad Relative tactic occurrence & \citep{rodriguez2024} \\
+    \quad Distinct attack paths & this dissertation, after \citep{hong2018} \\
+    \quad Attack rate & \citep{zhan2013} \\
+    \quad Attack confidentiality & \citep{zaffarano2015} \\
+    \rowcolor{white}\multicolumn{2}{@{}l}{\grouplabel{Attack outcome} (Section~\ref{subsec:metrics-outcome})} \\
+    \quad Attack success probability (ASP) & \citep{cho2020} \\
+    \quad Network compromise ratio (NCR) & \citep{zhang2023} \\
+    \quad Mean time to compromise (MTTC) & \citep{mcqueen2006, zhang2023} \\
+    \rowcolor{white}\multicolumn{2}{@{}l}{\grouplabel{MTD effectiveness} (Section~\ref{subsec:metrics-effectiveness})} \\
+    \quad ASP reduction & \citep{alavizadeh2022} \\
+    \quad NCR reduction & \citep{alavizadeh2022} \\
+    \quad Attack actions blocked per MTD deployment & \citep{brown2023} \\
+    \quad Time lost per MTD deployment & this dissertation, after \citep{royston2013} \\
     \bottomrule
   \end{tabular}
 \end{table}

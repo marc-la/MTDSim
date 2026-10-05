@@ -5178,30 +5178,31 @@ with a small diversity pool, but leaves what the attacker achieves unchanged.
 % are added). "How well MTD stops it" is Section 3.2.2's definition verbatim.
 % P2 is the old scope sentences, unchanged, the combination first.
 % DRAFT STATE --- ratify on read.
-\ref{sq:evaluate} compares how MTD performs against the APT attacker model and
-against the baseline attacker. Answering it takes metrics of three kinds:
-\emph{attacker behaviour}, how an attacker acts; \emph{attack outcome}, what it
-achieves; and \emph{MTD effectiveness}, how well MTD stops it. MTD evaluations
-already measure attack outcome and MTD effectiveness, and we adopt their metrics
-(Section~\ref{subsec:mtd-metrics}). Those metrics depend on the attacker they
-are computed from, but record only what it achieves. A difference between the
-two attackers' results can be read as the effect of APT behaviour only if the
-APT attacker model acts as an APT attacker does, so we add metrics of attacker
-behaviour, each recording a property of Table~\ref{tab:attacker-properties}. The
-adopted MTD effectiveness metrics read a whole run, and an attacker responds to
-each MTD deployment, so we add two that read each deployment.
-Table~\ref{tab:metrics} gives the metrics and their sources.
-
-Each metric is computed over the runs of one combination of
-Table~\ref{tab:experiment}: one attacker at one deployment interval, with no MTD
-or under one MTD mechanism or deployment strategy. Every run follows the
-targeted attack scenario (Section~\ref{subsec:attacker-model}).
-% [2026-10-04: the targeting rule moved here from the 4.4 preamble (Marc's
-%  placement, 2026-09-20, flagged); session-joined to this sentence. DRAFT STATE.]
-The attacker attacks a target host if one is visible, and otherwise prefers the
-hosts nearest the target's level; the run ends when it compromises a target
-host, when it has compromised more than
-80\,\% of the hosts, or at the time limit.
+% ROUND 8, 2026-10-05 (Marc: P1 vague and rhetorical --- "takes metrics of
+% three kinds", the second-rate gloss of each kind, "their metrics", "can be
+% read as", the "only if ... acts as an APT attacker does" riddle, "read a whole
+% run"; P2's "combination" and targeting rule unclear; "why two paragraphs";
+% the motivation lost). One paragraph: SQ3 in its own words; the field's attack
+% outcome and MTD effectiveness metrics adopted; no MTD metric measures how an
+% attacker behaves, so the added ones, named by the properties they record in
+% Table 3.2's own framing. CUT: the metric counts and glosses (the table's and
+% 4.5.1-4.5.3's); "the adopted metrics read a whole run" (false: attack actions
+% blocked per MTD deployment is Brown's); the targeting rule (no metric needs it;
+% the 4.4 preamble no longer states it, flagged); the run-end conditions
+% (Section 2.2.3 states them). DRAFT STATE --- ratify on read.
+\ref{sq:evaluate} asks how MTD performs against the APT attacker model compared
+with the baseline attacker. We adopt the attack outcome and MTD effectiveness
+metrics of MTD evaluations (Section~\ref{subsec:mtd-metrics}). None of them
+measures how an attacker behaves, so none shows whether an attacker model has
+the properties it needs to model an APT attacker
+(Table~\ref{tab:attacker-properties}). We add attacker behaviour metrics for
+three of those properties: objective conditioning, strategic plurality and
+stealth. We also add one MTD effectiveness metric for a fourth property,
+adaptivity: time lost per MTD deployment, how much each deployment delays the
+attacker. Table~\ref{tab:metrics} gives the metrics and their sources. Each
+metric is computed over the runs of one attacker under the same MTD
+(Table~\ref{tab:experiment}), in the targeted attack scenario
+(Section~\ref{subsec:attacker-model}).
 % [CH4 SCRUTINY 2026-10-02, ledger E2: "cell" was defined and never used
 %  again; chapter 5 says "combination". DRAFT STATE --- ratify on read.]
 
