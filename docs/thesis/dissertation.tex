@@ -8771,9 +8771,27 @@ and found not to matter here, reported so that others need not repeat it.]}
 vulnerability memory (Section~\ref{subsec:vulnerability-memory}) is part of the
 evaluated model, operates, and confers no advantage, because the simulator's
 exploit attack action, not the attacker's odds, limits what it can take
-(Section~\ref{sec:ablation}). Property 6: blank, with one sentence (a cost
-model is not part of the evaluated model) --- the mark in the table changes
-only on Marc's ruling.]}
+(Section~\ref{sec:ablation}). It learns in part: about vulnerabilities, not
+about the MTD deployments it observes (Section~\ref{subsec:vulnerability-memory}).]}
+
+% [2026-10-05, Marc: persistence is inherent to how the model runs, so it needs
+%  no metric; incentive-driven rationality "cannot be a tick" if the only thing
+%  is the RoA order adopted with the exploit attack action. Verified in code:
+%  the model's exploit is MTDSim's (attack_operation.step -> _exploit_vuln ->
+%  host.get_vulns, sorted by RoA at host.py:388); nothing the model adds weighs
+%  a cost. The 2026-08-13 cue above ("6 Incentive --- stand-in. A cost/benefit
+%  decision rule built") describes an earlier model and is superseded; so is
+%  "Property 6: blank". DRAFT STATE --- ratify on read.]
+\noindent\emph{[Placeholder --- properties 1 and 6, inherited from the baseline
+attacker with its attack actions. Property 1: the APT attacker model has
+persistence for the reason the baseline attacker does (Table~\ref{tab:attacker-cross-section}):
+it carries on until it reaches its goal, through every disruption, and MTDSim
+never takes a compromise back; no
+metric is owed. Property 6: in part, and for the baseline attacker's reason. Its
+exploit is MTDSim's exploit attack action, which orders the exploits on a host
+by RoA; nothing the model adds weighs the cost of an attack action against its
+benefit (the Petri net's weights are frequencies in the attack flows, the
+failure matrix a response to failure, the tactic durations times).]}
 
 % 2026-10-02: Marc's reasoning for the attack-profile ablation (Section
 %  5.4.1), held here because the why is chapter 6's. Content points only.
@@ -8824,7 +8842,10 @@ only be as good as the attack actions it adopts
     Kim et al.~\citep{kim2026} & 2026 & \propstandin & \propstandin & \propnone & \propnone & \propstandin & \propnone & \propnone & \propstandin \\
     \midrule
     % [CH3 REDRAFT ROUND 52, 2026-10-02] Marc: the dissertation's own row named as such, at the bottom, 2026.
-    \begin{tabular}[c]{@{}l@{}}APT attacker model,\\ this dissertation\end{tabular} & 2026 & \propmet & \propmet & \propmet & \propmet & \propnone & \propmet & \propmet & \propnone \\
+    \begin{tabular}[c]{@{}l@{}}APT attacker model,\\ this dissertation\end{tabular} & 2026 & \propmet & \propmet & \propmet & \propmet & \propnone & \propstandin & \propstandin & \propnone \\
+    % [2026-10-05, Marc: incentive "cannot be a tick" (the RoA order only,
+    %  inherited); learning "in part" as Section 4.4.4 states it. 6 and 7 tick ->
+    %  in part. DRAFT STATE.]
     \bottomrule
   \end{tabular}
 \end{table}
