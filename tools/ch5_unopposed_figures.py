@@ -36,7 +36,7 @@ import sys
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from _ch5_style import (BASE_DASH, IV_MEAN, IV_PROP, KEY_H, clopper_pearson, errorbar, key_row,  # noqa: E402
+from _ch5_style import (BASE_DASH, IV_BOOT, IV_MEAN, IV_PROP, XTITLE_H, clopper_pearson, key_below,  # noqa: E402
                         mttc_dash_decode, mttc_unreported, panel_title)  # noqa: E402  (the layout, conventions §o)
 
 REPO = Path(__file__).resolve().parents[1]
@@ -192,13 +192,12 @@ def _pct(v: float) -> str:
 
 
 def emit_fig_a(core: dict) -> tuple[str, dict]:
-    """Figure 5.1, three panels, one per attacker-behaviour metric of Table 5.2
-    (the metrics design; scrutinise-figure round 1 amendments, 2026-09-24):
-    (a) share of steps per tactic, a colour heat map with rows grouped by the verb
-    each tactic dispatches and the baseline attacker's verbs spanning their groups;
-    (b) distinct openings, vertical bars by opening length (2 to 8; length 1 is
-    zero for every attacker by construction); (c) attack confidentiality against
-    the alarm level (level 1 is zero by construction and is not drawn)."""
+    """Figure 5.1, two panels (the metrics design; scrutinise-figure round 1
+    amendments, 2026-09-24): (a) share of steps per tactic, a colour heat map with
+    rows grouped by the verb each tactic dispatches and the baseline attacker's
+    verbs spanning their groups; (b) distinct openings by opening length. Attack
+    confidentiality, panel (c) until 2026-10-05, is a column of Table 5.2 (Marc:
+    "it's literally five numbers")."""
     m = core["metrics"]
     share = {p: m[p]["step_share"] for p in FOUR}
     base = m["baseline"]["step_share"]
@@ -209,14 +208,13 @@ def emit_fig_a(core: dict) -> tuple[str, dict]:
     SERIES = (*FOUR, "baseline")
     paths = {p: core["table"][p]["distinct_openings"] for p in SERIES}
     kmax = max(int(k) for k in paths["baseline"])
-    conf = {p: m[p]["attack_confidentiality"] for p in SERIES}
     vmax = max([v for p in FOUR for v in share[p].values()] + list(base.values()))
 
     L: list[str] = []
     w = L.append
     L += PREAMBLE
     w(r"\begin{tikzpicture}[x=1cm,y=1cm,every node/.style={inner sep=1pt,font=%s}]" % FONT)
-    BASE_STYLE = "cbase,line width=0.9pt,dash pattern=on 2.5pt off 1.5pt"
+    BASE_STYLE = "cbase,line width=0.9pt," + BASE_DASH  # the baseline attacker's line, as every figure
 
 
     # ---- (a) the heat map, rows grouped by verb -----------------------------------
@@ -227,7 +225,7 @@ def emit_fig_a(core: dict) -> tuple[str, dict]:
     cols = [(p, X0 + j * cw, cw) for j, p in enumerate(FOUR)]
     xb = X0 + len(FOUR) * cw + GAP
     n_rows = sum(len(ts) for _, _, ts in GROUPS)
-    MY0 = 4.75
+    MY0 = 4.2   # (b)'s title and plot below; the key is at the figure's foot (conventions §o)
     MY1 = MY0 + n_rows * ch + (len(GROUPS) - 1) * GG
     # headers
     w(r"\node[anchor=south] at (%.3f,%.3f) {%s};" % (X0 + len(FOUR) * cw / 2, MY1 + 0.42, LABEL["movement"]))
@@ -265,16 +263,12 @@ def emit_fig_a(core: dict) -> tuple[str, dict]:
         w(r"\draw[black!55,line width=0.4pt] (%.3f,%.3f) rectangle (%.3f,%.3f);" % (X0, gbot, X0 + len(FOUR) * cw, gtop))
         y -= GG
 
-    # ---- (b) distinct openings, (c) attack confidentiality, side by side ----
-    # 2026-09-30 (Marc: attack confidentiality "as a panel (c) ... it doesn't need
-    # full width"). (b) is lines, not bars: forty bars do not read at half width.
-    # Scrutiny round, 2026-09-30 (Marc; cold readers and critics): (b)'s axis names
-    # the run count, the count's ceiling; (c) is a dot per attacker on a truncated
-    # axis (bars on 0-100 read as five equal bars), the baseline attacker its dashed
-    # grey line; one key spans (b) and (c), under their titles (conventions §o).
+    # ---- (b) distinct openings, full width ----------------------------------------
+    # Scrutiny round, 2026-09-30 (Marc; cold readers and critics): the axis names
+    # the run count, the count's ceiling. (b) is lines, not bars. Attack
+    # confidentiality, beside it as (c) until 2026-10-05, is Table 5.2's column.
     YB0, YB1 = 0.0, 3.0
-    XB0, XB1 = 1.5, 8.3
-    XC0, XC1 = 10.1, 15.6
+    XB0, XB1 = 1.5, 15.6
     ks = list(range(1, kmax + 1))
     nruns = core["table"][FOUR[0]]["n"]
 
@@ -296,37 +290,12 @@ def emit_fig_a(core: dict) -> tuple[str, dict]:
         w(r"\draw[%s] %s;" % (style, " -- ".join("(%.3f,%.3f)" % q for q in pts)))
         for x, yv in pts:
             marker(w, "square" if p == "baseline" else MARK[p], CNAME[p], x, yv, r=0.07 if p == "baseline" else 0.08)
+    panel_title(w, XB0, YB1, "Distinct openings", "b")
 
-    lo_c = min(conf[p]["lo"] for p in SERIES)
-    C0 = 5 * int(100 * lo_c // 5) - (5 if (100 * lo_c) % 5 < 1.5 else 0)   # a clear floor below the lowest interval
-    C0 = min(C0, 80)
-
-    def yc(v):
-        return YB0 + (100 * v - C0) / (100 - C0) * (YB1 - YB0)
-
-    slot = (XC1 - XC0) / len(FOUR)
-    axes(w, XC0, XC1, YB0, YB1,
-         xticks=[(p, XC0 + (n + 0.5) * slot) for n, p in enumerate(FOUR)],
-         yticks=[(v, yc(v / 100)) for v in range(C0, 101, 5)],
-         xlabel="", ylabel="", xfmt=lambda p: LABEL[p])
-    w(r"\node[rotate=90,anchor=south,align=center] at (%.3f,%.3f) {Attack\\confidentiality (\%%)};" % (XC0 - 0.8, (YB0 + YB1) / 2))
-    cb = conf["baseline"]
-    w(r"\draw[%s] (%.3f,%.3f) -- (%.3f,%.3f);" % (BASE_STYLE, XC0, yc(cb["point"]), XC1, yc(cb["point"])))
-    w(r"\node[anchor=south east,font=\scriptsize,text=cbase] at (%.3f,%.3f) {%d};" % (XC1 - 0.03, yc(cb["point"]) + 0.02, round(100 * cb["point"])))
-    for n, p in enumerate(FOUR):
-        c = conf[p]
-        x = XC0 + (n + 0.5) * slot
-        errorbar(w, x, yc(c["lo"]), yc(c["hi"]), col=CNAME[p])
-        marker(w, MARK[p], CNAME[p], x, yc(c["point"]), r=0.09)
-        w(r"\node[anchor=west,font=\scriptsize] at (%.3f,%.3f) {%d};" % (x + 0.14, yc(c["point"]), round(100 * c["point"])))
-
-    # one key for (b) and (c), under their titles (conventions §o)
-    key_y = YB1 + 0.3
-    key_row(w, XB0, key_y, [(LABEL[p], "dashed" if p == "baseline" else "line", CNAME[p],
-                             "square" if p == "baseline" else MARK[p]) for p in SERIES], xmax=XC1)
-    title_y = key_y + KEY_H / 2 + 0.05
-    panel_title(w, XB0, title_y, "Distinct openings", "b")
-    panel_title(w, XC0, title_y, r"Attack confidentiality", "c")
+    # the figure's one key, at its foot (conventions §o)
+    key_below(w, XB0, YB0 - 0.5 - XTITLE_H,
+              [(LABEL[p], "dashed" if p == "baseline" else "line", CNAME[p],
+                "square" if p == "baseline" else MARK[p]) for p in SERIES], xmax=XB1)
     w(r"\end{tikzpicture}")
     w(r"\end{document}")
 
@@ -335,7 +304,6 @@ def emit_fig_a(core: dict) -> tuple[str, dict]:
         "step_share_dwell_only": {LABEL[p]: sum(share[p].get(t, 0.0) for t in dwell) for p in FOUR},
         "baseline_step_share_by_verb": base,
         "distinct_attack_paths": {LABEL[p]: paths[p] for p in SERIES},
-        "attack_confidentiality": {LABEL[p]: conf[p] for p in SERIES},
         "kmax": kmax, "nruns": core["table"][FOUR[0]]["n"],
     }
     return "\n".join(L) + "\n", facts
@@ -376,8 +344,10 @@ def emit_table(core: dict) -> str:
     """Table 5.3 (the metrics design, 2026-09-24): the attack-outcome class of
     Table 5.2 in the field's names (ASP, NCR, MTTC) and, beside it as E4 asked,
     the attack rate — the numbers that read the model as weaker next to the one
-    that says why. Attack confidentiality is Figure 5.1(c)'s, not repeated here.
-    MTTC is read at a target host (2026-09-30), over the runs ASP counts."""
+    that says why — and attack confidentiality, the attack rate's partner in
+    detection avoidance (Figure 5.1(c) until 2026-10-05, Marc: "it's literally
+    five numbers"). MTTC is read at a target host (2026-09-30), over the runs ASP
+    counts."""
     m = core["metrics"]
     t = core["table"]
     worst_none = max(m[p]["outcome"]["no_compromise_share"] for p in (*PROFILES, "baseline"))
@@ -391,30 +361,35 @@ def emit_table(core: dict) -> str:
     w("% Caption session-written, how-to-read only. DRAFT STATE --- ratify on read.")
     w(r"\begin{table}[htbp]")
     w(r"  \centering")
-    w(r"  \caption[Both attackers with no MTD running]{The attack outcome and the attack rate with no MTD running (Section~\ref{sec:evaluation-metrics}), for the APT attacker model on each attack profile $c_1$ to $c_4$ and for the baseline attacker, over %s runs each (Table~\ref{tab:experiment}). MTTC is taken over the runs that compromise a target host, whose share of all runs is the ASP: %d to %d runs per attack profile and %d for the baseline attacker.%s Attack rate is per minute of simulated time. Brackets: a %s; $\pm$: a %s. Each value is rounded to the precision of its interval.}" % (fmt_thousands(t[PROFILES[0]]["n"]), min(m[q]["outcome"]["mttc"]["n"] for q in PROFILES), max(m[q]["outcome"]["mttc"]["n"] for q in PROFILES), m["baseline"]["outcome"]["mttc"]["n"], mttc_dash_decode({mttc_unreported(m[p]["outcome"]["mttc"]) for p in (*PROFILES, "baseline")} - {None}), IV_PROP, IV_MEAN))
+    w(r"  \caption[Both attackers with no MTD running]{The attack outcome, attack rate and attack confidentiality with no MTD running (Section~\ref{sec:evaluation-metrics}), for the APT attacker model on each attack profile $c_1$ to $c_4$ and for the baseline attacker, over %s runs each (Table~\ref{tab:experiment}). MTTC is taken over the runs that compromise a target host, whose share of all runs is the ASP: %d to %d runs per attack profile and %d for the baseline attacker.%s Attack rate is per minute of simulated time. Attack confidentiality is the percentage of attack actions not flagged by a scan detector that flags any attack action that is the fifth within 60\,s. Brackets: a %s for ASP and a %s for attack confidentiality; $\pm$: a %s. Each value is rounded to the precision of its interval.}" % (fmt_thousands(t[PROFILES[0]]["n"]), min(m[q]["outcome"]["mttc"]["n"] for q in PROFILES), max(m[q]["outcome"]["mttc"]["n"] for q in PROFILES), m["baseline"]["outcome"]["mttc"]["n"], mttc_dash_decode({mttc_unreported(m[p]["outcome"]["mttc"]) for p in (*PROFILES, "baseline")} - {None}), IV_PROP, IV_BOOT, IV_MEAN))
     w(r"  \label{tab:unopposed-summary}")
     # one header row (2026-09-24, Marc: the class headers read loose; Table 4.3
     # carries the classes), full text width
     # natural width, the house table style (scrutiny round 2026-09-30: it was
     # stretched to the text width); the attacker model is a group label row
     w(r"  \tablestyle")  # group rows keep the stripes (Marc, 2026-10-01)
-    w(r"  \begin{tabular}{@{}lcccc@{}}")
+    w(r"  \begin{tabular}{@{}lccccc@{}}")
     w(r"    \toprule")
-    w(r"    Attacker & ASP & NCR & MTTC (s) & Attack rate (per minute) \\")
+    w(r"    Attacker & ASP & NCR & MTTC (s) & \shortstack{Attack rate\\(per minute)} & \shortstack{Attack\\confidentiality (\%)} \\")
     w(r"    \midrule")
 
     def cells(p: str) -> dict:
         o = m[p]["outcome"]
+        c = m[p]["attack_confidentiality"]
         n = t[p]["n"]  # ASP: an exact (Clopper-Pearson) interval on a share of runs (standard N4)
         lo, hi = clopper_pearson(round(o["asp"] * n), n)
         return {"asp": (o["asp"], (hi - lo) / 2, lo, hi),
                 "ncr": (o["ncr"]["mean"], o["ncr"]["ci95"]),
                 "mttc": None if mttc_unreported(o["mttc"]) else (o["mttc"]["mean"], o["mttc"]["ci95"]),
-                "rate": (m[p]["attack_rate"]["mean"], m[p]["attack_rate"]["ci95"])}
+                "rate": (m[p]["attack_rate"]["mean"], m[p]["attack_rate"]["ci95"]),
+                # a percentile bootstrap interval over runs, in percent (asymmetric; the
+                # half-width that sets the place is the wider side)
+                "conf": (100 * c["point"], 100 * max(c["hi"] - c["point"], c["point"] - c["lo"]),
+                         100 * c["lo"], 100 * c["hi"])}
 
     rows = {p: cells(p) for p in (*PROFILES, "baseline")}
     place = {k: _place(max(r[k][1] for r in rows.values() if r[k] is not None))
-             for k in ("asp", "ncr", "mttc", "rate")}
+             for k in ("asp", "ncr", "mttc", "rate", "conf")}
 
     def bracket(v, _hw, lo, hi, pl):
         nd = max(0, -pl)
@@ -422,11 +397,11 @@ def emit_table(core: dict) -> str:
 
     def row(name: str, p: str) -> str:
         r = rows[p]
-        f = {k: ("---" if r[k] is None else (bracket(*r[k], place[k]) if k == "asp" else _prec(*r[k], place[k])))
+        f = {k: ("---" if r[k] is None else (bracket(*r[k], place[k]) if k in ("asp", "conf") else _prec(*r[k], place[k])))
              for k in r}
-        return "    %s & %s & %s & %s & %s \\\\" % (name, f["asp"], f["ncr"], f["mttc"], f["rate"])
+        return "    %s & %s & %s & %s & %s & %s \\\\" % (name, f["asp"], f["ncr"], f["mttc"], f["rate"], f["conf"])
 
-    w(r"    \grouprow{5}{%s} \\" % LABEL["movement"])
+    w(r"    \grouprow{6}{%s} \\" % LABEL["movement"])
     for p in PROFILES:
         w(row(r"\quad " + LABEL[p], p))
     w(r"    \midrule")

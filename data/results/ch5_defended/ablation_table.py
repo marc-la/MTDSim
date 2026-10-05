@@ -57,20 +57,28 @@ def _f(x: float, nd: int, sign: bool = False) -> str:
     return "$" + s + "$" if s.startswith(("+", "-")) else s
 
 
-def _d(d: float, ci: list) -> str:
-    """d and its interval, marked against the negligible band (Marc 2026-10-02:
-    the reader must see at once what is negligible): bold where the interval
-    lies wholly beyond +-0.2, a dagger where it crosses an edge, plain where it
-    lies inside. An edge that rounds onto 0.2 gets places until it does not."""
-    nd = 2  # more places only while an edge still rounds onto 0.2 (at most four)
-    while nd < 4 and any(abs(float(Decimal(repr(c)).quantize(Decimal(1).scaleb(-nd), rounding=ROUND_HALF_UP))) == 0.2
-                         for c in ci):
-        nd += 1
-    cell = f"{_f(d, 2, True)} [{_f(ci[0], nd, True)}, {_f(ci[1], nd, True)}]"
-    if ci[1] <= -0.2 or ci[0] >= 0.2:
+# rows whose d lies beyond +-0.2 but whose interval reaches inside it: not bold,
+# and named in the caption, so the reader is not left to ask why (Marc 2026-10-05)
+NAMED: list = []
+
+
+def _beyond(ci: list) -> bool:
+    return ci[1] <= -0.2 or ci[0] >= 0.2
+
+
+def _d(d: float, ci: list, where: str = "") -> str:
+    """d and its interval at two places, every cell (Marc 2026-10-05: one
+    precision in the column; the 2026-10-02 extra places where an edge rounded
+    onto 0.2 are gone), bold where the unrounded interval lies wholly beyond
+    +-0.2 (Marc 2026-10-02: the reader must see at once what is negligible).
+    The dagger for an interval that crosses an edge is gone too: the interval
+    is printed, and the one case a reader would query, a d beyond 0.2 that is
+    not bold, is named in the caption."""
+    cell = f"{_f(d, 2, True)} [{_f(ci[0], 2, True)}, {_f(ci[1], 2, True)}]"
+    if _beyond(ci):
         return r"\bfseries\boldmath " + cell
-    if ci[0] <= -0.2 or ci[1] >= 0.2:
-        return cell + r"$^{\dagger}$"
+    if abs(d) >= 0.2 and where:
+        NAMED.append((where, d))
     return cell
 
 
@@ -83,27 +91,39 @@ def rows() -> list:
                        ("os_diversity|2000", r"OS diversity, 2\,000\,s")]:
         r = part[key]
         red = ([_f(r["ncr_reduction_with"], 2), _f(r["ncr_reduction_without"], 2)]
-               if "ncr_reduction_with" in r else ["---", "---"])
+               if "ncr_reduction_with" in r else ["", ""])
         out.append([label, _f(r["ncr_with"], 3), _f(r["ncr_without"], 3),
-                    _d(r["cohen_d"], r["cohen_d_ci95"])] + red)
+                    _d(r["cohen_d"], r["cohen_d_ci95"], f"{label} without the attack profiles")] + red)
     out.append(r"\emph{Failure matrix}")
     for key, label in [("none", "no MTD"), ("ip_shuffle|200", r"IP shuffle, 200\,s"),
                        ("ip_shuffle|2000", r"IP shuffle, 2\,000\,s"), ("os_diversity|200", r"OS diversity, 200\,s"),
                        ("os_diversity|2000", r"OS diversity, 2\,000\,s")]:
         r = fm[key]
         red = ([_f(r["ncr_reduction_with"], 2), _f(r["ncr_reduction_without"], 2)]
-               if "ncr_reduction_with" in r else ["---", "---"])
+               if "ncr_reduction_with" in r else ["", ""])
         out.append([label, _f(r["hosts_with"] / HOSTS, 3), _f(r["hosts_without"] / HOSTS, 3),
-                    _d(r["cohen_d_per_seed"], r["cohen_d_ci95"])] + red)
+                    _d(r["cohen_d_per_seed"], r["cohen_d_ci95"], f"{label} without the failure matrix")] + red)
     out.append(r"\emph{Vulnerability memory}")
     for cond, label in [("none", "no MTD"), ("service_diversity", r"service diversity, 200\,s"),
                         ("os_diversity", r"OS diversity, 200\,s")]:
         r = mem[f"{POOL}|{cond}"]
         a, o = r["arms"], r["on_minus_off"]
         red = ([_f(r["reduction"]["on"]["ncr_reduction"], 2), _f(r["reduction"]["off"]["ncr_reduction"], 2)]
-               if "reduction" in r else ["---", "---"])
-        out.append([label, _f(a["on"]["ncr"], 3), _f(a["off"]["ncr"], 3), _d(o["cohen_d"], o["cohen_d_ci95"])] + red)
+               if "reduction" in r else ["", ""])
+        out.append([label, _f(a["on"]["ncr"], 3), _f(a["off"]["ncr"], 3), _d(o["cohen_d"], o["cohen_d_ci95"], f"{label} without the vulnerability memory")] + red)
     return out
+
+
+def _named() -> str:
+    """The caption's sentence on the rows a reader would query: d beyond 0.2,
+    not bold. Built from the data, so it follows the numbers."""
+    if not NAMED:
+        return ""
+    def one(where, d):
+        return r"%s, whose $d$ of $%s$ lies beyond it" % (where.replace(",", " at", 1), _f(d, 2, True).strip("$"))
+    items = [one(*x) for x in NAMED]
+    return " Every other interval reaches inside $\\pm 0.2$, including " + (
+        items[0] if len(items) == 1 else ", ".join(items[:-1]) + " and " + items[-1]) + "."
 
 
 def main() -> None:
@@ -126,8 +146,8 @@ def main() -> None:
          r"with and without each ablated component, averaged over $c_1$ to $c_4$, on the same 1\,000 seeds, "
          r"with 20 services per operating system; without the attack profiles, the APT attacker model runs on the attack graph: "
          r"NCR, Cohen's $d$ on NCR, with minus without, with its 95\,\% bootstrap interval "
-         r"over seeds, and NCR reduction (Section~\ref{sec:evaluation-metrics}). Bold: the interval lies wholly beyond "
-         r"$\pm 0.2$; $\dagger$: it crosses $\pm 0.2$; otherwise it lies within.}"),
+         r"over seeds, and NCR reduction (Section~\ref{sec:evaluation-metrics}), blank with no MTD, its reference. "
+         r"Bold: the interval, before rounding, lies wholly beyond $\pm 0.2$." + _named() + "}"),
         r"  \label{tab:ablation}",
         r"  \tablestyle",  # group rows keep the stripes (Marc, 2026-10-01)
         r"  \begin{tabular}{@{}lccccc@{}}",

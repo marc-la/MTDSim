@@ -525,7 +525,8 @@ encoding only*: no chart type, value, scale or caption was changed in the
 
 **Mechanism.** Two helpers in `tools/_ch5_style.py` are the only way a
 generator draws a title or a key: `panel_title(w, x, ytop, title, letter)`
-and `key_row(w, x, y, entries)`. A generator does not hand-place either.
+and `key_below(w, x, ylow, entries)` (which calls `key_row`). A generator
+does not hand-place either.
 
 **The rules.**
 
@@ -539,22 +540,27 @@ and `key_row(w, x, y, entries)`. A generator does not hand-place either.
    A matrix panel with no y-axis takes the y-axis of the panel it stacks
    with (Figure 5.1). Row-group headers (grey, over a hairline) start on the
    same line.
-3. **The key has one slot: directly above what it decodes.** If it decodes
-   the whole figure, it is the first thing at the top of the figure, left
-   edge on the first y-axis. A single-panel figure counts as a whole figure.
-   If it decodes one panel of several, it goes directly under that panel's
-   title (Figures 5.1(b) and 5.7(a)). One row, wrapping only at the figure's
-   right edge. No key heading: the caption decodes the symbols.
+3. **The key has one slot: the foot of the figure** (Marc, 2026-10-05,
+   after the supervisor: "have all your keys in the same place ... put them
+   all at the bottom"; overturns the 2026-09-30 "directly above what it
+   decodes"). One key per figure, under the x-axis title, left edge on the
+   first y-axis, one row wrapping only at the figure's right edge. It sits
+   there even when it decodes only the bottom panel (Figure 5.1(b)). No key
+   heading: the caption decodes the symbols, and no caption says where the
+   key is.
 4. **A label that would repeat across panels goes in the key once.** In
    Figure 5.3 the shaded deployment band was named above each panel, and
    "MTD deployment" read as a second heading. It is now a key entry.
 5. **The series contract holds in every figure.** $c_1$ to $c_4$ and
    $c_{\mathrm{agg}}$ each keep one hue and one marker. The baseline attacker
-   is a grey square on a dashed line (`BASE_DASH`), and a hatched grey bar
-   when drawn as a bar. The APT attacker model pooled over its profiles is
-   **black**, because blue is $c_1$. Each series has a second cue beside its
-   hue (a marker, a dash or a hatch), so it survives greyscale and colour
-   blindness (Wilke ch. 20; Midway 2020 #4).
+   is grey: a grey square on a dashed line (`BASE_DASH`), and a solid grey
+   bar when drawn as a bar (Marc, 2026-10-05: "the baseline attacker is a
+   grey dotted line ... grey shaded boxes"; the hatch is retired). The APT
+   attacker model pooled over its profiles is **black**, line or bar,
+   because blue is $c_1$. Each line series has a second cue beside its hue
+   (a marker or a dash), so it survives greyscale and colour blindness
+   (Wilke ch. 20; Midway 2020 #4); the two bars of Figure 5.2 differ in
+   lightness and in their fixed order within each pair.
 6. **Axis titles are in sentence case with the unit in brackets**:
    "Deployment interval (s)". The y-axis title is given once per row of
    panels and the x-axis title once under the bottom row. Tick numerals
@@ -595,7 +601,10 @@ was meant to do.
 
 **Applied 2026-09-30:** Figures 5.1–5.7 (`ch5_unopposed_figures.py`,
 `ch5_disruption_figure.py`, `ch5_sweep_figures.py`, `ch5_ablation_figure.py`).
-Figure C.1 and the chapter 2 and chapter 4 figures are owed or out of scope.
+**Re-applied 2026-10-05** (rules 3 and 5): Figures 5.1–5.4 and E.1
+(`ch5_memory_ablation_figure.py`); Figure 5.1(c) became Table 5.2's attack
+confidentiality column. Figure C.1 and the chapter 2 and chapter 4 figures
+are owed or out of scope.
 The open list is in
 [`../handoffs/2026-09-30_results_figure_house_style.md`](../handoffs/2026-09-30_results_figure_house_style.md).
 
@@ -621,6 +630,6 @@ The open list is in
   row white (`\rowcolor{white}`), because the partial rule counts as a row.
   `\rowcolors{1}{}{}` is retired.
 - **Figures.** Pack to 15.7 cm; each plot 3.0 cm tall; at most 8 y-ticks; the
-  y-axis title on every row of panels; one key per figure where the panels share
-  a series encoding, under the panel titles.
+  y-axis title on every row of panels; one key per figure, at its foot (§o rule 3,
+  2026-10-05).
 

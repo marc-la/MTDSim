@@ -4,7 +4,7 @@ Everything here is the contract tools/ch5_unopposed_figures.py set on
 2026-09-15 and the later generators reuse rather than re-pick: the TikZ
 standalone preamble (12 pt, helvet 0.92, 2 pt border), the series encoding
 (one hue and one marker per attack profile; the baseline attacker a dashed
-grey line, or a hatched bar where the series is an arm), the presentation
+grey line, or a solid grey bar where the series is an arm), the presentation
 names, the mechanism short names, the axis helper and the compile-and-measure
 step that prints the fits / TOO WIDE verdict against \\textwidth.
 
@@ -163,11 +163,12 @@ def panel_letter(w, x: float, y: float, letter: str) -> None:
 
 
 # --- the results-figure layout (figure_table_conventions.md §o, 2026-09-30) -----
-# Every panel's title and every key sit in the same place in every chapter 5
-# figure, so these two helpers are the only way a generator draws them:
-#   figure-wide key  -- the top of the figure, left edge on the first y-axis
-#   panel title      -- above its plot, left edge on that panel's y-axis
-#   panel-only key   -- directly under that panel's title, the same left edge
+# Every panel's title and every key sit in the same place in every results
+# figure, so these helpers are the only way a generator draws them:
+#   panel title -- above its plot, left edge on that panel's y-axis
+#   key         -- one per figure, at the bottom, under the x-axis title, left
+#                  edge on the first y-axis (key_below; Marc 2026-10-05, after the
+#                  supervisor: "have all your keys in the same place")
 TITLE_GAP = 0.08   # plot top to the title's baseline box
 TITLE_H = 0.42     # a title line's height, for stacking a key under it
 KEY_H = 0.42       # a key row's height
@@ -183,11 +184,11 @@ def panel_title(w, x: float, ytop: float, title: str, letter: str | None = None)
     return ytop + TITLE_GAP + TITLE_H
 
 
-def key_row(w, x: float, y: float, entries, *, xmax: float | None = None, gap: float = 0.45) -> float:
+def key_row(w, x: float, y: float, entries, *, xmax: float | None = None, gap: float = 0.6) -> float:
     """One key row, left edge at ``x``, centred on ``y``; wraps at ``xmax``.
     ``entries``: (label, kind, colour, marker) where kind is ``line``,
-    ``dashed`` (line + marker), ``dotted`` (a bound), ``bar`` (solid swatch), ``hatch`` (the
-    baseline's hatched bar) or ``band`` (a shaded region), or two joined by
+    ``dashed`` (line + marker), ``dotted`` (a bound), ``bar`` (solid swatch), ``hatch`` (a
+    hatched swatch; no results figure uses it since 2026-10-05) or ``band`` (a shaded region), or two joined by
     ``+`` where one series is drawn both ways (``bar+line``). Returns the last
     row's y."""
     glyph_w = {"line": 0.68, "dashed": 0.68, "dotted": 0.68, "bar": 0.36, "hatch": 0.36, "band": 0.36}
@@ -214,6 +215,17 @@ def key_row(w, x: float, y: float, entries, *, xmax: float | None = None, gap: f
         w(r"\node[anchor=west] at (%.3f,%.3f) {%s};" % (tx, y, label))
         x += width
     return y
+
+
+KEY_SEP = 0.2      # the lowest drawn element's bottom edge to the key row's top
+XTITLE_H = 0.40    # an x-axis title's height, for a generator that passes its north anchor
+
+
+def key_below(w, x: float, ylow: float, entries, *, xmax: float | None = None) -> float:
+    """The figure's one key, at the bottom: its first row's top ``KEY_SEP`` under
+    ``ylow`` (the bottom edge of the lowest thing drawn, usually the x-axis
+    title), left edge at ``x`` (the first y-axis). Returns the last row's y."""
+    return key_row(w, x, ylow - KEY_SEP - KEY_H / 2, entries, xmax=xmax)
 
 
 def errorbar(w, x: float, lo: float, hi: float, col: str = "black!70", cap: float = 0.05) -> None:

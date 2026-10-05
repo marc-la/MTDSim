@@ -49,7 +49,7 @@ from __future__ import annotations
 import json
 import math
 
-from _ch5_style import (FONT, PREAMBLE, REPO, axes, compile_fig, errorbar, key_row, marker,
+from _ch5_style import (FONT, PREAMBLE, REPO, XTITLE_H, axes, compile_fig, errorbar, key_below, marker,
                         panel_title, write_fig)
 
 STEM = "fig_F-2_ablation_memory"
@@ -73,7 +73,7 @@ def main() -> None:
     W, H = 6.55, 4.2
     XA = (1.55, 9.35)                     # each panel's y-axis
     TOP = 0.0
-    PT = TOP - 0.55 - 0.55                # below the key and the panel titles
+    PT = TOP - 0.55                       # below the panel titles; the key is at the foot (§o)
     PB = PT - H
 
     def xv(x0: float, v: float) -> float:
@@ -82,7 +82,6 @@ def main() -> None:
     def yv(v: float) -> float:
         return PB + v / YMAX * H
 
-    key_row(w, XA[0], TOP, [(lab, "line", col, mk) for _, lab, col, mk, _ in reversed(SERIES)], gap=0.9)
     for ci, (cond, cname) in enumerate(COLS):
         x0 = XA[ci]
         axes(w, x0, x0 + W, PB, PT,
@@ -103,6 +102,7 @@ def main() -> None:
                 marker(w, mk, col, x, yv(v), r=0.07)
     w(r"\node[anchor=north] at (%.3f,%.3f) {Services per operating system (log scale)};"
       % ((XA[0] + XA[1] + W) / 2, PB - 0.5))
+    key_below(w, XA[0], PB - 0.5 - XTITLE_H, [(lab, "line", col, mk) for _, lab, col, mk, _ in reversed(SERIES)])
     w(r"\end{tikzpicture}")
     w(r"\end{document}")
     write_fig(STEM, L)

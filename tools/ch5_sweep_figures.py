@@ -45,7 +45,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from _ch5_style import (IV_BOOT, IV_MEAN, IV_PROP, bounded, clopper_pearson, mttc_dash_decode, mttc_unreported, BASE_DASH, CNAME, FONT, KEY_H, LABEL, LONG, MARK, PREAMBLE, PROFILES, REPO,  # noqa: E402
-                        TAB_DIR, TITLE_H, UNREPORTED, compile_fig, fmt_thousands, key_row, marker,
+                        TAB_DIR, TITLE_H, UNREPORTED, XTITLE_H, compile_fig, fmt_thousands, key_below, marker,
                         panel_title, write_fig)
 
 # the reported corpus (1 000 seeds, the vulnerability memory on; 2026-10-02)
@@ -78,7 +78,7 @@ HEAD_ROWS = (("MTD mechanisms, by the layer they reconfigure",
 # (context critic, 2026-09-25: the pooled line read as c_1); the baseline as the
 # depth figures draw it
 ARMS = (("movement", "black", "circle", False), ("baseline", "cbase", "square", True))
-# the figure-wide key, one row at the top of every sweep figure (conventions §o)
+# the figure's one key, at its foot under the x-axis title (conventions §o)
 ARM_KEY = ((LABEL["movement"], "line", "black", "circle"),
            ("baseline attacker", "dashed", "cbase", "square"))
 PROFILE_KEY = tuple((LABEL[p], "line", CNAME[p], MARK[p]) for p in PROFILES) + (
@@ -208,8 +208,6 @@ def emit_headline(blocks):
     rows = [(metric, sweep, yr, header, panels) for metric, sweep, yr in blocks for header, panels in HEAD_ROWS]
     facts = []
     letters = iter("abcdefghijkl")
-    # the figure-wide key at the top, left edge on the first y-axis (conventions §o)
-    key_row(w, X0, 0.6 + ROWH * len(rows) + 0.35, ARM_KEY, xmax=XR)
     for r, (metric, sweep, yr, header, panels) in enumerate(rows):
         y0 = 0.6 + (len(rows) - 1 - r) * ROWH + 0.85
         w(r"\node[anchor=south west,text=black!60] at (%.3f,%.3f) {%s: %s};" % (
@@ -226,6 +224,7 @@ def emit_headline(blocks):
         # one axis label per row, so it cannot cross the next row's header
         w(r"\node[rotate=90,anchor=south] at (%.3f,%.3f) {%s};" % (X0 - 0.95, y0 + PH / 2, metric))
     w(r"\node[anchor=north] at (%.3f,%.3f) {Deployment interval (s)};" % ((X0 + XR) / 2, 0.6 + 0.85 - 0.5))
+    key_below(w, X0, 0.6 + 0.85 - 0.5 - XTITLE_H, ARM_KEY, xmax=XR)  # the foot, first y-axis (§o)
     w(r"\end{tikzpicture}")
     w(r"\end{document}")
     return L, facts
@@ -272,13 +271,12 @@ def emit_mechanisms(sweep, yr):
             x0 = X0 + k * (PW + GAP)
             facts += _profile_panel(w, sweep, c, x0, x0 + PW, y0, y0 + PH, yr, ylabels=(k == 0),
                                     title=_cap(LONG[c]), letter=next(letters), font=FONT)
-    # the figure-wide key at the top, left edge on the first y-axis (conventions §o)
-    key_row(w, X0, ytop + 0.35, PROFILE_KEY, xmax=X0 + 3 * PW + 2 * GAP)
     y0 = ytop - len(rows) * ROWH + 0.85
     for r in range(len(rows)):  # the axis title on every row (conventions §o rule 6)
         yr0 = ytop - (r + 1) * ROWH + 0.85
         w(r"\node[rotate=90,anchor=south] at (%.3f,%.3f) {%s};" % (X0 - 0.95, yr0 + PH / 2, YLABEL))
     w(r"\node[anchor=north] at (%.3f,%.3f) {Deployment interval (s)};" % (X0 + 1.5 * PW + GAP, y0 - 0.5))
+    key_below(w, X0, y0 - 0.5 - XTITLE_H, PROFILE_KEY, xmax=X0 + 3 * PW + 2 * GAP)  # the foot (§o)
     w(r"\end{tikzpicture}")
     w(r"\end{document}")
     return L, facts

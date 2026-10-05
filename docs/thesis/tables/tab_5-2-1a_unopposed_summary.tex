@@ -6,20 +6,20 @@
 % Caption session-written, how-to-read only. DRAFT STATE --- ratify on read.
 \begin{table}[htbp]
   \centering
-  \caption[Both attackers with no MTD running]{The attack outcome and the attack rate with no MTD running (Section~\ref{sec:evaluation-metrics}), for the APT attacker model on each attack profile $c_1$ to $c_4$ and for the baseline attacker, over 1\,000 runs each (Table~\ref{tab:experiment}). MTTC is taken over the runs that compromise a target host, whose share of all runs is the ASP: 42 to 139 runs per attack profile and 643 for the baseline attacker. Attack rate is per minute of simulated time. Brackets: a 95\,\% Clopper--Pearson interval; $\pm$: a 95\,\% interval on the mean (normal approximation). Each value is rounded to the precision of its interval.}
+  \caption[Both attackers with no MTD running]{The attack outcome, attack rate and attack confidentiality with no MTD running (Section~\ref{sec:evaluation-metrics}), for the APT attacker model on each attack profile $c_1$ to $c_4$ and for the baseline attacker, over 1\,000 runs each (Table~\ref{tab:experiment}). MTTC is taken over the runs that compromise a target host, whose share of all runs is the ASP: 42 to 139 runs per attack profile and 643 for the baseline attacker. Attack rate is per minute of simulated time. Attack confidentiality is the percentage of attack actions not flagged by a scan detector that flags any attack action that is the fifth within 60\,s. Brackets: a 95\,\% Clopper--Pearson interval for ASP and a 95\,\% percentile bootstrap interval over runs for attack confidentiality; $\pm$: a 95\,\% interval on the mean (normal approximation). Each value is rounded to the precision of its interval.}
   \label{tab:unopposed-summary}
   \tablestyle
-  \begin{tabular}{@{}lcccc@{}}
+  \begin{tabular}{@{}lccccc@{}}
     \toprule
-    Attacker & ASP & NCR & MTTC (s) & Attack rate (per minute) \\
+    Attacker & ASP & NCR & MTTC (s) & \shortstack{Attack rate\\(per minute)} & \shortstack{Attack\\confidentiality (\%)} \\
     \midrule
-    \grouprow{5}{APT attacker model} \\
-    \quad $c_1$ & $0.12$ [$0.10$, $0.15$] & $0.149 \pm 0.004$ & $11\,300 \pm 500$ & $1.087 \pm 0.005$ \\
-    \quad $c_2$ & $0.14$ [$0.12$, $0.16$] & $0.209 \pm 0.005$ & $10\,500 \pm 500$ & $0.888 \pm 0.006$ \\
-    \quad $c_3$ & $0.06$ [$0.04$, $0.07$] & $0.172 \pm 0.006$ & $9\,700 \pm 900$ & $0.680 \pm 0.008$ \\
-    \quad $c_4$ & $0.04$ [$0.03$, $0.06$] & $0.154 \pm 0.005$ & $10\,800 \pm 800$ & $1.228 \pm 0.009$ \\
+    \grouprow{6}{APT attacker model} \\
+    \quad $c_1$ & $0.12$ [$0.10$, $0.15$] & $0.149 \pm 0.004$ & $11\,300 \pm 500$ & $1.087 \pm 0.005$ & $92.4$ [$92.2$, $92.5$] \\
+    \quad $c_2$ & $0.14$ [$0.12$, $0.16$] & $0.209 \pm 0.005$ & $10\,500 \pm 500$ & $0.888 \pm 0.006$ & $96.0$ [$95.8$, $96.1$] \\
+    \quad $c_3$ & $0.06$ [$0.04$, $0.07$] & $0.172 \pm 0.006$ & $9\,700 \pm 900$ & $0.680 \pm 0.008$ & $98.1$ [$98.0$, $98.2$] \\
+    \quad $c_4$ & $0.04$ [$0.03$, $0.06$] & $0.154 \pm 0.005$ & $10\,800 \pm 800$ & $1.228 \pm 0.009$ & $89.4$ [$89.3$, $89.6$] \\
     \midrule
-    Baseline attacker & $0.64$ [$0.61$, $0.67$] & $0.496 \pm 0.012$ & $9\,000 \pm 200$ & $1.708 \pm 0.015$ \\
+    Baseline attacker & $0.64$ [$0.61$, $0.67$] & $0.496 \pm 0.012$ & $9\,000 \pm 200$ & $1.708 \pm 0.015$ & $82.3$ [$81.9$, $82.6$] \\
     \bottomrule
   \end{tabular}
 \end{table}

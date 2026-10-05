@@ -13,12 +13,6 @@
 \begin{document}
 \definecolor{accent}{RGB}{31,84,140}
 \begin{tikzpicture}[x=1cm,y=1cm,every node/.style={inner sep=1pt,font=\footnotesize}]
-\draw[black,line width=0.8pt] (1.300,19.150) -- (1.900,19.150);
-\fill[black] (1.600,19.150) circle (0.065cm);
-\node[anchor=west] at (1.980,19.150) {APT attacker model};
-\draw[cbase,line width=0.8pt,dash pattern=on 2.4pt off 1.4pt] (5.220,19.150) -- (5.820,19.150);
-\fill[cbase] (5.520,19.150) ++(-0.065,-0.065) rectangle ++(0.130,0.130);
-\node[anchor=west] at (5.900,19.150) {baseline attacker};
 \node[anchor=south west,text=black!60] at (1.300,18.600) {NCR reduction: MTD mechanisms, by the layer they reconfigure};
 \draw[black!25,line width=0.4pt] (1.300,18.580) -- (15.790,18.580);
 \begin{scope}[every node/.style={inner sep=1pt,font=\footnotesize}]
@@ -718,5 +712,11 @@
 \fill[cbase] (15.531,2.973) ++(-0.060,-0.060) rectangle ++(0.120,0.120);
 \node[rotate=90,anchor=south] at (0.350,2.950) {ASP reduction};
 \node[anchor=north] at (8.545,0.950) {Deployment interval (s)};
+\draw[black,line width=0.8pt] (1.300,0.140) -- (1.900,0.140);
+\fill[black] (1.600,0.140) circle (0.065cm);
+\node[anchor=west] at (1.980,0.140) {APT attacker model};
+\draw[cbase,line width=0.8pt,dash pattern=on 2.4pt off 1.4pt] (5.370,0.140) -- (5.970,0.140);
+\fill[cbase] (5.670,0.140) ++(-0.065,-0.065) rectangle ++(0.130,0.130);
+\node[anchor=west] at (6.050,0.140) {baseline attacker};
 \end{tikzpicture}
 \end{document}

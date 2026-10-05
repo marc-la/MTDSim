@@ -31,8 +31,8 @@ import sys
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from _ch5_style import (BASE_DASH, IV_BOOT, bounded, FONT, KEY_H, LABEL, LONG, PREAMBLE, REPO, axes, compile_fig,  # noqa: E402
-                        errorbar, fmt_thousands, key_row, marker, panel_title, write_fig)
+from _ch5_style import (BASE_DASH, IV_BOOT, bounded, FONT, LABEL, LONG, PREAMBLE, REPO, axes, compile_fig,  # noqa: E402
+                        errorbar, fmt_thousands, key_below, marker, panel_title, write_fig)
 from ch5_effectiveness_figures import LAYER, PANEL_SINGLES, TICK  # noqa: E402
 
 # the reported corpus (1 000 seeds, the vulnerability memory on; 2026-10-02)
@@ -40,7 +40,9 @@ NUMBERS = REPO / "data" / "results" / "ch5_defended" / "time_lost_numbers_report
 TABLE = REPO / "docs" / "thesis" / "tables" / "tab_5-3-1b_disruption.tex"
 STEM = "fig_5-2-2a_disruption_response"
 INTERVAL = 2000
-ARMS = (("movement", "cmov", "circle"), ("baseline", "cbase", "square"))
+# the series contract (conventions §o rule 5; Marc 2026-10-05): the APT attacker
+# model pooled is black, the baseline attacker a solid grey bar, as every figure
+ARMS = (("movement", "black", "circle"), ("baseline", "cbase", "square"))
 
 
 def signed(v: float) -> str:
@@ -48,8 +50,8 @@ def signed(v: float) -> str:
 
 
 def _bars(w, tl, X0, X1, BY0, BH, key: str, lohi, *, step: float, fmt, ylabel: str, facts: list[str], tag: str) -> None:
-    """One panel of paired bars per mechanism (the APT attacker model solid, the
-    baseline attacker hatched), 95 % whiskers, zero line; ``key`` reads the value
+    """One panel of paired bars per mechanism (the APT attacker model black, the
+    baseline attacker grey), 95 % whiskers, zero line; ``key`` reads the value
     and ``lohi`` its interval from a cell."""
     by1 = BY0 + BH
     lo_v = min(lohi(v)[0] for v in tl.values())
@@ -77,11 +79,7 @@ def _bars(w, tl, X0, X1, BY0, BH, key: str, lohi, *, step: float, fmt, ylabel: s
             s_, (lo, hi) = key(v), lohi(v)
             xl = x - bw + j * bw
             top, bot = yb(max(s_, 0)), yb(min(s_, 0))
-            if arm == "movement":
-                w(r"\fill[%s] (%.3f,%.3f) rectangle (%.3f,%.3f);" % (col, xl, bot, xl + bw - 0.03, top))
-            else:
-                w(r"\fill[pattern=north east lines,pattern color=%s] (%.3f,%.3f) rectangle (%.3f,%.3f);" % (col, xl, bot, xl + bw - 0.03, top))
-                w(r"\draw[%s,line width=0.3pt] (%.3f,%.3f) rectangle (%.3f,%.3f);" % (col, xl, bot, xl + bw - 0.03, top))
+            w(r"\fill[%s] (%.3f,%.3f) rectangle (%.3f,%.3f);" % (col, xl, bot, xl + bw - 0.03, top))
             if top - bot < 0.03:  # a value near zero: a stub at it, so it does not read as missing
                 w(r"\draw[%s,line width=0.8pt] (%.3f,%.3f) -- (%.3f,%.3f);" % (col, xl, yb(s_), xl + bw - 0.03, yb(s_)))
             errorbar(w, xl + (bw - 0.03) / 2, yb(lo), yb(hi), col="black!70", cap=0.035)
@@ -113,7 +111,7 @@ def emit(d: dict) -> tuple[str, list[str]]:
           lohi=lambda v: (v["blocked_per_deployment"]["lo"], v["blocked_per_deployment"]["hi"]),
           step=0.25, fmt=lambda v: ("%.2f" % v).rstrip("0").rstrip("."), ylabel=r"Attack actions blocked",
           facts=facts, tag="a")
-    a_top = panel_title(w, X0, AY0 + BH, "Attack actions blocked per MTD deployment", "a")
+    panel_title(w, X0, AY0 + BH, "Attack actions blocked per MTD deployment", "a")
     _bars(w, tl, X0, X1, BY0, BH,
           key=lambda v: v["time_lost"], lohi=lambda v: tuple(v["time_lost_ci95"]),
           step=200.0, fmt=signed, ylabel=r"Time lost (s)", facts=facts, tag="b")
@@ -134,10 +132,10 @@ def emit(d: dict) -> tuple[str, list[str]]:
         w(r"\node[anchor=north,text=black!60] at (%.3f,%.3f) {%s};" % ((xa_ + xb_) / 2, ybk - 0.03, LAYER[PANEL_SINGLES[i]]))
         i = j + 1
 
-    # ---- the figure-wide key at the top (conventions §o): both panels share it
-    key_row(w, X0, a_top + 0.1 + KEY_H / 2,
-            [(LABEL["movement"], "bar", "cmov", None),
-             (LABEL["baseline"], "hatch", "cbase", None)], xmax=X1)
+    # ---- the figure's one key, at its foot, under the layer brackets (conventions §o)
+    key_below(w, X0, ybk - 0.03 - 0.40,
+              [(LABEL["movement"], "bar", "black", None),
+               (LABEL["baseline"], "bar", "cbase", None)], xmax=X1)
     w(r"\end{tikzpicture}")
     w(r"\end{document}")
     for m in PANEL_SINGLES:

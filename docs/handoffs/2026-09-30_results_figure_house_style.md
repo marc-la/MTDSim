@@ -1,6 +1,7 @@
 ---
 status: open
 created: 2026-09-30
+updated: 2026-10-05
 ---
 
 # Finish the results-figure house layout: file keys, the owed figures, the headline ruling
@@ -14,7 +15,8 @@ re-encoded between figures. The standard is now
 §o. It is applied to Figures 5.1–5.7 through two helpers in
 `tools/_ch5_style.py` (`panel_title`, `key_row`), and all seven chapter 5
 figure environments are `[tp]`. Every panel has a `(a) Title`. Every key sits
-directly above what it decodes. The baseline attacker is a grey square on a
+at the foot of its figure (§o rule 3 as re-ruled 2026-10-05; it was "directly
+above what it decodes"). The baseline attacker is a grey square on a
 dashed line everywhere. The pooled APT attacker model is black in 5.4 and 5.7.
 The build is clean at 103 pages. Values, chart types, scales and captions
 were not touched.
@@ -51,8 +53,10 @@ Marc meant something else, ask for the page.
    fragments have the same drift (`tab_5-2-1a`, `tab_5-3-1a`, …). Do figures
    and tables in one commit with `FLOATS.md`, because it touches
    `dissertation.tex`. Check first that no parallel session has the tex dirty.
-2. **Figure 5.3's pooled APT attacker model is still blue** (§o rule 5 says
-   black). It was left because the two shaded dips in (a) and (b) would both
+2. **Done 2026-10-05.** The disruption figure (now Figure 5.2) draws the
+   pooled APT attacker model as black bars and the baseline attacker as solid
+   grey bars (§o rule 5 as re-ruled). The original note: **Figure 5.3's pooled
+   APT attacker model is still blue** (§o rule 5 says black). It was left because the two shaded dips in (a) and (b) would both
    turn grey and stop being told apart. `chore/disruption-mechanism` proposes
    replacing this figure's metric, so apply rule 5 in that rebuild, not
    before.
