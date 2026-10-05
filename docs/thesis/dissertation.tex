@@ -4929,48 +4929,87 @@ host of 50.
 %  ATT&CK-order sentence, the worked example, the disruption sentence (A5), the
 %  stall (A10, verified controller/outcome.py). Test pointer to Appendix C.3
 %  (decay-robustness: gamma, delta, z). DRAFT STATE.]
-The failure matrix sets where the attacker goes after a failure, step~5 of
-the loop. The attack flows draw only the steps their attackers completed
-(Section~\ref{sec:petri-formalism}), so they cannot supply it, and every
-value in it is our judgement. The failure matrix only reweights the
-immediate transitions the attack flows draw, so after a failure the attacker
-still chooses among the moves the corpus observed.
+% [ROUND 2, 2026-10-05 (Marc: the section "basically unrecognisable" from his
+%  dictation, whose words he chose with care; "failure matrix" not defined at
+%  first use in the subsection; "one principle" then "twelve values"; Figure
+%  4.4(b) unexplained, "why are we jumping sections"; the worked example a
+%  whole paragraph; what is here and what is in the appendix; loses structure
+%  midway). Structure of 4.4.1, which reads clearly: the term defined at its
+%  step of the loop, then why, then how its values were set with one example,
+%  then its limits and its test. Marc's dictation (commit 3950c543, 2026-08-20)
+%  restored where it still holds: "We employed a failure matrix because this
+%  is the blind spot of the CTI"; the reports are incidents "worth writing
+%  about"; "we didn't reverse-engineer any of these values"; the two
+%  components, rules and distance; "it makes no sense for an attacker to go
+%  from recon directly to impact"; "a concession of the thinness of the
+%  corpus"; the must-carry caveat (cut in round 1 as said in 4.4.2, which no
+%  longer says it). The survivorship reason now lives here, where Section 4.3
+%  points for it (4.3 and 4.4.3 each pointed to the other). "One principle"
+%  CUT: verified against v4_failure_only, it held for post-intrusion operations
+%  only (same-stage share 0.65 -> 0.76 after a failure); at actions on
+%  objectives a move back one stage has 0.9 (rule F) against 0.7 within, and
+%  the shares do not move (0.85 back, before and after). The prose now states
+%  the foothold split and the factors it gives, all true of Table B.6a. The
+%  stall CUT: verified, no place of any net loses every exit at the declared
+%  values or anywhere in the tested bands (no net carries a three-stage move,
+%  so the floor never binds), so the sentence described a case that never
+%  occurs (overturns ruling A10 on merit; Marc to confirm). Kept, ruled: the
+%  foothold, the ATT&CK-order sentence, the worked example (now two
+%  sentences), the one-verdict limit (A5) in the preamble's words, the dead
+%  end, the ablation and Appendix C.3 pointers. Numbers re-run 2026-10-05:
+%  c1 initial access, reconnaissance 0.062 -> 0.750, foothold moves to about a
+%  quarter (factor 0.02 against 0.9); 58-71 per cent from
+%  tools/gspn_gadget_figure.py stage_shares. DRAFT STATE.]
+The \emph{failure matrix} reweights the immediate transitions after an attack
+action fails, at step~5 of Figure~\ref{fig:runtime-loop}. It holds one factor
+between zero and one for each pair of tactics, the tactic whose attack action
+failed and a tactic that can come next, and Equation~\ref{eq:routing}
+multiplies each base weight by its factor. We employed a failure matrix
+because failure is the blind spot of the CTI. The threat reports behind the
+attack flows describe incidents that succeeded and were worth writing about,
+so an attack flow draws only the steps its attacker completed. The base
+weights therefore say where an attacker goes after a success, and nothing
+about where it goes after a failure.
 
-The failure matrix encodes one principle: a failure without a foothold sends
-the attacker back to reconnaissance, and a failure with a foothold keeps it
-in its current stage. A foothold is what initial access gains: a failure at
-reconnaissance or initial access has none, and a failure at any later tactic
-holds one. The stages are the four lifecycle stages of
-Section~\ref{subsec:apt}. ATT\&CK imposes no order on its tactics, so this
-order is imported from the lifecycle models, not observed in the corpus.
-Keeping the attacker in its stage follows the corpus: in every attack
-profile, a post-intrusion tactic sends on average 58 to 71 per cent of its
-base weight to other tactics of post-intrusion operations.
+Every factor is our judgement, and we did not reverse-engineer any of them
+from the corpus or from an evaluation outcome. Each factor is a rule value
+times a distance factor. Nine rules set the rule value by whether the
+attacker holds a foothold, the access that initial access gains, and by the
+direction of the move through the four lifecycle stages of
+Section~\ref{subsec:apt}. A failure at reconnaissance or initial access
+leaves no foothold, so each move that needs one has a factor of 0.02, and
+the move back to reconnaissance 0.9. After a failed initial access in $c_1$,
+for example, the weight on reconnaissance rises from 0.062 to 0.750, and
+each move that needs a foothold falls to about a quarter of its weight
+(Figure~\ref{fig:gspn-gadget}(b)). A failure at any later tactic leaves the
+foothold in place, so a move to another tactic of the same stage has a
+factor of 0.7, a move forward 0.35 and a move back to before the foothold
+0.25. Another tactic of the same stage is also the usual next move in the
+corpus: in every attack profile, a post-intrusion tactic sends on average 58
+to 71 per cent of its base weight to other tactics of its stage.
 
-Figure~\ref{fig:gspn-gadget}(b) shows the first half of the principle at
-initial access in $c_1$. After a failure, which leaves no foothold, the
-weight on reconnaissance rises from 0.062 to 0.750, and each move that needs
-a foothold falls to about a quarter of its weight. After a failed credential
-access, the second half applies: the moves to other post-intrusion tactics
-gain weight, and the moves on to actions on objectives and back to intrusion
-lose it.
+The distance factor scales down a move to a stage beyond the next. Each
+further stage multiplies the rule value by a rate, 0.25 forward and 0.25
+back, and a factor below a floor of 0.1 is zero. A move two stages away
+therefore keeps a quarter of its rule value, and a move three stages away,
+such as from reconnaissance straight to impact, keeps none: it makes no
+sense for an attacker to skip the stages between. ATT\&CK imposes no order
+on its tactics, so the order of the stages is imported from the lifecycle
+models, not observed in the corpus. The nine rule values and the three
+distance parameters, twelve values in all, set the 210 factors of the
+failure matrix. Appendix~\ref{app:weight-sets} gives each rule, its value
+and its reason, and the full matrix.
 
-Twelve declared values set all 210 factors of the failure matrix, one for
-each ordered pair of distinct tactics: nine rules apply the principle, each
-with one value, and three distance parameters scale down a move across more
-than one stage. Appendix~\ref{app:weight-sets} gives each rule, its value and
-its reason, and the full matrix. No value was fitted to the corpus or to an
-evaluation outcome.
-
-The APT attacker model can tell a disruption from an unmet precondition, but
-the failure matrix routes both alike: it is declared over one failure
-verdict. A failure can also zero every exit of a place for one firing; the
-run then stalls and ends. A stall differs from a dead end, a place the corpus
-gave no exit, where the token retraces the edge it travelled, a concession to
-the thinness of the corpus. Section~\ref{sec:ablation} tests whether any
-result depends on the failure matrix, by running the same attacker with every
-factor set to one, so that a failure routes as a success does;
-Appendix~\ref{app:decay-robustness} varies the distance parameters.
+The failure matrix routes every failure alike. An attack action fails if its
+preconditions were missing or if an MTD deployment disrupts it, and the APT
+attacker model records which, but the failure matrix routes both the same
+way. At a dead end, a place the corpus gave no exit, the token retraces the
+edge it travelled, a concession to the thinness of the corpus.
+Section~\ref{sec:ablation} tests whether any result depends on the failure
+matrix, by running the same attacker with every factor set to one, so that a
+failure routes as a success does. Appendix~\ref{app:decay-robustness} varies
+the three distance parameters. The factors are model parameters for this
+simulator, not real-world values.
 
 \subsection{Vulnerability memory}
 \label{subsec:vulnerability-memory}
