@@ -256,7 +256,8 @@ def emit(rows: list[dict], entry: dict, axis, stage_of, stage_name) -> str:
     w(r"\draw[%s,line width=0.4pt] (%.2f,%.3f) rectangle (%.2f,%.3f);"
       % (ACCENT, 0.99, ky - 0.11, 1.21, ky + 0.11))
     w(r"\node[anchor=west,font=%s,text=%s] at (%.2f,%.3f) "
-      r"{no mapping (%d of %d)};"
+      # 2026-10-05: "unmapped", the text's term (was "no mapping").
+      r"{unmapped (%d of %d)};"
       % (SMALL_FONT, ACCENT, 1.33, ky, len(dwell), len(order)))
 
     hy = 0.50
