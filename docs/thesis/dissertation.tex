@@ -4833,78 +4833,58 @@ MTDSim for six tactics, and our judgement for the other nine.
 
 \input{tables/tab_4-4a_dwell_catalogue}
 
-Six tactics do work that MTDSim's attack actions already time, so they take
-those times, whichever attack action they map to
+% [ROUND 10, 2026-10-05 (Marc: the nine judgement values never clear in any
+%  version, "inherently arbitrary"; "I'm not sold on that argument"; P3 lost at
+%  credential access; P4 dense; P5's NCR numbers read as results; honesty and
+%  transparency lost. Ruled: write the assumptions cleanly, declare the numbers
+%  as their extension, our judgement; one pointer plus a one-clause verdict,
+%  as 4.4.3 and 4.4.4). P1, P2 and Table 4.2 unchanged. P3: the credential
+%  access example to Appendix B.4 (its row gives the reason); the rule it
+%  illustrated kept as one clause ("even where the tactic maps to another":
+%  four of the six map elsewhere, so without it "takes that attack action's
+%  time" is false). P4: each group's reason said as the judgement it is, the
+%  45 s grounded in ATT&CK's tactic descriptions (persistence "maintain their
+%  foothold", stealth "hide and conceal", command and control "communicate
+%  with systems under their control", enterprise-attack 19.1); "placed between
+%  two times" CUT (it read as a derivation of a judgement); "CTI vendor
+%  reports" -> "threat reports" (the defined term). P5: the caveat ("model
+%  parameters for this simulator, not real-world values", Marc's dictation,
+%  as 4.4.3) answers "why 45 s when persistence lasts months"; "nearly every"
+%  -> "most" (an exponential of mean 200 s outlasts a 200 s interval in about
+%  63 per cent of runs); the test as one clause, true of Table C.1a (4.5 s is
+%  inert, so "depends most on", not "depends on them"); "run after the values
+%  were fixed" is Appendix C.1's own statement. Half of 45 s kept (Appendix
+%  C.1 and C.2 rely on it). Cold-read and audited (scratchpad reviews).
+%  DRAFT STATE.]
+Six tactics do the same kind of work as one of MTDSim's attack actions, so
+each takes that attack action's time, even where the tactic maps to another
 (Section~\ref{subsec:attacker-model}). Initial access, privilege escalation,
 credential access and lateral movement each act briefly on one host, as the
 exploit attack action does, so each takes the mean time of the exploit attack
-action, 4.5~s. Reconnaissance and
-discovery survey a network, as MTDSim's scans for hosts, ports and
-neighbours do together, so each takes the total time of the three scans,
-35~s. Credential access, for example, maps to brute force, which takes
-20~s, but its usual technique copies the credentials already stored on a
-host, a brief act on one host.
+action, 4.5~s. Reconnaissance and discovery survey a network, as MTDSim's
+scans for hosts, ports and neighbours do together, so each takes the total
+time of the three scans, 35~s.
 
-% [ROUND 8, 2026-10-05 (Marc's sentence-by-sentence read: "No data give the
-%  other nine" unclear; "placed between" unclear, and is it lower and upper
-%  bounds; P4 still loses him; P5 reads bolted on, with "survive", "band",
-%  "moving" and the 11-180 s unexplained, and the shape test answers a
-%  question nobody asked; "exploit" used in more than one sense). P3 opens
-%  on the six tactics, says "the exploit attack action" throughout, drops
-%  the 0-9 s Section 2.2.3 gives, and says the credential access case
-%  plainly. P4: one sentence per group in one pattern (what the group does,
-%  its value, the two times it sits between), so Table 4.2's
-%  "Placed between" column goes; the 200 s bound gets its consequence. P5:
-%  what Appendix C.1 does in the chapter's terms and what it found; the
-%  shape test is left to Appendix C. DRAFT STATE.]
-% [ROUND 9, 2026-10-05 (Marc: "a lot clearer"; P5 "really strong" but use
-%  the specific metric, NCR; scrutinise the whole section). Fixes from the
-%  scrutiny: P1 "runs in MTDSim" contradicted P2 (unmapped tactics do not run
-%  in MTDSim), now "takes"; P3's opener was false for the scans (three attack
-%  actions, not one) and the credential access sentence a U-turn, so the
-%  opener states the rule (MTDSim's times, whichever attack action the tactic
-%  maps to) and credential access is its example; "median" to "mean" (the
-%  exploit time is uniform on 0-9 s, so mean = median = 4.5 s, and "mean"
-%  matches "mean duration"); P4's first sentence split; "a shorter or longer
-%  interval would change little" cut (vague, and untrue at 2 000 s); 22.5 s
-%  stated as half of 45 s, the reason it moves with 45 s in the test; 36 s
-%  given its reason. P5 was factually wrong: 45 s was quartered and
-%  quadrupled only, never halved or doubled, and 22.5 s is shared too. Now
-%  NCR, with the numbers from data/results/ch5_s51_sensitivity/per_run.csv
-%  (no MTD, 400 runs per point: 0.163 at the chosen values; 45 s at x0.25
-%  0.267, at x4 0.059, 0.052 per doubling both sides; others' largest change
-%  0.017, 35 s doubled). DRAFT STATE.]
-No source times the other nine tactics, since CTI vendor reports time whole
-intrusions. We set their mean durations by judgement, as other models that
-time attack steps do where data are missing~\citep{mcqueen2006, bland2020,
-mendonca2023}. We grouped the nine by the work they do and gave
-each group one mean duration between two times the model already has.
-Persistence, stealth and command and control are kept up quietly throughout
-an attack, so we set them at 45~s, longer than the longest attack action,
-scanning ports (25~s), and well under the 200~s default deployment interval
-(Section~\ref{subsec:defence-mechanisms}). If they outlasted the deployment
-interval, a deployment would disrupt nearly every one of them. Execution and
-defense impairment are brief acts, such as running a payload or disabling a
-defence, that the attacker paces to stay hidden, so we set them at 22.5~s,
-half the 45~s of persistence, stealth and command and control and longer
-than the exploit attack action (4.5~s). Collection, exfiltration and impact
-move or destroy data, which we judged to take a little longer than surveying
-a network, so we set them at 36~s, longer than reconnaissance and discovery
-(35~s) and shorter than persistence, stealth and command and control
-(45~s). Resource development takes no time, because the
-attacker develops its resources before the attack reaches the target's
-network.
+No source times the other nine tactics, since threat reports time whole
+intrusions. We set their mean durations by judgement, from what each tactic
+does in an attack, as other models that time attack steps do where data are
+missing~\citep{mcqueen2006, bland2020, mendonca2023}. Persistence, stealth
+and command and control keep a foothold, stay hidden and stay in contact
+throughout an attack~\citep{mitre2026attackkb}, so we set them longest, at
+45~s. Collection, exfiltration and impact move or destroy data, which we
+judged to take a little longer than surveying a network, so we set them at
+36~s. Execution and defense impairment are single acts that the attacker
+paces to stay hidden, so we set them at 22.5~s, half the 45~s and longer than
+an exploit. Resource development happens before the attack reaches the
+target's network, so it takes no time.
 
-No evidence favours these values over others between the same two times.
-Appendix~\ref{app:dwell-robustness} therefore reruns the APT attacker model
-with 4.5, 35 and 36~s each halved and doubled, and 45~s, with the 22.5~s set
-at its half, quartered and quadrupled up to just under the 200~s deployment
-interval, one value at a time~\citep{tenbroeke2016}. NCR
-(Section~\ref{sec:evaluation-metrics}) depends most on the 45~s. With no
-MTD, NCR is 0.16 at the chosen values, and each halving or doubling of 45~s
-changes it by about 0.05, from 0.27 at a quarter to 0.06 at four times.
-Halving or doubling any other mean duration changes it by less than 0.02, one
-host of 50.
+These values are our judgement, model parameters for this simulator and not
+real-world values. Each stays under the 200~s default deployment interval
+(Section~\ref{subsec:defence-mechanisms}), or a deployment would disrupt most
+runs of the tactic. Appendix~\ref{app:dwell-robustness}, run after the values
+were fixed, moves each mean duration that several tactics share across a
+band, one at a time, and finds that NCR (Section~\ref{sec:evaluation-metrics})
+depends most on the 45~s of persistence, stealth and command and control.
 
 \subsection{Failure matrix}
 \label{subsec:failure-matrix}
@@ -4991,58 +4971,76 @@ about where it goes after a failure.
 %  "changes where the attacker goes but doesn't change what it achieves").
 %  CUT: the 58-71 per cent sentence (base weights, not factors; record in
 %  tools/gspn_gadget_figure.py stage_shares). DRAFT STATE.]
-Every factor is our judgement, and we did not reverse-engineer any of them
-from the corpus or from an evaluation outcome. Each factor is a rule value
-times a distance factor, and we did not set the 210 factors one by one.
-Nine rules (Table~\ref{tab:overlay-failure-rules}) each give one value to a
-kind of move, by the lifecycle stages of Section~\ref{subsec:apt} that its
-two tactics fall in and by whether the attacker holds a foothold, the access
-that initial access gains. A script gives each pair of tactics the value of
-the first rule that matches it. The distance factor scales down a move that
-skips a lifecycle stage. The nine rule values and the distance factor's
-three parameters, twelve values in all, set the 210 factors.
-Equation~\ref{eq:routing} rescales the weights out of a tactic to sum to
-one, so a factor counts only against the other factors of the same tactic.
+% [ROUND 4, 2026-10-05 (Marc: never understood the nine rules, presented
+%  "like a black box"; "why don't you just use 15 rules"; the values
+%  "inherently arbitrary", and the honesty and transparency lost; how do 210
+%  values beat random noise. Ruled: the rules are assumptions about attacker
+%  behaviour; write the assumptions cleanly, grounded where they can be, and
+%  declare the numbers as their extension, our judgement; a pointer plus a
+%  one-clause verdict). P1 unchanged (approved). P2 the three assumptions,
+%  each with its ground: the foothold (Section 2.x lifecycle stages) and
+%  Hutchins' campaign that tried again the next day with a new recipient
+%  list after its attempt was "detected and mitigated" (his words; "blocked"
+%  is the MTD term here); the second openly our judgement; the third the
+%  lifecycle models. Said as likelihoods, true of the factors: in the rules a
+%  same-stage move after a failure with a foothold gets 0.7 and every other
+%  move open to a tactic that can fail gets at most 0.35 (the 0.9 "back" rule
+%  never fires for a mapped tactic with a foothold). P3: the rules as the
+%  assumptions written down, nine because the assumptions tell nine kinds of
+%  move apart; the distance factor named (Appendix B.6 relies on it); the
+%  renormalisation clause restored (without it "rises from 0.062 to 0.750"
+%  contradicts a factor at most one); the c1 example kept with its
+%  motivation (re-verified). P4 what it gives (adaptivity, property 4, as
+%  Section 5.4 and Table 7.1 say) and its limits: verdict only; it reweights
+%  only the next tactics the attack flows give (c2: no move from initial
+%  access back to preparation, as Section 5.4.2 reports); the dead end (all
+%  four nets have one; Marc's "concession to the thinness of the corpus").
+%  P5 judgement, caveat, both tests. CUT: the rule-by-rule values, "first
+%  matching rule", the distance factor's 0.25. "from the corpus" dropped from
+%  "did not reverse-engineer": the rules were checked against routing on the
+%  nets in 2026-07 (outcome_rules.json scrutiny). Cold-read and audited.
+%  DRAFT STATE.]
+We set the failure matrix from three assumptions about what an attacker does
+after a failure. First, an attacker without a foothold
+(Section~\ref{subsec:apt}) is unlikely to go on to a tactic that needs one, so
+after a failed initial access it is likely to go back to preparation to try
+again. Hutchins et al.\ describe an APT campaign that tried again the next
+day, with new recipients, after its intrusion attempt was detected and
+mitigated~\citep{hutchins2011}. Second, an attacker that fails after it has a
+foothold keeps the foothold, so we judged it more likely to try another
+tactic of the same lifecycle stage than to move to another stage. Third, an
+attacker seldom skips a lifecycle stage, as in the lifecycle models of
+Section~\ref{subsec:apt}, which run their stages in sequence.
 
-After a failure, the rules favour a move back to an earlier stage (0.9) over
-a move to another tactic of the same stage (0.7), and both over a move
-forward (0.35). Two kinds of move are kept lower still. A failure at
-reconnaissance or initial access leaves no foothold, so a move that needs
-one is all but closed (0.02 to 0.05). A failure at a later tactic leaves the
-foothold in place, and a move back to the intrusion or preparation stage is
-kept low (0.25 or 0.35), so a failure in post-intrusion operations mostly
-keeps the attacker in that stage. After a failed initial access in $c_1$,
-for example, the weight on reconnaissance is 0.750, against 0.062 after a
-success: an attacker that fails to break in goes back to reconnaissance,
-where without the failure matrix it would carry on into the network.
-Figure~\ref{fig:gspn-gadget}(b) gives the weight of every next tactic after
-a success and after a failure.
+We wrote the assumptions as rules instead of setting the 210 factors one by
+one. Nine rules give one value to each kind of move the assumptions tell
+apart, such as a move to another tactic of the same lifecycle stage after a
+failure with a foothold. A distance factor, set by three more values, scales
+down a move that skips a lifecycle stage. These twelve values set all 210
+factors (Appendix~\ref{app:weight-sets}). Equation~\ref{eq:routing} rescales
+the weights out of a tactic to sum to one, so a factor counts only against
+the other factors of the same tactic. After a failed initial access in
+$c_1$, for example, the weight on reconnaissance rises from 0.062 to 0.750
+(Figure~\ref{fig:gspn-gadget}(b)). Without the failure matrix, the attacker
+would carry on into the network as though it had broken in.
 
-The distance factor follows the lifecycle models of
-Section~\ref{subsec:apt}, each of which runs its stages in sequence. A move
-two stages away, such as from execution straight to exfiltration, keeps a
-quarter of its rule value, and a move three stages away, such as from
-reconnaissance straight to impact, keeps none: it makes no sense for an
-attacker to skip the stages between. ATT\&CK imposes no order on its
-tactics, so the order of the stages is imported from the lifecycle models,
-not observed in the corpus.
-
-The failure matrix responds to a failure, not to its cause. A failure caused
-by an MTD deployment routes the same way as one caused by a missing
-precondition, so the APT attacker model treats a disruption by the defence
-as it treats an attack action it was not ready for. Where the corpus gave a
+The failure matrix gives the APT attacker model adaptivity, property~4 of
+Table~\ref{tab:attacker-properties}: it chooses its next tactic in response
+to a failure, including one caused by an MTD disruption. It reads only the
+attack action's verdict, so it treats a disruption as any other failure. The
+failure matrix can reweight only the next tactics the attack flows give. In
+$c_2$, no move leads from initial access back to preparation, so a failed
+initial access still goes on into the network. Where the corpus gave a
 tactic no next tactic, a dead end, there is nothing to reweight, and the
 token retraces the edge it travelled, a concession to the thinness of the
 corpus.
 
-No data record where attackers go after a failure, so the factors are model
-parameters for this simulator, not real-world values.
-Section~\ref{sec:ablation} tests whether any result depends on them, by
-running the same attacker with every factor set to one, so that a failure
-routes as a success does: the failure matrix changes where the attacker goes
-after a failure, but not what it achieves.
-Appendix~\ref{app:decay-robustness} varies the distance factor's three
-parameters.
+The twelve values are our judgement, model parameters for this simulator and
+not real-world values. We did not reverse-engineer any of them from an
+evaluation outcome. Appendix~\ref{app:decay-robustness} varies the distance
+factor's three values. Section~\ref{subsec:ablation-failure-matrix} sets
+every factor to one and finds that the failure matrix changes where the
+attacker goes after a failure, but not what it achieves.
 
 \subsection{Vulnerability memory}
 \label{subsec:vulnerability-memory}
@@ -5112,8 +5110,13 @@ the same service carry the same vulnerabilities, so the attacker meets the
 same vulnerability on more than one host. We therefore expect the memory to
 matter more when the \emph{diversity pool}, the services each operating
 system can run, is small, because hosts then run the same services more
-often. Section~\ref{subsec:ablation-vulnerability-memory} tests this
-expectation, and whether any result depends on the memory.
+often. % [2026-10-05, with 4.4.2 round 10 and 4.4.3 round 4 (Marc: the three
+%  subsections handle the test the same way, a pointer plus a one-clause
+%  verdict). Verdict from Section 5.4.3: exploit success 0.70 -> 0.73 at 20
+%  services, 0.69 -> 0.91 at one; NCR d below 0.2 at every pool. DRAFT STATE.]
+Section~\ref{subsec:ablation-vulnerability-memory} tests this expectation,
+and finds that the memory raises the share of exploits that succeed, most
+with a small diversity pool, but leaves what the attacker achieves unchanged.
 
 \section{Evaluation metrics}
 \label{sec:evaluation-metrics}
