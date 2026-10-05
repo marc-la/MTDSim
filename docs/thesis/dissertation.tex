@@ -3798,13 +3798,25 @@ performs against the APT attacker model compared with the baseline attacker
 %  section labels and the next three sentences carry the order). DRAFT STATE.
 The MTD evaluations surveyed in Chapter~\ref{ch:litreview} leave how MTD
 performs against APT attackers unmeasured, because their attacker models lack
-properties of an APT attacker. This chapter defines an APT attacker model
-built to meet six of the eight properties of
-Section~\ref{subsec:attacker-criterion}. It takes the same attack actions as
-the baseline attacker, but the Petri net of its attack profile chooses its
-next tactic at runtime. It is a proof of concept: it tests whether an attacker
-that behaves like an APT changes what an MTD evaluation measures. Stealth and
-scheme awareness, the other two properties, are left to future work.
+properties of an APT attacker. % [ROUND 7, 2026-10-05, Marc: "built to meet six of the eight properties
+%  claims too much". Overturns round 3's "claim the six strongly" on merit:
+%  persistence and incentive-driven rationality come with the baseline
+%  attacker's attack actions (Chapter 6 placeholder, verified in code: the
+%  exploit's RoA order, host.py:388), so Chapter 4 has no mechanism for them.
+%  Now: four built, each with its Chapter 4 home (attack profiles, Petri net
+%  routing, failure matrix, vulnerability memory), two kept, two left out ---
+%  eight, matching Table 6.x mark for mark. Marc: "honest version, let's do
+%  that". DRAFT STATE --- ratify on read.]
+This chapter defines an APT attacker model
+built for four of the eight properties of
+Section~\ref{subsec:attacker-criterion}: objective conditioning, strategic
+plurality, adaptivity and, in part, learning. It takes the same attack actions
+as the baseline attacker, but the Petri net of its attack profile chooses its
+next tactic at runtime. With those attack actions it keeps the baseline
+attacker's persistence and, in part, its incentive-driven rationality. It is a
+proof of concept: it tests whether an attacker that behaves like an APT changes
+what an MTD evaluation measures. Stealth and scheme awareness are left to
+future work.
 Figure~\ref{fig:pipeline} shows the pipeline that builds the model from 38
 attack flows and runs it in MTDSim. Sections~\ref{sec:technique-graph}
 and~\ref{sec:attack-profiles} answer \ref{sq:capture}: they recover the
@@ -5219,16 +5231,25 @@ metric is computed over the runs of one attacker under the same MTD
 \subsection{Attacker behaviour}
 \label{subsec:metrics-behaviour}
 
-The attacker behaviour metrics record three properties of an APT attacker
-(Table~\ref{tab:attacker-properties}): relative tactic occurrence records
-objective conditioning, distinct attack paths strategic plurality, and attack
-rate and attack confidentiality stealth.
-% ROUND 7, 2026-10-05 (accepted as proposed): the chapter 4 preamble leaves
-% stealth to future work and Table 6.x scores it absent, so the examiner needs
-% to know what the two stealth metrics test. DRAFT STATE --- ratify on read.
-The APT attacker model was not built for stealth, and nothing in MTDSim detects
-an attacker, so attack rate and attack confidentiality test whether its pace
-alone leaves it less visible to a scan detector.
+% ROUND 8, 2026-10-05 (Marc: "why do we define attack confidentiality in
+% terms of attack rate"; the two stealth metrics read as duplicates; the 4.5
+% preamble now names the three properties, so the opener need not repeat
+% "three properties of an APT attacker"). The opener is the metric-to-property
+% list (the only place it is stated since Table 4.3 lost its Property column);
+% the two stealth metrics get their separate jobs: attack rate the mean pace
+% over a run, attack confidentiality the share outside a burst (five attack
+% actions within a minute) that a mean pace hides --- the baseline attacker
+% averages 1.71 a minute yet has 17 % flagged. Attack rate kept (Marc: it does
+% more than stealth; Chapter 5 reads the outcome through it). Round 7's
+% stealth sentence kept, extended. DRAFT STATE --- ratify on read.
+Relative tactic occurrence records objective conditioning, distinct attack
+paths records strategic plurality, and attack rate and attack confidentiality
+record stealth (Table~\ref{tab:attacker-properties}). The APT attacker model
+was not built for stealth, and nothing in MTDSim detects an attacker, so the
+two stealth metrics test whether its pace alone leaves it less visible to a
+scan detector: attack rate is its mean pace over a run, and attack
+confidentiality the share of its attack actions that do not come in a burst a
+scan detector would flag.
 
 \paragraph{Relative tactic occurrence.}
 Relative tactic occurrence is the percentage of an attacker's steps taken in
@@ -8726,6 +8747,25 @@ Section~\ref{sec:evaluation-implications}.]}
 % two decodes be read as one. The axis-3 record disagreement is moot
 % for the mark (met either way) but the record still wants fixing; the
 % 6/7 no-ch4-antecedent FLAG stands.
+% [2026-10-05, Marc: "the examiner is going to give credit where credit is
+%  due"; claim honestly, lead with the comparison. Counts from Table 3.3 and
+%  Table 6.x as they stand. DRAFT STATE --- ratify on read.]
+\noindent\emph{[Placeholder --- the verdict first, against the field, not
+against eight. No MTD attacker model of Table~\ref{tab:attacker-cross-section}
+has more than one property in full: the baseline attacker has persistence,
+Masud et al.'s and Kim et al.'s models none. The APT attacker model has four
+(Table~\ref{tab:fidelity-verdict}): it keeps the baseline attacker's
+persistence and adds objective conditioning, strategic plurality and
+adaptivity, and it is the only one built from CTI (38 attack flows). Then the
+finding the proof of concept produced: adaptivity and learning operate but do
+not change what the attacker achieves, because MTDSim's attack actions limit
+it (Section~\ref{sec:ablation}); the next gain is in the simulator's attack
+actions, not the attacker's decisions. What is left out, and why, in one
+sentence each: stealth needs a detection mechanism MTDSim does not have;
+scheme awareness, and incentive-driven rationality and learning in full, need
+a model of the MTD scheme or a cost for each attack action, and are future work
+(Chapter~\ref{ch:conclusion}).]}
+
 \noindent\emph{[Placeholder --- the scoring discipline (badges; the
 properties fixed before the model was scored), then the walk through
 Table~\ref{tab:fidelity-verdict}: for each property, what the APT attacker
