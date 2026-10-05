@@ -5132,18 +5132,40 @@ with a small diversity pool, but leaves what the attacker achieves unchanged.
 % and run-end sentences below state the corpus as it stands. Chapter 5 is
 % stale against this section by Marc's ruling (ch4 first); the owed list is
 % in the same handoff. Rounds 2-3 in git. DRAFT STATE --- ratify on read.
-Chapter~\ref{ch:experiments} answers \ref{sq:evaluate} with the metrics of
-Table~\ref{tab:metrics}. Every run follows the targeted attack scenario
-(Section~\ref{subsec:attacker-model}).
+% ROUND 7, 2026-10-05 (Marc: section 4.5 "was kind of like an add on", not in
+% the frame of the method; "why do we need this"; the opener "Chapter 5 answers
+% SQ3 with the metric tables" says where, not why). Accepted as proposed: P1 is
+% the frame (SQ3 needs three kinds of metric, named once as the subsection
+% titles; the field's are adopted; they depend on the attacker but record only
+% what it achieves, so behaviour metrics are added; whole-run effectiveness
+% metrics cannot show the response to a deployment, so two per-deployment ones
+% are added). "How well MTD stops it" is Section 3.2.2's definition verbatim.
+% P2 is the old scope sentences, unchanged, the combination first.
+% DRAFT STATE --- ratify on read.
+\ref{sq:evaluate} compares how MTD performs against the APT attacker model and
+against the baseline attacker. Answering it takes metrics of three kinds:
+\emph{attacker behaviour}, how an attacker acts; \emph{attack outcome}, what it
+achieves; and \emph{MTD effectiveness}, how well MTD stops it. MTD evaluations
+already measure attack outcome and MTD effectiveness, and we adopt their metrics
+(Section~\ref{subsec:mtd-metrics}). Those metrics depend on the attacker they
+are computed from, but record only what it achieves. A difference between the
+two attackers' results can be read as the effect of APT behaviour only if the
+APT attacker model acts as an APT attacker does, so we add metrics of attacker
+behaviour, each recording a property of Table~\ref{tab:attacker-properties}. The
+adopted MTD effectiveness metrics read a whole run, and an attacker responds to
+each MTD deployment, so we add two that read each deployment.
+Table~\ref{tab:metrics} gives the metrics and their sources.
+
+Each metric is computed over the runs of one combination of
+Table~\ref{tab:experiment}: one attacker at one deployment interval, with no MTD
+or under one MTD mechanism or deployment strategy. Every run follows the
+targeted attack scenario (Section~\ref{subsec:attacker-model}).
 % [2026-10-04: the targeting rule moved here from the 4.4 preamble (Marc's
 %  placement, 2026-09-20, flagged); session-joined to this sentence. DRAFT STATE.]
 The attacker attacks a target host if one is visible, and otherwise prefers the
 hosts nearest the target's level; the run ends when it compromises a target
 host, when it has compromised more than
-80\,\% of the hosts, or at the time limit. Each metric
-is computed over the runs of one combination of Table~\ref{tab:experiment}:
-one attacker at one deployment interval, with no MTD or under one MTD
-mechanism or deployment strategy.
+80\,\% of the hosts, or at the time limit.
 % [CH4 SCRUTINY 2026-10-02, ledger E2: "cell" was defined and never used
 %  again; chapter 5 says "combination". DRAFT STATE --- ratify on read.]
 
@@ -5156,6 +5178,12 @@ The attacker behaviour metrics record three properties of an APT attacker
 (Table~\ref{tab:attacker-properties}): relative tactic occurrence records
 objective conditioning, distinct attack paths strategic plurality, and attack
 rate and attack confidentiality stealth.
+% ROUND 7, 2026-10-05 (accepted as proposed): the chapter 4 preamble leaves
+% stealth to future work and Table 6.x scores it absent, so the examiner needs
+% to know what the two stealth metrics test. DRAFT STATE --- ratify on read.
+The APT attacker model was not built for stealth, and nothing in MTDSim detects
+an attacker, so attack rate and attack confidentiality test whether its pace
+alone leaves it less visible to a scan detector.
 
 \paragraph{Relative tactic occurrence.}
 Relative tactic occurrence is the percentage of an attacker's steps taken in
@@ -5294,11 +5322,17 @@ Center for Health Statistics sets for presenting a rate \citep{kochanek2024nchs}
 % deployment is retired. Handoff docs/handoffs/2026-09-30_disruption_metrics.md.
 % DRAFT STATE --- ratify on read.
 The MTD effectiveness metrics compare an attacker's runs under MTD with
-its runs on the same seeds with no MTD. NCR reduction is the headline: it records
-the hosts every run compromises, not only whether the run reaches a target. ASP
-reduction reads the same comparison on the runs that compromise a target host.
+its runs on the same seeds with no MTD. NCR reduction and ASP reduction read a
+whole run. NCR reduction is the headline: it records
+the hosts every run compromises, not only whether the run reaches a target.
+% ROUND 7, 2026-10-05 (accepted as proposed): "ASP reduction reads the same
+% comparison on the runs that compromise a target host" was inaccurate (ASP
+% reduction compares whether runs compromise a target, not a subset of runs);
+% cut. Why per deployment: the preamble's. Adaptivity stays time lost's alone
+% (attack actions blocked depends on the attacker's pace, not its response);
+% chapter 5 l.7409 says both, flagged. DRAFT STATE --- ratify on read.
 Attack actions blocked per MTD deployment and time lost per MTD deployment read
-each deployment; time lost records
+each deployment, where an attacker's response to MTD shows; time lost records
 adaptivity (Table~\ref{tab:attacker-properties}).
 
 \paragraph{ASP reduction.}
