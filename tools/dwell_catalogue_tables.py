@@ -58,7 +58,7 @@ WORK = {
 ROW_ORDER = list(WORK)
 # The reference value each appendix row multiplies, named as the chapter names it.
 REFERENCE = {
-    "exploit-shaped": "Exploit's median",
+    "exploit-shaped": "Exploit's mean",
     "scan-shaped": "Scans' total",
     "stealth-low-and-slow": "Judgement",
     "objective-execution": "Judgement",
@@ -118,7 +118,7 @@ def main() -> None:
             return ("Total time of MTDSim's scans for hosts, ports and neighbours "
                     f"(${' + '.join(str(cost[k]) for k in scan)}$\\,s)")
         if anchor == "exploit-shaped":
-            return "Median time of MTDSim's exploit"
+            return "Mean time of MTDSim's exploit attack action"
         return "Judgement"
 
     # Round 6, 2026-10-05 (the field's parameter table carries each judgement's

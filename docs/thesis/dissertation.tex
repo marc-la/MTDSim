@@ -4805,7 +4805,7 @@ model can only be as good as the attack actions it adopts.
 %  exponential delay, so the old closing paragraph folds in; the shape test
 %  joins the robustness paragraph. Five paragraphs. Round 5 in git 7c3b9598.
 %  DRAFT STATE.]
-The \emph{tactic durations} set how long each tactic runs in MTDSim, at
+The \emph{tactic durations} set how long each tactic takes, at
 step~3 of Figure~\ref{fig:runtime-loop}. They set the APT attacker model's
 pace, and the longer a tactic runs, the more likely an MTD deployment
 disrupts it. A tactic's duration is random each time it runs, an
@@ -4829,16 +4829,17 @@ MTDSim for six tactics, and our judgement for the other nine.
 
 \input{tables/tab_4-4a_dwell_catalogue}
 
-Six tactics do the same work as one of MTDSim's attack actions, and take
-that attack action's time (Section~\ref{subsec:attacker-model}). Initial
-access, privilege escalation, credential access and lateral movement each act
-briefly on one host, as the exploit attack action does, so each takes the
-median time of the exploit attack action, 4.5~s. Reconnaissance and
+Six tactics do work that MTDSim's attack actions already time, so they take
+those times, whichever attack action they map to
+(Section~\ref{subsec:attacker-model}). Initial access, privilege escalation,
+credential access and lateral movement each act briefly on one host, as the
+exploit attack action does, so each takes the mean time of the exploit attack
+action, 4.5~s. Reconnaissance and
 discovery survey a network, as MTDSim's scans for hosts, ports and
 neighbours do together, so each takes the total time of the three scans,
-35~s. Credential access takes 4.5~s although it maps to brute force, which
-takes 20~s, because its usual technique copies the credentials already
-stored on a host, a brief act on one host.
+35~s. Credential access, for example, maps to brute force, which takes
+20~s, but its usual technique copies the credentials already stored on a
+host, a brief act on one host.
 
 % [ROUND 8, 2026-10-05 (Marc's sentence-by-sentence read: "No data give the
 %  other nine" unclear; "placed between" unclear, and is it lower and upper
@@ -4852,32 +4853,54 @@ stored on a host, a brief act on one host.
 %  "Placed between" column goes; the 200 s bound gets its consequence. P5:
 %  what Appendix C.1 does in the chapter's terms and what it found; the
 %  shape test is left to Appendix C. DRAFT STATE.]
+% [ROUND 9, 2026-10-05 (Marc: "a lot clearer"; P5 "really strong" but use
+%  the specific metric, NCR; scrutinise the whole section). Fixes from the
+%  scrutiny: P1 "runs in MTDSim" contradicted P2 (unmapped tactics do not run
+%  in MTDSim), now "takes"; P3's opener was false for the scans (three attack
+%  actions, not one) and the credential access sentence a U-turn, so the
+%  opener states the rule (MTDSim's times, whichever attack action the tactic
+%  maps to) and credential access is its example; "median" to "mean" (the
+%  exploit time is uniform on 0-9 s, so mean = median = 4.5 s, and "mean"
+%  matches "mean duration"); P4's first sentence split; "a shorter or longer
+%  interval would change little" cut (vague, and untrue at 2 000 s); 22.5 s
+%  stated as half of 45 s, the reason it moves with 45 s in the test; 36 s
+%  given its reason. P5 was factually wrong: 45 s was quartered and
+%  quadrupled only, never halved or doubled, and 22.5 s is shared too. Now
+%  NCR, with the numbers from data/results/ch5_s51_sensitivity/per_run.csv
+%  (no MTD, 400 runs per point: 0.163 at the chosen values; 45 s at x0.25
+%  0.267, at x4 0.059, 0.052 per doubling both sides; others' largest change
+%  0.017, 35 s doubled). DRAFT STATE.]
 No source times the other nine tactics, since CTI vendor reports time whole
-intrusions, so we set their mean durations by judgement, as other models
-that time attack steps do where data are missing~\citep{mcqueen2006,
-bland2020, mendonca2023}. We grouped the nine by the work they do and gave
+intrusions. We set their mean durations by judgement, as other models that
+time attack steps do where data are missing~\citep{mcqueen2006, bland2020,
+mendonca2023}. We grouped the nine by the work they do and gave
 each group one mean duration between two times the model already has.
 Persistence, stealth and command and control are kept up quietly throughout
 an attack, so we set them at 45~s, longer than the longest attack action,
 scanning ports (25~s), and well under the 200~s default deployment interval
 (Section~\ref{subsec:defence-mechanisms}). If they outlasted the deployment
-interval, a deployment would disrupt nearly every one of them, and a shorter or
-longer interval would change little. Execution and defense impairment are brief acts, such as running a
-payload or disabling a defence, that the attacker paces to stay hidden, so
-we set them at 22.5~s, longer than the exploit attack action (4.5~s) and
-shorter than persistence, stealth and command and control (45~s). Collection, exfiltration and impact move or
-destroy data, so we set them at 36~s, longer than reconnaissance (35~s) and
-shorter than persistence, stealth and command and control. Resource development takes no time, because the
+interval, a deployment would disrupt nearly every one of them. Execution and
+defense impairment are brief acts, such as running a payload or disabling a
+defence, that the attacker paces to stay hidden, so we set them at 22.5~s,
+half the 45~s of persistence, stealth and command and control and longer
+than the exploit attack action (4.5~s). Collection, exfiltration and impact
+move or destroy data, which we judged to take a little longer than surveying
+a network, so we set them at 36~s, longer than reconnaissance and discovery
+(35~s) and shorter than persistence, stealth and command and control
+(45~s). Resource development takes no time, because the
 attacker develops its resources before the attack reaches the target's
 network.
 
 No evidence favours these values over others between the same two times.
 Appendix~\ref{app:dwell-robustness} therefore reruns the APT attacker model
-with each of the four mean durations that several tactics share, 4.5, 35, 36
-and 45~s, halved and doubled one at a time, and 45~s also quartered and
-quadrupled~\citep{tenbroeke2016}. The number of hosts the attacker reaches
-depends most on the 45~s of persistence, stealth and command and control, and
-no other mean duration moves it by more than about one host.
+with 4.5, 35 and 36~s each halved and doubled, and 45~s, with the 22.5~s set
+at its half, quartered and quadrupled up to just under the 200~s deployment
+interval, one value at a time~\citep{tenbroeke2016}. NCR
+(Section~\ref{sec:evaluation-metrics}) depends most on the 45~s. With no
+MTD, NCR is 0.16 at the chosen values, and each halving or doubling of 45~s
+changes it by about 0.05, from 0.27 at a quarter to 0.06 at four times.
+Halving or doubling any other mean duration changes it by less than 0.02, one
+host of 50.
 
 \subsection{Failure matrix}
 \label{subsec:failure-matrix}
