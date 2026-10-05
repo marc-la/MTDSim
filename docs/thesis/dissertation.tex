@@ -4971,45 +4971,78 @@ so an attack flow draws only the steps its attacker completed. The base
 weights therefore say where an attacker goes after a success, and nothing
 about where it goes after a failure.
 
+% [ROUND 3, 2026-10-05 (Marc on round 2: P1 good; the bare factors "carry no
+%  meaning", only relative ones do; "nine rules", cite the appendix; the
+%  distance factor, "a stage beyond the next", the 0.25 and the floor vague;
+%  P4 "alike" vague; think of the examiner's questions: where do the values
+%  come from, did you set 210 numbers by hand, how do you know they are
+%  right). P1 unchanged. The rest answers the examiner in order: where the
+%  values come from and how twelve values set 210 factors (a script, first
+%  matching rule, verified: rules.py _failure_rule; outcome_rules.json
+%  "values are RULE-GENERATED"); why a factor only means something against
+%  the others of its tactic (Equation 4.5 renormalises); what the rules do,
+%  as the code orders them (back 0.9 over same stage 0.7 over forward 0.35,
+%  then the two foothold gates and the dampers, said as stages), with the
+%  example carrying the motivation; the distance factor tied to the lifecycle
+%  stages of Section 3.1.1, its floor left to Appendix B.6 (no net has a
+%  three-stage move, so it never acts); the limit said as a consequence; the
+%  dead end as the other routing limit; how we know: no data, so model
+%  parameters, and the ablation's finding in Marc's words (2026-09-28: it
+%  "changes where the attacker goes but doesn't change what it achieves").
+%  CUT: the 58-71 per cent sentence (base weights, not factors; record in
+%  tools/gspn_gadget_figure.py stage_shares). DRAFT STATE.]
 Every factor is our judgement, and we did not reverse-engineer any of them
 from the corpus or from an evaluation outcome. Each factor is a rule value
-times a distance factor. Nine rules set the rule value by whether the
-attacker holds a foothold, the access that initial access gains, and by the
-direction of the move through the four lifecycle stages of
-Section~\ref{subsec:apt}. A failure at reconnaissance or initial access
-leaves no foothold, so each move that needs one has a factor of 0.02, and
-the move back to reconnaissance 0.9. After a failed initial access in $c_1$,
-for example, the weight on reconnaissance rises from 0.062 to 0.750, and
-each move that needs a foothold falls to about a quarter of its weight
-(Figure~\ref{fig:gspn-gadget}(b)). A failure at any later tactic leaves the
-foothold in place, so a move to another tactic of the same stage has a
-factor of 0.7, a move forward 0.35 and a move back to before the foothold
-0.25. Another tactic of the same stage is also the usual next move in the
-corpus: in every attack profile, a post-intrusion tactic sends on average 58
-to 71 per cent of its base weight to other tactics of its stage.
+times a distance factor, and we did not set the 210 factors one by one.
+Nine rules (Table~\ref{tab:overlay-failure-rules}) each give one value to a
+kind of move, by the lifecycle stages of Section~\ref{subsec:apt} that its
+two tactics fall in and by whether the attacker holds a foothold, the access
+that initial access gains. A script gives each pair of tactics the value of
+the first rule that matches it. The distance factor scales down a move that
+skips a lifecycle stage. The nine rule values and the distance factor's
+three parameters, twelve values in all, set the 210 factors.
+Equation~\ref{eq:routing} rescales the weights out of a tactic to sum to
+one, so a factor counts only against the other factors of the same tactic.
 
-The distance factor scales down a move to a stage beyond the next. Each
-further stage multiplies the rule value by a rate, 0.25 forward and 0.25
-back, and a factor below a floor of 0.1 is zero. A move two stages away
-therefore keeps a quarter of its rule value, and a move three stages away,
-such as from reconnaissance straight to impact, keeps none: it makes no
-sense for an attacker to skip the stages between. ATT\&CK imposes no order
-on its tactics, so the order of the stages is imported from the lifecycle
-models, not observed in the corpus. The nine rule values and the three
-distance parameters, twelve values in all, set the 210 factors of the
-failure matrix. Appendix~\ref{app:weight-sets} gives each rule, its value
-and its reason, and the full matrix.
+After a failure, the rules favour a move back to an earlier stage (0.9) over
+a move to another tactic of the same stage (0.7), and both over a move
+forward (0.35). Two kinds of move are kept lower still. A failure at
+reconnaissance or initial access leaves no foothold, so a move that needs
+one is all but closed (0.02 to 0.05). A failure at a later tactic leaves the
+foothold in place, and a move back to the intrusion or preparation stage is
+kept low (0.25 or 0.35), so a failure in post-intrusion operations mostly
+keeps the attacker in that stage. After a failed initial access in $c_1$,
+for example, the weight on reconnaissance is 0.750, against 0.062 after a
+success: an attacker that fails to break in goes back to reconnaissance,
+where without the failure matrix it would carry on into the network.
+Figure~\ref{fig:gspn-gadget}(b) gives the weight of every next tactic after
+a success and after a failure.
 
-The failure matrix routes every failure alike. An attack action fails if its
-preconditions were missing or if an MTD deployment disrupts it, and the APT
-attacker model records which, but the failure matrix routes both the same
-way. At a dead end, a place the corpus gave no exit, the token retraces the
-edge it travelled, a concession to the thinness of the corpus.
-Section~\ref{sec:ablation} tests whether any result depends on the failure
-matrix, by running the same attacker with every factor set to one, so that a
-failure routes as a success does. Appendix~\ref{app:decay-robustness} varies
-the three distance parameters. The factors are model parameters for this
-simulator, not real-world values.
+The distance factor follows the lifecycle models of
+Section~\ref{subsec:apt}, each of which runs its stages in sequence. A move
+two stages away, such as from execution straight to exfiltration, keeps a
+quarter of its rule value, and a move three stages away, such as from
+reconnaissance straight to impact, keeps none: it makes no sense for an
+attacker to skip the stages between. ATT\&CK imposes no order on its
+tactics, so the order of the stages is imported from the lifecycle models,
+not observed in the corpus.
+
+The failure matrix responds to a failure, not to its cause. A failure caused
+by an MTD deployment routes the same way as one caused by a missing
+precondition, so the APT attacker model treats a disruption by the defence
+as it treats an attack action it was not ready for. Where the corpus gave a
+tactic no next tactic, a dead end, there is nothing to reweight, and the
+token retraces the edge it travelled, a concession to the thinness of the
+corpus.
+
+No data record where attackers go after a failure, so the factors are model
+parameters for this simulator, not real-world values.
+Section~\ref{sec:ablation} tests whether any result depends on them, by
+running the same attacker with every factor set to one, so that a failure
+routes as a success does: the failure matrix changes where the attacker goes
+after a failure, but not what it achieves.
+Appendix~\ref{app:decay-robustness} varies the distance factor's three
+parameters.
 
 \subsection{Vulnerability memory}
 \label{subsec:vulnerability-memory}
