@@ -4285,8 +4285,7 @@ Each attack action the APT attacker model runs in MTDSim succeeds or fails;
 this outcome is the attack action's \emph{verdict}
 (Section~\ref{subsec:runtime-mechanics}). The base weights describe where an
 attacker goes after a success, because an attack flow draws only the steps
-its attacker completed (Section~\ref{subsec:failure-matrix}). Routed on them
-alone, an attacker that fails would carry on as though it had succeeded. A
+its attacker completed (Section~\ref{subsec:failure-matrix}). A
 GSPN cannot route on the verdict: its weights are constants, or functions of
 the marking, and the verdict comes from MTDSim, outside the Petri net.
 
@@ -4500,9 +4499,10 @@ Figure~\ref{fig:runtime-loop}:
   %  those two"): "drawn from an exponential" -> "an exponential delay of mean
   %  duration", and the attack action's "cost" -> "time", the terms Sections
   %  2.2.3 and 4.4.2 use. DRAFT STATE.]
-  \item the tactic duration, the delay of the tactic's timed transition, is an
-  exponential delay of mean duration $\mu_p$, and the attack action runs for
-  the tactic duration in place of its own time in MTDSim;
+  % [TIGHTENING 2026-10-05 (Marc accepted the redundancy ledger in full): the
+  %  exponential delay and mu_p cut from step 3; Section 4.4.2 defines both.]
+  \item the attack action runs for the tactic duration, the delay of the
+  tactic's timed transition, in place of its own time in MTDSim;
   \item the attack action's verdict, success or failure, returns from MTDSim;
   \item after a failure, the failure matrix reweights the immediate
   transitions (Equation~\ref{eq:routing}); after a success, they keep their
@@ -4749,7 +4749,7 @@ includes guessing passwords by brute force, which is what MTDSim's brute
 force attack action does. Initial access, execution and privilege escalation
 each include a technique that exploits a vulnerability, so all three map to
 exploit, and reconnaissance and discovery each include a scanning technique,
-so they map to scan host and scan port. For the remaining two, lateral
+so reconnaissance maps to scan host and discovery to scan port. For the remaining two, lateral
 movement and command and control, we chose the attack action that serves the
 tactic's goal. Enumerate host moves the attacker to its next host, which is
 the goal of lateral movement, and Brown describes scan neighbours as command
@@ -4778,16 +4778,16 @@ the attacker, so stealth has nothing to hide from. The attacker can neither
 see nor change the MTD schedule, so defense impairment has nothing to
 impair. A compromised host stays compromised, so persistence has no foothold
 to keep. Resource development happens off the target's network, which
-MTDSim does not model.
+MTDSim does not model. These gaps set the ceiling of this dissertation: the
+APT attacker model can only be as good as the attack actions it adopts.
 
-An unmapped tactic still takes its duration, but it dispatches no attack
-action, so it cannot fail. Its immediate transitions therefore keep their
-base weights, as after a success (Section~\ref{sec:petri-formalism}). An MTD
-deployment during an unmapped tactic cuts the duration short and costs the
-attacker the confusion penalty, but it cannot change which tactic comes
-next. The unmapped tactics are the gaps in MTDSim's attack actions, and
-those attack actions set the ceiling of this dissertation: the APT attacker
-model can only be as good as the attack actions it adopts.
+% [TIGHTENING 2026-10-05 (Marc accepted the redundancy ledger in full): the
+%  base-weights sentence cut (Section 4.3 and step 5 say it), "still takes its
+%  duration" left to 4.4.2; the ceiling moved to close the paragraph on the
+%  gaps, its restatement of that paragraph's opener cut. DRAFT STATE.]
+An unmapped tactic dispatches no attack action, so it cannot fail: an MTD
+deployment during it cuts its duration short and costs the attacker the
+confusion penalty, but never changes which tactic comes next.
 
 \subsection{Tactic durations}
 \label{subsec:dwell-times}
@@ -4819,13 +4819,11 @@ is stochastic~\citep{holm2014, madan2004, bland2020}. An exponential delay
 has one parameter, its mean, so each tactic needs one value, its
 \emph{mean duration}~$\mu_p$.
 
-MTDSim cannot supply every mean duration. The Petri net times each tactic,
-but MTDSim times only its attack actions, and seven tactics are unmapped
-(Section~\ref{subsec:tactic-verb-mapping}). MTDSim does not carry an
-unmapped tactic out, but the tactic still takes the attacker time. Each
-tactic therefore has a mean duration of its own, and the attack action it
-maps to runs for the tactic's duration in place of the attack action's time.
-Table~\ref{tab:dwell-catalogue} gives each mean duration and its source:
+% [TIGHTENING 2026-10-05 (Marc accepted the redundancy ledger in full): five
+%  sentences to two; replace-not-add is step 3's. DRAFT STATE.]
+MTDSim times only its attack actions, and seven tactics are unmapped
+(Section~\ref{subsec:tactic-verb-mapping}), so each tactic has a mean
+duration of its own. Table~\ref{tab:dwell-catalogue} gives each mean duration and its source:
 MTDSim for six tactics, and our judgement for the other nine.
 
 \input{tables/tab_4-4a_dwell_catalogue}
@@ -4967,9 +4965,8 @@ The \emph{failure matrix} reweights the immediate transitions after an attack
 action fails, at step~5 of Figure~\ref{fig:runtime-loop}. It holds one factor
 between zero and one for each pair of tactics, the tactic whose attack action
 failed and a tactic that can come next, and Equation~\ref{eq:routing}
-multiplies each base weight by its factor. We employed a failure matrix
-because failure is the blind spot of the CTI. The threat reports behind the
-attack flows describe incidents that succeeded and were worth writing about,
+multiplies each base weight by its factor. The attack flows cannot supply
+it. The threat reports behind them describe incidents that succeeded and were worth writing about,
 so an attack flow draws only the steps its attacker completed. The base
 weights therefore say where an attacker goes after a success, and nothing
 about where it goes after a failure.
@@ -5049,16 +5046,25 @@ $c_1$, for example, the weight on reconnaissance rises from 0.062 to 0.750
 reconnaissance to try again. Without the failure matrix, it would most likely
 carry on into the network as though it had broken in.
 
+% [TIGHTENING 2026-10-05 (Marc accepted the redundancy ledger in full; his
+%  verdict on "employed" and "blind spot": "real flourishes"): P1's
+%  "We employed a failure matrix because failure is the blind spot of the
+%  CTI" -> "The attack flows cannot supply it" (the subsection skeleton's
+%  why); here the disruption said once, "the corpus" -> "the attack flows"
+%  (one term), and "a concession to the thinness of the corpus" cut (it
+%  restates this paragraph's limit). Both phrases were Marc's 2026-08-20
+%  dictation, restored in round 2; overturned by his ruling this date.
+%  Section 4.3's "Routed on them alone ... as though it had succeeded" cut:
+%  P3's example ends on it. DRAFT STATE.]
 The failure matrix gives the APT attacker model adaptivity, property~4 of
 Table~\ref{tab:attacker-properties}: it chooses its next tactic in response
-to a failure, including one caused by an MTD disruption. It reads only the
-attack action's verdict, so it treats a disruption as any other failure. The
+to a failure, and reads only the verdict, so a failure caused by an MTD
+deployment routes like any other. The
 failure matrix can reweight only the next tactics the attack flows give. In
 $c_2$, no move leads from initial access back to preparation, so a failed
-initial access still goes on into the network. Where the corpus gave a
-tactic no next tactic, a dead end, there is nothing to reweight, and the
-token retraces the edge it travelled, a concession to the thinness of the
-corpus. Section~\ref{subsec:ablation-failure-matrix} sets
+initial access still goes on into the network. Where the attack flows give
+a tactic no next tactic, a dead end, there is nothing to reweight, and the
+token retraces the edge it travelled. Section~\ref{subsec:ablation-failure-matrix} sets
 every factor to one and finds that the failure matrix changes where the
 attacker goes after a failure, but not what it achieves.
 
@@ -5127,8 +5133,7 @@ attacker goes after a failure, but not what it achieves.
 %  beefs it up" (Marc). "Like the halving" cut. DRAFT STATE.]
 The \emph{vulnerability memory} extends MTDSim's exploit attack action so that
 the APT attacker model is more likely to exploit a vulnerability it has
-exploited before. An attacker that remembers which exploits succeeded can
-reuse them, and so succeeds more often as its attack goes on. The baseline
+exploited before. The baseline
 attacker already remembers the vulnerabilities it has exploited: exploiting
 one again takes it half the time (Section~\ref{subsec:attacker-model}). In the
 APT attacker model, the tactic duration replaces the exploit's time (step~3
@@ -5142,11 +5147,14 @@ Each earlier success on a vulnerability, on any host, triples the attacker's
 odds of exploiting it again (the odds its attack complexity sets,
 Section~\ref{subsec:network-model}). The factor of three is our judgement.
 The memory lasts the whole run, through every MTD deployment. Hosts that run
-the same service carry the same vulnerabilities, so the attacker meets the
-same vulnerability on more than one host. We therefore expect the memory to
+the same service carry the same vulnerabilities, so we expect the memory to
 matter more when the \emph{diversity pool}, the services each operating
-system can run, is small, because hosts then run the same services more
-often. % [2026-10-05, with 4.4.2 round 10 and 4.4.3 round 4 (Marc: the three
+system can run, is small.
+% [TIGHTENING 2026-10-05 (Marc accepted the redundancy ledger in full): P1's
+%  "An attacker that remembers which exploits succeeded can reuse them ..."
+%  cut (it restated the first sentence, uncited); the two same-service
+%  clauses merged into one. DRAFT STATE.]
+% [2026-10-05, with 4.4.2 round 10 and 4.4.3 round 4 (Marc: the three
 %  subsections handle the test the same way, a pointer plus a one-clause
 %  verdict). Verdict from Section 5.4.3: exploit success 0.70 -> 0.73 at 20
 %  services, 0.69 -> 0.91 at one; NCR d below 0.2 at every pool. DRAFT STATE.]
