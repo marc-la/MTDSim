@@ -6,27 +6,27 @@
 \begin{table}[htbp]
 \centering\footnotesize
 % CAPTION DRAFT STATE 2026-09-17 --- voice pass owed.
-\caption[Hosts reached at the ends of each mean duration's band]{Distinct hosts reached with each mean duration that several tactics share at both ends of its band and at its declared value, the other three held, under no MTD and under the random deployment strategy at each interval. Averaged over the four attack profiles, 400 runs per cell; intervals are 95\,\%. A mean duration is inert when the hosts reached at both band ends lie inside the interval at its declared value under every condition; the criterion was fixed before the run.}
+\caption[NCR at the ends of each mean duration's band]{NCR (Section~\ref{sec:evaluation-metrics}) with each mean duration that several tactics share at both ends of its band and at its declared value, the other three held, under no MTD and under the random deployment strategy at each interval. Averaged over the four attack profiles, 400 runs per cell; intervals are 95\,\%. A mean duration is inert when NCR at both band ends lies inside the interval at its declared value under every condition; the criterion was fixed before the run.}
 \label{tab:anchor-sensitivity}
 \tablestyle\setlength{\tabcolsep}{4pt}
 \begin{tabular}{@{}cP{3.2cm}>{\centering\arraybackslash}p{2.2cm}>{\centering\arraybackslash}p{2.2cm}>{\centering\arraybackslash}p{2.2cm}P{2.4cm}@{}}
 \toprule
 & Mean duration (band) & Low end & Declared & High end & Verdict \\
 \midrule
- & 35\,s (17.5 to 70\,s) & $8.6 \pm 0.4$ & $8.1 \pm 0.4$ & $7.3 \pm 0.4$ & moved, both ends \\
- & 4.5\,s (2.25 to 9\,s) & $8.2 \pm 0.4$ & $8.1 \pm 0.4$ & $7.9 \pm 0.4$ & inert \\
- & 45\,s (11.25 to 180\,s) & $13.4 \pm 0.7$ & $8.1 \pm 0.4$ & $3.0 \pm 0.2$ & moved, both ends \\
-\rowgroup{4}{no MTD} & 36\,s (18 to 72\,s) & $8.5 \pm 0.4$ & $8.1 \pm 0.4$ & $7.4 \pm 0.4$ & moved, one end \\
+ & 35\,s (17.5 to 70\,s) & $0.172 \pm 0.009$ & $0.163 \pm 0.008$ & $0.145 \pm 0.008$ & moved, both ends \\
+ & 4.5\,s (2.25 to 9\,s) & $0.165 \pm 0.008$ & $0.163 \pm 0.008$ & $0.159 \pm 0.008$ & inert \\
+ & 45\,s (11.25 to 180\,s) & $0.267 \pm 0.014$ & $0.163 \pm 0.008$ & $0.059 \pm 0.004$ & moved, both ends \\
+\rowgroup{4}{no MTD} & 36\,s (18 to 72\,s) & $0.170 \pm 0.009$ & $0.163 \pm 0.008$ & $0.148 \pm 0.008$ & moved, one end \\
 \midrule
- & 35\,s (17.5 to 70\,s) & $2.7 \pm 0.2$ & $2.1 \pm 0.2$ & $1.4 \pm 0.1$ & moved, both ends \\
- & 4.5\,s (2.25 to 9\,s) & $2.2 \pm 0.2$ & $2.1 \pm 0.2$ & $1.9 \pm 0.2$ & inert \\
- & 45\,s (11.25 to 180\,s) & $7.5 \pm 0.5$ & $2.1 \pm 0.2$ & $0.3 \pm 0.1$ & moved, both ends \\
-\rowgroup{4}{random, 200\,s} & 36\,s (18 to 72\,s) & $2.3 \pm 0.2$ & $2.1 \pm 0.2$ & $1.7 \pm 0.2$ & moved, both ends \\
+ & 35\,s (17.5 to 70\,s) & $0.053 \pm 0.004$ & $0.041 \pm 0.004$ & $0.029 \pm 0.003$ & moved, both ends \\
+ & 4.5\,s (2.25 to 9\,s) & $0.043 \pm 0.004$ & $0.041 \pm 0.004$ & $0.038 \pm 0.003$ & inert \\
+ & 45\,s (11.25 to 180\,s) & $0.150 \pm 0.010$ & $0.041 \pm 0.004$ & $0.006 \pm 0.001$ & moved, both ends \\
+\rowgroup{4}{random, 200\,s} & 36\,s (18 to 72\,s) & $0.047 \pm 0.004$ & $0.041 \pm 0.004$ & $0.034 \pm 0.003$ & moved, both ends \\
 \midrule
- & 35\,s (17.5 to 70\,s) & $8.2 \pm 0.4$ & $7.4 \pm 0.4$ & $6.3 \pm 0.4$ & moved, both ends \\
- & 4.5\,s (2.25 to 9\,s) & $7.7 \pm 0.4$ & $7.4 \pm 0.4$ & $7.4 \pm 0.4$ & inert \\
- & 45\,s (11.25 to 180\,s) & $14.7 \pm 0.7$ & $7.4 \pm 0.4$ & $2.0 \pm 0.2$ & moved, both ends \\
-\rowgroup{4}{random, 2\,000\,s} & 36\,s (18 to 72\,s) & $8.4 \pm 0.4$ & $7.4 \pm 0.4$ & $6.6 \pm 0.3$ & moved, both ends \\
+ & 35\,s (17.5 to 70\,s) & $0.163 \pm 0.008$ & $0.148 \pm 0.008$ & $0.125 \pm 0.007$ & moved, both ends \\
+ & 4.5\,s (2.25 to 9\,s) & $0.153 \pm 0.008$ & $0.148 \pm 0.008$ & $0.148 \pm 0.008$ & inert \\
+ & 45\,s (11.25 to 180\,s) & $0.294 \pm 0.014$ & $0.148 \pm 0.008$ & $0.041 \pm 0.003$ & moved, both ends \\
+\rowgroup{4}{random, 2\,000\,s} & 36\,s (18 to 72\,s) & $0.167 \pm 0.008$ & $0.148 \pm 0.008$ & $0.133 \pm 0.007$ & moved, both ends \\
 \bottomrule
 \end{tabular}
 \end{table}

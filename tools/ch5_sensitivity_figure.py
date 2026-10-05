@@ -48,6 +48,10 @@ REPO = Path(__file__).resolve().parents[1]
 FIG_DIR = REPO / "docs" / "thesis" / "figures"
 STEM = "fig_5-1a_sens_dwell_anchor"
 ACCENT_RGB = "31,84,140"
+# 2026-10-05 (Section 4.4.2 round 9, Marc: "switch it to NCR"): the y-axis is NCR
+# (Equation eq:ncr, Section 4.5), hosts compromised over the network's 50 hosts.
+N_HOSTS = 50
+Y_STEP = 0.05
 
 # command-line name -> (csv column, axis name, declared mean duration in s).
 # 2026-10-05 (Section 4.4.2 round 5): the coined family names are cut; each
@@ -69,7 +73,8 @@ def aggregate(csv: Path, anchor_col: str, reference_interval: float) -> pd.DataF
     off = d[d.mtd_interval.isna()].assign(condition="none")
     on = d[d.mtd_interval == reference_interval].assign(condition="reference")
     a = pd.concat([off, on])
-    g = a.groupby(["condition", anchor_col]).compromised_count.agg(["mean", "std", "count"]).reset_index()
+    a = a.assign(ncr=a.compromised_count / N_HOSTS)
+    g = a.groupby(["condition", anchor_col]).ncr.agg(["mean", "std", "count"]).reset_index()
     g["ci"] = 1.96 * g["std"] / g["count"].pow(0.5)
     g = g.rename(columns={anchor_col: "mult"})
     return g.sort_values(["condition", "mult"])
@@ -79,7 +84,8 @@ def emit(g: pd.DataFrame, anchor_name: str, reference_interval: float, declared_
     mults = sorted(g["mult"].unique())
     lo, hi = min(mults), max(mults)
     ymax = float((g["mean"] + g["ci"]).max())
-    ytop = math.ceil(ymax / 2.0) * 2.0
+    n_ticks = math.ceil(ymax / Y_STEP - 1e-9)
+    ytop = n_ticks * Y_STEP
 
     X0, X1 = 1.6, 11.6
     Y0, Y1 = 0.0, 5.0
@@ -108,14 +114,13 @@ def emit(g: pd.DataFrame, anchor_name: str, reference_interval: float, declared_
     # axes and gridlines
     w(r"\draw[black!60,line width=0.4pt] (%.2f,%.2f) -- (%.2f,%.2f);" % (X0, Y0, X1, Y0))
     w(r"\draw[black!60,line width=0.4pt] (%.2f,%.2f) -- (%.2f,%.2f);" % (X0, Y0, X0, Y1))
-    v = 0.0
-    while v <= ytop + 1e-9:
+    for k in range(n_ticks + 1):
+        v = round(k * Y_STEP, 10)
         w(r"\draw[black!60,line width=0.3pt] (%.2f,%.3f) -- (%.2f,%.3f);" % (X0 - 0.08, ys(v), X0, ys(v)))
         w(r"\node[anchor=east] at (%.2f,%.3f) {%g};" % (X0 - 0.12, ys(v), v))
         if v > 0:
             w(r"\draw[black!12,line width=0.2pt] (%.2f,%.3f) -- (%.2f,%.3f);" % (X0, ys(v), X1, ys(v)))
-        v += 2.0
-    w(r"\node[rotate=90,anchor=south] at (%.2f,%.2f) {distinct hosts reached};" % (X0 - 0.85, (Y0 + Y1) / 2))
+    w(r"\node[rotate=90,anchor=south] at (%.2f,%.2f) {NCR};" % (X0 - 0.85, (Y0 + Y1) / 2))
     # x ticks at every power of two inside the band, labelled in seconds
     m = lo
     while m <= hi * 1.0001:
@@ -182,7 +187,7 @@ def main() -> None:
           f"reference interval={args.reference_interval:g} s  runs per cell={int(g['count'].iloc[0])}")
     for cond in ("none", "reference"):
         rows = g[g.condition == cond]
-        print(f"  {cond:9s}: " + "; ".join(f"x{r['mult']:g} = {r['mean']:.2f} +/- {r['ci']:.2f}" for _, r in rows.iterrows()))
+        print(f"  {cond:9s}: " + "; ".join(f"x{r['mult']:g} = {r['mean']:.3f} +/- {r['ci']:.3f}" for _, r in rows.iterrows()))
 
     if not args.no_compile:
         r = subprocess.run(["pdflatex", "-interaction=nonstopmode", "-halt-on-error", f"{STEM}.tex"],
