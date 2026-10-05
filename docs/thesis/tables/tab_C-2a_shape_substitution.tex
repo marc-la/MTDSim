@@ -6,20 +6,20 @@
 \begin{table}[htbp]
 \centering\footnotesize
 % CAPTION DRAFT STATE 2026-09-17 --- voice pass owed.
-\caption[A less variable delay of the same mean]{NCR (Section~\ref{sec:evaluation-metrics}) under an Erlang-4 delay against the declared exponential delay, of the same mean, on the tactics with a 45\,s mean duration and those set at half of it, paired by profile and seed, at 45\,s and at the top of its band, 180\,s. Averaged over the four attack profiles, 400 pairs per cell; intervals are 95\,\%. The last column counts the pairs in which the run under the Erlang-4 delay compromised fewer, the same, and more hosts.}
+\caption[A less variable delay of the same mean]{NCR (Section~\ref{sec:evaluation-metrics}) under an Erlang-4 delay against the declared exponential delay, of the same mean, on the tactics with a 45\,s mean duration and those set at half of it, paired by attack profile and seed, at 45\,s and at the top of its band, 180\,s. Averaged over $c_1$ to $c_4$, 400 pairs per cell; $\pm$: a 95\,\% interval on the mean (normal approximation); each column is rounded to the precision of its widest interval. The last column counts the pairs in which the run under the Erlang-4 delay compromised fewer, the same, and more hosts.}
 \label{tab:shape-substitution}
 \tablestyle\setlength{\tabcolsep}{4pt}
-\begin{tabular}{@{}P{2.6cm}P{2.6cm}>{\centering\arraybackslash}p{1.9cm}>{\centering\arraybackslash}p{1.9cm}>{\centering\arraybackslash}p{2.0cm}>{\centering\arraybackslash}p{2.6cm}@{}}
+\begin{tabular}{@{}P{2.0cm}P{2.4cm}>{\centering\arraybackslash}p{2.3cm}>{\centering\arraybackslash}p{2.3cm}>{\centering\arraybackslash}p{2.3cm}>{\centering\arraybackslash}p{2.6cm}@{}}
 \toprule
 Mean duration & MTD & Erlang-4 & Exponential & Difference & Pairs lower / tied / higher \\
 \midrule
-45\,s & no MTD & $0.1623 \pm 0.0084$ & $0.1626 \pm 0.0083$ & $-0.0003 \pm 0.0012$ & 39 / 330 / 31 \\
- & random, 200\,s & $0.0365 \pm 0.0033$ & $0.0413 \pm 0.0037$ & $-0.0048 \pm 0.0043$ & 170 / 91 / 139 \\
- & random, 2\,000\,s & $0.1473 \pm 0.0074$ & $0.1484 \pm 0.0076$ & $-0.0011 \pm 0.0076$ & 175 / 54 / 171 \\
+45\,s & no MTD & $0.162 \pm 0.008$ & $0.163 \pm 0.008$ & $0.000 \pm 0.001$ & 39 / 330 / 31 \\
+ & random, 200\,s & $0.037 \pm 0.003$ & $0.041 \pm 0.004$ & $-0.005 \pm 0.004$ & 170 / 91 / 139 \\
+ & random, 2\,000\,s & $0.147 \pm 0.007$ & $0.148 \pm 0.008$ & $-0.001 \pm 0.008$ & 175 / 54 / 171 \\
 \midrule
-180\,s & no MTD & $0.0594 \pm 0.0038$ & $0.0593 \pm 0.0038$ & $0.0001 \pm 0.0010$ & 40 / 321 / 39 \\
- & random, 200\,s & $0.0055 \pm 0.0011$ & $0.0063 \pm 0.0011$ & $-0.0009 \pm 0.0014$ & 73 / 269 / 58 \\
- & random, 2\,000\,s & $0.0376 \pm 0.0030$ & $0.0406 \pm 0.0032$ & $-0.0030 \pm 0.0030$ & 144 / 134 / 122 \\
+180\,s & no MTD & $0.059 \pm 0.004$ & $0.059 \pm 0.004$ & $0.000 \pm 0.001$ & 40 / 321 / 39 \\
+ & random, 200\,s & $0.006 \pm 0.001$ & $0.006 \pm 0.001$ & $-0.001 \pm 0.001$ & 73 / 269 / 58 \\
+ & random, 2\,000\,s & $0.038 \pm 0.003$ & $0.041 \pm 0.003$ & $-0.003 \pm 0.003$ & 144 / 134 / 122 \\
 \bottomrule
 \end{tabular}
 \end{table}

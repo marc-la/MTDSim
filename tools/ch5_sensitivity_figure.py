@@ -30,10 +30,10 @@ Usage:
 
 Writes docs/thesis/figures/fig_5-1a_sens_dwell_anchor.{tex,pdf}.
 
-Style (figure_table_conventions.md): TikZ standalone at 12 pt, Helvetica
-(helvet 0.92), greys + the one accent, no title, no chart junk. Natural width
-~11.5 cm at \\footnotesize so an inclusion at 0.78\\textwidth prints labels at
-~10 pt against the 12 pt body (§h arithmetic).
+Style: the house results layout (figure_table_conventions.md §o, 2026-10-05):
+TikZ standalone at 12 pt, Helvetica (helvet 0.92), packed to 15.7 cm and
+included bare, a single-panel title, the key at the foot. The interval is a
+95 % interval on the mean (normal approximation) over runs.
 """
 from __future__ import annotations
 
@@ -44,10 +44,11 @@ from pathlib import Path
 
 import pandas as pd
 
+from _ch5_style import FONT, PREAMBLE, XTITLE_H, axes, errorbar, key_below, marker, panel_title  # noqa: E402
+
 REPO = Path(__file__).resolve().parents[1]
 FIG_DIR = REPO / "docs" / "thesis" / "figures"
 STEM = "fig_5-1a_sens_dwell_anchor"
-ACCENT_RGB = "31,84,140"
 # 2026-10-05 (Section 4.4.2 round 9, Marc: "switch it to NCR"): the y-axis is NCR
 # (Equation eq:ncr, Section 4.5), hosts compromised over the network's 50 hosts.
 N_HOSTS = 50
@@ -81,84 +82,65 @@ def aggregate(csv: Path, anchor_col: str, reference_interval: float) -> pd.DataF
 
 
 def emit(g: pd.DataFrame, anchor_name: str, reference_interval: float, declared_s: float) -> str:
+    """The house results layout (figure_table_conventions.md §o, applied
+    2026-10-05): a single-panel title with no letter, the y-axis title in
+    sentence case, the key at the foot, packed to 15.7 cm and included bare.
+    Both series are the APT attacker model averaged over c_1 to c_4: under MTD
+    black and filled, with no MTD grey and open (Figure E.1's two arms of one
+    model); grey dashed with a square stays the baseline attacker's alone."""
     mults = sorted(g["mult"].unique())
     lo, hi = min(mults), max(mults)
     ymax = float((g["mean"] + g["ci"]).max())
     n_ticks = math.ceil(ymax / Y_STEP - 1e-9)
     ytop = n_ticks * Y_STEP
 
-    X0, X1 = 1.6, 11.6
-    Y0, Y1 = 0.0, 5.0
+    X0, X1 = 1.55, 15.9
+    Y0, Y1 = 0.0, 4.2
 
     def xs(m: float) -> float:
-        return X0 + (math.log2(m) - math.log2(lo)) / (math.log2(hi) - math.log2(lo)) * (X1 - X0)
+        # the end markers sit off the frame, as Figure E.1's
+        pad = 0.07 * (math.log2(hi) - math.log2(lo))
+        return X0 + (math.log2(m) - math.log2(lo) + pad) / (math.log2(hi) - math.log2(lo) + 2 * pad) * (X1 - X0)
 
     def ys(v: float) -> float:
         return Y0 + v / ytop * (Y1 - Y0)
 
-    series = [
-        ("none", "black!70", "circle", "no MTD"),
-        ("reference", "accent", "square", "random, every %d\\,s" % reference_interval),
+    series = [  # condition, colour, marker, key label; drawn in this order (under MTD on top)
+        ("none", "black!45", "ocircle", "no MTD"),
+        ("reference", "black", "circle", r"random, %d\,s" % reference_interval),
     ]
 
-    L: list[str] = []
+    L = PREAMBLE[:-1] + [r"\begin{document}",
+                         r"\begin{tikzpicture}[x=1cm,y=1cm,every node/.style={inner sep=1pt,font=%s}]" % FONT]
     w = L.append
-    w(r"\documentclass[tikz,12pt,border=2pt]{standalone}")
-    w(r"\usepackage[T1]{fontenc}")
-    w(r"\usepackage[scaled=0.92]{helvet}")
-    w(r"\renewcommand{\familydefault}{\sfdefault}")
-    w(r"\usetikzlibrary{calc}")
-    w(r"\definecolor{accent}{RGB}{%s}" % ACCENT_RGB)
-    w(r"\begin{document}")
-    w(r"\begin{tikzpicture}[x=1cm,y=1cm,every node/.style={inner sep=1pt,font=\footnotesize}]")
-    # axes and gridlines
-    w(r"\draw[black!60,line width=0.4pt] (%.2f,%.2f) -- (%.2f,%.2f);" % (X0, Y0, X1, Y0))
-    w(r"\draw[black!60,line width=0.4pt] (%.2f,%.2f) -- (%.2f,%.2f);" % (X0, Y0, X0, Y1))
-    for k in range(n_ticks + 1):
-        v = round(k * Y_STEP, 10)
-        w(r"\draw[black!60,line width=0.3pt] (%.2f,%.3f) -- (%.2f,%.3f);" % (X0 - 0.08, ys(v), X0, ys(v)))
-        w(r"\node[anchor=east] at (%.2f,%.3f) {%g};" % (X0 - 0.12, ys(v), v))
-        if v > 0:
-            w(r"\draw[black!12,line width=0.2pt] (%.2f,%.3f) -- (%.2f,%.3f);" % (X0, ys(v), X1, ys(v)))
-    w(r"\node[rotate=90,anchor=south] at (%.2f,%.2f) {NCR};" % (X0 - 0.85, (Y0 + Y1) / 2))
-    # x ticks at every power of two inside the band, labelled in seconds
-    m = lo
+    xt, m = [], lo
     while m <= hi * 1.0001:
-        w(r"\draw[black!60,line width=0.3pt] (%.3f,%.2f) -- (%.3f,%.2f);" % (xs(m), Y0, xs(m), Y0 - 0.08))
-        lab = ("%g" % (m * declared_s)) if m != 1 else "%g (declared)" % declared_s
-        w(r"\node[anchor=north] at (%.3f,%.2f) {%s};" % (xs(m), Y0 - 0.12, lab))
+        xt.append((m, xs(m)))
         m *= 2
-    w(r"\draw[black!30,line width=0.3pt,dash pattern=on 1.5pt off 1.5pt] (%.3f,%.2f) -- (%.3f,%.2f);" % (xs(1.0), Y0, xs(1.0), Y1))
-    w(r"\node[anchor=north] at (%.2f,%.2f) {%s (s)};" % ((X0 + X1) / 2, Y0 - 0.5, anchor_name))
-    # series: interval bars, line, marker
+    axes(w, X0, X1, Y0, Y1,
+         xticks=xt, yticks=[(k * Y_STEP, ys(k * Y_STEP)) for k in range(n_ticks + 1)],
+         xlabel="Mean duration (s)", ylabel="NCR", ylabel_offset=0.95,
+         xfmt=lambda v: ("%g" % (v * declared_s)) if v != 1 else "%g (declared)" % declared_s,
+         yfmt=lambda v: f"{v:.2f}")
+    # the declared value, a reference line, never a series
+    w(r"\draw[black!30,line width=0.3pt,dash pattern=on 1.5pt off 1.5pt] (%.3f,%.2f) -- (%.3f,%.2f);"
+      % (xs(1.0), Y0, xs(1.0), Y1))
+    panel_title(w, X0, Y1, _cap(anchor_name))
     for cond, col, mark, _ in series:
         rows = g[g.condition == cond].sort_values("mult")
-        pts = []
-        for _, r in rows.iterrows():
-            x, y, ci = xs(r["mult"]), ys(r["mean"]), r["ci"] / ytop * (Y1 - Y0)
-            w(r"\draw[%s,line width=0.4pt] (%.3f,%.3f) -- (%.3f,%.3f);" % (col, x, y - ci, x, y + ci))
-            w(r"\draw[%s,line width=0.4pt] (%.3f,%.3f) -- (%.3f,%.3f);" % (col, x - 0.08, y - ci, x + 0.08, y - ci))
-            w(r"\draw[%s,line width=0.4pt] (%.3f,%.3f) -- (%.3f,%.3f);" % (col, x - 0.08, y + ci, x + 0.08, y + ci))
-            pts.append((x, y))
-        w(r"\draw[%s,line width=0.6pt] %s;" % (col, " -- ".join("(%.3f,%.3f)" % p for p in pts)))
-        for x, y in pts:
-            if mark == "circle":
-                w(r"\fill[%s] (%.3f,%.3f) circle (0.7mm);" % (col, x, y))
-            else:
-                w(r"\fill[%s] (%.3f,%.3f) ++(-0.65mm,-0.65mm) rectangle ++(1.3mm,1.3mm);" % (col, x, y))
-    # legend inside the axes, upper right (breadth falls to the right, so the corner is empty)
-    lx, ly = X1 - 4.7, Y1 - 0.25
-    for _, col, mark, lab in series:
-        w(r"\draw[%s,line width=0.6pt] (%.2f,%.3f) -- (%.2f,%.3f);" % (col, lx, ly, lx + 0.5, ly))
-        if mark == "circle":
-            w(r"\fill[%s] (%.2f,%.3f) circle (0.7mm);" % (col, lx + 0.25, ly))
-        else:
-            w(r"\fill[%s] (%.2f,%.3f) ++(-0.65mm,-0.65mm) rectangle ++(1.3mm,1.3mm);" % (col, lx + 0.25, ly))
-        w(r"\node[anchor=west] at (%.2f,%.3f) {%s};" % (lx + 0.6, ly, lab))
-        ly -= 0.32
+        pts = [(xs(r["mult"]), r["mean"], r["ci"]) for _, r in rows.iterrows()]
+        w(r"\draw[%s,line width=0.8pt] %s;" % (col, " -- ".join("(%.3f,%.3f)" % (x, ys(v)) for x, v, _ in pts)))
+        for x, v, ci in pts:
+            errorbar(w, x, ys(v - ci), ys(v + ci), col=col, cap=0.045)
+            marker(w, mark, col, x, ys(v), r=0.07)
+    key_below(w, X0, Y0 - 0.5 - XTITLE_H, [(lab, "line", col, mk) for _, col, mk, lab in reversed(series)])
     w(r"\end{tikzpicture}")
     w(r"\end{document}")
     return "\n".join(L) + "\n"
+
+
+def _cap(s: str) -> str:
+    return s[:1].upper() + s[1:]
 
 
 def main() -> None:

@@ -2,14 +2,14 @@
 % never hand-edit. Appendix F; the pool sweep behind fig:ablation-memory, in tab:ablation's form.
 \begin{table}[tp]
   \centering
-  \caption[The APT attacker model with and without the vulnerability memory, by pool]{The APT attacker model with and without the vulnerability memory, averaged over $c_1$ to $c_4$, on the same 1\,000 seeds, by the number of services per operating system: the share of exploits that succeed, NCR, and Cohen's $d$ on NCR, with minus without, with its 95\,\% bootstrap interval over seeds. An exploit the host's operating system rules out is not counted.}
+  \caption[The APT attacker model with and without the vulnerability memory, by services per operating system]{The APT attacker model with and without the vulnerability memory, averaged over $c_1$ to $c_4$, on the same 1\,000 seeds, by the number of services per operating system: the share of exploits that succeed, NCR, and Cohen's $d$ on NCR, with minus without, with its 95\,\% percentile bootstrap interval over seeds. An exploit the host's operating system rules out is not counted.}
   \label{tab:ablation-memory}
   \tablestyle
   \begin{tabular}{@{}cccccc@{}}
     \toprule
     & \multicolumn{2}{c}{Exploits that succeed} & \multicolumn{3}{c}{NCR} \\
     \cmidrule(lr){2-3}\cmidrule(lr){4-6}
-    \rowcolor{white}Services per OS & with & without & with & without & Cohen's $d$ \\
+    \rowcolor{white}\shortstack{Services per\\operating system} & with & without & with & without & Cohen's $d$ \\
     \midrule
     \grouprow{6}{no MTD} \\
     1 & 0.91 & 0.69 & 0.150 & 0.143 & $+$0.10 [$+$0.04, $+$0.17] \\

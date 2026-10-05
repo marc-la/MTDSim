@@ -602,9 +602,9 @@ was meant to do.
 **Applied 2026-09-30:** Figures 5.1–5.7 (`ch5_unopposed_figures.py`,
 `ch5_disruption_figure.py`, `ch5_sweep_figures.py`, `ch5_ablation_figure.py`).
 **Re-applied 2026-10-05** (rules 3 and 5): Figures 5.1–5.4 and E.1
-(`ch5_memory_ablation_figure.py`); Figure 5.1(c) became Table 5.2's attack
-confidentiality column. Figure C.1 and the chapter 2 and chapter 4 figures
-are owed or out of scope.
+(`ch5_memory_ablation_figure.py`) and C.1 (`ch5_sensitivity_figure.py`, now
+included bare); Figure 5.1(c) became Table 5.2's attack confidentiality
+column. The chapter 2 and chapter 4 figures are out of scope.
 The open list is in
 [`../handoffs/2026-09-30_results_figure_house_style.md`](../handoffs/2026-09-30_results_figure_house_style.md).
 

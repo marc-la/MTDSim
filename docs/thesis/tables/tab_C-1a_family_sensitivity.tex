@@ -6,27 +6,30 @@
 \begin{table}[htbp]
 \centering\footnotesize
 % CAPTION DRAFT STATE 2026-09-17 --- voice pass owed.
-\caption[NCR at the ends of each mean duration's band]{NCR (Section~\ref{sec:evaluation-metrics}) with each mean duration that several tactics share at both ends of its band and at its declared value, the other three held, under no MTD and under the random deployment strategy at each interval. Averaged over the four attack profiles, 400 runs per cell; intervals are 95\,\%. A mean duration is inert when NCR at both band ends lies inside the interval at its declared value under every condition; the criterion was fixed before the run.}
+\caption[NCR at the ends of each mean duration's band]{NCR (Section~\ref{sec:evaluation-metrics}) with each mean duration that several tactics share at both ends of its band and at its declared value, the other three held, under no MTD and under the random deployment strategy at 200\,s and 2\,000\,s. Averaged over $c_1$ to $c_4$, 400 runs per cell; $\pm$: a 95\,\% interval on the mean (normal approximation). A mean duration is inert when NCR at both band ends lies inside the interval at its declared value with no MTD and at both deployment intervals; the criterion was fixed before the run.}
 \label{tab:anchor-sensitivity}
 \tablestyle\setlength{\tabcolsep}{4pt}
-\begin{tabular}{@{}cP{3.2cm}>{\centering\arraybackslash}p{2.2cm}>{\centering\arraybackslash}p{2.2cm}>{\centering\arraybackslash}p{2.2cm}P{2.4cm}@{}}
+\begin{tabular}{@{}P{3.6cm}>{\centering\arraybackslash}p{2.2cm}>{\centering\arraybackslash}p{2.2cm}>{\centering\arraybackslash}p{2.2cm}P{2.8cm}@{}}
 \toprule
-& Mean duration (band) & Low end & Declared & High end & Verdict \\
+Mean duration (band) & Low end & Declared & High end & Verdict \\
 \midrule
- & 35\,s (17.5 to 70\,s) & $0.172 \pm 0.009$ & $0.163 \pm 0.008$ & $0.145 \pm 0.008$ & moved, both ends \\
- & 4.5\,s (2.25 to 9\,s) & $0.165 \pm 0.008$ & $0.163 \pm 0.008$ & $0.159 \pm 0.008$ & inert \\
- & 45\,s (11.25 to 180\,s) & $0.267 \pm 0.014$ & $0.163 \pm 0.008$ & $0.059 \pm 0.004$ & moved, both ends \\
-\rowgroup{4}{no MTD} & 36\,s (18 to 72\,s) & $0.170 \pm 0.009$ & $0.163 \pm 0.008$ & $0.148 \pm 0.008$ & moved, one end \\
-\midrule
- & 35\,s (17.5 to 70\,s) & $0.053 \pm 0.004$ & $0.041 \pm 0.004$ & $0.029 \pm 0.003$ & moved, both ends \\
- & 4.5\,s (2.25 to 9\,s) & $0.043 \pm 0.004$ & $0.041 \pm 0.004$ & $0.038 \pm 0.003$ & inert \\
- & 45\,s (11.25 to 180\,s) & $0.150 \pm 0.010$ & $0.041 \pm 0.004$ & $0.006 \pm 0.001$ & moved, both ends \\
-\rowgroup{4}{random, 200\,s} & 36\,s (18 to 72\,s) & $0.047 \pm 0.004$ & $0.041 \pm 0.004$ & $0.034 \pm 0.003$ & moved, both ends \\
-\midrule
- & 35\,s (17.5 to 70\,s) & $0.163 \pm 0.008$ & $0.148 \pm 0.008$ & $0.125 \pm 0.007$ & moved, both ends \\
- & 4.5\,s (2.25 to 9\,s) & $0.153 \pm 0.008$ & $0.148 \pm 0.008$ & $0.148 \pm 0.008$ & inert \\
- & 45\,s (11.25 to 180\,s) & $0.294 \pm 0.014$ & $0.148 \pm 0.008$ & $0.041 \pm 0.003$ & moved, both ends \\
-\rowgroup{4}{random, 2\,000\,s} & 36\,s (18 to 72\,s) & $0.167 \pm 0.008$ & $0.148 \pm 0.008$ & $0.133 \pm 0.007$ & moved, both ends \\
+\grouprow{5}{no MTD} \\
+35\,s (17.5 to 70\,s) & $0.172 \pm 0.009$ & $0.163 \pm 0.008$ & $0.145 \pm 0.008$ & moved, both ends \\
+4.5\,s (2.25 to 9\,s) & $0.165 \pm 0.008$ & $0.163 \pm 0.008$ & $0.159 \pm 0.008$ & inert \\
+45\,s (11.25 to 180\,s) & $0.267 \pm 0.014$ & $0.163 \pm 0.008$ & $0.059 \pm 0.004$ & moved, both ends \\
+36\,s (18 to 72\,s) & $0.170 \pm 0.009$ & $0.163 \pm 0.008$ & $0.148 \pm 0.008$ & moved, one end \\
+\addlinespace
+\grouprow{5}{random, 200\,s} \\
+35\,s (17.5 to 70\,s) & $0.053 \pm 0.004$ & $0.041 \pm 0.004$ & $0.029 \pm 0.003$ & moved, both ends \\
+4.5\,s (2.25 to 9\,s) & $0.043 \pm 0.004$ & $0.041 \pm 0.004$ & $0.038 \pm 0.003$ & inert \\
+45\,s (11.25 to 180\,s) & $0.150 \pm 0.010$ & $0.041 \pm 0.004$ & $0.006 \pm 0.001$ & moved, both ends \\
+36\,s (18 to 72\,s) & $0.047 \pm 0.004$ & $0.041 \pm 0.004$ & $0.034 \pm 0.003$ & moved, both ends \\
+\addlinespace
+\grouprow{5}{random, 2\,000\,s} \\
+35\,s (17.5 to 70\,s) & $0.163 \pm 0.008$ & $0.148 \pm 0.008$ & $0.125 \pm 0.007$ & moved, both ends \\
+4.5\,s (2.25 to 9\,s) & $0.153 \pm 0.008$ & $0.148 \pm 0.008$ & $0.148 \pm 0.008$ & inert \\
+45\,s (11.25 to 180\,s) & $0.294 \pm 0.014$ & $0.148 \pm 0.008$ & $0.041 \pm 0.003$ & moved, both ends \\
+36\,s (18 to 72\,s) & $0.167 \pm 0.008$ & $0.148 \pm 0.008$ & $0.133 \pm 0.007$ & moved, both ends \\
 \bottomrule
 \end{tabular}
 \end{table}

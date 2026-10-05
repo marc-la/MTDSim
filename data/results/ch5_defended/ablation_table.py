@@ -145,7 +145,7 @@ def main() -> None:
         (r"  \caption[The APT attacker model with and without each ablated component]{The APT attacker model "
          r"with and without each ablated component, averaged over $c_1$ to $c_4$, on the same 1\,000 seeds, "
          r"with 20 services per operating system; without the attack profiles, the APT attacker model runs on the attack graph: "
-         r"NCR, Cohen's $d$ on NCR, with minus without, with its 95\,\% bootstrap interval "
+         r"NCR, Cohen's $d$ on NCR, with minus without, with its 95\,\% percentile bootstrap interval "
          r"over seeds, and NCR reduction (Section~\ref{sec:evaluation-metrics}), blank with no MTD, its reference. "
          r"Bold: the interval, before rounding, lies wholly beyond $\pm 0.2$." + _named() + "}"),
         r"  \label{tab:ablation}",

@@ -562,9 +562,11 @@ def emit_full_table(ranking, arm) -> str:
     w(r"  \end{tabular}")
     w(r"\end{table}")
     seeds = ranking["by_interval"][iv]["baseline"]["none"]["hosts"]["n"]
-    L[cap_at] = (r"  \caption[MTD mechanisms and deployment strategies against %s, with intervals]{Each MTD mechanism and deployment strategy deployed every %s\,s against %s, on the same %s seeds, %s runs per row%s, on the metrics of Table~\ref{tab:metrics}. Rank is from Table~\ref{tab:eff-cross-arm} (Scott--Knott ESD on the mean hosts compromised per seed): rows that share a rank are not told apart. The first row, no MTD, is the reference each reduction is taken against: its rank and reductions are blank. MTTC is taken over the runs that compromise a target host, of any attack profile for the APT attacker model, their number in parentheses.%s Brackets on ASP: a %s; on a reduction: a %s; $\pm$: a %s. Each column is rounded to the precision of its widest interval; $<$ and $>$ mark a value or half-width that would round to 0 or 1 without reaching it.}"
+    L[cap_at] = (r"  \caption[MTD mechanisms and deployment strategies against %s, with intervals]{Each MTD mechanism and deployment strategy deployed every %s\,s against %s, on the same %s seeds, %s runs per row%s, on the metrics of Table~\ref{tab:metrics}. Rank is from Table~\ref{tab:eff-cross-arm} (Scott--Knott ESD on the mean hosts compromised per seed): rows that share a rank are not told apart. The first row, no MTD, is the reference each reduction is taken against: its rank and reductions are blank. MTTC is taken over the runs that compromise a target host%s, their number in parentheses.%s Brackets on ASP: a %s; on a reduction: a %s; $\pm$: a %s. Each column is rounded to the precision of its widest interval; $<$ and $>$ mark a value or half-width that would round to 0 or 1 without reaching it.}"
                  % (LABEL[arm], fmt_thousands(int(iv)), who, fmt_thousands(seeds), fmt_thousands(blk["none"]["hosts"]["n"]),
-                    r" (1\,000 per attack profile)" if arm == "movement" else "", _dash_decode(reasons), IV_PROP, IV_BOOT, IV_MEAN))
+                    r" (1\,000 per attack profile)" if arm == "movement" else "",
+                    # the attack-profile clause is the APT attacker model's alone (2026-10-05: Table E.4 carried it)
+                    ", of any attack profile" if arm == "movement" else "", _dash_decode(reasons), IV_PROP, IV_BOOT, IV_MEAN))
 
     return "\n".join(L) + "\n"
 

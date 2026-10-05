@@ -2,76 +2,83 @@
 \usepackage[T1]{fontenc}
 \usepackage[scaled=0.92]{helvet}
 \renewcommand{\familydefault}{\sfdefault}
-\usetikzlibrary{calc}
-\definecolor{accent}{RGB}{31,84,140}
+\usetikzlibrary{calc,patterns}
+\definecolor{cexf}{RGB}{31,84,140}
+\definecolor{cimp}{RGB}{179,38,30}
+\definecolor{cdex}{RGB}{168,116,26}
+\definecolor{cnon}{RGB}{111,78,156}
+\definecolor{cagg}{RGB}{58,125,68}
+\definecolor{cbase}{RGB}{122,122,122}
+\definecolor{cmov}{RGB}{31,84,140}
 \begin{document}
 \begin{tikzpicture}[x=1cm,y=1cm,every node/.style={inner sep=1pt,font=\footnotesize}]
-\draw[black!60,line width=0.4pt] (1.60,0.00) -- (11.60,0.00);
-\draw[black!60,line width=0.4pt] (1.60,0.00) -- (1.60,5.00);
-\draw[black!60,line width=0.3pt] (1.52,0.000) -- (1.60,0.000);
-\node[anchor=east] at (1.48,0.000) {0};
-\draw[black!60,line width=0.3pt] (1.52,0.833) -- (1.60,0.833);
-\node[anchor=east] at (1.48,0.833) {0.05};
-\draw[black!12,line width=0.2pt] (1.60,0.833) -- (11.60,0.833);
-\draw[black!60,line width=0.3pt] (1.52,1.667) -- (1.60,1.667);
-\node[anchor=east] at (1.48,1.667) {0.1};
-\draw[black!12,line width=0.2pt] (1.60,1.667) -- (11.60,1.667);
-\draw[black!60,line width=0.3pt] (1.52,2.500) -- (1.60,2.500);
-\node[anchor=east] at (1.48,2.500) {0.15};
-\draw[black!12,line width=0.2pt] (1.60,2.500) -- (11.60,2.500);
-\draw[black!60,line width=0.3pt] (1.52,3.333) -- (1.60,3.333);
-\node[anchor=east] at (1.48,3.333) {0.2};
-\draw[black!12,line width=0.2pt] (1.60,3.333) -- (11.60,3.333);
-\draw[black!60,line width=0.3pt] (1.52,4.167) -- (1.60,4.167);
-\node[anchor=east] at (1.48,4.167) {0.25};
-\draw[black!12,line width=0.2pt] (1.60,4.167) -- (11.60,4.167);
-\draw[black!60,line width=0.3pt] (1.52,5.000) -- (1.60,5.000);
-\node[anchor=east] at (1.48,5.000) {0.3};
-\draw[black!12,line width=0.2pt] (1.60,5.000) -- (11.60,5.000);
-\node[rotate=90,anchor=south] at (0.75,2.50) {NCR};
-\draw[black!60,line width=0.3pt] (1.600,0.00) -- (1.600,-0.08);
-\node[anchor=north] at (1.600,-0.12) {11.25};
-\draw[black!60,line width=0.3pt] (4.100,0.00) -- (4.100,-0.08);
-\node[anchor=north] at (4.100,-0.12) {22.5};
-\draw[black!60,line width=0.3pt] (6.600,0.00) -- (6.600,-0.08);
-\node[anchor=north] at (6.600,-0.12) {45 (declared)};
-\draw[black!60,line width=0.3pt] (9.100,0.00) -- (9.100,-0.08);
-\node[anchor=north] at (9.100,-0.12) {90};
-\draw[black!60,line width=0.3pt] (11.600,0.00) -- (11.600,-0.08);
-\node[anchor=north] at (11.600,-0.12) {180};
-\draw[black!30,line width=0.3pt,dash pattern=on 1.5pt off 1.5pt] (6.600,0.00) -- (6.600,5.00);
-\node[anchor=north] at (6.60,-0.50) {mean duration of persistence, stealth and command and control (s)};
-\draw[black!70,line width=0.4pt] (1.600,4.222) -- (1.600,4.691);
-\draw[black!70,line width=0.4pt] (1.520,4.222) -- (1.680,4.222);
-\draw[black!70,line width=0.4pt] (1.520,4.691) -- (1.680,4.691);
-\draw[black!70,line width=0.4pt] (6.600,2.571) -- (6.600,2.849);
-\draw[black!70,line width=0.4pt] (6.520,2.571) -- (6.680,2.571);
-\draw[black!70,line width=0.4pt] (6.520,2.849) -- (6.680,2.849);
-\draw[black!70,line width=0.4pt] (11.600,0.926) -- (11.600,1.052);
-\draw[black!70,line width=0.4pt] (11.520,0.926) -- (11.680,0.926);
-\draw[black!70,line width=0.4pt] (11.520,1.052) -- (11.680,1.052);
-\draw[black!70,line width=0.6pt] (1.600,4.457) -- (6.600,2.710) -- (11.600,0.989);
-\fill[black!70] (1.600,4.457) circle (0.7mm);
-\fill[black!70] (6.600,2.710) circle (0.7mm);
-\fill[black!70] (11.600,0.989) circle (0.7mm);
-\draw[accent,line width=0.4pt] (1.600,2.346) -- (1.600,2.664);
-\draw[accent,line width=0.4pt] (1.520,2.346) -- (1.680,2.346);
-\draw[accent,line width=0.4pt] (1.520,2.664) -- (1.680,2.664);
-\draw[accent,line width=0.4pt] (6.600,0.627) -- (6.600,0.751);
-\draw[accent,line width=0.4pt] (6.520,0.627) -- (6.680,0.627);
-\draw[accent,line width=0.4pt] (6.520,0.751) -- (6.680,0.751);
-\draw[accent,line width=0.4pt] (11.600,0.087) -- (11.600,0.125);
-\draw[accent,line width=0.4pt] (11.520,0.087) -- (11.680,0.087);
-\draw[accent,line width=0.4pt] (11.520,0.125) -- (11.680,0.125);
-\draw[accent,line width=0.6pt] (1.600,2.505) -- (6.600,0.689) -- (11.600,0.106);
-\fill[accent] (1.600,2.505) ++(-0.65mm,-0.65mm) rectangle ++(1.3mm,1.3mm);
-\fill[accent] (6.600,0.689) ++(-0.65mm,-0.65mm) rectangle ++(1.3mm,1.3mm);
-\fill[accent] (11.600,0.106) ++(-0.65mm,-0.65mm) rectangle ++(1.3mm,1.3mm);
-\draw[black!70,line width=0.6pt] (6.90,4.750) -- (7.40,4.750);
-\fill[black!70] (7.15,4.750) circle (0.7mm);
-\node[anchor=west] at (7.50,4.750) {no MTD};
-\draw[accent,line width=0.6pt] (6.90,4.430) -- (7.40,4.430);
-\fill[accent] (7.15,4.430) ++(-0.65mm,-0.65mm) rectangle ++(1.3mm,1.3mm);
-\node[anchor=west] at (7.50,4.430) {random, every 200\,s};
+\draw[black!60,line width=0.4pt] (1.550,0.000) -- (15.900,0.000);
+\draw[black!60,line width=0.4pt] (1.550,0.000) -- (1.550,4.200);
+\draw[black!60,line width=0.3pt] (1.480,0.000) -- (1.550,0.000);
+\node[anchor=east] at (1.450,0.000) {0.00};
+\draw[black!60,line width=0.3pt] (1.480,0.700) -- (1.550,0.700);
+\draw[black!12,line width=0.2pt] (1.550,0.700) -- (15.900,0.700);
+\node[anchor=east] at (1.450,0.700) {0.05};
+\draw[black!60,line width=0.3pt] (1.480,1.400) -- (1.550,1.400);
+\draw[black!12,line width=0.2pt] (1.550,1.400) -- (15.900,1.400);
+\node[anchor=east] at (1.450,1.400) {0.10};
+\draw[black!60,line width=0.3pt] (1.480,2.100) -- (1.550,2.100);
+\draw[black!12,line width=0.2pt] (1.550,2.100) -- (15.900,2.100);
+\node[anchor=east] at (1.450,2.100) {0.15};
+\draw[black!60,line width=0.3pt] (1.480,2.800) -- (1.550,2.800);
+\draw[black!12,line width=0.2pt] (1.550,2.800) -- (15.900,2.800);
+\node[anchor=east] at (1.450,2.800) {0.20};
+\draw[black!60,line width=0.3pt] (1.480,3.500) -- (1.550,3.500);
+\draw[black!12,line width=0.2pt] (1.550,3.500) -- (15.900,3.500);
+\node[anchor=east] at (1.450,3.500) {0.25};
+\draw[black!60,line width=0.3pt] (1.480,4.200) -- (1.550,4.200);
+\draw[black!12,line width=0.2pt] (1.550,4.200) -- (15.900,4.200);
+\node[anchor=east] at (1.450,4.200) {0.30};
+\draw[black!60,line width=0.3pt] (2.431,0.000) -- (2.431,-0.070);
+\node[anchor=north] at (2.431,-0.100) {11.25};
+\draw[black!60,line width=0.3pt] (5.578,0.000) -- (5.578,-0.070);
+\node[anchor=north] at (5.578,-0.100) {22.5};
+\draw[black!60,line width=0.3pt] (8.725,0.000) -- (8.725,-0.070);
+\node[anchor=north] at (8.725,-0.100) {45 (declared)};
+\draw[black!60,line width=0.3pt] (11.872,0.000) -- (11.872,-0.070);
+\node[anchor=north] at (11.872,-0.100) {90};
+\draw[black!60,line width=0.3pt] (15.019,0.000) -- (15.019,-0.070);
+\node[anchor=north] at (15.019,-0.100) {180};
+\node[anchor=north] at (8.725,-0.500) {Mean duration (s)};
+\node[rotate=90,anchor=south] at (0.600,2.100) {NCR};
+\draw[black!30,line width=0.3pt,dash pattern=on 1.5pt off 1.5pt] (8.725,0.00) -- (8.725,4.20);
+\node[anchor=south west,inner sep=0pt] at (1.550,4.280) {Mean duration of persistence, stealth and command and control};
+\draw[black!45,line width=0.8pt] (2.431,3.744) -- (8.725,2.276) -- (15.019,0.831);
+\draw[black!45,line width=0.4pt] (2.431,3.546) -- (2.431,3.941);
+\draw[black!45,line width=0.4pt] (2.386,3.546) -- (2.476,3.546);
+\draw[black!45,line width=0.4pt] (2.386,3.941) -- (2.476,3.941);
+\filldraw[fill=white,draw=black!45,line width=0.6pt] (2.431,3.744) circle (0.063cm);
+\draw[black!45,line width=0.4pt] (8.725,2.160) -- (8.725,2.393);
+\draw[black!45,line width=0.4pt] (8.680,2.160) -- (8.770,2.160);
+\draw[black!45,line width=0.4pt] (8.680,2.393) -- (8.770,2.393);
+\filldraw[fill=white,draw=black!45,line width=0.6pt] (8.725,2.276) circle (0.063cm);
+\draw[black!45,line width=0.4pt] (15.019,0.778) -- (15.019,0.884);
+\draw[black!45,line width=0.4pt] (14.974,0.778) -- (15.064,0.778);
+\draw[black!45,line width=0.4pt] (14.974,0.884) -- (15.064,0.884);
+\filldraw[fill=white,draw=black!45,line width=0.6pt] (15.019,0.831) circle (0.063cm);
+\draw[black,line width=0.8pt] (2.431,2.104) -- (8.725,0.579) -- (15.019,0.089);
+\draw[black,line width=0.4pt] (2.431,1.971) -- (2.431,2.238);
+\draw[black,line width=0.4pt] (2.386,1.971) -- (2.476,1.971);
+\draw[black,line width=0.4pt] (2.386,2.238) -- (2.476,2.238);
+\fill[black] (2.431,2.104) circle (0.070cm);
+\draw[black,line width=0.4pt] (8.725,0.527) -- (8.725,0.631);
+\draw[black,line width=0.4pt] (8.680,0.527) -- (8.770,0.527);
+\draw[black,line width=0.4pt] (8.680,0.631) -- (8.770,0.631);
+\fill[black] (8.725,0.579) circle (0.070cm);
+\draw[black,line width=0.4pt] (15.019,0.073) -- (15.019,0.105);
+\draw[black,line width=0.4pt] (14.974,0.073) -- (15.064,0.073);
+\draw[black,line width=0.4pt] (14.974,0.105) -- (15.064,0.105);
+\fill[black] (15.019,0.089) circle (0.070cm);
+\draw[black,line width=0.8pt] (1.550,-1.310) -- (2.150,-1.310);
+\fill[black] (1.850,-1.310) circle (0.065cm);
+\node[anchor=west] at (2.230,-1.310) {random, 200\,s};
+\draw[black!45,line width=0.8pt] (5.000,-1.310) -- (5.600,-1.310);
+\filldraw[fill=white,draw=black!45,line width=0.6pt] (5.300,-1.310) circle (0.059cm);
+\node[anchor=west] at (5.680,-1.310) {no MTD};
 \end{tikzpicture}
 \end{document}

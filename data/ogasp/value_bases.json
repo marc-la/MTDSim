@@ -5,7 +5,7 @@
   "rows": [
     {"value": "Base weights of the Petri nets", "basis": "Corpus", "reason": "Section~\\ref{sec:petri-formalism}", "test": ""},
     {"value": "Membership of each attack profile", "basis": "Corpus", "reason": "Section~\\ref{sec:attack-profiles}", "test": ""},
-    {"value": "Mean durations from MTDSim's scans and exploit", "basis": "MTDSim", "reason": "Section~\\ref{subsec:dwell-times}", "test": "varied, Appendix~\\ref{app:dwell-robustness}"},
+    {"value": "Mean durations from MTDSim's scan and exploit attack actions", "basis": "MTDSim", "reason": "Section~\\ref{subsec:dwell-times}", "test": "varied, Appendix~\\ref{app:dwell-robustness}"},
     {"value": "Confusion penalty", "basis": "MTDSim", "reason": "Section~\\ref{subsec:attacker-model}", "test": ""},
     {"value": "Order of the lifecycle stages", "basis": "Literature", "reason": "Section~\\ref{subsec:apt}", "test": ""},
     {"value": "Mean durations set by judgement", "basis": "Our judgement", "reason": "Table~\\ref{tab:dwell-derivation}", "test": "varied, Appendix~\\ref{app:dwell-robustness}"},

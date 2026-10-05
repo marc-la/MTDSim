@@ -6,7 +6,7 @@
 \begin{table}[htbp]
   \centering
   % CAPTION DRAFT STATE 2026-09-17 --- voice pass owed.
-  \caption[The declared inputs and what moved]{Each value the attacker model was given rather than derived, grouped by the three inputs of Section~\ref{sec:execution}: the value declared, the range it was moved across with the other inputs held at their declared values, and what happened to NCR (Section~\ref{sec:evaluation-metrics}), read against the interval at the declared value under no MTD and under the random deployment strategy at both intervals. The duration bands were set with the mean durations, before the run (Section~\ref{subsec:dwell-times}); the failure-matrix ranges bracket the declared value on both sides (Appendix~\ref{app:weight-sets}). The delay's distribution and the mapping have no range and are compared against the alternative that was tried; the nine failure rules are single argued values, held one by one and removed together by the ablation of Section~\ref{sec:ablation}. Averaged over the four profiles, 400 runs per cell; the per-value readings are the sections that follow.}
+  \caption[The declared inputs and what moved]{Each value the APT attacker model was given rather than derived, grouped by the three inputs of Section~\ref{sec:execution}: the value declared, the range it was moved across with the other inputs held at their declared values, and what happened to NCR (Section~\ref{sec:evaluation-metrics}), read against the 95\,\% interval on the mean (normal approximation) at the declared value, under no MTD and under the random deployment strategy at both deployment intervals. The duration bands were set with the mean durations, before the run (Section~\ref{subsec:dwell-times}); the failure-matrix ranges bracket the declared value on both sides (Appendix~\ref{app:weight-sets}). The delay's distribution and the mapping have no range and are compared against the alternative that was tried; the nine rules of the failure matrix are single argued values, held one by one and removed together by the ablation of Section~\ref{sec:ablation}. Averaged over $c_1$ to $c_4$, 400 runs per cell; the per-value readings are the sections that follow.}
   \label{tab:parameter-register}
   \tablestyle\setlength{\tabcolsep}{4pt}
   \begin{tabular}{@{}P{1.6cm}P{2.8cm}P{1.9cm}P{2.5cm}P{6.4cm}@{}}
@@ -19,12 +19,12 @@
      & collection, exfiltration, impact & 36\,s & 18 to 72\,s & moved: NCR 0.170 / 0.163 / 0.148 at 18 / 36 / 72\,s under no MTD, 0.011 lower per doubling (Appendix~\ref{app:dwell-robustness}) \\
      & the delay's distribution & exponential & Erlang-4, same mean & inert under no MTD; under MTD the Erlang-4 delay gives a lower NCR, by 0.005 at most (Appendix~\ref{app:exponential-shape}) \\
     \midrule
-    \emph{Mapping} & tactic to action & partial & forced total & the alternative gives NCR 0.003 against 0.163, no MTD (Appendix~\ref{app:experiment-one}) \\
+    \emph{Mapping} & tactic-to-action mapping & partial & total & the alternative gives NCR 0.003 against 0.163, no MTD (Appendix~\ref{app:experiment-one}) \\
     \midrule
-    \emph{Failure matrix} & forward rate & 0.25 & 0.1 to 0.5 & inert \\
-     & backward rate & 0.25 & 0.1 to 0.5 & inert \\
-     & floor & 0.1 & 0, 0.05 & zero by structure: no Petri net carries a jump of three stages \\
-     & the rules & declared & removed: every factor set to one & negligible (Section~\ref{sec:ablation}) \\
+    \emph{Failure matrix} & $\gamma$, forward & 0.25 & 0.1 to 0.5 & inert \\
+     & $\delta$, back & 0.25 & 0.1 to 0.5 & inert \\
+     & $z$, floor & 0.1 & 0, 0.05 & zero by structure: no Petri net carries a move across three stages \\
+     & the nine rules & declared & removed: every factor set to one & negligible (Section~\ref{sec:ablation}) \\
     \bottomrule
   \end{tabular}
 \end{table}

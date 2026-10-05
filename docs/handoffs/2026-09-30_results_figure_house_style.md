@@ -60,7 +60,8 @@ Marc meant something else, ask for the page.
    turn grey and stop being told apart. `chore/disruption-mechanism` proposes
    replacing this figure's metric, so apply rule 5 in that rebuild, not
    before.
-3. **Figure C.1** (`tools/ch5_sensitivity_figure.py`, appendix) is a results
+3. **Done 2026-10-05:** Figure C.1 is on §o (single-panel title, key at the
+   foot, packed to 15.7 cm, included bare). The original note: **Figure C.1** (`tools/ch5_sensitivity_figure.py`, appendix) is a results
    chart and is not yet on §o. It is also included at `0.78\textwidth`
    rather than bare (§h).
 4. **Headline emphasis, Marc to rule** (§o rule 9): bold only the value the

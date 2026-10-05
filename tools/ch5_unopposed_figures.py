@@ -427,8 +427,8 @@ def emit_detector_table(core: dict) -> tuple[str, list[str]]:
     w("%   (core.detector_grid). Do not hand-edit; regenerate. 2026-09-30. DRAFT STATE --- ratify on read.")
     w(r"\begin{table}[htbp]")
     w(r"  \centering")
-    w(r"  \caption[Attack confidentiality across the detector's count and window]{Attack confidentiality (\%%) with no MTD running at each count and window of the scan detector (Section~\ref{subsec:metrics-behaviour}), for the APT attacker model on the attack profiles $c_1$ to $c_4$ and for the baseline attacker, with the share of the baseline attacker's attack actions each setting flags. The declared setting, five attack actions within 60\,s, is in bold. Every value's 95\,\%% bootstrap interval over runs is within %.1f points.}" %
-      (100 * max(max(v["hi"] - v["point"], v["point"] - v["lo"]) for g in core["detector_grid"] for v in g["confidentiality"].values())))
+    w(r"  \caption[Attack confidentiality across the detector's count and window]{Attack confidentiality (\%%) with no MTD running at each count and window of the scan detector (Section~\ref{subsec:metrics-behaviour}), for the APT attacker model on the attack profiles $c_1$ to $c_4$ and for the baseline attacker, with the share of the baseline attacker's attack actions each setting flags. The declared setting, five attack actions within 60\,s, is in bold. Every value's %s is within %.1f points.}" % (IV_BOOT,
+      100 * max(max(v["hi"] - v["point"], v["point"] - v["lo"]) for g in core["detector_grid"] for v in g["confidentiality"].values())))
     w(r"  \label{tab:detector-memory}")
     w(r"  \tablestyle\setlength{\tabcolsep}{4pt}")
     w(r"  \begin{tabular}{@{}cc*{5}{>{\centering\arraybackslash}p{1.35cm}}>{\centering\arraybackslash}p{2.6cm}@{}}")

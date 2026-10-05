@@ -57,8 +57,8 @@ NUMBERS = REPO / "data" / "results" / "ch5_defended" / "memory_ablation_numbers.
 HOSTS = 50
 COLS = (("none", "No MTD"), ("service_diversity", r"Service diversity, 200\,s"))
 SERIES = (  # arm, key label, colour, marker, x dodge (cm); drawn in this order
-    ("off", "without the memory", "black!45", "ocircle", -0.06),
-    ("on", "with the memory", "black", "circle", 0.06),
+    ("off", "without the vulnerability memory", "black!45", "ocircle", -0.06),
+    ("on", "with the vulnerability memory", "black", "circle", 0.06),
 )
 LOG_LO, LOG_HI = 0.8, 25.0  # the x domain, so the end markers sit off the frame
 YMAX, YTICKS = 0.2, (0.0, 0.05, 0.10, 0.15, 0.20)
