@@ -4524,9 +4524,10 @@ vulnerability not yet scanned for), or if an MTD deployment disrupts it
 %  given"; the memory "an add-on", subject first): the gap first; "we declare
 %  each" names who; the test clause cut; the memory the subject of its sentence.
 %  DRAFT STATE.]
-The attack flows cannot supply three inputs of the loop: the tactic durations
-(Section~\ref{subsec:dwell-times}), the tactic-to-action mapping
-(Section~\ref{subsec:tactic-verb-mapping}) and the failure matrix
+% [2026-10-05: the list in the loop's order, as the subsections now run.]
+The attack flows cannot supply three inputs of the loop: the
+tactic-to-action mapping (Section~\ref{subsec:tactic-verb-mapping}), the
+tactic durations (Section~\ref{subsec:dwell-times}) and the failure matrix
 (Section~\ref{subsec:failure-matrix}). We declare each, from MTDSim's
 constants where they exist and otherwise from the literature or our
 judgement. The vulnerability memory (Section~\ref{subsec:vulnerability-memory})
@@ -4680,409 +4681,243 @@ vulnerability raises the attacker's odds of exploiting it again.
 %  Source register: handoff 2026-09-17_ch5_s51_sensitivity_overhaul.md D5
 %  insertion A + S5 defect D-4.
 
-\subsection{Tactic durations}
-\label{subsec:dwell-times}
-
-% [CH4 SCRUTINY 2026-10-02, ledger D1--D6, X5, applied on Marc's accept-all:
-%  "do not exist in CTI vendor reports" was false against ch1/ch3's M-Trends
-%  (whole intrusions); only per-tactic dwell is absent (X5); "inherently
-%  arbitrary" is McQueen's alone, all three sources declare; mu_p is not in
-%  Eq. 4.1; 14 tactics on the network make the four families (resource
-%  development is a fifth, zero group: tactic_durations.json). Prior text in
-%  git (3f6b4f8c). DRAFT STATE --- ratify on read.]
-Each tactic consumes some time in the simulator, of mean $\mu_p$
-(Section~\ref{sec:petri-formalism}), as the baseline attacker's attack actions did. Tactic durations are reported neither in the literature nor in CTI
-vendor reports, which give the length of a whole intrusion
-(Chapter~\ref{ch:intro}); models that time attack steps declare their
-values~\citep{bland2020, mcqueen2006, mendonca2023}. Here they are
-parameters of the model.
-% [PREAMBLE REDRAFT 2026-10-04: moved here from the 4.4 preamble (Marc: a
-%  timing fact); "It belongs to the simulator ... nothing else" is the 4.4
-%  preamble's third paragraph now.]
-The confusion penalty (Section~\ref{subsec:attacker-model}) is the one time
-the Petri net does not supply.
-% [CUT 2026-09-08: "There is no MITRE tactic mapping to time resource." (the
-%  sentence before carries it) and "How long does reconnaissance take?"]
-
-We derived the tactic durations from MTDSim's six attack actions, using their
-costs directly where they apply and extrapolating the rest. The 14 tactics
-on the network resolve onto four families. Two take the simulator's costs unchanged: the scan-shaped family,
-one enumeration pass at 35 seconds, for the tactics whose work is
-enumeration; and the exploit-shaped family, the median exploit time at
-4.5 seconds, for the tactics whose work is gaining or reusing access. The
-other two have no attack action to supply them, so we extrapolated from the exploit
-shape: the low-and-slow family at ten times it, for the quiet holding
-tactics, and the objective-execution family at eight times it, for the terminal acts.
-Within a family, a per-tactic multiplier sets each tactic's value, and each
-tactic has its own band, widest for the low-and-slow family, which rests on
-our judgement alone (Appendix~\ref{app:dwell-derivation}). The model therefore carries four free timing values rather
-than 15, and those four are what Appendix~\ref{app:sensitivity} varies, one at a
-time~\citep{tenbroeke2016}.
-% INSERTION B APPLIED 2026-09-18 --- DRAFT STATE, ratify on read. This is the
-%  paragraph most in need of your words: it is session prose standing where
-%  §5.1 ¶2 needs an antecedent. Two defects it answers, both raised 2026-09-18.
-%  (i) The four families were never named in the body ("four anchor families",
-%  once, unnamed), so §5.1 could not name the one that moved. (ii) Your worry
-%  that the split itself is exposed --- "how did you choose that split, it
-%  doesn't come from anything in the prior paper" --- is answered by making the
-%  split a CONSEQUENCE rather than a taxonomy: MTDSim priced two families, and
-%  the other two had to be declared because no verb costs them. That two-tier
-%  provenance is already committed and generated in Table~\ref{tab:dwell-anchors}
-%  ("Priced by MTDSim" / "Declared and swept"), so the body is now saying what
-%  the appendix already carries, and §5.1 ¶2's reading trades on it.
-%  EXTENDED then COMPRESSED 2026-09-18, both on your readings the same day:
-%  first to name the part of MTDSim each family takes ("so that it's very
-%  clear -- this is the part of MTDSim that we're using") and to say the band
-%  was chosen; then cut from ~200 words to ~130 ("this is very explicit ...
-%  can we convey the point more succinctly"). What the compression removed:
-%  (i) a third statement that the timing came from MTDSim -- the two sentences
-%  ABOVE this insertion already say it, so the added "the split follows what
-%  MTDSim could price" was redundant, and "supply" replaces "price" as your
-%  word; (ii) the constant-level breakdown (5 + 5 + 25; the complexity
-%  arithmetic), which App. B.4 carries row by row; (iii) the exhaustive
-%  membership lists, now a gloss per family -- Table~\ref{tab:dwell-catalogue}
-%  prints all 15 values, so membership is recoverable, and §5.1 ¶2 names a
-%  family without enumerating it; (iv) the resource-development clause, which
-%  the sentence two below already carries ("we deemed zero seconds ...
-%  off-network and untrackable").
-%  NOTE: "the stealth tactic, for example, is 45.0 seconds, which is 10 times
-%  the exploit shape" two sentences below now reads as a worked example of the
-%  rule just stated rather than as its first statement. Ruled to stay
-%  (2026-08-20); flagged, not touched.
-%  Every figure verified against
-%  data/ogasp/tactic_durations.json ("anchors") and the constants it cites:
-%    scan-shaped 35 s = ATTACK_DURATION SCAN_HOST 5 + SCAN_NEIGHBOR 5 +
-%      SCAN_PORT 25 (mtdnetwork/data/constants.py ~L140); tier 1, not tuned.
-%    exploit-shaped 4.5 s = median of Vulnerability.exploit_time =
-%      ATTACK_DURATION['EXPLOIT_VULN'] 15 x (1 - complexity), complexity ~
-%      U[0.4, 1], median 0.7 => 15 x 0.3 (mtdnetwork/component/services.py);
-%      tier 1, not tuned.
-%    low-and-slow 45 s = 10 x the exploit shape; TIER 3, declared, "an order
-%      of magnitude above the substrate's priced action verbs (5-25 s)". The
-%      catalogue's own trigger-interval clause is left out of the body: the
-%      mutation interval has no antecedent this early.
-%    objective 36 s = 8 x the exploit shape; TIER 2 (declared, with breach
-%      and ransomware timing named as calibration targets, none reproduced).
-%    bands: the catalogue's per-tactic sweep_range, lifted to the family by
-%      the reference tactic and coinciding with the members' intersection
-%      (rate_feasibility_study.md 3) -- [0.5, 2] for three, [0.25, 4] for
-%      low-and-slow.
-%  CEILING for 5.1 2: low-and-slow is the ONLY tier-3 family, which is what
-%  "rests on our judgement alone" says and what 2's concentration claim
-%  needs. The objective family is tier 2 -- do not lump them together.
-%  Membership is the catalogue's (tactic_durations.json); multipliers are
-%  Table~\ref{tab:dwell-derivation}'s. "Family" is the body's word; "anchor"
-%  stays the appendix's and the code's. Prior wording in git (32e309bb).
-%  NOTE for §5.1: the tiers are NOT the sensitivity story --- the objective
-%  family is declared and moves 0.6 hosts per doubling, the scan-shaped family
-%  is priced and moves 0.7. The concentration is in low-and-slow SPECIFICALLY,
-%  not in the declared tier. Do not let ¶2 generalise it.
-% [2026-09-08: the tiers sentence "If that was not sufficient, then we used
-%  some multiplier ... what shape fitted best" CUT on the front-loading
-%  ruling --- App. B.4's "Why this value" column carries the tiers row by
-%  row. The 4-not-15 sentence is MOVED IN from the tab:dwell-catalogue
-%  caption (its one argument; ⟦joint⟧ "four" --- digits vs words is the
-%  generator's, pass 6); the sweep clause after "and" is session glue [3b].]
-The declared values are collected in Table~\ref{tab:dwell-catalogue}: the
-stealth tactic, for example, is 45.0 seconds, which is ten times the
-exploit shape.
-Resource development we deemed zero seconds, because from the defender's
-perspective this is off-network and untrackable. Some tactics map to the
-same attack action, but in reality the tactics do not take the same amount
-of time.
-% [RULED 2026-08-20, do not re-flag: the 45.0 s / 0 s worked examples stay.
-%  2026-09-08: the same-verb sentence tightened to its first clause (both
-%  streams); verified against the mapping and the catalogue --- initial
-%  access and privilege escalation share the exploit verb and 4.5 s,
-%  execution shares the verb at 22.5 s, so the sentence holds as the
-%  assumption it states, not as a universal.]
-
-The exponential is a modelling choice, not a claim that tactic durations are
-exponentially distributed. The exponential draw makes the times stochastic
-(the mean durations $\mu_p$ are not), and there is evidence in the
-literature for stochastic attack behaviour~\citep{holm2014, madan2004,
-bland2020}. The tactic durations are model parameters anchored to this simulator,
-not real-world measurements.
-% [2026-09-25: the must-carry placed from its ruled wording (Marc: 'fix all
-%  the facts'); reword freely.]
-% [RULED 2026-08-20: citation set kept at three --- each carries a distinct
-%  leg (holm2014 empirical; madan2004 lineage; bland2020 method precedent).]
-% [CUT 2026-09-08: "We are trying to model the stochastic behaviour of these
-%  APT attackers: how are we going to do that without some capability for
-%  that?"; "The capability is provided by ... which" deleted so the draw
-%  sentence stands on its own. The shape check (Erlang-4, same mean) is the
-%  sensitivity analysis's, forward-referenced above.]
-
-% [prose slot --- Marc] the caveat sentence beside the table, a standing
-%   must-carry and yours: these are model parameters anchored to this
-%   simulator, not real-world measurements. Ruled to live in the prose rather
-%   than the caption --- it is a claim about the model, not a decode of the
-%   float.
-%
-% Table LANDED 2026-08-20; ONE PANEL since 2026-09-08 (Marc: the table
-%   prescribes what we are rolling with; families, badges and multipliers
-%   are App. B.4's --- tab:dwell-anchors and tab:dwell-derivation).
-%   Generated by tools/dwell_catalogue_tables.py --- regenerate, never edit.
-\input{tables/tab_4-4a_dwell_catalogue}
-
+% [SUBSECTIONS REDRAFT 2026-10-05 (Marc: each subsection "a collection of
+%  sentences", added one ruling at a time; "we did this, here are the numbers";
+%  the purpose missing; terms drifting from the preamble). One skeleton for all
+%  four: what the input does in the loop (its step of Figure 4.5) and why the
+%  attack flows cannot give it; what we declared, and from what, with one worked
+%  example; how many values it adds, its limits and its test. Reordered to the
+%  loop: the mapping (step 2) before the durations (step 3); Figure 4.5's box
+%  numbers and the preamble's list swapped with it. Terms to the preamble's:
+%  MTDSim (not "the simulator"), immediate transitions (not out-transitions),
+%  attack profile, Petri net. Prior text and every ruling comment of these four
+%  subsections: git 1aa0143e. Rulings carried forward are named in each
+%  subsection's comment. DRAFT STATE.]
 \subsection{Tactic-to-action mapping}
 \label{subsec:tactic-verb-mapping}
 
-The tactic-to-action mapping sends each tactic, a place of the
-Petri net, to at most one of the simulator's attack actions. We found no
-published mapping, so the mapping is declared. Where there is
-no mapping, the tactic is unmapped: it consumes time in the simulator and
-dispatches nothing. Leaving a tactic unmapped is a concession: the baseline attacker's
-attack actions that we are plugging into have gaps; seven of the 15
-tactics are unmapped (Figure~\ref{fig:controller-mapping}).
-% [RULED 2026-08-20, do not re-flag: the zero-or-one constraint sentence
-%  stays (Marc withdrew it as a pass-5 cut candidate; the black box's
-%  re-proposal rejected 2026-09-08).]
-% [2026-09-08: "The Petri nets do not map one-to-one." cut (the next
-%  sentence says it); phi bound at the naming --- closes the notation
-%  table's [3b].]
-% [STRUCTURE 2026-10-04: moved from the runtime loop subsection; its
-%  pointer back to this subsection cut.]
-At an unmapped tactic there is no verdict. A deployment that lands during an
-unmapped tactic cuts its duration short and costs the attacker the confusion
-penalty. At an unmapped tactic MTD is felt as cost, never
-as a change of route.
-% [ROUND 3, 2026-10-04: the ceiling moved here from the 4.4 preamble, beside the
-%  attack actions' gaps it follows from (MUST-CARRY; chapter 6 cites it here).]
-The attack actions also set the ceiling of this dissertation: the APT attacker
-model can only be as good as the attack actions it adopts.
+% [REDRAFT 2026-10-05. Added: the job (step 2); the formal definition (Marc:
+%  "do I expect a mapping definition ... the properties of a bipartite graph"):
+%  a partial function onto the six attack actions, no symbol (none is used
+%  again); the basis of each assignment, with examples from Table B.5 (verified
+%  against v2_partial.csv: all six attack actions are used, so "onto" holds);
+%  the stealth example of an unmapped tactic (Table B.5's reason). The total
+%  mapping said plainly as the reason the mapping is partial (Table B.7: 0.15
+%  against 8.13 distinct hosts, 58 against 24 per cent refused). CUT as false:
+%  "Appendix C swaps it in" (no section of Appendix C runs the total mapping;
+%  Appendix B.7 is the comparison). Kept, ruled: the unmapped-tactic sentences
+%  (2026-09-13, verified movement/attacker.py); the ceiling (MUST-CARRY,
+%  chapter 6 cites it), now closing the subsection. DRAFT STATE.]
+The tactic-to-action mapping turns the token's tactic into one of MTDSim's
+attack actions, step~2 of the loop. Neither the attack flows nor the
+literature map ATT\&CK tactics to MTDSim's attack actions, so we declare the
+mapping. It is a partial function from the 15 tactics onto MTDSim's six
+attack actions (Figure~\ref{fig:controller-mapping}): each tactic maps to at
+most one attack action, and each attack action is mapped to by one or more
+tactics. A tactic maps to the attack action that does its work in MTDSim; for
+example, reconnaissance scans hosts, privilege escalation exploits a
+vulnerability and credential access brute-forces an account.
+Appendix~\ref{app:controller-mapping} gives the reason for each.
 
-% [2026-09-13: A6 sentences landed on Marc's ratification of the fourteen-item
-%  proposal (chat, this date); source register: handoff 2026-09-08_ch4_s43_gspn_formalism.md
-%  §7.2. Re-landed 2026-09-13 (second pass) on Marc's framing --- a dwell-only
-%  tactic exercises no capability, so a mutation there is cost only --- and verified
-%  at movement/attacker.py: the dwell-only branch routes on VERDICT_NONE whether or
-%  not the dwell was interrupted (the interrupt is tracked separately, for cost).
-%  So the brief's A6 ("felt in cost, not routing") was right; the first landing
-%  of this sentence, which read D-21's "read as a failure verdict" as routing,
-%  was wrong and is withdrawn. Ratify-on-read.]
-% [2026-09-08: v and none bound here --- this is the declaration
-%  tab:gspn-notation promises for v in V; the mechanism gloss ": objects are
-%  passed around in the simulator, and if the verbs have not been run, it
-%  fails" deleted (the example carries it).]
-
-% [figure LANDED 2026-08-20 --- slot filled, the ref above now resolves.
-%   Generated by tools/controller_mapping_figure.py from the registry version
-%   data/ogasp/controller/mappings/v2_partial.csv, the pinned ATT&CK bundle
-%   (names, axis order, version) and lifecycle_consensus.json (stage bands).
-%   CAPTION IS DRAFTED, NOT RATIFIED --- yours for the voice pass.]
+% [figure LANDED 2026-08-20. Generated by tools/controller_mapping_figure.py
+%   from data/ogasp/controller/mappings/v2_partial.csv, the pinned ATT&CK
+%   bundle and lifecycle_consensus.json (stage bands). 2026-10-05: caption
+%   "the simulator's" -> "MTDSim's". Ratify-on-read.]
 \begin{figure}[htbp]
   \centering
-  % Natural size (conventions §h): the generator sets names at \footnotesize,
-  % so 10pt in the tool is 10pt on the page. Condensed and the caption pared
-  % 2026-09-05 (Marc: it is a mapping, arbitrarily chosen; the figure took
-  % too much page). Ratify-on-read.
   \includegraphics{fig_4-4a_controller_mapping}
   \caption[The tactic-to-action mapping]{The tactic-to-action mapping.
-  Each ATT\&CK tactic dispatches at most one of the simulator's six
-  attack actions; the seven in blue against
-  an empty slot are unmapped. Bands are the lifecycle
-  stages of Section~\ref{subsec:apt}. Table~\ref{tab:controller-mapping} gives the reason for each row.}
+  Each ATT\&CK tactic dispatches at most one of MTDSim's six attack actions;
+  the seven in blue against an empty slot are unmapped. Bands are the
+  lifecycle stages of Section~\ref{subsec:apt}.
+  Table~\ref{tab:controller-mapping} gives the reason for each row.}
   \label{fig:controller-mapping}
 \end{figure}
 
-% [CH4 SCRUTINY 2026-10-02, ledger M1--M4, applied on Marc's accept-all: the
-%  zero-or-one sentence cut (re-opens 2026-08-20: l.~4773 says "at most one",
-%  and "one at a time" is 4.3's one token); seven of 15 verified (v2_partial);
-%  the total mapping in one clause; Caldera cut (no reason given beyond
-%  "overhead"). DRAFT STATE --- ratify on read.]
-A total mapping, one attack action for every tactic, ran the baseline
-attacker's ordered procedure in a stochastic order
-(Appendix~\ref{app:experiment-one}); Appendix~\ref{app:sensitivity} swaps it
-in.
-% [2026-09-08: two sentences merged at the colon (two colons --- pass 6);
-%  ", and this resulted in poor performance" deleted ("did not work" and
-%  App. B.7 carry it); "We expected the movement layer to perform the same,
-%  or worse, because it is the same thing in proxy" CUT --- ⚑ an
-%  interpretive claim with no carrier until App. B.7's framing slot is
-%  written (note left there); the Caldera qualifiers deleted (the citation
-%  says what Caldera is). The swap clause after ";" is session glue [3b].]
-% [wired 2026-08-20, appendix pass] app:experiment-one --- the
-%   experiment-1 poor-performance record, distilled from
-%   experiment_01_findings.md into Table~\ref{tab:experiment-one}. Its
-%   framing prose is a flagged slot there, yours to write.
+Seven tactics are unmapped, because MTDSim has nothing for them to act on;
+stealth, for example, has nothing to hide from, because nothing in MTDSim
+watches the attacker. An unmapped tactic takes its duration and dispatches no
+attack action, so it returns no verdict and its immediate transitions keep
+their base weights. An MTD deployment that lands during an unmapped tactic
+cuts its duration short and costs the attacker the confusion penalty. At an
+unmapped tactic, MTD is felt as cost, never as a change of route.
+
+The mapping is partial because a total one fails. A total mapping gives every
+tactic an attack action, so the APT attacker model runs MTDSim's attack
+actions in the order its Petri net draws them. Most are then refused, because
+each needs the precondition an earlier one meets: without MTD, the attacker
+reaches 0.15 hosts, against 8.13 under the partial mapping
+(Appendix~\ref{app:experiment-one}). The attack actions therefore set the
+ceiling of this dissertation: the APT attacker model can only be as good as
+the attack actions it adopts.
+
+\subsection{Tactic durations}
+\label{subsec:dwell-times}
+
+% [REDRAFT 2026-10-05. Added: the purpose (a tactic's duration is how long it
+%  is exposed to MTD deployments); the reason a duration replaces the attack
+%  action's own cost, moved up from the tail ("Some tactics map to the same
+%  attack action ..."), with its example (execution and privilege escalation
+%  share the exploit attack action, 22.5 s against 4.5 s); each family glossed
+%  by what it holds and where its value comes from (verified against
+%  tactic_durations.json: scan pass = SCAN_HOST 5 + SCAN_NEIGHBOR 5 + SCAN_PORT
+%  25; median exploit time 15 x (1 - 0.7) = 4.5; low-and-slow k = 10;
+%  objective-execution 8; execution and defense impairment x 0.5); the
+%  exponential justified by the GSPN's timed transitions, with its test
+%  (Appendix C.2's same-mean shape). CUT: the confusion-penalty orphan ("the
+%  one time the Petri net does not supply"; 4.4.1 names the penalty where it is
+%  paid); the per-tactic bands (Appendix B.4); "a modelling choice, not a
+%  claim" and "the mean durations are not" (not-X-but-Y). Kept, ruled: the
+%  three-citation sentences (2026-08-20); the 45.0 s and 0 s worked examples,
+%  now the low-and-slow value and resource development (2026-08-20); the
+%  four-not-15 sentence; the must-carry caveat, said once here (cut from 4.4.3).
+%  Table 4.2 regenerated with a Family column (Marc: "15 random numbers, where
+%  do you get them from"; overturns the 2026-09-08 one-panel ruling on merit).
+%  DRAFT STATE.]
+The tactic durations set how long each tactic runs in MTDSim, step~3 of the
+loop, and so how long it is exposed to MTD deployments. A tactic's duration
+replaces the cost of its attack action, because tactics that share an attack
+action do not take the same time: execution and privilege escalation both
+exploit a vulnerability, but execution is paced by the quiet tactics around
+it. An unmapped tactic has no attack action, and so no cost to replace.
+Neither the attack flows nor the literature give the duration of a tactic:
+CTI vendor reports give the length of a whole intrusion
+(Chapter~\ref{ch:intro}), and models that time attack steps declare their
+values~\citep{bland2020, mcqueen2006, mendonca2023}. We declare the mean
+duration $\mu_p$ of each tactic, through five families
+(Table~\ref{tab:dwell-catalogue}).
+
+Two families take MTDSim's costs unchanged. The scan-shaped family, for the
+tactics that enumerate, takes one scan pass in MTDSim, 35 seconds; the
+exploit-shaped family, for the tactics that gain or reuse access, takes
+MTDSim's median exploit time, 4.5 seconds. Two families have no attack
+action to cost them, so we declare each as a multiple of the exploit-shaped
+value. The low-and-slow family, for the quiet, sustained tactics such as
+persistence and stealth, is ten times it, 45 seconds; execution and defense
+impairment take half of that. The objective-execution family, for the
+attacker's final acts of collection, exfiltration and impact, is eight times
+it, 36 seconds. Resource development takes no time, because it happens off
+the target's network. The model therefore carries four free timing values
+rather than 15, and Appendix~\ref{app:dwell-robustness} varies each one at a
+time~\citep{tenbroeke2016}.
+
+% Table LANDED 2026-08-20. Generated by tools/dwell_catalogue_tables.py ---
+%   regenerate, never edit. 2026-10-05: a Family column (see above).
+\input{tables/tab_4-4a_dwell_catalogue}
+
+The duration is drawn from an exponential because the timed transitions of a
+GSPN fire after exponential delays (Section~\ref{sec:petri-formalism}). A
+duration that varies from run to run also matches the evidence that attack
+behaviour is stochastic~\citep{holm2014, madan2004, bland2020};
+Appendix~\ref{app:exponential-shape} swaps in a less variable shape of the
+same mean. The tactic durations are model parameters anchored to MTDSim, not
+real-world measurements.
 
 \subsection{Failure matrix}
 \label{subsec:failure-matrix}
 
-% [REWRITTEN 2026-09-26, supervisor screen step 2 (Marc: "how we present and
-%  defend it is key"; "clear ... each sentence motivated, relevant and
-%  defensible"). State the assumption, give its reason, name its test; the
-%  rules and every value live in Appendix B.6 and are not defended one by one,
-%  because the ablation of Section 5.4 tests whether any result depends on them.
-%  Kept from the text it replaces: the completeness assumption, survivorship,
-%  independence of the input, the stage sentence and its four citations, the
-%  imported-order sentence, the must-carry caveat. Cut: the 15-by-14 size, "two
-%  components", the nine rules A to I, the rates-and-floor sentences (the floor
-%  never binds: no net carries a three-stage move, Table C.0), "we judged these
-%  a plausible set of values", "this is what encodes direction", and Figure
-%  4.4b (fig:failure-weight-matrix), which duplicated Figure B.6a(c). The
-%  principle was RE-READ from the nets before drafting (ledger, round 5): a
-%  failure moves weight BACK only where there is no foothold (intrusion:
-%  back 0.05 -> 0.32); after intrusion it moves weight to the same stage
-%  (0.65 -> 0.76) and away from both directions. "Lateral" is avoided: it
-%  collides with the tactic lateral movement. The 58-71 per cent figure is the
-%  per-profile mean share of a post-intrusion tactic's base weight on moves
-%  within post-intrusion operations (c1 0.58, c2 0.64, c3 0.67, c4 0.71),
-%  printed by tools/gspn_gadget_figure.py (stage_shares), stages from the
-%  lifecycle consensus; the same run prints the stage-by-stage shift.
-%  Previous text in git (commit 3379daa4). DRAFT STATE, ratify on read.]
-The base weights of Equation~\ref{eq:base-weight} are the proportions
-of a profile's attack flows that take each out-transition, and we assume the
-observed out-transitions are the complete set of choices open to the attacker:
-the Attack Flow corpus is all we have to draw on, and a different corpus would
-give a different net. These reports record only the steps that succeeded
-(survivorship bias), so the base weights say where an attacker goes after a
-success and nothing about where it goes after a failure. The failure matrix,
-$F$ of Equation~\ref{eq:routing}, supplies the failure routing.
-It is a separate input, independent of the nets and of the simulator's attack actions,
-and every value in it is our judgement.
-% [STRUCTURE 2026-10-04: moved from the runtime loop subsection.]
-The APT attacker model can tell a
-disruption from an unmet precondition, and it discards the distinction before
-routing: the failure matrix is declared over one failure verdict, not two.
-% [2026-09-13: A5 sentence landed on Marc's ratification of the fourteen-item
-%  proposal (chat, this date); source register: handoff 2026-09-08_ch4_s43_gspn_formalism.md
-%  §7.2. Ratify-on-read.]
+% [REDRAFT 2026-10-05. Added: the job (step 5); the scale of what Appendix B.6
+%  holds (Marc: "is it disingenuous to hide them"): twelve declared values set
+%  all 210 factors, verified (v4_failure_only: 15 sources x 14 destinations;
+%  nine rules A-I, gamma, delta, z), parallel to 4.4.2's four-not-15; the
+%  completeness assumption said as it bears on F (F only reweights the
+%  immediate transitions the attack flows draw). CUT: survivorship told twice
+%  more (Section 4.3 owns it, "an attack flow draws only the steps its attacker
+%  completed"; 4.4.3 points there once); "fails upwards" folded into the test
+%  sentence (4.3 carries "would carry on as though it had succeeded");
+%  "A rule of forward and backward alone does not fit" (argued against an
+%  alternative the reader never saw; the 58-71 figure now says what it shows);
+%  "Eight of the 15 tactics ..."; the caveat (said once, in 4.4.2; "every value
+%  is our judgement" and "No value was fitted" carry it here); "not two" (a
+%  flourish). The dead end stays beside the stall: the retrace depends on the
+%  edge the token travelled, which a GSPN marking does not hold, so Section
+%  4.3's construction cannot state it (the critique's move to 4.3 withdrawn).
+%  Kept, ruled: the principle and the foothold (F-ledger 2026-10-02), the
+%  ATT&CK-order sentence, the worked example, the disruption sentence (A5), the
+%  stall (A10, verified controller/outcome.py). Test pointer to Appendix C.3
+%  (decay-robustness: gamma, delta, z). DRAFT STATE.]
+The failure matrix sets where the attacker goes after a failure, step~5 of
+the loop. The attack flows draw only the steps their attackers completed
+(Section~\ref{sec:petri-formalism}), so they cannot supply it, and every
+value in it is our judgement. The failure matrix only reweights the
+immediate transitions the attack flows draw, so after a failure the attacker
+still chooses among the moves the corpus observed.
 
 The failure matrix encodes one principle: a failure without a foothold sends
-the attacker back to reconnaissance, and a failure with a foothold keeps it in
-its current stage. A foothold is what initial access gains: a failure at
-reconnaissance or initial access has none, and a failure at any later
-tactic holds one. The stages are the four of Section~\ref{subsec:apt}.
-% [2026-10-04: the stages and their citations moved to 3.1.1 (Marc: the
-%  synthesis belongs in the literature review); "objective" -> "actions on
-%  objectives". DRAFT STATE.]
-ATT\&CK
-imposes no order on its tactics, so this order is imported from the lifecycle
-models and not observed in the corpus. A rule of forward and backward alone does not
-fit these stages. Eight of the 15 tactics (Figure~\ref{fig:controller-mapping}) fall in
-post-intrusion operations, and in every attack profile a move to another
-tactic of that stage carries on average 58 to 71 per cent of a post-intrusion tactic's base weight.
-Figure~\ref{fig:gspn-gadget}(b) shows the first half in $c_1$.
-After a failed initial access, which leaves no foothold, the weight on
-reconnaissance rises from 0.062 to 0.750 and each move that needs a foothold
-falls to about a quarter of its weight. After a failed credential access, the
-moves to other post-intrusion tactics gain weight, and the moves on to
-actions on objectives and back to intrusion lose it.
+the attacker back to reconnaissance, and a failure with a foothold keeps it
+in its current stage. A foothold is what initial access gains: a failure at
+reconnaissance or initial access has none, and a failure at any later tactic
+holds one. The stages are the four lifecycle stages of
+Section~\ref{subsec:apt}. ATT\&CK imposes no order on its tactics, so this
+order is imported from the lifecycle models, not observed in the corpus.
+Keeping the attacker in its stage follows the corpus: in every attack
+profile, a post-intrusion tactic sends on average 58 to 71 per cent of its
+base weight to other tactics of post-intrusion operations.
 
-The values are set by rules that apply this principle, and a move across two
-stages is scaled down by declared rates; Appendix~\ref{app:weight-sets} gives
-each rule, its value and its reason, and the full matrix. No value was fitted
-to the corpus or to an evaluation outcome.
-% [PREAMBLE REDRAFT 2026-10-04: the dead end moved here from the 4.4 preamble,
-%  beside the stall it is contrasted with (Marc: an implementation detail).]
-When the token reaches a dead end, a place the corpus gave no exit, it
-retraces the edge it travelled, a concession to the thinness of the corpus.
-% [STRUCTURE 2026-10-04: the stall, moved from the runtime loop subsection;
-%  only the failure matrix can cause one.]
-A place whose every exit the failure matrix has
-zeroed for a firing is a stall, not a dead end, and a stalled run ends.
-% [2026-09-13: A10 sentences landed on Marc's ratification of the fourteen-item
-%  proposal (chat, this date); source register: handoff 2026-09-08_ch4_s43_gspn_formalism.md
-%  §7.2. Verified
-%  2026-09-13: controller/outcome.py returns the empty out-set as the stall and the
-%  movement driver ends the walk; the retrace is the S5 sink policy only. The
-%  optional "no declared weight set produces one" clause was dropped because the
-%  appendix does not carry the zero-stall count. Ratify-on-read.]
-% [2026-09-28, the prediction §5.4 tests, stated here so chapter 5 uses only
-%  this chapter's words (Marc, chat: without the matrix the attacker "fails
-%  upwards"). DRAFT STATE, ratify on read.]
-Without the failure matrix, a failure routes as a success does, and an attacker
-that fails moves on as though it had succeeded. Section~\ref{sec:ablation} tests
-whether any result depends on these values, by running the same attacker with
-every factor of the failure matrix set to one; Appendix~\ref{app:sensitivity}
-varies the rates. These are model parameters for this simulator, not
-real-world values.
-% [CH4 SCRUTINY 2026-10-02, ledger F1--F4, X13, C5, applied on Marc's
-%  accept-all: the stages are drawn in Figure 4.6, not 3.1; "on average"
-%  (per-profile means, gspn_gadget_figure.py); rates plural (Appendix C varies
-%  gamma, delta and a floor); "threat-model" -> "model" (registry row 68; the
-%  sentence kept, F3's question answered by keeping it); "foothold" defined by
-%  the rules' keying (Table B.6, rules A, C, E, I). DRAFT STATE.]
+Figure~\ref{fig:gspn-gadget}(b) shows the first half of the principle at
+initial access in $c_1$. After a failure, which leaves no foothold, the
+weight on reconnaissance rises from 0.062 to 0.750, and each move that needs
+a foothold falls to about a quarter of its weight. After a failed credential
+access, the second half applies: the moves to other post-intrusion tactics
+gain weight, and the moves on to actions on objectives and back to intrusion
+lose it.
+
+Twelve declared values set all 210 factors of the failure matrix, one for
+each ordered pair of distinct tactics: nine rules apply the principle, each
+with one value, and three distance parameters scale down a move across more
+than one stage. Appendix~\ref{app:weight-sets} gives each rule, its value and
+its reason, and the full matrix. No value was fitted to the corpus or to an
+evaluation outcome.
+
+The APT attacker model can tell a disruption from an unmet precondition, but
+the failure matrix routes both alike: it is declared over one failure
+verdict. A failure can also zero every exit of a place for one firing; the
+run then stalls and ends. A stall differs from a dead end, a place the corpus
+gave no exit, where the token retraces the edge it travelled, a concession to
+the thinness of the corpus. Section~\ref{sec:ablation} tests whether any
+result depends on the failure matrix, by running the same attacker with every
+factor set to one, so that a failure routes as a success does;
+Appendix~\ref{app:decay-robustness} varies the distance parameters.
 
 \subsection{Vulnerability memory}
 \label{subsec:vulnerability-memory}
 
-% [NEW 2026-09-28, Marc's ruling: the memory is ON in the evaluated APT
-%  attacker model, as the failure matrix is, and ablated beside it in
-%  Section~\ref{sec:ablation}. One paragraph. Heading is Marc's working name;
-%  the first sentence says what it does. Handoff
-%  2026-09-28_vulnerability_memory_on.md; evidence §11.11 of the ch6 board.
-%  Code: mtdnetwork/component/adversary.py (the per-type success count and
-%  lambda). No vocabulary ch2--ch4 lacks: "vulnerability", "exploit",
-%  "OS" are ch2's.]
-% [DRAFT STATE 2026-09-29: dictated by Marc; pass 2+3a repaired, 3b walked,
-%  pass 4 scrutinised, pass 5 full set (items 1--9) ruled and applied,
-%  248 -> ~190 words; pass 6 (voice pass) V1--V9 accepted by Marc and applied
-%  ("I accept all"), V5 as option (a), hosts compromised, the measure
-%  Section 5.4.2 reads. Session-written clauses Marc accepted: the
-%  precondition sentence, the EXPLOIT_VULN sentence (from Table 2.x), the
-%  equation's "where" clause, the section pointer, the V1--V9 wordings.
-%  SESSION-DRAFTED, RATIFY ON READ: the sentence "It learns the network ...
-%  out of its scope" (pass-6 gate 6: Table 3.2 defines property 7 as the
-%  defender's patterns; B0 ruled partial, handoff). Rulings: property 7
-%  framed as reuse of what worked, not mutation patterns (property 8's
-%  ground); Zhang's time halving is the lineage the memory extends; the
-%  diversity-pool hypothesis stays and Section 5.4.2 tests it with a pool
-%  dimension (handoff Part A). Symbol: none since 2026-09-30, the factor is
-%  stated as its value, three (was k; k is the opening length, lambda the
-%  attack rate). Cut in pass 5, do not re-flag: Cho's "under-modelled"
-%  clause (carried by §3.3.1 and Table 3.2), "let alone an APT attacker",
-%  "exploits and tools", the re-encounter clause (the equation carries it),
-%  "by return on attack" (Table 2.x carries it; "top" held vague by that
-%  ruling), the shuffle image. Left out by ruling: how long the memory
-%  lasts; the baseline's per-instance time discount (optional [S] clause,
-%  not taken). Open: gate 1 (the paragraph opens on motivation, not on what
-%  the memory does) goes to the integration check. Gate 8 (a worked number)
-%  retired 2026-09-30 with the equation.]
-% [CH4 SCRUTINY 2026-10-02, ledger V1--V4, X5b, X6, applied on Marc's
-%  accept-all: opens on what the memory does (gate 1, open since 2026-09-29;
-%  "Any attacker learns" was an uncited universal); property 7 claimed in part
-%  (Table 3.2 row 7 names learning from MTD deployments, which the memory does
-%  not do; B0 ruled partial 2026-09-29; ch3 scores Zhang's halving the same);
-%  ch2's exploit odds and halving referenced, not re-told (V3); the Appendix B
-%  pointer cut (no entry there, X6); "The idea is ..." cut (V2). "Triples"
-%  verified: odds x 3^n (adversary.py:290--305). Prior text in git (3f6b4f8c).
-%  DRAFT STATE --- ratify on read.]
-The APT attacker model saves the vulnerabilities it has successfully
-exploited and reuses them: each earlier success on a vulnerability, on any
-host, triples the attacker's odds of exploiting it again (the odds its CVSS
-complexity sets, Section~\ref{subsec:network-model}), a factor that is our
-judgement. Hosts that run the same service version carry the same
-vulnerabilities, so a vulnerability exploited once recurs. The memory
-extends Zhang's halving of the exploitation time on a vulnerability
-exploited on an earlier host \citep{zhang2023} from a saving in time to a
-raised chance of success; tactic durations still come from
-Section~\ref{subsec:dwell-times}. It is learning, property 7 of
+% [REDRAFT 2026-10-05. Reordered: what the memory does, why (the recurrence
+%  across hosts), its lineage, property 7 and its limit, the hypothesis and its
+%  test. The lineage now says why the memory raises the chance of success
+%  rather than halving the time, as Zhang does: the tactic duration replaces
+%  the exploitation time (step 3), so a halved time would change nothing; this
+%  is what "tactic durations still come from Section 4.4.1" was carrying. The
+%  model-wide scheme-aware paragraph folded in as the limit of property 7,
+%  with the OWED 2026-09-28 clause landed ("learns nothing about the defence",
+%  Marc's wording; verified 2026-09-13: movement/learning.py never reads the
+%  schedule). Kept, ruled: "triples" (adversary.py:290-305), the CVSS odds,
+%  property 7 in part (B0, 2026-09-29), the diversity-pool hypothesis and its
+%  test (handoff Part A). DRAFT STATE.]
+The vulnerability memory extends MTDSim's exploit attack action. The APT
+attacker model saves each vulnerability it exploits, and each earlier success
+on a vulnerability, on any host, triples the attacker's odds of exploiting it
+again (the odds its CVSS complexity sets, Section~\ref{subsec:network-model});
+the factor of three is our judgement. Hosts that run the same service version
+carry the same vulnerabilities, so a vulnerability exploited once recurs, and
+the memory lets the attacker reuse what worked. Zhang et al.\ halve the
+exploitation time on a vulnerability exploited on an earlier
+host~\citep{zhang2023}. In the APT attacker model the tactic duration
+replaces the exploitation time (Section~\ref{subsec:dwell-times}), so the
+memory raises the chance of success instead.
+
+The memory gives the APT attacker model learning, property~7 of
 Section~\ref{subsec:attacker-criterion}, in part: like Zhang's halving
 (Section~\ref{subsec:recent-threat-models}), it learns the network, not the
-MTD deployments Table~\ref{tab:attacker-properties} names.
-We hypothesise that the memory's effect is amplified with a constrained
-diversity pool (few services and operating systems for a diversity
-mechanism to draw from), where vulnerabilities repeat across hosts, and is
-weaker with a large pool; Section~\ref{subsec:ablation-vulnerability-memory}
-tests both.
-
-Each run starts from $M_0$ knowing nothing of
-MTD: the attacker does not hold the deployment schedule, learns nothing
-about it within a run, and carries nothing from one run into the next. It is therefore
-not scheme-aware (property 8, Table~\ref{tab:attacker-properties});
-Section~\ref{sec:future-work} returns to it.
-% [OWED 2026-09-28: still true of the DEFENCE, but the attacker now does learn
-%  within a run --- which vulnerability types have worked for it
-%  (Section~\ref{subsec:vulnerability-memory}). One clause so the two do not
-%  read as contradicting: "learns nothing about the defence within a run".]
-% [2026-09-13: A12 paragraph landed on Marc's ratification of the fourteen-item
-%  proposal (chat, this date); source register: handoff 2026-09-08_ch4_s43_gspn_formalism.md
-%  §7.2. Verified 2026-09-13:
-%  movement/learning.py holds a within-run belief about which destinations pay,
-%  degraded on mutation; it never reads the schedule. Ratify-on-read.]
+MTD deployments Table~\ref{tab:attacker-properties} names. The attacker
+learns nothing about the defence: each run starts from $M_0$ without the
+deployment schedule, and carries nothing from one run into the next. The APT
+attacker model is therefore not scheme-aware (property~8);
+Section~\ref{sec:future-work} returns to it. We hypothesise that the
+memory's effect is amplified with a constrained diversity pool (few services
+and operating systems for a diversity mechanism to draw from), where
+vulnerabilities repeat across hosts, and is weaker with a large pool;
+Section~\ref{subsec:ablation-vulnerability-memory} tests both.
 
 \section{Evaluation metrics}
 \label{sec:evaluation-metrics}

@@ -195,11 +195,12 @@ def emit(succ: list[str]) -> tuple[str, float, float]:
 
     # the two declared inputs that are part of the net, directly under what they set
     ry0 = py1 - 12 - BH
-    box(xt, ry0, "Tactic durations", "§4.4.1")
+    # 2026-10-05: subsections reordered to the loop (mapping 4.4.1, durations 4.4.2)
+    box(xt, ry0, "Tactic durations", "§4.4.2")
     box(xb, ry0, "Failure matrix", "§4.4.3")
     # the one outside it, between the net and MTDSim
     my0 = py1 + 40
-    box(xp, my0, "Tactic-to-action mapping", "§4.4.2")
+    box(xp, my0, "Tactic-to-action mapping", "§4.4.1")
 
     # ------------------------------------------------------------ MTDSim
     sy0 = my0 + BH + 40

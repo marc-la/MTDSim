@@ -5,28 +5,28 @@
 
 \begin{table}[htbp]
 \centering
-\caption[Declared tactic durations]{The durations declared for each tactic: the mean duration $\mu_p$ of Section~\ref{sec:petri-formalism}, the \emph{mean} of an exponential draw; tactic names follow ATT\&CK~v19.1. How each value was arrived at is Appendix~\ref{app:dwell-derivation}.}
+\caption[Declared tactic durations]{The mean duration $\mu_p$ of each tactic (Section~\ref{subsec:dwell-times}) and the family it takes its value from; each tactic's duration is drawn from an exponential of this mean. Tactic names follow ATT\&CK~v19.1. Appendix~\ref{app:dwell-derivation} gives each tactic's multiplier and reason.}
 \label{tab:dwell-catalogue}
 \tablestyle
-\begin{tabular}{@{}l r@{}}
+\begin{tabular}{@{}l l r@{}}
 \toprule
-Tactic & Mean duration $\mu_p$ (s) \\
+Tactic & Family & Mean duration $\mu_p$ (s) \\
 \midrule
-Reconnaissance & 35.0 \\
-Resource development & 0.0 \\
-Initial access & 4.5 \\
-Execution & 22.5 \\
-Persistence & 45.0 \\
-Privilege escalation & 4.5 \\
-Stealth & 45.0 \\
-Defense impairment & 22.5 \\
-Credential access & 4.5 \\
-Discovery & 35.0 \\
-Lateral movement & 4.5 \\
-Collection & 36.0 \\
-Command and control & 45.0 \\
-Exfiltration & 36.0 \\
-Impact & 36.0 \\
+Reconnaissance & Scan-shaped & 35.0 \\
+Resource development & Off-network & 0.0 \\
+Initial access & Exploit-shaped & 4.5 \\
+Execution & Low-and-slow & 22.5 \\
+Persistence & Low-and-slow & 45.0 \\
+Privilege escalation & Exploit-shaped & 4.5 \\
+Stealth & Low-and-slow & 45.0 \\
+Defense impairment & Low-and-slow & 22.5 \\
+Credential access & Exploit-shaped & 4.5 \\
+Discovery & Scan-shaped & 35.0 \\
+Lateral movement & Exploit-shaped & 4.5 \\
+Collection & Objective-execution & 36.0 \\
+Command and control & Low-and-slow & 45.0 \\
+Exfiltration & Objective-execution & 36.0 \\
+Impact & Objective-execution & 36.0 \\
 \bottomrule
 \end{tabular}
 \end{table}

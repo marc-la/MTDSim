@@ -75,17 +75,19 @@ def main() -> None:
               f"% Do not hand-edit; regenerate. Requires booktabs (already in the preamble).\n")
 
     # ---------------------------------------------------------- chapter ----
-    # ONE PANEL since 2026-09-08 (Marc, pass 5): the chapter table prescribes
-    # what the model runs with --- tactic and mean dwell, nothing else. The
-    # families, the evidence badges and the multipliers are the appendix's
-    # (tab:dwell-anchors, tab:dwell-derivation below).
+    # A FAMILY COLUMN since 2026-10-05 (Marc: the one-panel table "reads like
+    # 15 random numbers ... where do you get them from"; overturns the
+    # 2026-09-08 one-panel ruling on merit). Tactic, family, mean duration: the
+    # family traces each value to its source, which section 4.4.2 gives; the
+    # multipliers, bands and reasons stay the appendix's (tab:dwell-derivation).
     short = "Declared tactic durations"
     caption = (
-        "The durations declared for each tactic: the mean "
-        "duration $\\mu_p$ of Section~\\ref{sec:petri-formalism}, the \\emph{mean} of an "
-        "exponential draw; tactic names follow "
-        f"ATT\\&CK~v{pin}. How each value "
-        "was arrived at is Appendix~\\ref{app:dwell-derivation}."
+        "The mean duration $\\mu_p$ of each tactic "
+        "(Section~\\ref{subsec:dwell-times}) and the family it takes its value "
+        "from; each tactic's duration is drawn from an exponential of this mean. "
+        f"Tactic names follow ATT\\&CK~v{pin}. "
+        "Appendix~\\ref{app:dwell-derivation} gives each tactic's multiplier and "
+        "reason."
     )
     # ch4 scrutiny 2026-10-02 (T2): the repo version string is off the caption
     # (voice.md §e), mu_p points at its declaration (not Eq. 4.1), and the
@@ -93,11 +95,12 @@ def main() -> None:
     L = [banner, r"\begin{table}[htbp]", r"\centering",
          rf"\caption[{short}]{{{caption}}}", r"\label{tab:dwell-catalogue}",
          r"\tablestyle",
-         r"\begin{tabular}{@{}l r@{}}", r"\toprule",
-         r"Tactic & Mean duration $\mu_p$ (s) \\", r"\midrule"]
+         r"\begin{tabular}{@{}l l r@{}}", r"\toprule",
+         r"Tactic & Family & Mean duration $\mu_p$ (s) \\", r"\midrule"]
     for name in axis.matrix_order:
         e = tactics[name]
-        L.append(f"{esc(axis.label[name])} & {num(e['duration_s'])} \\\\")
+        L.append(f"{esc(axis.label[name])} & {FAMILY_LABEL[e['anchor']]} & "
+                 f"{num(e['duration_s'])} \\\\")
     L += [r"\bottomrule", r"\end{tabular}", r"\end{table}", ""]
     (OUT_DIR / "tab_4-4a_dwell_catalogue.tex").write_text("\n".join(L))
 
