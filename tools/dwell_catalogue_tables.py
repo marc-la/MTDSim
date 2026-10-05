@@ -3,9 +3,10 @@
 Two floats from one declared family, emitted from `data/ogasp/tactic_durations.json`
 so no value is ever typed (`figure_table_conventions.md` §h):
 
-* `tab:dwell-catalogue` (§4.4.2) --- the **families**: one row per family
-  value, with its tactics, what the value is set from (MTDSim's costs, or a
-  multiple of another family) and the mean duration. Since 2026-10-05 (Marc:
+* `tab:dwell-catalogue` (§4.4.2) --- one row per shared duration: its
+  tactics, its source (MTDSim's time, or declared) and the mean duration
+  (round 4, 2026-10-05: three columns; the work each tactic does is the
+  prose's). Since 2026-10-05 (Marc:
   the per-tactic table "reads like 15 random numbers"; "how they came from
   MTDSim and the baseline attacker"), overturning the one-panel ruling of
   2026-09-08 on merit.
@@ -108,12 +109,15 @@ def main() -> None:
     assert abs(scan_s - anchors["scan-shaped"]["duration_s"]) < 1e-9, scan_s
     assert abs(exploit_s - anchors["exploit-shaped"]["duration_s"]) < 1e-9, exploit_s
 
+    # Round 4, 2026-10-05 (Marc: "what they do" and "set from" vague): the
+    # source cell names the MTDSim time as Section 2.2.3 gives it, or says the
+    # value is declared; the work each tactic does is the prose's.
     def source(anchor: str, mult: float) -> str:
         if anchor == "scan-shaped":
-            return ("MTDSim's three scans "
+            return ("MTDSim, the three scans' total "
                     f"(${' + '.join(str(cost[k]) for k in scan)}$\\,s)")
         if anchor == "exploit-shaped":
-            return "MTDSim's median exploit cost"
+            return "MTDSim, an exploit's median time"
         return "Declared"
 
     rows: dict[tuple[str, float], list[str]] = {}
@@ -125,20 +129,20 @@ def main() -> None:
 
     short = "The tactic durations"
     caption = (
-        "The mean duration of each tactic, with what it was set from. "
+        "The mean duration of each tactic, and its source. "
         "Appendix~\\ref{app:dwell-derivation} gives each tactic's reason."
     )
     L = [banner, r"\begin{table}[htbp]", r"\centering",
          rf"\caption[{short}]{{{caption}}}", r"\label{tab:dwell-catalogue}",
          r"\tablestyle",
-         r"\begin{tabular}{@{}P{0.29\textwidth} P{0.21\textwidth} P{0.21\textwidth} r@{}}", r"\toprule",
-         r"Tactics & What they do & Set from & Mean duration $\mu_p$ (s) \\", r"\midrule"]
+         r"\begin{tabular}{@{}P{0.42\textwidth} P{0.32\textwidth} >{\raggedleft\arraybackslash}p{0.16\textwidth}@{}}", r"\toprule",
+         r"Tactics & Source & Mean tactic duration $\mu_p$ (s) \\", r"\midrule"]
     for anchor, mult in keys:
         names = [axis.label[n] for n in rows[(anchor, mult)]]
         names = [names[0]] + [n[0].lower() + n[1:] for n in names[1:]]
         mu = {tactics[n]["duration_s"] for n in rows[(anchor, mult)]}
         assert len(mu) == 1, mu
-        L.append(f"{esc(', '.join(names))} & {WORK[(anchor, mult)]} & "
+        L.append(f"{esc(', '.join(names))} & "
                  f"{source(anchor, mult)} & {num(mu.pop())} \\\\")
     L += [r"\bottomrule", r"\end{tabular}", r"\end{table}", ""]
     (OUT_DIR / "tab_4-4a_dwell_catalogue.tex").write_text("\n".join(L))

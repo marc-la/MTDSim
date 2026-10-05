@@ -851,8 +851,19 @@ endpoints, the hosts it has compromised and their neighbours. On each host
 it tries stolen credentials first, then exploits the vulnerabilities in
 order of \emph{return on attack}, an exploit's probability of success times
 its impact, divided by the time it takes \citep{brown2023}, and brute force
-last. An exploit of a vulnerability it has exploited before takes half the
-time \citep{zhang2023}.
+last.
+% [DRAFT STATE 2026-10-05, from the 4.4.2 round-4 review (Marc: should
+%  MTDSim's attack-action times be in the background, where the attack
+%  actions are introduced, so the method can use them). Verified against
+%  mtdnetwork/data/constants.py ATTACK_DURATION and
+%  component/services.py Vulnerability.exploit_time; the x2.5 OS-mismatch
+%  factor left off the page.]
+Scanning for hosts, enumerating a host and scanning a host's neighbours
+each take 5\,s, scanning its ports 25\,s and brute force
+20\,s~\citep{tay2024code}. An exploit takes 15\,s times one minus the
+vulnerability's attack complexity, which lies between 0.4 and
+1~\citep{brown2023}, so from 0 to 9\,s. An exploit of a vulnerability it
+has exploited before takes half the time \citep{zhang2023}.
 
 % [TERM SWEEP 2026-09-30, Marc: "disrupt, 100 %, everywhere"] interrupt -> disrupt in own-voice prose, ch2/ch4/ch5 and Figures 2.1, 4.1; code names keep interrupt. Registry row re-affirmed.
 A host-layer deployment disrupts the attacker
@@ -4777,84 +4788,80 @@ model can only be as good as the attack actions it adopts.
 \subsection{Tactic durations}
 \label{subsec:dwell-times}
 
-% [ROUND 3, 2026-10-05 (Marc: lost from halfway into P1; "family" and
-%  "shape" "so vague"; the "value from" column moves the question to "how did
-%  you choose ten times"; "we didn't replace it, we were forced to"; state the
-%  principles plainly: comparable with the baseline attacker, MTDSim's own
-%  values and time scale where possible, judgement where needed, and do not
-%  hide that they are declared). ROOT CAUSE of rounds 1-2: the prose walked the
-%  duration catalogue's internal construction (families, anchors, multipliers,
-%  coined names) instead of the reader's question, "how long does each tactic
-%  take, and why that long?". Rebuilt on the catalogue's recorded principle
-%  (tactic_durations.json meta.scale_convention: the absolute scale anchored to
-%  MTDSim so results stay comparable; the relative lengths judged): P1 what,
-%  why it matters, why declared, the principle; P2 why per tactic (forced:
-%  tactics and attack actions do not line up); P3 the two reference points
-%  MTDSim gives and the six tactics set from them, with the one honest
-%  divergence (credential access and brute force); P4 the nine declared by
-%  judgement, each with its reason; P5 the test and the exponential. No coined
-%  names: "family", "-shaped", "low-and-slow", "objective-execution" and "scan
-%  pass" cut from the prose and Table 4.2 (whose rows now say what the tactics
-%  do and what each value was set from: MTDSim, or declared). Figure 4.5: step
-%  3 one continuous line through the timed transition. Round 2 in git
-%  61ac2319. DRAFT STATE.]
+% [ROUND 4, 2026-10-05 (Marc: P1 still carries detail that detracts; the
+%  four-month median sets a time scale against MTDSim's 200 s and reads as a
+%  conflict; P2's example (execution 22.5 s against 4.5 s) and its
+%  "therefore" are circular, since the values are our declarations; where do
+%  the numbers come from on a black-box read: should MTDSim's attack-action
+%  times sit in the background, where the attack actions are introduced;
+%  Table 4.2's cells vague; why App C at all for a declaration). Edits on the
+%  round-3 base: P1 cuts the four months and the 200 s (P4 needs it, P1 does
+%  not), keeps the principle; P2 argues per-tactic durations from the Petri
+%  net's per-tactic timed transitions and the seven unmapped tactics, which
+%  still take time (the same fact rules out an MTDSim-times-only ablation);
+%  P3 cites the times from Section 2.2.3, where they now first appear; P4
+%  states each declared value as a placement between named reference times;
+%  P5 says why the robustness check is the defence a declared value admits:
+%  any value in its place would serve as well. Round 3 in git 4f8c240e.
+%  DRAFT STATE.]
 The \emph{tactic durations} set how long each tactic runs in MTDSim, at
 step~3 of Figure~\ref{fig:runtime-loop}. They set the APT attacker model's
 pace, and the longer a tactic runs, the more likely an MTD deployment
-disrupts it. CTI vendor reports do not give them, because they time a whole
-intrusion, a median of four months (Chapter~\ref{ch:intro}).
-Chapter~\ref{ch:experiments} compares the APT attacker model with the
-baseline attacker under the same MTD deployments, so we kept the model on
-MTDSim's time scale, where an attack action takes seconds and a deployment
-comes every 200~s by default (Section~\ref{subsec:defence-mechanisms}). We
-took a tactic's duration from MTDSim's costs where the tactic's work
-resembles an attack action's, and declared it where it does not.
+disrupts it. CTI vendor reports do not give them, because they time whole
+intrusions. Chapter~\ref{ch:experiments} compares the APT attacker model
+with the baseline attacker under the same MTD deployments, so we kept the
+tactic durations on the scale of the baseline attacker's attack actions,
+which take seconds (Section~\ref{subsec:attacker-model}). Where a tactic
+does the work of an attack action, it takes that attack action's time;
+otherwise we declared its duration by judgement.
 
-MTDSim gives each attack action a cost, the time it takes to run, but the
-Petri net times tactics, and tactics do not line up one to one with attack
-actions. Seven tactics have no attack action, and tactics that share one
-need not take the same time. Initial access, execution and privilege
-escalation, for example, all map to exploit, yet execution takes 22.5~s and
-the other two 4.5~s. A tactic's duration therefore replaces the cost of its
-attack action, which runs for that duration.
-Table~\ref{tab:dwell-catalogue} gives each tactic's mean duration and what
-it was set from.
+The Petri net times each tactic by its own timed transition, but MTDSim
+times attack actions, and seven tactics are unmapped
+(Section~\ref{subsec:tactic-verb-mapping}). An unmapped tactic still takes
+the attacker time, although MTDSim does not carry it out, so MTDSim's times
+alone cannot pace the APT attacker model. Each tactic therefore has a
+duration of its own, and the attack action it maps to runs for that
+duration in place of the attack action's time. Table~\ref{tab:dwell-catalogue} gives
+each tactic's mean duration and its source.
 
-Two of MTDSim's costs serve as reference points. An exploit costs 15~s
-times one minus the vulnerability's complexity, which lies between 0.4 and
-1~\citep{brown2023}, so it takes 4.5~s at the median. Initial access,
-privilege escalation, credential access and lateral movement are each a
-brief act on one host, as an exploit is, so each takes 4.5~s. MTDSim's
-three scans, for hosts, for a host's ports and for its neighbours, take 5,
-25 and 5~s, and reconnaissance and discovery, which survey hosts as the
-three scans do, take their sum, 35~s. A tactic's duration follows the work
-the tactic usually does, so it can differ from the cost of the attack action
-it maps to. Credential access maps to brute force, which costs 20~s, but it
-usually dumps the credentials stored on a host, a brief act like an exploit.
+Six tactics take their durations from MTDSim. Initial access, privilege
+escalation, credential access and lateral movement each act briefly on one
+host, as an exploit does, so each takes an exploit's median time, 4.5~s.
+Reconnaissance and discovery survey a network, as MTDSim's three scans do
+together, so each takes the three scans' total, 35~s. A tactic takes the
+time of the attack action its work resembles, which need not be the one it
+maps to. Credential access maps to brute force, which takes 20~s, but its
+usual technique dumps the credentials stored on a host, a brief act like an
+exploit.
 
 \input{tables/tab_4-4a_dwell_catalogue}
 
 We declared the other nine durations by judgement, placing each against
-these reference points, as other models that time attack steps declare
-theirs~\citep{bland2020, mcqueen2006, mendonca2023}. Persistence, stealth
-and command and control are kept up quietly over time, so they take the
-longest, 45~s. That is longer than any attack action but well below the
-200~s deployment interval, so a deployment does not cut every one of them
-short. Execution and defense impairment are short acts that the attacker
-carries out among these quiet tactics, so they take half that, 22.5~s.
-Collection, exfiltration and impact move or destroy data, which we judged to
-take about as long as the three scans, 36~s. Resource development takes no
-time, because the attacker develops its resources before the attack reaches
-the target's network.
+MTDSim's times and the 200~s default deployment interval
+(Section~\ref{subsec:defence-mechanisms}), as other models that time attack
+steps declare theirs~\citep{bland2020, mcqueen2006, mendonca2023}.
+Persistence, stealth and command and control are kept up quietly over time,
+so they take the longest, 45~s. That is longer than any attack action,
+the longest of which takes 25~s, and well short of the deployment interval,
+so most of them finish between two deployments. Execution and defense
+impairment are brief acts, such as running a payload or disabling a defence,
+that the attacker carries out among the quiet tactics, so we placed them
+between an exploit and the quiet tactics, at 22.5~s, half the quiet
+tactics' duration. Collection, exfiltration and impact move or destroy data, which we
+judged to take a little longer than surveying a network and less time than
+the quiet tactics, so 36~s. Resource development takes no time, because the
+attacker develops its resources before the attack reaches the target's
+network.
 
-Because most of these durations are judgements,
-Appendix~\ref{app:dwell-robustness} moves each shared duration across a
-band, one at a time, and shows how much the results depend on
-it~\citep{tenbroeke2016}. Each tactic's duration is drawn from an
-exponential of its mean duration $\mu_p$, because the timed transitions of a
-GSPN fire after exponential delays (Section~\ref{sec:petri-formalism}). A
-duration that varies from run to run also matches the evidence that attack
-behaviour is stochastic~\citep{holm2014, madan2004, bland2020}, and
+Judgement places each declared duration among the others, and any value in
+its place would serve as well. Appendix~\ref{app:dwell-robustness} therefore
+moves the tactic durations across bands, one value at a time, and shows
+which results depend on each~\citep{tenbroeke2016}. Each tactic's duration
+is drawn from an exponential of its mean duration $\mu_p$, because the timed
+transitions of a GSPN fire after exponential delays
+(Section~\ref{sec:petri-formalism}). A duration that varies from run to run
+also matches the evidence that attack behaviour is
+stochastic~\citep{holm2014, madan2004, bland2020}, and
 Appendix~\ref{app:exponential-shape} swaps in a less variable shape of the
 same mean.
 

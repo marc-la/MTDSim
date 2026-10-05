@@ -5,19 +5,19 @@
 
 \begin{table}[htbp]
 \centering
-\caption[The tactic durations]{The mean duration of each tactic, with what it was set from. Appendix~\ref{app:dwell-derivation} gives each tactic's reason.}
+\caption[The tactic durations]{The mean duration of each tactic, and its source. Appendix~\ref{app:dwell-derivation} gives each tactic's reason.}
 \label{tab:dwell-catalogue}
 \tablestyle
-\begin{tabular}{@{}P{0.29\textwidth} P{0.21\textwidth} P{0.21\textwidth} r@{}}
+\begin{tabular}{@{}P{0.42\textwidth} P{0.32\textwidth} >{\raggedleft\arraybackslash}p{0.16\textwidth}@{}}
 \toprule
-Tactics & What they do & Set from & Mean duration $\mu_p$ (s) \\
+Tactics & Source & Mean tactic duration $\mu_p$ (s) \\
 \midrule
-Initial access, privilege escalation, credential access, lateral movement & A brief act on one host & MTDSim's median exploit cost & 4.5 \\
-Reconnaissance, discovery & Survey hosts & MTDSim's three scans ($5 + 25 + 5$\,s) & 35.0 \\
-Persistence, stealth, command and control & Kept up quietly over time & Declared & 45.0 \\
-Execution, defense impairment & Short acts among the quiet tactics & Declared & 22.5 \\
-Collection, exfiltration, impact & Move or destroy data & Declared & 36.0 \\
-Resource development & Off the network, before the attack & Declared & 0.0 \\
+Initial access, privilege escalation, credential access, lateral movement & MTDSim, an exploit's median time & 4.5 \\
+Reconnaissance, discovery & MTDSim, the three scans' total ($5 + 25 + 5$\,s) & 35.0 \\
+Persistence, stealth, command and control & Declared & 45.0 \\
+Execution, defense impairment & Declared & 22.5 \\
+Collection, exfiltration, impact & Declared & 36.0 \\
+Resource development & Declared & 0.0 \\
 \bottomrule
 \end{tabular}
 \end{table}
