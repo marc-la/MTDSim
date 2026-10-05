@@ -1,7 +1,7 @@
 ---
 status: durable
 created: 2026-07-27
-updated: 2026-09-07
+updated: 2026-10-05
 topic: "The APT-attacker-model criterion (supervisor S6) — a literature-derived rubric of what an APT attacker model should capture, this model scored against it honestly, and the measurement recommendations (M8b) that ride with each claimed axis"
 ---
 
@@ -121,16 +121,18 @@ under this constraint.
 
 ## (c) The scorecard
 
+> **Axis names RENAMED 2026-10-05 (Marc's ruling; thesis Table 3.2, ruling comment above it; registry row in [`../workflows/terminology.md`](../workflows/terminology.md)).** 1 Persistence → *campaign persistence*; 2 Objective conditioning → *objective-specific behaviour*; 3 Strategic plurality → *choice of attack strategy*; 5 Stealth → *detection avoidance*; 6 Incentive-driven rationality → *cost–benefit reasoning*; 8 (MTD-)scheme awareness → *deployment-strategy awareness*; 4 Adaptivity and 7 Learning kept. Why: bare *persistence* and *stealth* are ATT&CK v19.1 tactics the thesis names; *MTD scheme* duplicated the deployment strategy; *rationality* clashed with ch2. Numbers unchanged, every score unchanged, the set kept at eight. Thesis definitions now: (1) runs one multi-stage campaign toward its objective over an extended period; (2) after the foothold, takes different attack actions for different objectives; (3) chooses among several attack strategies (sequences of attack actions) toward the same objective; (4) chooses its next attack action in response to an MTD disruption; (5) chooses attack actions a detector does not flag; (6) chooses each attack action by weighing its cost against its benefit; (7) keeps what it observes of past MTD deployments and uses it to choose later attack actions; (8) predicts which mechanism the deployment strategy deploys next, and when. The body below keeps the old names where it records history.
+
 | # | Axis | Literature source | Prior MTD work (thesis Table 3.3, verified 2026-09-07) | This model today |
 |---|---|---|---|---|
-| 1 | Persistence — multi-stage campaign structure | Cho §V-A; Alshamrani §II-A (NIST i), §II-C | **re-scored 2026-10-02:** lineage *full* (a multi-stage cycle repeated host by host until the target, never giving up); Masud partial (a chain of exploits per path, no state across intervals); Kim partial (four stages in one short attempt) | **DESIGNED** |
-| 2 | Objective conditioning | Alshamrani §II-A, §II-C | partial in all three: the lineage's two scenarios (host preference, give-up rule); Masud's one target ends every path; Kim's post-foothold shell for its one objective | **DEMONSTRATED** |
-| 3 | Strategic plurality (multi-strategy branching) | Cho §V-D (dim. 2) | partial: the lineage (experimenter-assigned scenario, fixed fallback order); Masud (every path enumerated, none chosen); Kim none | **DEMONSTRATED** |
+| 1 | Campaign persistence — multi-stage campaign structure | Cho §V-A; Alshamrani §II-A (NIST i), §II-C | **re-scored 2026-10-02:** lineage *full* (a multi-stage cycle repeated host by host until the target, never giving up); Masud partial (a chain of exploits per path, no state across intervals); Kim partial (four stages in one short attempt) | **DESIGNED** |
+| 2 | Objective-specific behaviour | Alshamrani §II-A, §II-C | partial in all three: the lineage's two scenarios (host preference, give-up rule); Masud's one target ends every path; Kim's post-foothold shell for its one objective | **DEMONSTRATED** |
+| 3 | Choice of attack strategy (multi-strategy branching) | Cho §V-D (dim. 2) | partial: the lineage (experimenter-assigned scenario, fixed fallback order); Masud (every path enumerated, none chosen); Kim none | **DEMONSTRATED** |
 | 4 | Adaptivity to defender resistance | Cho §V-A; Alshamrani §II-A (NIST ii) | partial: the lineage's fixed response per disruption type; Masud's path set recomputed after each deployment (borderline); Kim none | **DESIGNED** |
-| 5 | Stealth — evasion and passive reconnaissance | Cho §V-A; Alshamrani §II-C; Jalowski §4.3 | partial: Kim's outbound shell chosen to evade a detector the testbed does not contain; lineage, Masud none | **NOT ADDRESSED** |
-| 6 | Incentive-driven rationality | Cho §V-A, §V-D (dim. 3) | partial: the lineage's RoA ordering of exploits within a host (only one action type weighed); Masud's per-path cost and RoA, computed, driving no choice; Kim none | **DESIGNED** |
+| 5 | Detection avoidance — evasion and passive reconnaissance | Cho §V-A; Alshamrani §II-C; Jalowski §4.3 | partial: Kim's outbound shell chosen to evade a detector the testbed does not contain; lineage, Masud none | **NOT ADDRESSED** |
+| 6 | Cost–benefit reasoning | Cho §V-A, §V-D (dim. 3) | partial: the lineage's RoA ordering of exploits within a host (only one action type weighed); Masud's per-path cost and RoA, computed, driving no choice; Kim none | **DESIGNED** |
 | 7 | Learning capability | Cho §V-D (dim. 1); Jalowski §4.3 | partial: Zhang's exploit-time halving (learns the network, not the MTD); Masud, Kim none | **DESIGNED** |
-| 8 | MTD-scheme awareness (three Jalowski primitives) | Jalowski §4.1, §4.3 | partial: Kim's success probability computed from the time left before the next MTD deployment (T_k, p. 10), used by no attack action; lineage, Masud none | **NOT ADDRESSED** |
+| 8 | Deployment-strategy awareness (three Jalowski primitives) | Jalowski §4.1, §4.3 | partial: Kim's success probability computed from the time left before the next MTD deployment (T_k, p. 10), used by no attack action; lineage, Masud none | **NOT ADDRESSED** |
 
 > **Prior-work column RE-SCORED 2026-10-02 (Marc: "the rescored table looks
 > right").** Every row was re-read blind under one model-agnostic rule: an attacker
@@ -191,7 +193,7 @@ result that prompted them.
 
 ## (d) The axes
 
-### Axis 1 — Persistence: multi-stage campaign structure
+### Axis 1 — Campaign persistence (was Persistence): multi-stage campaign structure
 
 **What it is.** Cho et al. name *persistent* attackers as operating across
 multiple stages, reconnaissance through exploitation, aligned with APT-style
@@ -271,7 +273,7 @@ movement arm, and it did not;
 curve still leads, and remains the one route by which the pursuit half could
 move this badge.
 
-### Axis 2 — Objective conditioning
+### Axis 2 — Objective-specific behaviour (was Objective conditioning)
 
 **What it is.** Alshamrani's *threat* property defines the APT by its
 objective, and the NIST objective triad — exfiltration, impediment, or
@@ -311,7 +313,7 @@ corpus-level check at the execution level; and, once experiment 2 runs,
 whether MTD *mechanism rankings* differ by profile — the result axis the
 supervisor named (R3, S6).
 
-### Axis 3 — Strategic plurality (multi-strategy branching)
+### Axis 3 — Choice of attack strategy (was Strategic plurality; multi-strategy branching)
 
 **What it is.** Cho et al.'s second under-developed dimension: few scenarios
 consider multiple strategies by attackers and defenders — most work pits one
@@ -506,7 +508,7 @@ experiment, targeting the one question this probe's verdict-denominated
 boundary leaves open (sequencing/time-to-refoothold), with the friction
 precedent pricing the expectation.
 
-### Axis 5 — Stealth: low-and-slow tempo and evasion
+### Axis 5 — Detection avoidance (was Stealth): low-and-slow tempo and evasion
 
 **What it is.** Cho et al.'s *stealthy* attacker does not exhibit identifiable
 attack behaviour continuously; it blends in until the moment of most harm
@@ -639,7 +641,7 @@ beside it. And a large part of the contrast is present before any decay is appli
 — 17.5–21.3 invoking events per 1 000 s against the baseline's 24.8 — so what the
 exponential adds is the *shape* of the quiet, not the separation.
 
-### Axis 6 — Incentive-driven rationality
+### Axis 6 — Cost–benefit reasoning (was Incentive-driven rationality)
 
 **What it is.** Cho et al. model the sophisticated attacker as "a rational
 actor that is sensitive to incentives, such as attack success with minimum
@@ -941,7 +943,7 @@ representations are indistinguishable to three decimal places, differing only on
 breadth, so the within-run blocked-fraction measure recommended above **cannot
 discriminate between representations** and must never be read as evidence for one.
 
-### Axis 8 — MTD-scheme awareness (the three Jalowski primitives)
+### Axis 8 — Deployment-strategy awareness (was MTD-scheme awareness; the three Jalowski primitives)
 
 **What it is.** Jalowski et al.'s corrective: research must shift toward
 "smart, adaptive attackers who understand the MTD scheme and look for the

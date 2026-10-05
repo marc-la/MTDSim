@@ -172,8 +172,8 @@ def _tex(s: str) -> str:
 
 def build(f: dict, ledger: list[dict], p: dict) -> str:
     caption = (
-        "Partition schemes considered for the objective-conditioned attack "
-        "profiles, and what each produced on this corpus. Rows are ordered by "
+        "Partition schemes considered for the attack profiles by objective, "
+        "and what each produced on this corpus. Rows are ordered by "
         "how far the evidence a scheme reads sits from the analyst's own "
         "statement of what the operation did; the six above the rule were "
         "dismissed, and the row below it is the scheme the pipeline adopts. "
