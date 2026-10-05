@@ -5015,14 +5015,16 @@ Section~\ref{subsec:apt}, which run their stages in sequence.
 We wrote the assumptions as rules instead of setting the 210 factors one by
 one. Nine rules give one value to each kind of move the assumptions tell
 apart, such as a move to another tactic of the same lifecycle stage after a
-failure with a foothold. A distance factor, set by three more values, scales
-down a move that skips a lifecycle stage. These twelve values set all 210
-factors (Appendix~\ref{app:weight-sets}). Equation~\ref{eq:routing} rescales
+failure with a foothold. The third assumption is also written as a distance
+factor, which scales a move down by each lifecycle stage it skips. The rules
+and the distance factor set all 210 factors (Appendix~\ref{app:weight-sets}),
+and their values are our judgement. Equation~\ref{eq:routing} rescales
 the weights out of a tactic to sum to one, so a factor counts only against
 the other factors of the same tactic. After a failed initial access in
 $c_1$, for example, the weight on reconnaissance rises from 0.062 to 0.750
-(Figure~\ref{fig:gspn-gadget}(b)). Without the failure matrix, the attacker
-would carry on into the network as though it had broken in.
+(Figure~\ref{fig:gspn-gadget}(b)), so the attacker most likely goes back to
+reconnaissance to try again. Without the failure matrix, it would most likely
+carry on into the network as though it had broken in.
 
 The failure matrix gives the APT attacker model adaptivity, property~4 of
 Table~\ref{tab:attacker-properties}: it chooses its next tactic in response
@@ -5033,14 +5035,25 @@ $c_2$, no move leads from initial access back to preparation, so a failed
 initial access still goes on into the network. Where the corpus gave a
 tactic no next tactic, a dead end, there is nothing to reweight, and the
 token retraces the edge it travelled, a concession to the thinness of the
-corpus.
-
-The twelve values are our judgement, model parameters for this simulator and
-not real-world values. We did not reverse-engineer any of them from an
-evaluation outcome. Appendix~\ref{app:decay-robustness} varies the distance
-factor's three values. Section~\ref{subsec:ablation-failure-matrix} sets
+corpus. Section~\ref{subsec:ablation-failure-matrix} sets
 every factor to one and finds that the failure matrix changes where the
 attacker goes after a failure, but not what it achieves.
+
+% ROUND 5, 2026-10-05 (Marc: the last paragraph says again what is said
+% everywhere else; "I thought the distance factor was one value ... judgement
+% calls within a judgement call ... can we abstract it away"; the c1 example
+% did not visibly link to the sentence after it). Done: the distance factor is
+% the third assumption written down, its three values (two rates, a floor) left
+% to Appendix B.6, whose table caption still points to Appendix C.3; "twelve
+% values", "model parameters ... not real-world values" (4.4.2 says it) and "did
+% not reverse-engineer" cut; one sentence declares the values judgement; the
+% c1 example says what the rise does (base weights from initial access in c1
+% put 0.938 on tactics past the foothold, checked 2026-10-05). Hutchins kept on
+% merit: the ground of assumption 1, not literature-review content (Marc asked
+% for grounded assumptions). Then (Marc, same read: the last paragraph
+% "could just be integrated better into the existing" ones): the judgement
+% clause joins P3 where the values come in, the test closes P4, so the
+% subsection still ends on its test as 4.4.4 does. DRAFT STATE.
 
 \subsection{Vulnerability memory}
 \label{subsec:vulnerability-memory}
