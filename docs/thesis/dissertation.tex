@@ -4820,7 +4820,10 @@ has one parameter, its mean, so each tactic needs one value, its
 \emph{mean duration}~$\mu_p$. Chapter~\ref{ch:experiments} compares
 the APT attacker model with the baseline attacker under the same MTD
 deployments, so we kept the mean durations on the scale of the baseline
-attacker's attack actions (Section~\ref{subsec:attacker-model}).
+attacker's attack actions (Section~\ref{subsec:attacker-model}). Every mean
+duration also stays under the 200~s default deployment interval
+(Section~\ref{subsec:defence-mechanisms}), or a deployment would disrupt most
+runs of the tactic.
 
 MTDSim cannot supply every mean duration. The Petri net times each tactic,
 but MTDSim times only its attack actions, and seven tactics are unmapped
@@ -4877,11 +4880,13 @@ judged to take a little longer than surveying a network, so we set them at
 paces to stay hidden, so we set them at 22.5~s, half the 45~s and longer than
 an exploit. Resource development happens before the attack reaches the
 target's network, so it takes no time.
-
-These values are our judgement, model parameters for this simulator and not
-real-world values. Each stays under the 200~s default deployment interval
-(Section~\ref{subsec:defence-mechanisms}), or a deployment would disrupt most
-runs of the tactic. Appendix~\ref{app:dwell-robustness}, run after the values
+% ROUND 11, 2026-10-05 (Marc: as in 4.4.3, the last paragraph repeats the
+% judgement and could be integrated into the existing paragraphs). The
+% judgement sentence is cut (P2 and P4 say it; P1's scale sentence carries
+% "not real-world values"); the 200 s bound joins P1, where the scale is set
+% and the disruption risk stated, since it holds for all fifteen; the test
+% closes P4, as 4.4.3 and 4.4.4 close on theirs. DRAFT STATE --- ratify on read.
+Appendix~\ref{app:dwell-robustness}, run after the values
 were fixed, moves each mean duration that several tactics share across a
 band, one at a time, and finds that NCR (Section~\ref{sec:evaluation-metrics})
 depends most on the 45~s of persistence, stealth and command and control.
