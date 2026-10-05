@@ -101,7 +101,8 @@ REASON = {
     # and one example; this table gives every row. A direct pair leads with the
     # ATT&CK technique its attack action carries out (names verified against
     # the pinned v19.1 bundle: T1595, T1190, T1203, T1068, T1110, T1046); a
-    # broad pair says what the two share; an unmapped row what MTDSim lacks.
+    # pair chosen for the tactic's goal says so (round 4: "direct" and "broad"
+    # cut); an unmapped row what MTDSim lacks.
     # "The simulator" -> MTDSim. Technique names, no IDs.
     "reconnaissance": "Active Scanning: finds the hosts the attacker can attack "
                       "from its current host.",
@@ -124,9 +125,10 @@ REASON = {
                          "the current host.",
     "discovery": "Network Service Discovery: lists the open ports of the current "
                  "host, which a later exploit needs.",
-    "lateral-movement": "Broad: enumerating a host moves the attacker to its next "
-                        "host, as lateral movement does.",
-    "command-and-control": "Broad: Brown describes this attack action as command "
+    "lateral-movement": "Chosen for the tactic's goal: enumerating a host moves "
+                        "the attacker to its next host.",
+    "command-and-control": "Chosen for the tactic's goal: Brown describes this "
+                           "attack action as command "
                            "and control revealing connected hosts "
                            "\\citep{brown2023}.",
     "collection": "Hosts in MTDSim carry services and vulnerabilities, but no "
@@ -330,9 +332,9 @@ def emit_table(rows: list[dict], entry: dict, axis, stage_of, stage_name) -> str
     L.append(r"\centering")
     L.append(r"\caption[Reasons for the tactic-to-action mapping]{The reason for each "
              r"row of the tactic-to-action mapping (Figure~\ref{fig:controller-mapping}), "
-             r"grouped by lifecycle stage: for a direct pair, the ATT\&CK technique "
-             r"its attack action carries out; for a broad pair, what the two share; "
-             r"for an unmapped tactic, marked by a dash, what MTDSim lacks.}")
+             r"grouped by lifecycle stage. A tactic mapped by technique names the "
+             r"ATT\&CK technique its attack action carries out; an unmapped tactic is "
+             r"marked by a dash, and its reason says what MTDSim lacks.}")
     L.append(r"\label{tab:controller-mapping}")
     # \footnotesize, and the reason column takes the width the two fixed columns
     # leave: at this size "Command and control" is ~98pt and "Credential brute
