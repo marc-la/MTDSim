@@ -96,35 +96,41 @@ def verb_tex(verb: str) -> str:
 # 2026-08-20). Wording is drafted here and owed a pass, as `tab:experiment-one`
 # was; the tactic and action columns beside them are read from the CSV.
 REASON = {
-    # Reworded 2026-10-04 (appendix pass): the chapter's terms (attack action,
-    # foothold, dwell-only, the simulator), no technique IDs, no "substrate".
-    "reconnaissance": "Finds the hosts the attacker can attack from its current "
-                      "host: the simulator's only survey of the network.",
+    # Round 3 of section 4.4.1, 2026-10-05 (Marc: the reasons belong in one
+    # place, the prose or this table, not both): the prose gives the principle
+    # and one example; this table gives every row. A direct pair leads with the
+    # ATT&CK technique its attack action carries out (names verified against
+    # the pinned v19.1 bundle: T1595, T1190, T1203, T1068, T1110, T1046); a
+    # broad pair says what the two share; an unmapped row what MTDSim lacks.
+    # "The simulator" -> MTDSim. Technique names, no IDs.
+    "reconnaissance": "Active Scanning: finds the hosts the attacker can attack "
+                      "from its current host.",
     "resource-development": "Building tools happens off the target's network, "
-                            "which the simulator does not model.",
-    "initial-access": "The only attack action that gives the attacker a host it "
-                      "did not hold.",
-    "execution": "An exploit is the only way the simulator runs the attacker's "
-                 "code on a host.",
+                            "which MTDSim does not model.",
+    "initial-access": "Exploit Public-Facing Application: the only attack action "
+                      "that gives the attacker a host it did not hold.",
+    "execution": "Exploitation for Client Execution: an exploit is MTDSim's only "
+                 "way to run the attacker's code on a host.",
     "persistence": "A compromised host stays compromised, so there is no "
                    "foothold to keep.",
-    "privilege-escalation": "The simulator has no privilege levels; each further "
-                            "exploit brings a host closer to compromise instead.",
-    "stealth": "Nothing in the simulator watches the attacker, so there is "
-               "nothing to hide from.",
+    "privilege-escalation": "Exploitation for Privilege Escalation: MTDSim has no "
+                            "privilege levels, so each further exploit brings a "
+                            "host closer to compromise instead.",
+    "stealth": "Nothing in MTDSim watches the attacker, so there is nothing to "
+               "hide from.",
     "defense-impairment": "The MTD schedule runs on the defender's side; the "
                           "attacker can neither see nor change it.",
-    "credential-access": "Tries the usernames already stolen against the current "
-                         "host: a brute-force login.",
-    "discovery": "Lists the open ports of the current host, which a later "
-                 "exploit needs.",
-    "lateral-movement": "Moves the attacker to the next host, which becomes its "
-                        "current host.",
-    "command-and-control": "The one row MTDSim's design names itself: Brown "
-                           "describes this attack action as command and control "
-                           "revealing connected hosts \\citep{brown2023}.",
-    "collection": "Hosts in the simulator carry services and vulnerabilities, "
-                  "but no data to gather.",
+    "credential-access": "Brute Force: tries the usernames already stolen against "
+                         "the current host.",
+    "discovery": "Network Service Discovery: lists the open ports of the current "
+                 "host, which a later exploit needs.",
+    "lateral-movement": "Broad: enumerating a host moves the attacker to its next "
+                        "host, as lateral movement does.",
+    "command-and-control": "Broad: Brown describes this attack action as command "
+                           "and control revealing connected hosts "
+                           "\\citep{brown2023}.",
+    "collection": "Hosts in MTDSim carry services and vulnerabilities, but no "
+                  "data to gather.",
     "exfiltration": "There is no data to take, and nowhere outside the network "
                     "to send it.",
     "impact": "No attack action encrypts, destroys or hijacks a system, so the "
@@ -265,7 +271,7 @@ def emit(rows: list[dict], entry: dict, axis, stage_of, stage_name) -> str:
       % (SMALL_FONT, STAGE_X + 0.08, hy))
     w(r"\node[anchor=east,font=%s,text=black!60] at (%.2f,%.2f) {ATT\&CK tactic};"
       % (SMALL_FONT, TACTIC_X, hy))
-    w(r"\node[anchor=center,font=%s,text=black!60] at (%.2f,%.2f) {attack action};"
+    w(r"\node[anchor=center,font=%s,text=black!60] at (%.2f,%.2f) {MTDSim attack action};"
       % (SMALL_FONT, VERB_CX, hy))
 
     # --- tactic rows ---------------------------------------------------------
@@ -324,8 +330,9 @@ def emit_table(rows: list[dict], entry: dict, axis, stage_of, stage_name) -> str
     L.append(r"\centering")
     L.append(r"\caption[Reasons for the tactic-to-action mapping]{The reason for each "
              r"row of the tactic-to-action mapping (Figure~\ref{fig:controller-mapping}), "
-             r"grouped by lifecycle stage. A dash marks an unmapped tactic; its reason "
-             r"says what the simulator lacks.}")
+             r"grouped by lifecycle stage: for a direct pair, the ATT\&CK technique "
+             r"its attack action carries out; for a broad pair, what the two share; "
+             r"for an unmapped tactic, marked by a dash, what MTDSim lacks.}")
     L.append(r"\label{tab:controller-mapping}")
     # \footnotesize, and the reason column takes the width the two fixed columns
     # leave: at this size "Command and control" is ~98pt and "Credential brute
