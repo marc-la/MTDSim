@@ -4817,13 +4817,7 @@ exponential delay, because the timed transitions of a GSPN fire after
 exponential delays (Section~\ref{sec:petri-formalism}) and attack behaviour
 is stochastic~\citep{holm2014, madan2004, bland2020}. An exponential delay
 has one parameter, its mean, so each tactic needs one value, its
-\emph{mean duration}~$\mu_p$. Chapter~\ref{ch:experiments} compares
-the APT attacker model with the baseline attacker under the same MTD
-deployments, so we kept the mean durations on the scale of the baseline
-attacker's attack actions (Section~\ref{subsec:attacker-model}). Every mean
-duration also stays under the 200~s default deployment interval
-(Section~\ref{subsec:defence-mechanisms}), or a deployment would disrupt most
-runs of the tactic.
+\emph{mean duration}~$\mu_p$.
 
 MTDSim cannot supply every mean duration. The Petri net times each tactic,
 but MTDSim times only its attack actions, and seven tactics are unmapped
@@ -4871,7 +4865,15 @@ time of the three scans, 35~s.
 No source times the other nine tactics, since threat reports time whole
 intrusions. We set their mean durations by judgement, from what each tactic
 does in an attack, as other models that time attack steps do where data are
-missing~\citep{mcqueen2006, bland2020, mendonca2023}. Persistence, stealth
+missing~\citep{mcqueen2006, bland2020, mendonca2023}.
+Chapter~\ref{ch:experiments} compares the APT attacker model with the baseline
+attacker under the same MTD deployments, so we kept the nine on the scale of
+the baseline attacker's attack actions (Section~\ref{subsec:attacker-model}).
+We also kept each under the 200~s default deployment interval
+(Section~\ref{subsec:defence-mechanisms}), or a deployment would disrupt most
+runs of the tactic.
+
+Persistence, stealth
 and command and control keep a foothold, stay hidden and stay in contact
 throughout an attack~\citep{mitre2026attackkb}, so we set them longest, at
 45~s. Collection, exfiltration and impact move or destroy data, which we
@@ -4886,10 +4888,26 @@ target's network, so it takes no time.
 % "not real-world values"); the 200 s bound joins P1, where the scale is set
 % and the disruption risk stated, since it holds for all fifteen; the test
 % closes P4, as 4.4.3 and 4.4.4 close on theirs. DRAFT STATE --- ratify on read.
-Appendix~\ref{app:dwell-robustness}, run after the values
-were fixed, moves each mean duration that several tactics share across a
-band, one at a time, and finds that NCR (Section~\ref{sec:evaluation-metrics})
-depends most on the 45~s of persistence, stealth and command and control.
+% ROUND 12, 2026-10-05 (Marc: P1 set the scale before P2 said where the values
+% come from; the C.1 sentence vague, "moves", "share", "across a band", "one at
+% a time"; "so what"; the 45 s matters through the mapping, a model fact, not
+% a fact about the tactics). Accepted as proposed: the scale and the 200 s
+% bound move from P1 to P4, the judgement they constrain; the groups become P5,
+% closing on the test in plain words: why, what, the finding, the likely
+% reason (the test moved the three tactics together, hence "most likely"),
+% and what it means for chapter 5. Checked: per doubling the 45 s moves NCR
+% about four times as much as any other value, so "only" is fair across the
+% unequal bands. DRAFT STATE --- ratify on read.
+Because these values are our judgement,
+Appendix~\ref{app:dwell-robustness} tests whether NCR
+(Section~\ref{sec:evaluation-metrics}) depends on them: after the values were
+fixed, it halved and doubled each one in turn. Only the 45~s changes NCR much,
+most likely through command and control, one of the three tactics it times.
+Command and control is the only tactic that maps to scan neighbours, the
+attack action that finds the hosts next to those the attacker has compromised
+(Section~\ref{subsec:tactic-verb-mapping}). The slower the attacker finds new
+hosts, the fewer it reaches before the run ends, so Chapter~\ref{ch:experiments}'s
+NCR rests most on this one value.
 
 \subsection{Failure matrix}
 \label{subsec:failure-matrix}
