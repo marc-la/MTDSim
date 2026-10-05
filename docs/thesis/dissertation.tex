@@ -5059,30 +5059,56 @@ parameters.
 %  schedule). Kept, ruled: "triples" (adversary.py:290-305), the CVSS odds,
 %  property 7 in part (B0, 2026-09-29), the diversity-pool hypothesis and its
 %  test (handoff Part A). DRAFT STATE.]
-The vulnerability memory extends MTDSim's exploit attack action. The APT
-attacker model saves each vulnerability it exploits, and each earlier success
-on a vulnerability, on any host, triples the attacker's odds of exploiting it
-again (the odds its CVSS complexity sets, Section~\ref{subsec:network-model});
-the factor of three is our judgement. Hosts that run the same service version
-carry the same vulnerabilities, so a vulnerability exploited once recurs, and
-the memory lets the attacker reuse what worked. Zhang et al.\ halve the
-exploitation time on a vulnerability exploited on an earlier
-host~\citep{zhang2023}. In the APT attacker model the tactic duration
-replaces the exploitation time (Section~\ref{subsec:dwell-times}), so the
-memory raises the chance of success instead.
+% [ROUND 1, 2026-10-05 (Marc: drafted in piecemeal, "not in the frame" of
+%  4.4, which extends the model; "the motivation isn't really there ... why
+%  did we have to add it"; important point and subject first; what nuance the
+%  examiner does not need). Three paragraphs, one examiner question each: what
+%  it is and why it had to be added (P1), how it works and where its value
+%  comes from (P2), what it gives and what we expect of it (P3). The why is in
+%  the frame of 4.4: the baseline attacker's one form of learning, the halved
+%  exploit time (Section 2.2.3; Section 3.3.2 scores the lineage's learning
+%  partial for it), cannot reach the APT attacker model, because step 3
+%  replaces the exploit's time with the tactic duration. Corrected: "Zhang et
+%  al." (zhang2023 is single-author, as ch3 was corrected 2026-09-29); "CVSS
+%  complexity" -> "attack complexity" (Section 2.2.1's term); "draw" (retired).
+%  Added: the baseline attacker runs without the memory (run_corpus.py: the
+%  rate is set for the movement arm only); the memory lasts the run and no
+%  deployment erases it (adversary.py: the counts are reset nowhere).
+%  Overturned on merit: the property 8 sentences (each run starts from M_0;
+%  "not scheme-aware") leave this section, as they describe the whole model,
+%  not the memory; the chapter opener, Section 6.5 and Section 7.2 already say
+%  it. "Learns the network" -> Section 3.3.2's own words, "learns about
+%  vulnerabilities, not about the MTD deployments it observes". Kept, ruled:
+%  "triples the odds", the factor as our judgement, property 7 in part (B0),
+%  the diversity-pool hypothesis and its test. DRAFT STATE.]
+The \emph{vulnerability memory} extends MTDSim's exploit attack action so that
+the APT attacker model is more likely to exploit a vulnerability it has
+exploited before. An attacker that remembers which exploits succeeded can
+reuse them, and so succeeds more often as its attack goes on. The baseline
+attacker already learns from its exploits: an exploit of a vulnerability it
+has exploited before takes half the time
+(Section~\ref{subsec:attacker-model}). In the APT attacker model the tactic
+duration replaces the exploit's time (step~3 of
+Figure~\ref{fig:runtime-loop}), so the halving cannot reach it, and the memory
+acts on the exploit's chance of success instead.
+
+Each earlier success on a vulnerability, on any host, triples the attacker's
+odds of exploiting it again (the odds its attack complexity sets,
+Section~\ref{subsec:network-model}). Hosts that run the same service carry the
+same vulnerabilities, so the attacker meets the same vulnerability on more
+than one host. The memory lasts the whole run, and no MTD deployment erases
+it. The factor of three is our judgement, and the baseline attacker runs
+without the memory. Section~\ref{subsec:ablation-vulnerability-memory} tests
+whether any result depends on the memory, by running the APT attacker model
+without it.
 
 The memory gives the APT attacker model learning, property~7 of
-Section~\ref{subsec:attacker-criterion}, in part: like Zhang's halving
-(Section~\ref{subsec:recent-threat-models}), it learns the network, not the
-MTD deployments Table~\ref{tab:attacker-properties} names. The attacker
-learns nothing about the defence: each run starts from $M_0$ without the
-deployment schedule, and carries nothing from one run into the next. The APT
-attacker model is therefore not scheme-aware (property~8);
-Section~\ref{sec:future-work} returns to it. We hypothesise that the
-memory's effect is amplified with a constrained diversity pool (few services
-and operating systems for a diversity mechanism to draw from), where
-vulnerabilities repeat across hosts, and is weaker with a large pool;
-Section~\ref{subsec:ablation-vulnerability-memory} tests both.
+Table~\ref{tab:attacker-properties}, in part: like the halving, it learns
+about vulnerabilities, not about the MTD deployments it observes. We expect
+the memory to matter more when the \emph{diversity pool}, the services each
+operating system can run, is small: hosts then run the same services more
+often, so a vulnerability recurs on more of them.
+Section~\ref{subsec:ablation-vulnerability-memory} tests it.
 
 \section{Evaluation metrics}
 \label{sec:evaluation-metrics}
