@@ -4788,22 +4788,23 @@ model can only be as good as the attack actions it adopts.
 \subsection{Tactic durations}
 \label{subsec:dwell-times}
 
-% [ROUND 4, 2026-10-05 (Marc: P1 still carries detail that detracts; the
-%  four-month median sets a time scale against MTDSim's 200 s and reads as a
-%  conflict; P2's example (execution 22.5 s against 4.5 s) and its
-%  "therefore" are circular, since the values are our declarations; where do
-%  the numbers come from on a black-box read: should MTDSim's attack-action
-%  times sit in the background, where the attack actions are introduced;
-%  Table 4.2's cells vague; why App C at all for a declaration). Edits on the
-%  round-3 base: P1 cuts the four months and the 200 s (P4 needs it, P1 does
-%  not), keeps the principle; P2 argues per-tactic durations from the Petri
-%  net's per-tactic timed transitions and the seven unmapped tactics, which
-%  still take time (the same fact rules out an MTDSim-times-only ablation);
-%  P3 cites the times from Section 2.2.3, where they now first appear; P4
-%  states each declared value as a placement between named reference times;
-%  P5 says why the robustness check is the defence a declared value admits:
-%  any value in its place would serve as well. Round 3 in git 4f8c240e.
-%  DRAFT STATE.]
+% [ROUND 5, 2026-10-05 (Marc: round 4 "a lot stronger in structure"; P1-P3
+%  clear; the unmapped tactics still taking time is "the most important
+%  point" but lost in a closing clause; "three scans" and "an exploit's median
+%  time" vague; why a *mean* duration; P4/P5: was it judgement or the
+%  sensitivity analysis, are the bands judgement's, does a declaration need a
+%  sensitivity analysis at all, "shows which results depend on each" says
+%  what; "judgement" and "declared" two words for one thing). Edits on the
+%  round-4 base: P2 gives the unmapped point its own sentence and introduces
+%  the random duration with its mean, so Table 4.2's column is read as a
+%  mean; P3 names the scans and the exploit's 0-9 s; P4 states each judgement
+%  as a range between named times and a value chosen inside it; P5 is the
+%  robustness test alone: judgement fixes a range, no evidence picks the
+%  value, Appendix C.1 moves each shared value across a band covering that
+%  range, what it measures, what counts as depending, that nothing was tuned,
+%  and what moved; P6 the exponential. "Judgement" is the basis throughout
+%  (Table 4.2's source column says so); "declared" stays the umbrella word of
+%  Section 4.4's preamble. Round 4 in git f505b1c8. DRAFT STATE.]
 The \emph{tactic durations} set how long each tactic runs in MTDSim, at
 step~3 of Figure~\ref{fig:runtime-loop}. They set the APT attacker model's
 pace, and the longer a tactic runs, the more likely an MTD deployment
@@ -4813,57 +4814,72 @@ with the baseline attacker under the same MTD deployments, so we kept the
 tactic durations on the scale of the baseline attacker's attack actions,
 which take seconds (Section~\ref{subsec:attacker-model}). Where a tactic
 does the work of an attack action, it takes that attack action's time;
-otherwise we declared its duration by judgement.
+otherwise we set its duration by judgement.
 
 The Petri net times each tactic by its own timed transition, but MTDSim
-times attack actions, and seven tactics are unmapped
-(Section~\ref{subsec:tactic-verb-mapping}). An unmapped tactic still takes
-the attacker time, although MTDSim does not carry it out, so MTDSim's times
-alone cannot pace the APT attacker model. Each tactic therefore has a
-duration of its own, and the attack action it maps to runs for that
-duration in place of the attack action's time. Table~\ref{tab:dwell-catalogue} gives
-each tactic's mean duration and its source.
+times only its attack actions. Seven tactics are unmapped
+(Section~\ref{subsec:tactic-verb-mapping}). MTDSim does not carry them out,
+but each still takes the attacker time, so MTDSim's times cannot pace the
+APT attacker model alone, and each tactic needs a duration of its own. Each
+time a tactic runs, its duration is random, an exponential delay whose mean
+is the tactic's mean duration $\mu_p$ (Section~\ref{sec:petri-formalism}),
+and the attack action it maps to runs for that duration in place of the
+attack action's time. Table~\ref{tab:dwell-catalogue} gives each tactic's
+mean duration and its source.
 
-Six tactics take their durations from MTDSim. Initial access, privilege
-escalation, credential access and lateral movement each act briefly on one
-host, as an exploit does, so each takes an exploit's median time, 4.5~s.
-Reconnaissance and discovery survey a network, as MTDSim's three scans do
-together, so each takes the three scans' total, 35~s. A tactic takes the
-time of the attack action its work resembles, which need not be the one it
-maps to. Credential access maps to brute force, which takes 20~s, but its
-usual technique dumps the credentials stored on a host, a brief act like an
+Six tactics take their mean durations from MTDSim's attack actions
+(Section~\ref{subsec:attacker-model}). Initial access, privilege escalation,
+credential access and lateral movement each act briefly on one host, as an
+exploit does, so each takes 4.5~s, the median time of an exploit, which
+takes 0 to 9~s. Reconnaissance and discovery survey a network, as MTDSim's
+scans for hosts, for a host's ports and for its neighbours do together, so
+each takes the three scans' total, 35~s. A tactic takes the time of the
+attack action its work resembles, which need not be the one it maps to.
+Credential access maps to brute force, which takes 20~s, but its usual
+technique dumps the credentials stored on a host, a brief act like an
 exploit.
 
 \input{tables/tab_4-4a_dwell_catalogue}
 
-We declared the other nine durations by judgement, placing each against
-MTDSim's times and the 200~s default deployment interval
-(Section~\ref{subsec:defence-mechanisms}), as other models that time attack
-steps declare theirs~\citep{bland2020, mcqueen2006, mendonca2023}.
-Persistence, stealth and command and control are kept up quietly over time,
-so they take the longest, 45~s. That is longer than any attack action,
-the longest of which takes 25~s, and well short of the deployment interval,
-so most of them finish between two deployments. Execution and defense
-impairment are brief acts, such as running a payload or disabling a defence,
-that the attacker carries out among the quiet tactics, so we placed them
-between an exploit and the quiet tactics, at 22.5~s, half the quiet
-tactics' duration. Collection, exfiltration and impact move or destroy data, which we
-judged to take a little longer than surveying a network and less time than
-the quiet tactics, so 36~s. Resource development takes no time, because the
-attacker develops its resources before the attack reaches the target's
-network.
+We set the other nine mean durations by judgement, as other models that
+time attack steps set theirs~\citep{bland2020, mcqueen2006, mendonca2023}.
+Judgement places each between two known times, and we chose a value between
+them. Persistence, stealth and command and control are kept up
+quietly throughout an attack, so they take longer than any attack action,
+the longest of which, scanning ports, takes 25~s. They take less than the
+200~s default deployment interval (Section~\ref{subsec:defence-mechanisms}),
+so that how often deployments come still changes how many of them are
+disrupted. We set them at 45~s. Execution and defense impairment are brief
+acts, such as running a payload or disabling a defence, that the attacker
+paces to stay hidden, so they take longer than an exploit and less than
+persistence, stealth and command and control. We set them at 22.5~s, half
+of 45~s. Collection, exfiltration and impact move or destroy data, which we
+judged to take at least as long as surveying a network and less than
+persistence, stealth and command and control. We set them at 36~s. Resource
+development takes no time, because the attacker develops its resources
+before the attack reaches the target's network.
 
-Judgement places each declared duration among the others, and any value in
-its place would serve as well. Appendix~\ref{app:dwell-robustness} therefore
-moves the tactic durations across bands, one value at a time, and shows
-which results depend on each~\citep{tenbroeke2016}. Each tactic's duration
-is drawn from an exponential of its mean duration $\mu_p$, because the timed
-transitions of a GSPN fire after exponential delays
-(Section~\ref{sec:petri-formalism}). A duration that varies from run to run
-also matches the evidence that attack behaviour is
-stochastic~\citep{holm2014, madan2004, bland2020}, and
-Appendix~\ref{app:exponential-shape} swaps in a less variable shape of the
-same mean.
+Judgement fixes the range of each of these mean durations, but no evidence
+favours one value in it over another. Appendix~\ref{app:dwell-robustness}
+therefore tests whether the results depend on the value
+chosen~\citep{tenbroeke2016}. It moves each of the four mean durations that
+several tactics share, 4.5, 35, 36 and 45~s, to both ends of a band, one at
+a time with the others held, and counts the distinct hosts the attacker
+reaches with no MTD and under the random deployment strategy at 200~s and
+2\,000~s. The band for 45~s, for example, runs from 11 to 180~s, from below
+the longest attack action to near the deployment interval. A result depends
+on a mean duration if moving it to a band end shifts the hosts reached
+outside the 95\,\% interval at the chosen value. We set every value and band
+before the test and changed none after it. The 45~s moves the hosts reached
+most, from 13.4 at 11~s to 3.0 at 180~s with no MTD; no other mean duration
+moves them by more than about one host.
+
+Tactic durations are exponential because the timed transitions of a GSPN
+fire after exponential delays (Section~\ref{sec:petri-formalism}). A tactic
+duration that varies from run to run also matches the evidence that attack
+behaviour is stochastic~\citep{holm2014, madan2004, bland2020}, and
+Appendix~\ref{app:exponential-shape} replaces the exponential delay with a
+less variable one of the same mean.
 
 \subsection{Failure matrix}
 \label{subsec:failure-matrix}
@@ -8763,13 +8779,13 @@ Section~\ref{sec:ablation}. Residual: the claim is that the APT attacker model
 changes the answer, not which of its parts does.]}
 
 \noindent\emph{[Placeholder --- construct validity: the adopted attack actions and
-the tactic-to-action mapping (the standing bound); the declared tactic durations and
-the low-and-slow family; the failure matrix; attack confidentiality read
+the tactic-to-action mapping (the standing bound); the declared tactic durations,
+the 45\,s mean duration above all; the failure matrix; attack confidentiality read
 through a declared detector; time lost per MTD deployment as a lower bound;
 objective classification by one coder. Mitigations: the robustness analyses of
 Appendix~\ref{app:sensitivity}, Section~\ref{sec:ablation}, the cross-check of
-Appendix~\ref{app:movement}. Residual: magnitudes move across the low-and-slow
-band; the orderings are what is claimed.]}
+Appendix~\ref{app:movement}. Residual: magnitudes move across the 45\,s mean
+duration's band; the orderings are what is claimed.]}
 
 \noindent\emph{[Placeholder --- external validity: 38 attack flows of
 detected, published campaigns, not all APT: 18 attributed to an ATT\&CK group
@@ -9099,9 +9115,9 @@ gives them.
 \section{How each tactic duration was set}
 \label{app:dwell-derivation}
 
-Table~\ref{tab:dwell-derivation} gives the family, multiplier and band of
-each tactic duration of Section~\ref{subsec:dwell-times}, and the reason for
-each.
+Table~\ref{tab:dwell-derivation} gives the reference value, multiplier and
+band of each mean duration of Section~\ref{subsec:dwell-times}, and the reason
+for each.
 
 \input{tables/tab_B-4a_dwell_derivation}
 \FloatBarrier
@@ -9188,7 +9204,7 @@ product.
 % [2026-10-04: the bases table added first, the four-bases list of the 4.4
 %  preamble as a table (generated, tools/value_bases_table.py). DRAFT STATE.]
 Every value of the APT attacker model comes from one of four bases: the Attack
-Flow corpus, MTDSim's own attack-action costs, the literature or our judgement.
+Flow corpus, MTDSim's own attack-action times, the literature or our judgement.
 Table~\ref{tab:value-bases} lists each value with its basis, where its reason is
 given and the test that varies or removes it. Three values of our judgement are
 not tested: the per-tactic duration multipliers, the overlay's share and the
@@ -9196,7 +9212,7 @@ choice of one attack flow per APT group.
 Table~\ref{tab:parameter-register} lists the values chosen for the attacker
 model in Section~\ref{sec:execution} and what happened when each was moved, at
 the configuration of Section~\ref{sec:dimensions}. The sections that follow
-read the same perturbations family by family and parameter by parameter.
+read the same perturbations value by value.
 
 \input{tables/tab_C-0b_value_bases}
 \input{tables/tab_C-0a_declared_inputs}
@@ -9249,12 +9265,19 @@ read the same perturbations family by family and parameter by parameter.
 %     - the honest limit: the per-profile ordering is indeterminate at ten
 %       seeds --- a power failure, not a parameter failure.
 
-Each duration family was moved as a whole across its band, the per-tactic
-multipliers of Appendix~\ref{app:dwell-derivation} riding along unchanged, with
-the other three families at their declared values. Table~\ref{tab:anchor-sensitivity}
-gives distinct hosts reached at both band ends against the declared value with
-no MTD and under the random deployment strategy; Figure~\ref{fig:sens-dwell-anchor} draws the one family whose
-band ends separate from the centre by more than a host.
+% [DRAFT STATE 2026-10-05, with Section 4.4.2 round 5: the families named by
+%  their values and the bands given in seconds; the bands and criterion said
+%  to precede the run (ch5_s51_sensitivity_findings.md section 2).]
+Each of the four mean durations that several tactics share was moved to both
+ends of its band, one at a time, with the other three held at their declared
+values (Section~\ref{subsec:dwell-times}). The tactics set from a value moved
+with it, so execution and defense impairment stayed at half of 45\,s. The
+bands and the criterion were set before the run.
+Table~\ref{tab:anchor-sensitivity} gives the distinct hosts reached at both
+band ends and at the declared value, with no MTD and under the random
+deployment strategy at 200\,s and 2\,000\,s. Figure~\ref{fig:sens-dwell-anchor}
+draws the 45\,s of persistence, stealth and command and control, the mean
+duration that moves the hosts reached most.
 
 \input{tables/tab_C-1a_family_sensitivity}
 
@@ -9266,21 +9289,21 @@ band ends separate from the centre by more than a host.
   % the body only if its form is one a sentence cannot carry.
   \includegraphics[width=0.78\textwidth]{fig_C-1a_sens_dwell_family}
   % CAPTION DRAFT STATE 2026-09-17 --- voice pass owed.
-  \caption[Hosts reached against the low-and-slow family's duration]{Distinct
-  hosts reached as the low-and-slow family's duration is moved across its band,
-  as a multiple of its declared value, the other families held, with no
 % [CONNECTIVE-PROSE PASS 2026-09-26, DS appendix caption] Marc 2026-09-26:
 %  'deployment strategies is very clear ... change everything to
 %  deployment strategies' (registry row re-ruled). SESSION-GENERATED on
 %  Marc's 2026-09-26 go-ahead (docs/workflows/connective_prose.md; audit
 %  docs/implementation/connective_prose_audit.md); prior text in git.
 %  RATIFIED 2026-09-26 (Marc: 'I accept all this').
-  MTD and under the random deployment strategy mutating every 200\,s. Averaged over the
-  four profiles, 400 runs per point; intervals are 95\,\%.}
+  \caption[Hosts reached against the 45\,s mean duration]{Distinct hosts
+  reached as the mean duration of persistence, stealth and command and control
+  is moved from 11.25 to 180\,s, the other mean durations held, with no MTD and
+  under the random deployment strategy every 200\,s. Averaged over the four
+  attack profiles, 400 runs per point; intervals are 95\,\%.}
   \label{fig:sens-dwell-anchor}
 \end{figure}
 
-\section{The exponential draw}
+\section{The exponential delay}
 \label{app:exponential-shape}
 
 % [prose slot --- Marc] the shape defence. The spine, from
@@ -9322,11 +9345,14 @@ band ends separate from the centre by more than a host.
 %   quietly doing work.
 
 % LEAD DRAFT STATE 2026-09-17 --- connective prose (green-lit), ratify-on-read.
-The draw around each declared mean is exponential (Section~\ref{subsec:dwell-times}).
-The substitution here keeps every mean and concentrates the draw around it (an
-Erlang-4, the sum of four exponentials of a quarter of the mean), on the
-low-and-slow family only, paired run for run with the declared draw at the
-declared duration and at the top of the family's band.
+% [DRAFT STATE 2026-10-05, with Section 4.4.2 round 5: "draw" and the family
+%  names retired (Marc: "we don't use that word anymore").]
+Each tactic duration is an exponential delay whose mean is the tactic's mean
+duration (Section~\ref{subsec:dwell-times}). Here an Erlang-4 delay, the sum
+of four exponential delays of a quarter of the mean, keeps each mean and varies
+less. It replaces the exponential delay on the tactics with a 45\,s mean
+duration and those set at half of it, paired run for run with the exponential
+delay at 45\,s and at the top of the band, 180\,s.
 
 \input{tables/tab_C-2a_shape_substitution}
 

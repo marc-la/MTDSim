@@ -12,21 +12,21 @@
 \toprule
 Tactic & Reference (s) & Multiplier & Duration (s) & Band & Reason \\
 \midrule
-Reconnaissance & Three scans (35.0) & 1.0 & 35.0 & [0.5, 2] & Enumeration, as one scan pass is in the simulator; the band allows slower, staged reconnaissance. \\
+Reconnaissance & Scans' total (35.0) & 1.0 & 35.0 & [0.5, 2] & Surveys a network, as MTDSim's three scans do together; the band allows slower, staged reconnaissance. \\
 Resource development & --- & --- & 0.0 & --- & Happens off the target's network, out of the defender's sight, so it takes no simulated time. \\
-Initial access & Median exploit (4.5) & 1.0 & 4.5 & [0.5, 2] & Exploiting a public-facing service, which the simulator's exploit cost already covers. \\
-Execution & Declared (45.0) & 0.5 & 22.5 & [0.1, 2] & Quick in itself but paced by the quiet tactics around it, so half the family value, with a band that leans fast. \\
-Persistence & Declared (45.0) & 1.0 & 45.0 & [0.25, 4] & Keeping a foothold through reboots is quiet holding work, which no attack action costs. \\
-Privilege escalation & Median exploit (4.5) & 1.0 & 4.5 & [0.5, 2] & Usually a vulnerability exploit; the band runs from an exploit to reusing a stolen token. \\
-Stealth & Declared (45.0) & 1.0 & 45.0 & [0.25, 4] & The family's reference: a pace the attacker keeps throughout the attack, not one act. \\
-Defense impairment & Declared (45.0) & 0.5 & 22.5 & [0.1, 4] & A short act before a noisy payload, so half the family value; attackers prefer to evade defences, so the band is wide. \\
-Credential access & Median exploit (4.5) & 1.0 & 4.5 & [0.5, 2] & Dumping and cracking credentials is on-host work like an exploit; stealing a ticket is faster. \\
-Discovery & Three scans (35.0) & 1.0 & 35.0 & [0.5, 2] & The enumeration of reconnaissance, run from inside a foothold. \\
-Lateral movement & Median exploit (4.5) & 1.0 & 4.5 & [0.25, 4] & Usually a remote login, costed as an exploit; the band is wide because a worm moves fast and a person slowly. \\
-Collection & Declared (36.0) & 1.0 & 36.0 & [0.5, 2] & The family's reference: gathering data, from a quick grab to a slow harvest. \\
-Command and control & Declared (45.0) & 1.0 & 45.0 & [0.25, 4] & A quiet channel that beacons on a cadence, not one act. \\
-Exfiltration & Declared (36.0) & 1.0 & 36.0 & [0.25, 4] & Sending the data out, from a fast bulk transfer to a slow trickle. \\
-Impact & Declared (36.0) & 1.0 & 36.0 & [0.1, 5] & Encrypting, destroying or hijacking systems; these payloads vary most in time, so the band is the widest. \\
+Initial access & Exploit's median (4.5) & 1.0 & 4.5 & [0.5, 2] & Exploiting a public-facing service, which MTDSim's exploit already times. \\
+Execution & Judgement (45.0) & 0.5 & 22.5 & [0.1, 2] & Quick in itself but paced to stay hidden, so half of 45 s, with a band that leans fast. \\
+Persistence & Judgement (45.0) & 1.0 & 45.0 & [0.25, 4] & Keeping a foothold through reboots is quiet holding work, which no attack action costs. \\
+Privilege escalation & Exploit's median (4.5) & 1.0 & 4.5 & [0.5, 2] & Usually a vulnerability exploit; the band runs from an exploit to reusing a stolen token. \\
+Stealth & Judgement (45.0) & 1.0 & 45.0 & [0.25, 4] & A pace the attacker keeps throughout the attack. \\
+Defense impairment & Judgement (45.0) & 0.5 & 22.5 & [0.1, 4] & A short act before a noisy payload, so half of 45 s; attackers prefer to evade defences, so the band is wide. \\
+Credential access & Exploit's median (4.5) & 1.0 & 4.5 & [0.5, 2] & Dumping and cracking credentials is on-host work like an exploit; stealing a ticket is faster. \\
+Discovery & Scans' total (35.0) & 1.0 & 35.0 & [0.5, 2] & The enumeration of reconnaissance, run from inside a foothold. \\
+Lateral movement & Exploit's median (4.5) & 1.0 & 4.5 & [0.25, 4] & Usually a remote login, costed as an exploit; the band is wide because a worm moves fast and a person slowly. \\
+Collection & Judgement (36.0) & 1.0 & 36.0 & [0.5, 2] & Gathering data, from a quick grab to a slow harvest. \\
+Command and control & Judgement (45.0) & 1.0 & 45.0 & [0.25, 4] & A quiet channel that beacons on a cadence, not one act. \\
+Exfiltration & Judgement (36.0) & 1.0 & 36.0 & [0.25, 4] & Sending the data out, from a fast bulk transfer to a slow trickle. \\
+Impact & Judgement (36.0) & 1.0 & 36.0 & [0.1, 5] & Encrypting, destroying or hijacking systems; these payloads vary most in time, so the band is the widest. \\
 \bottomrule
 \end{tabular}
 \end{table}

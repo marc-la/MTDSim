@@ -6,27 +6,27 @@
 \begin{table}[htbp]
 \centering\footnotesize
 % CAPTION DRAFT STATE 2026-09-17 --- voice pass owed.
-\caption[Hosts reached at each family's band ends against its declared value]{Distinct hosts reached at each duration family's band ends against its declared value, the family moved as a whole with the other three held, under no MTD and under the random deployment strategy at each interval. Averaged over the four profiles, 400 runs per cell; intervals are 95\,\%. A family is inert when both ends sit inside the interval at the declared value under no MTD and under the random deployment strategy at each interval; the verdict column reads the criterion fixed before the run.}
+\caption[Hosts reached at the ends of each mean duration's band]{Distinct hosts reached with each mean duration that several tactics share at both ends of its band and at its declared value, the other three held, under no MTD and under the random deployment strategy at each interval. Averaged over the four attack profiles, 400 runs per cell; intervals are 95\,\%. A mean duration is inert when the hosts reached at both band ends lie inside the interval at its declared value under every condition; the criterion was fixed before the run.}
 \label{tab:anchor-sensitivity}
 \tablestyle\setlength{\tabcolsep}{4pt}
 \begin{tabular}{@{}cP{3.2cm}>{\centering\arraybackslash}p{2.2cm}>{\centering\arraybackslash}p{2.2cm}>{\centering\arraybackslash}p{2.2cm}P{2.4cm}@{}}
 \toprule
-& Family & Band low & Declared & Band high & Verdict \\
+& Mean duration (band) & Low end & Declared & High end & Verdict \\
 \midrule
- & scan-shaped ($\times0.5$, $\times2$) & $8.6 \pm 0.4$ & $8.1 \pm 0.4$ & $7.3 \pm 0.4$ & moved, both ends \\
- & exploit-shaped ($\times0.5$, $\times2$) & $8.2 \pm 0.4$ & $8.1 \pm 0.4$ & $7.9 \pm 0.4$ & inert \\
- & low-and-slow ($\times0.25$, $\times4$) & $13.4 \pm 0.7$ & $8.1 \pm 0.4$ & $3.0 \pm 0.2$ & moved, both ends \\
-\rowgroup{4}{no MTD} & objective execution ($\times0.5$, $\times2$) & $8.5 \pm 0.4$ & $8.1 \pm 0.4$ & $7.4 \pm 0.4$ & moved, one end \\
+ & 35\,s (17.5 to 70\,s) & $8.6 \pm 0.4$ & $8.1 \pm 0.4$ & $7.3 \pm 0.4$ & moved, both ends \\
+ & 4.5\,s (2.25 to 9\,s) & $8.2 \pm 0.4$ & $8.1 \pm 0.4$ & $7.9 \pm 0.4$ & inert \\
+ & 45\,s (11.25 to 180\,s) & $13.4 \pm 0.7$ & $8.1 \pm 0.4$ & $3.0 \pm 0.2$ & moved, both ends \\
+\rowgroup{4}{no MTD} & 36\,s (18 to 72\,s) & $8.5 \pm 0.4$ & $8.1 \pm 0.4$ & $7.4 \pm 0.4$ & moved, one end \\
 \midrule
- & scan-shaped ($\times0.5$, $\times2$) & $2.7 \pm 0.2$ & $2.1 \pm 0.2$ & $1.4 \pm 0.1$ & moved, both ends \\
- & exploit-shaped ($\times0.5$, $\times2$) & $2.2 \pm 0.2$ & $2.1 \pm 0.2$ & $1.9 \pm 0.2$ & inert \\
- & low-and-slow ($\times0.25$, $\times4$) & $7.5 \pm 0.5$ & $2.1 \pm 0.2$ & $0.3 \pm 0.1$ & moved, both ends \\
-\rowgroup{4}{random, 200\,s} & objective execution ($\times0.5$, $\times2$) & $2.3 \pm 0.2$ & $2.1 \pm 0.2$ & $1.7 \pm 0.2$ & moved, both ends \\
+ & 35\,s (17.5 to 70\,s) & $2.7 \pm 0.2$ & $2.1 \pm 0.2$ & $1.4 \pm 0.1$ & moved, both ends \\
+ & 4.5\,s (2.25 to 9\,s) & $2.2 \pm 0.2$ & $2.1 \pm 0.2$ & $1.9 \pm 0.2$ & inert \\
+ & 45\,s (11.25 to 180\,s) & $7.5 \pm 0.5$ & $2.1 \pm 0.2$ & $0.3 \pm 0.1$ & moved, both ends \\
+\rowgroup{4}{random, 200\,s} & 36\,s (18 to 72\,s) & $2.3 \pm 0.2$ & $2.1 \pm 0.2$ & $1.7 \pm 0.2$ & moved, both ends \\
 \midrule
- & scan-shaped ($\times0.5$, $\times2$) & $8.2 \pm 0.4$ & $7.4 \pm 0.4$ & $6.3 \pm 0.4$ & moved, both ends \\
- & exploit-shaped ($\times0.5$, $\times2$) & $7.7 \pm 0.4$ & $7.4 \pm 0.4$ & $7.4 \pm 0.4$ & inert \\
- & low-and-slow ($\times0.25$, $\times4$) & $14.7 \pm 0.7$ & $7.4 \pm 0.4$ & $2.0 \pm 0.2$ & moved, both ends \\
-\rowgroup{4}{random, 2\,000\,s} & objective execution ($\times0.5$, $\times2$) & $8.4 \pm 0.4$ & $7.4 \pm 0.4$ & $6.6 \pm 0.3$ & moved, both ends \\
+ & 35\,s (17.5 to 70\,s) & $8.2 \pm 0.4$ & $7.4 \pm 0.4$ & $6.3 \pm 0.4$ & moved, both ends \\
+ & 4.5\,s (2.25 to 9\,s) & $7.7 \pm 0.4$ & $7.4 \pm 0.4$ & $7.4 \pm 0.4$ & inert \\
+ & 45\,s (11.25 to 180\,s) & $14.7 \pm 0.7$ & $7.4 \pm 0.4$ & $2.0 \pm 0.2$ & moved, both ends \\
+\rowgroup{4}{random, 2\,000\,s} & 36\,s (18 to 72\,s) & $8.4 \pm 0.4$ & $7.4 \pm 0.4$ & $6.6 \pm 0.3$ & moved, both ends \\
 \bottomrule
 \end{tabular}
 \end{table}

@@ -6,18 +6,18 @@
 \begin{table}[htbp]
   \centering
   % CAPTION DRAFT STATE 2026-09-17 --- voice pass owed.
-  \caption[The declared inputs and what moved]{Each value the attacker model was given rather than derived, grouped by the three inputs of Section~\ref{sec:execution}: the value declared, the range it was moved across with the other inputs held at their declared values, and what happened to distinct hosts reached, read against the interval at the declared value under no MTD and under the random deployment strategy at both intervals. The duration ranges follow the evidence tiers of Appendix~\ref{app:dwell-derivation}; the failure-matrix ranges bracket the declared value on both sides (Appendix~\ref{app:weight-sets}). The draw's shape and the mapping have no range and are compared against the alternative that was tried; the nine failure rules are single argued values, held one by one and removed together by the ablation of Section~\ref{sec:ablation}. Averaged over the four profiles, 400 runs per cell; the per-value readings are the sections that follow.}
+  \caption[The declared inputs and what moved]{Each value the attacker model was given rather than derived, grouped by the three inputs of Section~\ref{sec:execution}: the value declared, the range it was moved across with the other inputs held at their declared values, and what happened to distinct hosts reached, read against the interval at the declared value under no MTD and under the random deployment strategy at both intervals. The duration bands were set with the mean durations, before the run (Section~\ref{subsec:dwell-times}); the failure-matrix ranges bracket the declared value on both sides (Appendix~\ref{app:weight-sets}). The delay's distribution and the mapping have no range and are compared against the alternative that was tried; the nine failure rules are single argued values, held one by one and removed together by the ablation of Section~\ref{sec:ablation}. Averaged over the four profiles, 400 runs per cell; the per-value readings are the sections that follow.}
   \label{tab:parameter-register}
   \tablestyle\setlength{\tabcolsep}{4pt}
   \begin{tabular}{@{}P{1.6cm}P{2.8cm}P{1.9cm}P{2.5cm}P{6.4cm}@{}}
     \toprule
     & Input & Declared & Moved across & What moved \\
     \midrule
-    \emph{Tactic durations} & scan-shaped family & 35\,s & $\times0.5$ to $\times2$ & moved: 8.6 / 8.1 / 7.3 hosts at $\times0.5$ / declared / $\times2$ under no MTD, 0.7 lost per doubling (Appendix~\ref{app:dwell-robustness}) \\
-     & exploit-shaped family & 4.5\,s & $\times0.5$ to $\times2$ & inert \\
-     & low-and-slow family & 45\,s & $\times0.25$ to $\times4$ & moved: 13.4 / 8.1 / 3.0 hosts at $\times0.25$ / declared / $\times4$ under no MTD, 2.6 lost per doubling (Appendix~\ref{app:dwell-robustness}) \\
-     & objective family & 36\,s & $\times0.5$ to $\times2$ & moved: 8.5 / 8.1 / 7.4 hosts at $\times0.5$ / declared / $\times2$ under no MTD, 0.6 lost per doubling (Appendix~\ref{app:dwell-robustness}) \\
-     & the draw's shape & exponential & same-mean, concentrated & inert under no MTD; under MTD the concentrated draw reaches fewer hosts, by 0.2 at most (Appendix~\ref{app:exponential-shape}) \\
+    \emph{Tactic durations} & initial access, privilege escalation, credential access, lateral movement & 4.5\,s & 2.25 to 9\,s & inert \\
+     & reconnaissance, discovery & 35\,s & 17.5 to 70\,s & moved: 8.6 / 8.1 / 7.3 hosts at 17.5 / 35 / 70\,s under no MTD, 0.7 lost per doubling (Appendix~\ref{app:dwell-robustness}) \\
+     & persistence, stealth, command and control; execution and defense impairment at half & 45\,s & 11.25 to 180\,s & moved: 13.4 / 8.1 / 3.0 hosts at 11.25 / 45 / 180\,s under no MTD, 2.6 lost per doubling (Appendix~\ref{app:dwell-robustness}) \\
+     & collection, exfiltration, impact & 36\,s & 18 to 72\,s & moved: 8.5 / 8.1 / 7.4 hosts at 18 / 36 / 72\,s under no MTD, 0.6 lost per doubling (Appendix~\ref{app:dwell-robustness}) \\
+     & the delay's distribution & exponential & Erlang-4, same mean & inert under no MTD; under MTD the Erlang-4 delay reaches fewer hosts, by 0.2 at most (Appendix~\ref{app:exponential-shape}) \\
     \midrule
     \emph{Mapping} & tactic to action & partial & forced total & the alternative reaches 0.1 hosts against 8.1, no MTD (Appendix~\ref{app:experiment-one}) \\
     \midrule

@@ -66,14 +66,26 @@ FOUR = tuple(sweep.PROFILES[:4])
 AGG = ("aggregate",)
 CONDITIONS = tuple(sweep.CONDITIONS)
 FAMILIES = ("scan-shaped", "exploit-shaped", "stealth-low-and-slow", "objective-execution")
-FAMILY_NAME = {
-    "scan-shaped": "scan-shaped",
-    "exploit-shaped": "exploit-shaped",
-    "stealth-low-and-slow": "low-and-slow",
-    "objective-execution": "objective execution",
-}
 FAMILY_VALUE = {"scan-shaped": 35.0, "exploit-shaped": 4.5,
                 "stealth-low-and-slow": 45.0, "objective-execution": 36.0}
+# 2026-10-05 (Section 4.4.2 round 5, Marc: "family" and the coined names are
+# cut from the dissertation): each shared mean duration is named by its value,
+# and its band printed in seconds; the tactics that take each value are named
+# where a row needs them.
+FAMILY_NAME = {f: f"{v:g}\\,s" for f, v in FAMILY_VALUE.items()}
+FAMILY_TACTICS = {
+    "scan-shaped": "reconnaissance, discovery",
+    "exploit-shaped": "initial access, privilege escalation, credential access, lateral movement",
+    "stealth-low-and-slow": "persistence, stealth, command and control; execution and defense impairment at half",
+    "objective-execution": "collection, exfiltration, impact",
+}
+
+
+def band_s(fam: str) -> tuple[str, str]:
+    """The band ends of a shared mean duration, in seconds."""
+    lo, hi = sweep.FAMILY_BANDS[fam]
+    v = FAMILY_VALUE[fam]
+    return f"{lo * v:g}", f"{hi * v:g}"
 COND_LABEL = {("none", 0): "no MTD", ("random", 200): "random, 200\\,s",
               ("random", 2000): "random, 2\\,000\\,s"}
 IDENTITY_FIELDS = ("compromised", "termination_time", "n_actions", "n_blocked",
@@ -318,8 +330,9 @@ def frag_body(out: dict) -> str:
         lo, hi = v["band"]
         e_lo, e_hi = v["ends"][f"x{lo:g}"]["none@0"], v["ends"][f"x{hi:g}"]["none@0"]
         slope = v["hosts_lost_per_doubling"]["none@0"]
+        s_lo, s_hi = band_s(f)
         return (f"moved: {e_lo['point']['mean']:.1f} / {e_lo['centre']['mean']:.1f} / {e_hi['point']['mean']:.1f} hosts "
-                f"at $\\times{lo:g}$ / declared / $\\times{hi:g}$ under no MTD, {slope:.1f} lost per doubling "
+                f"at {s_lo} / {FAMILY_VALUE[f]:g} / {s_hi}\\,s under no MTD, {slope:.1f} lost per doubling "
                 f"(Appendix~\\ref{{app:dwell-robustness}})")
 
     def shape_effect() -> str:
@@ -336,7 +349,7 @@ def frag_body(out: dict) -> str:
             return "inert (Appendix~\\ref{app:exponential-shape})"
         if none_ok and all(d["mean"] < 0 for d in sep):
             worst = min(d["mean"] for d in sep)
-            return (f"inert under no MTD; under MTD the concentrated draw reaches fewer hosts, "
+            return (f"inert under no MTD; under MTD the Erlang-4 delay reaches fewer hosts, "
                     f"by {abs(worst):.1f} at most (Appendix~\\ref{{app:exponential-shape}})")
         return "moved; see Appendix~\\ref{app:exponential-shape}"
 
@@ -359,11 +372,9 @@ def frag_body(out: dict) -> str:
 
     rows = [
         ("Tactic durations", [
-            ("scan-shaped family", "35\\,s", "$\\times0.5$ to $\\times2$", family_effect("scan-shaped")),
-            ("exploit-shaped family", "4.5\\,s", "$\\times0.5$ to $\\times2$", family_effect("exploit-shaped")),
-            ("low-and-slow family", "45\\,s", "$\\times0.25$ to $\\times4$", family_effect("stealth-low-and-slow")),
-            ("objective family", "36\\,s", "$\\times0.5$ to $\\times2$", family_effect("objective-execution")),
-            ("the draw's shape", "exponential", "same-mean, concentrated", shape_effect()),
+            *[(FAMILY_TACTICS[f], FAMILY_NAME[f], "{} to {}\\,s".format(*band_s(f)), family_effect(f))
+              for f in ("exploit-shaped", "scan-shaped", "stealth-low-and-slow", "objective-execution")],
+            ("the delay's distribution", "exponential", "Erlang-4, same mean", shape_effect()),
         ]),
         ("Mapping", [
             ("tactic to action", "partial", "forced total", mapping_effect()),
@@ -388,8 +399,8 @@ def frag_body(out: dict) -> str:
       r"grouped by the three inputs of Section~\ref{sec:execution}: the value declared, the range it was moved across "
       r"with the other inputs held at their declared values, and what happened to distinct hosts reached, read against "
       r"the interval at the declared value under no MTD and under the random deployment strategy at both intervals. "
-      r"The duration ranges follow the evidence tiers of Appendix~\ref{app:dwell-derivation}; the failure-matrix ranges "
-      r"bracket the declared value on both sides (Appendix~\ref{app:weight-sets}). The draw's shape and the mapping "
+      r"The duration bands were set with the mean durations, before the run (Section~\ref{subsec:dwell-times}); the failure-matrix ranges "
+      r"bracket the declared value on both sides (Appendix~\ref{app:weight-sets}). The delay's distribution and the mapping "
       r"have no range and are compared against the alternative that was tried; the nine failure rules are single argued "
       r"values, held one by one and removed together by the ablation of Section~\ref{sec:ablation}. "
       r"Averaged over the four profiles, 400 runs per cell; the per-value "
@@ -420,17 +431,17 @@ def frag_families(out: dict) -> str:
     w(r"\begin{table}[htbp]")
     w(r"\centering\footnotesize")
     w(r"% CAPTION DRAFT STATE 2026-09-17 --- voice pass owed.")
-    w(r"\caption[Hosts reached at each family's band ends against its declared value]{Distinct hosts reached "
-      r"at each duration family's band ends against its declared value, the family moved as a whole with the "
-      r"other three held, under no MTD and under the random deployment strategy at each interval. Averaged over the four "
-      r"profiles, 400 runs per cell; intervals are 95\,\%. A family is inert when both ends sit inside the "
-      r"interval at the declared value under no MTD and under the random deployment strategy at each interval; the verdict column reads the criterion fixed "
+    w(r"\caption[Hosts reached at the ends of each mean duration's band]{Distinct hosts reached with each mean "
+      r"duration that several tactics share at both ends of its band and at its declared value, the other three "
+      r"held, under no MTD and under the random deployment strategy at each interval. Averaged over the four attack "
+      r"profiles, 400 runs per cell; intervals are 95\,\%. A mean duration is inert when the hosts reached at both "
+      r"band ends lie inside the interval at its declared value under every condition; the criterion was fixed "
       r"before the run.}")
     w(r"\label{tab:anchor-sensitivity}")
     w(r"\tablestyle\setlength{\tabcolsep}{4pt}")
     w(r"\begin{tabular}{@{}cP{3.2cm}>{\centering\arraybackslash}p{2.2cm}>{\centering\arraybackslash}p{2.2cm}>{\centering\arraybackslash}p{2.2cm}P{2.4cm}@{}}")
     w(r"\toprule")
-    w(r"& Family & Band low & Declared & Band high & Verdict \\")
+    w(r"& Mean duration (band) & Low end & Declared & High end & Verdict \\")
     w(r"\midrule")
     for ci, (cond, interval) in enumerate(CONDITIONS):
         key = f"{cond}@{interval}"
@@ -443,7 +454,7 @@ def frag_families(out: dict) -> str:
             st = {e_lo["status"], e_hi["status"]}
             verdict_txt = "inert" if st == {"inert"} else ("moved, both ends" if st == {"moved"} else "moved, one end")
             lead = f"\\rowgroup{{{len(FAMILIES)}}}{{{COND_LABEL[(cond, interval)]}}}" if fi == len(FAMILIES) - 1 else ""
-            w(f"{lead} & {FAMILY_NAME[fam]} ($\\times{lo:g}$, $\\times{hi:g}$) & {_pm(e_lo['point'])} & {_pm(e_lo['centre'])} & {_pm(e_hi['point'])} & {verdict_txt} \\\\")
+            w(f"{lead} & {FAMILY_NAME[fam]} ({band_s(fam)[0]} to {band_s(fam)[1]}\\,s) & {_pm(e_lo['point'])} & {_pm(e_lo['centre'])} & {_pm(e_hi['point'])} & {verdict_txt} \\\\")
         if ci < len(CONDITIONS) - 1:
             w(r"\midrule")
     w(r"\bottomrule")
@@ -458,17 +469,18 @@ def frag_shape(out: dict) -> str:
     w(r"\begin{table}[htbp]")
     w(r"\centering\footnotesize")
     w(r"% CAPTION DRAFT STATE 2026-09-17 --- voice pass owed.")
-    w(r"\caption[The same-mean shape substitution]{Distinct hosts reached under a same-mean Erlang-4 draw on the "
-      r"low-and-slow family against the declared exponential, paired by profile and seed, at the declared duration and "
-      r"at the top of the family's band. Averaged over the four profiles, 400 pairs per cell; intervals are 95\,\%. "
-      r"The sign column counts the pairs in which the concentrated draw reached fewer, the same, and more hosts.}")
+    w(r"\caption[A less variable delay of the same mean]{Distinct hosts reached under an Erlang-4 delay against the "
+      r"declared exponential delay, of the same mean, on the tactics with a 45\,s mean duration and those set at half "
+      r"of it, paired by profile and seed, at 45\,s and at the top of its band, 180\,s. Averaged over the four "
+      r"attack profiles, 400 pairs per cell; intervals are 95\,\%. The last column counts the pairs in which the "
+      r"Erlang-4 delay reached fewer, the same, and more hosts.}")
     w(r"\label{tab:shape-substitution}")
     w(r"\tablestyle\setlength{\tabcolsep}{4pt}")
     w(r"\begin{tabular}{@{}P{2.6cm}P{2.6cm}>{\centering\arraybackslash}p{1.9cm}>{\centering\arraybackslash}p{1.9cm}>{\centering\arraybackslash}p{2.0cm}>{\centering\arraybackslash}p{2.6cm}@{}}")
     w(r"\toprule")
-    w(r"Duration & MTD & Erlang-4 & Exponential & Difference & Pairs lower / tied / higher \\")
+    w(r"Mean duration & MTD & Erlang-4 & Exponential & Difference & Pairs lower / tied / higher \\")
     w(r"\midrule")
-    for li, (label, title) in enumerate((("centre", "declared"), ("lowslow_x4", "low-and-slow $\\times4$"))):
+    for li, (label, title) in enumerate((("centre", "45\\,s"), ("lowslow_x4", "180\\,s"))):
         rows = [(cond, interval, out["shape"][label].get(f"four|{cond}@{interval}")) for cond, interval in CONDITIONS]
         rows = [r for r in rows if r[2]]
         for ri, (cond, interval, v) in enumerate(rows):

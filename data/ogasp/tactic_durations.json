@@ -73,7 +73,7 @@
       "not_tuned": true,
       "sweep_range": [0.5, 2.0],
       "source": "constants: ATTACK_DURATION SCAN_HOST/SCAN_NEIGHBOR 5 s, SCAN_PORT 25 s; docs/notes/ch3_design/tactic_profiles/01_reconnaissance.md §5",
-      "short_justification": "Enumeration, as one scan pass is in the simulator; the band allows slower, staged reconnaissance.",
+      "short_justification": "Surveys a network, as MTDSim's three scans do together; the band allows slower, staged reconnaissance.",
       "justification": "The substrate prices reconnaissance directly as an active scan verb — one enumeration pass at the scan anchor, not tuned. The moderate band covers the honest shape gap: the modelled value is the fixed scan verb while the real tempo is slower, externally staged, low-and-slow scheduling the substrate does not meter (a recorded tempo divergence, folded into off-network prep). Per profile §5."
     },
     "resource-development": {
@@ -99,7 +99,7 @@
       "not_tuned": true,
       "sweep_range": [0.5, 2.0],
       "source": "constants: exploit_time = ATTACK_DURATION['EXPLOIT_VULN'] 15 × (1 − complexity), complexity ∈ [0.4, 1] (brown2023 §IV); docs/notes/ch3_design/tactic_profiles/03_initial-access.md §5",
-      "short_justification": "Exploiting a public-facing service, which the simulator's exploit cost already covers.",
+      "short_justification": "Exploiting a public-facing service, which MTDSim's exploit already times.",
       "justification": "The server-side entry (Exploit Public-Facing Application) is exactly what complexity-scaled exploit_time prices — one exploit-priced entry action, not tuned. The band covers the complexity spread and the fast-entry empirics; the phishing/watering-hole delivery-wait is a recorded shape divergence, not a metered dwell. Per profile §5."
     },
     "execution": {
@@ -112,7 +112,7 @@
       "not_tuned": false,
       "sweep_range": [0.1, 2.0],
       "source": "docs/notes/ch3_design/tactic_profiles/04_execution.md §5 (declared; group membership genuinely unsettled)",
-      "short_justification": "Quick in itself but paced by the quiet tactics around it, so half the family value, with a band that leans fast.",
+      "short_justification": "Quick in itself but paced to stay hidden, so half of 45 s, with a band that leans fast.",
       "justification": "A fast, cross-cutting verb wearing a stealth wrapper: any low-and-slow character is inherited from the wrapper and inter-execution spacing, not the act, so the central estimate leans to the fast-verb reading (×0.5) while the wide, downward-skewed sweep keeps both readings live until the runner shows which one the timeline needs. Neither substrate nor corpus pins it — the wide sweep is the honest deliverable. Per profile §5."
     },
     "persistence": {
@@ -151,7 +151,7 @@
       "not_tuned": false,
       "sweep_range": [0.25, 4.0],
       "source": "docs/notes/ch3_design/tactic_profiles/07_stealth.md §5 (declared; the group's reference tactic)",
-      "short_justification": "The family's reference: a pace the attacker keeps throughout the attack, not one act.",
+      "short_justification": "A pace the attacker keeps throughout the attack.",
       "justification": "The group's namesake and reference (×1.0 by construction): a pace imposed on every other action rather than a discrete dwell, whose absolute value is the least observable in the set — detection, the thing stealth acts against, is culled from the substrate — so the wide sweep is mandatory. Calibrated as the group anchor when the runner lands. Per profile §5."
     },
     "defense-impairment": {
@@ -164,7 +164,7 @@
       "not_tuned": false,
       "sweep_range": [0.1, 4.0],
       "source": "docs/notes/ch3_design/tactic_profiles/08_defense-impairment.md §5 (declared; group membership unresolved)",
-      "short_justification": "A short act before a noisy payload, so half the family value; attackers prefer to evade defences, so the band is wide.",
+      "short_justification": "A short act before a noisy payload, so half of 45 s; attackers prefer to evade defences, so the band is wide.",
       "justification": "Widest uncertainty in the set, compounded: the low-and-slow APT prefers to avoid defences, and disabling, when it happens, is a punctuated decisive act immediately before a noisy payload — so the central multiplier leans fast (×0.5) while the band reaches both a near-zero verb and the full low-and-slow pace. The literature reports it as prevalence, not dwell, and the substrate models no defensive-control state — hence Tier-3 declared with the widest band. Per profile §5."
     },
     "credential-access": {
@@ -216,7 +216,7 @@
       "not_tuned": false,
       "sweep_range": [0.5, 2.0],
       "source": "docs/notes/ch3_design/tactic_profiles/12_collection.md §5; calibration targets: docs/sources/extractions/collection_exfil_timing.md (Bromiley 2022 primary: ~64% collect+exfil ≤ 5 h; fastest quartile 1.2 h)",
-      "short_justification": "The family's reference: gathering data, from a quick grab to a slow harvest.",
+      "short_justification": "Gathering data, from a quick grab to a slow harvest.",
       "justification": "The reference gather-before-exfil act of the tuned objective group: Tier 2 because the collect→exfil chain is macro-characterised in the breach literature even without a per-tactic dwell — those figures calibrate relative structure, not absolute time. A genuine dwell floor (human activity, data throughput) keeps the band moderate, spanning fast-grab to slow-harvest. Per profile §5."
     },
     "command-and-control": {

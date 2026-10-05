@@ -58,10 +58,10 @@ WORK = {
 ROW_ORDER = list(WORK)
 # The reference value each appendix row multiplies, named as the chapter names it.
 REFERENCE = {
-    "exploit-shaped": "Median exploit",
-    "scan-shaped": "Three scans",
-    "stealth-low-and-slow": "Declared",
-    "objective-execution": "Declared",
+    "exploit-shaped": "Exploit's median",
+    "scan-shaped": "Scans' total",
+    "stealth-low-and-slow": "Judgement",
+    "objective-execution": "Judgement",
     "prep-off-network": "---",
 }
 
@@ -109,16 +109,17 @@ def main() -> None:
     assert abs(scan_s - anchors["scan-shaped"]["duration_s"]) < 1e-9, scan_s
     assert abs(exploit_s - anchors["exploit-shaped"]["duration_s"]) < 1e-9, exploit_s
 
-    # Round 4, 2026-10-05 (Marc: "what they do" and "set from" vague): the
-    # source cell names the MTDSim time as Section 2.2.3 gives it, or says the
-    # value is declared; the work each tactic does is the prose's.
+    # Round 5, 2026-10-05 (Marc: "three scans" and "an exploit's median time"
+    # vague; "judgement" and "declared" two words for one thing): the source
+    # cell names the MTDSim attack actions as Section 2.2.3 does, or says the
+    # basis, judgement; the work each tactic does is the prose's.
     def source(anchor: str, mult: float) -> str:
         if anchor == "scan-shaped":
-            return ("MTDSim, the three scans' total "
+            return ("Total time of MTDSim's scans for hosts, ports and neighbours "
                     f"(${' + '.join(str(cost[k]) for k in scan)}$\\,s)")
         if anchor == "exploit-shaped":
-            return "MTDSim, an exploit's median time"
-        return "Declared"
+            return "Median time of MTDSim's exploit"
+        return "Judgement"
 
     rows: dict[tuple[str, float], list[str]] = {}
     for name in axis.matrix_order:
@@ -136,7 +137,7 @@ def main() -> None:
          rf"\caption[{short}]{{{caption}}}", r"\label{tab:dwell-catalogue}",
          r"\tablestyle",
          r"\begin{tabular}{@{}P{0.42\textwidth} P{0.32\textwidth} >{\raggedleft\arraybackslash}p{0.16\textwidth}@{}}", r"\toprule",
-         r"Tactics & Source & Mean tactic duration $\mu_p$ (s) \\", r"\midrule"]
+         r"Tactics & Source & Mean duration $\mu_p$ (s) \\", r"\midrule"]
     for anchor, mult in keys:
         names = [axis.label[n] for n in rows[(anchor, mult)]]
         names = [names[0]] + [n[0].lower() + n[1:] for n in names[1:]]

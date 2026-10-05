@@ -49,18 +49,21 @@ FIG_DIR = REPO / "docs" / "thesis" / "figures"
 STEM = "fig_5-1a_sens_dwell_anchor"
 ACCENT_RGB = "31,84,140"
 
-ANCHORS = {  # command-line name -> (csv column, prose name); "family" is the body's word (2026-09-17)
-    "scan": ("m_scan", "scan-shaped family"),
-    "exploit": ("m_exploit", "exploit-shaped family"),
-    "stealth": ("m_stealth", "low-and-slow family"),
-    "objective": ("m_objective", "objective family"),
+# command-line name -> (csv column, axis name, declared mean duration in s).
+# 2026-10-05 (Section 4.4.2 round 5): the coined family names are cut; each
+# shared mean duration is named by its value and its axis printed in seconds.
+ANCHORS = {
+    "scan": ("m_scan", "mean duration of reconnaissance and discovery", 35.0),
+    "exploit": ("m_exploit", "mean duration of initial access and the three tactics set with it", 4.5),
+    "stealth": ("m_stealth", "mean duration of persistence, stealth and command and control", 45.0),
+    "objective": ("m_objective", "mean duration of collection, exfiltration and impact", 36.0),
 }
 
 
 def aggregate(csv: Path, anchor_col: str, reference_interval: float) -> pd.DataFrame:
     d = pd.read_csv(csv)
     d = d[(d.arm == "movement") & (d.family == "exponential")]
-    others = [c for c, _ in ANCHORS.values() if c != anchor_col]
+    others = [c for c, _, _ in ANCHORS.values() if c != anchor_col]
     for c in others:
         d = d[d[c] == 1.0]
     off = d[d.mtd_interval.isna()].assign(condition="none")
@@ -72,7 +75,7 @@ def aggregate(csv: Path, anchor_col: str, reference_interval: float) -> pd.DataF
     return g.sort_values(["condition", "mult"])
 
 
-def emit(g: pd.DataFrame, anchor_name: str, reference_interval: float) -> str:
+def emit(g: pd.DataFrame, anchor_name: str, reference_interval: float, declared_s: float) -> str:
     mults = sorted(g["mult"].unique())
     lo, hi = min(mults), max(mults)
     ymax = float((g["mean"] + g["ci"]).max())
@@ -113,15 +116,15 @@ def emit(g: pd.DataFrame, anchor_name: str, reference_interval: float) -> str:
             w(r"\draw[black!12,line width=0.2pt] (%.2f,%.3f) -- (%.2f,%.3f);" % (X0, ys(v), X1, ys(v)))
         v += 2.0
     w(r"\node[rotate=90,anchor=south] at (%.2f,%.2f) {distinct hosts reached};" % (X0 - 0.85, (Y0 + Y1) / 2))
-    # x ticks at every power of two inside the band, labelled as a multiple of the declared value
+    # x ticks at every power of two inside the band, labelled in seconds
     m = lo
     while m <= hi * 1.0001:
         w(r"\draw[black!60,line width=0.3pt] (%.3f,%.2f) -- (%.3f,%.2f);" % (xs(m), Y0, xs(m), Y0 - 0.08))
-        lab = ("$\\times%g$" % m) if m != 1 else "$\\times1$ (declared)"
+        lab = ("%g" % (m * declared_s)) if m != 1 else "%g (declared)" % declared_s
         w(r"\node[anchor=north] at (%.3f,%.2f) {%s};" % (xs(m), Y0 - 0.12, lab))
         m *= 2
     w(r"\draw[black!30,line width=0.3pt,dash pattern=on 1.5pt off 1.5pt] (%.3f,%.2f) -- (%.3f,%.2f);" % (xs(1.0), Y0, xs(1.0), Y1))
-    w(r"\node[anchor=north] at (%.2f,%.2f) {%s, as a multiple of its declared value};" % ((X0 + X1) / 2, Y0 - 0.5, anchor_name))
+    w(r"\node[anchor=north] at (%.2f,%.2f) {%s (s)};" % ((X0 + X1) / 2, Y0 - 0.5, anchor_name))
     # series: interval bars, line, marker
     for cond, col, mark, _ in series:
         rows = g[g.condition == cond].sort_values("mult")
@@ -165,12 +168,12 @@ def main() -> None:
     args = ap.parse_args()
     STEM = args.stem
 
-    col, name = ANCHORS[args.anchor]
+    col, name, declared_s = ANCHORS[args.anchor]
     g = aggregate(args.csv, col, args.reference_interval)
     if g.empty:
         raise SystemExit(f"no rows for anchor {args.anchor} at interval {args.reference_interval} in {args.csv}")
 
-    tex = emit(g, name, args.reference_interval)
+    tex = emit(g, name, args.reference_interval, declared_s)
     FIG_DIR.mkdir(parents=True, exist_ok=True)
     (FIG_DIR / f"{STEM}.tex").write_text(tex)
     print(f"wrote {(FIG_DIR / (STEM + '.tex')).relative_to(REPO)}")
