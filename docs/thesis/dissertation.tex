@@ -8298,15 +8298,25 @@ Removing the vulnerability memory makes the APT attacker model no more likely
 to exploit a vulnerability it has exploited before
 (Section~\ref{subsec:vulnerability-memory}). The vulnerability memory raises
 the share of exploits that succeed, and its effect on NCR is negligible
-(Table~\ref{tab:ablation}). With no MTD, the share is 0.73 with the memory and
-0.69 without (Table~\ref{tab:ablation-memory}).
+(Table~\ref{tab:ablation}). With no MTD, the share of exploits that succeed is
+0.73 with the vulnerability memory and 0.69 without it
+(Table~\ref{tab:ablation-memory}).
 
-The memory raises the share more with a smaller diversity pool, as
-Section~\ref{subsec:vulnerability-memory} expects: with a diversity pool of
-one service per operating system, the share is 0.92 with the memory and 0.69
-without. Its effect on
-NCR stays negligible at every diversity pool (Figure~\ref{fig:ablation-memory},
-Table~\ref{tab:ablation-memory}).
+% 2026-10-06 (Marc: "what is the share", "without what", "the memory should be the vulnerability
+%  memory"; "it is statistically significant with one service ... conflicting in its messaging";
+%  "what's the purpose of it"): the paragraph's purpose stated first, as the expectation Section
+%  4.4.4 declares (the 2026-10-02 ruling: a hypothesis declared in Chapter 4 is answered in the
+%  body), then its answer on each measure, then the numbers. Full terms throughout: "the share of
+%  exploits that succeed", "the vulnerability memory", "without it". No conflict in the data: at
+%  one service d on NCR is +0.07 [+0.05, +0.10], an interval that excludes zero but lies inside
+%  +-0.2, so negligible under Section 5.1's rule; the share of exploits that succeed is not NCR.
+Section~\ref{subsec:vulnerability-memory} expects the vulnerability memory to
+matter more with a smaller diversity pool. It does for the share of exploits
+that succeed, and not for NCR (Figure~\ref{fig:ablation-memory},
+Table~\ref{tab:ablation-memory}). With a diversity pool of one service per
+operating system, the share of exploits that succeed is 0.92 with the
+vulnerability memory and 0.69 without it, and the vulnerability memory's
+effect on NCR is still negligible.
 
 \chapter{Discussion}
 \label{ch:discussion}
