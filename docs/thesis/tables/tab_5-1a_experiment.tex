@@ -1,143 +1,41 @@
-% 2026-09-28: the VULNERABILITY MEMORY row added (Marc: "we can add a column now to
-% the table"): a setting a replicator must make, on for the APT attacker model and
-% none for the baseline attacker, in chapter 4's word (Section 4.4.5); its ablation
-% arms join the Arm row beside the failure matrix's. Both marked owed until run.
-% NEW 2026-09-18 (§5.2 readability pass; handoff 2026-09-17_ch5_s52_setup_critique.md
-% §V3, §W). REPLACES tab_5-1a_factors_varied and tab_5-1b_factors_fixed, which are
-% deleted: two tables became one because this repo's own evaluation conventions §c
-% already ruled the form --- "every declared parameter is listed; each row says
-% either the band it was swept over and what moved, or that it was held and why.
-% ONE REGISTER, BOTH KINDS OF ROW." Reti's paired tables read as a pair only
-% because their columns are identical, which is a workaround for what a single
-% table does natively; Kim's Table 4 (one parameter table, a Type row-group) is the
-% closer precedent.
-% THE JUSTIFICATION COLUMN IS GONE, on Marc's ruling (2026-09-18): "I would just
-% lose the column on each of them --- what do I need them for?" The motivation is
-% now one high-level clause per prose unit (why the attacker is varied, why the
-% defence is), which answers the question a reader actually asks; a per-row reason
-% answered one nobody asked and cost most of a page.
-% ROW GROUPS ARE THE SIMULATION'S MOVING PARTS (Marc's framing: "what are the big
-% abstract moving parts"), and they are the same four objects the prose units
-% declare, in the same order. Each element sits in ONE value column: the varied
-% rows read straight down a single column, so the experiment is visible as a shape
-% rather than described as one. An empty cell is the genre's own mark for absent
-% (figure_table_conventions §e1).
-% TERMINOLOGY: "deployment interval" applies the RATIFIED registry row (Marc,
-% 2026-09-02: the defensive move as a scheduling event is a DEPLOYMENT; "mutation"
-% survives only inside Zhang's cited phrasing) --- ch5 had drafted against it.
-% "interval distribution" (was "timing regime") and "run length" (was "horizon")
-% are PROPOSED rows awaiting Marc's ruling; see terminology.md. The three §5.4/§5.5
-% figure captions still say "mutation interval" and are NOT changed here --- that
-% is existing prose and one ruling away.
-% HAND-SET; the generator pass (C39) is still owed and now has one table fewer to
-% emit. Values transcribed from data/results/ch5_defended/run_corpus.py (PROFILES,
-% CONDITIONS, INTERVALS, HORIZON), GEOMETRY and the defaults in
-% src/mtdsim/l3_simulation/movement/run.py, MTD_DURATION and
-% ATTACK_DURATION['PENALTY'] in mtdnetwork/data/constants.py, and the target set
-% from movement/targeting.py. 60 000 s is Marc's placeholder (C36).
-% Geometry tested against the real class and geometry: no overfull box; the
-% tabular measures 453.3 pt against a 455.2 pt text width, body height 427 pt.
-% [H] NOT [htbp]: with §5.3 still a placeholder there is no following prose for a
-% float to settle against, and at [htbp] this table drifted past the §5.3 heading
-% on the built page --- the same fault Table 5.1 was pinned for. REVERT to [htbp]
-% when §5.3's prose lands (the preamble's standing note on ch5 placeholder floats).
-% Ratify on read.
-% RESTRUCTURED 2026-09-20 on Marc's rulings (handoff §AJ, §AJ8): ONE VALUE COLUMN,
-% Parameter | Value, Brown's TABLE I form with Kim's row groups. The test for a
-% row: a setting a replicator must make, in a word chapters 2 and 4 gave the
-% reader. Gone: Geometry (a code constant; split into chapter 2's four nouns),
-% Topology (folded into Seeds), Declared inputs (to the footnote), Sink retrace,
-% Cost model/memory, Confusion penalty (model facts, ch4), Adaptive selector,
-% Deployments per run. Durations STAY, per mechanism (Marc: that a deployment
-% takes time is needed here). Varied rows first in each group; SEMICOLONS
-% separate levels, COMMAS sit inside one held value. Caption's design sentence
-% now matches run_corpus.py build_jobs (objective is fully crossed). Values are
-% malleable while the experiments solidify; 60 000 s left out until it is built.
-% Everything above this note is the 2026-09-18 record, kept for the trail.
-% 2026-09-20 (Marc): the FOOTNOTE IS GONE --- "it doesn't really add much": that
-% the durations are inherited, that the inputs are at Table 5.1's values and the
-% version pins are all stated above (§5.1, ch4, the appendices). What survives is
-% the one attribution a reader could not recover, Zhang's, as a citation in the
-% row it belongs to. NOTE: with the footnote gone, Appendix app:controller-mapping
-% is referenced from no live text.
-% 2026-09-20, P1/P7/P8/P9 of the split-stream scrutiny (setup handoff §AL, §AM),
-% accepted by Marc in chat. OBJECTIVE is held at targeted (the opportunistic
-% re-run is §5.4.3's, declared there). TIME LIMIT, not run length: a targeted run
-% ends when a target is compromised (attack_operation.py:749-757), so 15 000 s is
-% a limit; the value is Ho's finish_time (ho2024.md H-PAR-08). ZHANG'S CITATION
-% leaves the duration row: his table covers four of the seven (provenance.md,
-% IS-TIM-03); §2.2.2 now carries the attribution. TIMING DISTRIBUTION, not
-% interval distribution: the switch governs every simulator draw (run.py:364-368).
-% OWED: its result is in no float; one column or small table in §5.4.2 from
-% numbers.json's regime block (baseline port shuffle 0.90 -> 0.14).
-% 2026-09-23, register E5 (Jin: "every hard-coded number, somebody will ask why
-% that number"; Marc: "it needs to be visible that we're citing where we got the
-% numbers from"). A CITATION NOW SITS AGAINST EVERY VALUE A PRIOR STUDY RAN, after
-% the value it sources (Ho's moved from the label to the value for that reason);
-% the caption's last sentence covers the rest --- the simulator's default, or
-% argued in §5.1. Sources, all read from data/misc/lineage_configurations.yaml
-% (Table 2.2, tab:lineage-configurations): 50 hosts / 4 levels / 5 endpoints are
-% Zhang's second network exactly (Table 2, p.33); targeted with a database target
-% is Brown's Scenario 2 (p.4); singles against no MTD are Brown's design
-% (p.6), the schemes Zhang's (§4.3.2); 200 s is the top of Zhang's 50--200 s and
-% Ho's comparison interval (Table 8, p.24); exponential is Zhang's (§4.3.4); four
-% durations are Zhang's Table 3, the other three the simulator's (provenance.md,
-% IS-TIM-03), so the row now says which. UNCITED, AND WHY: subnets 8 (no lineage
-% paper states it bar Brown's 20; default); the two-target narrowing (Marc's
-% reason, [3b] in §5.1); 2 000 s (no precedent; argued in §5.1, and the interval
-% sweep of the corpus handoff replaces the two levels); seeds 1 000 (argued in
-% §5.1 against Zhang's 100).
-% ROW ADDED 2026-09-24 (Marc: "something in Table 5.1 ... list all the names in the metrics"): the ten metrics by
-% class, pointing to Table 4.3 in §4.5, where each is defined and sourced.
-% 2026-09-25 (Marc: "5.1 shows two intervals and no MTDShield ... please fix that"): the
-%   six deployment intervals and MTDShield; random over MTDShield's four is reported
-%   nowhere, so not declared. Semicolons separate varied values, as the caption says.
-% 2026-09-30 (Marc: "split the arm row"; "no symbol, the odds times three"): the
-%   ablation arms leave the Arm row for their own ABLATION row, one shared design
-%   clause then the arms as semicolon levels; the memory row states the factor as
-%   its value (was lambda = 2: lambda is the attack rate, k the opening length).
-%   The pool levels of Section 5.4.2 are not listed until Marc rules them in.
-%   Later 2026-09-30: the memory arms as RUN (run_memory_ablation.py): its own
-%   conditions and pool levels; the OS-check-off diagnostic was not run and is
-%   gone from the row. 20 services per OS is the simulator default and every
-%   other result's network.
-% 2026-09-25 (handoff 2026-09-25_ch5_setup_defence_and_prose_slots.md A2, A3,
-%   A7a, A8c, A9, A11, A17; Marc: "fix those in a defensible way and conventional
-%   way"): tay2024code on subnets, target, the near-periodic draw and the three
-%   simulator durations (the released experiment code's defaults and constants at
-%   f13ed49, verified); Ho on 50 and 100 s (Table 2.2); Arcuri on the seed count
-%   (the reason is §4.5.4's); the caption's "delay after an interrupt" cut (its
-%   ch2 home is still a placeholder); the exponential level marked \owed until
-%   its result is reported. No value is now a bare default.
-\begin{table}[htbp]
+% REBUILT 2026-10-06 (Marc, ruling A: "what do we need in Table 5.1 ... who's using this ...
+% what's the convention"; handoff 2026-10-06_ch5_results_prose_redraft.md §10). The form is
+% the design-of-experiments factor table the setup standards ask for (evaluation_conventions
+% §k1: every value with its basis): what is varied and at which levels, what is held, one
+% source per value. Removed, each defined where it lives: the Metrics row (Table 4.3), the
+% deployment durations (Section 2.2.2), the vulnerability-memory "on" row (part of the model,
+% Section 4.4.5; its ablation stays). "Arm" (a retired word) is "Attacker". The rotated group
+% labels are plain group rows. Q8 (2026-10-06): the timing distribution is held near-periodic.
+% The random-partition control (L4) is declared in the attack-profiles row: no MTD, IP shuffle
+% and OS diversity at 200 s and 2 000 s, 1 000 seeds (partition_control.py). [t]: the table
+% now fits above text, so it opens at the top of a page. Earlier forms and their rulings: git.
+% HAND-SET. Values: run_corpus.py, run_partition_control.py, run_memory_ablation.py,
+% constants.py (MTD_TRIGGER_INTERVAL; ATTACKER_THRESHOLD), movement/targeting.py.
+\begin{table}[t]
   \centering
-  \caption[The experiment]{The settings of the experiment. A parameter with several values, separated by semicolons, is varied; the rest are held. Arm, deployed MTD and deployment interval are run in every combination. A citation names the prior study or the released simulator code that ran the value (Table~\ref{tab:lineage-configurations}); an uncited value is defined in an earlier chapter or argued in the text.}
+  \caption[The experiment]{The experiment: what is varied, at which levels, and what is held. The attacker, MTD and deployment interval are run in every combination; each ablation (Section~\ref{sec:ablation}) runs at the settings in its row. A citation names the prior study or the released simulator code that ran the value (Table~\ref{tab:lineage-configurations}); an uncited value is argued in the text.}
   \label{tab:experiment}
-  \tablestyle\setlength{\tabcolsep}{4pt}
-  \begin{tabular}{@{}cP{3.4cm}P{10.9cm}@{}}
+  \tablestyle
+  \begin{tabular}{@{}P{3.6cm}P{11.9cm}@{}}
     \toprule
-    & Parameter & Value \\
+    Setting & Value \\
     \midrule
-    & Hosts & 50 \citep{zhang2023} \\
-    & Levels of depth & 4 \citep{zhang2023} \\
-    & Subnets & 8 \citep{tay2024code} \\
-    & Exposed endpoints & 5 \citep{zhang2023} \\
-    \multirow{-5}{*}[-0.30cm]{\smash{\rotatebox{90}{\emph{Network}}}} & Target & the two database hosts, at the deepest level \citep{tay2024code} \\
-    \midrule
-    & Arm & the baseline attacker; the APT attacker model on each attack profile $c_1$ to $c_4$ \\
-    % 2026-10-02 (Marc): the attack graph leaves the Arm row for the ablation; SESSION-WORDED clause, DRAFT STATE.
-    & Ablation & the APT attacker model on the attack graph before its partition into attack profiles, under every setting of the MTD rows (Section~\ref{sec:ablation}); the APT attacker model on $c_1$ to $c_4$: every factor of the failure matrix set to one, with no MTD and under IP shuffle and OS diversity at 200\,s and 2\,000\,s; the vulnerability memory off, with no MTD and under service diversity and OS diversity at 200\,s, at 1, 2, 3, 5, 10 and 20 services per operating system \\
-    & Attack scenario & targeted \citep{brown2023} \\
-    \multirow{-4}{*}[-0.60cm]{\smash{\rotatebox{90}{\emph{Attacker}}}} & Vulnerability memory & on for the APT attacker model, each earlier success on a vulnerability tripling the odds of exploiting it again (Section~\ref{subsec:vulnerability-memory}); none for the baseline attacker \\
-    \midrule
-    & Deployed & no MTD; each of the seven MTD mechanisms alone \citep{brown2023}; the random deployment strategy; the alternative deployment strategy \citep{zhang2023}; MTDShield, as released \citep{tay2024} \\
-    & Deployment interval & 50\,s \citep{zhang2023, ho2024}; 100\,s \citep{zhang2023, ho2024}; 200\,s \citep{zhang2023, ho2024}; 500\,s; 1\,000\,s; 2\,000\,s \\
-    & Timing distribution & near-periodic (Section~\ref{subsec:defence-mechanisms}) \citep{tay2024code} \\
-    \multirow{-4}{*}[-0.55cm]{\smash{\rotatebox{90}{\emph{MTD}}}} & Deployment duration & complete topology shuffle 110\,s, IP shuffle 100\,s, OS diversity 80\,s, service diversity 70\,s \citep{zhang2023}, and the simulator's host topology shuffle 100\,s, port shuffle 70\,s, user shuffle 20\,s \citep{tay2024code} \\
-    \midrule
-    & Time limit & 15\,000\,s \citep{ho2024}; a run ends earlier if the attacker compromises a target, or more than 80\,\% of the hosts \citep{zhang2023} \\
-    & Seeds & 1\,000 per combination \citep{arcuri2014hitchhiker}, the same set on every arm \\
-    \multirow{-3}{*}[-0.45cm]{\smash{\rotatebox{90}{\emph{Runs}}}} & Metrics & attacker behaviour: relative tactic occurrence, distinct openings, attack rate, attack confidentiality; attack outcome: attack success probability (ASP), network compromise ratio (NCR), mean time to compromise (MTTC); MTD effectiveness: ASP reduction, NCR reduction, attack actions blocked per MTD deployment, time lost per MTD deployment (Table~\ref{tab:metrics}) \\
+    \grouprow{2}{Varied in every combination} \\
+    Attacker & the baseline attacker; the APT attacker model on each attack profile, $c_1$ to $c_4$ \\
+    MTD & no MTD; each of the seven MTD mechanisms alone \citep{brown2023}; the random deployment strategy; the alternative deployment strategy \citep{zhang2023}; MTDShield, as released \citep{tay2024} \\
+    Deployment interval & 50, 100 and 200\,s \citep{zhang2023, ho2024}; 500, 1\,000 and 2\,000\,s \\
+    \addlinespace
+    \grouprow{2}{Varied in one ablation each (Section~\ref{sec:ablation})} \\
+    Attack profiles & removed, the APT attacker model running on the attack graph, under every MTD and deployment interval above; ten random partitions of the attack flows, each group the size of an attack profile, with no MTD and under IP shuffle and OS diversity at 200 and 2\,000\,s \\
+    Failure matrix & removed, every factor set to one: with no MTD and under IP shuffle and OS diversity at 200 and 2\,000\,s \\
+    Vulnerability memory & removed: with no MTD and under service diversity and OS diversity at 200\,s, at 1, 2, 3, 5, 10 and 20 services per operating system \\
+    \addlinespace
+    \grouprow{2}{Held} \\
+    Network & 50 hosts over 4 levels of depth \citep{zhang2023}, 8 subnets \citep{tay2024code}, 5 exposed endpoints \citep{zhang2023} \\
+    Target & the two database hosts at the deepest level \citep{tay2024code}, in the targeted attack scenario \citep{brown2023} \\
+    Timing distribution & near-periodic: each deployment interval plus a random delay of 0.5\,s on average (Section~\ref{subsec:defence-mechanisms}) \citep{tay2024code} \\
+    Time limit & 15\,000\,s \citep{ho2024}; a run ends sooner if the attacker compromises a target host or more than 80\,\% of the hosts \citep{zhang2023} \\
+    Seeds & 1\,000 per combination \citep{arcuri2014hitchhiker}, the same for both attackers \\
     \bottomrule
   \end{tabular}
 \end{table}

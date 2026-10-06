@@ -11,27 +11,27 @@
 %   reduction short of 1.
 \begin{table}[htbp]
   \centering
-  \caption[The MTD mechanisms and deployment strategies ranked against each attacker]{Each MTD mechanism and deployment strategy deployed every 200\,s, ranked against the APT attacker model averaged over $c_1$ to $c_4$ (4\,000 runs, 1\,000 per attack profile), and against the baseline attacker (1\,000 runs), on the same 1\,000 seeds. Random, alternative and MTDShield are deployment strategies, which decide which mechanism is deployed at each interval (Table~\ref{tab:deployment-strategies}); every other row is one mechanism deployed alone. Rank is by Scott--Knott ESD on the mean hosts compromised per seed, over the four attack profiles' runs for the APT attacker model (Section~\ref{sec:dimensions}): rank~1, in bold, compromises the fewest hosts, and rows that share a rank are not told apart. Rows follow the APT attacker model's ranks. A reduction is 1 when no host is compromised (NCR) or no run compromises a target host (ASP), 0 when as many as with no MTD, and negative when more (Section~\ref{sec:evaluation-metrics}). With no MTD, the reference row, NCR is 0.171 and ASP 0.090 against the APT attacker model, and 0.496 and 0.64 against the baseline attacker; its rank and reductions are blank. A printed 1.00 is exactly 1; a value above 0.99 but short of 1 prints as $>0.99$. A dash marks an MTTC not reported: fewer than 10 runs compromise a target host. MTTC is taken over the runs that compromise a target host, of any attack profile, and rounded to 100\,s, the precision of its widest interval. Tables~\ref{tab:full-movement} and~\ref{tab:full-baseline} give every value's interval and the runs each MTTC is taken over.}
+  \caption[The MTD mechanisms and deployment strategies ranked against each attacker]{Each MTD mechanism and deployment strategy deployed every 200\,s, ranked against the APT attacker model averaged over $c_1$ to $c_4$ (4\,000 runs, 1\,000 per attack profile), and against the baseline attacker (1\,000 runs), on the same 1\,000 seeds. Random, alternative and MTDShield are deployment strategies, which decide which mechanism is deployed at each interval (Table~\ref{tab:deployment-strategies}); every other row is one mechanism deployed alone. Rank is by Scott--Knott ESD on the mean hosts compromised per seed, over the four attack profiles' runs for the APT attacker model (Section~\ref{sec:dimensions}): rank~1, in bold, compromises the fewest hosts, and rows that share a rank are not told apart. Rows follow the APT attacker model's ranks. NCR reduction is 1 when no host is compromised, 0 when as many as with no MTD, and negative when more (Section~\ref{sec:evaluation-metrics}). With no MTD, the reference, NCR is 0.171 against the APT attacker model and 0.496 against the baseline attacker. Spearman's $\rho$ compares the two NCR-reduction columns: 1 for the same order, 0 for unrelated orders, $-1$ for the reverse (Section~\ref{sec:dimensions}); brackets, its 95\,\% percentile bootstrap interval over seeds. Tables~\ref{tab:full-movement} and~\ref{tab:full-baseline} give every value's interval, ASP reduction and MTTC.}
   \label{tab:eff-cross-arm}
-  \tablestyle\scriptsize\setlength{\tabcolsep}{3pt}\rowcolors{4}{black!5}{}
-  \begin{tabular}{@{}P{3.4cm}>{\centering\arraybackslash}p{0.8cm}>{\centering\arraybackslash}p{1.3cm}>{\centering\arraybackslash}p{1.3cm}>{\centering\arraybackslash}p{1.1cm}>{\centering\arraybackslash}p{0.8cm}>{\centering\arraybackslash}p{1.3cm}>{\centering\arraybackslash}p{1.3cm}>{\centering\arraybackslash}p{1.1cm}@{}}
+  \tablestyle\rowcolors{4}{black!5}{}
+  \begin{tabular}{@{}P{4.3cm}>{\centering\arraybackslash}p{1.0cm}>{\centering\arraybackslash}p{1.6cm}>{\centering\arraybackslash}p{1.0cm}>{\centering\arraybackslash}p{1.6cm}@{}}
     \toprule
-    & \multicolumn{4}{c}{APT attacker model} & \multicolumn{4}{c}{Baseline attacker} \\
-    \cmidrule(lr){2-5}\cmidrule(lr){6-9}
-    MTD & Rank & NCR\newline reduction & ASP\newline reduction & MTTC\newline (s) & Rank & NCR\newline reduction & ASP\newline reduction & MTTC\newline (s) \\
+    & \multicolumn{2}{c}{APT attacker model} & \multicolumn{2}{c}{Baseline attacker} \\
+    \cmidrule(lr){2-3}\cmidrule(lr){4-5}
+    MTD & Rank & NCR\newline reduction & Rank & NCR\newline reduction \\
     \midrule
-    no MTD &  &  &  & 10\,700 &  &  &  & 9\,000 \\
+    IP shuffle & \textbf{1} & $0.96$ & 2 & $0.68$ \\
+    host topology shuffle & \textbf{1} & $0.95$ & 3 & $0.38$ \\
+    complete topology shuffle & \textbf{1} & $0.95$ & 3 & $0.42$ \\
+    random & 2 & $0.75$ & 4 & $0.33$ \\
+    alternative & 3 & $0.72$ & 3 & $0.38$ \\
+    service diversity & 4 & $0.36$ & \textbf{1} & $0.92$ \\
+    MTDShield & 5 & $0.28$ & 2 & $0.68$ \\
+    port shuffle & 6 & $0.20$ & \textbf{1} & $0.91$ \\
+    OS diversity & 7 & $0.07$ & 2 & $0.68$ \\
+    user shuffle & 8 & $-0.10$ & 5 & $-0.04$ \\
     \midrule
-    IP shuffle & \textbf{1} & $0.96$ & $1.00$ & --- & 2 & $0.68$ & $0.75$ & 7\,500 \\
-    host topology shuffle & \textbf{1} & $0.95$ & $1.00$ & --- & 3 & $0.38$ & $0.49$ & 10\,500 \\
-    complete topology shuffle & \textbf{1} & $0.95$ & $1.00$ & --- & 3 & $0.42$ & $0.38$ & 10\,300 \\
-    random & 2 & $0.75$ & ${>}0.99$ & --- & 4 & $0.33$ & $0.42$ & 10\,300 \\
-    alternative & 3 & $0.72$ & $0.99$ & --- & 3 & $0.38$ & $0.55$ & 10\,500 \\
-    service diversity & 4 & $0.36$ & $0.83$ & 10\,900 & \textbf{1} & $0.92$ & ${>}0.99$ & --- \\
-    MTDShield & 5 & $0.28$ & $0.69$ & 10\,700 & 2 & $0.68$ & $0.92$ & 7\,200 \\
-    port shuffle & 6 & $0.20$ & $0.52$ & 10\,900 & \textbf{1} & $0.91$ & $0.97$ & 4\,000 \\
-    OS diversity & 7 & $0.07$ & $0.24$ & 10\,900 & 2 & $0.68$ & $0.66$ & 8\,700 \\
-    user shuffle & 8 & $-0.10$ & $-0.34$ & 10\,800 & 5 & $-0.04$ & $-0.15$ & 9\,200 \\
+    \rowcolor{white}Spearman's $\rho$ & \multicolumn{4}{c}{$0.01$ [$-0.19$, $0.05$]} \\
     \bottomrule
   \end{tabular}
 \end{table}

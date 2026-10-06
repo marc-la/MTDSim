@@ -4,33 +4,33 @@
 % Caption DRAFT STATE 2026-10-01, ratify on read.
 \begin{table}[tp]
   \centering
-  \caption[The APT attacker model with and without each ablated component]{The APT attacker model with and without each ablated component, averaged over $c_1$ to $c_4$, on the same 1\,000 seeds, with 20 services per operating system; without the attack profiles, the APT attacker model runs on the attack graph: NCR, Cohen's $d$ on NCR, with minus without, with its 95\,\% percentile bootstrap interval over seeds, and NCR reduction (Section~\ref{sec:evaluation-metrics}), blank with no MTD, its reference. Bold: the interval, before rounding, lies wholly beyond $\pm 0.2$. Every other interval reaches inside $\pm 0.2$, including OS diversity at 2\,000\,s without the attack profiles, whose $d$ of $-0.21$ lies beyond it.}
+  \caption[The APT attacker model with and without each ablated component]{The APT attacker model with and without each ablated component, averaged over $c_1$ to $c_4$, on the same 1\,000 seeds, with 20 services per operating system; without the attack profiles, the APT attacker model runs on the attack graph: NCR, Cohen's $d$ on NCR, with minus without, with its 95\,\% percentile bootstrap interval over seeds, and NCR reduction (Section~\ref{sec:evaluation-metrics}), blank with no MTD, its reference. Random: the mean over ten random partitions of the attack flows, each group the size of an attack profile, each partition's NCR reduction against its own runs with no MTD; blank outside the attack profiles' ablation. Bold: the interval, before rounding, lies wholly beyond $\pm 0.2$. Every other interval reaches inside $\pm 0.2$, including OS diversity at 2\,000\,s without the attack profiles, whose $d$ of $-0.21$ lies beyond it.}
   \label{tab:ablation}
-  \tablestyle
-  \begin{tabular}{@{}lccccc@{}}
+  \tablestyle\setlength{\tabcolsep}{4pt}
+  \begin{tabular}{@{}lccccccc@{}}
     \toprule
-    & \multicolumn{3}{c}{NCR} & \multicolumn{2}{c}{NCR reduction} \\
-    \cmidrule(lr){2-4}\cmidrule(lr){5-6}
-    \rowcolor{white}MTD & with & without & Cohen's $d$ & with & without \\
+    & \multicolumn{4}{c}{NCR} & \multicolumn{3}{c}{NCR reduction} \\
+    \cmidrule(lr){2-5}\cmidrule(lr){6-8}
+    \rowcolor{white}MTD & with & without & Cohen's $d$ & random & with & without & random \\
     \midrule
-    \grouprow{6}{Attack profiles by objective} \\
-    no MTD & 0.171 & 0.189 & \bfseries\boldmath $-0.28$ [$-0.35$, $-0.22$] &  &  \\
-    IP shuffle, 200\,s & 0.007 & 0.013 & \bfseries\boldmath $-0.47$ [$-0.54$, $-0.40$] & 0.96 & 0.93 \\
-    IP shuffle, 2\,000\,s & 0.114 & 0.145 & \bfseries\boldmath $-0.56$ [$-0.63$, $-0.49$] & 0.33 & 0.24 \\
-    OS diversity, 200\,s & 0.159 & 0.174 & \bfseries\boldmath $-0.26$ [$-0.33$, $-0.20$] & 0.07 & 0.08 \\
-    OS diversity, 2\,000\,s & 0.174 & 0.187 & $-0.21$ [$-0.27$, $-0.14$] & $-0.02$ & 0.01 \\
+    \grouprow{8}{Attack profiles by objective} \\
+    no MTD & 0.171 & 0.189 & \bfseries\boldmath $-0.28$ [$-0.35$, $-0.22$] & 0.121 &  &  &  \\
+    IP shuffle, 200\,s & 0.007 & 0.013 & \bfseries\boldmath $-0.47$ [$-0.54$, $-0.40$] & 0.007 & 0.96 & 0.93 & 0.94 \\
+    IP shuffle, 2\,000\,s & 0.114 & 0.145 & \bfseries\boldmath $-0.56$ [$-0.63$, $-0.49$] & 0.078 & 0.33 & 0.24 & 0.35 \\
+    OS diversity, 200\,s & 0.159 & 0.174 & \bfseries\boldmath $-0.26$ [$-0.33$, $-0.20$] & 0.113 & 0.07 & 0.08 & 0.06 \\
+    OS diversity, 2\,000\,s & 0.174 & 0.187 & $-0.21$ [$-0.27$, $-0.14$] & 0.121 & $-0.02$ & 0.01 & 0.00 \\
     \addlinespace
-    \grouprow{6}{Failure matrix} \\
-    no MTD & 0.171 & 0.167 & $+0.07$ [$+0.03$, $+0.11$] &  &  \\
-    IP shuffle, 200\,s & 0.007 & 0.006 & $+0.13$ [$+0.06$, $+0.19$] & 0.96 & 0.96 \\
-    IP shuffle, 2\,000\,s & 0.114 & 0.109 & $+0.12$ [$+0.07$, $+0.17$] & 0.33 & 0.35 \\
-    OS diversity, 200\,s & 0.159 & 0.159 & $-0.01$ [$-0.05$, $+0.04$] & 0.07 & 0.05 \\
-    OS diversity, 2\,000\,s & 0.174 & 0.170 & $+0.06$ [$+0.02$, $+0.11$] & $-0.02$ & $-0.02$ \\
+    \grouprow{8}{Failure matrix} \\
+    no MTD & 0.171 & 0.167 & $+0.07$ [$+0.03$, $+0.11$] &  &  &  &  \\
+    IP shuffle, 200\,s & 0.007 & 0.006 & $+0.13$ [$+0.06$, $+0.19$] &  & 0.96 & 0.96 &  \\
+    IP shuffle, 2\,000\,s & 0.114 & 0.109 & $+0.12$ [$+0.07$, $+0.17$] &  & 0.33 & 0.35 &  \\
+    OS diversity, 200\,s & 0.159 & 0.159 & $-0.01$ [$-0.05$, $+0.04$] &  & 0.07 & 0.05 &  \\
+    OS diversity, 2\,000\,s & 0.174 & 0.170 & $+0.06$ [$+0.02$, $+0.11$] &  & $-0.02$ & $-0.02$ &  \\
     \addlinespace
-    \grouprow{6}{Vulnerability memory} \\
-    no MTD & 0.171 & 0.169 & $+0.04$ [$+0.02$, $+0.06$] &  &  \\
-    service diversity, 200\,s & 0.109 & 0.106 & $+0.07$ [$+0.05$, $+0.09$] & 0.36 & 0.37 \\
-    OS diversity, 200\,s & 0.159 & 0.156 & $+0.05$ [$+0.02$, $+0.07$] & 0.07 & 0.07 \\
+    \grouprow{8}{Vulnerability memory} \\
+    no MTD & 0.171 & 0.169 & $+0.04$ [$+0.02$, $+0.06$] &  &  &  &  \\
+    service diversity, 200\,s & 0.109 & 0.106 & $+0.07$ [$+0.05$, $+0.09$] &  & 0.36 & 0.37 &  \\
+    OS diversity, 200\,s & 0.159 & 0.156 & $+0.05$ [$+0.02$, $+0.07$] &  & 0.07 & 0.07 &  \\
     \bottomrule
   \end{tabular}
 \end{table}

@@ -659,6 +659,65 @@ convention"):** the proposal is in the chat, ruling A. Its layout comes from
 §k: a factor-and-level table of what is varied, at which levels, and what is
 held, each value with its source. Definitions stay where they are defined.
 
+## 11. Fifth turn (2026-10-06): A, the citation and the symbols, the numbers, L1–L4, Q3
+
+**Ruled:**
+- **B:** blank cells stay ("don't worry about having the word reference").
+- **Spearman citation:** added (`spearman1904proof`).
+- **A:** Table 5.1 rebuilt as proposed, with near-periodic timing made clear.
+- **Symbols:** "let's make it clear".
+
+**Applied:**
+- **Table 5.1:**
+  - three groups of rows: varied in every combination, varied in one ablation
+    each, held;
+  - the Metrics row, the deployment durations and the memory-on row are gone,
+    and "Arm" is now "Attacker";
+  - the random partitions are declared;
+  - placed `[t]`, so it opens at the top of a page with text below.
+- **Chapter 2, §2.2.2:** a sentence says what near-periodic means (each
+  interval is the set value plus a random delay of 0.5 s on average; code
+  `exponential_variates(loc, 0.5)`). Table 5.1's timing row says the same.
+- **§5.1 Statistics:** "Spearman's rank correlation, $\rho$ (rho)" with its
+  citation, and "the effect size Cohen's $d$".
+- **Numbers filled:** every `\prelim{?}` in §5.2–§5.4, from the 1 000-seed
+  JSON named in each NUMBERS comment. The fill corrected four ratified
+  findings against the data:
+  - **D2:** IP shuffle, as well as service diversity, keeps a reduction against
+    the baseline attacker at every interval (0.19 [0.16, 0.22] at 2 000 s).
+  - **D3:** $c_3$'s larger host-layer reduction holds at 500 and 1 000 s, not
+    at 2 000 s under the topology shuffles.
+  - **E3:** "the random partitions compromise less than both" holds with no
+    MTD only. Under IP shuffle at 200 s all three sit near 0.007.
+  - **C4:** user shuffle against the APT attacker model is below zero at every
+    interval, its interval excluding zero; "at or below" became "below".
+- **L1:** Table 5.3 moved to Appendix E, where it is now Table E.1.
+- **Q3:** Figure 5.3 now draws NCR reduction only, as a half page (the caption
+  overflow is fixed). The ASP rows became Figure E.1
+  (`fig_F-0b_interval_asp`, generator `--only asp`). ASP reduction's definition
+  moved to Appendix E beside it, with the reason the chapter ranks on NCR.
+  §4.5.3's NCR paragraph inherited the 0/1/negative reading and the Alavizadeh
+  form. Table 4.3 lost its ASP-reduction row, and §5.1 now says "ten metrics".
+- **L3:** Table 5.3 (the ranking) shows rank and NCR reduction only, with
+  Spearman's ρ and its interval as the foot row. The blank no-MTD row is cut,
+  and the reference NCR is in the caption.
+- **L4:** Table 5.5 (now 5.4) has a "random" column under NCR and under NCR
+  reduction: the mean over the ten partitions, attack-profiles block only.
+  §5.4.1 reads the mean (0.33 against 0.35) from it.
+
+**Build:** clean, with no undefined references. Overfull boxes are down to
+12, none of them in this turn's floats; Table C.1 (`tab_C-0a`) is the widest
+existing one. Chapter 5 is printed pp. 30–41, down from 30–43. The PDF is
+copied to `docs/thesis/dissertation.pdf`.
+
+**Still open:**
+1. Marc's read of the numbered draft.
+2. The appendix item on the first deployment (a worked trace, plus the split
+   columns): the `\owed` in §5.3.1.
+3. The caption pass. For example, Figure 5.2's and Table E.1's captions still
+   state B1's "a deployment's layer decides", which the text now carries.
+4. FLOATS.md is not updated; another session holds it (B13).
+
 ## Validation gate
 
 - Marc rules Q1–Q14.

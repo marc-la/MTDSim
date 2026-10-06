@@ -44,6 +44,10 @@ HERE = Path(__file__).resolve().parent
 FM = HERE / "ablation_numbers_memory.json"  # 2026-10-02: the failure-matrix ablation with the memory on, 1 000 seeds
 PART = HERE / "partition_ablation_numbers.json"  # 2026-10-02: the attack profiles against the attack graph
 MEM = HERE / "memory_ablation_numbers.json"
+# 2026-10-06 (L4, Marc "OK"): the size-matched random-partition control as a column, so section 5.4.1
+#   reads it from a float: the mean over the ten partitions, NCR and NCR reduction (each partition
+#   against its own no-MTD runs), in the attack-profiles block only; blank elsewhere (not applicable).
+CTRL = HERE / "partition_control_numbers.json"
 TABLE = HERE.parents[2] / "docs" / "thesis" / "tables" / "tab_5-4a_ablation.tex"
 HOSTS = 50
 POOL = 20  # services per operating system in every other result of chapter 5
@@ -85,6 +89,15 @@ def _d(d: float, ci: list, where: str = "") -> str:
 def rows() -> list:
     fm, mem = json.loads(FM.read_text())["reads"], json.loads(MEM.read_text())["reads"]
     part = json.loads(PART.read_text())["by_n"]["1000"]["outcome"]["shared"]
+    ctrl = json.loads(CTRL.read_text())["cells"]
+    assert json.loads(CTRL.read_text())["n_seeds"] == 1000
+
+    def rnd(key):
+        ncr = [v["ncr"] for v in ctrl[key]["random"].values()]
+        if key == "none|0":
+            return _f(sum(ncr) / len(ncr), 3), ""
+        red = [1 - ctrl[key]["random"][i]["ncr"] / ctrl["none|0"]["random"][i]["ncr"] for i in ctrl[key]["random"]]
+        return _f(sum(ncr) / len(ncr), 3), _f(sum(red) / len(red), 2)
     out = [r"\emph{Attack profiles by objective}"]  # first, in chapter 4's order (Marc 2026-10-02)
     for key, label in [("none|0", "no MTD"), ("ip_shuffle|200", r"IP shuffle, 200\,s"),
                        ("ip_shuffle|2000", r"IP shuffle, 2\,000\,s"), ("os_diversity|200", r"OS diversity, 200\,s"),
@@ -92,8 +105,9 @@ def rows() -> list:
         r = part[key]
         red = ([_f(r["ncr_reduction_with"], 2), _f(r["ncr_reduction_without"], 2)]
                if "ncr_reduction_with" in r else ["", ""])
+        rn, rr = rnd(key)
         out.append([label, _f(r["ncr_with"], 3), _f(r["ncr_without"], 3),
-                    _d(r["cohen_d"], r["cohen_d_ci95"], f"{label} without the attack profiles")] + red)
+                    _d(r["cohen_d"], r["cohen_d_ci95"], f"{label} without the attack profiles"), rn] + red + [rr])
     out.append(r"\emph{Failure matrix}")
     for key, label in [("none", "no MTD"), ("ip_shuffle|200", r"IP shuffle, 200\,s"),
                        ("ip_shuffle|2000", r"IP shuffle, 2\,000\,s"), ("os_diversity|200", r"OS diversity, 200\,s"),
@@ -102,7 +116,7 @@ def rows() -> list:
         red = ([_f(r["ncr_reduction_with"], 2), _f(r["ncr_reduction_without"], 2)]
                if "ncr_reduction_with" in r else ["", ""])
         out.append([label, _f(r["hosts_with"] / HOSTS, 3), _f(r["hosts_without"] / HOSTS, 3),
-                    _d(r["cohen_d_per_seed"], r["cohen_d_ci95"], f"{label} without the failure matrix")] + red)
+                    _d(r["cohen_d_per_seed"], r["cohen_d_ci95"], f"{label} without the failure matrix"), ""] + red + [""])
     out.append(r"\emph{Vulnerability memory}")
     for cond, label in [("none", "no MTD"), ("service_diversity", r"service diversity, 200\,s"),
                         ("os_diversity", r"OS diversity, 200\,s")]:
@@ -110,7 +124,7 @@ def rows() -> list:
         a, o = r["arms"], r["on_minus_off"]
         red = ([_f(r["reduction"]["on"]["ncr_reduction"], 2), _f(r["reduction"]["off"]["ncr_reduction"], 2)]
                if "reduction" in r else ["", ""])
-        out.append([label, _f(a["on"]["ncr"], 3), _f(a["off"]["ncr"], 3), _d(o["cohen_d"], o["cohen_d_ci95"], f"{label} without the vulnerability memory")] + red)
+        out.append([label, _f(a["on"]["ncr"], 3), _f(a["off"]["ncr"], 3), _d(o["cohen_d"], o["cohen_d_ci95"], f"{label} without the vulnerability memory"), ""] + red + [""])
     return out
 
 
@@ -132,7 +146,7 @@ def main() -> None:
         if isinstance(r, str):
             if body:
                 body.append(r"    \addlinespace")
-            body.append(rf"    \grouprow{{6}}{{{r[len(chr(92)+'emph{'):-1]}}} \\")
+            body.append(rf"    \grouprow{{8}}{{{r[len(chr(92)+'emph{'):-1]}}} \\")
         else:
             body.append("    " + " & ".join(r) + r" \\")
     tex = [
@@ -147,14 +161,16 @@ def main() -> None:
          r"with 20 services per operating system; without the attack profiles, the APT attacker model runs on the attack graph: "
          r"NCR, Cohen's $d$ on NCR, with minus without, with its 95\,\% percentile bootstrap interval "
          r"over seeds, and NCR reduction (Section~\ref{sec:evaluation-metrics}), blank with no MTD, its reference. "
+         r"Random: the mean over ten random partitions of the attack flows, each group the size of an attack profile, "
+         r"each partition's NCR reduction against its own runs with no MTD; blank outside the attack profiles' ablation. "
          r"Bold: the interval, before rounding, lies wholly beyond $\pm 0.2$." + _named() + "}"),
         r"  \label{tab:ablation}",
-        r"  \tablestyle",  # group rows keep the stripes (Marc, 2026-10-01)
-        r"  \begin{tabular}{@{}lccccc@{}}",
+        r"  \tablestyle\setlength{\tabcolsep}{4pt}",  # group rows keep the stripes (Marc, 2026-10-01); 4 pt fits the random columns
+        r"  \begin{tabular}{@{}lccccccc@{}}",
         r"    \toprule",
-        r"    & \multicolumn{3}{c}{NCR} & \multicolumn{2}{c}{NCR reduction} \\",
-        r"    \cmidrule(lr){2-4}\cmidrule(lr){5-6}",
-        r"    \rowcolor{white}MTD & with & without & Cohen's $d$ & with & without \\",
+        r"    & \multicolumn{4}{c}{NCR} & \multicolumn{3}{c}{NCR reduction} \\",
+        r"    \cmidrule(lr){2-5}\cmidrule(lr){6-8}",
+        r"    \rowcolor{white}MTD & with & without & Cohen's $d$ & random & with & without & random \\",
         r"    \midrule",
     ] + body + [r"    \bottomrule", r"  \end{tabular}", r"\end{table}", ""]
     TABLE.write_text("\n".join(tex), encoding="utf-8")

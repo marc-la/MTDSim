@@ -51,6 +51,9 @@ from _ch5_style import (IV_BOOT, IV_MEAN, IV_PROP, bounded, clopper_pearson, mtt
 # the reported corpus (1 000 seeds, the vulnerability memory on; 2026-10-02)
 NUMBERS = REPO / "data" / "results" / "ch5_defended" / "numbers_reported.json"
 STEM_HEAD = "fig_5-3-2b_interval_headline"
+# 2026-10-06 (Marc, Q3: "move ASP reduction rows ... to the appendix ... NCR reduction is more of a
+#   fine grained tool"): the headline draws NCR reduction only; ASP reduction is its own appendix figure.
+STEM_HEAD_ASP = "fig_F-0b_interval_asp"
 STEM_MECH = "fig_5-3-3b_interval_mechanisms"
 STEM_VAL = "tab_F-0a_interval_values"
 ROWS_MECH = (("host layer", ("ip_shuffle", "complete_topology", "host_topology")),
@@ -442,30 +445,32 @@ def emit_ranking_table(ranking) -> tuple[str, list]:
     cap_at = len(L) - 1
     w(r"  \label{tab:eff-cross-arm}")
     # the stripes restart at row 4 so neither header row is shaded
-    w(r"  \tablestyle\scriptsize\setlength{\tabcolsep}{3pt}\rowcolors{4}{black!5}{}")
+    w(r"  \tablestyle\rowcolors{4}{black!5}{}")
     C = r">{\centering\arraybackslash}p{%s}"
-    cols = [C % "0.8cm", C % "1.3cm", C % "1.3cm", C % "1.1cm"]
-    w(r"  \begin{tabular}{@{}P{3.4cm}%s%s@{}}" % ("".join(cols), "".join(cols)))
+    # 2026-10-06 (Marc, L3 and Q3): rank and NCR reduction only; ASP reduction and MTTC are in
+    #   Tables F.3 and F.4. Spearman's rho, the section's headline number, is the foot row.
+    cols = [C % "1.0cm", C % "1.6cm"]
+    w(r"  \begin{tabular}{@{}P{4.3cm}%s%s@{}}" % ("".join(cols), "".join(cols)))
     w(r"    \toprule")
-    w(r"    & \multicolumn{4}{c}{APT attacker model} & \multicolumn{4}{c}{Baseline attacker} \\")
-    w(r"    \cmidrule(lr){2-5}\cmidrule(lr){6-9}")
-    head = ["Rank", r"NCR\newline reduction", r"ASP\newline reduction", r"MTTC\newline (s)"]
+    w(r"    & \multicolumn{2}{c}{APT attacker model} & \multicolumn{2}{c}{Baseline attacker} \\")
+    w(r"    \cmidrule(lr){2-3}\cmidrule(lr){4-5}")
+    head = ["Rank", r"NCR\newline reduction"]
     w(r"    MTD & %s & %s \\" % (" & ".join(head), " & ".join(head)))
     w(r"    \midrule")
 
     def cells(row, none=False):
         # the reference has no rank and no reduction: blank, not applicable (S1)
         rank = "" if none else (r"\textbf{1}" if row["rank"] == 1 else str(row["rank"]))
-        return [rank, "" if none else _num(row["ncr_reduction"]["point"]),
-                "" if none else _num(row["asp_reduction"]["point"]), _mttc(row["mttc"])]
+        return [rank, "" if none else _num(row["ncr_reduction"]["point"])]
 
-    w("    no MTD & %s & %s \\\\" % (" & ".join(cells(blk["movement"]["none"], True)),
-                                       " & ".join(cells(blk["baseline"]["none"], True))))
-    w(r"    \midrule")
     for c in order:
         m, b = blk["movement"]["rows"][c], blk["baseline"]["rows"][c]
         w("    %s & %s & %s \\\\" % (LONG[c], " & ".join(cells(m)), " & ".join(cells(b))))
         facts.append((c, m["rank"], m["ncr_reduction"]["point"], b["rank"], b["ncr_reduction"]["point"]))
+    rho = blk["spearman_ncr_reduction"]
+    w(r"    \midrule")
+    w(r"    \rowcolor{white}Spearman's $\rho$ & \multicolumn{4}{c}{%s [%s, %s]} \\"
+      % tuple(_num(rho[k]) for k in ("rho", "lo", "hi")))
     w(r"    \bottomrule")
     w(r"  \end{tabular}")
     w(r"\end{table}")
@@ -482,9 +487,9 @@ def emit_ranking_table(ranking) -> tuple[str, list]:
     seeds = ref["baseline"]["hosts"]["n"]
     strat = [LONG[c] for c in order if c in STRATEGIES]
     strat_txt = ", ".join(strat[:-1]) + " and " + strat[-1] if len(strat) > 1 else strat[0]
-    L[cap_at] = (r"  \caption[The MTD mechanisms and deployment strategies ranked against each attacker]{Each MTD mechanism and deployment strategy deployed every %s\,s, ranked against the APT attacker model averaged over $c_1$ to $c_4$ (4\,000 runs, 1\,000 per attack profile), and against the baseline attacker (1\,000 runs), on the same %s seeds. %s are deployment strategies, which decide which mechanism is deployed at each interval (Table~\ref{tab:deployment-strategies}); every other row is one mechanism deployed alone. Rank is by Scott--Knott ESD on the mean hosts compromised per seed, over the four attack profiles' runs for the APT attacker model (Section~\ref{sec:dimensions}): rank~1, in bold, compromises the fewest hosts, and rows that share a rank are not told apart. Rows follow the APT attacker model's ranks. A reduction is 1 when no host is compromised (NCR) or no run compromises a target host (ASP), 0 when as many as with no MTD, and negative when more (Section~\ref{sec:evaluation-metrics}). With no MTD, the reference row, NCR is %s and ASP %s against the APT attacker model, and %s and %s against the baseline attacker; its rank and reductions are blank.%s%s MTTC is taken over the runs that compromise a target host, of any attack profile, and rounded to %s\,s, the precision of its widest interval. Tables~\ref{tab:full-movement} and~\ref{tab:full-baseline} give every value's interval and the runs each MTTC is taken over.}"
-                 % (fmt_thousands(int(iv)), fmt_thousands(seeds), strat_txt[:1].upper() + strat_txt[1:], n_m, a_m, n_b, a_b,
-                    bound, _dash_decode(reasons), fmt_thousands(10 ** max(0, MTTC_PLACE))))
+    L[cap_at] = (r"  \caption[The MTD mechanisms and deployment strategies ranked against each attacker]{Each MTD mechanism and deployment strategy deployed every %s\,s, ranked against the APT attacker model averaged over $c_1$ to $c_4$ (4\,000 runs, 1\,000 per attack profile), and against the baseline attacker (1\,000 runs), on the same %s seeds. %s are deployment strategies, which decide which mechanism is deployed at each interval (Table~\ref{tab:deployment-strategies}); every other row is one mechanism deployed alone. Rank is by Scott--Knott ESD on the mean hosts compromised per seed, over the four attack profiles' runs for the APT attacker model (Section~\ref{sec:dimensions}): rank~1, in bold, compromises the fewest hosts, and rows that share a rank are not told apart. Rows follow the APT attacker model's ranks. NCR reduction is 1 when no host is compromised, 0 when as many as with no MTD, and negative when more (Section~\ref{sec:evaluation-metrics}). With no MTD, the reference, NCR is %s against the APT attacker model and %s against the baseline attacker.%s Spearman's $\rho$ compares the two NCR-reduction columns: 1 for the same order, 0 for unrelated orders, $-1$ for the reverse (Section~\ref{sec:dimensions}); brackets, its 95\,\%% percentile bootstrap interval over seeds. Tables~\ref{tab:full-movement} and~\ref{tab:full-baseline} give every value's interval, ASP reduction and MTTC.}"
+                 % (fmt_thousands(int(iv)), fmt_thousands(seeds), strat_txt[:1].upper() + strat_txt[1:], n_m, n_b,
+                    bound))
     return "\n".join(L) + "\n", facts
 
 
@@ -595,7 +600,8 @@ def main() -> None:
              for k in ("point", "lo")]
     yr_a = _yrange(pts_a)
     print(f"ASP reduction y range {yr_a}")
-    for name, stem, fn in (("headline", STEM_HEAD, lambda: emit_headline([(YLABEL, sweep, yr), ("ASP reduction", sa, yr_a)])),
+    for name, stem, fn in (("headline", STEM_HEAD, lambda: emit_headline([(YLABEL, sweep, yr)])),
+                           ("asp", STEM_HEAD_ASP, lambda: emit_headline([("ASP reduction", sa, yr_a)])),
                            ("mechanisms", STEM_MECH, lambda: emit_mechanisms(sweep, yr))):
         if args.only and args.only != name:
             continue
