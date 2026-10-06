@@ -4,33 +4,33 @@
 % Caption DRAFT STATE 2026-10-01, ratify on read.
 \begin{table}[tp]
   \centering
-  \caption[The APT attacker model with and without each ablated component]{The APT attacker model with and without each ablated component, averaged over $c_1$ to $c_4$, on the same 1\,000 seeds, with 20 services per operating system; without the attack profiles, the APT attacker model runs on the attack graph: NCR, $d$ on NCR, with minus without, with its 95\,\% percentile bootstrap interval over seeds, and NCR reduction (Section~\ref{sec:evaluation-metrics}), blank with no MTD, its reference. Random: the mean over 10 random partitions of the attack flows, each group the size of an attack profile, each partition's NCR reduction against its own runs with no MTD; blank outside the attack profiles' ablation. Bold: not negligible, the interval, before rounding, wholly outside $\pm 0.2$. Inconclusive, the interval crossing $\pm 0.2$: OS diversity at 2\,000\,s without the attack profiles. Every other row is negligible, its interval wholly inside $\pm 0.2$ (Section~\ref{sec:dimensions}).}
+  \caption[The APT attacker model with and without each component]{The APT attacker model with and without each component, averaged over $c_1$ to $c_4$. $d$ on NCR: with minus without, with its confidence interval. Bold: not negligible, judged on the interval before rounding. Not bold: negligible, but inconclusive for OS diversity at 2\,000\,s without the attack profiles (Section~\ref{sec:dimensions}).}
   \label{tab:ablation}
-  \tablestyle\setlength{\tabcolsep}{4pt}
-  \begin{tabular}{@{}lccccccc@{}}
+  \tablestyle
+  \begin{tabular}{@{}lccc@{}}
     \toprule
-    & \multicolumn{4}{c}{NCR} & \multicolumn{3}{c}{NCR reduction} \\
-    \cmidrule(lr){2-5}\cmidrule(lr){6-8}
-    \rowcolor{white}MTD & with & without & $d$ & random & with & without & random \\
+    & \multicolumn{2}{c}{NCR} & \\
+    \cmidrule(lr){2-3}
+    \rowcolor{white}MTD & with & without & $d$ \\
     \midrule
-    \grouprow{8}{Attack profiles by objective} \\
-    no MTD & 0.171 & 0.189 & \bfseries\boldmath $-0.28$ [$-0.35$, $-0.22$] & 0.121 &  &  &  \\
-    IP shuffle, 200\,s & 0.007 & 0.013 & \bfseries\boldmath $-0.47$ [$-0.54$, $-0.40$] & 0.007 & 0.96 & 0.93 & 0.94 \\
-    IP shuffle, 2\,000\,s & 0.114 & 0.145 & \bfseries\boldmath $-0.56$ [$-0.63$, $-0.49$] & 0.078 & 0.33 & 0.24 & 0.35 \\
-    OS diversity, 200\,s & 0.159 & 0.174 & \bfseries\boldmath $-0.26$ [$-0.33$, $-0.20$] & 0.113 & 0.07 & 0.08 & 0.06 \\
-    OS diversity, 2\,000\,s & 0.174 & 0.187 & $-0.21$ [$-0.27$, $-0.14$] & 0.121 & $-0.02$ & 0.01 & 0.00 \\
+    \grouprow{4}{Attack profiles by objective} \\
+    \quad no MTD & 0.171 & 0.189 & \bfseries\boldmath $-0.28$ [$-0.35$, $-0.22$] \\
+    \quad IP shuffle, 200\,s & 0.007 & 0.013 & \bfseries\boldmath $-0.47$ [$-0.54$, $-0.40$] \\
+    \quad IP shuffle, 2\,000\,s & 0.114 & 0.145 & \bfseries\boldmath $-0.56$ [$-0.63$, $-0.49$] \\
+    \quad OS diversity, 200\,s & 0.159 & 0.174 & \bfseries\boldmath $-0.26$ [$-0.33$, $-0.20$] \\
+    \quad OS diversity, 2\,000\,s & 0.174 & 0.187 & $-0.21$ [$-0.27$, $-0.14$] \\
     \addlinespace
-    \grouprow{8}{Failure matrix} \\
-    no MTD & 0.171 & 0.167 & $+0.07$ [$+0.03$, $+0.11$] &  &  &  &  \\
-    IP shuffle, 200\,s & 0.007 & 0.006 & $+0.13$ [$+0.06$, $+0.19$] &  & 0.96 & 0.96 &  \\
-    IP shuffle, 2\,000\,s & 0.114 & 0.109 & $+0.12$ [$+0.07$, $+0.17$] &  & 0.33 & 0.35 &  \\
-    OS diversity, 200\,s & 0.159 & 0.159 & $-0.01$ [$-0.05$, $+0.04$] &  & 0.07 & 0.05 &  \\
-    OS diversity, 2\,000\,s & 0.174 & 0.170 & $+0.06$ [$+0.02$, $+0.11$] &  & $-0.02$ & $-0.02$ &  \\
+    \grouprow{4}{Failure matrix} \\
+    \quad no MTD & 0.171 & 0.167 & $+0.07$ [$+0.03$, $+0.11$] \\
+    \quad IP shuffle, 200\,s & 0.007 & 0.006 & $+0.13$ [$+0.06$, $+0.19$] \\
+    \quad IP shuffle, 2\,000\,s & 0.114 & 0.109 & $+0.12$ [$+0.07$, $+0.17$] \\
+    \quad OS diversity, 200\,s & 0.159 & 0.159 & $-0.01$ [$-0.05$, $+0.04$] \\
+    \quad OS diversity, 2\,000\,s & 0.174 & 0.170 & $+0.06$ [$+0.02$, $+0.11$] \\
     \addlinespace
-    \grouprow{8}{Vulnerability memory} \\
-    no MTD & 0.171 & 0.169 & $+0.04$ [$+0.02$, $+0.06$] &  &  &  &  \\
-    service diversity, 200\,s & 0.109 & 0.106 & $+0.07$ [$+0.05$, $+0.09$] &  & 0.36 & 0.37 &  \\
-    OS diversity, 200\,s & 0.159 & 0.156 & $+0.05$ [$+0.02$, $+0.07$] &  & 0.07 & 0.07 &  \\
+    \grouprow{4}{Vulnerability memory} \\
+    \quad no MTD & 0.171 & 0.169 & $+0.04$ [$+0.02$, $+0.06$] \\
+    \quad service diversity, 200\,s & 0.109 & 0.106 & $+0.07$ [$+0.05$, $+0.09$] \\
+    \quad OS diversity, 200\,s & 0.159 & 0.156 & $+0.05$ [$+0.02$, $+0.07$] \\
     \bottomrule
   \end{tabular}
 \end{table}

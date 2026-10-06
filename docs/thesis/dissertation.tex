@@ -6099,6 +6099,11 @@ between the APT attacker model with and without it. The effect is negligible
 when its 95\,\% interval lies wholly inside $\pm 0.2$, not negligible when the
 interval lies wholly outside, and inconclusive when it crosses $\pm 0.2$
 \citep{lakens2018equivalence}.
+% 2026-10-06 (Marc, Section 5.4: "the preamble ... mirrors some of the stuff that we say in
+%  5.1"): the tactic-durations pointer moves here from the 5.4 preamble; it says why no
+%  ablation study removes them, which is setup.
+The tactic durations cannot be removed, so Appendix~\ref{app:sensitivity}
+varies their values instead.
 % REBUILT 2026-09-18 on Marc's read: "that reads like compaction for an LLM ...
 %  this is not thesis-ready". He is right, and the diagnosis is specific --- the
 %  unit was four sentences of which THREE were arguing, in a vocabulary he could
@@ -8004,16 +8009,14 @@ attacker's NCR reduction is above all four, and $c_3$'s is the lowest
 % REDRAFT 2026-10-06 (docs/handoffs/2026-10-06_ch5_results_prose_redraft.md, 4-h1, 4-h2 (M6, M11, Q11)):
 %  numbers filled 2026-10-06 from the 1 000-seed JSON named in the NUMBERS line (each \prelim{n}
 %  is the grep target; Marc approved the draft's form before the fill). Replaces the 2026-09-26 text (git history). DRAFT STATE.
-Three components of the APT attacker model are our judgement. Each gives the
-model one property of an APT attacker (Table~\ref{tab:attacker-properties}):
-the partition into attack profiles gives objective-specific behaviour, the
-failure matrix adaptivity, and the vulnerability memory learning. Each
-ablation runs the model without one component, the \emph{ablated model}, on
-the same seeds (Table~\ref{tab:experiment}). The tactic durations cannot be
-removed, so Appendix~\ref{app:sensitivity} varies their values instead.
-Table~\ref{tab:ablation} shows that removing the partition into attack
-profiles has an effect on NCR that is not negligible, and removing the failure
-matrix or the vulnerability memory a negligible one.
+% REDRAFT 2026-10-06 (Marc: "is this like another one sentence"; "everything should work
+%  together ... no duplication"): one sentence, mirroring 5.2 and 5.3. Cut: each component's
+%  property (Chapter 4 ties each to Table 3.2), the seeds and configurations (Table 5.1), the
+%  tactic durations (moved to 5.1's Ablation studies paragraph), and the summary of Table 5.4
+%  (each subsection opens on its own verdict). The ablated model is named here, once.
+This section compares the APT attacker model with the \emph{ablated model},
+the APT attacker model with one component removed: the attack profiles, the
+failure matrix or the vulnerability memory.
 
 \input{tables/tab_5-4a_ablation}
 
@@ -8056,31 +8059,35 @@ matrix or the vulnerability memory a negligible one.
 %  numbers filled 2026-10-06 from the 1 000-seed JSON named in the NUMBERS line (each \prelim{n}
 %  is the grep target; Marc approved the draft's form before the fill). Replaces the 2026-09-26 text (git history). DRAFT STATE.
 % NUMBERS: ? ? = distinct openings over five steps in 1 000 runs, ablated and with the profiles (partition_ablation_numbers.json); ? ? ? = NCR with no MTD, ablated and with, and d (Table 5.5); ? ? = combinations whose d interval lies wholly beyond 0.2, and the count (Table E.5, one rule); ? ? = NCR reduction under IP shuffle at 2 000 s, ablated and with; ? = largest difference under OS diversity; ? ? ? = attack flows per profile net, lowest, highest, and those carrying weight; ? = combinations of Table 5.5 in which the profiles beat every random partition; ? ? ? = NCR reduction under IP shuffle at 2 000 s, profiles, random lowest and highest (partition_control_numbers.json; L4 puts them in Table 5.5).
-The ablated model runs on the attack graph itself
-(Section~\ref{sec:technique-graph}), so at each tactic it may follow attack
-flows of any objective. The prediction was that it would take more distinct
-openings and give a different NCR reduction under MTD.
+% REDRAFT 2026-10-06 (Marc, Section 5.4, the lens of 5.2 and 5.3): the six-move form of
+%  2026-10-02 (purpose, variant, prediction, check, outcome, scope) is overturned on merit.
+%  The prediction is not declared in Chapter 4, so stated in the results it reads as post hoc;
+%  the variant is one clause, as Chapter 4 already says what the ablated model runs on. Point
+%  first: one sentence of setup, the verdict with the property check, then the numbers. Cut:
+%  the NCR reduction sentence (untested point values, the column is gone from Table 5.4), and
+%  "compromises more under every ... interval" (a negligible d does not license "more").
+%  "29 that carry weight" -> Section 4.3's own words (the base weights rest on 29 of the 38).
+%  The control's numbers come from Table F.4 (min and max over the ten partitions):
+%  no MTD 0.071 to 0.157 against 0.171 and 0.189; the order random < profiles < graph holds
+%  in every configuration but IP shuffle at 200 s (highest random partition 0.017).
+The ablated model runs on the attack graph (Section~\ref{sec:technique-graph}).
+It takes more distinct openings than the APT attacker model and compromises
+more, and the attack profiles' effect on NCR is not negligible
+(Table~\ref{tab:ablation}). Over the first five steps of 1\,000 runs, the
+ablated model takes 535 distinct openings, against 254. With no MTD, its NCR is
+0.189 against 0.171, a $d$ of $-0.28$. Under the MTD mechanisms and deployment
+strategies, the effect is not negligible in 29 of the 60 configurations,
+negligible in seven and inconclusive in 24
+(Table~\ref{tab:ablation-attack-profiles}).
 
-The ablated model takes \prelim{535} distinct openings over its first five steps
-in 1\,000 runs, against \prelim{254} with the attack profiles. It also
-compromises more of the network. Its NCR with no MTD is \prelim{0.189} against
-\prelim{0.171}, a $d$ of \prelim{$-0.28$} (Table~\ref{tab:ablation}). It compromises
-more under every MTD mechanism, deployment strategy and interval. The effect
-is not negligible in \prelim{29} of these \prelim{60} configurations, negligible
-in \prelim{seven} and inconclusive in \prelim{24}
-(Table~\ref{tab:ablation-attack-profiles}). Its NCR reduction
-under IP shuffle at 2\,000\,s is \prelim{0.24}, against \prelim{0.33} with the
-attack profiles; under OS diversity the two differ by \prelim{0.03} at most.
-
-The partition does two things: it sorts the attack flows by objective, and it
-builds each Petri net from fewer of them, \prelim{4} to \prelim{14} of the
-\prelim{29} that carry weight. Ten random partitions of the attack flows, each
-group the size of an attack profile, separate the two. With no MTD, the random
-partitions' NCR averages \prelim{0.12}, below both the attack profiles' and the
-ablated model's. The attack profiles compromise more than every random
-partition in \prelim{four} of the five configurations of Table~\ref{tab:ablation}. Their NCR reduction is close to the random partitions' mean: under IP
-shuffle at 2\,000\,s it is \prelim{0.33}, against \prelim{0.35}
-(Table~\ref{tab:ablation}).
+The attack profiles differ from the attack graph in two ways: each groups the
+attack flows by objective, and each Petri net's base weights rest on fewer
+attack flows, 4 to 14 of the 29 (Section~\ref{sec:petri-formalism}). Ten random
+partitions of the attack flows into groups of the attack profiles' sizes keep
+the fewer attack flows and drop the grouping by objective. With no MTD, the
+random partitions' NCR is 0.071 to 0.157, below the attack profiles' 0.171 and
+the attack graph's 0.189. The same order holds in every configuration but IP
+shuffle at 200\,s (Table~\ref{tab:ablation-random-partitions}).
 
 \subsection{Failure matrix}
 \label{subsec:ablation-failure-matrix}
@@ -8110,23 +8117,21 @@ shuffle at 2\,000\,s it is \prelim{0.33}, against \prelim{0.35}
 %  numbers filled 2026-10-06 from the 1 000-seed JSON named in the NUMBERS line (each \prelim{n}
 %  is the grep target; Marc approved the draft's form before the fill). Replaces the 2026-09-26 text (git history). DRAFT STATE.
 % NUMBERS: ? ? = return to reconnaissance after a failed initial access, with the failure matrix, c1 c3 c4 lowest and highest; ? ? = the same, ablated; ? = combinations of five in which the APT attacker model compromises more (ablation_numbers_memory.json; Table 5.5).
-The ablated model sets every factor of the failure matrix to one, so it
-chooses its next tactic after a failure as it would after a success. The
-prediction was that it would move on after a failure as though it had
-succeeded, and compromise more.
-
-Removing the failure matrix changes where the attacker goes after a failure.
-The APT attacker model returns to reconnaissance after a failed initial
-access in \prelim{0.76} to \prelim{0.83} of cases on $c_1$, $c_3$ and $c_4$, and the
-ablated model in \prelim{0.08} to \prelim{0.10}. $c_2$ never returns to
-reconnaissance after a failed initial access, with or without the failure
-matrix.
-
-Removing the failure matrix has a negligible effect on NCR: every interval of
-$d$ lies wholly inside $\pm 0.2$ (Table~\ref{tab:ablation}). The APT attacker model compromises more than the ablated model in
-\prelim{four} of the five configurations, against the prediction. The ablation
-covers IP shuffle and OS diversity at 200\,s and 2\,000\,s
-(Table~\ref{tab:experiment}).
+% REDRAFT 2026-10-06 (Marc, Section 5.4): the 5.4.1 form. Cut: the prediction and "against
+%  the prediction" (undeclared in Chapter 4); "compromises more in four of the five" (under a
+%  negligible d the direction is not a finding); the configurations (Table 5.1 and the rows of
+%  Table 5.4); "every interval of d lies wholly inside +-0.2" (Section 5.1's definition of
+%  negligible). c2's sentence -> a clause pointing to Chapter 4, which says why.
+%  Shares from ablation_numbers_memory.json behaviour: c1 0.757 / 0.081, c3 0.827 / 0.097,
+%  c4 0.816 / 0.096, c2 0 / 0. No float carries them (flagged to Marc 2026-10-06).
+The ablated model sets every factor of the failure matrix to one
+(Section~\ref{subsec:failure-matrix}). It returns to reconnaissance after a
+failed initial access less often than the APT attacker model, and the failure
+matrix's effect on NCR is negligible (Table~\ref{tab:ablation}). On $c_1$,
+$c_3$ and $c_4$, the APT attacker model returns to reconnaissance after a failed
+initial access in 0.76 to 0.83 of cases, and the ablated model in 0.08 to
+0.10. $c_2$ has no move from initial access back to reconnaissance
+(Section~\ref{subsec:failure-matrix}).
 
 \subsection{Vulnerability memory}
 \label{subsec:ablation-vulnerability-memory}
@@ -8198,26 +8203,25 @@ covers IP shuffle and OS diversity at 200\,s and 2\,000\,s
 %  numbers filled 2026-10-06 from the 1 000-seed JSON named in the NUMBERS line (each \prelim{n}
 %  is the grep target; Marc approved the draft's form before the fill). Replaces the 2026-09-26 text (git history). DRAFT STATE.
 % NUMBERS: ? ? = share of exploits that succeed with no MTD, without and with the memory; ? ? = the same with one service per operating system (memory_ablation_numbers.json, re-read at 1 000 seeds 2026-10-06: every on-minus-off d interval lies wholly inside +-0.2, widest +0.15; with one service per OS the share rises 0.69 to 0.92).
-The ablated model exploits each vulnerability with the probability its CVSS
-complexity sets, with no memory of earlier successes
-(Section~\ref{subsec:vulnerability-memory}). The prediction was that the
-memory would raise the share of exploits that succeed and what the attacker
-compromises.
+% REDRAFT 2026-10-06 (Marc, Section 5.4): the 5.4.1 form. "CVSS complexity" -> Chapter 4's
+%  "the odds its attack complexity sets"; the prediction cut (the pool expectation, which
+%  Chapter 4 does declare, keeps its verdict in the last paragraph, per the 2026-10-02 ruling);
+%  the configurations and their reason cut (Table 5.1); "Figure and Table run the pool" (a
+%  float runs nothing) -> the verdict first, the numbers after. Checked against
+%  tab_F-2: with no MTD at 20 services 0.69 / 0.73; at one service 0.69 / 0.92; every d
+%  interval at every pool size inside +-0.2 (widest upper end +0.15).
+The ablated model exploits each vulnerability with the odds its attack
+complexity sets (Section~\ref{subsec:vulnerability-memory}). Its exploits
+succeed less often than the APT attacker model's, and the vulnerability
+memory's effect on NCR is negligible (Table~\ref{tab:ablation}). With no MTD,
+the share of exploits that succeed is 0.69 without the memory and 0.73 with it
+(Table~\ref{tab:ablation-memory}).
 
-The memory raises the share of exploits that succeed, from \prelim{0.69} to
-\prelim{0.73} with no MTD (Table~\ref{tab:ablation-memory}). Its effect on NCR is
-negligible: every interval of $d$ lies wholly inside $\pm 0.2$
-(Table~\ref{tab:ablation}). The ablation covers service diversity and OS
-diversity at 200\,s, the two MTD mechanisms that draw services from the pool
-(Table~\ref{tab:experiment}).
-
-Section~\ref{subsec:vulnerability-memory} hypothesises that the memory matters
-more when the diversity pool is small. Figure~\ref{fig:ablation-memory} and
-Table~\ref{tab:ablation-memory} run the pool from 20 services per operating
-system down to one. The memory's effect on exploits is largest with one
-service per operating system, where the share that succeeds rises from
-\prelim{0.69} to \prelim{0.92}. The hypothesis holds for the share of exploits that succeed, and not for
-NCR.
+With a smaller diversity pool, the memory raises the share of exploits that
+succeed more, as Section~\ref{subsec:vulnerability-memory} expects, and its
+effect on NCR stays negligible (Figure~\ref{fig:ablation-memory}). With one
+service per operating system, the share rises from 0.69 without the memory to
+0.92 with it (Table~\ref{tab:ablation-memory}).
 
 \chapter{Discussion}
 \label{ch:discussion}
@@ -9712,9 +9716,13 @@ Table~\ref{tab:eff-cross-arm} with its interval, for each attacker.
 %  Section 5.4.1's outcome paragraph. SESSION-DRAFTED sentence, DRAFT STATE.
 Table~\ref{tab:ablation-attack-profiles} gives the attack profiles' ablation
 (Section~\ref{subsec:ablation-attack-profiles}) at every MTD mechanism,
-deployment strategy and deployment interval.
+deployment strategy and deployment interval, and
+Table~\ref{tab:ablation-random-partitions} its random partitions of the attack
+flows.
 
 \input{tables/tab_F-3_ablation_attack_profiles}
+
+\input{tables/tab_F-4_ablation_random_partitions}
 
 Figure~\ref{fig:ablation-memory} and Table~\ref{tab:ablation-memory} give the
 vulnerability memory's ablation
