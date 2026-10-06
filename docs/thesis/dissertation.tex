@@ -7412,13 +7412,18 @@ strategy running.
 %  progress, brought forward, the same seed's run with no MTD (Section 4.5.3); run, seed, confidence
 %  interval (Section 5.1). Fixed: 'it is' -> the metric's name; 'blocked by every one' and 'every one but
 %  user shuffle' -> the nouns they stood for.
+% ROUND 4 2026-10-06 (Marc: strip what the reader already has): the caption's 'under the single deployment
+%  strategy' cut, the axis gives one bar per mechanism and the prose names the strategy; the interval stays,
+%  the figure cannot show it. Paragraph 2's close leads with the APT attacker model and cites Section 4.4.1,
+%  which already says a deployment during an unmapped tactic cuts its duration; 'blocks only an attack action
+%  in progress' is Section 4.5.3's and is cut.
 Each MTD mechanism runs under the single deployment strategy at the longest
 deployment interval, 2\,000\,s, because the next MTD deployment caps time lost
 at the deployment interval (Section~\ref{subsec:metrics-effectiveness}).
 \begin{figure}[tp]
   \centering
   \includegraphics{fig_5-2-2a_disruption_response}
-  \caption[Attack actions blocked and time lost per MTD deployment]{Attack actions blocked and time lost per MTD deployment, each MTD mechanism under the single deployment strategy at a deployment interval of 2\,000\,s; the APT attacker model averaged over $c_1$ to $c_4$. Table~\ref{tab:disruption} gives each bar's value with its confidence interval.}
+  \caption[Attack actions blocked and time lost per MTD deployment]{Attack actions blocked and time lost per MTD deployment for each MTD mechanism, at a deployment interval of 2\,000\,s; the APT attacker model averaged over $c_1$ to $c_4$. Table~\ref{tab:disruption} gives each bar's value with its confidence interval.}
   \label{fig:aio-adaptivity}
 \end{figure}
 
@@ -7428,8 +7433,9 @@ actions blocked per MTD deployment is \prelim{1} for the baseline attacker
 under every host-layer mechanism, against \prelim{0.35} to \prelim{0.39} for
 the APT attacker model. Under every service-layer mechanism, attack actions
 blocked per MTD deployment is \prelim{0.95} against \prelim{0.15}, and under
-user shuffle \prelim{0.07} against \prelim{0.01}. An MTD deployment blocks only an attack action in progress,
-and the APT attacker model runs none while in an unmapped tactic.
+user shuffle \prelim{0.07} against \prelim{0.01}. The APT attacker model runs no attack action while in
+an unmapped tactic, so an MTD deployment then blocks none
+(Section~\ref{subsec:tactic-verb-mapping}).
 
 On adaptivity, the two attackers lose time to different MTD mechanisms
 (Figure~\ref{fig:aio-adaptivity}(b)). The APT attacker model loses

@@ -221,8 +221,8 @@ def emit_table(d: dict) -> str:
         r"\begin{table}[tp]",
         r"  \centering",
         (r"  \caption[Attack actions blocked and time lost per MTD deployment]{Attack actions blocked and time "
-         r"lost per MTD deployment, each MTD mechanism under the single deployment strategy at a deployment "
-         r"interval of 2\,000\,s; the APT attacker model "
+         r"lost per MTD deployment for each MTD mechanism, at a deployment interval of 2\,000\,s; "
+         r"the APT attacker model "
          r"averaged over $c_1$ to $c_4$ (Figure~\ref{fig:aio-adaptivity}). " + decode_time_lost(C) + EXACT + "}"),
         r"  \label{tab:disruption}",
         # scriptsize, 3 pt gaps: at footnotesize the 3-decimal brackets exceed the text width (conventions, "Table size")
