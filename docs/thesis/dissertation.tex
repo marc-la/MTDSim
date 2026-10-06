@@ -5992,18 +5992,21 @@ and draws out what they change for MTD evaluation.
 %  sentence cut (Chapter 2 defines the interval as the time between deployments; 4.5
 %  gives the same-seed reference); the attack actions cut (Chapter 4's opener); the
 %  fairness sentence in SQ3's words ("how MTD performs against"). DRAFT STATE.
+% [ROUND 3, 2026-10-06] Marc: "so each mechanism is deployed alone" is given by the
+%  single deployment strategy (Table 2.2, "the same mechanism every time"): cut, the
+%  once-per-mechanism fact kept. The fairness close read circular ("performs against
+%  them ... comes from the attacker model", "them" unclear): now states the control
+%  plainly, the reader draws the attribution.
 \paragraph{Varied settings.} The APT attacker model and the baseline attacker
 are each run with no MTD and under each of the four deployment strategies
-(Table~\ref{tab:deployment-strategies}). The single deployment strategy is
-run once for each of the seven MTD mechanisms, so each mechanism is deployed
-alone. MTDShield is run as released (Appendix~\ref{app:mtdshield}). The APT
+(Table~\ref{tab:deployment-strategies}). The single deployment strategy runs
+once for each of the seven MTD mechanisms. MTDShield is run as released (Appendix~\ref{app:mtdshield}). The APT
 attacker model runs on each of its four attack profiles, $c_1$ to $c_4$
 (Section~\ref{sec:attack-profiles}). Each deployment strategy runs at six
 deployment intervals: 50, 100 and 200\,s, which the earlier MTDSim studies
 ran, and 500, 1\,000 and 2\,000\,s, up to ten times their longest
 (Table~\ref{tab:lineage-configurations}). Both attackers run on the same
-networks and under the same MTD, so a difference in how MTD performs against
-them comes from the attacker model.
+networks and under the same MTD, so their runs differ only in the attacker.
 
 \input{tables/tab_5-1a_experiment}
 
