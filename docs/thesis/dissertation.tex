@@ -6235,14 +6235,27 @@ where its 95\,\% confidence interval is wider than 160\,\% of its value, the
 minimum the US National Center for Health Statistics sets for presenting a
 rate \citep{kochanek2024nchs}.
 
-\paragraph{MTD ranking.} For each attacker at each deployment interval, the seven
-MTD mechanisms and three deployment strategies are ranked by NCR with the
-Scott--Knott effect size difference test \citep{tantithamthavorn2017empirical}.
-% 2026-10-05: MOVED from Section 4.5.3 ("NCR reduction is the headline"), where
-%  it was a setup choice in the method. DRAFT STATE --- ratify on read.
-NCR is used because it counts the hosts compromised in every run, including
-the runs in which the attacker does not reach its goal.
-Spearman's $\rho$ compares the two attackers' rankings.
+% REDRAFT 2026-10-06 (docs/handoffs/2026-10-06_ch5_results_prose_redraft.md, St-1 to St-5):
+%  the no-number draft; every \prelim{?} is a number owed from the 1 000-seed floats,
+%  named in the NUMBERS line. Replaces the 2026-09-26 text (git history). DRAFT STATE.
+\paragraph{Statistics.} An effect is \emph{told apart} from zero when its
+95\,\% interval excludes zero. The APT attacker model is averaged over $c_1$ to
+$c_4$ wherever it is one line or column. The Scott--Knott effect size
+difference test \citep{tantithamthavorn2017empirical} sorts the seven MTD
+mechanisms and three deployment strategies into ranks by NCR, for each
+attacker at each deployment interval. Rank 1 holds those under which the
+fewest hosts are compromised, and those sharing a rank are not told apart. NCR
+is the ranking metric because it counts the hosts compromised in every run,
+including the runs in which the attacker does not reach its goal. Spearman's
+$\rho$ compares the two attackers' rankings. It is 1 when both attackers rank
+the MTD in the same order, 0 when the two orders are unrelated, and $-1$ when
+one order is the reverse of the other. Each ablation
+(Section~\ref{sec:ablation}) is measured by Cohen's $d$: the difference
+between the means with and without the component, in units of their standard
+deviation over seeds \citep{cohen1988statistical}. A component's effect is
+negligible when the 95\,\% interval of $d$ lies wholly inside $\pm 0.2$,
+Cohen's small effect. The component then moves the result by less than a
+fifth of its variation from one seed to the next.
 % [TERM SWEEP 2026-09-24, DRAFT STATE: "They are grouped by effectiveness and
 %  efficiency, as Table 3.x groups the field's." CUT --- false since the metrics
 %  design (three classes of our own, defined in §4.5); "ranked on hosts reached,
@@ -6734,9 +6747,14 @@ starts \citep{law2015}, so no warm-up period is needed \citep{currie2016}.
 %  2026-09-26 go-ahead (docs/workflows/connective_prose.md; audit
 %  docs/implementation/connective_prose_audit.md); prior text in git.
 %  RATIFIED 2026-09-26 (Marc: 'I accept all this').
-With no MTD running, this section compares how each attacker acts
+% REDRAFT 2026-10-06 (docs/handoffs/2026-10-06_ch5_results_prose_redraft.md, 2-h):
+%  the no-number draft; every \prelim{?} is a number owed from the 1 000-seed floats,
+%  named in the NUMBERS line. Replaces the 2026-09-26 text (git history). DRAFT STATE.
+This section compares how each attacker acts
 (Section~\ref{subsec:metrics-behaviour}) and what it achieves
-(Section~\ref{subsec:metrics-outcome}).
+(Section~\ref{subsec:metrics-outcome}) with no MTD running. The four attack profiles give a range
+of APT behaviour, and each comparison reads where the baseline attacker falls
+against that range.
 
 % ~1 unit. What the model does with nothing opposing it: the campaign it
 % actually walks, and whether the four profiles are distinguishable.
@@ -6877,27 +6895,34 @@ With no MTD running, this section compares how each attacker acts
 %  float shows, the numbers that carry it, the APT property the metric records
 %  (Table 3.2 via Section 4.5), a by-construction reason only where Marc gave one.
 %  The agent draft it replaces is in git history (commit e83f280c). DRAFT STATE.
-Figure~\ref{fig:aio-coverage}(a) shows the share of each attacker's steps in
-each tactic. The baseline attacker's steps fall on its six attack actions, placed in the
-rows of the tactics that map to them (Section~\ref{subsec:tactic-verb-mapping}).
-The APT attacker model also takes \prelim{26} to \prelim{47}\,\% of its steps in
-seven tactics that map to no attack action, from resource development to impact, which
-the baseline attacker has no counterpart for. The four attack profiles divide
-their steps differently: impact, for example, takes \prelim{8}\,\% of the steps of
-$c_2$ and \prelim{12}\,\% of those of $c_3$, and almost none of $c_1$'s. This
-difference between profiles is what relative tactic occurrence records for objective-specific behaviour (Section~\ref{subsec:metrics-behaviour}).
+% REDRAFT 2026-10-06 (docs/handoffs/2026-10-06_ch5_results_prose_redraft.md, 2-a1, 2-a2):
+%  the no-number draft; every \prelim{?} is a number owed from the 1 000-seed floats,
+%  named in the NUMBERS line. Replaces the 2026-09-26 text (git history). DRAFT STATE.
+% NUMBERS: ? ? = share of steps in unmapped tactics, lowest and highest of c1-c4 (ch5_s531_unopposed numbers.json, relative tactic occurrence).
+Figure~\ref{fig:aio-coverage}(a) shows that every attack profile spends part
+of its steps in tactics the baseline attacker never takes. These unmapped
+tactics, from resource development to impact, take \prelim{?} to
+\prelim{?}\,\% of each profile's steps and dispatch no attack action
+(Section~\ref{subsec:tactic-verb-mapping}). The baseline attacker's steps fall
+only on its six attack actions. The profiles also divide their steps among the
+tactics differently, which relative tactic occurrence records as
+objective-specific behaviour (Section~\ref{subsec:metrics-behaviour}).
 
 % 2026-09-30: redrawn on the metric Section 4.5.1 defines (distinct attack paths,
 % a count), replacing attack path variation (a share); numbers from
 % ch5_s531_unopposed/numbers.json core.table[*].distinct_openings. DRAFT STATE.
-Figure~\ref{fig:aio-coverage}(b) shows distinct openings. Over their first
-four steps the baseline attacker's runs have one opening, the order its
-procedure fixes (Section~\ref{subsec:attacker-model}), and from five steps on
-they have two. Over the same four steps the runs of $c_1$ have \prelim{48}
-openings, those of $c_2$ \prelim{13}, $c_4$ \prelim{11} and $c_3$ \prelim{4};
-by eight steps $c_1$, $c_2$ and $c_4$ take \prelim{96} to \prelim{100}, nearly one
-per run, and $c_3$ has \prelim{30}. Distinct openings records choice of attack strategy (Section~\ref{subsec:metrics-behaviour}): from four steps on, every
-profile shows more of it than the baseline attacker, and $c_3$ the least.
+% REDRAFT 2026-10-06 (docs/handoffs/2026-10-06_ch5_results_prose_redraft.md, 2-b1 ($c_3$ clause dropped, Q13)):
+%  the no-number draft; every \prelim{?} is a number owed from the 1 000-seed floats,
+%  named in the NUMBERS line. Replaces the 2026-09-26 text (git history). DRAFT STATE.
+% NUMBERS: ? = opening length up to which the baseline attacker's runs share one opening; ? = its openings by eight steps; ? ? = lowest and highest of c1-c4 by eight steps (ch5_s531_unopposed numbers.json, distinct_openings).
+Figure~\ref{fig:aio-coverage}(b) shows that the baseline attacker lies below
+the range of the attack profiles on distinct openings. Its runs share one
+opening over their first \prelim{?} steps, the order its procedure fixes
+(Section~\ref{subsec:attacker-model}), and take at most \prelim{?} by eight
+steps. The runs of each attack profile part ways within a few steps, and take
+\prelim{?} to \prelim{?} distinct openings in 1\,000 runs by eight steps.
+Distinct openings records choice of attack strategy
+(Section~\ref{subsec:metrics-behaviour}).
 
 \begin{figure}[tp]
   \centering
@@ -7092,29 +7117,16 @@ profile shows more of it than the baseline attacker, and $c_3$ the least.
 %  float shows, the numbers that carry it, the APT property the metric records
 %  (Table 3.2 via Section 4.5), a by-construction reason only where Marc gave one.
 %  The agent draft it replaces is in git history (commit e83f280c). DRAFT STATE.
-Table~\ref{tab:unopposed-summary} gives the attack outcome and the attack rate.
-On each of $c_1$ to $c_4$ the APT attacker model achieves less than the baseline
-attacker: its ASP is under a quarter of the baseline attacker's,
-% [CONNECTIVE-PROSE PASS 2026-09-26, ch5 S12 two-fifths] 'at most
-%  two-fifths' was false (c2: 0.199/0.487 = 0.41, numbers.json); the
-%  numbers stated instead. SESSION-GENERATED on Marc's 2026-09-26 go-ahead
-%  (docs/workflows/connective_prose.md; audit
-%  docs/implementation/connective_prose_audit.md); prior text in git.
-%  RATIFIED 2026-09-26 (Marc: 'I accept all this').
-its NCR \prelim{0.14} to \prelim{0.20} against \prelim{0.49}, and its MTTC,
-over the \prelim{5} to \prelim{13} runs in 100 that compromise a target host,
-\prelim{11\,000} to \prelim{13\,000}\,s against \prelim{9\,000}\,s. Its pace is an
-input: each step lasts the duration declared for its tactic
-(Section~\ref{subsec:dwell-times}). Because a run ends when a target is taken,
-\prelim{40}\,\% of the baseline attacker's runs last to the time limit, against
-\prelim{87} to \prelim{95}\,\% of the APT attacker model's. Its attack rate is
-lower by less, \prelim{0.70} to \prelim{1.24} attack actions per minute against
-\prelim{1.71}. The model dispatches the simulator's attack actions in the order its
-tactics call them, so \prelim{14} to \prelim{28}\,\% of the attack actions it dispatches
-find a precondition unmet and fail before they run, and the attack rate does not
-count them (Section~\ref{subsec:metrics-behaviour}). This follows from a design
-choice of Chapter~\ref{ch:attacker-model}: the model reuses the simulator's six
-attack actions (Section~\ref{subsec:tactic-verb-mapping}).
+% REDRAFT 2026-10-06 (docs/handoffs/2026-10-06_ch5_results_prose_redraft.md, 2-c1, 2-c2 (M1, M2 moved or cut)):
+%  the no-number draft; every \prelim{?} is a number owed from the 1 000-seed floats,
+%  named in the NUMBERS line. Replaces the 2026-09-26 text (git history). DRAFT STATE.
+% NUMBERS: ? ? = baseline ASP over each profile's, lowest and highest ratio; ? ? = the same for NCR (Table 5.2).
+Table~\ref{tab:unopposed-summary} shows that the baseline attacker lies above
+the range of the attack profiles on attack outcome. Its ASP is \prelim{?} to
+\prelim{?} times each profile's, and its NCR \prelim{?} to \prelim{?} times.
+Its MTTC is close to the range, just below it. The APT attacker model's pace
+is the tactic durations Chapter~\ref{ch:attacker-model} declared
+(Section~\ref{subsec:dwell-times}).
 
 \input{tables/tab_5-2-1a_unopposed_summary}
 
@@ -7138,16 +7150,14 @@ attack actions (Section~\ref{subsec:tactic-verb-mapping}).
 % c2 0.79, c3 0.83, c4 0.68; baseline 0.83). DRAFT STATE.
 % 2026-10-05 (Marc: Figure 5.1(c) "could just be a brief table, it's literally five
 % numbers"): attack confidentiality is Table 5.2's last column; reference swapped only.
-Table~\ref{tab:unopposed-summary} gives attack confidentiality, the share of
-attack actions a scan detector does not flag: \prelim{89} to \prelim{98}\,\% for $c_1$
-to $c_4$, $c_4$ the lowest, against \prelim{83}\,\% for the baseline attacker.
-Attack rate and attack confidentiality together record detection avoidance (Section~\ref{subsec:metrics-behaviour}), and the APT attacker model has the
-lower attack rate and the higher attack confidentiality. The detector counts
-attack actions, so the two are one observation. \owed{Counting the unmapped steps as
-attack actions lowers the profiles' attack confidentiality to \prelim{68} to
-\prelim{83}\,\%, at or below the baseline attacker's}{Section 5.2: attack
-confidentiality with unmapped steps counted as attack actions was measured in a dry run
-only; track it, or move the point to the limitations in Chapter 6}.
+% REDRAFT 2026-10-06 (docs/handoffs/2026-10-06_ch5_results_prose_redraft.md, 2-c3 (M3: the concession to Section 6.5)):
+%  the no-number draft; every \prelim{?} is a number owed from the 1 000-seed floats,
+%  named in the NUMBERS line. Replaces the 2026-09-26 text (git history). DRAFT STATE.
+Table~\ref{tab:unopposed-summary} also shows that the baseline attacker lies
+outside the range on attack rate and attack confidentiality. Its attack rate
+is above every profile's, and its attack confidentiality below. The scan
+detector counts attack actions, so the two record one observation of
+detection avoidance (Section~\ref{subsec:metrics-behaviour}).
 
 
 % ~1 unit. CARRIES PROPERTIES 6 and 7 --- the two declared capabilities,
@@ -7402,20 +7412,15 @@ only; track it, or move the point to the limitations in Chapter 6}.
 %  (docs/workflows/connective_prose.md; audit
 %  docs/implementation/connective_prose_audit.md); prior text in git.
 %  RATIFIED 2026-09-26 (Marc: 'I accept all this').
-Every effect is taken against the same attacker's no-MTD runs of Section~\ref{sec:attacker-in-operation}. Where the APT attacker model is one
-line or column, it pools $c_1$ to $c_4$ with equal weight.
-% [CONNECTIVE-PROSE PASS 2026-09-26, ch5 U5b rule] The decision rule
-%  declared in the word the body uses ('told apart'). SESSION-GENERATED on
-%  Marc's 2026-09-26 go-ahead (docs/workflows/connective_prose.md; audit
-%  docs/implementation/connective_prose_audit.md); prior text in git.
-%  RATIFIED 2026-09-26 (Marc: 'I accept all this').
-An effect is told apart from zero when its 95\,\% interval excludes zero, and MTD mechanisms and deployment strategies that
-share a Scott--Knott rank are not told apart
-(Section~\ref{sec:dimensions}).
-Section~\ref{subsec:aio-disruption} shows what a single deployment does to each
-attacker, Section~\ref{subsec:eff-cross-arm} the NCR and ASP reductions of each MTD mechanism and deployment strategy
-across the deployment interval, and Section~\ref{subsec:eff-under-defence} the
-same by mechanism, attack profile and deployment strategy.
+% REDRAFT 2026-10-06 (docs/handoffs/2026-10-06_ch5_results_prose_redraft.md, 3-h1, 3-h2 (M4, M5 to Section 5.1)):
+%  the no-number draft; every \prelim{?} is a number owed from the 1 000-seed floats,
+%  named in the NUMBERS line. Replaces the 2026-09-26 text (git history). DRAFT STATE.
+This section measures how much each MTD mechanism and deployment strategy
+reduces what each attacker achieves, against the same attacker's no-MTD runs
+(Section~\ref{sec:attacker-in-operation}). Section~\ref{subsec:aio-disruption}
+reads a single deployment, Section~\ref{subsec:eff-cross-arm} the deployment
+interval, and Section~\ref{subsec:eff-under-defence} each mechanism and attack
+profile.
 
 % ~1 unit. CARRIES PROPERTY 4 (adaptivity), which is the one property
 % that cannot be read from the unopposed arm, because it is definitionally
@@ -7553,29 +7558,15 @@ same by mechanism, attack profile and deployment strategy.
 %  float shows, the numbers that carry it, the APT property the metric records
 %  (Table 3.2 via Section 4.5), a by-construction reason only where Marc gave one.
 %  The agent draft it replaces is in git history (commit e83f280c). DRAFT STATE.
-Adaptivity, the attacker's response to a deployment
-% [CONNECTIVE-PROSE PASS 2026-09-26, ch5 S3 one property] 'the one
-%  property' was false by Table 3.2: learning and scheme awareness also
-%  need a defence. SESSION-GENERATED on Marc's 2026-09-26 go-ahead
-%  (docs/workflows/connective_prose.md; audit
-%  docs/implementation/connective_prose_audit.md); prior text in git.
-%  RATIFIED 2026-09-26 (Marc: 'I accept all this').
-(Table~\ref{tab:attacker-properties}), is a property that needs MTD to be seen. Attack actions blocked per MTD deployment and time lost per MTD deployment record it
-(Section~\ref{subsec:metrics-effectiveness}). Both are read at the 2\,000\,s deployment
-% [CONNECTIVE-PROSE PASS 2026-09-26, ch5 S4 recovered] Attribution beyond
-%  measurement, contradicted by the chapter's own number (the baseline
-%  attacker is back to its rate within 250 s); the by-construction reason
-%  (4.5.3's window) stated instead. SESSION-GENERATED on Marc's 2026-09-26
-%  go-ahead (docs/workflows/connective_prose.md; audit
-%  docs/implementation/connective_prose_audit.md); prior text in git.
-%  RATIFIED 2026-09-26 (Marc: 'I accept all this').
-interval: at 200\,s the next deployment comes 200\,s later, which caps the time lost at 200\,s.
-% [2026-09-26: the owed control sentence RESOLVED by Section 5.4, which reports
-%  the control on the metrics Section 4.5 defines (time lost per MTD deployment
-%  among them) and is listed in Table 5.1's Arm row. Closes handoff
-%  2026-09-25_ch5_setup_defence_and_prose_slots.md item B4, option (a).]
-Section~\ref{sec:ablation} tests whether the failure matrix contributes to this
-response.
+% REDRAFT 2026-10-06 (docs/handoffs/2026-10-06_ch5_results_prose_redraft.md, 31-h (M10 cut)):
+%  the no-number draft; every \prelim{?} is a number owed from the 1 000-seed floats,
+%  named in the NUMBERS line. Replaces the 2026-09-26 text (git history). DRAFT STATE.
+Adaptivity, the attacker's response to an MTD deployment
+(Table~\ref{tab:attacker-properties}), needs MTD to be seen. Attack actions
+blocked per MTD deployment and time lost per MTD deployment record it
+(Section~\ref{subsec:metrics-effectiveness}). Both are read at the
+2\,000\,s deployment interval, because at 200\,s the next deployment caps time
+lost at 200\,s.
 
 % ---- Figure-history comments, carried forward verbatim (dissertation.tex l.7387-7450):
 % REWORKED 2026-09-13 (stage-2 float audit, ch5 design handoff §18) --- grouped bars in a 2 x 2 of lettered panels
@@ -7685,31 +7676,46 @@ response.
 % followed by a compromise, is no metric of Table 4.3): the figure is now (a)
 % attack actions blocked and (b) time lost; its paragraph on the curves is cut.
 % Numbers: tools/ch5_disruption_figure.py stdout, time_lost_numbers.json. DRAFT STATE.
-Figure~\ref{fig:aio-adaptivity}(a) gives attack actions blocked per MTD
-deployment. Under the host layer \prelim{35} to \prelim{39} deployments in every
-100 disrupt an attack action of the APT attacker model, and every deployment
-disrupts one of the baseline attacker's; under the service layer, \prelim{15}
-to \prelim{16} in 100 against \prelim{95} to \prelim{96}. Under user shuffle, 1
-and 7 in 100.
+% REDRAFT 2026-10-06 (docs/handoffs/2026-10-06_ch5_results_prose_redraft.md, 31-a):
+%  the no-number draft; every \prelim{?} is a number owed from the 1 000-seed floats,
+%  named in the NUMBERS line. Replaces the 2026-09-26 text (git history). DRAFT STATE.
+% NUMBERS: ? ? = attack actions blocked per MTD deployment, APT attacker model, host layer and service layer, x100 (time_lost_numbers_reported.json blocked_per_deployment).
+Figure~\ref{fig:aio-adaptivity}(a) shows that a deployment blocks the baseline
+attacker far more often than the APT attacker model. Nearly every host-layer
+and service-layer deployment blocks one of the baseline attacker's attack
+actions. A host-layer deployment blocks one of the APT attacker model's
+\prelim{?} times in 100, and a service-layer deployment \prelim{?} times. The
+mechanisms of one layer block nearly the same share, because a deployment's
+layer decides which attack actions it can disrupt
+(Section~\ref{subsec:attacker-model}). User shuffle blocks almost neither
+attacker.
 
-Figure~\ref{fig:aio-adaptivity}(b) gives the time lost per MTD deployment. The
-three host-layer mechanisms cost the APT attacker model \prelim{210} to
-\prelim{310}\,s per deployment, and the baseline attacker an amount not told apart
-from zero. Service diversity costs the baseline attacker \prelim{520}\,s and the
-APT attacker model \prelim{50}\,s. Port shuffle and OS diversity cost neither
-attacker an amount told apart from zero, and user shuffle saves the APT attacker
-model \prelim{30}\,s. The penalty is paid only by the deployments that disrupt an
-attack action, and it is small beside the wait for the next compromise, which with no
-MTD is \prelim{1\,280}\,s after a deployment for the APT attacker model and
-\prelim{430} to \prelim{470}\,s for the baseline attacker. Time lost counts every
-other effect of the deployment as well, so it can fall below the penalty or below
-zero. A deployment lands before the attacker's first compromise in
-\prelim{23}\,\% of cases for the APT attacker model and \prelim{18}\,\% for the
-baseline attacker; weighting both attackers to the same mix moves no time lost by
-more than \prelim{33}\,s. The host layer costs the APT attacker model the most time,
-and service diversity costs the baseline attacker the most.
-Section~\ref{subsec:eff-cross-arm} reads whether the same holds across the
-deployment interval.
+% REDRAFT 2026-10-06 (docs/handoffs/2026-10-06_ch5_results_prose_redraft.md, 31-b, 31-c, T1 (a) (M8, M9 moved)):
+%  the no-number draft; every \prelim{?} is a number owed from the 1 000-seed floats,
+%  named in the NUMBERS line. Replaces the 2026-09-26 text (git history). DRAFT STATE.
+% NUMBERS: ? ? = time lost, host layer, APT attacker model, lowest and highest; ? = service diversity, baseline; ? = service diversity, APT; ? = largest magnitude among the rest (time_lost_numbers_reported.json); ? = first deployment's completion time (median of mtd_executions[0]); ? = median first-compromise time, no MTD minus host layer (time_lost_first_deployment_numbers.json and Section 8 of the handoff).
+Figure~\ref{fig:aio-adaptivity}(b) shows that the MTD mechanism that costs one
+attacker time costs the other little. The three host-layer mechanisms cost the
+APT attacker model \prelim{?} to \prelim{?}\,s per deployment. Service
+diversity costs the baseline attacker \prelim{?}\,s per deployment, and the
+APT attacker model \prelim{?}\,s. The other mechanisms cost either attacker
+\prelim{?}\,s or less, and several cost the baseline attacker less than zero:
+its next compromise comes sooner than with no MTD.
+
+Figures~\ref{fig:aio-adaptivity}(a) and~(b) together show that a blocked
+attack action need not cost time. Every host-layer deployment blocks the
+baseline attacker, and none costs it time. The first deployment of each run
+accounts for the values below zero. It completes about \prelim{?}\,s into the
+run, while the baseline attacker is still exploiting its first host. The
+deployment sends it back to scanning hosts
+(Section~\ref{subsec:attacker-model}), and the scan puts the same host first
+again. The attacker exploits that host a second time instead of moving to the
+next, and its first compromise comes \prelim{?}\,s sooner than with no
+MTD~\owed{(Appendix~\ref{app:supplementary-results})}{Section 5.3.1: the
+appendix item on the first deployment (Marc 2026-10-06): a worked trace of one
+seed with and without MTD, and first-deployment and later-deployment columns
+in the time-lost table; Chapter 2 also owes the clause that the baseline
+attacker moves to the next host when every attack on one fails}.
 
 % ~1 unit. THE THESIS'S OWN CLAIM, and the subsection Marc asked the
 % hardest question about: given both attackers share the SAME SIX VERBS,
@@ -7838,26 +7844,23 @@ deployment interval.
 % numbers.json sweep identical to the verified version (0 of 498 cells differ). DRAFT STATE.
 % 2026-09-30 (Marc: the NCR and ASP headlines merged into one figure, the values table to
 %  Appendix F): the panel ranges added to the two float references; no other word changed.
-Figure~\ref{fig:eff-cross-arm}(a) to~(f) shows the NCR reduction of each MTD mechanism and deployment strategy, the
-share of the no-MTD NCR it removes (Equation~\ref{eq:ncr-reduction}),
-against the deployment interval; Table~\ref{tab:eff-interval-values} gives the
-values. Against the APT attacker model the host layer gives the larger reduction,
-\prelim{0.96} or more up to 200\,s against \prelim{0.21} to \prelim{0.35} for the
-service layer. Against the baseline attacker the order is reversed:
-\prelim{0.82} to \prelim{0.97} for the service layer up to 200\,s, against
-% [CONNECTIVE-PROSE PASS 2026-09-26, ch5 S2 every reduction] False
-%  universal: user shuffle against the APT attacker model rises from -0.14
-%  at 50 s to -0.04 at 2 000 s (tab:eff-interval-values); the pre-rewrite
-%  exception restored. SESSION-GENERATED on Marc's 2026-09-26 go-ahead
-%  (docs/workflows/connective_prose.md; audit
-%  docs/implementation/connective_prose_audit.md); prior text in git.
-%  RATIFIED 2026-09-26 (Marc: 'I accept all this').
-\prelim{0.49} to \prelim{0.72} for the host layer. Every reduction except user shuffle's falls as the interval grows; against the APT attacker model user shuffle's rises towards zero. The APT attacker model's host-layer reduction holds up to 200\,s
-and falls to \prelim{0.22} at 2\,000\,s; the baseline attacker's service-layer
-reduction falls from \prelim{0.82} at 200\,s to \prelim{0.25} at 500\,s. User
-shuffle reduces the baseline attacker's NCR only up to 100\,s, and against the APT
-attacker model it is below zero at every interval: more hosts are compromised than
-with no MTD.
+% REDRAFT 2026-10-06 (docs/handoffs/2026-10-06_ch5_results_prose_redraft.md, 32-a1 to 32-a3):
+%  the no-number draft; every \prelim{?} is a number owed from the 1 000-seed floats,
+%  named in the NUMBERS line. Replaces the 2026-09-26 text (git history). DRAFT STATE.
+% NUMBERS: ? = APT host-layer NCR reduction, lowest up to 200 s; ? = APT service layer, highest up to 200 s; ? ? = the same for the baseline attacker, service and host layer; ? = interval up to which the APT host layer stays above 0.5; ? = interval by which the baseline service layer falls below 0.5 (numbers_reported.json sweep; Marc's read-off idea, 2026-10-06).
+Figure~\ref{fig:eff-cross-arm} shows that the two attackers order the MTD
+layers in reverse. NCR reduction is the share of the no-MTD NCR that MTD
+removes, so a higher value is better for the defender. The host layer reduces
+the APT attacker model's NCR by \prelim{?} or more up to 200\,s, and the
+service layer by \prelim{?} at most (panels a and b). The baseline attacker's
+order is the reverse: the service layer reduces its NCR by \prelim{?} or more
+up to 200\,s, and the host layer by \prelim{?} at most. Every reduction falls
+as the deployment interval grows. The APT attacker model's host-layer
+reduction stays above \prelim{0.5} up to \prelim{?}\,s, and the baseline
+attacker's service-layer reduction falls below it by \prelim{?}\,s. User
+shuffle is the exception (panel c). Its reduction against the APT attacker
+model is at or below zero at every interval, so the APT attacker model
+compromises more hosts than with no MTD.
 
 % REWRITTEN 2026-09-26 on Marc's read ("very rhetorically inflated ... literally we
 %  just need to describe what's happening"; his step-through of every float is
@@ -7871,14 +7874,18 @@ with no MTD.
 %  Marc's 2026-09-26 go-ahead (docs/workflows/connective_prose.md; audit
 %  docs/implementation/connective_prose_audit.md); prior text in git.
 %  RATIFIED 2026-09-26 (Marc: 'I accept all this').
-The deployment strategies split the same way. The random and alternative deployment strategies, which draw on all seven mechanisms, give the APT attacker model
-the larger reduction at every interval (at 200\,s, \prelim{0.75}
-and \prelim{0.72} against \prelim{0.33} and \prelim{0.39}). MTDShield gives the
-baseline attacker the larger reduction at every interval (\prelim{0.70} against
-\prelim{0.28} at 200\,s). It chooses service diversity at \prelim{70} to
-\prelim{76}\,\% of its decisions (Appendix~\ref{app:mtdshield-observed}), the
-mechanism that costs the baseline attacker the most time in
-Section~\ref{subsec:aio-disruption}.
+% REDRAFT 2026-10-06 (docs/handoffs/2026-10-06_ch5_results_prose_redraft.md, 32-b1):
+%  the no-number draft; every \prelim{?} is a number owed from the 1 000-seed floats,
+%  named in the NUMBERS line. Replaces the 2026-09-26 text (git history). DRAFT STATE.
+% NUMBERS: ? = interval up to which MTDShield's gap is told apart; ? ? = MTDShield's share of decisions on service diversity; ? = largest gap between MTDShield and service diversity against the APT attacker model (numbers_reported.json sweep; Appendix D.5).
+The deployment strategies follow the same split (panels d to f). Random and
+alternative, which draw on all seven mechanisms, reduce the APT attacker
+model's NCR more than the baseline attacker's at every interval. MTDShield
+reduces the baseline attacker's NCR more, at every interval up to
+\prelim{?}\,s. It chooses service diversity at \prelim{?} to \prelim{?}\,\% of
+its decisions (Appendix~\ref{app:mtdshield-observed}), and against the APT
+attacker model it stays within \prelim{?} of service diversity at every
+interval.
 
 \begin{figure}[tp]
   \centering
@@ -7947,29 +7954,28 @@ Section~\ref{subsec:aio-disruption}.
 % ASP reduction beside NCR reduction where the profiles are pooled (400 runs, 36
 % successes with no MTD); per profile (5 to 13 successes) it does not resolve, so
 % Section 5.3.3 stays on NCR reduction. Numbers: numbers.json sweep_asp. DRAFT STATE.
-Figure~\ref{fig:eff-cross-arm}(g) to~(l) shows the same comparison on ASP reduction
-(Equation~\ref{eq:asp-reduction}). Against the APT attacker model no run
-compromises a target host up to 200\,s under each host-layer mechanism, and up
-to 100\,s under the random and the alternative deployment strategies.
-The service layer removes \prelim{0.51} to \prelim{0.79} of its ASP up to 200\,s,
-more than the \prelim{0.21} to \prelim{0.35} of its NCR. Against the baseline
-attacker the layers keep their order: \prelim{0.86} to \prelim{0.97} for the
-service layer up to 200\,s, against \prelim{0.49} to \prelim{0.83} for the host
-layer. At 500\,s the host layer's reduction against the baseline attacker is
-\prelim{$-0.22$}: more of its runs compromise a target host than with no MTD.
+% REDRAFT 2026-10-06 (docs/handoffs/2026-10-06_ch5_results_prose_redraft.md, C6 (Q3 open: the rows may move to Appendix E)):
+%  the no-number draft; every \prelim{?} is a number owed from the 1 000-seed floats,
+%  named in the NUMBERS line. Replaces the 2026-09-26 text (git history). DRAFT STATE.
+The ASP rows, panels (g) to (l), show the same order on ASP reduction
+(Equation~\ref{eq:asp-reduction}).
 
 % MERGED 2026-09-30 into fig:eff-cross-arm as panels (g) to (l) (Marc).
 
 % 2026-09-30, second read (Marc: NCR reduction is the finer instrument; the ASP version
 % 'is just a colourful mess'): the NCR text restored verbatim; its numbers re-checked,
 % numbers.json sweep identical to the verified version (0 of 498 cells differ). DRAFT STATE.
-Table~\ref{tab:eff-cross-arm} ranks the MTD mechanisms and deployment strategies at 200\,s. The three host-layer
-mechanisms share rank 1 against the APT attacker model and take ranks 2 and 3
-against the baseline attacker; service diversity and port shuffle share rank 1
-against the baseline attacker and take ranks 4 and 6 against the APT attacker
-model. The two attackers' rankings are unrelated: Spearman's $\rho$ between their
-NCR reductions is \prelim{$-0.03$}, with a 95\,\% bootstrap interval over seeds of
-\prelim{$-0.19$} to \prelim{0.05}.
+% REDRAFT 2026-10-06 (docs/handoffs/2026-10-06_ch5_results_prose_redraft.md, 32-c1 (Q5: rho at every interval)):
+%  the no-number draft; every \prelim{?} is a number owed from the 1 000-seed floats,
+%  named in the NUMBERS line. Replaces the 2026-09-26 text (git history). DRAFT STATE.
+% NUMBERS: ? = rho at 200 s; ? ? = its 95 % interval; ? ? = lowest and highest rho over the six intervals (numbers_reported.json ranking.by_interval[*].spearman_ncr_reduction; 0.006 at 200 s, -0.24 to 0.25 overall as read 2026-10-06).
+Table~\ref{tab:eff-cross-arm} shows that no MTD mechanism or deployment
+strategy ranks first against both attackers at 200\,s. The three host-layer
+mechanisms share rank 1 against the APT attacker model. Service diversity and
+port shuffle share rank 1 against the baseline attacker. The two rankings are
+unrelated: Spearman's $\rho$ between the attackers' NCR reductions is
+\prelim{?} at 200\,s (95\,\% interval \prelim{?} to \prelim{?}), and lies
+between \prelim{?} and \prelim{?} at every deployment interval.
 % [CONNECTIVE-PROSE PASS 2026-09-26, ch5 U7 cut] Cut: the third statement
 %  of 5.3.3's object (preamble roadmap; 5.3.3's first sentence), stating
 %  nothing established. SESSION-GENERATED on Marc's 2026-09-26 go-ahead
@@ -8091,30 +8097,21 @@ NCR reductions is \prelim{$-0.03$}, with a 95\,\% bootstrap interval over seeds 
 % 2026-09-30, second read (Marc: NCR reduction is the finer instrument; the ASP version
 % 'is just a colourful mess'): the NCR text restored verbatim; its numbers re-checked,
 % numbers.json sweep identical to the verified version (0 of 498 cells differ). DRAFT STATE.
-Figure~\ref{fig:eff-suppression-profiles} shows each mechanism separately, for
-each attack profile. On the host layer, all three mechanisms remove nearly all of
-the APT attacker model's NCR up to 200\,s and less at longer intervals, IP shuffle
-keeping the most (\prelim{0.33} at 2\,000\,s against \prelim{0.16} and
-\prelim{0.17}); against the baseline attacker, IP shuffle gives more reduction
-than either topology shuffle at every interval. On the service layer, service
-diversity is the one mechanism that keeps a reduction against the baseline
-% [CONNECTIVE-PROSE PASS 2026-09-26, S8 service layer] 'matches' named no
-%  test; the declared one is a shared Scott-Knott rank (numbers.json
-%  ranking.by_interval, baseline sk_esd: port shuffle rank 1 to 200 s, OS
-%  diversity rank 1 to 100 s). Marc 2026-09-26: 'sure'. SESSION-GENERATED
-%  on Marc's 2026-09-26 go-ahead (docs/workflows/connective_prose.md;
-%  audit docs/implementation/connective_prose_audit.md); prior text in
-%  git. RATIFIED 2026-09-26 (Marc: 'I accept all this').
-attacker at every interval (\prelim{0.30} at 2\,000\,s). Port shuffle is not told apart from it up to 200\,s, since the two share a Scott--Knott rank there; OS diversity is told apart from it at every interval. Port shuffle is told apart from zero up to 1\,000\,s, OS diversity up to 500\,s.
-% [CONNECTIVE-PROSE PASS 2026-09-26, S8 profiles] 'move together' /
-%  'separates' named no test; replaced by the values (numbers.json
-%  sweep.by_interval[500].profile; c3 lower bounds 0.82-0.87 against the
-%  others' upper 0.76-0.86). The universal 'move together under every
-%  mechanism' is dropped: it had no test behind it. SESSION-GENERATED on
-%  Marc's 2026-09-26 go-ahead (docs/workflows/connective_prose.md; audit
-%  docs/implementation/connective_prose_audit.md); prior text in git.
-%  RATIFIED 2026-09-26 (Marc: 'I accept all this').
-User shuffle reduces neither attacker's NCR from 200\,s. At 500\,s each host-layer mechanism keeps a larger reduction against $c_3$ than against the other attack profiles, \prelim{0.86} to \prelim{0.91} against \prelim{0.71} to \prelim{0.82}, and the intervals do not overlap.
+% REDRAFT 2026-10-06 (docs/handoffs/2026-10-06_ch5_results_prose_redraft.md, 33-a1 to 33-a3):
+%  the no-number draft; every \prelim{?} is a number owed from the 1 000-seed floats,
+%  named in the NUMBERS line. Replaces the 2026-09-26 text (git history). DRAFT STATE.
+% NUMBERS: ? = interval from which port shuffle and OS diversity fall close to zero against the baseline attacker; ? = interval from which c3 keeps the larger host-layer reduction (numbers_reported.json sweep.by_interval[*].profile).
+Figure~\ref{fig:eff-suppression-profiles} shows that the four attack profiles
+follow one line for each MTD mechanism, and the baseline attacker lies outside
+their range up to 200\,s under every mechanism but user shuffle. The three
+host-layer mechanisms act alike against the APT attacker model up to 200\,s
+(panels a to c). IP shuffle reduces the baseline attacker's NCR more than
+either topology shuffle at every interval. Service diversity is the only MTD
+mechanism that keeps a reduction against the baseline attacker at every
+interval (panel f). Port shuffle and OS diversity fall close to zero against
+it from \prelim{?}\,s. User shuffle reduces the baseline attacker's NCR only
+at the shortest intervals. $c_3$ is the exception among the profiles: from
+\prelim{?}\,s it keeps a larger host-layer reduction than the other three.
 
 % ---- PARAGRAPH 2: between Figure fig:eff-suppression-profiles and Figure fig:eff-schemes-profiles ----
 % REWRITTEN 2026-09-26 on Marc's read ("very rhetorically inflated ... literally we
@@ -8139,22 +8136,15 @@ User shuffle reduces neither attacker's NCR from 200\,s. At 500\,s each host-lay
 % outside the range under service diversity; gaps of 0.01 inside the noise); the
 % deployment strategies' split, which the figure shows, in its place. DRAFT STATE.
 % 2026-09-30: float reference only, to the merged figure's panels.
-Figure~\ref{fig:eff-suppression-profiles}(h) to~(j) shows the deployment strategies, for each
-attack profile. Under MTDShield the baseline attacker's NCR reduction lies above
-every attack profile's up to 1\,000\,s; under the random deployment strategy it
-lies below every profile's at every interval, and under the alternative
-deployment strategy up to 1\,000\,s. Against the APT attacker model, averaged over $c_1$ to $c_4$
-(Table~\ref{tab:eff-interval-values}), MTDShield stays within
-% [CONNECTIVE-PROSE PASS 2026-09-26, S7 MTDShield mechanism] Mechanism
-%  removed from the results (Marc 2026-09-26: 'that's my bet'). PARKED FOR
-%  CHAPTER 6: Marc's reading is that MTDShield tracks service diversity
-%  because it chooses service diversity at 70 to 76 % of its decisions
-%  (Appendix E.5) --- an interpretation, for the discussion.
-%  SESSION-GENERATED on Marc's 2026-09-26 go-ahead
-%  (docs/workflows/connective_prose.md; audit
-%  docs/implementation/connective_prose_audit.md); prior text in git.
-%  RATIFIED 2026-09-26 (Marc: 'I accept all this').
-\prelim{0.12} of service diversity at every interval.
+% REDRAFT 2026-10-06 (docs/handoffs/2026-10-06_ch5_results_prose_redraft.md, 33-b1):
+%  the no-number draft; every \prelim{?} is a number owed from the 1 000-seed floats,
+%  named in the NUMBERS line. Replaces the 2026-09-26 text (git history). DRAFT STATE.
+% NUMBERS: ? = interval up to which the baseline line lies above every profile under MTDShield; ? = the same, below, under alternative (numbers_reported.json sweep).
+Figure~\ref{fig:eff-suppression-profiles}(h) to~(j) shows the same split for
+the deployment strategies. The baseline attacker's line lies above every
+attack profile's under MTDShield, up to \prelim{?}\,s. It lies below every
+profile's under random at every interval, and under alternative up to
+\prelim{?}\,s.
 \owed{Replacing the near-periodic timing distribution with the exponential one
 at 200\,s changes the sign of no reduction for either attacker, and the APT
 % [CONNECTIVE-PROSE PASS 2026-09-26, DS 5.3.3 owed] Marc 2026-09-26:
@@ -8235,26 +8225,20 @@ raised in the regime runs is not yet investigated}
 %  our method ... high risk to validity ... contributed to a property we were
 %  marking"; the dwell times "cannot be removed"), replacing the preamble
 %  placeholder. DRAFT STATE, ratify on read.
-Three steps of the method can be removed with the APT attacker model still
-running: the partition into attack profiles, the failure matrix and the
-vulnerability memory. Each is our judgement, and so a risk to the validity of
-this chapter's results, and each gives the model one property of an APT
-attacker (Table~\ref{tab:attacker-properties}): objective-specific behaviour, adaptivity and learning. The other parts of the model, such as the tactic
-durations, cannot be removed, and Appendix~\ref{app:sensitivity} varies
-their values instead.
-
-Each ablation compares the APT attacker model with and without one component,
-on the same seeds. The difference is measured by Cohen's $d$: the difference
-between the two means divided by their standard deviation over seeds, reported
-with its 95\,\% bootstrap interval over seeds. A difference is negligible when
-$d$ is below 0.2, the value Cohen \citep{cohen1988statistical} calls a small effect:
-the component then moves the result by less than a fifth of its ordinary
-variation from one seed to the next.
-% 2026-10-01 (Marc: "one table 5.6 covering both ablations in one form"; "the
-%  main headline figure of 5.4 [is] the table and both of the subsections talk
-%  about it"): SESSION-GENERATED sentence introducing it. DRAFT STATE.
-Table~\ref{tab:ablation} gives the three ablations with 20 services per
-operating system, the network of every other result in this chapter.
+% REDRAFT 2026-10-06 (docs/handoffs/2026-10-06_ch5_results_prose_redraft.md, 4-h1, 4-h2 (M6, M11, Q11)):
+%  the no-number draft; every \prelim{?} is a number owed from the 1 000-seed floats,
+%  named in the NUMBERS line. Replaces the 2026-09-26 text (git history). DRAFT STATE.
+Three components of the APT attacker model are our judgement. Each gives the
+model one property of an APT attacker (Table~\ref{tab:attacker-properties}):
+the partition into attack profiles gives objective-specific behaviour, the
+failure matrix adaptivity, and the vulnerability memory learning. Each
+ablation runs the model without one component, the \emph{ablated model}, on
+the same seeds (Table~\ref{tab:experiment}). Cohen's $d$ measures the
+difference (Section~\ref{sec:dimensions}). The tactic durations cannot be
+removed, so Appendix~\ref{app:sensitivity} varies their values instead.
+Table~\ref{tab:ablation} shows that removing the partition into attack
+profiles changes the result, and removing the failure matrix or the
+vulnerability memory does not.
 
 \input{tables/tab_5-4a_ablation}
 
@@ -8293,70 +8277,34 @@ operating system, the network of every other result in this chapter.
 %  crossing in 24. Weight-carrying flows: 14, 6, 5, 4 of 29 (Section 4.3's
 %  operator rule). The control's result is owed (run_partition_control.sh).
 %  RATIFY ON READ.
-The attack profiles rest on APT attackers with different objectives behaving
-differently (Section~\ref{sec:attack-profiles}), and $c_1$ to $c_4$ do
-behave differently: their runs have different openings
-(Figure~\ref{fig:aio-coverage}(b)). The partition into attack profiles is our
-judgement, so this section tests whether it also changes any result of this
-chapter. Without the partition, the APT attacker model runs on the attack
-graph itself (Section~\ref{sec:technique-graph}), built by the same
-construction from every attack flow, so at each tactic it may follow the attack flows
-of any objective. If the partition matters, the attacker without it should
-have more distinct openings, and MTD should remove a different share of
-what it compromises. The attack graph ran beside $c_1$ to $c_4$ on the same
-1\,000 seeds, with no MTD and under every MTD mechanism and deployment
-strategy at every deployment interval (Table~\ref{tab:experiment}).
+% REDRAFT 2026-10-06 (docs/handoffs/2026-10-06_ch5_results_prose_redraft.md, 41-a to 41-d (M12-M14)):
+%  the no-number draft; every \prelim{?} is a number owed from the 1 000-seed floats,
+%  named in the NUMBERS line. Replaces the 2026-09-26 text (git history). DRAFT STATE.
+% NUMBERS: ? ? = distinct openings over five steps in 1 000 runs, ablated and with the profiles (partition_ablation_numbers.json); ? ? ? = NCR with no MTD, ablated and with, and d (Table 5.5); ? ? = combinations whose d interval lies wholly beyond 0.2, and the count (Table E.5, one rule); ? ? = NCR reduction under IP shuffle at 2 000 s, ablated and with; ? = largest difference under OS diversity; ? ? ? = attack flows per profile net, lowest, highest, and those carrying weight; ? = combinations of Table 5.5 in which the profiles beat every random partition; ? ? ? = NCR reduction under IP shuffle at 2 000 s, profiles, random lowest and highest (partition_control_numbers.json; L4 puts them in Table 5.5).
+The ablated model runs on the attack graph itself
+(Section~\ref{sec:technique-graph}), so at each tactic it may follow attack
+flows of any objective. The prediction was that it would take more distinct
+openings and give a different NCR reduction under MTD.
 
-Removing the partition changes where the attacker goes. Over its first five
-steps, the attacker without the partition has 535 distinct openings in
-1\,000 runs; with it, taking each attack profile in turn, 254.
+The ablated model takes \prelim{?} distinct openings over its first five steps
+in 1\,000 runs, against \prelim{?} with the attack profiles. It also
+compromises more of the network. Its NCR with no MTD is \prelim{?} against
+\prelim{?}, a $d$ of \prelim{?} (Table~\ref{tab:ablation}). It compromises
+more under every MTD mechanism, deployment strategy and interval, and the
+interval of $d$ lies wholly beyond $\pm 0.2$ in \prelim{?} of these \prelim{?}
+combinations (Table~\ref{tab:ablation-attack-profiles}). Its NCR reduction
+under IP shuffle at 2\,000\,s is \prelim{?}, against \prelim{?} with the
+attack profiles; under OS diversity the two differ by \prelim{?} at most.
 
-Removing the partition also changes what the attacker achieves
-(Table~\ref{tab:ablation}). With no MTD, the attacker without it compromises
-more of the network: NCR is 0.189 against 0.171, and $d$ is $-0.28$. The
-difference carries into MTD effectiveness. Under IP shuffle at 2\,000\,s, NCR
-reduction is 0.24 without the partition and 0.33 with it; under OS diversity
-the two differ by at most 0.03. Across all 61 settings of MTD mechanism,
-deployment strategy and interval, the attacker without the partition
-compromises more in every one, and the interval of $d$ lies wholly beyond the
-negligible band in 30 of them (Table~\ref{tab:ablation-attack-profiles}).
-
-The partition does two things at once: it sorts the attack flows by
-objective, and it builds each Petri net from fewer of them, 4 to 14 of the 29
-that carry weight against all 29 for the attack graph. A net built from fewer
-attack flows has fewer edges between tactics, whatever their objective. To separate the
-two, ten random partitions of the attack flows, each group the same size as
-an attack profile, were built and run in the same way.
-
-% [2026-10-03 DRAFT STATE, SESSION-DRAFTED: the control's result and the
-%  verdict, filling the two placeholders. RATIFY ON READ. Numbers:
-%  partition_control.py -> partition_control_numbers.json, n = 1 000 seeds,
-%  10 partitions, 74 500 + earlier runs, 0 errors. NCR (agg / real / random
-%  mean): none 0.189 / 0.171 / 0.121; IPS 200 0.013 / 0.007 / 0.007; IPS 2000
-%  0.145 / 0.114 / 0.078; OSD 200 0.174 / 0.159 / 0.113; OSD 2000 0.187 /
-%  0.174 / 0.121. Real above all ten random partitions in 4 of 5 settings
-%  (d real vs random +0.16 to +2.32 there); IPS 200 s at the floor, real 5th
-%  of 11. NCR reduction (agg / real / random mean [range]): IPS 200 0.93 /
-%  0.96 / 0.94 [0.88, 0.97]; IPS 2000 0.24 / 0.33 / 0.35 [0.20, 0.44]; OSD
-%  200 0.08 / 0.07 / 0.06 [0.04, 0.10]; OSD 2000 0.01 / -0.02 / -0.00
-%  [-0.02, 0.01]. Real-vs-random d and reductions from a scratch read of the
-%  same runs (pc_extra.py), not yet in the numbers file.]
-The random partitions compromise less than either. With no MTD, their NCR is
-0.121 on average over the ten, against 0.171 with the attack profiles and
-0.189 without the partition. The attack profiles compromise more than every
-random partition in four of the five settings of Table~\ref{tab:ablation};
-in the fifth, IP shuffle at 200\,s, NCR is below 0.015 in every arm. NCR
-reduction with the attack profiles lies among the random partitions'. Under
-IP shuffle at 2\,000\,s it is 0.35 on average over the random partitions
-(0.20 to 0.44), against 0.33 with the attack profiles and 0.24 without the
-partition; under OS diversity the three differ by at most 0.03.
-
-The ablation covers every MTD mechanism, deployment strategy and interval of
-this chapter. Removing the partition raises what the attacker compromises,
-by a small to medium effect. Sorting the attack flows by objective keeps
-more of that compromise than a partition of the same sizes. The change in
-NCR reduction is what any partition of these sizes produces.
-Chapter~\ref{ch:discussion} discusses why.
+The partition does two things: it sorts the attack flows by objective, and it
+builds each Petri net from fewer of them, \prelim{?} to \prelim{?} of the
+\prelim{?} that carry weight. Ten random partitions of the attack flows, each
+group the size of an attack profile, separate the two. The random partitions
+compromise less than both the attack profiles and the ablated model. The
+attack profiles compromise more than every random partition in \prelim{?} of
+the five combinations of Table~\ref{tab:ablation}. Their NCR reduction lies
+within the random partitions' range: under IP shuffle at 2\,000\,s it is
+\prelim{?}, against \prelim{?} to \prelim{?} for the random partitions.
 
 \subsection{Failure matrix}
 \label{subsec:ablation-failure-matrix}
@@ -8382,56 +8330,28 @@ Chapter~\ref{ch:discussion} discusses why.
 %  reading (recommended: the interval, declared in 4.5.4). Context critic
 %  re-review 2026-09-28: every number checked against the JSON and raw runs.
 %  DRAFT STATE, ratify on read.]
-Every value of the failure matrix is our judgement
-(Section~\ref{subsec:failure-matrix}), so this section tests whether any result
-of this chapter depends on it. Without the failure matrix, a failure routes as a
-success does. If the failure matrix matters, the attacker without it should move
-on after a failure as though it had succeeded, and compromise more of the
-network. The APT attacker model was run on $c_1$ to $c_4$ with the failure
-matrix and with every factor of it set to one, on the same 1\,000 seeds, with no
-MTD and under IP shuffle and OS diversity at the 200\,s and 2\,000\,s
-deployment intervals (Table~\ref{tab:experiment}).
+% REDRAFT 2026-10-06 (docs/handoffs/2026-10-06_ch5_results_prose_redraft.md, 42-a, 42-b):
+%  the no-number draft; every \prelim{?} is a number owed from the 1 000-seed floats,
+%  named in the NUMBERS line. Replaces the 2026-09-26 text (git history). DRAFT STATE.
+% NUMBERS: ? ? = return to reconnaissance after a failed initial access, with the failure matrix, c1 c3 c4 lowest and highest; ? ? = the same, ablated; ? = combinations of five in which the APT attacker model compromises more (ablation_numbers_memory.json; Table 5.5).
+The ablated model sets every factor of the failure matrix to one, so it
+chooses its next tactic after a failure as it would after a success. The
+prediction was that it would move on after a failure as though it had
+succeeded, and compromise more.
 
-% 2026-10-01, THE §5.4 FLOAT SCRUTINY on Marc's rulings (record: handoff
-%  2026-09-28_vulnerability_memory_on.md, "§5.4 float scrutiny"): Figure 5.7
-%  CUT ((b) printed Table 5.6's d column; (a)'s headline share is the declared
-%  weight read back, told here in one sentence). DELETIONS ONLY in Marc's prose,
-%  no rewording: the numbers that now sit in no float (the next-action shares,
-%  the c2 shares, "at most 0.21", the per-profile hosts, time lost, the NCR
-%  pair Table 5.6 prints); "at most 0.020" -> "0.02" at the table's precision;
-%  "execution schemes" -> "deployment strategies" (registry). The six-sentence
-%  slots for Marc's dictation are in the handoff. DRAFT STATE.
-% OWED: this ablation ran with the vulnerability memory off (the corpus core
-%  arm at seeds 0-99 is bit-identical to the memory ablation's off arm); rerun
-%  both arms with the memory on at 1 000 seeds (Marc 2026-10-01: "we can rerun
-%  that when we do the ablation to 1 000 seeds"). Until then Table 5.6's two
-%  no-MTD "with" rows differ (0.169 against 0.167).
 Removing the failure matrix changes where the attacker goes after a failure.
-After a failed initial access, the model with the
-failure matrix goes back to reconnaissance in 0.76 to 0.83 of cases on $c_1$,
-$c_3$ and $c_4$ (on $c_1$, the weight of 0.750 that Figure~\ref{fig:gspn-gadget}
-draws), and the model without it in 0.08 to 0.10.
-On $c_2$ the model goes back to reconnaissance after
-no failed initial access, with or without the failure matrix.
+The APT attacker model returns to reconnaissance after a failed initial
+access in \prelim{?} to \prelim{?} of cases on $c_1$, $c_3$ and $c_4$, and the
+ablated model in \prelim{?} to \prelim{?}. $c_2$ never returns to
+reconnaissance after a failed initial access, with or without the failure
+matrix.
 
-% 2026-10-02: the owed rerun is done (both arms with the vulnerability memory
-%  on, 1 000 seeds, ablation_numbers_memory.json; the with arm equals the
-%  partition block's). Numbers updated, owed mark closed; the IP shuffle 200 s
-%  interval is now [+0.057, +0.193], inside the band, so the edge clause goes.
-%  SESSION-EDITED, DRAFT STATE.
 Removing the failure matrix does not change what the attacker achieves
-(Table~\ref{tab:ablation}). With no MTD and under IP shuffle and OS diversity
-at both intervals, $d$ is below 0.2 and every interval lies inside the
-negligible band. The largest is 0.13, under IP shuffle at 200\,s. In four of the five cells the model with the
-failure matrix compromises more, the opposite direction to the prediction.
-The NCR reduction of each MTD mechanism differs by at most 0.02 between the two
-models.
-
-The ablation covers two of the seven MTD mechanisms, both deployment
-intervals and $c_1$ to $c_4$; the other mechanisms and the deployment strategies were not run without the
-failure matrix. Within that scope,
-the results of this chapter do not depend on the failure matrix.
-Chapter~\ref{ch:discussion} discusses why.
+(Table~\ref{tab:ablation}). Every interval of $d$ lies wholly inside
+$\pm 0.2$. The APT attacker model compromises more than the ablated model in
+\prelim{?} of the five combinations, against the prediction. The ablation
+covers IP shuffle and OS diversity at 200\,s and 2\,000\,s
+(Table~\ref{tab:experiment}).
 
 \subsection{Vulnerability memory}
 \label{subsec:ablation-vulnerability-memory}
@@ -8499,43 +8419,32 @@ Chapter~\ref{ch:discussion} discusses why.
 %  the hypothesis paragraph's opener ("Section 4.4.5 hypothesises ...; to test
 %  it, ..."). "The memory works as Section 4.4.5 designed it" is cut: the
 %  verdict sentence after it says the same. DRAFT STATE, ratify on read.
-The vulnerability memory is our addition to the APT attacker model, and its
-factor of three is our judgement (Section~\ref{subsec:vulnerability-memory}),
-so this section tests whether any result of this chapter depends on it.
-Without the memory, every exploit succeeds with the probability its CVSS
-complexity sets. If the memory matters, the attacker with it should exploit
-more successfully and compromise more of the network. The APT attacker model
-was run on $c_1$ to $c_4$ with the memory and without it, on the same 1\,000
-seeds, with no MTD and under service diversity and OS diversity at the
-200\,s deployment interval, the two MTD mechanisms that draw services from
-the pool (Table~\ref{tab:experiment}).
+% REDRAFT 2026-10-06 (docs/handoffs/2026-10-06_ch5_results_prose_redraft.md, 43-a, 43-b (L5: the memory floats are 100-seed until re-read)):
+%  the no-number draft; every \prelim{?} is a number owed from the 1 000-seed floats,
+%  named in the NUMBERS line. Replaces the 2026-09-26 text (git history). DRAFT STATE.
+% NUMBERS: ? ? = share of exploits that succeed with no MTD, without and with the memory; ? ? = the same with one service per operating system (memory_ablation_numbers.json, RE-READ AT 1 000 SEEDS FIRST: L5); the NCR verdict is read off the re-read table under the interval rule.
+The ablated model exploits each vulnerability with the probability its CVSS
+complexity sets, with no memory of earlier successes
+(Section~\ref{subsec:vulnerability-memory}). The prediction was that the
+memory would raise the share of exploits that succeed and what the attacker
+compromises.
 
-The memory raises the share of exploits that succeed. With no MTD,
-\prelim{0.70} of exploits succeed without the memory and \prelim{0.73} with
-it (Table~\ref{tab:ablation-memory}). With no MTD and under both MTD
-mechanisms, the memory's $d$ is below 0.2 and every interval lies inside the
-negligible band (Table~\ref{tab:ablation}). The ablation covers two of the
-seven MTD mechanisms at one deployment interval; the other mechanisms and the
-deployment strategies were not run without the memory.
-Within that scope, the results of this chapter do not depend on the
-vulnerability memory.
+The memory raises the share of exploits that succeed, from \prelim{?} to
+\prelim{?} with no MTD (Table~\ref{tab:ablation-memory}). It does not change what the attacker
+achieves: every interval of $d$ lies wholly inside $\pm 0.2$
+(Table~\ref{tab:ablation}). The ablation covers service diversity and OS
+diversity at 200\,s, the two MTD mechanisms that draw services from the pool
+(Table~\ref{tab:experiment}).
 
-Section~\ref{subsec:vulnerability-memory} hypothesises that the memory's
-effect is amplified with a constrained diversity pool. To test it, the pool
-ran from 20 services per operating system, the network of every other result
-in this chapter, down to one (Figure~\ref{fig:ablation-memory},
-Table~\ref{tab:ablation-memory}). Each comparison is within a pool, on the
-same seeds, because a smaller pool changes the network itself. With one
-service per operating system and no MTD, \prelim{0.69} of exploits succeed
-without the memory and \prelim{0.91} with it. Under both MTD mechanisms the
-rise follows the same pattern. The memory adds at most \prelim{0.010} of the
-network to what the attacker compromises. The largest $d$ is \prelim{0.19},
-under service diversity with one service per operating system; under service
-diversity the smallest is \prelim{0.05}, with 20, and with no MTD $d$ shows
-no trend with the pool. The hypothesis holds for the share of exploits that
-succeed; on NCR, its $d$ stays below 0.2 at every pool, although under service
-diversity it is largest with the smallest pool.
-Chapter~\ref{ch:discussion} discusses why.
+Section~\ref{subsec:vulnerability-memory} hypothesises that the memory matters
+more when the diversity pool is small. Figure~\ref{fig:ablation-memory} and
+Table~\ref{tab:ablation-memory} run the pool from 20 services per operating
+system down to one. The memory's effect on exploits is largest with one
+service per operating system, where the share that succeeds rises from
+\prelim{?} to \prelim{?}. \owed{The hypothesis holds for the share of exploits
+that succeed, and not for NCR.}{Section 5.4.3: the NCR verdict waits on L5,
+the pool sweep re-read at 1 000 seeds and judged by the interval rule; at 100
+seeds three intervals reach beyond +0.2}
 
 \chapter{Discussion}
 \label{ch:discussion}
@@ -8584,6 +8493,11 @@ evaluation, and bounds it.]}
 % =====================================================================
 \section{APT attacker model versus baseline attacker}
 \label{sec:disc-behaviour}
+% CONTENT POINTS moved from Section 5.2 by the 2026-10-06 redraft (handoff 2026-10-06_ch5_results_prose_redraft.md, M1):
+%  (1) the mechanism of "less, more slowly": the APT attacker model dispatches the simulator's attack actions in the
+%      order its tactics call them, so 14-28 % (100-seed; re-read) find a precondition unmet and fail before they run;
+%      the attack rate does not count them. A consequence of reusing the six attack actions (Section 4.4.1).
+%  Marc 2026-10-06: "the model itself is more important than the profile" (the profiles move together, Figure 5.4).
 
 % Reads Section~\ref{sec:attacker-in-operation} (phase one); supervisor E10
 % set-up (i). Three cycles, major first (handoff §11.2). Owed here from ch5:
@@ -8605,6 +8519,12 @@ corpus-size confound (Section~\ref{sec:threats}).]}
 % =====================================================================
 \section{APT attacker model versus MTD}
 \label{sec:disc-mtd-performance}
+% CONTENT POINTS moved from Section 5.3 by the 2026-10-06 redraft (M8, and Marc's read 2026-10-06):
+%  (2) the confusion penalty is paid only by deployments that disrupt an attack action, and it is small beside the
+%      wait for the next compromise; the first deployment's forced rescan gives the baseline attacker a second round
+%      on its first host (handoff Section 8; inherited intent IS-INT-01/05/07), which is why its time lost is negative.
+%  (4) MTDShield overfits to the attacker it was trained against; random and alternative draw three of seven
+%      mechanisms from the host layer. Rankings are tied to one simulator and one attacker model (Section 6.4).
 
 % Reads Section 5.3 (phase two); supervisor E10 set-up (ii). Four cycles
 % (handoff §11.2). Notes: state_bounds_measurable_disruption.md (parked
@@ -9071,6 +8991,11 @@ chosen operating point.]}
 % =====================================================================
 \section{Threats to validity}
 \label{sec:threats}
+% CONTENT POINTS moved from Chapter 5 by the 2026-10-06 redraft:
+%  (M3) counting the unmapped steps as attack actions lowers the profiles' attack confidentiality to about the
+%       baseline attacker's (a dry run only; track it before stating a number).
+%  (T1) time lost after the first deployment compares the two runs at the same clock time, not the same point in
+%       their campaigns (2026-09-24 record, 8g-5 decision 3); the direction of every result holds, the size may not.
 
 % Heading RULED 2026-09-28 (Marc: discussed with Jin; Limitations is the
 % fallback, the organisation is the same either way). Handoff §11.1--§11.2 and

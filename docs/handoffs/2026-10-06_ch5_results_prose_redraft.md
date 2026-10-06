@@ -515,6 +515,79 @@ rule (results presentation standard P1) prints it to the 10 s at most. Table
 5.3 already rounds each column to its widest interval; the figure needs
 nothing finer.
 
+## 9. Third turn (2026-10-06): rulings, and the no-number draft landed
+
+**Ruled by Marc:**
+- **T1 (a):** keep the metric. Plus **an appendix item on the negative result**:
+  "the attacker goes from this attack action to this one … its information state
+  looks like this, the network looks like this … plainly and succinctly …
+  my supervisor would like to see that". The discussion takes it up as well.
+- **Q5** yes; **L3** yes ("you can remove the MTTC").
+- **Q11** yes.
+- **Q12:** *averaged over*, "fix that everywhere". Done (commit "One form for
+  the four attack profiles taken together"): two generators, four tables and
+  three tex captions; no "combined" remains.
+- **Q13** yes. §5.2 compares the models with the baseline attacker, not the
+  profiles with each other.
+- **Q3** still open. The draft keeps one pointer sentence to the ASP rows.
+
+**Marc's framing for §5.2, adopted in the draft:** "we have a wide range of
+models … they model a range of behaviours … see if the baseline attacker fits
+into that range or it's above the range below the range". Every §5.2
+paragraph now reads where the baseline attacker falls against the range of
+$c_1$–$c_4$. The comparison between profiles is cut to one clause (the
+property relative tactic occurrence records).
+
+**Marc's question answered, from the code and the runs:** "is it because
+there's only one host … in its queue?" No. The queue holds all five exposed
+endpoints. The baseline attacker gives a host one round of exploits and then
+moves to the next, never coming back unless it rescans. The interrupt at about
+110 s forces that rescan, and the rescan puts the same host first again. Seed 0
+with no MTD: host 0 fails at 151 s, the next endpoint fails, and host 2 falls at
+369 s. With complete topology shuffle: host 0 falls at 293 s, in its second
+round. It is not always a gain: in seed 2 the no-MTD run takes host 0 at
+133 s, and the interrupted run takes it at 274 s.
+
+**Statistics, Marc's misreading kept in view:** he read Spearman's ρ as a
+p-value ("0 to 1 … below 0.05 is significant"). The §5.1 Statistics unit now
+says what ρ reads (1 same order, 0 unrelated, −1 reversed). It never mentions a
+p-value: the definition alone leaves nothing to confuse.
+
+**Landed (DRAFT STATE):**
+- the §5.1 Statistics unit (St-1 to St-5);
+- all twenty §5.2–§5.4 prose blocks, rebuilt from §4 with every number
+  `\prelim{?}`;
+- each block's NUMBERS comment, naming each `?` and its JSON;
+- the moved content points, as comments under chapter 6's §6.1, §6.2 and §6.5
+  placeholders.
+
+The build is clean (0 errors, no undefined references). Chapter 5 is one page
+shorter. Its printed prose is about 1 600 words: §5.3.1 is over its slot,
+because of T1's first-deployment explanation, and the exponential `\owed`
+block (Q8) is untouched.
+
+**Gate run on the draft (§5):**
+- Openers: four that put a phrase before the subject were fixed.
+- Clauses: no sentence the draft wrote exceeds three.
+- Terms: the registry breaches listed in §5 item 4 are gone from the rewritten
+  blocks.
+- Antecedents: one gap. Chapter 2 never says the baseline attacker moves to the
+  next host when every attack on one fails, and §5.3.1 now leans on it. It is
+  carried as an `\owed` mark.
+- Duplication: B1's "a deployment's layer decides" is in Figure 5.2's caption
+  and Table 5.3's as well as the text. It goes in the caption pass.
+
+**Next, in order:**
+1. Marc reads the draft.
+2. Q3 and Q8.
+3. The numbers phase: L5 first (the memory re-read), then fill every `?` from
+   the NUMBERS lines.
+4. L1–L4 in the generators, plus Table 5.1's random-partition row.
+5. The appendix item on the first deployment (a worked trace with the tracer,
+   plus the split columns).
+6. The chapter 2 clause.
+7. The caption pass.
+
 ## Validation gate
 
 - Marc rules Q1–Q14.
