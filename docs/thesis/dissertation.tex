@@ -5590,15 +5590,28 @@ deployment brings the next compromise forward.
 %  (docs/workflows/connective_prose.md; audit
 %  docs/implementation/connective_prose_audit.md); prior text in git.
 %  RATIFIED 2026-09-26 (Marc: 'I accept all this').
-Chapter~\ref{ch:attacker-model} builds the APT attacker model and defines
-the metrics that measure MTD's performance. \ref{sq:evaluate} asks how MTD
-performs against the APT attacker model compared with the simulator's
-baseline attacker, the attacker the MTDSim lineage evaluated MTD against
-(Section~\ref{subsec:recent-threat-models}). MTDSim runs either attacker
-under identical conditions, which Section~\ref{sec:dimensions} sets out.
+% [REDRAFT 2026-10-06, Marc: "literally only the plain stuff"; "what do we
+%  give the reader already"; "have a look at all the nouns"] Plain map of
+%  what the chapter does, no flourish, no result. Every noun is given
+%  earlier: baseline attacker (ch1), MTD mechanism and deployment strategy
+%  (ch1, ch2), NCR reduction and time lost per MTD deployment (4.5.3), the
+%  split into attack profiles (4.2's "split it by objective"), failure
+%  matrix and vulnerability memory (4.3, 4.4). Dropped as not given before
+%  chapter 5: "seeds", "the MTDSim lineage" (a ch2 table label only),
+%  "ranking" (defined in 5.1). Dropped as duplicated: the no-MTD reference
+%  (5.1's MTD paragraph says it). Added: Section 5.4, missing from the
+%  ratified text. DRAFT STATE; the 2026-09-26 text is in git.
+This chapter answers \ref{sq:evaluate}. It runs the APT attacker model and
+the baseline attacker in MTDSim, and measures both with the metrics of
+Section~\ref{sec:evaluation-metrics}. Section~\ref{sec:dimensions} sets out
+the network, the MTD and the number of runs.
 Section~\ref{sec:attacker-in-operation} compares the two attackers with no
-MTD running, which gives the reference every later effect is measured
-from. Section~\ref{sec:effectiveness} compares them under MTD, and
+MTD, to test whether the APT attacker model behaves differently from the
+baseline attacker. Section~\ref{sec:effectiveness} compares them under each
+MTD mechanism and deployment strategy, by time lost per MTD deployment and
+NCR reduction. Section~\ref{sec:ablation} removes the split into attack
+profiles, the failure matrix and the vulnerability memory from the APT
+attacker model one at a time, to test whether the results depend on them.
 Chapter~\ref{ch:discussion} interprets the results.
 
 % RESTRUCTURED 2026-09-08 (Marc's ruling, chat): "Experimental setup"
