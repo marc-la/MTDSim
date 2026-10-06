@@ -5627,11 +5627,13 @@ Section~\ref{sec:attacker-in-operation} compares the attacker behaviour and
 attack outcome of the two attackers with no MTD.
 Section~\ref{sec:effectiveness} measures the MTD effectiveness of each MTD
 mechanism and deployment strategy against both attackers.
-Section~\ref{sec:ablation} performs ablation studies on the attack profiles,
-the failure matrix and the vulnerability memory of the APT attacker model,
-removing each in turn to measure its contribution to the results.
-Chapter~\ref{ch:discussion} reads the results against the eight properties
-and draws out what they change for MTD evaluation.
+% 2026-10-07 clarity pass (Marc): the 5.4 sentence in 5.4's own words (a random partition
+%  replaces, so "removing each in turn" no longer holds; "to measure its contribution to the
+%  results" was flourish); "draws out what they change" -> "what they mean".
+Section~\ref{sec:ablation} compares the APT attacker model with and without
+each of three components: the attack profiles, the failure matrix and the
+vulnerability memory. Chapter~\ref{ch:discussion} reads the results against
+the eight properties and what they mean for MTD evaluation.
 
 % RESTRUCTURED 2026-09-08 (Marc's ruling, chat): "Experimental setup"
 % (3 units) and "Results" (9 units) MERGED into one 12-unit chapter. His
@@ -6002,10 +6004,11 @@ and draws out what they change for MTD evaluation.
 %  once-per-mechanism fact kept. The fairness close read circular ("performs against
 %  them ... comes from the attacker model", "them" unclear): now states the control
 %  plainly, the reader draws the attribution.
+% 2026-10-07 clarity pass (Marc): one verb form ("runs"), was "are each run", "runs", "is run".
 \paragraph{Varied settings.} The APT attacker model and the baseline attacker
-are each run with no MTD and under each of the four deployment strategies
+each run with no MTD and under each of the four deployment strategies
 (Table~\ref{tab:deployment-strategies}). The single deployment strategy runs
-once for each of the seven MTD mechanisms. MTDShield is run as released (Appendix~\ref{app:mtdshield}). The APT
+once for each of the seven MTD mechanisms. MTDShield runs as released (Appendix~\ref{app:mtdshield}). The APT
 attacker model runs on each of its four attack profiles, $c_1$ to $c_4$
 (Section~\ref{sec:attack-profiles}). Each deployment strategy runs at six
 deployment intervals: 50, 100 and 200\,s, which the earlier MTDSim studies
@@ -6113,13 +6116,17 @@ closely the two attackers order the MTD by NCR reduction.
 %  every arm was not run: each arm is 4 profiles x 1 000 seeds per configuration.
 \paragraph{Ablation studies.} Table~\ref{tab:experiment} gives what takes
 each component's place and the configurations each ablation study runs.
-Apart from the attack graph, which runs every configuration, the ablation
-studies run one MTD mechanism of each layer (Table~\ref{tab:defence-mechanisms}),
-IP shuffle and OS diversity, at 200 and 2\,000\,s; the vulnerability memory's
-runs the two MTD mechanisms that draw services from the diversity pool. A component's effect is $d$ on NCR,
-the APT attacker model with it minus without it. The effect is negligible
-when its 95\,\% interval lies wholly inside $\pm 0.2$, not negligible when the
-interval lies wholly outside, and inconclusive when it crosses $\pm 0.2$
+% 2026-10-07 clarity pass (Marc): the configurations sentence repeated Table 5.1's list and
+%  ended on "the vulnerability memory's runs"; it now gives only the reasons, which the table
+%  cannot. The verdict rule: "95 %" cut (Statistical analysis: every interval is 95 %) and
+%  "the interval" said once; "negligible within +-0.2" stays above as the threshold the
+%  Scott-Knott test uses, and here as the rule for an interval.
+IP shuffle and OS diversity are one MTD mechanism of each layer
+(Table~\ref{tab:defence-mechanisms}), and service diversity and OS diversity
+are the two that draw services from the diversity pool. A component's effect
+is $d$ on NCR, the APT attacker model with it minus without it. The effect is
+negligible when its interval lies wholly inside $\pm 0.2$, not negligible when
+it lies wholly outside, and inconclusive when it crosses $\pm 0.2$
 \citep{lakens2018equivalence}.
 % 2026-10-06 (Marc, Section 5.4: "the preamble ... mirrors some of the stuff that we say in
 %  5.1"): the tactic-durations pointer moves here from the 5.4 preamble; it says why no
