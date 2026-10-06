@@ -6454,6 +6454,23 @@ interval lies wholly outside, and inconclusive when it crosses $\pm 0.2$
 % ROUND 2 2026-10-06 (Marc, section 5.2): lead with the baseline attacker; nothing chapter 4 or Figure 4.3 already gives.
 This section compares the two attackers with no MTD running.
 
+% LAYOUT 2026-10-06: both floats read here, on the page the section opens, so they are queued together
+% and share the next page.
+\begin{figure}[tp]
+  \centering
+  \includegraphics{fig_5-2-1a_campaign_openings}
+  % 2026-10-02 (Marc: "if somebody just read the captions ... they could figure out what's happening";
+  %  results_presentation_standard.md S4, I1-I3, T2, F5): caption rewritten to read the float alone,
+  %  decoding only; metrics stay defined in Section 4.5. Session-written, DRAFT STATE --- ratify on read.
+  % 2026-10-06 (Marc, section 5.2): caption decodes only; the definitions of step, the metric and opening cut (Section 4.5), the baseline attacker's 1 to 3 carried by (b)'s log axis.
+  % 2026-10-06 round 2 (Marc): the attackers, the runs and the decodes chapter 4 gives cut; blank tied to Figure 4.3.
+  \caption[How each attacker acts with no MTD running]{How each attacker acts with no MTD running (Section~\ref{subsec:metrics-behaviour}). (a)~Left: the attack action each tactic dispatches (Section~\ref{subsec:tactic-verb-mapping}); the baseline attacker's column is by attack action. Blank: a tactic the attack profile's attack flows do not reach (Figure~\ref{fig:attack-profiles}). (b)~1: every run takes the same opening; 1\,000: every run takes its own.}
+  \label{fig:aio-coverage}
+\end{figure}
+% LAYOUT 2026-10-06: Table 5.2's input straight after Figure 5.1, so the two are queued together and share
+% one page (Marc: "we could put Table 5.2 and Figure 5.1 on the same page").
+\input{tables/tab_5-2-1a_unopposed_summary}
+
 % ~1 unit. What the model does with nothing opposing it: the campaign it
 % actually walks, and whether the four profiles are distinguishable.
 % CARRIES PROPERTIES 1, 2, 3.
@@ -6601,9 +6618,10 @@ This section compares the two attackers with no MTD running.
 % ROUND 2 2026-10-06 (Marc, section 5.2): lead with the baseline attacker; nothing chapter 4 or Figure 4.3 already gives.
 On objective-specific behaviour, the baseline attacker takes only its six
 attack actions (Figure~\ref{fig:aio-coverage}(a)). Every attack profile also
-spends \prelim{26} to \prelim{47}\,\% of its steps in unmapped tactics, among
-them actions on objectives, which dispatch no attack action
-(Section~\ref{subsec:tactic-verb-mapping}). The attack profiles divide their
+spends \prelim{26} to \prelim{47}\,\% of its steps in unmapped tactics, which
+dispatch no attack action (Section~\ref{subsec:tactic-verb-mapping}). The
+unmapped tactics include collection, exfiltration and impact, the tactics of
+actions on objectives. The attack profiles divide their
 steps among the tactics differently, each over the tactics its attack flows
 reach (Figure~\ref{fig:attack-profiles}).
 
@@ -6615,26 +6633,17 @@ reach (Figure~\ref{fig:attack-profiles}).
 %  is the grep target; Marc approved the draft's form before the fill). Replaces the 2026-09-26 text (git history). DRAFT STATE.
 % NUMBERS: ? = opening length up to which the baseline attacker's runs share one opening; ? = its openings by eight steps; ? ? = lowest and highest of c1-c4 by eight steps (ch5_s531_unopposed numbers.json, distinct_openings).
 % ROUND 2026-10-06 (Marc, section 5.2): property first, its numbers, no closing method sentence; captions decode only.
-On choice of attack strategy, the baseline attacker lies below the range of
-the attack profiles (Figure~\ref{fig:aio-coverage}(b)). Its runs share one
-opening over their first \prelim{four} steps, the order of its fixed procedure
-(Section~\ref{subsec:attacker-model}). All but \prelim{two} then branch once,
-into brute force or scan neighbours, before enumerating a host again. The runs
-of every attack profile part ways
-by the fourth step, with \prelim{4} to \prelim{89} distinct openings, and have
-\prelim{179} to \prelim{947} over eight steps.
+% CLARITY PASS 2026-10-06 (Marc, section 5.2 round 3): each comparison names the metric and its subject; no bare its/their.
+On choice of attack strategy, the baseline attacker has fewer distinct
+openings than any attack profile (Figure~\ref{fig:aio-coverage}(b)). The
+baseline attacker's runs share one opening over their first \prelim{four}
+steps, the order of its fixed procedure (Section~\ref{subsec:attacker-model}).
+All but \prelim{two} of its 1\,000 runs then branch once, into brute force or
+scan neighbours, before enumerating a host again. The runs of the attack
+profiles part ways from the \prelim{second} step ($c_1$) to the
+\prelim{fourth} ($c_3$), and have \prelim{179} to \prelim{947} distinct
+openings over eight steps.
 
-\begin{figure}[tp]
-  \centering
-  \includegraphics{fig_5-2-1a_campaign_openings}
-  % 2026-10-02 (Marc: "if somebody just read the captions ... they could figure out what's happening";
-  %  results_presentation_standard.md S4, I1-I3, T2, F5): caption rewritten to read the float alone,
-  %  decoding only; metrics stay defined in Section 4.5. Session-written, DRAFT STATE --- ratify on read.
-  % 2026-10-06 (Marc, section 5.2): caption decodes only; the definitions of step, the metric and opening cut (Section 4.5), the baseline attacker's 1 to 3 carried by (b)'s log axis.
-  % 2026-10-06 round 2 (Marc): the attackers, the runs and the decodes chapter 4 gives cut; blank tied to Figure 4.3.
-  \caption[How each attacker acts with no MTD running]{How each attacker acts with no MTD running (Section~\ref{subsec:metrics-behaviour}). (a)~Left: the attack action each tactic dispatches (Section~\ref{subsec:tactic-verb-mapping}); the baseline attacker's column is by attack action. Blank: a tactic the attack profile's attack flows do not reach (Figure~\ref{fig:attack-profiles}).}
-  \label{fig:aio-coverage}
-\end{figure}
 
 
 
@@ -6823,15 +6832,14 @@ by the fourth step, with \prelim{4} to \prelim{89} distinct openings, and have
 %  numbers filled 2026-10-06 from the 1 000-seed JSON named in the NUMBERS line (each \prelim{n}
 %  is the grep target; Marc approved the draft's form before the fill). Replaces the 2026-09-26 text (git history). DRAFT STATE.
 % NUMBERS: ? ? = baseline ASP over each profile's, lowest and highest ratio; ? ? = the same for NCR (Table 5.2).
-% LAYOUT 2026-10-06: the table input moved above the paragraph that first cites it, so the float is queued
-% before the \FloatBarrier at the section end (placed after it, it was flushed onto a page of its own).
-\input{tables/tab_5-2-1a_unopposed_summary}
 
 % ROUND 2026-10-06 (Marc, section 5.2): property first, its numbers, no closing method sentence; captions decode only.
-On attack outcome, the ASP and NCR of the baseline attacker lie above the
-range of the attack profiles (Table~\ref{tab:unopposed-summary}). Its ASP is
-\prelim{5} to \prelim{16} times each profile's, and its NCR \prelim{2.4} to
-\prelim{3.3} times. Its MTTC, \prelim{9\,100}\,s, lies just below theirs,
+% CLARITY PASS 2026-10-06 (Marc, section 5.2 round 3): each comparison names the metric and its subject; no bare its/their.
+On attack outcome, the baseline attacker has a higher ASP and NCR than any
+attack profile (Table~\ref{tab:unopposed-summary}). The baseline attacker's
+ASP is \prelim{5} to \prelim{16} times that of an attack profile, and its NCR
+\prelim{2.4} to \prelim{3.3} times. The baseline attacker's MTTC,
+\prelim{9\,100}\,s, is just shorter than the attack profiles',
 \prelim{9\,700} to \prelim{11\,300}\,s.
 % Cut 2026-10-06 (round 2): "inside the interval of c_3" and "The MTTC of the APT attacker model rests on
 % the tactic durations of Section 4.x" (Marc: "there's so much"); the attribution is Chapter 6's.
@@ -6861,11 +6869,14 @@ range of the attack profiles (Table~\ref{tab:unopposed-summary}). Its ASP is
 %  numbers filled 2026-10-06 from the 1 000-seed JSON named in the NUMBERS line (each \prelim{n}
 %  is the grep target; Marc approved the draft's form before the fill). Replaces the 2026-09-26 text (git history). DRAFT STATE.
 % ROUND 2026-10-06 (Marc, section 5.2): property first, its numbers, no closing method sentence; captions decode only.
-On detection avoidance, the baseline attacker lies outside the range of the
-attack profiles (Table~\ref{tab:unopposed-summary}). Its attack rate,
-\prelim{1.709} per minute, is above their \prelim{0.680} to \prelim{1.228}, and
-its attack confidentiality, \prelim{82.2}\,\%, below their \prelim{89.4} to
-\prelim{98.1}\,\%. Across all five attackers, attack confidentiality falls as
+% CLARITY PASS 2026-10-06 (Marc, section 5.2 round 3): each comparison names the metric and its subject; no bare its/their.
+On detection avoidance, the baseline attacker has a higher attack rate and a
+lower attack confidentiality than any attack profile
+(Table~\ref{tab:unopposed-summary}). The baseline attacker's attack rate is
+\prelim{1.709} attack actions per minute, against \prelim{0.680} to
+\prelim{1.228} for the attack profiles, and its attack confidentiality
+\prelim{82.2}\,\%, against \prelim{89.4} to \prelim{98.1}\,\%. Across the four
+attack profiles and the baseline attacker, attack confidentiality falls as
 attack rate rises.
 
 

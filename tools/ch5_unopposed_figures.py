@@ -286,8 +286,9 @@ def emit_fig_a(core: dict) -> tuple[str, dict]:
          xticks=[(k, xb_(k)) for k in ks],
          yticks=[(10 ** e, yb(10 ** e)) for e in range(0, round(math.log10(nruns)) + 1)],
          xlabel=r"First $k$ steps", ylabel="")
-    w(r"\node[rotate=90,anchor=south,align=center] at (%.3f,%.3f) {Distinct openings\\(of %s runs, log scale)};"
-      % (XB0 - 0.8, (YB0 + YB1) / 2, fmt_thousands(nruns)))
+    # the run count is the caption's (1 000: every run its own) (Marc 2026-10-06)
+    w(r"\node[rotate=90,anchor=south,align=center] at (%.3f,%.3f) {Distinct openings\\(log scale)};"
+      % (XB0 - 0.8, (YB0 + YB1) / 2))
     for p in SERIES:
         pts = [(xb_(k), yb(paths[p][str(k)])) for k in ks]
         style = BASE_STYLE if p == "baseline" else "%s,line width=0.7pt" % CNAME[p]
