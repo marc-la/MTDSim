@@ -7892,10 +7892,12 @@ diversity in \prelim{70}\,\% or more of its decisions against either attacker
 %  numbers_reported.json sweep by_interval[*].profile).
 At 50 to 200\,s, the deployment intervals the earlier MTDSim studies ran, the
 four attack profiles' NCR reductions differ from one another less than the
-baseline attacker's differs from the nearest of them, under every MTD mechanism
-and deployment strategy (Figure~\ref{fig:eff-suppression-profiles}). At 200\,s, the attack profiles' NCR reductions span at most
-\prelim{0.14}, and the baseline attacker's lies \prelim{0.24} or more from the
-nearest under every MTD mechanism and deployment strategy but user shuffle.
+baseline attacker's NCR reduction differs from the nearest attack profile's,
+under every MTD mechanism and deployment strategy
+(Figure~\ref{fig:eff-suppression-profiles}). At 200\,s, the attack profiles' NCR
+reductions lie within \prelim{0.14} of one another, and the baseline attacker's
+lies \prelim{0.24} or more from the nearest attack profile's under every MTD
+mechanism and deployment strategy but user shuffle.
 Under the
 deployment strategies, the baseline attacker's NCR reduction lies outside the
 attack profiles' range up to \prelim{1\,000}\,s (panels h to j).
@@ -7909,8 +7911,14 @@ attack profiles' range up to \prelim{1\,000}\,s (panels h to j).
 %  separates cut (the caption's work); the c_3 paragraph back to its two facts plus one sentence of context.
 At \prelim{500} and \prelim{1\,000}\,s, the host-layer mechanisms reduce
 $c_3$'s NCR more than the other three attack profiles' (panels a to c), and
-service diversity reduces it less (panel f). The attack profiles differ in how
-much each MTD layer reduces their NCR, not in which layer reduces it more.
+service diversity reduces it less (panel f). Under the host-layer mechanisms
+and service diversity, the baseline attacker's NCR reduction lies outside the
+four attack profiles' range at every deployment interval.
+% ROUND 2026-10-06 (Marc: the context sentence was flourish; the point is that c_3's variation is secondary
+%  to the attack profiles' difference from the baseline attacker): stated as the fact that carries it, the
+%  baseline attacker outside the four attack profiles' range under these mechanisms at all six intervals
+%  (checked, numbers_reported.json). Noun clusters: 'the nearest of them' -> 'the nearest attack profile's';
+%  'span at most' -> 'lie within ... of one another'.
 % Q8 RULED 2026-10-06 (Marc: varying the timing distribution "might be a threat to validity ... second-rate"):
 %  the exponential paragraph is cut from the results; Section 6.5 carries it (content point there).
 
