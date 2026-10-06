@@ -441,8 +441,9 @@ def emit_ranking_table(ranking) -> tuple[str, list]:
     w("% 2026-10-02 (Marc; docs/workflows/results_presentation_standard.md P2, S1-S2, N1): a blank cell is")
     w("%   not applicable (the reference's rank and reductions), a dash an MTTC not reported, > 0.99 a")
     w("%   reduction short of 1.")
-    # top of a page, as every float of chapter 5 (Marc 2026-10-06: no table mid-text)
-    w(r"\begin{table}[tp]")
+    # a float page with Figure 5.3 above it (Marc 2026-10-06: the curves, then the ranks under them);
+    #   [p] on both keeps them in source order on one page, as Figure 5.1 and Table 5.2 share one
+    w(r"\begin{table}[p]")
     w(r"  \centering")
     w("@CAPTION@")
     cap_at = len(L) - 1
