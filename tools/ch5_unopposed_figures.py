@@ -364,9 +364,10 @@ def emit_table(core: dict) -> str:
     w("% 2026-09-30: MTTC at a target host (section 4.5.2, ruling H1), over the runs that take one.")
     w("% Caption session-written, how-to-read only. DRAFT STATE --- ratify on read.")
     w("% 2026-10-06 (Marc, section 5.2 round): caption decodes only; the definitions, the unit and the default bootstrap cut (Section 4.5, the header, Section 5.1).")
+    w("% 2026-10-06 (Marc, round 2): the attackers and the 1 000 runs cut (the rows, Table 5.1), MTTC's runs into the cells, the interval methods to Section 5.1.")
     w(r"\begin{table}[htbp]")
     w(r"  \centering")
-    w(r"  \caption[Both attackers with no MTD running]{Attack outcome, attack rate and attack confidentiality with no MTD running: the APT attacker model on $c_1$ to $c_4$ and the baseline attacker, over %s runs each (Section~\ref{sec:evaluation-metrics}). MTTC is over the runs that compromise a target host: %d to %d per attack profile and %d for the baseline attacker.%s Brackets and $\pm$: 95\,\%% intervals, Clopper--Pearson for ASP and a normal approximation for $\pm$.}" % (fmt_thousands(t[PROFILES[0]]["n"]), min(m[q]["outcome"]["mttc"]["n"] for q in PROFILES), max(m[q]["outcome"]["mttc"]["n"] for q in PROFILES), m["baseline"]["outcome"]["mttc"]["n"], mttc_dash_decode({mttc_unreported(m[p]["outcome"]["mttc"]) for p in (*PROFILES, "baseline")} - {None})))
+    w(r"  \caption[Both attackers with no MTD running]{Attack outcome, attack rate and attack confidentiality with no MTD running (Section~\ref{sec:evaluation-metrics}). In parentheses: the runs MTTC is over.%s}" % mttc_dash_decode({mttc_unreported(m[p]["outcome"]["mttc"]) for p in (*PROFILES, "baseline")} - {None}))
     w(r"  \label{tab:unopposed-summary}")
     # one header row (2026-09-24, Marc: the class headers read loose; Table 4.3
     # carries the classes), full text width
@@ -404,6 +405,8 @@ def emit_table(core: dict) -> str:
         r = rows[p]
         f = {k: ("---" if r[k] is None else (bracket(*r[k], place[k]) if k in ("asp", "conf") else _prec(*r[k], place[k])))
              for k in r}
+        if r["mttc"] is not None:  # the runs MTTC is over, in the cell as Table F.1 prints it (Marc 2026-10-06)
+            f["mttc"] += " (%d)" % m[p]["outcome"]["mttc"]["n"]
         return "    %s & %s & %s & %s & %s & %s \\\\" % (name, f["asp"], f["ncr"], f["mttc"], f["rate"], f["conf"])
 
     w(r"    \grouprow{6}{%s} \\" % LABEL["movement"])

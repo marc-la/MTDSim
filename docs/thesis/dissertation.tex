@@ -6073,9 +6073,12 @@ from the same 1\,000 networks.
 %  its subject and states what a rank means as its own sentence; NCR reduction in
 %  both the ranking and rho (one term; within one attacker it is a linear function
 %  of NCR, so the ranks and rho are unchanged), overturning round 9's "by NCR".
+% 2026-10-06 (Marc, section 5.2 round 2: "Clopper--Pearson, I don't know what that means ... I just assume 95 % intervals"):
+% every interval method named once here, so no caption names one; amends round 10's first sentence.
 \paragraph{Statistical analysis.} Every interval is a 95\,\% confidence
-interval, a percentile bootstrap over runs \citep{efron1994introduction}
-unless its caption names another method. Effect size is Cohen's $d$,
+interval: Clopper--Pearson for ASP \citep{clopper1934use}, the normal
+approximation for a mean, printed with $\pm$, and otherwise a percentile
+bootstrap over runs \citep{efron1994introduction}. Effect size is Cohen's $d$,
 negligible within $\pm 0.2$ \citep{cohen1988statistical}. The Scott--Knott
 effect size difference test \citep{tantithamthavorn2017empirical} ranks the
 MTD by NCR reduction for each attacker at each deployment interval.
@@ -6448,10 +6451,8 @@ interval lies wholly outside, and inconclusive when it crosses $\pm 0.2$
 %  numbers filled 2026-10-06 from the 1 000-seed JSON named in the NUMBERS line (each \prelim{n}
 %  is the grep target; Marc approved the draft's form before the fill). Replaces the 2026-09-26 text (git history). DRAFT STATE.
 % ROUND 2026-10-06 (Marc, section 5.2): property first, its numbers, no closing method sentence; captions decode only.
-This section compares the two attackers with no MTD running, on the attacker
-behaviour and attack outcome metrics (Section~\ref{sec:evaluation-metrics}).
-Each comparison places the baseline attacker against the range of the four
-attack profiles.
+% ROUND 2 2026-10-06 (Marc, section 5.2): lead with the baseline attacker; nothing chapter 4 or Figure 4.3 already gives.
+This section compares the two attackers with no MTD running.
 
 % ~1 unit. What the model does with nothing opposing it: the campaign it
 % actually walks, and whether the four profiles are distinguishable.
@@ -6597,16 +6598,14 @@ attack profiles.
 %  is the grep target; Marc approved the draft's form before the fill). Replaces the 2026-09-26 text (git history). DRAFT STATE.
 % NUMBERS: ? ? = share of steps in unmapped tactics, lowest and highest of c1-c4 (ch5_s531_unopposed numbers.json, relative tactic occurrence).
 % ROUND 2026-10-06 (Marc, section 5.2): property first, its numbers, no closing method sentence; captions decode only.
-On objective-specific behaviour, each attack profile takes the actions on
-objectives of its attack flows (Figure~\ref{fig:aio-coverage}(a),
-Table~\ref{tab:attack-profiles}). Only $c_1$ and $c_3$, whose attack flows
-stole data, take the exfiltration tactic. The impact tactic takes \prelim{8}
-and \prelim{12}\,\% of the steps of $c_2$ and $c_3$, whose attack flows impeded
-systems, and under \prelim{1}\,\% of the steps of $c_1$. Attack profile $c_4$
-takes neither. Every attack profile also spends \prelim{26} to
-\prelim{47}\,\% of its steps in unmapped tactics, which dispatch no attack
-action (Section~\ref{subsec:tactic-verb-mapping}). Every step of the baseline
-attacker dispatches an attack action.
+% ROUND 2 2026-10-06 (Marc, section 5.2): lead with the baseline attacker; nothing chapter 4 or Figure 4.3 already gives.
+On objective-specific behaviour, the baseline attacker takes only its six
+attack actions (Figure~\ref{fig:aio-coverage}(a)). Every attack profile also
+spends \prelim{26} to \prelim{47}\,\% of its steps in unmapped tactics, among
+them actions on objectives, which dispatch no attack action
+(Section~\ref{subsec:tactic-verb-mapping}). The attack profiles divide their
+steps among the tactics differently, each over the tactics its attack flows
+reach (Figure~\ref{fig:attack-profiles}).
 
 % 2026-09-30: redrawn on the metric Section 4.5.1 defines (distinct attack paths,
 % a count), replacing attack path variation (a share); numbers from
@@ -6619,8 +6618,9 @@ attacker dispatches an attack action.
 On choice of attack strategy, the baseline attacker lies below the range of
 the attack profiles (Figure~\ref{fig:aio-coverage}(b)). Its runs share one
 opening over their first \prelim{four} steps, the order of its fixed procedure
-(Section~\ref{subsec:attacker-model}), and have at most \prelim{three}
-distinct openings over eight steps. The runs of every attack profile part ways
+(Section~\ref{subsec:attacker-model}). All but \prelim{two} then branch once,
+into brute force or scan neighbours, before enumerating a host again. The runs
+of every attack profile part ways
 by the fourth step, with \prelim{4} to \prelim{89} distinct openings, and have
 \prelim{179} to \prelim{947} over eight steps.
 
@@ -6631,7 +6631,8 @@ by the fourth step, with \prelim{4} to \prelim{89} distinct openings, and have
   %  results_presentation_standard.md S4, I1-I3, T2, F5): caption rewritten to read the float alone,
   %  decoding only; metrics stay defined in Section 4.5. Session-written, DRAFT STATE --- ratify on read.
   % 2026-10-06 (Marc, section 5.2): caption decodes only; the definitions of step, the metric and opening cut (Section 4.5), the baseline attacker's 1 to 3 carried by (b)'s log axis.
-  \caption[How each attacker acts with no MTD running]{How each attacker acts with no MTD running: the APT attacker model on $c_1$ to $c_4$ and the baseline attacker, over 1\,000 runs each (Section~\ref{subsec:metrics-behaviour}). (a)~Relative tactic occurrence, darker for a larger share. Rows are grouped by the attack action each tactic dispatches (Section~\ref{subsec:tactic-verb-mapping}); an unmapped tactic dispatches none. The baseline attacker has no tactics, so its column is by attack action. 0: never taken; $<$1: above 0 but under 1; blank: a tactic the attacker does not have. (b)~Distinct openings, from 1, every run with the same opening, to 1\,000, every run with its own.}
+  % 2026-10-06 round 2 (Marc): the attackers, the runs and the decodes chapter 4 gives cut; blank tied to Figure 4.3.
+  \caption[How each attacker acts with no MTD running]{How each attacker acts with no MTD running (Section~\ref{subsec:metrics-behaviour}). (a)~Left: the attack action each tactic dispatches (Section~\ref{subsec:tactic-verb-mapping}); the baseline attacker's column is by attack action. Blank: a tactic the attack profile's attack flows do not reach (Figure~\ref{fig:attack-profiles}).}
   \label{fig:aio-coverage}
 \end{figure}
 
@@ -6830,10 +6831,10 @@ by the fourth step, with \prelim{4} to \prelim{89} distinct openings, and have
 On attack outcome, the ASP and NCR of the baseline attacker lie above the
 range of the attack profiles (Table~\ref{tab:unopposed-summary}). Its ASP is
 \prelim{5} to \prelim{16} times each profile's, and its NCR \prelim{2.4} to
-\prelim{3.3} times. Its MTTC, \prelim{9\,100}\,s, lies below the range,
-\prelim{9\,700} to \prelim{11\,300}\,s, but inside the interval of $c_3$. The
-MTTC of the APT attacker model rests on the tactic durations of
-Section~\ref{subsec:dwell-times}.
+\prelim{3.3} times. Its MTTC, \prelim{9\,100}\,s, lies just below theirs,
+\prelim{9\,700} to \prelim{11\,300}\,s.
+% Cut 2026-10-06 (round 2): "inside the interval of c_3" and "The MTTC of the APT attacker model rests on
+% the tactic durations of Section 4.x" (Marc: "there's so much"); the attribution is Chapter 6's.
 
 
 % SPLIT 2026-09-24 from Figure 5.1 (Marc: "attack confidentiality is a bit constrained
