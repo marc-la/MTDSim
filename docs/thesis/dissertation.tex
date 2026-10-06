@@ -6058,18 +6058,26 @@ from the same 1\,000 networks.
 %  rankings are compared. One paragraph, one sentence each. Heading "Statistical
 %  analysis", the conventional name in empirical software engineering. "(rho)" and the
 %  rho value gloss cut (caption). DRAFT STATE.
+% [ROUND 9, 2026-10-06] Marc, sentence by sentence: "its size" unclear and why d at
+%  all; the d gloss and "which counts the hosts compromised in every run" redefine
+%  (Section 4.5 gives NCR); "unless its table or figure states another" wordy. Now:
+%  the field's words, "statistically significant" and "effect size"; d earns its place
+%  in one clause (with 1 000 runs a negligible difference can be significant, so the
+%  ranking and the ablation studies need an effect size); the Scott-Knott sentence ends
+%  on what a rank means, tying the two rules together; "its caption" for the exception.
 \paragraph{Statistical analysis.} Each value carries a 95\,\% confidence
 interval, a percentile bootstrap over runs \citep{efron1994introduction}
-unless its table or figure states another. A difference is reported only
-when its interval excludes zero. Its size is Cohen's $d$, the difference
-between two means in standard deviations \citep{cohen1988statistical}, and
-it is negligible below $d = 0.2$, Cohen's small effect. For each attacker at
-each deployment interval, the Scott--Knott effect size difference test
-\citep{tantithamthavorn2017empirical} ranks the MTD by NCR, which counts the
-hosts compromised in every run: neighbouring ranks differ significantly and
-by more than a negligible effect. Spearman's rank correlation, $\rho$
-\citep{spearman1904proof}, measures whether the two attackers put the MTD in
-the same order of NCR reduction.
+unless its caption says otherwise. A difference is statistically significant
+when its interval excludes zero. With 1\,000 runs even a negligible
+difference can be significant, so the ranking and the ablation studies also
+use an effect size, Cohen's $d$, which is negligible below 0.2
+\citep{cohen1988statistical}. For each attacker at each deployment interval,
+the Scott--Knott effect size difference test
+\citep{tantithamthavorn2017empirical} ranks the MTD by NCR, so that
+neighbouring ranks differ significantly and by more than a negligible
+effect. Spearman's rank correlation, $\rho$ \citep{spearman1904proof},
+measures whether the two attackers put the MTD in the same order of NCR
+reduction.
 
 \paragraph{Ablation studies.} Each ablation study
 (Section~\ref{sec:ablation}) runs under the MTD and deployment intervals that
