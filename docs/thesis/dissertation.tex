@@ -7660,9 +7660,8 @@ the default deployment interval, 200\,s (Table~\ref{tab:eff-cross-arm}). IP
 shuffle, host topology shuffle and complete topology shuffle share rank 1
 against the APT attacker model, and service diversity and port shuffle share
 rank 1 against the baseline attacker. $\rho$ between the two attackers' NCR
-reductions is \prelim{0.01} at 200\,s (confidence interval \prelim{$-0.19$} to
-\prelim{0.05}), and no more than \prelim{0.25} from zero at any deployment
-interval.
+reductions is \prelim{0.01} [\prelim{$-0.19$}, \prelim{0.05}] at 200\,s, and lies
+between \prelim{$-0.24$} and \prelim{0.25} at every deployment interval.
 % LAYOUT 2026-10-06 (Marc): Figure 5.3 above Table 5.3, the curves first and the ranks under them; both
 %  read here, after the paragraph that cites the table, so they share one page. Different float types, so
 %  the order breaks no numbering.
@@ -7679,6 +7678,10 @@ interval.
 %  longer reads as a second interval beside the confidence interval; 'the host layer' -> 'the host-layer
 %  mechanisms' (Figure 5.3 draws their mean); MTDShield's choice as one share, the within-0.11 sentence cut
 %  (the share already says why MTDShield ranks with service diversity).
+% ROUND 2026-10-06 (Marc): rho's interval in the bracket form the tables use (Section 5.1 says every
+%  interval is a 95 % confidence interval), so the signed range across intervals, back, no longer reads as
+%  a second interval; user shuffle's 'compromises more hosts than with no MTD' cut (Section 4.5.3's reading
+%  of a negative NCR reduction).
 The host-layer mechanisms reduce the APT attacker model's NCR more than the
 service-layer mechanisms at every deployment interval, and the service-layer
 mechanisms reduce the baseline attacker's NCR more than the host-layer
@@ -7688,8 +7691,7 @@ more, and the service-layer mechanisms the baseline attacker's by
 \prelim{0.84} or more. The APT attacker model's host-layer reduction stays
 above 0.5 up to \prelim{1\,000}\,s, and the baseline attacker's service-layer
 reduction only up to 200\,s. User shuffle reduces the APT attacker model's NCR
-below zero at every deployment interval (Figure~\ref{fig:eff-cross-arm}(c)):
-the APT attacker model compromises more hosts than with no MTD.
+below zero at every deployment interval (Figure~\ref{fig:eff-cross-arm}(c)).
 
 Random and alternative reduce the APT attacker model's NCR more than the
 baseline attacker's at every deployment interval
