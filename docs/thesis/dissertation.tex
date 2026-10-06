@@ -8079,25 +8079,27 @@ memory.
 %  in every configuration but IP shuffle at 200 s (highest random partition 0.017).
 % 2026-10-06: each subsection opens "Removing X ...", then "Without it/them"; numbers in Table
 %  5.4's order, with then without, so d (with minus without) reads off the sentence.
+% 2026-10-06 (Marc: "I don't know why we led without them"; "we don't show that stuff ... I
+%  thought we're talking about NCR"; "this is moving into discussion"; "so many numbers"):
+%  one paragraph on the measure Section 5.1 declares, d on NCR. Cut: the distinct openings
+%  (no float carries them, and with an effect on NCR that is not negligible no check is
+%  needed to show the removal took effect; 5.4.2 and 5.4.3 keep theirs, where the effect
+%  is negligible); the "two ways" the attack profiles differ from the attack graph and what
+%  the random partitions keep and drop (why NCR moves, Chapter 6's; Section 4.3 gives the
+%  construction); "the same order holds in every configuration but IP shuffle at 200 s".
+%  Kept: the random partitions' result, one sentence, since Table 5.1 declares them.
+%  Subject first: "The APT attacker model compromises more without them".
 Removing the attack profiles runs the APT attacker model on the attack graph
-(Section~\ref{sec:technique-graph}). Without them, it takes more distinct
-openings and compromises more, and the attack profiles' effect on NCR is not
-negligible (Table~\ref{tab:ablation}). Over the first five steps of 1\,000
-runs, it takes 254 distinct openings with the attack profiles and 535 without.
-With no MTD, its NCR is 0.171 with them and 0.189 without, a $d$ of $-0.28$.
-Under the MTD mechanisms and deployment
-strategies, the effect is not negligible in 29 of the 60 configurations,
-negligible in seven and inconclusive in 24
-(Table~\ref{tab:ablation-attack-profiles}).
-
-The attack profiles differ from the attack graph in two ways: each groups the
-attack flows by objective, and each Petri net's base weights rest on fewer
-attack flows, 4 to 14 of the 29 (Section~\ref{sec:petri-formalism}). Ten random
-partitions of the attack flows into groups of the attack profiles' sizes keep
-the fewer attack flows and drop the grouping by objective. With no MTD, the
-random partitions' NCR is 0.071 to 0.157, below the attack profiles' 0.171 and
-the attack graph's 0.189. The same order holds in every configuration but IP
-shuffle at 200\,s (Table~\ref{tab:ablation-random-partitions}).
+(Section~\ref{sec:technique-graph}). The APT attacker model compromises more
+without them, by an effect on NCR that is not negligible
+(Table~\ref{tab:ablation}). With no MTD, its NCR is 0.171 with the attack
+profiles and 0.189 without, a $d$ of $-0.28$. Under the MTD mechanisms and
+deployment strategies, the effect is not negligible in 29 of the 60
+configurations, negligible in seven and inconclusive in 24
+(Table~\ref{tab:ablation-attack-profiles}). Ten random partitions of the
+attack flows, each group the size of an attack profile, compromise less than
+both: with no MTD, their NCR is 0.071 to 0.157
+(Table~\ref{tab:ablation-random-partitions}).
 
 \subsection{Failure matrix}
 \label{subsec:ablation-failure-matrix}
