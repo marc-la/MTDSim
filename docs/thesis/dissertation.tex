@@ -6010,12 +6010,18 @@ networks and under the same MTD, so their runs differ only in the attacker.
 
 \input{tables/tab_5-1a_experiment}
 
-\paragraph{Held settings.} Every run uses the default network of
-Section~\ref{subsec:network-model}, with two target hosts in place of five,
-as in the simulator's released experiment code \citep{tay2024code}. Both
-attackers pursue the targeted attack scenario
-(Table~\ref{tab:attacker-objectives}). Table~\ref{tab:experiment} gives every
-held setting and its source.
+% [ROUND 4, 2026-10-06] Marc on Held settings: "pursue" framed the attacker, why the
+%  last link, the prose names three settings and the table six. Now: the table callout
+%  first (the table holds every value; the prose gives only the choices among and
+%  departures from Chapter 2's defaults: the attack scenario of the two in Table 2.3,
+%  and two target hosts for five); "follow" is Chapter 2's verb for an attack
+%  scenario (2.2.3). The rest of the held rows are Chapter 2's defaults or the
+%  lineage's (Table 2.4), so they need no sentence. DRAFT STATE.
+\paragraph{Held settings.} Table~\ref{tab:experiment} gives every held
+setting and its source. Both attackers follow the targeted attack scenario
+(Table~\ref{tab:attacker-objectives}), on the default network of
+Section~\ref{subsec:network-model} with two target hosts in place of five,
+as in the simulator's released experiment code \citep{tay2024code}.
 
 \paragraph{Runs.} Every combination in Table~\ref{tab:experiment} is run
 1\,000 times, one run per seed, the number Arcuri and Briand

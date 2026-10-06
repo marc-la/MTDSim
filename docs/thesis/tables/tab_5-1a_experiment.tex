@@ -1,3 +1,9 @@
+% ROUND 4 2026-10-06 (Marc, Held): "Interval distribution" row cut; "near-periodic" joins the
+% Deployment interval row, as Table 2.4 puts the distribution in that row, and Section 2.2.2
+% defines it (no unintroduced row name). Target hosts "2, at the deepest level" (numerals as
+% the Network row; "database" adds nothing the model uses). End of run "the goal reached"
+% (Table 2.3, Section 4.5); the 80 % end kept: attack_operation.py checks it before the
+% target host in every run, targeted included.
 % ROUND 2 2026-10-06: group "Compared" -> "Varied" (one word with the run-in "Varied
 % settings", the pair to "Held"); the MTD row names the single deployment strategy (Table 2.5).
 % REBUILT 2026-10-06, second pass (Marc: "is the table right"; critique C4-C5, handoff
@@ -26,14 +32,13 @@
     \grouprow{3}{Varied} \\
     \quad Attacker & the baseline attacker; the APT attacker model on $c_1$, $c_2$, $c_3$ and $c_4$ & \citep{brown2023} \\
     \quad MTD & no MTD; the single deployment strategy, once for each of the seven MTD mechanisms; the random and alternative deployment strategies; MTDShield, as released & \citep{brown2023, zhang2023, tay2024} \\
-    \quad Deployment interval & 50, 100 and 200\,s; 500, 1\,000 and 2\,000\,s & \citep{zhang2023, ho2024} \\
+    \quad Deployment interval & 50, 100 and 200\,s; 500, 1\,000 and 2\,000\,s; near-periodic (Section~\ref{subsec:defence-mechanisms}) & \citep{zhang2023, ho2024, tay2024code} \\
     \addlinespace
     \grouprow{3}{Held} \\
     \quad Network & 50 hosts, 4 levels of depth, 8 subnets, 5 exposed endpoints & \citep{zhang2023, tay2024code} \\
-    \quad Target hosts & the two database hosts at the deepest level & \citep{tay2024code} \\
+    \quad Target hosts & 2, at the deepest level & \citep{tay2024code} \\
     \quad Attack scenario & targeted & \citep{brown2023} \\
-    \quad Interval distribution & near-periodic: the deployment interval plus a random delay of 0.5\,s on average & \citep{tay2024code} \\
-    \quad End of run & a target host compromised, over 80\,\% of the hosts compromised, or 15\,000\,s & \citep{brown2023, zhang2023, ho2024} \\
+    \quad End of run & the goal reached, over 80\,\% of the hosts compromised, or 15\,000\,s & \citep{brown2023, zhang2023, ho2024} \\
     \quad Seeds & 1\,000 per combination, the same in every combination & \citep{arcuri2014hitchhiker} \\
     \addlinespace
     \grouprow{3}{Ablation studies (Section~\ref{sec:ablation})} \\
