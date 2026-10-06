@@ -718,6 +718,123 @@ copied to `docs/thesis/dissertation.pdf`.
    state B1's "a deployment's layer decides", which the text now carries.
 4. FLOATS.md is not updated; another session holds it (B13).
 
+## 12. Sixth turn (2026-10-06): the high-level critique of §5.1, before any paragraph is touched
+
+Marc's ask: is the title right, is the split right, do the table and the prose
+work together, what does the reader need, what does the examiner expect. He
+reads paragraph by paragraph only after this. Nothing in §5.1 has moved.
+
+**Build fix:** the PDF handed over in §11 printed Spearman's citation as
+"[?]" (it was copied before the last pass). Rebuilt; it is now [53].
+
+**C1. Titles: keep both.** "Evaluation" and "Experimental setup" are
+conventional. The field's dominant form puts the setup at the head of the
+results (evaluation_conventions §a: Brown, Zhang, Hong, Kim), so the move out
+of the method was right. "Results" would misname a chapter that also holds the
+setup and the ablations. The preamble's "Section 5.1 sets out the experimental
+setup: the network, attacker, ..." names the title twice and lists the run-in
+heads, so it follows whatever split is ruled.
+
+**C2. The fault is the axis.** The units are the simulation's parts (network,
+attacker, MTD: chapter 2's own split) plus three analysis notes. That was the
+2026-09-18 ruling, made when §5.1 was a run plan. Since then the frame has
+become SQ3, a comparison. An examiner arriving at a setup asks five questions:
+
+| Examiner's question | Where §5.1 answers it now |
+|---|---|
+| E1. What is compared with what, and against what reference? | Split over Attacker, MTD (the interval is buried inside it), the table caption, and the last sentence of MTD (the no-MTD reference). The three ablations, a third of the table, have no prose. |
+| E2. Is it fair: does only the attacker change? | Never stated. Half is in Network's last sentence and half in Runs ("the same seeds"). The sentence that answers it is parked as a comment from the 4.4 preamble ("Both attackers run on the same MTDSim ... so a difference between the two attackers' runs is a difference in the attacker"). |
+| E3. What is held, and is it the field's configuration? | The table, and Network repeats it. Chapter 2 §2.2.1 already gives 50 hosts, four levels, eight subnets and five endpoints as the defaults, so the only setup fact is "two target hosts instead of five". |
+| E4. How many runs, and why is that enough? | Runs: sound. |
+| E5. How does a difference become a claim? | Statistics: five jobs in one paragraph (below). |
+
+**C3. Accretion.** Each pass answered one question that had been asked once, in
+a clause: Zhang's second network of four; the 25–200 host range; three
+intervals to a decade; three reasons for tabling 200 s; MTTC's NCHS rule; why
+NCR ranks; the gloss on Cohen's d. Each clause is true. Together they make
+622 words of provenance that the table already carries as citations. The
+caption drives this: "an uncited value is argued in the text" pulls a clause
+into the prose for every uncited value.
+
+**C4. The table and the prose do not divide the labour.** The table should
+hold the values and their sources. The prose should hold what a table cannot:
+the design logic and the analysis.
+
+- **In both:** the network values, the MTD list, the intervals, the seeds and
+  the sources.
+- **Only in the prose:** the reference, the choice of 200 s, the MTTC rule and
+  all the statistics.
+- **Only in the table:** the three ablations, the random partitions, the time
+  limit with its 80 % stop, and the timing distribution.
+- **Where the two disagree:**
+  - The heading "Varied in every combination" is false for no MTD. It is run
+    once per attacker, with no interval (`run_corpus.py` docstring, l.22).
+  - The attack graph runs the full grid but sits under the ablations.
+
+**C5. Table form.**
+
+- **Group rows:**
+  - The group rows carry no indent. Table 2.2, the same form, indents with
+    `\quad`, so the house style has two versions.
+  - The stripes run through the italic group rows, so a group row looks like a
+    data row.
+- **Value cells:**
+  - The value cells are semicolon lists with citations inside them, and the
+    ablation cells are whole sentences.
+  - A Source column would keep the values short and line the citations up.
+    This is the per-row data-source form in STRESS-DES (§k1).
+- **Groups:** Compared / Reference / Held / Ablations would match the design.
+
+**C6. The Statistics paragraph.**
+
+- **"Told apart" is an invented term.** It is used twice. The field says
+  "differs from zero".
+- **Its five jobs are out of reading order:**
+  1. the interval rule;
+  2. averaging over $c_1$ to $c_4$, which is a reporting convention;
+  3. Scott–Knott ranking and why NCR is used;
+  4. $\rho$;
+  5. $d$, its threshold and its gloss.
+
+  Reading order follows use: the interval (every float), the averaging, the
+  ranking and $\rho$ (§5.3.2), then $d$ (§5.4).
+- **How the interval is computed is never declared.** "Percentile bootstrap
+  over runs" appears in about 13 captions but never in the setup, so method
+  sits in captions (evaluation_conventions §j8 item 6).
+- **Metrics is one pointer plus the MTTC rule.** It folds into the same unit.
+
+**C7. Form.**
+
+- **The run-ins:** six run-in heads, each with vertical space above, holding
+  one to eight sentences.
+- **The table:** a page-high float splits the MTD paragraph mid-sentence ("the
+  one | MTDShield was trained at").
+- **The result:** it reads as notes. With the table as the part to scan, the
+  prose's job is to read.
+
+**Proposal (shape only, for Marc's ruling).** The units follow the examiner's
+questions, and the table is regrouped to match:
+
+| Unit | Answers | Holds |
+|---|---|---|
+| Design | E1, E2 | Both attackers under each MTD at six intervals. No MTD is the reference. The simulator, network and seeds are the same, so a difference is the attacker's. One clause gives the interval range. |
+| Held settings | E3 | The default network of §2.2.1 with two target hosts, and the time limit. The values are in the table. |
+| Ablations | — | One sentence, or none, leaving everything to §5.4. |
+| Analysis | E5 | The metrics of §4.5. 95 % percentile bootstrap intervals. Averaging over $c_1$ to $c_4$. The MTTC rule. The ranking and $\rho$. Then $d$. |
+| Runs | E4 | As now. |
+
+The target is about 300 words. This overturns the 2026-09-18 rulings ("the
+units are the simulation's moving parts"; "open on the first object") on merit:
+the frame they served was a run plan, and SQ3 is now a comparison.
+
+**Rulings asked:**
+
+- **R1:** split by the examiner's questions (recommended).
+- **R2:** the ablation settings stay in Table 5.1 (recommended: one experiment,
+  one table) or move to §5.4.
+- **R3:** keep the run-in heads, matched to the table groups (recommended), or
+  use plain paragraphs.
+
 ## Validation gate
 
 - Marc rules Q1–Q14.
