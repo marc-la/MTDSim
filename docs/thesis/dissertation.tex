@@ -7405,6 +7405,13 @@ strategy running.
 %  (exact, Section 4.5.3's 'every deployment'); 'An MTD deployment' named in full; the first-deployment fact
 %  folded into the paragraph on adaptivity beside the below-zero values it bears on; 'gives the values' ->
 %  what Table E.1 gives.
+% CLARITY PASS 2026-10-06 (every noun given earlier): MTD mechanism, deployment, host layer, service layer,
+%  credentials (Section 2.1, Table 2.1); deployment strategy, single, deployment interval (Section 2.1,
+%  Table 2.2); attack action, baseline attacker (Section 2.2.3); adaptivity (Table 3.x); unmapped tactic
+%  (Section 4.4.1); APT attacker model, c_1 to c_4 (Chapter 4); time lost, attack actions blocked, in
+%  progress, brought forward, the same seed's run with no MTD (Section 4.5.3); run, seed, confidence
+%  interval (Section 5.1). Fixed: 'it is' -> the metric's name; 'blocked by every one' and 'every one but
+%  user shuffle' -> the nouns they stood for.
 Each MTD mechanism runs under the single deployment strategy at the longest
 deployment interval, 2\,000\,s, because the next MTD deployment caps time lost
 at the deployment interval (Section~\ref{subsec:metrics-effectiveness}).
@@ -7419,17 +7426,18 @@ An MTD deployment blocks the baseline attacker's attack actions more often
 than the APT attacker model's (Figure~\ref{fig:aio-adaptivity}(a)). Attack
 actions blocked per MTD deployment is \prelim{1} for the baseline attacker
 under every host-layer mechanism, against \prelim{0.35} to \prelim{0.39} for
-the APT attacker model. Under every service-layer mechanism it is
-\prelim{0.95} against \prelim{0.15}, and under user shuffle \prelim{0.07}
-against \prelim{0.01}. An MTD deployment blocks only an attack action in progress,
+the APT attacker model. Under every service-layer mechanism, attack actions
+blocked per MTD deployment is \prelim{0.95} against \prelim{0.15}, and under
+user shuffle \prelim{0.07} against \prelim{0.01}. An MTD deployment blocks only an attack action in progress,
 and the APT attacker model runs none while in an unmapped tactic.
 
 On adaptivity, the two attackers lose time to different MTD mechanisms
 (Figure~\ref{fig:aio-adaptivity}(b)). The APT attacker model loses
 \prelim{242} to \prelim{324}\,s per host-layer deployment, and the baseline
-attacker, blocked by every one, none. The baseline attacker's time lost is
-below zero under every MTD mechanism but service diversity, and under every one
-but user shuffle the first deployment of each run brings its first compromise
+attacker none, though every host-layer deployment blocks its attack action.
+The baseline attacker's time lost is below zero under every MTD mechanism but
+service diversity, and under every MTD mechanism but user shuffle the first
+deployment of each run brings its first compromise
 \prelim{204} to \prelim{232}\,s forward~\owed{(Appendix~\ref{app:supplementary-results})}{Section 5.3.1: the
 appendix item on the first deployment (Marc 2026-10-06): a worked trace of one
 seed with and without MTD, and first-deployment and later-deployment columns
