@@ -8290,16 +8290,21 @@ failure matrix, and in 0.08 to 0.10 without.
 %  success 4.4.4 says the memory acts on, so the reader has its frame. The second paragraph
 %  answers 4.4.4's declared expectation, point first; "the share of exploits that succeed"
 %  given once, then "the share".
-Removing the vulnerability memory means an earlier success on a vulnerability
-no longer makes the APT attacker model more likely to exploit it again
+% 2026-10-06 clarity pass (Marc): the opener in the failure matrix's form ("Removing X makes the
+%  APT attacker model ...") and Section 4.4.4's own phrase ("a vulnerability it has exploited
+%  before"); "it is 0.92" -> "the share is 0.92" (one antecedent); "one service per operating
+%  system" -> "a diversity pool of one service per operating system" (Table 5.1's term).
+Removing the vulnerability memory makes the APT attacker model no more likely
+to exploit a vulnerability it has exploited before
 (Section~\ref{subsec:vulnerability-memory}). The vulnerability memory raises
 the share of exploits that succeed, and its effect on NCR is negligible
 (Table~\ref{tab:ablation}). With no MTD, the share is 0.73 with the memory and
 0.69 without (Table~\ref{tab:ablation-memory}).
 
 The memory raises the share more with a smaller diversity pool, as
-Section~\ref{subsec:vulnerability-memory} expects: with one service per
-operating system, it is 0.92 with the memory and 0.69 without. Its effect on
+Section~\ref{subsec:vulnerability-memory} expects: with a diversity pool of
+one service per operating system, the share is 0.92 with the memory and 0.69
+without. Its effect on
 NCR stays negligible at every diversity pool (Figure~\ref{fig:ablation-memory},
 Table~\ref{tab:ablation-memory}).
 
