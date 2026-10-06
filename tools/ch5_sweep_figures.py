@@ -68,9 +68,11 @@ STRATEGIES = tuple(c for c in ("random", "alternative", "random_four", "mtdshiel
 ACCENT = "31,84,140"
 HEAD_STRATEGIES = tuple(c for c in ("random", "mtdshield", "alternative") if c in STRATEGIES)
 # the headline's panels: (kind in numbers, key, title), rows layers | strategies
-HEAD_ROWS = (("MTD mechanisms, by the layer they reconfigure",
+# 2026-10-06 (Marc): the row headers name the row only (the y-axis gives the metric, the panel
+#   titles the layer; Table 2.1 puts user shuffle under credentials)
+HEAD_ROWS = (("MTD mechanisms",
               (("layer", "host", "Host layer"), ("layer", "service", "Service layer"),
-               ("layer", "credentials", "Credentials: user shuffle"))),
+               ("layer", "credentials", "User shuffle"))),
              # MTDShield under the service layer, random under the host layer,
              # so the panels that share a shape share a column (context critic,
              # 2026-09-25 round 2)
@@ -213,8 +215,7 @@ def emit_headline(blocks):
     letters = iter("abcdefghijkl")
     for r, (metric, sweep, yr, header, panels) in enumerate(rows):
         y0 = 0.6 + (len(rows) - 1 - r) * ROWH + 0.85
-        w(r"\node[anchor=south west,text=black!60] at (%.3f,%.3f) {%s: %s};" % (
-            X0, y0 + PH + 0.5, metric, header if header[1:2].isupper() else header[:1].lower() + header[1:]))
+        w(r"\node[anchor=south west,text=black!60] at (%.3f,%.3f) {%s};" % (X0, y0 + PH + 0.5, header))
         w(r"\draw[black!25,line width=0.4pt] (%.3f,%.3f) -- (%.3f,%.3f);" % (X0, y0 + PH + 0.48, XR, y0 + PH + 0.48))
         for k, (kind, key, title) in enumerate(panels):
             x0 = X0 + k * (PW + GAP)
@@ -226,7 +227,8 @@ def emit_headline(blocks):
                 facts += [(metric[:3] + " " + arm, key, *q) for q in pts]
         # one axis label per row, so it cannot cross the next row's header
         w(r"\node[rotate=90,anchor=south] at (%.3f,%.3f) {%s};" % (X0 - 0.95, y0 + PH / 2, metric))
-    w(r"\node[anchor=north] at (%.3f,%.3f) {Deployment interval (s)};" % ((X0 + XR) / 2, 0.6 + 0.85 - 0.5))
+    # the log axis on the label, as Figure 5.1(b), not a caption sentence (Marc 2026-10-06)
+    w(r"\node[anchor=north] at (%.3f,%.3f) {Deployment interval (s, log scale)};" % ((X0 + XR) / 2, 0.6 + 0.85 - 0.5))
     key_below(w, X0, 0.6 + 0.85 - 0.5 - XTITLE_H, ARM_KEY, xmax=XR)  # the foot, first y-axis (§o)
     w(r"\end{tikzpicture}")
     w(r"\end{document}")
@@ -278,7 +280,7 @@ def emit_mechanisms(sweep, yr):
     for r in range(len(rows)):  # the axis title on every row (conventions §o rule 6)
         yr0 = ytop - (r + 1) * ROWH + 0.85
         w(r"\node[rotate=90,anchor=south] at (%.3f,%.3f) {%s};" % (X0 - 0.95, yr0 + PH / 2, YLABEL))
-    w(r"\node[anchor=north] at (%.3f,%.3f) {Deployment interval (s)};" % (X0 + 1.5 * PW + GAP, y0 - 0.5))
+    w(r"\node[anchor=north] at (%.3f,%.3f) {Deployment interval (s, log scale)};" % (X0 + 1.5 * PW + GAP, y0 - 0.5))
     key_below(w, X0, y0 - 0.5 - XTITLE_H, PROFILE_KEY, xmax=X0 + 3 * PW + 2 * GAP)  # the foot (§o)
     w(r"\end{tikzpicture}")
     w(r"\end{document}")
@@ -439,7 +441,8 @@ def emit_ranking_table(ranking) -> tuple[str, list]:
     w("% 2026-10-02 (Marc; docs/workflows/results_presentation_standard.md P2, S1-S2, N1): a blank cell is")
     w("%   not applicable (the reference's rank and reductions), a dash an MTTC not reported, > 0.99 a")
     w("%   reduction short of 1.")
-    w(r"\begin{table}[htbp]")
+    # top of a page, as every float of chapter 5 (Marc 2026-10-06: no table mid-text)
+    w(r"\begin{table}[tp]")
     w(r"  \centering")
     w("@CAPTION@")
     cap_at = len(L) - 1
@@ -449,12 +452,13 @@ def emit_ranking_table(ranking) -> tuple[str, list]:
     C = r">{\centering\arraybackslash}p{%s}"
     # 2026-10-06 (Marc, L3 and Q3): rank and NCR reduction only; ASP reduction and MTTC are in
     #   Tables F.3 and F.4. Spearman's rho, the section's headline number, is the foot row.
-    cols = [C % "1.0cm", C % "1.6cm"]
+    # 2026-10-06 (Marc: the layout 'a bit tacky'): NCR reduction's header on one line
+    cols = [C % "1.0cm", C % "2.4cm"]
     w(r"  \begin{tabular}{@{}P{4.3cm}%s%s@{}}" % ("".join(cols), "".join(cols)))
     w(r"    \toprule")
     w(r"    & \multicolumn{2}{c}{APT attacker model} & \multicolumn{2}{c}{Baseline attacker} \\")
     w(r"    \cmidrule(lr){2-3}\cmidrule(lr){4-5}")
-    head = ["Rank", r"NCR\newline reduction"]
+    head = ["Rank", "NCR reduction"]
     w(r"    MTD & %s & %s \\" % (" & ".join(head), " & ".join(head)))
     w(r"    \midrule")
 
@@ -467,10 +471,10 @@ def emit_ranking_table(ranking) -> tuple[str, list]:
         m, b = blk["movement"]["rows"][c], blk["baseline"]["rows"][c]
         w("    %s & %s & %s \\\\" % (LONG[c], " & ".join(cells(m)), " & ".join(cells(b))))
         facts.append((c, m["rank"], m["ncr_reduction"]["point"], b["rank"], b["ncr_reduction"]["point"]))
+    # 2026-10-06 (Marc: the rho foot row 'seems inconsistent'; overturns the same day's L3/Q3 ruling):
+    #   rho describes two columns, not an MTD row, so the prose gives it with its interval; kept here
+    #   as a comment for the grep
     rho = blk["spearman_ncr_reduction"]
-    w(r"    \midrule")
-    w(r"    \rowcolor{white}$\rho$ & \multicolumn{4}{c}{%s [%s, %s]} \\"
-      % tuple(_num(rho[k]) for k in ("rho", "lo", "hi")))
     w(r"    \bottomrule")
     w(r"  \end{tabular}")
     w(r"\end{table}")
@@ -487,9 +491,17 @@ def emit_ranking_table(ranking) -> tuple[str, list]:
     seeds = ref["baseline"]["hosts"]["n"]
     strat = [LONG[c] for c in order if c in STRATEGIES]
     strat_txt = ", ".join(strat[:-1]) + " and " + strat[-1] if len(strat) > 1 else strat[0]
-    L[cap_at] = (r"  \caption[The MTD mechanisms and deployment strategies ranked against each attacker]{Each MTD mechanism and deployment strategy deployed every %s\,s, ranked against the APT attacker model averaged over $c_1$ to $c_4$ (4\,000 runs, 1\,000 per attack profile), and against the baseline attacker (1\,000 runs), on the same %s seeds. %s are deployment strategies, which decide which mechanism is deployed at each interval (Table~\ref{tab:deployment-strategies}); every other row is one mechanism deployed alone. Rank is by Scott--Knott ESD on NCR reduction per seed, over the four attack profiles' runs for the APT attacker model (Section~\ref{sec:dimensions}): rank~1, in bold, has the largest NCR reduction, and rows that share a rank are not told apart. Rows follow the APT attacker model's ranks. NCR reduction is 1 when no host is compromised, 0 when as many as with no MTD, and negative when more (Section~\ref{sec:evaluation-metrics}). With no MTD, the reference, NCR is %s against the APT attacker model and %s against the baseline attacker.%s $\rho$ compares the two NCR-reduction columns: 1 for the same order, 0 for unrelated orders, $-1$ for the reverse (Section~\ref{sec:dimensions}); brackets, its 95\,\%% percentile bootstrap interval over seeds. Tables~\ref{tab:full-movement} and~\ref{tab:full-baseline} give every value's interval, ASP reduction and MTTC.}"
-                 % (fmt_thousands(int(iv)), fmt_thousands(seeds), strat_txt[:1].upper() + strat_txt[1:], n_m, n_b,
-                    bound))
+    # 2026-10-06 (Marc, the Section 5.2 lesson): the caption decodes only. Cut: the runs and seeds
+    #   (Table 5.1), which rows are deployment strategies (Table 2.2), Scott--Knott ESD, shared ranks and
+    #   rho's reading (Section 5.1), NCR reduction's reading (Section 4.5.3), the no-MTD reference NCR,
+    #   the row order (read off the first rank column), the interval method (Section 5.1).
+    L[cap_at] = (r"  \caption[The MTD mechanisms and deployment strategies ranked against each attacker]{The MTD "
+                 r"mechanisms and deployment strategies ranked by NCR reduction against each attacker, at a "
+                 r"deployment interval of %s\,s; the APT attacker model averaged over $c_1$ to $c_4$. Bold: "
+                 r"rank~1.%s Tables~\ref{tab:full-movement} and~\ref{tab:full-baseline} give each value's "
+                 r"confidence interval, ASP reduction and MTTC.}" % (fmt_thousands(int(iv)), bound))
+    L.insert(cap_at, "%% rho (NCR reduction, the two columns) at %s s: %s [%s, %s]" % (
+        iv, *(_num(rho[k]) for k in ("rho", "lo", "hi"))))
     return "\n".join(L) + "\n", facts
 
 

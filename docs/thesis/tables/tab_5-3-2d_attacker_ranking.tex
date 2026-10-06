@@ -9,16 +9,17 @@
 % 2026-10-02 (Marc; docs/workflows/results_presentation_standard.md P2, S1-S2, N1): a blank cell is
 %   not applicable (the reference's rank and reductions), a dash an MTTC not reported, > 0.99 a
 %   reduction short of 1.
-\begin{table}[htbp]
+\begin{table}[tp]
   \centering
-  \caption[The MTD mechanisms and deployment strategies ranked against each attacker]{Each MTD mechanism and deployment strategy deployed every 200\,s, ranked against the APT attacker model averaged over $c_1$ to $c_4$ (4\,000 runs, 1\,000 per attack profile), and against the baseline attacker (1\,000 runs), on the same 1\,000 seeds. Random, alternative and MTDShield are deployment strategies, which decide which mechanism is deployed at each interval (Table~\ref{tab:deployment-strategies}); every other row is one mechanism deployed alone. Rank is by Scott--Knott ESD on NCR reduction per seed, over the four attack profiles' runs for the APT attacker model (Section~\ref{sec:dimensions}): rank~1, in bold, has the largest NCR reduction, and rows that share a rank are not told apart. Rows follow the APT attacker model's ranks. NCR reduction is 1 when no host is compromised, 0 when as many as with no MTD, and negative when more (Section~\ref{sec:evaluation-metrics}). With no MTD, the reference, NCR is 0.171 against the APT attacker model and 0.497 against the baseline attacker. $\rho$ compares the two NCR-reduction columns: 1 for the same order, 0 for unrelated orders, $-1$ for the reverse (Section~\ref{sec:dimensions}); brackets, its 95\,\% percentile bootstrap interval over seeds. Tables~\ref{tab:full-movement} and~\ref{tab:full-baseline} give every value's interval, ASP reduction and MTTC.}
+% rho (NCR reduction, the two columns) at 200 s: $0.01$ [$-0.19$, $0.05$]
+  \caption[The MTD mechanisms and deployment strategies ranked against each attacker]{The MTD mechanisms and deployment strategies ranked by NCR reduction against each attacker, at a deployment interval of 200\,s; the APT attacker model averaged over $c_1$ to $c_4$. Bold: rank~1. Tables~\ref{tab:full-movement} and~\ref{tab:full-baseline} give each value's confidence interval, ASP reduction and MTTC.}
   \label{tab:eff-cross-arm}
   \tablestyle\rowcolors{4}{black!5}{}
-  \begin{tabular}{@{}P{4.3cm}>{\centering\arraybackslash}p{1.0cm}>{\centering\arraybackslash}p{1.6cm}>{\centering\arraybackslash}p{1.0cm}>{\centering\arraybackslash}p{1.6cm}@{}}
+  \begin{tabular}{@{}P{4.3cm}>{\centering\arraybackslash}p{1.0cm}>{\centering\arraybackslash}p{2.4cm}>{\centering\arraybackslash}p{1.0cm}>{\centering\arraybackslash}p{2.4cm}@{}}
     \toprule
     & \multicolumn{2}{c}{APT attacker model} & \multicolumn{2}{c}{Baseline attacker} \\
     \cmidrule(lr){2-3}\cmidrule(lr){4-5}
-    MTD & Rank & NCR\newline reduction & Rank & NCR\newline reduction \\
+    MTD & Rank & NCR reduction & Rank & NCR reduction \\
     \midrule
     IP shuffle & \textbf{1} & $0.96$ & 2 & $0.68$ \\
     host topology shuffle & \textbf{1} & $0.95$ & 3 & $0.38$ \\
@@ -30,8 +31,6 @@
     port shuffle & 6 & $0.20$ & \textbf{1} & $0.91$ \\
     OS diversity & 7 & $0.07$ & 2 & $0.68$ \\
     user shuffle & 8 & $-0.10$ & 5 & $-0.05$ \\
-    \midrule
-    \rowcolor{white}$\rho$ & \multicolumn{4}{c}{$0.01$ [$-0.19$, $0.05$]} \\
     \bottomrule
   \end{tabular}
 \end{table}

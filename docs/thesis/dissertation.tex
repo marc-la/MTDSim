@@ -7507,7 +7507,6 @@ in the time-lost table, from the first-deployment numbers of the time-lost reade
 % Provenance, not values: re-derive at the reported seed count.
 \subsection{MTD ranking against each attacker}
 \label{subsec:eff-cross-arm}
-
 % REWORKED 2026-09-13 (stage-2 float audit, ch5 design handoff §18) --- the chapter's central figure, in the
 % attested form (grouped bars, series = attacker arm), with the same
 % singles/schemes panel split as fig:eff-suppression-profiles and the arm
@@ -7586,20 +7585,6 @@ in the time-lost table, from the first-deployment numbers of the time-lost reade
 %  numbers filled 2026-10-06 from the 1 000-seed JSON named in the NUMBERS line (each \prelim{n}
 %  is the grep target; Marc approved the draft's form before the fill). Replaces the 2026-09-26 text (git history). DRAFT STATE.
 % NUMBERS: ? = APT host-layer NCR reduction, lowest up to 200 s; ? = APT service layer, highest up to 200 s; ? ? = the same for the baseline attacker, service and host layer; ? = interval up to which the APT host layer stays above 0.5; ? = interval by which the baseline service layer falls below 0.5 (numbers_reported.json sweep; Marc's read-off idea, 2026-10-06).
-Figure~\ref{fig:eff-cross-arm} shows that the two attackers order the MTD
-layers in reverse. NCR reduction is the share of the no-MTD NCR that MTD
-removes, so a higher value is better for the defender. The host layer reduces
-the APT attacker model's NCR by \prelim{0.96} or more up to 200\,s, and the
-service layer by \prelim{0.35} at most (panels a and b). The baseline attacker's
-order is the reverse: the service layer reduces its NCR by \prelim{0.84} or more
-up to 200\,s, and the host layer by \prelim{0.72} at most. Every reduction falls
-as the deployment interval grows. The APT attacker model's host-layer
-reduction stays above 0.5 up to \prelim{1\,000}\,s, and the baseline
-attacker's service-layer reduction falls below it by \prelim{500}\,s. User
-shuffle is the exception (panel c). Its reduction against the APT attacker
-model is below zero at every interval, so the APT attacker model
-compromises more hosts than with no MTD.
-
 % REWRITTEN 2026-09-26 on Marc's read ("very rhetorically inflated ... literally we
 %  just need to describe what's happening"; his step-through of every float is
 %  the content, checked against the tracked numbers). Plain description: what the
@@ -7616,18 +7601,6 @@ compromises more hosts than with no MTD.
 %  numbers filled 2026-10-06 from the 1 000-seed JSON named in the NUMBERS line (each \prelim{n}
 %  is the grep target; Marc approved the draft's form before the fill). Replaces the 2026-09-26 text (git history). DRAFT STATE.
 % NUMBERS: ? = interval up to which MTDShield's gap is told apart; ? ? = MTDShield's share of decisions on service diversity; ? = largest gap between MTDShield and service diversity against the APT attacker model (numbers_reported.json sweep; Appendix D.5).
-The deployment strategies follow the same split (panels d to f). Random and
-alternative, which draw on all seven mechanisms, reduce the APT attacker
-model's NCR more than the baseline attacker's at every interval. MTDShield
-reduces the baseline attacker's NCR more, at every interval up to
-\prelim{1\,000}\,s. At 200\,s it chooses service diversity at \prelim{70} to \prelim{76}\,\% of
-its decisions (Appendix~\ref{app:mtdshield-observed}), and against the APT
-attacker model it stays within \prelim{0.11} of service diversity at every
-interval.
-
-\begin{figure}[tp]
-  \centering
-  \includegraphics{fig_5-3-2b_interval_headline}
   % 2026-09-30 (Marc): the ASP reduction figure merged in as panels (g) to (l). Caption
   %  session-written from the two it replaces. DRAFT STATE --- ratify on read.
   % 2026-10-02 (results_presentation_standard.md P2): "1 with no whisker" was false at 1 000 seeds
@@ -7635,22 +7608,16 @@ interval.
   % 2026-10-02 (Marc: "if somebody just read the captions ... they could figure out what's happening";
   %  results_presentation_standard.md S4, I1-I3, T2, F5): caption rewritten to read the float alone,
   %  decoding only; metrics stay defined in Section 4.5. Session-written, DRAFT STATE --- ratify on read.
-  \caption[The same MTD measured against each attacker, across the deployment interval]{NCR reduction (Section~\ref{subsec:metrics-effectiveness}) against the deployment interval, for the APT attacker model averaged over $c_1$ to $c_4$ (solid, 4\,000 runs per point, 1\,000 per attack profile) and for the baseline attacker (dashed, 1\,000 runs per point). NCR reduction is 1 when no host is compromised, 0 when as many as with no MTD, and negative when more: higher is better for the defender. The first row gives the MTD mechanisms by the layer each reconfigures (Table~\ref{tab:defence-mechanisms}), each deployed alone, a layer's line the mean over its mechanisms; the second row gives the deployment strategies: random, MTDShield (Appendix~\ref{app:mtdshield}) and alternative (Table~\ref{tab:deployment-strategies}). The interval axis is logarithmic. Whiskers: 95\,\% percentile bootstrap intervals over runs; where none shows, the interval is narrower than the marker. Table~\ref{tab:eff-interval-values} gives the values.}
-  \label{fig:eff-cross-arm}
-\end{figure}
-
 % MOVED 2026-09-25 (handoff B9/F12): the headline's values table sits with the headline
 %  figure, whose caption points to it; it was input at the end of §5.3.3.
 % MOVED 2026-09-30 to Appendix F (Marc): its 200 s column repeated Table 5.5's; the body
 %  keeps the ranking table, and the appendix carries the ASP reduction values beside it.
-
 % REMOVED 2026-09-13 (stage-2 audit): fig:eff-delay. Survival curves are no
 % corpus genre and ten conditions x two arms is twenty curves. Delay to first
 % compromise is a column of tab:eff-conditions with censoring stated. IF Marc's
 % horizon ruling (handoff §15) makes time to a compromise checkpoint the
 % primary, the figure that replaces this is Zhang's form: a bar per condition of
 % the time-to-checkpoint quantity, one series per attacker.
-
 % REWORKED 2026-09-13 (stage-2 float audit, ch5 design handoff §18) --- kept as is (results table; the grade
 % vocabulary lives at this definition site).
 % POPULATED 2026-09-17 as a generated fragment (tools/ch5_effectiveness_figures.py;
@@ -7679,6 +7646,51 @@ interval.
 % with ties shared (tools/ch5_sweep_figures.py --only ranking; the method is owed
 % to §4.5, Marc drafting). DRAFT STATE --- ratify on read. PRELIMINARY: 100 seeds.
 % --- P3: after Figure fig:eff-cross-arm, before \input{tables/tab_5-3-2d_attacker_ranking}
+% ROUND 2026-10-06 (Marc: the Section 5.2 and 5.3.1 lessons; 'in reverse' unreadable, numbers hard to follow,
+%  the ASP sentence a residue, Table 5.3 two pages late, the rho row inconsistent). Leads with the ranking the
+%  heading names (Table 5.3, input right after its first citation so it no longer lands after Figure 5.4);
+%  rho with its interval moved from the table's foot row to the prose (overturns L3/Q3, same day). 'In reverse'
+%  -> each attacker's layer order, which holds at every interval (numbers_reported.json sweep). Fixed: 'every
+%  reduction falls as the interval grows' (false: user shuffle against the APT attacker model rises toward 0;
+%  OS diversity rises 50 -> 100 s), cut. Cut: NCR reduction's definition (Section 4.5.3); 'which draw on all
+%  seven mechanisms' (Table 2.2); 'ASP reduction shows the same order' (Appendix E cites Figure E.1 itself);
+%  '70 to 76 %' split by attacker (Appendix D.5). Captions decode only. DRAFT STATE.
+No MTD mechanism or deployment strategy ranks first against both attackers at
+the default deployment interval, 200\,s (Table~\ref{tab:eff-cross-arm}). The
+three host-layer mechanisms share rank 1 against the APT attacker model, and
+service diversity and port shuffle share rank 1 against the baseline attacker.
+$\rho$ between the two attackers' NCR reductions is \prelim{0.01} (confidence
+interval \prelim{$-0.19$} to \prelim{0.05}) at 200\,s, and lies between
+\prelim{$-0.24$} and \prelim{0.25} at every deployment interval.
+\input{tables/tab_5-3-2d_attacker_ranking}
+
+The host layer reduces the APT attacker model's NCR more than the service layer
+at every deployment interval, and the service layer reduces the baseline
+attacker's NCR more than the host layer (Figure~\ref{fig:eff-cross-arm}(a)
+and~(b)). Up to 200\,s, the host layer reduces the APT attacker model's NCR by
+\prelim{0.96} or more, and the service layer the baseline attacker's by
+\prelim{0.84} or more. The APT attacker model's host-layer reduction stays
+above 0.5 up to \prelim{1\,000}\,s, and the baseline attacker's service-layer
+reduction only up to 200\,s. User shuffle reduces the APT attacker model's NCR
+below zero at every deployment interval (Figure~\ref{fig:eff-cross-arm}(c)):
+the APT attacker model compromises more hosts than with no MTD.
+\begin{figure}[tp]
+  \centering
+  \includegraphics{fig_5-3-2b_interval_headline}
+  \caption[NCR reduction against the deployment interval, for each attacker]{NCR reduction against the deployment interval; the APT attacker model averaged over $c_1$ to $c_4$. Host layer and service layer: the mean over the layer's MTD mechanisms. Where no whisker shows, the confidence interval is narrower than the marker. Table~\ref{tab:eff-interval-values} gives each point's value with its confidence interval.}
+  \label{fig:eff-cross-arm}
+\end{figure}
+
+Random and alternative reduce the APT attacker model's NCR more than the
+baseline attacker's at every deployment interval
+(Figure~\ref{fig:eff-cross-arm}(d) and~(f)). MTDShield reduces the baseline
+attacker's NCR more, at every deployment interval up to \prelim{1\,000}\,s
+(Figure~\ref{fig:eff-cross-arm}(e)). At 200\,s, MTDShield chooses service
+diversity at \prelim{70}\,\% of its decisions against the APT attacker model
+and \prelim{76}\,\% against the baseline attacker
+(Appendix~\ref{app:mtdshield-observed}). Against the APT attacker model,
+MTDShield's NCR reduction stays within \prelim{0.11} of service diversity's at
+every deployment interval.
 %     (tab:eff-cross-arm). If Marc swaps the two tables (handoff B9/F12) so that the 200 s
 %     ranking moves to §5.3.3, P3's first two sentences move with it and the last
 %     sentence closes P2. ---
@@ -7695,11 +7707,7 @@ interval.
 % REDRAFT 2026-10-06 (docs/handoffs/2026-10-06_ch5_results_prose_redraft.md, C6 (Q3 open: the rows may move to Appendix E)):
 %  numbers filled 2026-10-06 from the 1 000-seed JSON named in the NUMBERS line (each \prelim{n}
 %  is the grep target; Marc approved the draft's form before the fill). Replaces the 2026-09-26 text (git history). DRAFT STATE.
-ASP reduction shows the same order
-(Figure~\ref{fig:eff-cross-arm-asp}, Appendix~\ref{app:supplementary-results}).
-
 % MERGED 2026-09-30 into fig:eff-cross-arm as panels (g) to (l) (Marc).
-
 % 2026-09-30, second read (Marc: NCR reduction is the finer instrument; the ASP version
 % 'is just a colourful mess'): the NCR text restored verbatim; its numbers re-checked,
 % numbers.json sweep identical to the verified version (0 of 498 cells differ). DRAFT STATE.
@@ -7707,21 +7715,12 @@ ASP reduction shows the same order
 %  numbers filled 2026-10-06 from the 1 000-seed JSON named in the NUMBERS line (each \prelim{n}
 %  is the grep target; Marc approved the draft's form before the fill). Replaces the 2026-09-26 text (git history). DRAFT STATE.
 % NUMBERS: ? = rho at 200 s; ? ? = its 95 % interval; ? ? = lowest and highest rho over the six intervals (numbers_reported.json ranking.by_interval[*].spearman_ncr_reduction; 0.006 at 200 s, -0.24 to 0.25 overall as read 2026-10-06).
-Table~\ref{tab:eff-cross-arm} shows that no MTD mechanism or deployment
-strategy ranks first against both attackers at 200\,s. The three host-layer
-mechanisms share rank 1 against the APT attacker model. Service diversity and
-port shuffle share rank 1 against the baseline attacker. The two rankings are
-unrelated: $\rho$ between the attackers' NCR reductions is
-\prelim{0.01} at 200\,s (95\,\% interval \prelim{$-0.19$} to \prelim{0.05}), and lies
-between \prelim{$-0.24$} and \prelim{0.25} at every deployment interval.
 % [CONNECTIVE-PROSE PASS 2026-09-26, ch5 U7 cut] Cut: the third statement
 %  of 5.3.3's object (preamble roadmap; 5.3.3's first sentence), stating
 %  nothing established. SESSION-GENERATED on Marc's 2026-09-26 go-ahead
 %  (docs/workflows/connective_prose.md; audit
 %  docs/implementation/connective_prose_audit.md); prior text in git.
 %  RATIFIED 2026-09-26 (Marc: 'I accept all this').
-
-\input{tables/tab_5-3-2d_attacker_ranking}
 
 % ~1 unit. The defence conditions against the movement attacker: the
 % seven single mechanisms and the three deployment schemes, per profile,
