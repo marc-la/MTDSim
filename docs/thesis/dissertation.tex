@@ -8281,18 +8281,27 @@ failure matrix, and in 0.08 to 0.10 without.
 %  float runs nothing) -> the verdict first, the numbers after. Checked against
 %  tab_F-2: with no MTD at 20 services 0.69 / 0.73; at one service 0.69 / 0.92; every d
 %  interval at every pool size inside +-0.2 (widest upper end +0.15).
-Removing the vulnerability memory leaves each exploit at the odds its attack
-complexity sets (Section~\ref{subsec:vulnerability-memory}). Without it, the
-APT attacker model's exploits succeed less often, and the vulnerability
-memory's effect on NCR is negligible (Table~\ref{tab:ablation}). With no MTD,
-the share of exploits that succeed is 0.73 with the memory and 0.69 without
-(Table~\ref{tab:ablation-memory}).
+% 2026-10-06 (Marc: "leaves each exploit at the odds ... I don't really understand that"; "it's
+%  talking about irrelevant stuff again"): the failure matrix's form. The opener in Section
+%  4.4.4's own terms (more likely to exploit a vulnerability it has exploited before), not the
+%  odds arithmetic. The point with the memory as subject, in the words of 4.4.4's forward
+%  pointer (raises the share of exploits that succeed, leaves what the attacker achieves
+%  unchanged). The share is the check, as the failure matrix's shares are: it is the chance of
+%  success 4.4.4 says the memory acts on, so the reader has its frame. The second paragraph
+%  answers 4.4.4's declared expectation, point first; "the share of exploits that succeed"
+%  given once, then "the share".
+Removing the vulnerability memory means an earlier success on a vulnerability
+no longer makes the APT attacker model more likely to exploit it again
+(Section~\ref{subsec:vulnerability-memory}). The vulnerability memory raises
+the share of exploits that succeed, and its effect on NCR is negligible
+(Table~\ref{tab:ablation}). With no MTD, the share is 0.73 with the memory and
+0.69 without (Table~\ref{tab:ablation-memory}).
 
-With a smaller diversity pool, the memory raises the share of exploits that
-succeed more, as Section~\ref{subsec:vulnerability-memory} expects, and its
-effect on NCR stays negligible (Figure~\ref{fig:ablation-memory}). With one
-service per operating system, the share is 0.92 with the memory and 0.69
-without (Table~\ref{tab:ablation-memory}).
+The memory raises the share more with a smaller diversity pool, as
+Section~\ref{subsec:vulnerability-memory} expects: with one service per
+operating system, it is 0.92 with the memory and 0.69 without. Its effect on
+NCR stays negligible at every diversity pool (Figure~\ref{fig:ablation-memory},
+Table~\ref{tab:ablation-memory}).
 
 \chapter{Discussion}
 \label{ch:discussion}
