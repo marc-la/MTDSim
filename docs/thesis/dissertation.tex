@@ -8173,10 +8173,14 @@ Removing the failure matrix makes the APT attacker model choose its next
 tactic after a failure by the base weights, as it does after a success
 (Section~\ref{subsec:failure-matrix}). The failure matrix changes where the
 APT attacker model goes after a failure, and its effect on NCR is negligible
-(Table~\ref{tab:ablation}). After a failed initial access, the example of
-Section~\ref{subsec:failure-matrix}, the APT attacker model returns to
-reconnaissance in 0.76 to 0.83 of cases on $c_1$, $c_3$ and $c_4$ with the
+(Table~\ref{tab:ablation}). After a failed initial access (the example of
+Section~\ref{subsec:failure-matrix}), the APT attacker model goes back to
+reconnaissance in 0.76 to 0.83 of cases in $c_1$, $c_3$ and $c_4$ with the
 failure matrix, and in 0.08 to 0.10 without.
+% 2026-10-06 clarity pass (Marc): the appositive "the example of Section 4.4.3" -> a parenthesis,
+%  so the main clause reads straight; "returns to" -> 4.4.3's "goes back to"; "on c_1" -> 4.4.3's
+%  "in c_1". Every noun checked: base weights (4.3), next tactic, failure, failed initial access,
+%  reconnaissance (4.4.3, 3.x), effect on NCR, negligible (5.1).
 
 % 2026-10-06 (Marc: "would it be more clear to just have the bold header and then the text";
 %  "we don't really need the subsections"): each ablation study is one or two paragraphs, so a
