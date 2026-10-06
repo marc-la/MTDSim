@@ -5601,18 +5601,30 @@ deployment brings the next compromise forward.
 %  "ranking" (defined in 5.1). Dropped as duplicated: the no-MTD reference
 %  (5.1's MTD paragraph says it). Added: Section 5.4, missing from the
 %  ratified text. DRAFT STATE; the 2026-09-26 text is in git.
-This chapter answers \ref{sq:evaluate}. It runs the APT attacker model and
-the baseline attacker in MTDSim, and measures both with the metrics of
-Section~\ref{sec:evaluation-metrics}. Section~\ref{sec:dimensions} sets out
-the network, the MTD and the number of runs.
-Section~\ref{sec:attacker-in-operation} compares the two attackers with no
-MTD, to test whether the APT attacker model behaves differently from the
-baseline attacker. Section~\ref{sec:effectiveness} compares them under each
-MTD mechanism and deployment strategy, by time lost per MTD deployment and
-NCR reduction. Section~\ref{sec:ablation} removes the split into attack
-profiles, the failure matrix and the vulnerability memory from the APT
-attacker model one at a time, to test whether the results depend on them.
-Chapter~\ref{ch:discussion} interprets the results.
+% [ROUND 2, same day, Marc: "this is an MTD evaluation"; "mirror the
+%  language, look at the headings"; "why are we surfacing the metrics now
+%  and suddenly two of them"; "whatever standard terminology for
+%  ablation"] Frame is evaluating MTD against both attackers; metrics named
+%  by 4.5's three subsection headings (keeps the attacker behaviour
+%  metrics); 5.1 by its six run-in labels; 5.2 by the two metric families it
+%  reads; 5.3 by MTD effectiveness; 5.4 as ablation studies measuring each
+%  component's contribution; the last sentence says what this chapter does
+%  against chapter 6. No result previewed (evaluation_conventions.md j5).
+This chapter answers \ref{sq:evaluate} by evaluating MTD in MTDSim against
+the APT attacker model and the baseline attacker. Both attackers are
+measured with the attacker behaviour, attack outcome and MTD effectiveness
+metrics of Section~\ref{sec:evaluation-metrics}.
+Section~\ref{sec:dimensions} sets out the experimental setup: the network,
+attacker, MTD, metrics, statistics and runs.
+Section~\ref{sec:attacker-in-operation} compares the attacker behaviour and
+attack outcome of the two attackers with no MTD.
+Section~\ref{sec:effectiveness} measures the MTD effectiveness of each MTD
+mechanism and deployment strategy against both attackers.
+Section~\ref{sec:ablation} performs ablation studies on the attack profiles,
+the failure matrix and the vulnerability memory of the APT attacker model,
+removing each in turn to measure its contribution to the results. This
+chapter presents the results, and Chapter~\ref{ch:discussion} interprets
+them.
 
 % RESTRUCTURED 2026-09-08 (Marc's ruling, chat): "Experimental setup"
 % (3 units) and "Results" (9 units) MERGED into one 12-unit chapter. His
