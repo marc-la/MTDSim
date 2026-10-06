@@ -8028,8 +8028,10 @@ memory.
 \input{tables/tab_5-4a_ablation}
 
 
-\subsection{Attack profiles by objective}
-\label{subsec:ablation-attack-profiles}
+% 2026-10-06 (Marc: "would it be more clear to just have the bold header and then the text";
+%  "we don't really need the subsections"): each ablation study is one or two paragraphs, so a
+%  run-in head, as Section 5.1's paragraphs have; the label stays, and now resolves to 5.4.
+\paragraph{Attack profiles by objective.}\label{subsec:ablation-attack-profiles}
 
 % [NEW 2026-10-02: the third ablation, first in chapter 4's order (Section 4.2
 %  before 4.4.4 and 4.4.5). Marc: "we're just winding back a step, so there
@@ -8096,13 +8098,21 @@ without them, by an effect on NCR that is not negligible
 profiles and 0.189 without, a $d$ of $-0.28$. Under the MTD mechanisms and
 deployment strategies, the effect is not negligible in 29 of the 60
 configurations, negligible in seven and inconclusive in 24
-(Table~\ref{tab:ablation-attack-profiles}). Ten random partitions of the
-attack flows, each group the size of an attack profile, compromise less than
-both: with no MTD, their NCR is 0.071 to 0.157
+(Table~\ref{tab:ablation-attack-profiles}).
+% 2026-10-06 (Marc: "I thought this is the random partitioning ... are you running the attack
+%  graph ... would you have another entry"): the sentence never said what a random partition
+%  is next to the attack profiles. It is a third arm: the attack profiles group the attack flows
+%  by objective, a random partition groups them by chance into groups of the same sizes.
+The attack profiles group the attack flows by objective. A random partition
+groups them by chance, into four groups of the attack profiles' sizes. Ten
+random partitions compromise less than both the attack profiles and the
+attack graph: with no MTD, their NCR is 0.071 to 0.157
 (Table~\ref{tab:ablation-random-partitions}).
 
-\subsection{Failure matrix}
-\label{subsec:ablation-failure-matrix}
+% 2026-10-06 (Marc: "would it be more clear to just have the bold header and then the text";
+%  "we don't really need the subsections"): each ablation study is one or two paragraphs, so a
+%  run-in head, as Section 5.1's paragraphs have; the label stays, and now resolves to 5.4.
+\paragraph{Failure matrix.}\label{subsec:ablation-failure-matrix}
 
 % [NEW 2026-09-26, supervisor screen plan item 6 (Marc: "we tried it and it
 %  didn't work, here's the ablation study"; "present the ablation study in a
@@ -8145,8 +8155,10 @@ matrix and 0.08 to 0.10 without. $c_2$ has no move from initial access back to
 reconnaissance
 (Section~\ref{subsec:failure-matrix}).
 
-\subsection{Vulnerability memory}
-\label{subsec:ablation-vulnerability-memory}
+% 2026-10-06 (Marc: "would it be more clear to just have the bold header and then the text";
+%  "we don't really need the subsections"): each ablation study is one or two paragraphs, so a
+%  run-in head, as Section 5.1's paragraphs have; the label stays, and now resolves to 5.4.
+\paragraph{Vulnerability memory.}\label{subsec:ablation-vulnerability-memory}
 
 % [NEW 2026-09-28: the second ablation (Marc's ruling; handoff
 %  2026-09-28_vulnerability_memory_on.md). Heading ruled 2026-09-28. Pre-check at 20 seeds, no
