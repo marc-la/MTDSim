@@ -8111,13 +8111,19 @@ configurations, negligible in seven and inconclusive in 24
 %  no MTD +0.25 to +2.20, not negligible for all ten; under IP shuffle and OS diversity
 %  35 of 40 not negligible (IP shuffle at 200 s: six, two of them negative, and four
 %  negligible; OS diversity at 200 s: nine, and one inconclusive). NCR as the direction only.
-The attack profiles group the attack flows by objective. A random partition
-groups them by chance, into four groups of the attack profiles' sizes. Against
-each of ten random partitions, the attack profiles' effect on NCR with no MTD
-is not negligible: the APT attacker model compromises more with the attack
-profiles than with any of the ten, by a $d$ of 0.25 to 2.20
-(Table~\ref{tab:ablation-random-partitions}). Under IP shuffle and OS
-diversity, the effect is not negligible in 35 of the 40 comparisons.
+% 2026-10-06 (Marc: "the story of paragraph two is that the split that we chose is not
+%  negligible"; "we tried 10 different things"): point first. Cut: "The attack profiles group
+%  the attack flows by objective" (Section 4.2's, and the point sentence now says it); "by
+%  chance" (what "random" means); "comparisons" (a new noun) -> "against six to ten of the ten
+%  in each configuration", the frame of the no-MTD sentence. Counts per configuration:
+%  IP shuffle 200 s 6, 2 000 s 10; OS diversity 200 s 9, 2 000 s 10.
+Grouping the attack flows by objective has an effect on NCR that is not
+negligible (Table~\ref{tab:ablation-random-partitions}). Each of ten random
+partitions splits the attack flows into four groups of the attack profiles'
+sizes. With no MTD, the effect is not negligible against all ten: the APT
+attacker model compromises more with the attack profiles, by a $d$ of 0.25 to
+2.20. Under IP shuffle and OS diversity, it is not negligible against six to
+ten of the ten in each configuration.
 
 % 2026-10-06 (Marc: "would it be more clear to just have the bold header and then the text";
 %  "we don't really need the subsections"): each ablation study is one or two paragraphs, so a
