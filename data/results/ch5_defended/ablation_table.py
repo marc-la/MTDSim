@@ -159,7 +159,7 @@ def main() -> None:
         (r"  \caption[The APT attacker model with and without each ablated component]{The APT attacker model "
          r"with and without each ablated component, averaged over $c_1$ to $c_4$, on the same 1\,000 seeds, "
          r"with 20 services per operating system; without the attack profiles, the APT attacker model runs on the attack graph: "
-         r"NCR, Cohen's $d$ on NCR, with minus without, with its 95\,\% percentile bootstrap interval "
+         r"NCR, $d$ on NCR, with minus without, with its 95\,\% percentile bootstrap interval "
          r"over seeds, and NCR reduction (Section~\ref{sec:evaluation-metrics}), blank with no MTD, its reference. "
          r"Random: the mean over ten random partitions of the attack flows, each group the size of an attack profile, "
          r"each partition's NCR reduction against its own runs with no MTD; blank outside the attack profiles' ablation. "
@@ -170,7 +170,7 @@ def main() -> None:
         r"    \toprule",
         r"    & \multicolumn{4}{c}{NCR} & \multicolumn{3}{c}{NCR reduction} \\",
         r"    \cmidrule(lr){2-5}\cmidrule(lr){6-8}",
-        r"    \rowcolor{white}MTD & with & without & Cohen's $d$ & random & with & without & random \\",
+        r"    \rowcolor{white}MTD & with & without & $d$ & random & with & without & random \\",
         r"    \midrule",
     ] + body + [r"    \bottomrule", r"  \end{tabular}", r"\end{table}", ""]
     TABLE.write_text("\n".join(tex), encoding="utf-8")

@@ -223,7 +223,7 @@ def write_table(result: dict) -> None:
         r"\begin{table}[tp]",
         r"  \centering",
         (r"  \caption[The APT attacker model with and without the attack profiles, at every MTD and deployment interval]"
-         r"{Cohen's $d$ on NCR of the APT attacker model averaged over $c_1$ to $c_4$, minus the APT attacker model on the "
+         r"{The effect size $d$ on NCR of the APT attacker model averaged over $c_1$ to $c_4$, minus the APT attacker model on the "
          r"attack graph, on the same 1\,000 seeds, for every MTD mechanism and deployment strategy at every "
          rf"deployment interval (with no MTD, ${none['cohen_d']:+.2f}$ [${lo:+.2f}$, ${hi:+.2f}$]). "
          r"Bold: the 95\,\% percentile bootstrap interval over seeds, before rounding, lies wholly beyond "

@@ -6065,19 +6065,24 @@ from the same 1\,000 networks.
 %  in one clause (with 1 000 runs a negligible difference can be significant, so the
 %  ranking and the ablation studies need an effect size); the Scott-Knott sentence ends
 %  on what a rank means, tying the two rules together; "its caption" for the exception.
-\paragraph{Statistical analysis.} Each value carries a 95\,\% confidence
+% [ROUND 10, 2026-10-06] Marc: "still got a bit of flourish and is trying to
+%  explain what the reader already has". "Each value carries" overclaimed (ranks
+%  carry no interval); the "statistically significant" sentence defined a standard
+%  term Chapter 5 never uses again (cut); the d sentence was an inference chain
+%  that used "negligible" before defining it, and "below 0.2" misread a signed d
+%  (now "within +-0.2", the Ablation studies wording); the rank sentence now opens on
+%  its subject and states what a rank means as its own sentence; NCR reduction in
+%  both the ranking and rho (one term; within one attacker it is a linear function
+%  of NCR, so the ranks and rho are unchanged), overturning round 9's "by NCR".
+\paragraph{Statistical analysis.} Every interval is a 95\,\% confidence
 interval, a percentile bootstrap over runs \citep{efron1994introduction}
-unless its caption says otherwise. A difference is statistically significant
-when its interval excludes zero. With 1\,000 runs even a negligible
-difference can be significant, so the ranking and the ablation studies also
-use an effect size, Cohen's $d$, which is negligible below 0.2
-\citep{cohen1988statistical}. For each attacker at each deployment interval,
-the Scott--Knott effect size difference test
-\citep{tantithamthavorn2017empirical} ranks the MTD by NCR, so that
-neighbouring ranks differ significantly and by more than a negligible
-effect. Spearman's rank correlation, $\rho$ \citep{spearman1904proof},
-measures whether the two attackers put the MTD in the same order of NCR
-reduction.
+unless its caption names another method. Effect size is Cohen's $d$,
+negligible within $\pm 0.2$ \citep{cohen1988statistical}. The Scott--Knott
+effect size difference test \citep{tantithamthavorn2017empirical} ranks the
+MTD by NCR reduction for each attacker at each deployment interval.
+Neighbouring ranks differ significantly and by more than a negligible effect.
+Spearman's rank correlation, $\rho$ \citep{spearman1904proof}, measures how
+closely the two attackers order the MTD by NCR reduction.
 
 \paragraph{Ablation studies.} Each ablation study
 (Section~\ref{sec:ablation}) runs under the MTD and deployment intervals that
@@ -7658,7 +7663,7 @@ Table~\ref{tab:eff-cross-arm} shows that no MTD mechanism or deployment
 strategy ranks first against both attackers at 200\,s. The three host-layer
 mechanisms share rank 1 against the APT attacker model. Service diversity and
 port shuffle share rank 1 against the baseline attacker. The two rankings are
-unrelated: Spearman's $\rho$ between the attackers' NCR reductions is
+unrelated: $\rho$ between the attackers' NCR reductions is
 \prelim{0.01} at 200\,s (95\,\% interval \prelim{$-0.19$} to \prelim{0.05}), and lies
 between \prelim{$-0.24$} and \prelim{0.25} at every deployment interval.
 % [CONNECTIVE-PROSE PASS 2026-09-26, ch5 U7 cut] Cut: the third statement
@@ -7906,8 +7911,7 @@ model one property of an APT attacker (Table~\ref{tab:attacker-properties}):
 the partition into attack profiles gives objective-specific behaviour, the
 failure matrix adaptivity, and the vulnerability memory learning. Each
 ablation runs the model without one component, the \emph{ablated model}, on
-the same seeds (Table~\ref{tab:experiment}). Cohen's $d$ measures the
-difference (Section~\ref{sec:dimensions}). The tactic durations cannot be
+the same seeds (Table~\ref{tab:experiment}). The tactic durations cannot be
 removed, so Appendix~\ref{app:sensitivity} varies their values instead.
 Table~\ref{tab:ablation} shows that removing the partition into attack
 profiles changes the result, and removing the failure matrix or the
@@ -9633,7 +9637,7 @@ per operating system.
   vulnerability memory, on the same 1\,000 seeds, against the number of
   services per operating system, (a)~with no MTD and (b)~under service
   diversity at 200\,s. Whiskers: 95\,\% percentile bootstrap intervals over seeds.
-  Table~\ref{tab:ablation-memory} gives Cohen's $d$ at each number of services per operating system, the share of
+  Table~\ref{tab:ablation-memory} gives $d$ at each number of services per operating system, the share of
   exploits that succeed, and OS diversity.}
   \label{fig:ablation-memory}
 \end{figure}

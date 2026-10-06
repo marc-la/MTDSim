@@ -236,7 +236,7 @@ def write_table(out: dict) -> None:
         (r"  \caption[The APT attacker model with and without the vulnerability memory, by services per operating system]{The APT "
          r"attacker model with and without the vulnerability memory, averaged over $c_1$ to $c_4$, on the "
          r"same 1\,000 seeds, by the number of services per operating system: the share of exploits that "
-         r"succeed, NCR, and Cohen's $d$ on NCR, with minus without, with its 95\,\% percentile bootstrap interval over seeds. An exploit "
+         r"succeed, NCR, and $d$ on NCR, with minus without, with its 95\,\% percentile bootstrap interval over seeds. An exploit "
          r"the host's operating system rules out is not counted.}"),
         r"  \label{tab:ablation-memory}",
         r"  \tablestyle",  # group rows keep the stripes (Marc, 2026-10-01)
@@ -244,7 +244,7 @@ def write_table(out: dict) -> None:
         r"    \toprule",
         r"    & \multicolumn{2}{c}{Exploits that succeed} & \multicolumn{3}{c}{NCR} \\",
         r"    \cmidrule(lr){2-3}\cmidrule(lr){4-6}",
-        r"    \rowcolor{white}\shortstack{Services per\\operating system} & with & without & with & without & Cohen's $d$ \\",
+        r"    \rowcolor{white}\shortstack{Services per\\operating system} & with & without & with & without & $d$ \\",
         r"    \midrule",
         *[b for b in body if b],
         r"    \bottomrule",

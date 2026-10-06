@@ -156,7 +156,7 @@ def main() -> None:
         w(r"\node[anchor=east] at (%.3f,%.3f) {%s};" % (BX0 - 0.1, yv(t), signed(t, 1)))
         t = round(t + 0.1, 10)
     w(r"\draw[black!60,line width=0.4pt] (%.3f,%.3f) -- (%.3f,%.3f);" % (BX0, yv(0), BX1, yv(0)))
-    w(r"\node[rotate=90,anchor=south,align=center] at (%.3f,%.3f) {Cohen's $d$, with minus without};"
+    w(r"\node[rotate=90,anchor=south,align=center] at (%.3f,%.3f) {$d$, with minus without};"
       % (BX0 - 0.85, (Y0 + Y1) / 2))
     for i, (key, lab) in enumerate(CONDS):
         cx = BX0 + gw * (i + 0.5)
