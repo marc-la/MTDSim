@@ -8014,9 +8014,14 @@ attacker's NCR reduction is above all four, and $c_3$'s is the lowest
 %  property (Chapter 4 ties each to Table 3.2), the seeds and configurations (Table 5.1), the
 %  tactic durations (moved to 5.1's Ablation studies paragraph), and the summary of Table 5.4
 %  (each subsection opens on its own verdict). The ablated model is named here, once.
-This section compares the APT attacker model with the \emph{ablated model},
-the APT attacker model with one component removed: the attack profiles, the
-failure matrix or the vulnerability memory.
+% 2026-10-06 (Marc: "is that something that we need to term"; "long clause ... and then the
+%  three things ... the cleanest way"): "the ablated model" retired. It was a second term for
+%  what Section 5.1 ("with and without it") and Table 5.4 ("with", "without") already call the
+%  model without a component, and only 5.4 used it. The definition clause goes with it; the
+%  list names the three subsections in order, and "each of" says they are removed one at a time.
+This section compares the APT attacker model with and without each of three
+components: the attack profiles, the failure matrix and the vulnerability
+memory.
 
 \input{tables/tab_5-4a_ablation}
 
@@ -8070,12 +8075,15 @@ failure matrix or the vulnerability memory.
 %  The control's numbers come from Table F.4 (min and max over the ten partitions):
 %  no MTD 0.071 to 0.157 against 0.171 and 0.189; the order random < profiles < graph holds
 %  in every configuration but IP shuffle at 200 s (highest random partition 0.017).
-The ablated model runs on the attack graph (Section~\ref{sec:technique-graph}).
-It takes more distinct openings than the APT attacker model and compromises
-more, and the attack profiles' effect on NCR is not negligible
-(Table~\ref{tab:ablation}). Over the first five steps of 1\,000 runs, the
-ablated model takes 535 distinct openings, against 254. With no MTD, its NCR is
-0.189 against 0.171, a $d$ of $-0.28$. Under the MTD mechanisms and deployment
+% 2026-10-06: each subsection opens "Removing X ...", then "Without it/them"; numbers in Table
+%  5.4's order, with then without, so d (with minus without) reads off the sentence.
+Removing the attack profiles runs the APT attacker model on the attack graph
+(Section~\ref{sec:technique-graph}). Without them, it takes more distinct
+openings and compromises more, and the attack profiles' effect on NCR is not
+negligible (Table~\ref{tab:ablation}). Over the first five steps of 1\,000
+runs, it takes 254 distinct openings with the attack profiles and 535 without.
+With no MTD, its NCR is 0.171 with them and 0.189 without, a $d$ of $-0.28$.
+Under the MTD mechanisms and deployment
 strategies, the effect is not negligible in 29 of the 60 configurations,
 negligible in seven and inconclusive in 24
 (Table~\ref{tab:ablation-attack-profiles}).
@@ -8124,13 +8132,13 @@ shuffle at 200\,s (Table~\ref{tab:ablation-random-partitions}).
 %  negligible). c2's sentence -> a clause pointing to Chapter 4, which says why.
 %  Shares from ablation_numbers_memory.json behaviour: c1 0.757 / 0.081, c3 0.827 / 0.097,
 %  c4 0.816 / 0.096, c2 0 / 0. No float carries them (flagged to Marc 2026-10-06).
-The ablated model sets every factor of the failure matrix to one
-(Section~\ref{subsec:failure-matrix}). It returns to reconnaissance after a
-failed initial access less often than the APT attacker model, and the failure
-matrix's effect on NCR is negligible (Table~\ref{tab:ablation}). On $c_1$,
-$c_3$ and $c_4$, the APT attacker model returns to reconnaissance after a failed
-initial access in 0.76 to 0.83 of cases, and the ablated model in 0.08 to
-0.10. $c_2$ has no move from initial access back to reconnaissance
+Removing the failure matrix sets each of its factors to one
+(Section~\ref{subsec:failure-matrix}). Without it, the APT attacker model
+returns to reconnaissance after a failed initial access less often, and the
+failure matrix's effect on NCR is negligible (Table~\ref{tab:ablation}). On
+$c_1$, $c_3$ and $c_4$, it returns in 0.76 to 0.83 of cases with the failure
+matrix and 0.08 to 0.10 without. $c_2$ has no move from initial access back to
+reconnaissance
 (Section~\ref{subsec:failure-matrix}).
 
 \subsection{Vulnerability memory}
@@ -8210,18 +8218,18 @@ initial access in 0.76 to 0.83 of cases, and the ablated model in 0.08 to
 %  float runs nothing) -> the verdict first, the numbers after. Checked against
 %  tab_F-2: with no MTD at 20 services 0.69 / 0.73; at one service 0.69 / 0.92; every d
 %  interval at every pool size inside +-0.2 (widest upper end +0.15).
-The ablated model exploits each vulnerability with the odds its attack
-complexity sets (Section~\ref{subsec:vulnerability-memory}). Its exploits
-succeed less often than the APT attacker model's, and the vulnerability
+Removing the vulnerability memory leaves each exploit at the odds its attack
+complexity sets (Section~\ref{subsec:vulnerability-memory}). Without it, the
+APT attacker model's exploits succeed less often, and the vulnerability
 memory's effect on NCR is negligible (Table~\ref{tab:ablation}). With no MTD,
-the share of exploits that succeed is 0.69 without the memory and 0.73 with it
+the share of exploits that succeed is 0.73 with the memory and 0.69 without
 (Table~\ref{tab:ablation-memory}).
 
 With a smaller diversity pool, the memory raises the share of exploits that
 succeed more, as Section~\ref{subsec:vulnerability-memory} expects, and its
 effect on NCR stays negligible (Figure~\ref{fig:ablation-memory}). With one
-service per operating system, the share rises from 0.69 without the memory to
-0.92 with it (Table~\ref{tab:ablation-memory}).
+service per operating system, the share is 0.92 with the memory and 0.69
+without (Table~\ref{tab:ablation-memory}).
 
 \chapter{Discussion}
 \label{ch:discussion}
