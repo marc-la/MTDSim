@@ -155,8 +155,14 @@ def main() -> None:
         r"  \centering",
         (r"  \caption[The APT attacker model with and without each component]{The APT attacker model "
          r"with and without each component, averaged over $c_1$ to $c_4$. "
-         r"$d$ on NCR: with minus without, with its confidence interval. "
-         r"Bold: not negligible, judged on the interval before rounding." + _named() + "}"),
+         # 2026-10-06 (Marc: "is this something that we already give the reader ... in 5.1";
+         #  "why would you judge it on an interval before rounding"; "why do you need to put this
+         #  specific example"): decode the one mark only. d, its sign and its interval are Section
+         #  5.1's (the sign moved there); the three verdicts are 5.1's rule, read off the printed
+         #  interval, so the inconclusive row needs no naming (_named() is kept, unused, as the
+         #  check); "before rounding" is how every verdict is computed, said for one cell
+         #  (OS diversity at 200 s without the attack profiles, upper end -0.2003, printed -0.20).
+         r"Bold: not negligible (Section~\ref{sec:dimensions}).}"),
         r"  \label{tab:ablation}",
         r"  \tablestyle",  # group rows keep the stripes (Marc, 2026-10-01)
         r"  \begin{tabular}{@{}lccc@{}}",
