@@ -44,7 +44,7 @@
   "stratified_shuffle": "primary; the unstratified generator is kept behind STRATIFIED=0. Ruled 2026-10-02."
  },
  "selection": "a draw is kept only if, in every group, the token seeded at the entry place can reach initial-access on the runtime routing net (token_reaches_initial_access; every real profile meets it)",
- "draws_taken": 13,
+ "draws_taken": 32,
  "rejected": [
   {
    "draw": 0,
@@ -292,37 +292,37 @@
  "partitions": [
   {
    "partition": 0,
-   "draw": 1,
+   "draw": 23,
    "petri_dir": "data/ogasp/partition_control/p00",
-   "flows_keeping_real_label": 15,
+   "flows_keeping_real_label": 17,
    "groups": {
     "objective_exfiltration": {
      "flow_ids": [
-      "cisa_iranian_apt",
-      "conti_cisa_alert",
-      "conti_pwc",
+      "black_basta_ransomware",
+      "cisa_aa22_138b_vmware_workspace_ta2",
       "conti_ransomware",
-      "dfir_bumblebee_round_2",
-      "fin13_case_1",
-      "fin13_case_2",
-      "hancitor_dll",
-      "ivanti_vulnerabilities",
+      "equifax_breach",
       "jp_morgan_breach",
-      "notpetya",
-      "searchawesome_adware",
-      "shamoon",
+      "mac_malware_steals_crypto",
+      "marriott_breach",
+      "mitre_nerve",
+      "muddy_water",
+      "oceanlotus",
+      "revil",
       "solarwinds",
+      "sony_malware",
       "swift_heist",
-      "target_breach",
+      "tesla_kubernetes_breach",
       "turla_carbon_emulation_plan",
       "turla_snake_emulation_plan",
-      "uber_breach"
+      "uber_breach",
+      "whispergate"
      ],
      "n_flows": 19,
      "n_weight_carrying": 14,
      "n_places": 15,
-     "n_transitions": 114,
-     "n_weight_supported_transitions": 86,
+     "n_transitions": 115,
+     "n_weight_supported_transitions": 83,
      "places_without_weighted_exit": [],
      "objective_tactics_held": [
       "command-and-control",
@@ -337,20 +337,82 @@
     },
     "objective_impact": {
      "flow_ids": [
-      "cisa_aa22_138b_vmware_workspace_alt",
-      "equifax_breach",
-      "marriott_breach",
-      "ragnar_locker",
-      "revil",
-      "tesla_kubernetes_breach",
-      "whispergate"
+      "cisa_iranian_apt",
+      "fin13_case_1",
+      "fin13_case_2",
+      "hancitor_dll",
+      "ivanti_vulnerabilities",
+      "maastricht_university_ransomware",
+      "toolshell_vulnerability_in_sharepoint"
      ],
      "n_flows": 7,
      "n_weight_carrying": 6,
-     "n_places": 13,
-     "n_transitions": 73,
-     "n_weight_supported_transitions": 38,
+     "n_places": 14,
+     "n_transitions": 87,
+     "n_weight_supported_transitions": 45,
+     "places_without_weighted_exit": [
+      "defense-impairment",
+      "exfiltration",
+      "impact",
+      "privilege-escalation"
+     ],
+     "objective_tactics_held": [
+      "command-and-control",
+      "exfiltration",
+      "impact"
+     ],
+     "entry_marking": "reconnaissance",
+     "synthetic_transitions": [],
+     "synthetic_pairs_also_observed": [],
+     "guard": "weighted",
+     "overlay_differs_under_structural_guard": false
+    },
+    "objective_exfiltration_impact": {
+     "flow_ids": [
+      "cisa_aa22_138b_vmware_workspace_ta1",
+      "cobalt_kitty_campaign",
+      "conti_pwc",
+      "notpetya",
+      "ragnar_locker",
+      "searchawesome_adware",
+      "shamoon"
+     ],
+     "n_flows": 7,
+     "n_weight_carrying": 5,
+     "n_places": 15,
+     "n_transitions": 85,
+     "n_weight_supported_transitions": 40,
      "places_without_weighted_exit": [],
+     "objective_tactics_held": [
+      "command-and-control",
+      "exfiltration",
+      "impact"
+     ],
+     "entry_marking": "reconnaissance",
+     "synthetic_transitions": [],
+     "synthetic_pairs_also_observed": [],
+     "guard": "weighted",
+     "overlay_differs_under_structural_guard": false
+    },
+    "objective_none_c2": {
+     "flow_ids": [
+      "cisa_aa22_138b_vmware_workspace_alt",
+      "conti_cisa_alert",
+      "dfir_bumblebee_round_2",
+      "gootloader",
+      "target_breach"
+     ],
+     "n_flows": 5,
+     "n_weight_carrying": 4,
+     "n_places": 14,
+     "n_transitions": 63,
+     "n_weight_supported_transitions": 32,
+     "places_without_weighted_exit": [
+      "exfiltration",
+      "impact",
+      "reconnaissance",
+      "resource-development"
+     ],
      "objective_tactics_held": [
       "command-and-control",
       "exfiltration",
@@ -364,53 +426,147 @@
      ],
      "synthetic_pairs_also_observed": [],
      "guard": "weighted",
-     "overlay_differs_under_structural_guard": true
-    },
-    "objective_exfiltration_impact": {
+     "overlay_differs_under_structural_guard": false
+    }
+   },
+   "redrawn": {
+    "date": "2026-10-07",
+    "screen_hosts": {
+     "objective_exfiltration": 884,
+     "objective_impact": 340,
+     "objective_exfiltration_impact": 855,
+     "objective_none_c2": 294
+    }
+   }
+  },
+  {
+   "partition": 1,
+   "draw": 24,
+   "petri_dir": "data/ogasp/partition_control/p01",
+   "flows_keeping_real_label": 17,
+   "groups": {
+    "objective_exfiltration": {
      "flow_ids": [
+      "cisa_aa22_138b_vmware_workspace_alt",
       "cisa_aa22_138b_vmware_workspace_ta1",
-      "cobalt_kitty_campaign",
-      "mac_malware_steals_crypto",
+      "cisa_aa22_138b_vmware_workspace_ta2",
+      "conti_ransomware",
+      "equifax_breach",
+      "fin13_case_1",
+      "gootloader",
+      "hancitor_dll",
+      "marriott_breach",
+      "mitre_nerve",
       "muddy_water",
       "oceanlotus",
+      "ragnar_locker",
+      "shamoon",
+      "solarwinds",
+      "swift_heist",
+      "tesla_kubernetes_breach",
+      "turla_carbon_emulation_plan",
+      "whispergate"
+     ],
+     "n_flows": 19,
+     "n_weight_carrying": 14,
+     "n_places": 15,
+     "n_transitions": 115,
+     "n_weight_supported_transitions": 84,
+     "places_without_weighted_exit": [],
+     "objective_tactics_held": [
+      "command-and-control",
+      "exfiltration",
+      "impact"
+     ],
+     "entry_marking": "reconnaissance",
+     "synthetic_transitions": [],
+     "synthetic_pairs_also_observed": [],
+     "guard": "weighted",
+     "overlay_differs_under_structural_guard": false
+    },
+    "objective_impact": {
+     "flow_ids": [
+      "cisa_iranian_apt",
+      "cobalt_kitty_campaign",
+      "dfir_bumblebee_round_2",
+      "notpetya",
       "sony_malware",
-      "toolshell_vulnerability_in_sharepoint"
+      "turla_snake_emulation_plan",
+      "uber_breach"
      ],
      "n_flows": 7,
-     "n_weight_carrying": 5,
-     "n_places": 12,
-     "n_transitions": 69,
-     "n_weight_supported_transitions": 25,
+     "n_weight_carrying": 6,
+     "n_places": 15,
+     "n_transitions": 78,
+     "n_weight_supported_transitions": 38,
      "places_without_weighted_exit": [
+      "collection",
+      "defense-impairment",
       "exfiltration",
-      "privilege-escalation"
+      "resource-development"
      ],
      "objective_tactics_held": [
       "command-and-control",
       "exfiltration",
       "impact"
      ],
-     "entry_marking": "initial-access",
+     "entry_marking": "reconnaissance",
      "synthetic_transitions": [],
      "synthetic_pairs_also_observed": [],
      "guard": "weighted",
      "overlay_differs_under_structural_guard": false
     },
-    "objective_none_c2": {
+    "objective_exfiltration_impact": {
      "flow_ids": [
       "black_basta_ransomware",
-      "cisa_aa22_138b_vmware_workspace_ta2",
-      "gootloader",
+      "conti_pwc",
+      "fin13_case_2",
+      "ivanti_vulnerabilities",
+      "revil",
+      "searchawesome_adware",
+      "target_breach"
+     ],
+     "n_flows": 7,
+     "n_weight_carrying": 5,
+     "n_places": 15,
+     "n_transitions": 95,
+     "n_weight_supported_transitions": 50,
+     "places_without_weighted_exit": [
+      "reconnaissance"
+     ],
+     "objective_tactics_held": [
+      "command-and-control",
+      "exfiltration",
+      "impact"
+     ],
+     "entry_marking": "reconnaissance",
+     "synthetic_transitions": [
+      "reconnaissance__to__resource-development",
+      "resource-development__to__initial-access",
+      "initial-access__to__reconnaissance"
+     ],
+     "synthetic_pairs_also_observed": [
+      "initial-access__to__reconnaissance"
+     ],
+     "guard": "weighted",
+     "overlay_differs_under_structural_guard": true
+    },
+    "objective_none_c2": {
+     "flow_ids": [
+      "conti_cisa_alert",
+      "jp_morgan_breach",
       "maastricht_university_ransomware",
-      "mitre_nerve"
+      "mac_malware_steals_crypto",
+      "toolshell_vulnerability_in_sharepoint"
      ],
      "n_flows": 5,
      "n_weight_carrying": 4,
-     "n_places": 15,
-     "n_transitions": 90,
-     "n_weight_supported_transitions": 47,
+     "n_places": 14,
+     "n_transitions": 50,
+     "n_weight_supported_transitions": 18,
      "places_without_weighted_exit": [
-      "defense-impairment",
+      "impact",
+      "privilege-escalation",
       "reconnaissance",
       "resource-development"
      ],
@@ -429,139 +585,14 @@
      "guard": "weighted",
      "overlay_differs_under_structural_guard": true
     }
-   }
-  },
-  {
-   "partition": 1,
-   "draw": 2,
-   "petri_dir": "data/ogasp/partition_control/p01",
-   "flows_keeping_real_label": 12,
-   "groups": {
-    "objective_exfiltration": {
-     "flow_ids": [
-      "black_basta_ransomware",
-      "cisa_aa22_138b_vmware_workspace_alt",
-      "cisa_iranian_apt",
-      "conti_cisa_alert",
-      "equifax_breach",
-      "fin13_case_2",
-      "hancitor_dll",
-      "ivanti_vulnerabilities",
-      "jp_morgan_breach",
-      "maastricht_university_ransomware",
-      "marriott_breach",
-      "ragnar_locker",
-      "solarwinds",
-      "sony_malware",
-      "swift_heist",
-      "target_breach",
-      "tesla_kubernetes_breach",
-      "turla_snake_emulation_plan",
-      "whispergate"
-     ],
-     "n_flows": 19,
-     "n_weight_carrying": 14,
-     "n_places": 15,
-     "n_transitions": 113,
-     "n_weight_supported_transitions": 75,
-     "places_without_weighted_exit": [],
-     "objective_tactics_held": [
-      "command-and-control",
-      "exfiltration",
-      "impact"
-     ],
-     "entry_marking": "reconnaissance",
-     "synthetic_transitions": [],
-     "synthetic_pairs_also_observed": [],
-     "guard": "weighted",
-     "overlay_differs_under_structural_guard": false
-    },
-    "objective_impact": {
-     "flow_ids": [
-      "cisa_aa22_138b_vmware_workspace_ta2",
-      "cobalt_kitty_campaign",
-      "conti_ransomware",
-      "gootloader",
-      "mac_malware_steals_crypto",
-      "notpetya",
-      "turla_carbon_emulation_plan"
-     ],
-     "n_flows": 7,
-     "n_weight_carrying": 6,
-     "n_places": 14,
-     "n_transitions": 71,
-     "n_weight_supported_transitions": 52,
-     "places_without_weighted_exit": [
-      "resource-development"
-     ],
-     "objective_tactics_held": [
-      "command-and-control",
-      "impact"
-     ],
-     "entry_marking": "reconnaissance",
-     "synthetic_transitions": [],
-     "synthetic_pairs_also_observed": [],
-     "guard": "weighted",
-     "overlay_differs_under_structural_guard": false
-    },
-    "objective_exfiltration_impact": {
-     "flow_ids": [
-      "cisa_aa22_138b_vmware_workspace_ta1",
-      "fin13_case_1",
-      "mitre_nerve",
-      "muddy_water",
-      "oceanlotus",
-      "searchawesome_adware",
-      "toolshell_vulnerability_in_sharepoint"
-     ],
-     "n_flows": 7,
-     "n_weight_carrying": 5,
-     "n_places": 15,
-     "n_transitions": 90,
-     "n_weight_supported_transitions": 39,
-     "places_without_weighted_exit": [
-      "exfiltration",
-      "impact",
-      "privilege-escalation"
-     ],
-     "objective_tactics_held": [
-      "command-and-control",
-      "exfiltration",
-      "impact"
-     ],
-     "entry_marking": "reconnaissance",
-     "synthetic_transitions": [],
-     "synthetic_pairs_also_observed": [],
-     "guard": "weighted",
-     "overlay_differs_under_structural_guard": false
-    },
-    "objective_none_c2": {
-     "flow_ids": [
-      "conti_pwc",
-      "dfir_bumblebee_round_2",
-      "revil",
-      "shamoon",
-      "uber_breach"
-     ],
-     "n_flows": 5,
-     "n_weight_carrying": 4,
-     "n_places": 12,
-     "n_transitions": 64,
-     "n_weight_supported_transitions": 34,
-     "places_without_weighted_exit": [
-      "exfiltration",
-      "resource-development"
-     ],
-     "objective_tactics_held": [
-      "command-and-control",
-      "exfiltration",
-      "impact"
-     ],
-     "entry_marking": "initial-access",
-     "synthetic_transitions": [],
-     "synthetic_pairs_also_observed": [],
-     "guard": "weighted",
-     "overlay_differs_under_structural_guard": false
+   },
+   "redrawn": {
+    "date": "2026-10-07",
+    "screen_hosts": {
+     "objective_exfiltration": 1002,
+     "objective_impact": 409,
+     "objective_exfiltration_impact": 587,
+     "objective_none_c2": 360
     }
    }
   },
@@ -714,39 +745,103 @@
   },
   {
    "partition": 3,
-   "draw": 6,
+   "draw": 27,
    "petri_dir": "data/ogasp/partition_control/p03",
-   "flows_keeping_real_label": 9,
+   "flows_keeping_real_label": 16,
    "groups": {
     "objective_exfiltration": {
      "flow_ids": [
       "black_basta_ransomware",
-      "cisa_aa22_138b_vmware_workspace_ta2",
       "cisa_iranian_apt",
-      "conti_cisa_alert",
       "conti_pwc",
-      "conti_ransomware",
-      "fin13_case_2",
-      "hancitor_dll",
-      "ivanti_vulnerabilities",
-      "maastricht_university_ransomware",
+      "dfir_bumblebee_round_2",
+      "fin13_case_1",
+      "jp_morgan_breach",
+      "mac_malware_steals_crypto",
       "marriott_breach",
+      "mitre_nerve",
       "muddy_water",
-      "ragnar_locker",
-      "revil",
+      "notpetya",
+      "oceanlotus",
       "shamoon",
+      "solarwinds",
       "swift_heist",
-      "tesla_kubernetes_breach",
       "toolshell_vulnerability_in_sharepoint",
-      "uber_breach"
+      "turla_carbon_emulation_plan",
+      "turla_snake_emulation_plan",
+      "whispergate"
      ],
      "n_flows": 19,
      "n_weight_carrying": 14,
      "n_places": 15,
-     "n_transitions": 109,
-     "n_weight_supported_transitions": 78,
+     "n_transitions": 114,
+     "n_weight_supported_transitions": 83,
+     "places_without_weighted_exit": [],
+     "objective_tactics_held": [
+      "command-and-control",
+      "exfiltration",
+      "impact"
+     ],
+     "entry_marking": "reconnaissance",
+     "synthetic_transitions": [],
+     "synthetic_pairs_also_observed": [],
+     "guard": "weighted",
+     "overlay_differs_under_structural_guard": false
+    },
+    "objective_impact": {
+     "flow_ids": [
+      "cisa_aa22_138b_vmware_workspace_ta1",
+      "gootloader",
+      "ivanti_vulnerabilities",
+      "ragnar_locker",
+      "revil",
+      "sony_malware",
+      "uber_breach"
+     ],
+     "n_flows": 7,
+     "n_weight_carrying": 6,
+     "n_places": 14,
+     "n_transitions": 83,
+     "n_weight_supported_transitions": 46,
      "places_without_weighted_exit": [
-      "defense-impairment",
+      "reconnaissance",
+      "resource-development"
+     ],
+     "objective_tactics_held": [
+      "command-and-control",
+      "exfiltration",
+      "impact"
+     ],
+     "entry_marking": "reconnaissance",
+     "synthetic_transitions": [
+      "reconnaissance__to__resource-development",
+      "resource-development__to__initial-access",
+      "initial-access__to__reconnaissance"
+     ],
+     "synthetic_pairs_also_observed": [
+      "initial-access__to__reconnaissance"
+     ],
+     "guard": "weighted",
+     "overlay_differs_under_structural_guard": false
+    },
+    "objective_exfiltration_impact": {
+     "flow_ids": [
+      "cisa_aa22_138b_vmware_workspace_alt",
+      "cobalt_kitty_campaign",
+      "conti_cisa_alert",
+      "conti_ransomware",
+      "fin13_case_2",
+      "searchawesome_adware",
+      "target_breach"
+     ],
+     "n_flows": 7,
+     "n_weight_carrying": 5,
+     "n_places": 15,
+     "n_transitions": 83,
+     "n_weight_supported_transitions": 32,
+     "places_without_weighted_exit": [
+      "exfiltration",
+      "impact",
       "reconnaissance"
      ],
      "objective_tactics_held": [
@@ -766,88 +861,43 @@
      "guard": "weighted",
      "overlay_differs_under_structural_guard": true
     },
-    "objective_impact": {
-     "flow_ids": [
-      "equifax_breach",
-      "gootloader",
-      "mitre_nerve",
-      "notpetya",
-      "searchawesome_adware",
-      "solarwinds",
-      "whispergate"
-     ],
-     "n_flows": 7,
-     "n_weight_carrying": 6,
-     "n_places": 15,
-     "n_transitions": 94,
-     "n_weight_supported_transitions": 50,
-     "places_without_weighted_exit": [],
-     "objective_tactics_held": [
-      "command-and-control",
-      "exfiltration",
-      "impact"
-     ],
-     "entry_marking": "reconnaissance",
-     "synthetic_transitions": [],
-     "synthetic_pairs_also_observed": [],
-     "guard": "weighted",
-     "overlay_differs_under_structural_guard": false
-    },
-    "objective_exfiltration_impact": {
-     "flow_ids": [
-      "dfir_bumblebee_round_2",
-      "fin13_case_1",
-      "jp_morgan_breach",
-      "oceanlotus",
-      "target_breach",
-      "turla_carbon_emulation_plan",
-      "turla_snake_emulation_plan"
-     ],
-     "n_flows": 7,
-     "n_weight_carrying": 5,
-     "n_places": 14,
-     "n_transitions": 98,
-     "n_weight_supported_transitions": 53,
-     "places_without_weighted_exit": [
-      "resource-development"
-     ],
-     "objective_tactics_held": [
-      "command-and-control",
-      "exfiltration"
-     ],
-     "entry_marking": "reconnaissance",
-     "synthetic_transitions": [],
-     "synthetic_pairs_also_observed": [],
-     "guard": "weighted",
-     "overlay_differs_under_structural_guard": false
-    },
     "objective_none_c2": {
      "flow_ids": [
-      "cisa_aa22_138b_vmware_workspace_alt",
-      "cisa_aa22_138b_vmware_workspace_ta1",
-      "cobalt_kitty_campaign",
-      "mac_malware_steals_crypto",
-      "sony_malware"
+      "cisa_aa22_138b_vmware_workspace_ta2",
+      "equifax_breach",
+      "hancitor_dll",
+      "maastricht_university_ransomware",
+      "tesla_kubernetes_breach"
      ],
      "n_flows": 5,
      "n_weight_carrying": 4,
-     "n_places": 12,
-     "n_transitions": 62,
-     "n_weight_supported_transitions": 23,
+     "n_places": 15,
+     "n_transitions": 64,
+     "n_weight_supported_transitions": 27,
      "places_without_weighted_exit": [
-      "collection",
-      "exfiltration"
+      "defense-impairment",
+      "impact",
+      "privilege-escalation"
      ],
      "objective_tactics_held": [
       "command-and-control",
       "exfiltration",
       "impact"
      ],
-     "entry_marking": "initial-access",
+     "entry_marking": "reconnaissance",
      "synthetic_transitions": [],
      "synthetic_pairs_also_observed": [],
      "guard": "weighted",
      "overlay_differs_under_structural_guard": false
+    }
+   },
+   "redrawn": {
+    "date": "2026-10-07",
+    "screen_hosts": {
+     "objective_exfiltration": 787,
+     "objective_impact": 329,
+     "objective_exfiltration_impact": 584,
+     "objective_none_c2": 109
     }
    }
   },
@@ -1274,38 +1324,40 @@
   },
   {
    "partition": 7,
-   "draw": 10,
+   "draw": 28,
    "petri_dir": "data/ogasp/partition_control/p07",
-   "flows_keeping_real_label": 15,
+   "flows_keeping_real_label": 19,
    "groups": {
     "objective_exfiltration": {
      "flow_ids": [
+      "cisa_aa22_138b_vmware_workspace_alt",
       "cisa_iranian_apt",
-      "cobalt_kitty_campaign",
-      "conti_cisa_alert",
       "conti_pwc",
-      "conti_ransomware",
-      "equifax_breach",
+      "dfir_bumblebee_round_2",
+      "fin13_case_1",
       "fin13_case_2",
       "ivanti_vulnerabilities",
       "jp_morgan_breach",
+      "maastricht_university_ransomware",
+      "mac_malware_steals_crypto",
       "marriott_breach",
-      "ragnar_locker",
+      "mitre_nerve",
+      "muddy_water",
+      "oceanlotus",
       "searchawesome_adware",
-      "sony_malware",
-      "swift_heist",
-      "target_breach",
-      "tesla_kubernetes_breach",
       "turla_carbon_emulation_plan",
       "turla_snake_emulation_plan",
-      "uber_breach"
+      "uber_breach",
+      "whispergate"
      ],
      "n_flows": 19,
      "n_weight_carrying": 14,
      "n_places": 15,
-     "n_transitions": 115,
-     "n_weight_supported_transitions": 85,
-     "places_without_weighted_exit": [],
+     "n_transitions": 110,
+     "n_weight_supported_transitions": 81,
+     "places_without_weighted_exit": [
+      "impact"
+     ],
      "objective_tactics_held": [
       "command-and-control",
       "exfiltration",
@@ -1319,23 +1371,20 @@
     },
     "objective_impact": {
      "flow_ids": [
-      "cisa_aa22_138b_vmware_workspace_alt",
-      "cisa_aa22_138b_vmware_workspace_ta2",
-      "dfir_bumblebee_round_2",
-      "hancitor_dll",
-      "maastricht_university_ransomware",
-      "mitre_nerve",
-      "notpetya"
+      "conti_ransomware",
+      "equifax_breach",
+      "gootloader",
+      "solarwinds",
+      "sony_malware",
+      "swift_heist",
+      "tesla_kubernetes_breach"
      ],
      "n_flows": 7,
      "n_weight_carrying": 6,
-     "n_places": 14,
-     "n_transitions": 83,
-     "n_weight_supported_transitions": 44,
-     "places_without_weighted_exit": [
-      "defense-impairment",
-      "exfiltration"
-     ],
+     "n_places": 15,
+     "n_transitions": 85,
+     "n_weight_supported_transitions": 43,
+     "places_without_weighted_exit": [],
      "objective_tactics_held": [
       "command-and-control",
       "exfiltration",
@@ -1349,23 +1398,57 @@
     },
     "objective_exfiltration_impact": {
      "flow_ids": [
-      "cisa_aa22_138b_vmware_workspace_ta1",
-      "fin13_case_1",
-      "gootloader",
-      "mac_malware_steals_crypto",
-      "muddy_water",
+      "black_basta_ransomware",
+      "cisa_aa22_138b_vmware_workspace_ta2",
+      "conti_cisa_alert",
+      "ragnar_locker",
       "revil",
-      "whispergate"
+      "target_breach",
+      "toolshell_vulnerability_in_sharepoint"
      ],
      "n_flows": 7,
      "n_weight_carrying": 5,
      "n_places": 15,
-     "n_transitions": 95,
-     "n_weight_supported_transitions": 43,
+     "n_transitions": 89,
+     "n_weight_supported_transitions": 47,
      "places_without_weighted_exit": [
       "defense-impairment",
-      "exfiltration",
+      "reconnaissance",
       "resource-development"
+     ],
+     "objective_tactics_held": [
+      "command-and-control",
+      "exfiltration",
+      "impact"
+     ],
+     "entry_marking": "reconnaissance",
+     "synthetic_transitions": [
+      "reconnaissance__to__resource-development",
+      "resource-development__to__initial-access",
+      "initial-access__to__reconnaissance"
+     ],
+     "synthetic_pairs_also_observed": [
+      "initial-access__to__reconnaissance"
+     ],
+     "guard": "weighted",
+     "overlay_differs_under_structural_guard": false
+    },
+    "objective_none_c2": {
+     "flow_ids": [
+      "cisa_aa22_138b_vmware_workspace_ta1",
+      "cobalt_kitty_campaign",
+      "hancitor_dll",
+      "notpetya",
+      "shamoon"
+     ],
+     "n_flows": 5,
+     "n_weight_carrying": 4,
+     "n_places": 13,
+     "n_transitions": 69,
+     "n_weight_supported_transitions": 32,
+     "places_without_weighted_exit": [
+      "collection",
+      "exfiltration"
      ],
      "objective_tactics_held": [
       "command-and-control",
@@ -1377,31 +1460,15 @@
      "synthetic_pairs_also_observed": [],
      "guard": "weighted",
      "overlay_differs_under_structural_guard": false
-    },
-    "objective_none_c2": {
-     "flow_ids": [
-      "black_basta_ransomware",
-      "oceanlotus",
-      "shamoon",
-      "solarwinds",
-      "toolshell_vulnerability_in_sharepoint"
-     ],
-     "n_flows": 5,
-     "n_weight_carrying": 4,
-     "n_places": 14,
-     "n_transitions": 86,
-     "n_weight_supported_transitions": 40,
-     "places_without_weighted_exit": [],
-     "objective_tactics_held": [
-      "command-and-control",
-      "exfiltration",
-      "impact"
-     ],
-     "entry_marking": "initial-access",
-     "synthetic_transitions": [],
-     "synthetic_pairs_also_observed": [],
-     "guard": "weighted",
-     "overlay_differs_under_structural_guard": false
+    }
+   },
+   "redrawn": {
+    "date": "2026-10-07",
+    "screen_hosts": {
+     "objective_exfiltration": 832,
+     "objective_impact": 668,
+     "objective_exfiltration_impact": 631,
+     "objective_none_c2": 778
     }
    }
   },
@@ -1547,39 +1614,67 @@
   },
   {
    "partition": 9,
-   "draw": 12,
+   "draw": 31,
    "petri_dir": "data/ogasp/partition_control/p09",
    "flows_keeping_real_label": 8,
    "groups": {
     "objective_exfiltration": {
      "flow_ids": [
+      "cisa_aa22_138b_vmware_workspace_alt",
+      "cisa_aa22_138b_vmware_workspace_ta1",
+      "cisa_aa22_138b_vmware_workspace_ta2",
       "conti_cisa_alert",
-      "conti_pwc",
       "conti_ransomware",
-      "dfir_bumblebee_round_2",
-      "gootloader",
-      "hancitor_dll",
       "ivanti_vulnerabilities",
-      "maastricht_university_ransomware",
       "mac_malware_steals_crypto",
+      "muddy_water",
+      "notpetya",
       "oceanlotus",
       "ragnar_locker",
       "revil",
       "searchawesome_adware",
-      "solarwinds",
+      "shamoon",
       "sony_malware",
-      "swift_heist",
       "target_breach",
       "tesla_kubernetes_breach",
+      "toolshell_vulnerability_in_sharepoint",
       "whispergate"
      ],
      "n_flows": 19,
      "n_weight_carrying": 14,
      "n_places": 15,
-     "n_transitions": 109,
-     "n_weight_supported_transitions": 79,
+     "n_transitions": 104,
+     "n_weight_supported_transitions": 71,
+     "places_without_weighted_exit": [],
+     "objective_tactics_held": [
+      "command-and-control",
+      "exfiltration",
+      "impact"
+     ],
+     "entry_marking": "reconnaissance",
+     "synthetic_transitions": [],
+     "synthetic_pairs_also_observed": [],
+     "guard": "weighted",
+     "overlay_differs_under_structural_guard": false
+    },
+    "objective_impact": {
+     "flow_ids": [
+      "black_basta_ransomware",
+      "dfir_bumblebee_round_2",
+      "jp_morgan_breach",
+      "marriott_breach",
+      "mitre_nerve",
+      "swift_heist",
+      "turla_carbon_emulation_plan"
+     ],
+     "n_flows": 7,
+     "n_weight_carrying": 6,
+     "n_places": 15,
+     "n_transitions": 100,
+     "n_weight_supported_transitions": 64,
      "places_without_weighted_exit": [
-      "reconnaissance"
+      "reconnaissance",
+      "resource-development"
      ],
      "objective_tactics_held": [
       "command-and-control",
@@ -1592,30 +1687,30 @@
       "resource-development__to__initial-access",
       "initial-access__to__reconnaissance"
      ],
-     "synthetic_pairs_also_observed": [
-      "resource-development__to__initial-access",
-      "initial-access__to__reconnaissance"
-     ],
+     "synthetic_pairs_also_observed": [],
      "guard": "weighted",
      "overlay_differs_under_structural_guard": true
     },
-    "objective_impact": {
+    "objective_exfiltration_impact": {
      "flow_ids": [
-      "cisa_aa22_138b_vmware_workspace_ta2",
       "cisa_iranian_apt",
-      "jp_morgan_breach",
-      "muddy_water",
-      "shamoon",
-      "turla_carbon_emulation_plan",
-      "uber_breach"
+      "cobalt_kitty_campaign",
+      "conti_pwc",
+      "fin13_case_2",
+      "gootloader",
+      "hancitor_dll",
+      "maastricht_university_ransomware"
      ],
      "n_flows": 7,
-     "n_weight_carrying": 6,
+     "n_weight_carrying": 5,
      "n_places": 14,
      "n_transitions": 74,
-     "n_weight_supported_transitions": 53,
+     "n_weight_supported_transitions": 37,
      "places_without_weighted_exit": [
+      "exfiltration",
       "impact",
+      "privilege-escalation",
+      "reconnaissance",
       "resource-development"
      ],
      "objective_tactics_held": [
@@ -1623,61 +1718,35 @@
       "exfiltration",
       "impact"
      ],
-     "entry_marking": "initial-access",
-     "synthetic_transitions": [],
-     "synthetic_pairs_also_observed": [],
-     "guard": "weighted",
-     "overlay_differs_under_structural_guard": false
-    },
-    "objective_exfiltration_impact": {
-     "flow_ids": [
-      "black_basta_ransomware",
-      "cisa_aa22_138b_vmware_workspace_ta1",
-      "equifax_breach",
-      "fin13_case_1",
-      "marriott_breach",
-      "mitre_nerve",
-      "turla_snake_emulation_plan"
-     ],
-     "n_flows": 7,
-     "n_weight_carrying": 5,
-     "n_places": 14,
-     "n_transitions": 107,
-     "n_weight_supported_transitions": 52,
-     "places_without_weighted_exit": [
-      "defense-impairment"
-     ],
-     "objective_tactics_held": [
-      "command-and-control",
-      "exfiltration",
-      "impact"
-     ],
      "entry_marking": "reconnaissance",
-     "synthetic_transitions": [],
+     "synthetic_transitions": [
+      "reconnaissance__to__resource-development",
+      "resource-development__to__initial-access",
+      "initial-access__to__reconnaissance"
+     ],
      "synthetic_pairs_also_observed": [],
      "guard": "weighted",
-     "overlay_differs_under_structural_guard": false
+     "overlay_differs_under_structural_guard": true
     },
     "objective_none_c2": {
      "flow_ids": [
-      "cisa_aa22_138b_vmware_workspace_alt",
-      "cobalt_kitty_campaign",
-      "fin13_case_2",
-      "notpetya",
-      "toolshell_vulnerability_in_sharepoint"
+      "equifax_breach",
+      "fin13_case_1",
+      "solarwinds",
+      "turla_snake_emulation_plan",
+      "uber_breach"
      ],
      "n_flows": 5,
      "n_weight_carrying": 4,
-     "n_places": 13,
-     "n_transitions": 79,
-     "n_weight_supported_transitions": 28,
+     "n_places": 14,
+     "n_transitions": 92,
+     "n_weight_supported_transitions": 32,
      "places_without_weighted_exit": [
-      "exfiltration"
+      "privilege-escalation"
      ],
      "objective_tactics_held": [
       "command-and-control",
-      "exfiltration",
-      "impact"
+      "exfiltration"
      ],
      "entry_marking": "reconnaissance",
      "synthetic_transitions": [],
@@ -1685,7 +1754,280 @@
      "guard": "weighted",
      "overlay_differs_under_structural_guard": false
     }
+   },
+   "redrawn": {
+    "date": "2026-10-07",
+    "screen_hosts": {
+     "objective_exfiltration": 813,
+     "objective_impact": 792,
+     "objective_exfiltration_impact": 622,
+     "objective_none_c2": 640
+    }
    }
   }
- ]
+ ],
+ "redraw_2026_10_07": {
+  "why": "six of forty groups compromised nothing at 1 000 seeds with no MTD: five with no reconnaissance place (their token starts at initial-access, which the original criterion passes trivially) and p00 objective_impact (reconnaissance's own edge to command-and-control leaves the overlay's bridge one-tenth of the weight). Ruled by Marc 2026-10-06 (option 2: redraw and re-run).",
+  "rule": "a draw is kept only if every group (1) seeds its token at reconnaissance, (2) can reach initial-access (the original criterion), and (3) compromises at least one host in at least one of 100 screening runs with no MTD on seeds 1000-1099 (outside the reported seeds); every real profile meets all three",
+  "replaced": [
+   {
+    "partition": 0,
+    "draw": 1,
+    "groups": {
+     "objective_exfiltration": 19,
+     "objective_impact": 7,
+     "objective_exfiltration_impact": 7,
+     "objective_none_c2": 5
+    }
+   },
+   {
+    "partition": 1,
+    "draw": 2,
+    "groups": {
+     "objective_exfiltration": 19,
+     "objective_impact": 7,
+     "objective_exfiltration_impact": 7,
+     "objective_none_c2": 5
+    }
+   },
+   {
+    "partition": 3,
+    "draw": 6,
+    "groups": {
+     "objective_exfiltration": 19,
+     "objective_impact": 7,
+     "objective_exfiltration_impact": 7,
+     "objective_none_c2": 5
+    }
+   },
+   {
+    "partition": 7,
+    "draw": 10,
+    "groups": {
+     "objective_exfiltration": 19,
+     "objective_impact": 7,
+     "objective_exfiltration_impact": 7,
+     "objective_none_c2": 5
+    }
+   },
+   {
+    "partition": 9,
+    "draw": 12,
+    "groups": {
+     "objective_exfiltration": 19,
+     "objective_impact": 7,
+     "objective_exfiltration_impact": 7,
+     "objective_none_c2": 5
+    }
+   }
+  ],
+  "screened": [
+   {
+    "draw": 13,
+    "failed": {
+     "objective_exfiltration_impact": "token starts at initial-access (no reconnaissance place)"
+    },
+    "screen_hosts": {
+     "objective_exfiltration": 836,
+     "objective_impact": 765,
+     "objective_none_c2": 197
+    }
+   },
+   {
+    "draw": 14,
+    "failed": {
+     "objective_exfiltration_impact": "token starts at initial-access (no reconnaissance place)"
+    },
+    "screen_hosts": {
+     "objective_exfiltration": 829,
+     "objective_impact": 847,
+     "objective_none_c2": 115
+    }
+   },
+   {
+    "draw": 15,
+    "failed": {
+     "objective_none_c2": "token starts at initial-access (no reconnaissance place)"
+    },
+    "screen_hosts": {
+     "objective_exfiltration": 769,
+     "objective_impact": 327,
+     "objective_exfiltration_impact": 352
+    }
+   },
+   {
+    "draw": 16,
+    "failed": {
+     "objective_exfiltration_impact": "token starts at initial-access (no reconnaissance place)",
+     "objective_none_c2": "compromises nothing in 100 screening runs"
+    },
+    "screen_hosts": {
+     "objective_exfiltration": 815,
+     "objective_impact": 161,
+     "objective_none_c2": 0
+    }
+   },
+   {
+    "draw": 17,
+    "failed": {
+     "objective_impact": "token starts at initial-access (no reconnaissance place)"
+    },
+    "screen_hosts": {
+     "objective_exfiltration": 985,
+     "objective_exfiltration_impact": 630,
+     "objective_none_c2": 2
+    }
+   },
+   {
+    "draw": 18,
+    "failed": {
+     "objective_none_c2": "token starts at initial-access (no reconnaissance place)"
+    },
+    "screen_hosts": {
+     "objective_exfiltration": 775,
+     "objective_impact": 732,
+     "objective_exfiltration_impact": 741
+    }
+   },
+   {
+    "draw": 19,
+    "failed": {
+     "objective_none_c2": "token cannot reach initial-access"
+    },
+    "screen_hosts": {
+     "objective_exfiltration": 793,
+     "objective_impact": 535,
+     "objective_exfiltration_impact": 688
+    }
+   },
+   {
+    "draw": 20,
+    "failed": {
+     "objective_impact": "token cannot reach initial-access"
+    },
+    "screen_hosts": {
+     "objective_exfiltration": 1029,
+     "objective_exfiltration_impact": 627,
+     "objective_none_c2": 635
+    }
+   },
+   {
+    "draw": 21,
+    "failed": {
+     "objective_none_c2": "token cannot reach initial-access"
+    },
+    "screen_hosts": {
+     "objective_exfiltration": 795,
+     "objective_impact": 1041,
+     "objective_exfiltration_impact": 649
+    }
+   },
+   {
+    "draw": 22,
+    "failed": {
+     "objective_none_c2": "token starts at initial-access (no reconnaissance place)"
+    },
+    "screen_hosts": {
+     "objective_exfiltration": 844,
+     "objective_impact": 965,
+     "objective_exfiltration_impact": 468
+    }
+   },
+   {
+    "draw": 23,
+    "failed": {},
+    "screen_hosts": {
+     "objective_exfiltration": 884,
+     "objective_impact": 340,
+     "objective_exfiltration_impact": 855,
+     "objective_none_c2": 294
+    }
+   },
+   {
+    "draw": 24,
+    "failed": {},
+    "screen_hosts": {
+     "objective_exfiltration": 1002,
+     "objective_impact": 409,
+     "objective_exfiltration_impact": 587,
+     "objective_none_c2": 360
+    }
+   },
+   {
+    "draw": 25,
+    "failed": {
+     "objective_none_c2": "token cannot reach initial-access"
+    },
+    "screen_hosts": {
+     "objective_exfiltration": 830,
+     "objective_impact": 997,
+     "objective_exfiltration_impact": 579
+    }
+   },
+   {
+    "draw": 26,
+    "failed": {
+     "objective_none_c2": "token cannot reach initial-access"
+    },
+    "screen_hosts": {
+     "objective_exfiltration": 706,
+     "objective_impact": 908,
+     "objective_exfiltration_impact": 953
+    }
+   },
+   {
+    "draw": 27,
+    "failed": {},
+    "screen_hosts": {
+     "objective_exfiltration": 787,
+     "objective_impact": 329,
+     "objective_exfiltration_impact": 584,
+     "objective_none_c2": 109
+    }
+   },
+   {
+    "draw": 28,
+    "failed": {},
+    "screen_hosts": {
+     "objective_exfiltration": 832,
+     "objective_impact": 668,
+     "objective_exfiltration_impact": 631,
+     "objective_none_c2": 778
+    }
+   },
+   {
+    "draw": 29,
+    "failed": {
+     "objective_impact": "token starts at initial-access (no reconnaissance place)",
+     "objective_none_c2": "token cannot reach initial-access"
+    },
+    "screen_hosts": {
+     "objective_exfiltration": 715,
+     "objective_exfiltration_impact": 165
+    }
+   },
+   {
+    "draw": 30,
+    "failed": {
+     "objective_none_c2": "token cannot reach initial-access"
+    },
+    "screen_hosts": {
+     "objective_exfiltration": 890,
+     "objective_impact": 469,
+     "objective_exfiltration_impact": 670
+    }
+   },
+   {
+    "draw": 31,
+    "failed": {},
+    "screen_hosts": {
+     "objective_exfiltration": 813,
+     "objective_impact": 792,
+     "objective_exfiltration_impact": 622,
+     "objective_none_c2": 640
+    }
+   }
+  ],
+  "runs": "data/results/ch5_defended/runs_partition_control_redraw.jsonl; the replaced partitions' original rows stay in runs_partition_control.jsonl and are dropped by partition_control.py"
+ }
 }

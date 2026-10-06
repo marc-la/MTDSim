@@ -6,7 +6,7 @@
     "gap_path": "data/gap/gap_v0.5.json",
     "gasp_source_flow_count": 7,
     "gap_version": "0.5",
-    "build_date": "2026-10-02"
+    "build_date": "2026-10-07"
   },
   "places": [
     "collection",
@@ -15,6 +15,7 @@
     "defense-impairment",
     "discovery",
     "execution",
+    "exfiltration",
     "impact",
     "initial-access",
     "lateral-movement",
@@ -27,113 +28,10 @@
   "entry_marking": "reconnaissance",
   "transitions": [
     {
-      "name": "collection__to__command-and-control",
-      "src_tactic": "collection",
-      "dst_tactic": "command-and-control",
-      "gasp_edges": [
-        [
-          "T1560",
-          "T1132"
-        ],
-        [
-          "T1560",
-          "T1573"
-        ]
-      ],
-      "weights": {
-        "operator_dedup": {
-          "numerator": 1,
-          "denominator": 2,
-          "weight": 0.5,
-          "flows_leaving_source": 2,
-          "flow_proportion": 0.5,
-          "backing_flow_ids": [
-            "turla_carbon_emulation_plan"
-          ]
-        },
-        "raw": {
-          "numerator": 1,
-          "denominator": 2,
-          "weight": 0.5,
-          "flows_leaving_source": 2,
-          "flow_proportion": 0.5,
-          "backing_flow_ids": [
-            "turla_carbon_emulation_plan"
-          ]
-        }
-      }
-    },
-    {
-      "name": "collection__to__lateral-movement",
-      "src_tactic": "collection",
-      "dst_tactic": "lateral-movement",
-      "gasp_edges": [
-        [
-          "T1039",
-          "T1021"
-        ]
-      ],
-      "weights": {
-        "operator_dedup": {
-          "numerator": 1,
-          "denominator": 2,
-          "weight": 0.5,
-          "flows_leaving_source": 2,
-          "flow_proportion": 0.5,
-          "backing_flow_ids": [
-            "gootloader"
-          ]
-        },
-        "raw": {
-          "numerator": 1,
-          "denominator": 2,
-          "weight": 0.5,
-          "flows_leaving_source": 2,
-          "flow_proportion": 0.5,
-          "backing_flow_ids": [
-            "gootloader"
-          ]
-        }
-      }
-    },
-    {
-      "name": "collection__to__stealth",
-      "src_tactic": "collection",
-      "dst_tactic": "stealth",
-      "gasp_edges": [
-        [
-          "T1560",
-          "T1070"
-        ]
-      ],
-      "weights": {
-        "operator_dedup": {
-          "numerator": 0,
-          "denominator": 2,
-          "weight": 0.0,
-          "flows_leaving_source": 2,
-          "flow_proportion": 0.0,
-          "backing_flow_ids": []
-        },
-        "raw": {
-          "numerator": 0,
-          "denominator": 2,
-          "weight": 0.0,
-          "flows_leaving_source": 2,
-          "flow_proportion": 0.0,
-          "backing_flow_ids": []
-        }
-      }
-    },
-    {
       "name": "command-and-control__to__credential-access",
       "src_tactic": "command-and-control",
       "dst_tactic": "credential-access",
       "gasp_edges": [
-        [
-          "T1105",
-          "T1056"
-        ],
         [
           "T1105",
           "T1555"
@@ -141,24 +39,20 @@
       ],
       "weights": {
         "operator_dedup": {
-          "numerator": 1,
-          "denominator": 9,
-          "weight": 0.1111111111111111,
+          "numerator": 0,
+          "denominator": 10,
+          "weight": 0.0,
           "flows_leaving_source": 4,
-          "flow_proportion": 0.25,
-          "backing_flow_ids": [
-            "turla_carbon_emulation_plan"
-          ]
+          "flow_proportion": 0.0,
+          "backing_flow_ids": []
         },
         "raw": {
-          "numerator": 1,
-          "denominator": 11,
-          "weight": 0.09090909090909091,
+          "numerator": 0,
+          "denominator": 15,
+          "weight": 0.0,
           "flows_leaving_source": 5,
-          "flow_proportion": 0.2,
-          "backing_flow_ids": [
-            "turla_carbon_emulation_plan"
-          ]
+          "flow_proportion": 0.0,
+          "backing_flow_ids": []
         }
       }
     },
@@ -168,28 +62,26 @@
       "dst_tactic": "defense-impairment",
       "gasp_edges": [
         [
-          "T1090",
-          "T1222"
+          "T1105",
+          "T1553"
         ]
       ],
       "weights": {
         "operator_dedup": {
           "numerator": 0,
-          "denominator": 9,
+          "denominator": 10,
           "weight": 0.0,
           "flows_leaving_source": 4,
           "flow_proportion": 0.0,
           "backing_flow_ids": []
         },
         "raw": {
-          "numerator": 1,
-          "denominator": 11,
-          "weight": 0.09090909090909091,
+          "numerator": 0,
+          "denominator": 15,
+          "weight": 0.0,
           "flows_leaving_source": 5,
-          "flow_proportion": 0.2,
-          "backing_flow_ids": [
-            "cisa_aa22_138b_vmware_workspace_ta2"
-          ]
+          "flow_proportion": 0.0,
+          "backing_flow_ids": []
         }
       }
     },
@@ -252,19 +144,11 @@
         ],
         [
           "T1105",
-          "T1033"
-        ],
-        [
-          "T1105",
           "T1069"
         ],
         [
           "T1105",
           "T1082"
-        ],
-        [
-          "T1105",
-          "T1083"
         ],
         [
           "T1105",
@@ -284,36 +168,31 @@
         ],
         [
           "T1573",
-          "T1033"
-        ],
-        [
-          "T1573",
           "T1069"
         ]
       ],
       "weights": {
         "operator_dedup": {
-          "numerator": 3,
-          "denominator": 9,
-          "weight": 0.3333333333333333,
+          "numerator": 2,
+          "denominator": 10,
+          "weight": 0.2,
           "flows_leaving_source": 4,
-          "flow_proportion": 0.75,
+          "flow_proportion": 0.5,
           "backing_flow_ids": [
             "cobalt_kitty_campaign",
-            "conti_ransomware",
-            "turla_carbon_emulation_plan"
+            "dfir_bumblebee_round_2"
           ]
         },
         "raw": {
           "numerator": 3,
-          "denominator": 11,
-          "weight": 0.2727272727272727,
+          "denominator": 15,
+          "weight": 0.2,
           "flows_leaving_source": 5,
           "flow_proportion": 0.6,
           "backing_flow_ids": [
             "cobalt_kitty_campaign",
-            "conti_ransomware",
-            "turla_carbon_emulation_plan"
+            "dfir_bumblebee_round_2",
+            "turla_snake_emulation_plan"
           ]
         }
       }
@@ -337,6 +216,10 @@
         ],
         [
           "T1105",
+          "T1559"
+        ],
+        [
+          "T1105",
           "T1569"
         ],
         [
@@ -346,26 +229,56 @@
       ],
       "weights": {
         "operator_dedup": {
-          "numerator": 2,
-          "denominator": 9,
-          "weight": 0.2222222222222222,
+          "numerator": 0,
+          "denominator": 10,
+          "weight": 0.0,
           "flows_leaving_source": 4,
-          "flow_proportion": 0.5,
-          "backing_flow_ids": [
-            "mac_malware_steals_crypto",
-            "turla_carbon_emulation_plan"
-          ]
+          "flow_proportion": 0.0,
+          "backing_flow_ids": []
         },
         "raw": {
-          "numerator": 3,
-          "denominator": 11,
-          "weight": 0.2727272727272727,
+          "numerator": 1,
+          "denominator": 15,
+          "weight": 0.06666666666666667,
           "flows_leaving_source": 5,
-          "flow_proportion": 0.6,
+          "flow_proportion": 0.2,
           "backing_flow_ids": [
-            "cisa_aa22_138b_vmware_workspace_ta2",
-            "mac_malware_steals_crypto",
-            "turla_carbon_emulation_plan"
+            "turla_snake_emulation_plan"
+          ]
+        }
+      }
+    },
+    {
+      "name": "command-and-control__to__exfiltration",
+      "src_tactic": "command-and-control",
+      "dst_tactic": "exfiltration",
+      "gasp_edges": [
+        [
+          "T1071",
+          "T1041"
+        ],
+        [
+          "T1573",
+          "T1041"
+        ]
+      ],
+      "weights": {
+        "operator_dedup": {
+          "numerator": 0,
+          "denominator": 10,
+          "weight": 0.0,
+          "flows_leaving_source": 4,
+          "flow_proportion": 0.0,
+          "backing_flow_ids": []
+        },
+        "raw": {
+          "numerator": 1,
+          "denominator": 15,
+          "weight": 0.06666666666666667,
+          "flows_leaving_source": 5,
+          "flow_proportion": 0.2,
+          "backing_flow_ids": [
+            "turla_snake_emulation_plan"
           ]
         }
       }
@@ -376,26 +289,34 @@
       "dst_tactic": "impact",
       "gasp_edges": [
         [
+          "T1105",
+          "T1489"
+        ],
+        [
           "T1132",
           "T1561"
         ]
       ],
       "weights": {
         "operator_dedup": {
-          "numerator": 0,
-          "denominator": 9,
-          "weight": 0.0,
+          "numerator": 1,
+          "denominator": 10,
+          "weight": 0.1,
           "flows_leaving_source": 4,
-          "flow_proportion": 0.0,
-          "backing_flow_ids": []
+          "flow_proportion": 0.25,
+          "backing_flow_ids": [
+            "sony_malware"
+          ]
         },
         "raw": {
-          "numerator": 0,
-          "denominator": 11,
-          "weight": 0.0,
+          "numerator": 1,
+          "denominator": 15,
+          "weight": 0.06666666666666667,
           "flows_leaving_source": 5,
-          "flow_proportion": 0.0,
-          "backing_flow_ids": []
+          "flow_proportion": 0.2,
+          "backing_flow_ids": [
+            "sony_malware"
+          ]
         }
       }
     },
@@ -414,28 +335,40 @@
         ],
         [
           "T1105",
+          "T1080"
+        ],
+        [
+          "T1105",
           "T1570"
+        ],
+        [
+          "T1219",
+          "T1021"
         ]
       ],
       "weights": {
         "operator_dedup": {
-          "numerator": 1,
-          "denominator": 9,
-          "weight": 0.1111111111111111,
+          "numerator": 3,
+          "denominator": 10,
+          "weight": 0.3,
           "flows_leaving_source": 4,
-          "flow_proportion": 0.25,
+          "flow_proportion": 0.75,
           "backing_flow_ids": [
-            "turla_carbon_emulation_plan"
+            "cisa_iranian_apt",
+            "dfir_bumblebee_round_2",
+            "sony_malware"
           ]
         },
         "raw": {
-          "numerator": 1,
-          "denominator": 11,
-          "weight": 0.09090909090909091,
+          "numerator": 3,
+          "denominator": 15,
+          "weight": 0.2,
           "flows_leaving_source": 5,
-          "flow_proportion": 0.2,
+          "flow_proportion": 0.6,
           "backing_flow_ids": [
-            "turla_carbon_emulation_plan"
+            "cisa_iranian_apt",
+            "dfir_bumblebee_round_2",
+            "sony_malware"
           ]
         }
       }
@@ -447,7 +380,11 @@
       "gasp_edges": [
         [
           "T1105",
-          "T1112"
+          "T1136"
+        ],
+        [
+          "T1105",
+          "T1505"
         ],
         [
           "T1105",
@@ -456,24 +393,35 @@
         [
           "T1105",
           "T1547"
+        ],
+        [
+          "T1219",
+          "T1136"
         ]
       ],
       "weights": {
         "operator_dedup": {
-          "numerator": 0,
-          "denominator": 9,
-          "weight": 0.0,
+          "numerator": 2,
+          "denominator": 10,
+          "weight": 0.2,
           "flows_leaving_source": 4,
-          "flow_proportion": 0.0,
-          "backing_flow_ids": []
+          "flow_proportion": 0.5,
+          "backing_flow_ids": [
+            "cisa_iranian_apt",
+            "dfir_bumblebee_round_2"
+          ]
         },
         "raw": {
-          "numerator": 0,
-          "denominator": 11,
-          "weight": 0.0,
+          "numerator": 3,
+          "denominator": 15,
+          "weight": 0.2,
           "flows_leaving_source": 5,
-          "flow_proportion": 0.0,
-          "backing_flow_ids": []
+          "flow_proportion": 0.6,
+          "backing_flow_ids": [
+            "cisa_iranian_apt",
+            "dfir_bumblebee_round_2",
+            "turla_snake_emulation_plan"
+          ]
         }
       }
     },
@@ -490,7 +438,7 @@
       "weights": {
         "operator_dedup": {
           "numerator": 0,
-          "denominator": 9,
+          "denominator": 10,
           "weight": 0.0,
           "flows_leaving_source": 4,
           "flow_proportion": 0.0,
@@ -498,7 +446,7 @@
         },
         "raw": {
           "numerator": 0,
-          "denominator": 11,
+          "denominator": 15,
           "weight": 0.0,
           "flows_leaving_source": 5,
           "flow_proportion": 0.0,
@@ -532,6 +480,10 @@
           "T1218"
         ],
         [
+          "T1105",
+          "T1497"
+        ],
+        [
           "T1132",
           "T1036"
         ],
@@ -543,54 +495,26 @@
       "weights": {
         "operator_dedup": {
           "numerator": 2,
-          "denominator": 9,
-          "weight": 0.2222222222222222,
+          "denominator": 10,
+          "weight": 0.2,
           "flows_leaving_source": 4,
           "flow_proportion": 0.5,
           "backing_flow_ids": [
-            "conti_ransomware",
-            "turla_carbon_emulation_plan"
+            "cisa_iranian_apt",
+            "dfir_bumblebee_round_2"
           ]
         },
         "raw": {
-          "numerator": 2,
-          "denominator": 11,
-          "weight": 0.18181818181818182,
+          "numerator": 3,
+          "denominator": 15,
+          "weight": 0.2,
           "flows_leaving_source": 5,
-          "flow_proportion": 0.4,
+          "flow_proportion": 0.6,
           "backing_flow_ids": [
-            "conti_ransomware",
-            "turla_carbon_emulation_plan"
+            "cisa_iranian_apt",
+            "dfir_bumblebee_round_2",
+            "turla_snake_emulation_plan"
           ]
-        }
-      }
-    },
-    {
-      "name": "credential-access__to__collection",
-      "src_tactic": "credential-access",
-      "dst_tactic": "collection",
-      "gasp_edges": [
-        [
-          "T1003",
-          "T1560"
-        ]
-      ],
-      "weights": {
-        "operator_dedup": {
-          "numerator": 0,
-          "denominator": 5,
-          "weight": 0.0,
-          "flows_leaving_source": 3,
-          "flow_proportion": 0.0,
-          "backing_flow_ids": []
-        },
-        "raw": {
-          "numerator": 0,
-          "denominator": 6,
-          "weight": 0.0,
-          "flows_leaving_source": 4,
-          "flow_proportion": 0.0,
-          "backing_flow_ids": []
         }
       }
     },
@@ -607,21 +531,19 @@
       "weights": {
         "operator_dedup": {
           "numerator": 0,
-          "denominator": 5,
+          "denominator": 3,
           "weight": 0.0,
-          "flows_leaving_source": 3,
+          "flows_leaving_source": 2,
           "flow_proportion": 0.0,
           "backing_flow_ids": []
         },
         "raw": {
-          "numerator": 1,
-          "denominator": 6,
-          "weight": 0.16666666666666666,
-          "flows_leaving_source": 4,
-          "flow_proportion": 0.25,
-          "backing_flow_ids": [
-            "cisa_aa22_138b_vmware_workspace_ta2"
-          ]
+          "numerator": 0,
+          "denominator": 3,
+          "weight": 0.0,
+          "flows_leaving_source": 2,
+          "flow_proportion": 0.0,
+          "backing_flow_ids": []
         }
       }
     },
@@ -638,23 +560,81 @@
       "weights": {
         "operator_dedup": {
           "numerator": 1,
-          "denominator": 5,
-          "weight": 0.2,
-          "flows_leaving_source": 3,
-          "flow_proportion": 0.3333333333333333,
+          "denominator": 3,
+          "weight": 0.3333333333333333,
+          "flows_leaving_source": 2,
+          "flow_proportion": 0.5,
           "backing_flow_ids": [
             "cobalt_kitty_campaign"
           ]
         },
         "raw": {
           "numerator": 1,
-          "denominator": 6,
-          "weight": 0.16666666666666666,
-          "flows_leaving_source": 4,
-          "flow_proportion": 0.25,
+          "denominator": 3,
+          "weight": 0.3333333333333333,
+          "flows_leaving_source": 2,
+          "flow_proportion": 0.5,
           "backing_flow_ids": [
             "cobalt_kitty_campaign"
           ]
+        }
+      }
+    },
+    {
+      "name": "credential-access__to__exfiltration",
+      "src_tactic": "credential-access",
+      "dst_tactic": "exfiltration",
+      "gasp_edges": [
+        [
+          "T1552",
+          "T1041"
+        ]
+      ],
+      "weights": {
+        "operator_dedup": {
+          "numerator": 0,
+          "denominator": 3,
+          "weight": 0.0,
+          "flows_leaving_source": 2,
+          "flow_proportion": 0.0,
+          "backing_flow_ids": []
+        },
+        "raw": {
+          "numerator": 0,
+          "denominator": 3,
+          "weight": 0.0,
+          "flows_leaving_source": 2,
+          "flow_proportion": 0.0,
+          "backing_flow_ids": []
+        }
+      }
+    },
+    {
+      "name": "credential-access__to__initial-access",
+      "src_tactic": "credential-access",
+      "dst_tactic": "initial-access",
+      "gasp_edges": [
+        [
+          "T1552",
+          "T1078"
+        ]
+      ],
+      "weights": {
+        "operator_dedup": {
+          "numerator": 0,
+          "denominator": 3,
+          "weight": 0.0,
+          "flows_leaving_source": 2,
+          "flow_proportion": 0.0,
+          "backing_flow_ids": []
+        },
+        "raw": {
+          "numerator": 0,
+          "denominator": 3,
+          "weight": 0.0,
+          "flows_leaving_source": 2,
+          "flow_proportion": 0.0,
+          "backing_flow_ids": []
         }
       }
     },
@@ -672,10 +652,6 @@
           "T1550"
         ],
         [
-          "T1056",
-          "T1021"
-        ],
-        [
           "T1555",
           "T1021"
         ]
@@ -683,94 +659,24 @@
       "weights": {
         "operator_dedup": {
           "numerator": 2,
-          "denominator": 5,
-          "weight": 0.4,
-          "flows_leaving_source": 3,
-          "flow_proportion": 0.6666666666666666,
+          "denominator": 3,
+          "weight": 0.6666666666666666,
+          "flows_leaving_source": 2,
+          "flow_proportion": 1.0,
           "backing_flow_ids": [
             "cobalt_kitty_campaign",
-            "gootloader"
+            "dfir_bumblebee_round_2"
           ]
         },
         "raw": {
           "numerator": 2,
-          "denominator": 6,
-          "weight": 0.3333333333333333,
-          "flows_leaving_source": 4,
-          "flow_proportion": 0.5,
+          "denominator": 3,
+          "weight": 0.6666666666666666,
+          "flows_leaving_source": 2,
+          "flow_proportion": 1.0,
           "backing_flow_ids": [
             "cobalt_kitty_campaign",
-            "gootloader"
-          ]
-        }
-      }
-    },
-    {
-      "name": "credential-access__to__persistence",
-      "src_tactic": "credential-access",
-      "dst_tactic": "persistence",
-      "gasp_edges": [
-        [
-          "T1040",
-          "T1205"
-        ]
-      ],
-      "weights": {
-        "operator_dedup": {
-          "numerator": 1,
-          "denominator": 5,
-          "weight": 0.2,
-          "flows_leaving_source": 3,
-          "flow_proportion": 0.3333333333333333,
-          "backing_flow_ids": [
-            "turla_carbon_emulation_plan"
-          ]
-        },
-        "raw": {
-          "numerator": 1,
-          "denominator": 6,
-          "weight": 0.16666666666666666,
-          "flows_leaving_source": 4,
-          "flow_proportion": 0.25,
-          "backing_flow_ids": [
-            "turla_carbon_emulation_plan"
-          ]
-        }
-      }
-    },
-    {
-      "name": "credential-access__to__stealth",
-      "src_tactic": "credential-access",
-      "dst_tactic": "stealth",
-      "gasp_edges": [
-        [
-          "T1040",
-          "T1070"
-        ],
-        [
-          "T1110",
-          "T1070"
-        ]
-      ],
-      "weights": {
-        "operator_dedup": {
-          "numerator": 1,
-          "denominator": 5,
-          "weight": 0.2,
-          "flows_leaving_source": 3,
-          "flow_proportion": 0.3333333333333333,
-          "backing_flow_ids": [
-            "turla_carbon_emulation_plan"
-          ]
-        },
-        "raw": {
-          "numerator": 1,
-          "denominator": 6,
-          "weight": 0.16666666666666666,
-          "flows_leaving_source": 4,
-          "flow_proportion": 0.25,
-          "backing_flow_ids": [
-            "turla_carbon_emulation_plan"
+            "dfir_bumblebee_round_2"
           ]
         }
       }
@@ -781,103 +687,85 @@
       "dst_tactic": "command-and-control",
       "gasp_edges": [
         [
-          "T1222",
+          "T1553",
           "T1105"
         ]
       ],
       "weights": {
         "operator_dedup": {
           "numerator": 0,
+          "denominator": 0,
+          "weight": null,
+          "flows_leaving_source": 0,
+          "flow_proportion": null,
+          "backing_flow_ids": []
+        },
+        "raw": {
+          "numerator": 0,
           "denominator": 1,
           "weight": 0.0,
           "flows_leaving_source": 1,
           "flow_proportion": 0.0,
           "backing_flow_ids": []
-        },
-        "raw": {
-          "numerator": 1,
-          "denominator": 2,
-          "weight": 0.5,
-          "flows_leaving_source": 2,
-          "flow_proportion": 0.5,
-          "backing_flow_ids": [
-            "cisa_aa22_138b_vmware_workspace_ta2"
-          ]
         }
       }
     },
     {
-      "name": "defense-impairment__to__execution",
+      "name": "defense-impairment__to__initial-access",
       "src_tactic": "defense-impairment",
-      "dst_tactic": "execution",
+      "dst_tactic": "initial-access",
       "gasp_edges": [
         [
-          "T1222",
-          "T1053"
+          "T1553",
+          "T1195"
         ]
       ],
       "weights": {
         "operator_dedup": {
+          "numerator": 0,
+          "denominator": 0,
+          "weight": null,
+          "flows_leaving_source": 0,
+          "flow_proportion": null,
+          "backing_flow_ids": []
+        },
+        "raw": {
+          "numerator": 0,
+          "denominator": 1,
+          "weight": 0.0,
+          "flows_leaving_source": 1,
+          "flow_proportion": 0.0,
+          "backing_flow_ids": []
+        }
+      }
+    },
+    {
+      "name": "defense-impairment__to__stealth",
+      "src_tactic": "defense-impairment",
+      "dst_tactic": "stealth",
+      "gasp_edges": [
+        [
+          "T1553",
+          "T1014"
+        ]
+      ],
+      "weights": {
+        "operator_dedup": {
+          "numerator": 0,
+          "denominator": 0,
+          "weight": null,
+          "flows_leaving_source": 0,
+          "flow_proportion": null,
+          "backing_flow_ids": []
+        },
+        "raw": {
           "numerator": 1,
           "denominator": 1,
           "weight": 1.0,
           "flows_leaving_source": 1,
           "flow_proportion": 1.0,
           "backing_flow_ids": [
-            "turla_carbon_emulation_plan"
-          ]
-        },
-        "raw": {
-          "numerator": 1,
-          "denominator": 2,
-          "weight": 0.5,
-          "flows_leaving_source": 2,
-          "flow_proportion": 0.5,
-          "backing_flow_ids": [
-            "turla_carbon_emulation_plan"
-          ]
-        }
-      }
-    },
-    {
-      "name": "discovery__to__collection",
-      "src_tactic": "discovery",
-      "dst_tactic": "collection",
-      "gasp_edges": [
-        [
-          "T1046",
-          "T1039"
-        ],
-        [
-          "T1082",
-          "T1560"
-        ],
-        [
-          "T1083",
-          "T1074"
-        ]
-      ],
-      "weights": {
-        "operator_dedup": {
-          "numerator": 2,
-          "denominator": 9,
-          "weight": 0.2222222222222222,
-          "flows_leaving_source": 4,
-          "flow_proportion": 0.5,
-          "backing_flow_ids": [
-            "gootloader",
-            "turla_carbon_emulation_plan"
-          ]
-        },
-        "raw": {
-          "numerator": 2,
-          "denominator": 9,
-          "weight": 0.2222222222222222,
-          "flows_leaving_source": 4,
-          "flow_proportion": 0.5,
-          "backing_flow_ids": [
-            "gootloader",
-            "turla_carbon_emulation_plan"
+            "turla_snake_emulation_plan"
           ]
         }
       }
@@ -893,15 +781,15 @@
         ],
         [
           "T1016",
+          "T1219"
+        ],
+        [
+          "T1016",
           "T1573"
         ],
         [
           "T1018",
           "T1105"
-        ],
-        [
-          "T1033",
-          "T1573"
         ],
         [
           "T1046",
@@ -920,16 +808,16 @@
           "T1105"
         ],
         [
-          "T1083",
-          "T1105"
-        ],
-        [
           "T1087",
           "T1071"
         ],
         [
           "T1087",
           "T1105"
+        ],
+        [
+          "T1135",
+          "T1071"
         ],
         [
           "T1482",
@@ -939,22 +827,23 @@
       "weights": {
         "operator_dedup": {
           "numerator": 1,
-          "denominator": 9,
-          "weight": 0.1111111111111111,
+          "denominator": 6,
+          "weight": 0.16666666666666666,
           "flows_leaving_source": 4,
           "flow_proportion": 0.25,
           "backing_flow_ids": [
-            "turla_carbon_emulation_plan"
+            "dfir_bumblebee_round_2"
           ]
         },
         "raw": {
-          "numerator": 1,
-          "denominator": 9,
-          "weight": 0.1111111111111111,
-          "flows_leaving_source": 4,
-          "flow_proportion": 0.25,
+          "numerator": 2,
+          "denominator": 8,
+          "weight": 0.25,
+          "flows_leaving_source": 5,
+          "flow_proportion": 0.4,
           "backing_flow_ids": [
-            "turla_carbon_emulation_plan"
+            "dfir_bumblebee_round_2",
+            "turla_snake_emulation_plan"
           ]
         }
       }
@@ -975,27 +864,35 @@
         [
           "T1087",
           "T1003"
+        ],
+        [
+          "T1135",
+          "T1552"
         ]
       ],
       "weights": {
         "operator_dedup": {
-          "numerator": 1,
-          "denominator": 9,
-          "weight": 0.1111111111111111,
+          "numerator": 3,
+          "denominator": 6,
+          "weight": 0.5,
           "flows_leaving_source": 4,
-          "flow_proportion": 0.25,
+          "flow_proportion": 0.75,
           "backing_flow_ids": [
-            "cobalt_kitty_campaign"
+            "cobalt_kitty_campaign",
+            "dfir_bumblebee_round_2",
+            "uber_breach"
           ]
         },
         "raw": {
-          "numerator": 1,
-          "denominator": 9,
-          "weight": 0.1111111111111111,
-          "flows_leaving_source": 4,
-          "flow_proportion": 0.25,
+          "numerator": 3,
+          "denominator": 8,
+          "weight": 0.375,
+          "flows_leaving_source": 5,
+          "flow_proportion": 0.6,
           "backing_flow_ids": [
-            "cobalt_kitty_campaign"
+            "cobalt_kitty_campaign",
+            "dfir_bumblebee_round_2",
+            "uber_breach"
           ]
         }
       }
@@ -1005,10 +902,6 @@
       "src_tactic": "discovery",
       "dst_tactic": "execution",
       "gasp_edges": [
-        [
-          "T1012",
-          "T1059"
-        ],
         [
           "T1016",
           "T1053"
@@ -1020,26 +913,57 @@
       ],
       "weights": {
         "operator_dedup": {
-          "numerator": 2,
-          "denominator": 9,
-          "weight": 0.2222222222222222,
+          "numerator": 1,
+          "denominator": 6,
+          "weight": 0.16666666666666666,
           "flows_leaving_source": 4,
-          "flow_proportion": 0.5,
+          "flow_proportion": 0.25,
           "backing_flow_ids": [
-            "gootloader",
-            "turla_carbon_emulation_plan"
+            "cisa_iranian_apt"
           ]
         },
         "raw": {
-          "numerator": 2,
-          "denominator": 9,
-          "weight": 0.2222222222222222,
-          "flows_leaving_source": 4,
-          "flow_proportion": 0.5,
+          "numerator": 1,
+          "denominator": 8,
+          "weight": 0.125,
+          "flows_leaving_source": 5,
+          "flow_proportion": 0.2,
           "backing_flow_ids": [
-            "gootloader",
-            "turla_carbon_emulation_plan"
+            "cisa_iranian_apt"
           ]
+        }
+      }
+    },
+    {
+      "name": "discovery__to__exfiltration",
+      "src_tactic": "discovery",
+      "dst_tactic": "exfiltration",
+      "gasp_edges": [
+        [
+          "T1082",
+          "T1041"
+        ],
+        [
+          "T1135",
+          "T1041"
+        ]
+      ],
+      "weights": {
+        "operator_dedup": {
+          "numerator": 0,
+          "denominator": 6,
+          "weight": 0.0,
+          "flows_leaving_source": 4,
+          "flow_proportion": 0.0,
+          "backing_flow_ids": []
+        },
+        "raw": {
+          "numerator": 0,
+          "denominator": 8,
+          "weight": 0.0,
+          "flows_leaving_source": 5,
+          "flow_proportion": 0.0,
+          "backing_flow_ids": []
         }
       }
     },
@@ -1057,14 +981,14 @@
           "T1485"
         ],
         [
-          "T1083",
+          "T1135",
           "T1486"
         ]
       ],
       "weights": {
         "operator_dedup": {
           "numerator": 0,
-          "denominator": 9,
+          "denominator": 6,
           "weight": 0.0,
           "flows_leaving_source": 4,
           "flow_proportion": 0.0,
@@ -1072,9 +996,9 @@
         },
         "raw": {
           "numerator": 0,
-          "denominator": 9,
+          "denominator": 8,
           "weight": 0.0,
-          "flows_leaving_source": 4,
+          "flows_leaving_source": 5,
           "flow_proportion": 0.0,
           "backing_flow_ids": []
         }
@@ -1092,23 +1016,52 @@
       ],
       "weights": {
         "operator_dedup": {
+          "numerator": 0,
+          "denominator": 6,
+          "weight": 0.0,
+          "flows_leaving_source": 4,
+          "flow_proportion": 0.0,
+          "backing_flow_ids": []
+        },
+        "raw": {
+          "numerator": 0,
+          "denominator": 8,
+          "weight": 0.0,
+          "flows_leaving_source": 5,
+          "flow_proportion": 0.0,
+          "backing_flow_ids": []
+        }
+      }
+    },
+    {
+      "name": "discovery__to__persistence",
+      "src_tactic": "discovery",
+      "dst_tactic": "persistence",
+      "gasp_edges": [
+        [
+          "T1018",
+          "T1098"
+        ]
+      ],
+      "weights": {
+        "operator_dedup": {
           "numerator": 1,
-          "denominator": 9,
-          "weight": 0.1111111111111111,
+          "denominator": 6,
+          "weight": 0.16666666666666666,
           "flows_leaving_source": 4,
           "flow_proportion": 0.25,
           "backing_flow_ids": [
-            "conti_ransomware"
+            "cisa_iranian_apt"
           ]
         },
         "raw": {
           "numerator": 1,
-          "denominator": 9,
-          "weight": 0.1111111111111111,
-          "flows_leaving_source": 4,
-          "flow_proportion": 0.25,
+          "denominator": 8,
+          "weight": 0.125,
+          "flows_leaving_source": 5,
+          "flow_proportion": 0.2,
           "backing_flow_ids": [
-            "conti_ransomware"
+            "cisa_iranian_apt"
           ]
         }
       }
@@ -1123,10 +1076,6 @@
           "T1134"
         ],
         [
-          "T1033",
-          "T1134"
-        ],
-        [
           "T1057",
           "T1055"
         ],
@@ -1137,33 +1086,25 @@
         [
           "T1069",
           "T1134"
-        ],
-        [
-          "T1087",
-          "T1484"
         ]
       ],
       "weights": {
         "operator_dedup": {
-          "numerator": 2,
-          "denominator": 9,
-          "weight": 0.2222222222222222,
+          "numerator": 0,
+          "denominator": 6,
+          "weight": 0.0,
           "flows_leaving_source": 4,
-          "flow_proportion": 0.5,
-          "backing_flow_ids": [
-            "conti_ransomware",
-            "turla_carbon_emulation_plan"
-          ]
+          "flow_proportion": 0.0,
+          "backing_flow_ids": []
         },
         "raw": {
-          "numerator": 2,
-          "denominator": 9,
-          "weight": 0.2222222222222222,
-          "flows_leaving_source": 4,
-          "flow_proportion": 0.5,
+          "numerator": 1,
+          "denominator": 8,
+          "weight": 0.125,
+          "flows_leaving_source": 5,
+          "flow_proportion": 0.2,
           "backing_flow_ids": [
-            "conti_ransomware",
-            "turla_carbon_emulation_plan"
+            "turla_snake_emulation_plan"
           ]
         }
       }
@@ -1173,14 +1114,6 @@
       "src_tactic": "discovery",
       "dst_tactic": "stealth",
       "gasp_edges": [
-        [
-          "T1007",
-          "T1140"
-        ],
-        [
-          "T1033",
-          "T1027"
-        ],
         [
           "T1069",
           "T1027"
@@ -1197,7 +1130,7 @@
       "weights": {
         "operator_dedup": {
           "numerator": 0,
-          "denominator": 9,
+          "denominator": 6,
           "weight": 0.0,
           "flows_leaving_source": 4,
           "flow_proportion": 0.0,
@@ -1205,44 +1138,11 @@
         },
         "raw": {
           "numerator": 0,
-          "denominator": 9,
+          "denominator": 8,
           "weight": 0.0,
-          "flows_leaving_source": 4,
+          "flows_leaving_source": 5,
           "flow_proportion": 0.0,
           "backing_flow_ids": []
-        }
-      }
-    },
-    {
-      "name": "execution__to__collection",
-      "src_tactic": "execution",
-      "dst_tactic": "collection",
-      "gasp_edges": [
-        [
-          "T1059",
-          "T1039"
-        ]
-      ],
-      "weights": {
-        "operator_dedup": {
-          "numerator": 1,
-          "denominator": 16,
-          "weight": 0.0625,
-          "flows_leaving_source": 6,
-          "flow_proportion": 0.16666666666666666,
-          "backing_flow_ids": [
-            "gootloader"
-          ]
-        },
-        "raw": {
-          "numerator": 1,
-          "denominator": 17,
-          "weight": 0.058823529411764705,
-          "flows_leaving_source": 7,
-          "flow_proportion": 0.14285714285714285,
-          "backing_flow_ids": [
-            "gootloader"
-          ]
         }
       }
     },
@@ -1258,27 +1158,29 @@
         [
           "T1204",
           "T1105"
+        ],
+        [
+          "T1559",
+          "T1071"
         ]
       ],
       "weights": {
         "operator_dedup": {
-          "numerator": 1,
-          "denominator": 16,
-          "weight": 0.0625,
-          "flows_leaving_source": 6,
-          "flow_proportion": 0.16666666666666666,
-          "backing_flow_ids": [
-            "conti_ransomware"
-          ]
+          "numerator": 0,
+          "denominator": 8,
+          "weight": 0.0,
+          "flows_leaving_source": 5,
+          "flow_proportion": 0.0,
+          "backing_flow_ids": []
         },
         "raw": {
           "numerator": 1,
-          "denominator": 17,
-          "weight": 0.058823529411764705,
-          "flows_leaving_source": 7,
-          "flow_proportion": 0.14285714285714285,
+          "denominator": 15,
+          "weight": 0.06666666666666667,
+          "flows_leaving_source": 6,
+          "flow_proportion": 0.16666666666666666,
           "backing_flow_ids": [
-            "conti_ransomware"
+            "turla_snake_emulation_plan"
           ]
         }
       }
@@ -1294,35 +1196,30 @@
         ],
         [
           "T1059",
-          "T1110"
+          "T1555"
         ],
         [
-          "T1059",
-          "T1555"
+          "T1559",
+          "T1003"
         ]
       ],
       "weights": {
         "operator_dedup": {
-          "numerator": 2,
-          "denominator": 16,
-          "weight": 0.125,
-          "flows_leaving_source": 6,
-          "flow_proportion": 0.3333333333333333,
-          "backing_flow_ids": [
-            "gootloader",
-            "turla_carbon_emulation_plan"
-          ]
+          "numerator": 0,
+          "denominator": 8,
+          "weight": 0.0,
+          "flows_leaving_source": 5,
+          "flow_proportion": 0.0,
+          "backing_flow_ids": []
         },
         "raw": {
-          "numerator": 3,
-          "denominator": 17,
-          "weight": 0.17647058823529413,
-          "flows_leaving_source": 7,
-          "flow_proportion": 0.42857142857142855,
+          "numerator": 1,
+          "denominator": 15,
+          "weight": 0.06666666666666667,
+          "flows_leaving_source": 6,
+          "flow_proportion": 0.16666666666666666,
           "backing_flow_ids": [
-            "cisa_aa22_138b_vmware_workspace_ta2",
-            "gootloader",
-            "turla_carbon_emulation_plan"
+            "turla_snake_emulation_plan"
           ]
         }
       }
@@ -1362,6 +1259,10 @@
         ],
         [
           "T1059",
+          "T1135"
+        ],
+        [
+          "T1059",
           "T1482"
         ],
         [
@@ -1372,24 +1273,25 @@
       "weights": {
         "operator_dedup": {
           "numerator": 2,
-          "denominator": 16,
-          "weight": 0.125,
-          "flows_leaving_source": 6,
-          "flow_proportion": 0.3333333333333333,
+          "denominator": 8,
+          "weight": 0.25,
+          "flows_leaving_source": 5,
+          "flow_proportion": 0.4,
           "backing_flow_ids": [
-            "gootloader",
-            "mac_malware_steals_crypto"
+            "cisa_iranian_apt",
+            "dfir_bumblebee_round_2"
           ]
         },
         "raw": {
-          "numerator": 2,
-          "denominator": 17,
-          "weight": 0.11764705882352941,
-          "flows_leaving_source": 7,
-          "flow_proportion": 0.2857142857142857,
+          "numerator": 3,
+          "denominator": 15,
+          "weight": 0.2,
+          "flows_leaving_source": 6,
+          "flow_proportion": 0.5,
           "backing_flow_ids": [
-            "gootloader",
-            "mac_malware_steals_crypto"
+            "cisa_iranian_apt",
+            "dfir_bumblebee_round_2",
+            "turla_snake_emulation_plan"
           ]
         }
       }
@@ -1410,27 +1312,68 @@
         [
           "T1059",
           "T1486"
+        ],
+        [
+          "T1059",
+          "T1489"
+        ],
+        [
+          "T1569",
+          "T1489"
         ]
       ],
       "weights": {
         "operator_dedup": {
-          "numerator": 1,
-          "denominator": 16,
-          "weight": 0.0625,
-          "flows_leaving_source": 6,
-          "flow_proportion": 0.16666666666666666,
+          "numerator": 2,
+          "denominator": 8,
+          "weight": 0.25,
+          "flows_leaving_source": 5,
+          "flow_proportion": 0.4,
           "backing_flow_ids": [
-            "notpetya"
+            "notpetya",
+            "sony_malware"
           ]
         },
         "raw": {
-          "numerator": 1,
-          "denominator": 17,
-          "weight": 0.058823529411764705,
-          "flows_leaving_source": 7,
-          "flow_proportion": 0.14285714285714285,
+          "numerator": 2,
+          "denominator": 15,
+          "weight": 0.13333333333333333,
+          "flows_leaving_source": 6,
+          "flow_proportion": 0.3333333333333333,
           "backing_flow_ids": [
-            "notpetya"
+            "notpetya",
+            "sony_malware"
+          ]
+        }
+      }
+    },
+    {
+      "name": "execution__to__initial-access",
+      "src_tactic": "execution",
+      "dst_tactic": "initial-access",
+      "gasp_edges": [
+        [
+          "T1559",
+          "T1078"
+        ]
+      ],
+      "weights": {
+        "operator_dedup": {
+          "numerator": 0,
+          "denominator": 8,
+          "weight": 0.0,
+          "flows_leaving_source": 5,
+          "flow_proportion": 0.0,
+          "backing_flow_ids": []
+        },
+        "raw": {
+          "numerator": 1,
+          "denominator": 15,
+          "weight": 0.06666666666666667,
+          "flows_leaving_source": 6,
+          "flow_proportion": 0.16666666666666666,
+          "backing_flow_ids": [
+            "turla_snake_emulation_plan"
           ]
         }
       }
@@ -1452,22 +1395,22 @@
       "weights": {
         "operator_dedup": {
           "numerator": 1,
-          "denominator": 16,
-          "weight": 0.0625,
-          "flows_leaving_source": 6,
-          "flow_proportion": 0.16666666666666666,
+          "denominator": 8,
+          "weight": 0.125,
+          "flows_leaving_source": 5,
+          "flow_proportion": 0.2,
           "backing_flow_ids": [
-            "gootloader"
+            "cisa_iranian_apt"
           ]
         },
         "raw": {
           "numerator": 1,
-          "denominator": 17,
-          "weight": 0.058823529411764705,
-          "flows_leaving_source": 7,
-          "flow_proportion": 0.14285714285714285,
+          "denominator": 15,
+          "weight": 0.06666666666666667,
+          "flows_leaving_source": 6,
+          "flow_proportion": 0.16666666666666666,
           "backing_flow_ids": [
-            "gootloader"
+            "cisa_iranian_apt"
           ]
         }
       }
@@ -1479,7 +1422,7 @@
       "gasp_edges": [
         [
           "T1047",
-          "T1112"
+          "T1505"
         ],
         [
           "T1053",
@@ -1487,11 +1430,11 @@
         ],
         [
           "T1059",
-          "T1112"
+          "T1137"
         ],
         [
           "T1059",
-          "T1137"
+          "T1505"
         ],
         [
           "T1059",
@@ -1504,35 +1447,28 @@
         [
           "T1204",
           "T1547"
-        ],
-        [
-          "T1569",
-          "T1112"
         ]
       ],
       "weights": {
         "operator_dedup": {
-          "numerator": 3,
-          "denominator": 16,
-          "weight": 0.1875,
-          "flows_leaving_source": 6,
-          "flow_proportion": 0.5,
+          "numerator": 1,
+          "denominator": 8,
+          "weight": 0.125,
+          "flows_leaving_source": 5,
+          "flow_proportion": 0.2,
           "backing_flow_ids": [
-            "cobalt_kitty_campaign",
-            "gootloader",
-            "turla_carbon_emulation_plan"
+            "cobalt_kitty_campaign"
           ]
         },
         "raw": {
-          "numerator": 3,
-          "denominator": 17,
-          "weight": 0.17647058823529413,
-          "flows_leaving_source": 7,
-          "flow_proportion": 0.42857142857142855,
+          "numerator": 2,
+          "denominator": 15,
+          "weight": 0.13333333333333333,
+          "flows_leaving_source": 6,
+          "flow_proportion": 0.3333333333333333,
           "backing_flow_ids": [
             "cobalt_kitty_campaign",
-            "gootloader",
-            "turla_carbon_emulation_plan"
+            "turla_snake_emulation_plan"
           ]
         }
       }
@@ -1551,6 +1487,10 @@
           "T1055"
         ],
         [
+          "T1559",
+          "T1134"
+        ],
+        [
           "T1569",
           "T1055"
         ]
@@ -1558,22 +1498,23 @@
       "weights": {
         "operator_dedup": {
           "numerator": 1,
-          "denominator": 16,
-          "weight": 0.0625,
-          "flows_leaving_source": 6,
-          "flow_proportion": 0.16666666666666666,
+          "denominator": 8,
+          "weight": 0.125,
+          "flows_leaving_source": 5,
+          "flow_proportion": 0.2,
           "backing_flow_ids": [
-            "turla_carbon_emulation_plan"
+            "dfir_bumblebee_round_2"
           ]
         },
         "raw": {
-          "numerator": 1,
-          "denominator": 17,
-          "weight": 0.058823529411764705,
-          "flows_leaving_source": 7,
-          "flow_proportion": 0.14285714285714285,
+          "numerator": 2,
+          "denominator": 15,
+          "weight": 0.13333333333333333,
+          "flows_leaving_source": 6,
+          "flow_proportion": 0.3333333333333333,
           "backing_flow_ids": [
-            "turla_carbon_emulation_plan"
+            "dfir_bumblebee_round_2",
+            "turla_snake_emulation_plan"
           ]
         }
       }
@@ -1609,10 +1550,6 @@
         ],
         [
           "T1059",
-          "T1211"
-        ],
-        [
-          "T1059",
           "T1218"
         ],
         [
@@ -1632,36 +1569,64 @@
           "T1140"
         ],
         [
+          "T1569",
+          "T1497"
+        ],
+        [
           "T1574",
           "T1218"
         ]
       ],
       "weights": {
         "operator_dedup": {
-          "numerator": 4,
-          "denominator": 16,
-          "weight": 0.25,
-          "flows_leaving_source": 6,
-          "flow_proportion": 0.6666666666666666,
+          "numerator": 1,
+          "denominator": 8,
+          "weight": 0.125,
+          "flows_leaving_source": 5,
+          "flow_proportion": 0.2,
           "backing_flow_ids": [
-            "cobalt_kitty_campaign",
-            "gootloader",
-            "mac_malware_steals_crypto",
-            "turla_carbon_emulation_plan"
+            "cobalt_kitty_campaign"
           ]
         },
         "raw": {
-          "numerator": 4,
-          "denominator": 17,
-          "weight": 0.23529411764705882,
-          "flows_leaving_source": 7,
-          "flow_proportion": 0.5714285714285714,
+          "numerator": 2,
+          "denominator": 15,
+          "weight": 0.13333333333333333,
+          "flows_leaving_source": 6,
+          "flow_proportion": 0.3333333333333333,
           "backing_flow_ids": [
             "cobalt_kitty_campaign",
-            "gootloader",
-            "mac_malware_steals_crypto",
-            "turla_carbon_emulation_plan"
+            "turla_snake_emulation_plan"
           ]
+        }
+      }
+    },
+    {
+      "name": "exfiltration__to__discovery",
+      "src_tactic": "exfiltration",
+      "dst_tactic": "discovery",
+      "gasp_edges": [
+        [
+          "T1041",
+          "T1018"
+        ]
+      ],
+      "weights": {
+        "operator_dedup": {
+          "numerator": 0,
+          "denominator": 0,
+          "weight": null,
+          "flows_leaving_source": 0,
+          "flow_proportion": null,
+          "backing_flow_ids": []
+        },
+        "raw": {
+          "numerator": 0,
+          "denominator": 0,
+          "weight": null,
+          "flows_leaving_source": 0,
+          "flow_proportion": null,
+          "backing_flow_ids": []
         }
       }
     },
@@ -1673,51 +1638,59 @@
         [
           "T1485",
           "T1132"
+        ],
+        [
+          "T1489",
+          "T1132"
         ]
       ],
       "weights": {
         "operator_dedup": {
-          "numerator": 0,
-          "denominator": 1,
-          "weight": 0.0,
-          "flows_leaving_source": 1,
-          "flow_proportion": 0.0,
-          "backing_flow_ids": []
+          "numerator": 1,
+          "denominator": 2,
+          "weight": 0.5,
+          "flows_leaving_source": 2,
+          "flow_proportion": 0.5,
+          "backing_flow_ids": [
+            "sony_malware"
+          ]
         },
         "raw": {
-          "numerator": 0,
-          "denominator": 1,
-          "weight": 0.0,
-          "flows_leaving_source": 1,
-          "flow_proportion": 0.0,
-          "backing_flow_ids": []
+          "numerator": 1,
+          "denominator": 2,
+          "weight": 0.5,
+          "flows_leaving_source": 2,
+          "flow_proportion": 0.5,
+          "backing_flow_ids": [
+            "sony_malware"
+          ]
         }
       }
     },
     {
-      "name": "impact__to__discovery",
+      "name": "impact__to__execution",
       "src_tactic": "impact",
-      "dst_tactic": "discovery",
+      "dst_tactic": "execution",
       "gasp_edges": [
         [
-          "T1485",
-          "T1083"
+          "T1489",
+          "T1059"
         ]
       ],
       "weights": {
         "operator_dedup": {
           "numerator": 0,
-          "denominator": 1,
+          "denominator": 2,
           "weight": 0.0,
-          "flows_leaving_source": 1,
+          "flows_leaving_source": 2,
           "flow_proportion": 0.0,
           "backing_flow_ids": []
         },
         "raw": {
           "numerator": 0,
-          "denominator": 1,
+          "denominator": 2,
           "weight": 0.0,
-          "flows_leaving_source": 1,
+          "flows_leaving_source": 2,
           "flow_proportion": 0.0,
           "backing_flow_ids": []
         }
@@ -1735,28 +1708,69 @@
         [
           "T1486",
           "T1070"
+        ],
+        [
+          "T1491",
+          "T1070"
         ]
       ],
       "weights": {
         "operator_dedup": {
           "numerator": 1,
-          "denominator": 1,
-          "weight": 1.0,
-          "flows_leaving_source": 1,
-          "flow_proportion": 1.0,
+          "denominator": 2,
+          "weight": 0.5,
+          "flows_leaving_source": 2,
+          "flow_proportion": 0.5,
           "backing_flow_ids": [
             "notpetya"
           ]
         },
         "raw": {
           "numerator": 1,
-          "denominator": 1,
-          "weight": 1.0,
-          "flows_leaving_source": 1,
-          "flow_proportion": 1.0,
+          "denominator": 2,
+          "weight": 0.5,
+          "flows_leaving_source": 2,
+          "flow_proportion": 0.5,
           "backing_flow_ids": [
             "notpetya"
           ]
+        }
+      }
+    },
+    {
+      "name": "initial-access__to__command-and-control",
+      "src_tactic": "initial-access",
+      "dst_tactic": "command-and-control",
+      "gasp_edges": [
+        [
+          "T1078",
+          "T1105"
+        ],
+        [
+          "T1190",
+          "T1105"
+        ],
+        [
+          "T1566",
+          "T1219"
+        ]
+      ],
+      "weights": {
+        "operator_dedup": {
+          "numerator": 0,
+          "denominator": 4,
+          "weight": 0.0,
+          "flows_leaving_source": 4,
+          "flow_proportion": 0.0,
+          "backing_flow_ids": []
+        },
+        "raw": {
+          "numerator": 0,
+          "denominator": 5,
+          "weight": 0.0,
+          "flows_leaving_source": 5,
+          "flow_proportion": 0.0,
+          "backing_flow_ids": []
         }
       }
     },
@@ -1766,26 +1780,34 @@
       "dst_tactic": "credential-access",
       "gasp_edges": [
         [
+          "T1078",
+          "T1621"
+        ],
+        [
           "T1566",
           "T1555"
         ]
       ],
       "weights": {
         "operator_dedup": {
-          "numerator": 0,
-          "denominator": 3,
-          "weight": 0.0,
-          "flows_leaving_source": 3,
-          "flow_proportion": 0.0,
-          "backing_flow_ids": []
+          "numerator": 1,
+          "denominator": 4,
+          "weight": 0.25,
+          "flows_leaving_source": 4,
+          "flow_proportion": 0.25,
+          "backing_flow_ids": [
+            "uber_breach"
+          ]
         },
         "raw": {
-          "numerator": 0,
-          "denominator": 3,
-          "weight": 0.0,
-          "flows_leaving_source": 3,
-          "flow_proportion": 0.0,
-          "backing_flow_ids": []
+          "numerator": 1,
+          "denominator": 5,
+          "weight": 0.2,
+          "flows_leaving_source": 5,
+          "flow_proportion": 0.2,
+          "backing_flow_ids": [
+            "uber_breach"
+          ]
         }
       }
     },
@@ -1795,7 +1817,19 @@
       "dst_tactic": "execution",
       "gasp_edges": [
         [
+          "T1078",
+          "T1059"
+        ],
+        [
+          "T1078",
+          "T1569"
+        ],
+        [
           "T1189",
+          "T1059"
+        ],
+        [
+          "T1190",
           "T1059"
         ],
         [
@@ -1818,25 +1852,88 @@
       "weights": {
         "operator_dedup": {
           "numerator": 2,
-          "denominator": 3,
-          "weight": 0.6666666666666666,
-          "flows_leaving_source": 3,
-          "flow_proportion": 0.6666666666666666,
+          "denominator": 4,
+          "weight": 0.5,
+          "flows_leaving_source": 4,
+          "flow_proportion": 0.5,
           "backing_flow_ids": [
-            "cobalt_kitty_campaign",
-            "conti_ransomware"
+            "cisa_iranian_apt",
+            "cobalt_kitty_campaign"
           ]
         },
         "raw": {
-          "numerator": 2,
-          "denominator": 3,
-          "weight": 0.6666666666666666,
-          "flows_leaving_source": 3,
-          "flow_proportion": 0.6666666666666666,
+          "numerator": 3,
+          "denominator": 5,
+          "weight": 0.6,
+          "flows_leaving_source": 5,
+          "flow_proportion": 0.6,
           "backing_flow_ids": [
+            "cisa_iranian_apt",
             "cobalt_kitty_campaign",
-            "conti_ransomware"
+            "turla_snake_emulation_plan"
           ]
+        }
+      }
+    },
+    {
+      "name": "initial-access__to__lateral-movement",
+      "src_tactic": "initial-access",
+      "dst_tactic": "lateral-movement",
+      "gasp_edges": [
+        [
+          "T1078",
+          "T1021"
+        ]
+      ],
+      "weights": {
+        "operator_dedup": {
+          "numerator": 0,
+          "denominator": 4,
+          "weight": 0.0,
+          "flows_leaving_source": 4,
+          "flow_proportion": 0.0,
+          "backing_flow_ids": []
+        },
+        "raw": {
+          "numerator": 0,
+          "denominator": 5,
+          "weight": 0.0,
+          "flows_leaving_source": 5,
+          "flow_proportion": 0.0,
+          "backing_flow_ids": []
+        }
+      }
+    },
+    {
+      "name": "initial-access__to__persistence",
+      "src_tactic": "initial-access",
+      "dst_tactic": "persistence",
+      "gasp_edges": [
+        [
+          "T1078",
+          "T1505"
+        ],
+        [
+          "T1190",
+          "T1505"
+        ]
+      ],
+      "weights": {
+        "operator_dedup": {
+          "numerator": 0,
+          "denominator": 4,
+          "weight": 0.0,
+          "flows_leaving_source": 4,
+          "flow_proportion": 0.0,
+          "backing_flow_ids": []
+        },
+        "raw": {
+          "numerator": 0,
+          "denominator": 5,
+          "weight": 0.0,
+          "flows_leaving_source": 5,
+          "flow_proportion": 0.0,
+          "backing_flow_ids": []
         }
       }
     },
@@ -1845,6 +1942,10 @@
       "src_tactic": "initial-access",
       "dst_tactic": "stealth",
       "gasp_edges": [
+        [
+          "T1190",
+          "T1070"
+        ],
         [
           "T1195",
           "T1036"
@@ -1857,55 +1958,22 @@
       "weights": {
         "operator_dedup": {
           "numerator": 1,
-          "denominator": 3,
-          "weight": 0.3333333333333333,
-          "flows_leaving_source": 3,
-          "flow_proportion": 0.3333333333333333,
+          "denominator": 4,
+          "weight": 0.25,
+          "flows_leaving_source": 4,
+          "flow_proportion": 0.25,
           "backing_flow_ids": [
             "notpetya"
           ]
         },
         "raw": {
           "numerator": 1,
-          "denominator": 3,
-          "weight": 0.3333333333333333,
-          "flows_leaving_source": 3,
-          "flow_proportion": 0.3333333333333333,
+          "denominator": 5,
+          "weight": 0.2,
+          "flows_leaving_source": 5,
+          "flow_proportion": 0.2,
           "backing_flow_ids": [
             "notpetya"
-          ]
-        }
-      }
-    },
-    {
-      "name": "lateral-movement__to__collection",
-      "src_tactic": "lateral-movement",
-      "dst_tactic": "collection",
-      "gasp_edges": [
-        [
-          "T1021",
-          "T1039"
-        ]
-      ],
-      "weights": {
-        "operator_dedup": {
-          "numerator": 1,
-          "denominator": 6,
-          "weight": 0.16666666666666666,
-          "flows_leaving_source": 4,
-          "flow_proportion": 0.25,
-          "backing_flow_ids": [
-            "gootloader"
-          ]
-        },
-        "raw": {
-          "numerator": 1,
-          "denominator": 6,
-          "weight": 0.16666666666666666,
-          "flows_leaving_source": 4,
-          "flow_proportion": 0.25,
-          "backing_flow_ids": [
-            "gootloader"
           ]
         }
       }
@@ -1915,6 +1983,10 @@
       "src_tactic": "lateral-movement",
       "dst_tactic": "command-and-control",
       "gasp_edges": [
+        [
+          "T1021",
+          "T1219"
+        ],
         [
           "T1550",
           "T1105"
@@ -1926,20 +1998,26 @@
       ],
       "weights": {
         "operator_dedup": {
-          "numerator": 0,
-          "denominator": 6,
-          "weight": 0.0,
+          "numerator": 2,
+          "denominator": 7,
+          "weight": 0.2857142857142857,
           "flows_leaving_source": 4,
-          "flow_proportion": 0.0,
-          "backing_flow_ids": []
+          "flow_proportion": 0.5,
+          "backing_flow_ids": [
+            "cisa_iranian_apt",
+            "dfir_bumblebee_round_2"
+          ]
         },
         "raw": {
-          "numerator": 0,
-          "denominator": 6,
-          "weight": 0.0,
-          "flows_leaving_source": 4,
-          "flow_proportion": 0.0,
-          "backing_flow_ids": []
+          "numerator": 2,
+          "denominator": 8,
+          "weight": 0.25,
+          "flows_leaving_source": 5,
+          "flow_proportion": 0.4,
+          "backing_flow_ids": [
+            "cisa_iranian_apt",
+            "dfir_bumblebee_round_2"
+          ]
         }
       }
     },
@@ -1954,29 +2032,29 @@
         ],
         [
           "T1021",
+          "T1552"
+        ],
+        [
+          "T1021",
           "T1555"
         ]
       ],
       "weights": {
         "operator_dedup": {
-          "numerator": 1,
-          "denominator": 6,
-          "weight": 0.16666666666666666,
+          "numerator": 0,
+          "denominator": 7,
+          "weight": 0.0,
           "flows_leaving_source": 4,
-          "flow_proportion": 0.25,
-          "backing_flow_ids": [
-            "gootloader"
-          ]
+          "flow_proportion": 0.0,
+          "backing_flow_ids": []
         },
         "raw": {
-          "numerator": 1,
-          "denominator": 6,
-          "weight": 0.16666666666666666,
-          "flows_leaving_source": 4,
-          "flow_proportion": 0.25,
-          "backing_flow_ids": [
-            "gootloader"
-          ]
+          "numerator": 0,
+          "denominator": 8,
+          "weight": 0.0,
+          "flows_leaving_source": 5,
+          "flow_proportion": 0.0,
+          "backing_flow_ids": []
         }
       }
     },
@@ -1992,28 +2070,28 @@
         [
           "T1021",
           "T1087"
+        ],
+        [
+          "T1021",
+          "T1135"
         ]
       ],
       "weights": {
         "operator_dedup": {
-          "numerator": 1,
-          "denominator": 6,
-          "weight": 0.16666666666666666,
+          "numerator": 0,
+          "denominator": 7,
+          "weight": 0.0,
           "flows_leaving_source": 4,
-          "flow_proportion": 0.25,
-          "backing_flow_ids": [
-            "conti_ransomware"
-          ]
+          "flow_proportion": 0.0,
+          "backing_flow_ids": []
         },
         "raw": {
-          "numerator": 1,
-          "denominator": 6,
-          "weight": 0.16666666666666666,
-          "flows_leaving_source": 4,
-          "flow_proportion": 0.25,
-          "backing_flow_ids": [
-            "conti_ransomware"
-          ]
+          "numerator": 0,
+          "denominator": 8,
+          "weight": 0.0,
+          "flows_leaving_source": 5,
+          "flow_proportion": 0.0,
+          "backing_flow_ids": []
         }
       }
     },
@@ -2033,24 +2111,88 @@
       ],
       "weights": {
         "operator_dedup": {
+          "numerator": 2,
+          "denominator": 7,
+          "weight": 0.2857142857142857,
+          "flows_leaving_source": 4,
+          "flow_proportion": 0.5,
+          "backing_flow_ids": [
+            "cisa_iranian_apt",
+            "dfir_bumblebee_round_2"
+          ]
+        },
+        "raw": {
+          "numerator": 2,
+          "denominator": 8,
+          "weight": 0.25,
+          "flows_leaving_source": 5,
+          "flow_proportion": 0.4,
+          "backing_flow_ids": [
+            "cisa_iranian_apt",
+            "dfir_bumblebee_round_2"
+          ]
+        }
+      }
+    },
+    {
+      "name": "lateral-movement__to__initial-access",
+      "src_tactic": "lateral-movement",
+      "dst_tactic": "initial-access",
+      "gasp_edges": [
+        [
+          "T1021",
+          "T1078"
+        ]
+      ],
+      "weights": {
+        "operator_dedup": {
           "numerator": 1,
-          "denominator": 6,
-          "weight": 0.16666666666666666,
+          "denominator": 7,
+          "weight": 0.14285714285714285,
           "flows_leaving_source": 4,
           "flow_proportion": 0.25,
           "backing_flow_ids": [
-            "gootloader"
+            "cisa_iranian_apt"
           ]
         },
         "raw": {
           "numerator": 1,
-          "denominator": 6,
-          "weight": 0.16666666666666666,
-          "flows_leaving_source": 4,
-          "flow_proportion": 0.25,
+          "denominator": 8,
+          "weight": 0.125,
+          "flows_leaving_source": 5,
+          "flow_proportion": 0.2,
           "backing_flow_ids": [
-            "gootloader"
+            "cisa_iranian_apt"
           ]
+        }
+      }
+    },
+    {
+      "name": "lateral-movement__to__persistence",
+      "src_tactic": "lateral-movement",
+      "dst_tactic": "persistence",
+      "gasp_edges": [
+        [
+          "T1021",
+          "T1505"
+        ]
+      ],
+      "weights": {
+        "operator_dedup": {
+          "numerator": 0,
+          "denominator": 7,
+          "weight": 0.0,
+          "flows_leaving_source": 4,
+          "flow_proportion": 0.0,
+          "backing_flow_ids": []
+        },
+        "raw": {
+          "numerator": 0,
+          "denominator": 8,
+          "weight": 0.0,
+          "flows_leaving_source": 5,
+          "flow_proportion": 0.0,
+          "backing_flow_ids": []
         }
       }
     },
@@ -2068,6 +2210,10 @@
           "T1218"
         ],
         [
+          "T1080",
+          "T1497"
+        ],
+        [
           "T1570",
           "T1036"
         ]
@@ -2075,24 +2221,56 @@
       "weights": {
         "operator_dedup": {
           "numerator": 2,
-          "denominator": 6,
-          "weight": 0.3333333333333333,
+          "denominator": 7,
+          "weight": 0.2857142857142857,
           "flows_leaving_source": 4,
           "flow_proportion": 0.5,
           "backing_flow_ids": [
             "notpetya",
-            "turla_carbon_emulation_plan"
+            "sony_malware"
           ]
         },
         "raw": {
-          "numerator": 2,
-          "denominator": 6,
-          "weight": 0.3333333333333333,
-          "flows_leaving_source": 4,
-          "flow_proportion": 0.5,
+          "numerator": 3,
+          "denominator": 8,
+          "weight": 0.375,
+          "flows_leaving_source": 5,
+          "flow_proportion": 0.6,
           "backing_flow_ids": [
             "notpetya",
-            "turla_carbon_emulation_plan"
+            "sony_malware",
+            "turla_snake_emulation_plan"
+          ]
+        }
+      }
+    },
+    {
+      "name": "persistence__to__collection",
+      "src_tactic": "persistence",
+      "dst_tactic": "collection",
+      "gasp_edges": [
+        [
+          "T1505",
+          "T1114"
+        ]
+      ],
+      "weights": {
+        "operator_dedup": {
+          "numerator": 0,
+          "denominator": 9,
+          "weight": 0.0,
+          "flows_leaving_source": 5,
+          "flow_proportion": 0.0,
+          "backing_flow_ids": []
+        },
+        "raw": {
+          "numerator": 1,
+          "denominator": 12,
+          "weight": 0.08333333333333333,
+          "flows_leaving_source": 6,
+          "flow_proportion": 0.16666666666666666,
+          "backing_flow_ids": [
+            "turla_snake_emulation_plan"
           ]
         }
       }
@@ -2103,8 +2281,16 @@
       "dst_tactic": "command-and-control",
       "gasp_edges": [
         [
-          "T1205",
-          "T1132"
+          "T1098",
+          "T1573"
+        ],
+        [
+          "T1136",
+          "T1105"
+        ],
+        [
+          "T1505",
+          "T1105"
         ],
         [
           "T1543",
@@ -2117,23 +2303,26 @@
       ],
       "weights": {
         "operator_dedup": {
-          "numerator": 1,
-          "denominator": 6,
-          "weight": 0.16666666666666666,
-          "flows_leaving_source": 4,
-          "flow_proportion": 0.25,
+          "numerator": 2,
+          "denominator": 9,
+          "weight": 0.2222222222222222,
+          "flows_leaving_source": 5,
+          "flow_proportion": 0.4,
           "backing_flow_ids": [
-            "turla_carbon_emulation_plan"
+            "dfir_bumblebee_round_2",
+            "sony_malware"
           ]
         },
         "raw": {
-          "numerator": 1,
-          "denominator": 6,
-          "weight": 0.16666666666666666,
-          "flows_leaving_source": 4,
-          "flow_proportion": 0.25,
+          "numerator": 3,
+          "denominator": 12,
+          "weight": 0.25,
+          "flows_leaving_source": 6,
+          "flow_proportion": 0.5,
           "backing_flow_ids": [
-            "turla_carbon_emulation_plan"
+            "dfir_bumblebee_round_2",
+            "sony_malware",
+            "turla_snake_emulation_plan"
           ]
         }
       }
@@ -2144,29 +2333,33 @@
       "dst_tactic": "credential-access",
       "gasp_edges": [
         [
-          "T1205",
-          "T1040"
+          "T1098",
+          "T1003"
+        ],
+        [
+          "T1505",
+          "T1555"
         ]
       ],
       "weights": {
         "operator_dedup": {
           "numerator": 1,
-          "denominator": 6,
-          "weight": 0.16666666666666666,
-          "flows_leaving_source": 4,
-          "flow_proportion": 0.25,
+          "denominator": 9,
+          "weight": 0.1111111111111111,
+          "flows_leaving_source": 5,
+          "flow_proportion": 0.2,
           "backing_flow_ids": [
-            "turla_carbon_emulation_plan"
+            "cisa_iranian_apt"
           ]
         },
         "raw": {
           "numerator": 1,
-          "denominator": 6,
-          "weight": 0.16666666666666666,
-          "flows_leaving_source": 4,
-          "flow_proportion": 0.25,
+          "denominator": 12,
+          "weight": 0.08333333333333333,
+          "flows_leaving_source": 6,
+          "flow_proportion": 0.16666666666666666,
           "backing_flow_ids": [
-            "turla_carbon_emulation_plan"
+            "cisa_iranian_apt"
           ]
         }
       }
@@ -2177,26 +2370,36 @@
       "dst_tactic": "discovery",
       "gasp_edges": [
         [
-          "T1112",
-          "T1083"
+          "T1136",
+          "T1016"
+        ],
+        [
+          "T1505",
+          "T1046"
         ]
       ],
       "weights": {
         "operator_dedup": {
-          "numerator": 0,
-          "denominator": 6,
-          "weight": 0.0,
-          "flows_leaving_source": 4,
-          "flow_proportion": 0.0,
-          "backing_flow_ids": []
+          "numerator": 2,
+          "denominator": 9,
+          "weight": 0.2222222222222222,
+          "flows_leaving_source": 5,
+          "flow_proportion": 0.4,
+          "backing_flow_ids": [
+            "cisa_iranian_apt",
+            "dfir_bumblebee_round_2"
+          ]
         },
         "raw": {
-          "numerator": 0,
-          "denominator": 6,
-          "weight": 0.0,
-          "flows_leaving_source": 4,
-          "flow_proportion": 0.0,
-          "backing_flow_ids": []
+          "numerator": 2,
+          "denominator": 12,
+          "weight": 0.16666666666666666,
+          "flows_leaving_source": 6,
+          "flow_proportion": 0.3333333333333333,
+          "backing_flow_ids": [
+            "cisa_iranian_apt",
+            "dfir_bumblebee_round_2"
+          ]
         }
       }
     },
@@ -2205,14 +2408,6 @@
       "src_tactic": "persistence",
       "dst_tactic": "execution",
       "gasp_edges": [
-        [
-          "T1112",
-          "T1059"
-        ],
-        [
-          "T1112",
-          "T1569"
-        ],
         [
           "T1137",
           "T1574"
@@ -2236,29 +2431,27 @@
       ],
       "weights": {
         "operator_dedup": {
-          "numerator": 4,
-          "denominator": 6,
-          "weight": 0.6666666666666666,
-          "flows_leaving_source": 4,
-          "flow_proportion": 1.0,
+          "numerator": 3,
+          "denominator": 9,
+          "weight": 0.3333333333333333,
+          "flows_leaving_source": 5,
+          "flow_proportion": 0.6,
           "backing_flow_ids": [
             "cobalt_kitty_campaign",
-            "gootloader",
-            "notpetya",
-            "turla_carbon_emulation_plan"
+            "dfir_bumblebee_round_2",
+            "notpetya"
           ]
         },
         "raw": {
-          "numerator": 4,
-          "denominator": 6,
-          "weight": 0.6666666666666666,
-          "flows_leaving_source": 4,
-          "flow_proportion": 1.0,
+          "numerator": 3,
+          "denominator": 12,
+          "weight": 0.25,
+          "flows_leaving_source": 6,
+          "flow_proportion": 0.5,
           "backing_flow_ids": [
             "cobalt_kitty_campaign",
-            "gootloader",
-            "notpetya",
-            "turla_carbon_emulation_plan"
+            "dfir_bumblebee_round_2",
+            "notpetya"
           ]
         }
       }
@@ -2276,19 +2469,87 @@
       "weights": {
         "operator_dedup": {
           "numerator": 0,
-          "denominator": 6,
+          "denominator": 9,
           "weight": 0.0,
-          "flows_leaving_source": 4,
+          "flows_leaving_source": 5,
           "flow_proportion": 0.0,
           "backing_flow_ids": []
         },
         "raw": {
           "numerator": 0,
-          "denominator": 6,
+          "denominator": 12,
           "weight": 0.0,
-          "flows_leaving_source": 4,
+          "flows_leaving_source": 6,
           "flow_proportion": 0.0,
           "backing_flow_ids": []
+        }
+      }
+    },
+    {
+      "name": "persistence__to__lateral-movement",
+      "src_tactic": "persistence",
+      "dst_tactic": "lateral-movement",
+      "gasp_edges": [
+        [
+          "T1136",
+          "T1021"
+        ],
+        [
+          "T1505",
+          "T1570"
+        ]
+      ],
+      "weights": {
+        "operator_dedup": {
+          "numerator": 1,
+          "denominator": 9,
+          "weight": 0.1111111111111111,
+          "flows_leaving_source": 5,
+          "flow_proportion": 0.2,
+          "backing_flow_ids": [
+            "cisa_iranian_apt"
+          ]
+        },
+        "raw": {
+          "numerator": 1,
+          "denominator": 12,
+          "weight": 0.08333333333333333,
+          "flows_leaving_source": 6,
+          "flow_proportion": 0.16666666666666666,
+          "backing_flow_ids": [
+            "cisa_iranian_apt"
+          ]
+        }
+      }
+    },
+    {
+      "name": "persistence__to__privilege-escalation",
+      "src_tactic": "persistence",
+      "dst_tactic": "privilege-escalation",
+      "gasp_edges": [
+        [
+          "T1546",
+          "T1055"
+        ]
+      ],
+      "weights": {
+        "operator_dedup": {
+          "numerator": 0,
+          "denominator": 9,
+          "weight": 0.0,
+          "flows_leaving_source": 5,
+          "flow_proportion": 0.0,
+          "backing_flow_ids": []
+        },
+        "raw": {
+          "numerator": 1,
+          "denominator": 12,
+          "weight": 0.08333333333333333,
+          "flows_leaving_source": 6,
+          "flow_proportion": 0.16666666666666666,
+          "backing_flow_ids": [
+            "turla_snake_emulation_plan"
+          ]
         }
       }
     },
@@ -2298,8 +2559,8 @@
       "dst_tactic": "stealth",
       "gasp_edges": [
         [
-          "T1112",
-          "T1036"
+          "T1505",
+          "T1070"
         ],
         [
           "T1543",
@@ -2313,17 +2574,17 @@
       "weights": {
         "operator_dedup": {
           "numerator": 0,
-          "denominator": 6,
+          "denominator": 9,
           "weight": 0.0,
-          "flows_leaving_source": 4,
+          "flows_leaving_source": 5,
           "flow_proportion": 0.0,
           "backing_flow_ids": []
         },
         "raw": {
           "numerator": 0,
-          "denominator": 6,
+          "denominator": 12,
           "weight": 0.0,
-          "flows_leaving_source": 4,
+          "flows_leaving_source": 6,
           "flow_proportion": 0.0,
           "backing_flow_ids": []
         }
@@ -2349,23 +2610,21 @@
       ],
       "weights": {
         "operator_dedup": {
-          "numerator": 1,
-          "denominator": 5,
-          "weight": 0.2,
-          "flows_leaving_source": 3,
-          "flow_proportion": 0.3333333333333333,
-          "backing_flow_ids": [
-            "turla_carbon_emulation_plan"
-          ]
+          "numerator": 0,
+          "denominator": 1,
+          "weight": 0.0,
+          "flows_leaving_source": 1,
+          "flow_proportion": 0.0,
+          "backing_flow_ids": []
         },
         "raw": {
           "numerator": 1,
           "denominator": 5,
           "weight": 0.2,
-          "flows_leaving_source": 3,
-          "flow_proportion": 0.3333333333333333,
+          "flows_leaving_source": 2,
+          "flow_proportion": 0.5,
           "backing_flow_ids": [
-            "turla_carbon_emulation_plan"
+            "turla_snake_emulation_plan"
           ]
         }
       }
@@ -2385,32 +2644,26 @@
         ],
         [
           "T1134",
-          "T1012"
-        ],
-        [
-          "T1134",
           "T1049"
         ]
       ],
       "weights": {
         "operator_dedup": {
-          "numerator": 1,
-          "denominator": 5,
-          "weight": 0.2,
-          "flows_leaving_source": 3,
-          "flow_proportion": 0.3333333333333333,
-          "backing_flow_ids": [
-            "turla_carbon_emulation_plan"
-          ]
+          "numerator": 0,
+          "denominator": 1,
+          "weight": 0.0,
+          "flows_leaving_source": 1,
+          "flow_proportion": 0.0,
+          "backing_flow_ids": []
         },
         "raw": {
           "numerator": 1,
           "denominator": 5,
           "weight": 0.2,
-          "flows_leaving_source": 3,
-          "flow_proportion": 0.3333333333333333,
+          "flows_leaving_source": 2,
+          "flow_proportion": 0.5,
           "backing_flow_ids": [
-            "turla_carbon_emulation_plan"
+            "turla_snake_emulation_plan"
           ]
         }
       }
@@ -2431,23 +2684,21 @@
       ],
       "weights": {
         "operator_dedup": {
-          "numerator": 1,
-          "denominator": 5,
-          "weight": 0.2,
-          "flows_leaving_source": 3,
-          "flow_proportion": 0.3333333333333333,
-          "backing_flow_ids": [
-            "conti_ransomware"
-          ]
+          "numerator": 0,
+          "denominator": 1,
+          "weight": 0.0,
+          "flows_leaving_source": 1,
+          "flow_proportion": 0.0,
+          "backing_flow_ids": []
         },
         "raw": {
           "numerator": 1,
           "denominator": 5,
           "weight": 0.2,
-          "flows_leaving_source": 3,
-          "flow_proportion": 0.3333333333333333,
+          "flows_leaving_source": 2,
+          "flow_proportion": 0.5,
           "backing_flow_ids": [
-            "conti_ransomware"
+            "turla_snake_emulation_plan"
           ]
         }
       }
@@ -2465,9 +2716,9 @@
       "weights": {
         "operator_dedup": {
           "numerator": 0,
-          "denominator": 5,
+          "denominator": 1,
           "weight": 0.0,
-          "flows_leaving_source": 3,
+          "flows_leaving_source": 1,
           "flow_proportion": 0.0,
           "backing_flow_ids": []
         },
@@ -2475,7 +2726,7 @@
           "numerator": 0,
           "denominator": 5,
           "weight": 0.0,
-          "flows_leaving_source": 3,
+          "flows_leaving_source": 2,
           "flow_proportion": 0.0,
           "backing_flow_ids": []
         }
@@ -2497,25 +2748,24 @@
       ],
       "weights": {
         "operator_dedup": {
-          "numerator": 2,
-          "denominator": 5,
-          "weight": 0.4,
-          "flows_leaving_source": 3,
-          "flow_proportion": 0.6666666666666666,
+          "numerator": 1,
+          "denominator": 1,
+          "weight": 1.0,
+          "flows_leaving_source": 1,
+          "flow_proportion": 1.0,
           "backing_flow_ids": [
-            "notpetya",
-            "turla_carbon_emulation_plan"
+            "notpetya"
           ]
         },
         "raw": {
           "numerator": 2,
           "denominator": 5,
           "weight": 0.4,
-          "flows_leaving_source": 3,
-          "flow_proportion": 0.6666666666666666,
+          "flows_leaving_source": 2,
+          "flow_proportion": 1.0,
           "backing_flow_ids": [
             "notpetya",
-            "turla_carbon_emulation_plan"
+            "turla_snake_emulation_plan"
           ]
         }
       }
@@ -2560,25 +2810,27 @@
       "gasp_edges": [
         [
           "T1070",
-          "T1560"
+          "T1114"
         ]
       ],
       "weights": {
         "operator_dedup": {
           "numerator": 0,
-          "denominator": 11,
+          "denominator": 7,
           "weight": 0.0,
-          "flows_leaving_source": 4,
+          "flows_leaving_source": 5,
           "flow_proportion": 0.0,
           "backing_flow_ids": []
         },
         "raw": {
-          "numerator": 0,
-          "denominator": 11,
-          "weight": 0.0,
-          "flows_leaving_source": 4,
-          "flow_proportion": 0.0,
-          "backing_flow_ids": []
+          "numerator": 1,
+          "denominator": 13,
+          "weight": 0.07692307692307693,
+          "flows_leaving_source": 6,
+          "flow_proportion": 0.16666666666666666,
+          "backing_flow_ids": [
+            "turla_snake_emulation_plan"
+          ]
         }
       }
     },
@@ -2618,25 +2870,24 @@
       ],
       "weights": {
         "operator_dedup": {
-          "numerator": 2,
-          "denominator": 11,
-          "weight": 0.18181818181818182,
-          "flows_leaving_source": 4,
-          "flow_proportion": 0.5,
+          "numerator": 1,
+          "denominator": 7,
+          "weight": 0.14285714285714285,
+          "flows_leaving_source": 5,
+          "flow_proportion": 0.2,
           "backing_flow_ids": [
-            "cobalt_kitty_campaign",
-            "turla_carbon_emulation_plan"
+            "cobalt_kitty_campaign"
           ]
         },
         "raw": {
           "numerator": 2,
-          "denominator": 11,
-          "weight": 0.18181818181818182,
-          "flows_leaving_source": 4,
-          "flow_proportion": 0.5,
+          "denominator": 13,
+          "weight": 0.15384615384615385,
+          "flows_leaving_source": 6,
+          "flow_proportion": 0.3333333333333333,
           "backing_flow_ids": [
             "cobalt_kitty_campaign",
-            "turla_carbon_emulation_plan"
+            "turla_snake_emulation_plan"
           ]
         }
       }
@@ -2653,57 +2904,20 @@
       ],
       "weights": {
         "operator_dedup": {
-          "numerator": 1,
-          "denominator": 11,
-          "weight": 0.09090909090909091,
-          "flows_leaving_source": 4,
-          "flow_proportion": 0.25,
-          "backing_flow_ids": [
-            "turla_carbon_emulation_plan"
-          ]
+          "numerator": 0,
+          "denominator": 7,
+          "weight": 0.0,
+          "flows_leaving_source": 5,
+          "flow_proportion": 0.0,
+          "backing_flow_ids": []
         },
         "raw": {
-          "numerator": 1,
-          "denominator": 11,
-          "weight": 0.09090909090909091,
-          "flows_leaving_source": 4,
-          "flow_proportion": 0.25,
-          "backing_flow_ids": [
-            "turla_carbon_emulation_plan"
-          ]
-        }
-      }
-    },
-    {
-      "name": "stealth__to__defense-impairment",
-      "src_tactic": "stealth",
-      "dst_tactic": "defense-impairment",
-      "gasp_edges": [
-        [
-          "T1036",
-          "T1222"
-        ]
-      ],
-      "weights": {
-        "operator_dedup": {
-          "numerator": 1,
-          "denominator": 11,
-          "weight": 0.09090909090909091,
-          "flows_leaving_source": 4,
-          "flow_proportion": 0.25,
-          "backing_flow_ids": [
-            "turla_carbon_emulation_plan"
-          ]
-        },
-        "raw": {
-          "numerator": 1,
-          "denominator": 11,
-          "weight": 0.09090909090909091,
-          "flows_leaving_source": 4,
-          "flow_proportion": 0.25,
-          "backing_flow_ids": [
-            "turla_carbon_emulation_plan"
-          ]
+          "numerator": 0,
+          "denominator": 13,
+          "weight": 0.0,
+          "flows_leaving_source": 6,
+          "flow_proportion": 0.0,
+          "backing_flow_ids": []
         }
       }
     },
@@ -2751,37 +2965,28 @@
         [
           "T1218",
           "T1482"
-        ],
-        [
-          "T1218",
-          "T1615"
-        ],
-        [
-          "T1564",
-          "T1083"
         ]
       ],
       "weights": {
         "operator_dedup": {
-          "numerator": 2,
-          "denominator": 11,
-          "weight": 0.18181818181818182,
-          "flows_leaving_source": 4,
-          "flow_proportion": 0.5,
+          "numerator": 1,
+          "denominator": 7,
+          "weight": 0.14285714285714285,
+          "flows_leaving_source": 5,
+          "flow_proportion": 0.2,
           "backing_flow_ids": [
-            "gootloader",
             "notpetya"
           ]
         },
         "raw": {
           "numerator": 2,
-          "denominator": 11,
-          "weight": 0.18181818181818182,
-          "flows_leaving_source": 4,
-          "flow_proportion": 0.5,
+          "denominator": 13,
+          "weight": 0.15384615384615385,
+          "flows_leaving_source": 6,
+          "flow_proportion": 0.3333333333333333,
           "backing_flow_ids": [
-            "gootloader",
-            "notpetya"
+            "notpetya",
+            "turla_snake_emulation_plan"
           ]
         }
       }
@@ -2824,29 +3029,38 @@
           "T1047"
         ],
         [
+          "T1497",
+          "T1059"
+        ],
+        [
           "T1564",
           "T1574"
         ]
       ],
       "weights": {
         "operator_dedup": {
-          "numerator": 1,
-          "denominator": 11,
-          "weight": 0.09090909090909091,
-          "flows_leaving_source": 4,
-          "flow_proportion": 0.25,
+          "numerator": 3,
+          "denominator": 7,
+          "weight": 0.42857142857142855,
+          "flows_leaving_source": 5,
+          "flow_proportion": 0.6,
           "backing_flow_ids": [
-            "cobalt_kitty_campaign"
+            "cobalt_kitty_campaign",
+            "dfir_bumblebee_round_2",
+            "sony_malware"
           ]
         },
         "raw": {
-          "numerator": 1,
-          "denominator": 11,
-          "weight": 0.09090909090909091,
-          "flows_leaving_source": 4,
-          "flow_proportion": 0.25,
+          "numerator": 4,
+          "denominator": 13,
+          "weight": 0.3076923076923077,
+          "flows_leaving_source": 6,
+          "flow_proportion": 0.6666666666666666,
           "backing_flow_ids": [
-            "cobalt_kitty_campaign"
+            "cobalt_kitty_campaign",
+            "dfir_bumblebee_round_2",
+            "sony_malware",
+            "turla_snake_emulation_plan"
           ]
         }
       }
@@ -2868,23 +3082,52 @@
       "weights": {
         "operator_dedup": {
           "numerator": 1,
-          "denominator": 11,
-          "weight": 0.09090909090909091,
-          "flows_leaving_source": 4,
-          "flow_proportion": 0.25,
+          "denominator": 7,
+          "weight": 0.14285714285714285,
+          "flows_leaving_source": 5,
+          "flow_proportion": 0.2,
           "backing_flow_ids": [
             "notpetya"
           ]
         },
         "raw": {
           "numerator": 1,
-          "denominator": 11,
-          "weight": 0.09090909090909091,
-          "flows_leaving_source": 4,
-          "flow_proportion": 0.25,
+          "denominator": 13,
+          "weight": 0.07692307692307693,
+          "flows_leaving_source": 6,
+          "flow_proportion": 0.16666666666666666,
           "backing_flow_ids": [
             "notpetya"
           ]
+        }
+      }
+    },
+    {
+      "name": "stealth__to__initial-access",
+      "src_tactic": "stealth",
+      "dst_tactic": "initial-access",
+      "gasp_edges": [
+        [
+          "T1070",
+          "T1190"
+        ]
+      ],
+      "weights": {
+        "operator_dedup": {
+          "numerator": 0,
+          "denominator": 7,
+          "weight": 0.0,
+          "flows_leaving_source": 5,
+          "flow_proportion": 0.0,
+          "backing_flow_ids": []
+        },
+        "raw": {
+          "numerator": 0,
+          "denominator": 13,
+          "weight": 0.0,
+          "flows_leaving_source": 6,
+          "flow_proportion": 0.0,
+          "backing_flow_ids": []
         }
       }
     },
@@ -2904,24 +3147,20 @@
       ],
       "weights": {
         "operator_dedup": {
-          "numerator": 1,
-          "denominator": 11,
-          "weight": 0.09090909090909091,
-          "flows_leaving_source": 4,
-          "flow_proportion": 0.25,
-          "backing_flow_ids": [
-            "turla_carbon_emulation_plan"
-          ]
+          "numerator": 0,
+          "denominator": 7,
+          "weight": 0.0,
+          "flows_leaving_source": 5,
+          "flow_proportion": 0.0,
+          "backing_flow_ids": []
         },
         "raw": {
-          "numerator": 1,
-          "denominator": 11,
-          "weight": 0.09090909090909091,
-          "flows_leaving_source": 4,
-          "flow_proportion": 0.25,
-          "backing_flow_ids": [
-            "turla_carbon_emulation_plan"
-          ]
+          "numerator": 0,
+          "denominator": 13,
+          "weight": 0.0,
+          "flows_leaving_source": 6,
+          "flow_proportion": 0.0,
+          "backing_flow_ids": []
         }
       }
     },
@@ -2932,19 +3171,31 @@
       "gasp_edges": [
         [
           "T1027",
-          "T1112"
+          "T1543"
         ],
         [
           "T1027",
-          "T1543"
+          "T1546"
         ],
         [
           "T1027",
           "T1547"
         ],
         [
+          "T1070",
+          "T1136"
+        ],
+        [
+          "T1070",
+          "T1546"
+        ],
+        [
           "T1140",
           "T1543"
+        ],
+        [
+          "T1218",
+          "T1136"
         ],
         [
           "T1218",
@@ -2954,22 +3205,23 @@
       "weights": {
         "operator_dedup": {
           "numerator": 1,
-          "denominator": 11,
-          "weight": 0.09090909090909091,
-          "flows_leaving_source": 4,
-          "flow_proportion": 0.25,
+          "denominator": 7,
+          "weight": 0.14285714285714285,
+          "flows_leaving_source": 5,
+          "flow_proportion": 0.2,
           "backing_flow_ids": [
-            "turla_carbon_emulation_plan"
+            "cisa_iranian_apt"
           ]
         },
         "raw": {
-          "numerator": 1,
-          "denominator": 11,
-          "weight": 0.09090909090909091,
-          "flows_leaving_source": 4,
-          "flow_proportion": 0.25,
+          "numerator": 2,
+          "denominator": 13,
+          "weight": 0.15384615384615385,
+          "flows_leaving_source": 6,
+          "flow_proportion": 0.3333333333333333,
           "backing_flow_ids": [
-            "turla_carbon_emulation_plan"
+            "cisa_iranian_apt",
+            "turla_snake_emulation_plan"
           ]
         }
       }
@@ -2979,6 +3231,10 @@
       "src_tactic": "stealth",
       "dst_tactic": "privilege-escalation",
       "gasp_edges": [
+        [
+          "T1014",
+          "T1055"
+        ],
         [
           "T1027",
           "T1055"
@@ -2998,23 +3254,21 @@
       ],
       "weights": {
         "operator_dedup": {
-          "numerator": 1,
-          "denominator": 11,
-          "weight": 0.09090909090909091,
-          "flows_leaving_source": 4,
-          "flow_proportion": 0.25,
-          "backing_flow_ids": [
-            "turla_carbon_emulation_plan"
-          ]
+          "numerator": 0,
+          "denominator": 7,
+          "weight": 0.0,
+          "flows_leaving_source": 5,
+          "flow_proportion": 0.0,
+          "backing_flow_ids": []
         },
         "raw": {
           "numerator": 1,
-          "denominator": 11,
-          "weight": 0.09090909090909091,
-          "flows_leaving_source": 4,
-          "flow_proportion": 0.25,
+          "denominator": 13,
+          "weight": 0.07692307692307693,
+          "flows_leaving_source": 6,
+          "flow_proportion": 0.16666666666666666,
           "backing_flow_ids": [
-            "turla_carbon_emulation_plan"
+            "turla_snake_emulation_plan"
           ]
         }
       }
@@ -3023,18 +3277,19 @@
   "report": {
     "class_name": "objective_impact",
     "entry_tactic": "reconnaissance",
-    "n_places": 14,
-    "n_transitions": 71,
-    "n_inter_tactic_edges": 239,
-    "n_intra_tactic_selfloops_dropped": 38,
+    "n_places": 15,
+    "n_transitions": 78,
+    "n_inter_tactic_edges": 265,
+    "n_intra_tactic_selfloops_dropped": 40,
     "objective_tactics": [
       "command-and-control",
+      "exfiltration",
       "impact"
     ],
     "objective_tactics_data": [
-      "discovery",
-      "resource-development",
-      "stealth"
+      "collection",
+      "credential-access",
+      "resource-development"
     ],
     "reachable_from_entry_marking": [
       "collection",
@@ -3043,6 +3298,7 @@
       "defense-impairment",
       "discovery",
       "execution",
+      "exfiltration",
       "impact",
       "initial-access",
       "lateral-movement",
@@ -3053,6 +3309,7 @@
     ],
     "objective_reachable_from_entry": {
       "command-and-control": true,
+      "exfiltration": true,
       "impact": true
     },
     "any_objective_reachable_from_entry": true,
@@ -3064,6 +3321,7 @@
       "defense-impairment",
       "discovery",
       "execution",
+      "exfiltration",
       "impact",
       "initial-access",
       "lateral-movement",
@@ -3075,7 +3333,7 @@
     ],
     "entry_tactics": [
       "command-and-control",
-      "credential-access",
+      "defense-impairment",
       "execution",
       "initial-access",
       "persistence",
@@ -3083,6 +3341,7 @@
       "resource-development"
     ],
     "sink_tactics": [
+      "collection",
       "resource-development"
     ],
     "shortest_entry_to_objective": {
@@ -3102,20 +3361,20 @@
       "path": [
         "reconnaissance",
         "initial-access",
-        "stealth",
+        "command-and-control",
         "defense-impairment",
-        "execution",
+        "stealth",
         "privilege-escalation",
+        "lateral-movement",
         "persistence",
         "impact",
+        "execution",
         "discovery",
-        "lateral-movement",
         "credential-access",
-        "collection",
-        "command-and-control"
+        "exfiltration"
       ],
       "entry": "reconnaissance",
-      "objective": "command-and-control"
+      "objective": "exfiltration"
     },
     "prefix_gap": {
       "reconnaissance_present": true,
@@ -3129,7 +3388,7 @@
       "recon_reaches_initial_access": true,
       "interpretation": "BRIDGED by 1 direct recon->initial-access edge(s) [('T1593', 'T1195')] -- a thin, fragile prefix link"
     },
-    "reachable_marking_count": 13
+    "reachable_marking_count": 14
   },
   "weighting": {
     "definition": "W-A flow-proportion (D3): weight = numerator / denominator, numerator = distinct profile flows contributing >=1 technique-edge under this tactic-pair, denominator = sum of numerators over the source place's retained inter-tactic out-transitions (out-edge-normalised; per-place out-weights sum to 1). flow_proportion = numerator / flows_leaving_source is the literal minuted per-flow proportion (sums to >1 where flows branch). Weights are workflow-recurrence under a survivorship-biased corpus - never efficacy, transition probability of an actor, or adversary optimality (metrics_semantics.md s(f)).",
@@ -3140,46 +3399,52 @@
       "operator_dedup": {
         "n_profile_flows": 6,
         "profile_flow_ids": [
+          "cisa_iranian_apt",
           "cobalt_kitty_campaign",
-          "conti_ransomware",
-          "gootloader",
-          "mac_malware_steals_crypto",
+          "dfir_bumblebee_round_2",
           "notpetya",
-          "turla_carbon_emulation_plan"
+          "sony_malware",
+          "uber_breach"
         ],
-        "places_without_flow_backed_out_edges": []
+        "places_without_flow_backed_out_edges": [
+          "defense-impairment",
+          "exfiltration"
+        ]
       },
       "raw": {
         "n_profile_flows": 7,
         "profile_flow_ids": [
-          "cisa_aa22_138b_vmware_workspace_ta2",
+          "cisa_iranian_apt",
           "cobalt_kitty_campaign",
-          "conti_ransomware",
-          "gootloader",
-          "mac_malware_steals_crypto",
+          "dfir_bumblebee_round_2",
           "notpetya",
-          "turla_carbon_emulation_plan"
+          "sony_malware",
+          "turla_snake_emulation_plan",
+          "uber_breach"
         ],
-        "places_without_flow_backed_out_edges": []
+        "places_without_flow_backed_out_edges": [
+          "exfiltration"
+        ]
       }
     }
   },
   "partition_control": {
     "slot": "objective_impact",
     "flow_ids": [
-      "cisa_aa22_138b_vmware_workspace_ta2",
+      "cisa_iranian_apt",
       "cobalt_kitty_campaign",
-      "conti_ransomware",
-      "gootloader",
-      "mac_malware_steals_crypto",
+      "dfir_bumblebee_round_2",
       "notpetya",
-      "turla_carbon_emulation_plan"
+      "sony_malware",
+      "turla_snake_emulation_plan",
+      "uber_breach"
     ],
     "objective_tactics": "the declared objective tactics the group holds (label-blind: the slot name carries no objective)",
     "partition": 1,
-    "draw": 2,
+    "draw": 24,
     "partition_seed": 20261002,
     "guard": "weighted",
-    "stratified": true
+    "stratified": true,
+    "redrawn": "2026-10-07"
   }
 }

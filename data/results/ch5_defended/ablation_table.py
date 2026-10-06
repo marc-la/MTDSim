@@ -151,7 +151,7 @@ def main() -> None:
         "% memory_ablation_numbers.json and partition_ablation_numbers.json; never hand-edit. Section 5.4's headline float,",
         "% cited by all three subsections. The attack-profiles block and its marking added 2026-10-02, DRAFT STATE.",
         "% Caption DRAFT STATE 2026-10-01, ratify on read.",
-        r"\begin{table}[!ht]",  # 2026-10-07 (Marc: alone and centred on a float page at the chapter end): here, after 5.4's preamble
+        r"\begin{table}[!ht]",  # 2026-10-07 (Marc: centred alone on a float page; "is it conventional to render tables here"): [!ht], after 5.4's preamble. [tp] tried: 5.4's text then fits on one page and the table goes alone to a float page again
         r"  \centering",
         (r"  \caption[The APT attacker model with and without each component]{The APT attacker model "
          r"with and without each component, averaged over $c_1$ to $c_4$. "
