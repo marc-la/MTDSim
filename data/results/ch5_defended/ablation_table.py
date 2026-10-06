@@ -151,7 +151,7 @@ def main() -> None:
         "% memory_ablation_numbers.json and partition_ablation_numbers.json; never hand-edit. Section 5.4's headline float,",
         "% cited by all three subsections. The attack-profiles block and its marking added 2026-10-02, DRAFT STATE.",
         "% Caption DRAFT STATE 2026-10-01, ratify on read.",
-        r"\begin{table}[tp]",
+        r"\begin{table}[!ht]",  # 2026-10-07 (Marc: alone and centred on a float page at the chapter end): here, after 5.4's preamble
         r"  \centering",
         (r"  \caption[The APT attacker model with and without each component]{The APT attacker model "
          r"with and without each component, averaged over $c_1$ to $c_4$. "
