@@ -7799,7 +7799,7 @@ diversity in \prelim{70}\,\% or more of its decisions against either attacker
   % 2026-10-02 (Marc: "if somebody just read the captions ... they could figure out what's happening";
   %  results_presentation_standard.md S4, I1-I3, T2, F5): caption rewritten to read the float alone,
   %  decoding only; metrics stay defined in Section 4.5. Session-written, DRAFT STATE --- ratify on read.
-  \caption[NCR reduction by MTD and attack profile, across the deployment interval]{NCR reduction (Section~\ref{sec:evaluation-metrics}) against the deployment interval for each attack profile $c_1$ to $c_4$ of the APT attacker model, with the baseline attacker dashed for comparison, 1\,000 runs per point: each MTD mechanism deployed alone, panels~(a) to~(g), in rows by the layer it reconfigures (Table~\ref{tab:defence-mechanisms}), and each deployment strategy, panels~(h) to~(j): random, MTDShield (Appendix~\ref{app:mtdshield}) and alternative (Table~\ref{tab:deployment-strategies}). NCR reduction is 1 when no host is compromised, 0 when as many as with no MTD, and negative when more. Table~\ref{tab:eff-interval-values} gives the baseline attacker's values, and the APT attacker model's averaged over $c_1$ to $c_4$. The interval axis is logarithmic. Whiskers: 95\,\% percentile bootstrap intervals over runs; where none shows, the interval is narrower than the marker.}
+  \caption[NCR reduction against the deployment interval, for each attack profile]{NCR reduction against the deployment interval, for each attack profile and the baseline attacker. Where no whisker shows, the confidence interval is narrower than the marker. Table~\ref{tab:eff-interval-values} gives each point's value for the baseline attacker, and averaged over $c_1$ to $c_4$ for the APT attacker model.}
   \label{fig:eff-suppression-profiles}
 \end{figure}
 
@@ -7847,18 +7847,6 @@ diversity in \prelim{70}\,\% or more of its decisions against either attacker
 %  numbers filled 2026-10-06 from the 1 000-seed JSON named in the NUMBERS line (each \prelim{n}
 %  is the grep target; Marc approved the draft's form before the fill). Replaces the 2026-09-26 text (git history). DRAFT STATE.
 % NUMBERS: ? = interval from which port shuffle and OS diversity fall close to zero against the baseline attacker; ? = interval from which c3 keeps the larger host-layer reduction (numbers_reported.json sweep.by_interval[*].profile).
-Figure~\ref{fig:eff-suppression-profiles} shows that the four attack profiles
-follow one line for each MTD mechanism, and the baseline attacker lies outside
-their range up to 200\,s under every mechanism but user shuffle. The three
-host-layer mechanisms act alike against the APT attacker model up to 200\,s
-(panels a to c). IP shuffle reduces the baseline attacker's NCR more than
-either topology shuffle at every interval. Service diversity and IP shuffle are
-the only MTD mechanisms that keep a reduction against the baseline attacker at
-every interval (panels a and f). Port shuffle and OS diversity fall close to
-zero against it from \prelim{500}\,s. User shuffle reduces the baseline attacker's NCR only
-up to \prelim{100}\,s. $c_3$ is the exception among the profiles: at \prelim{500} and
-\prelim{1\,000}\,s it keeps a larger host-layer reduction than the other three.
-
 % ---- PARAGRAPH 2: between Figure fig:eff-suppression-profiles and Figure fig:eff-schemes-profiles ----
 % REWRITTEN 2026-09-26 on Marc's read ("very rhetorically inflated ... literally we
 %  just need to describe what's happening"; his step-through of every float is
@@ -7886,10 +7874,26 @@ up to \prelim{100}\,s. $c_3$ is the exception among the profiles: at \prelim{500
 %  numbers filled 2026-10-06 from the 1 000-seed JSON named in the NUMBERS line (each \prelim{n}
 %  is the grep target; Marc approved the draft's form before the fill). Replaces the 2026-09-26 text (git history). DRAFT STATE.
 % NUMBERS: ? = interval up to which the baseline line lies above every profile under MTDShield; ? = the same, below, under alternative (numbers_reported.json sweep).
-Figure~\ref{fig:eff-suppression-profiles}(h) to~(j) shows the same split for
-the deployment strategies. The baseline attacker's line lies above every
-attack profile's under MTDShield, up to \prelim{1\,000}\,s. It lies below every
-profile's under random and alternative at every interval.
+% ROUND 2026-10-06 (Marc: the Section 5.2 to 5.3.2 lessons; plain, no 'agree'): the paragraphs say what the
+%  by-profile figure adds to Section 5.3.2, the attack profiles' spread against the baseline attacker. Fixed:
+%  'follow one line' (OS diversity 0.09 to 0.27 at 50 s); 'outside ... but user shuffle' (user shuffle is
+%  outside too, every mechanism and strategy up to 200 s); 'the only mechanisms that keep a reduction' (port
+%  shuffle stays above zero; no threshold). Cut: four sentences on the baseline attacker mechanism by
+%  mechanism (Table E.2's values; not about the attack profiles); 'the same split'. c_3 in both directions.
+%  Nouns: attack profile (Chapter 4), NCR reduction (Section 4.5.3), MTD mechanism, deployment strategy,
+%  host-layer mechanisms, service diversity (Section 2.1), baseline attacker (Section 2.2.3). Numbers:
+%  numbers_reported.json sweep, by_interval[*].profile (spread <= 0.19 up to 200 s, OS diversity at 100 s).
+%  DRAFT STATE.
+Up to 200\,s, the four attack profiles' NCR reductions lie within
+\prelim{0.19} of one another under every MTD mechanism and deployment strategy,
+and the baseline attacker's NCR reduction lies outside the attack profiles'
+range under every one (Figure~\ref{fig:eff-suppression-profiles}). Under the
+deployment strategies, the baseline attacker's NCR reduction lies outside the
+attack profiles' range up to \prelim{1\,000}\,s (panels h to j).
+
+At \prelim{500} and \prelim{1\,000}\,s, the host-layer mechanisms reduce
+$c_3$'s NCR more than the other three attack profiles' (panels a to c), and
+service diversity reduces it less (panel f).
 % Q8 RULED 2026-10-06 (Marc: varying the timing distribution "might be a threat to validity ... second-rate"):
 %  the exponential paragraph is cut from the results; Section 6.5 carries it (content point there).
 
