@@ -570,6 +570,13 @@ def _install_objective(attack_op, network, attack_objective: str, *,
         if target_layer is not None:
             raise ValueError("target_layer is only meaningful under attack_objective='targeted'")
         return frozenset(), None, None
+    # The targeted attack scenario ends on a target host or the time limit,
+    # never on the inherited 80 % compromise-ratio stop, which is Zhang's rule
+    # for the general scenario (Brown §III-C(1), IS-SCN-03; T-d of
+    # targeted_objective_probe.md; Marc's disposition 2026-10-06). The stop is
+    # a pure read of the share compromised, so lifting it changes only the runs
+    # that reached it; a share never exceeds 1, so 1.0 never fires.
+    network._terminate_compromise_ratio = 1.0
     target_hosts, resolved = choose_target_hosts(network, target_layer=target_layer, seed=seed)
     sorter = TargetedSorter(network, target_hosts, resolved)
     attack_op.host_sorter = sorter

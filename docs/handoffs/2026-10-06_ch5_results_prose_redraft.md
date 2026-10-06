@@ -947,3 +947,17 @@ pre-existing. §5.1 runs from printed p.30 to p.32.
 2. The old §5.1 ruling comments after the Runs unit, before
    `\section{APT attacker model versus baseline attacker}`, are kept as trail.
    They describe text that no longer stands.
+
+## 14. The 80 % stop under the targeted attack scenario: ruled a bug, fixed, re-run owed (2026-10-06)
+
+**Disposition (Marc, 2026-10-06):** under the targeted attack scenario a run ends only when a target host is compromised or at 15 000 s ("there's no qualifier for NCR in the targeted attack scenario"). The inherited 80 % compromise-ratio stop is Zhang's rule for the general scenario; Brown's intent (IS-SCN-03; T-d of `targeted_objective_probe.md`) ends on the target. Closes Open 1 of `docs/sources/extractions/s45_metric_definitions/05_asp.md`.
+
+**Fix:** `src/mtdsim/l3_simulation/movement/run.py` `_install_objective` sets the network's ratio to 1.0 under `targeted` (a share never exceeds 1). One seam, shared by both attackers, the trace tool and every corpus builder. The general scenario keeps 0.8.
+
+**Verified:** seed 0 of `runs_reported.jsonl` re-run under the fix, 402 of 402 rows byte-identical. 28 sampled affected rows re-run: every old record stream is an exact prefix of the new one (the stop is a pure read, so a run changes only after it would have stopped). 27 s for 28 runs on 7 workers.
+
+**Affected rows (scan of every corpus, 2026-10-06), all the baseline attacker's:** `ch5_defended/runs_reported.jsonl` 1 072 of 67 000 baseline rows (over 40 hosts compromised); `ch5_s531_unopposed/runs_reported.jsonl` 38 of 1 000; `ch5_s531_unopposed/runs.jsonl` 20 (100-seed preliminary, not reported). The APT attacker model never exceeds 40 hosts in any corpus; the ablation corpora (`runs_ablation_memory`, `runs_memory`, `runs_partition_control`) have no affected row. Job ids: scratchpad `affected_*.jsonl` (regenerable by the scan: targeted rows with `compromised` > 40).
+
+**Owed, on Marc's go:** re-run the 1 110 reported rows; splice them into the two ledgers (new file, then os.replace; the old kept as `*.pre_ratio_fix`); re-run `ch5_defended/analyse.py` (33 min last time), `time_lost.py`, `ch5_s531_unopposed/analyse.py`; regenerate the floats; re-check every baseline-attacker number the prose quotes (ASP, MTTC, NCR, NCR reduction, ranks, rho). ASP itself was already target-only (2026-09-25), so the shifts come from runs that now continue past 40 hosts.
+
+**Thesis:** Table 5.1's End of run now reads "a target host compromised, or 15 000 s". Section 4.4's "the run ends when a target is compromised" is now true as written.

@@ -6023,10 +6023,17 @@ setting and its source. Both attackers follow the targeted attack scenario
 Section~\ref{subsec:network-model} with two target hosts in place of five,
 as in the simulator's released experiment code \citep{tay2024code}.
 
-\paragraph{Runs.} Every combination in Table~\ref{tab:experiment} is run
-1\,000 times, one run per seed, the number Arcuri and Briand
-\citep{arcuri2014hitchhiker} recommend for randomised algorithms. The seeds
-are the same in every combination, and a seed fixes the network. Each run is
+% [ROUND 5, 2026-10-06] Marc on Runs: why tell runs and seeds apart, why name
+%  Arcuri and Briand, is "combination" the word, "the same in every combination" can be
+%  plainer. Now: "combination" kept (terminology row, ratified 2026-10-02; Section 5.4
+%  uses it) and defined by its first use (attacker, MTD and deployment interval, as
+%  Table 5.1 groups them); runs and seeds collapsed into "run on the same 1 000 seeds";
+%  the plain cite (citation-pinpoint rule: paraphrase, no authors as subject); the seed's
+%  job in one clause, the "how" behind Varied settings' "same networks". DRAFT STATE.
+\paragraph{Runs.} Each combination of attacker, MTD and deployment interval
+in Table~\ref{tab:experiment} is run on the same 1\,000 seeds, the number
+recommended for randomised algorithms \citep{arcuri2014hitchhiker}. A seed
+fixes the network. Each run is
 a terminating simulation: it ends on events fixed before it starts
 (Table~\ref{tab:experiment}) \citep{law2015}, so no warm-up period is needed
 \citep{currie2016}.
