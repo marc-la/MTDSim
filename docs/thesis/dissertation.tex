@@ -6084,11 +6084,19 @@ Neighbouring ranks differ significantly and by more than a negligible effect.
 Spearman's rank correlation, $\rho$ \citep{spearman1904proof}, measures how
 closely the two attackers order the MTD by NCR reduction.
 
-\paragraph{Ablation studies.} Each ablation study
-(Section~\ref{sec:ablation}) runs under the MTD and deployment intervals that
-Table~\ref{tab:experiment} gives for it. A component's effect is negligible
-when the 95\,\% interval of $d$, between the APT attacker model with and
-without the component, lies wholly inside $\pm 0.2$.
+% [ROUND 2, 2026-10-06] Marc: "changes NCR, what does that even mean ... what's the
+%  convention". The convention is the equivalence test (Lakens, Scheel and Isager 2018):
+%  an interval wholly inside the negligible band, wholly outside it, or crossing it;
+%  the third verdict is real here (Table 5.4's OS diversity at 2 000 s; 24 of Table
+%  F.3's 60 cells). The pointer sentence reworded with the table as subject, as Held
+%  settings opens; "configurations", Chapter 2's word. The 95 % interval is stricter
+%  than the test's usual 90 %, so every negligible verdict holds either way (off the page).
+\paragraph{Ablation studies.} Table~\ref{tab:experiment} gives the
+configurations each ablation study runs. A component's effect is $d$ on NCR,
+between the APT attacker model with and without it. The effect is negligible
+when its 95\,\% interval lies wholly inside $\pm 0.2$, not negligible when the
+interval lies wholly outside, and inconclusive when it crosses $\pm 0.2$
+\citep{lakens2018equivalence}.
 % REBUILT 2026-09-18 on Marc's read: "that reads like compaction for an LLM ...
 %  this is not thesis-ready". He is right, and the diagnosis is specific --- the
 %  unit was four sentences of which THREE were arguing, in a vocabulary he could
@@ -7914,8 +7922,8 @@ ablation runs the model without one component, the \emph{ablated model}, on
 the same seeds (Table~\ref{tab:experiment}). The tactic durations cannot be
 removed, so Appendix~\ref{app:sensitivity} varies their values instead.
 Table~\ref{tab:ablation} shows that removing the partition into attack
-profiles changes the result, and removing the failure matrix or the
-vulnerability memory does not.
+profiles has an effect on NCR that is not negligible, and removing the failure
+matrix or the vulnerability memory a negligible one.
 
 \input{tables/tab_5-4a_ablation}
 
@@ -7967,9 +7975,10 @@ The ablated model takes \prelim{535} distinct openings over its first five steps
 in 1\,000 runs, against \prelim{254} with the attack profiles. It also
 compromises more of the network. Its NCR with no MTD is \prelim{0.189} against
 \prelim{0.171}, a $d$ of \prelim{$-0.28$} (Table~\ref{tab:ablation}). It compromises
-more under every MTD mechanism, deployment strategy and interval, and the
-interval of $d$ lies wholly beyond $\pm 0.2$ in \prelim{29} of these \prelim{60}
-configurations (Table~\ref{tab:ablation-attack-profiles}). Its NCR reduction
+more under every MTD mechanism, deployment strategy and interval. The effect
+is not negligible in \prelim{29} of these \prelim{60} configurations, negligible
+in \prelim{seven} and inconclusive in \prelim{24}
+(Table~\ref{tab:ablation-attack-profiles}). Its NCR reduction
 under IP shuffle at 2\,000\,s is \prelim{0.24}, against \prelim{0.33} with the
 attack profiles; under OS diversity the two differ by \prelim{0.03} at most.
 
@@ -8023,9 +8032,8 @@ ablated model in \prelim{0.08} to \prelim{0.10}. $c_2$ never returns to
 reconnaissance after a failed initial access, with or without the failure
 matrix.
 
-Removing the failure matrix does not change what the attacker achieves
-(Table~\ref{tab:ablation}). Every interval of $d$ lies wholly inside
-$\pm 0.2$. The APT attacker model compromises more than the ablated model in
+Removing the failure matrix has a negligible effect on NCR: every interval of
+$d$ lies wholly inside $\pm 0.2$ (Table~\ref{tab:ablation}). The APT attacker model compromises more than the ablated model in
 \prelim{four} of the five configurations, against the prediction. The ablation
 covers IP shuffle and OS diversity at 200\,s and 2\,000\,s
 (Table~\ref{tab:experiment}).
@@ -8107,8 +8115,8 @@ memory would raise the share of exploits that succeed and what the attacker
 compromises.
 
 The memory raises the share of exploits that succeed, from \prelim{0.69} to
-\prelim{0.73} with no MTD (Table~\ref{tab:ablation-memory}). It does not change what the attacker
-achieves: every interval of $d$ lies wholly inside $\pm 0.2$
+\prelim{0.73} with no MTD (Table~\ref{tab:ablation-memory}). Its effect on NCR is
+negligible: every interval of $d$ lies wholly inside $\pm 0.2$
 (Table~\ref{tab:ablation}). The ablation covers service diversity and OS
 diversity at 200\,s, the two MTD mechanisms that draw services from the pool
 (Table~\ref{tab:experiment}).

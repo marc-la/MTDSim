@@ -61,8 +61,9 @@ def _f(x: float, nd: int, sign: bool = False) -> str:
     return "$" + s + "$" if s.startswith(("+", "-")) else s
 
 
-# rows whose d lies beyond +-0.2 but whose interval reaches inside it: not bold,
-# and named in the caption, so the reader is not left to ask why (Marc 2026-10-05)
+# rows whose interval crosses +-0.2, inconclusive under Section 5.1's equivalence
+# rule: not bold, and named in the caption, so the reader is not left to ask why
+# (Marc 2026-10-05; the three verdicts, Marc 2026-10-06)
 NAMED: list = []
 
 
@@ -81,7 +82,7 @@ def _d(d: float, ci: list, where: str = "") -> str:
     cell = f"{_f(d, 2, True)} [{_f(ci[0], 2, True)}, {_f(ci[1], 2, True)}]"
     if _beyond(ci):
         return r"\bfseries\boldmath " + cell
-    if abs(d) >= 0.2 and where:
+    if (ci[0] <= -0.2 or ci[1] >= 0.2) and where:
         NAMED.append((where, d))
     return cell
 
@@ -129,15 +130,15 @@ def rows() -> list:
 
 
 def _named() -> str:
-    """The caption's sentence on the rows a reader would query: d beyond 0.2,
-    not bold. Built from the data, so it follows the numbers."""
+    """The caption's verdicts beyond bold (Section 5.1): the inconclusive rows,
+    whose interval crosses +-0.2, by name; every other row negligible. Built
+    from the data, so it follows the numbers."""
+    rest = " Every other row is negligible, its interval wholly inside $\\pm 0.2$ (Section~\\ref{sec:dimensions})."
     if not NAMED:
-        return ""
-    def one(where, d):
-        return r"%s, whose $d$ of $%s$ lies beyond it" % (where.replace(",", " at", 1), _f(d, 2, True).strip("$"))
-    items = [one(*x) for x in NAMED]
-    return " Every other interval reaches inside $\\pm 0.2$, including " + (
-        items[0] if len(items) == 1 else ", ".join(items[:-1]) + " and " + items[-1]) + "."
+        return rest
+    items = [where.replace(",", " at", 1) for where, _ in NAMED]
+    return " Inconclusive, the interval crossing $\\pm 0.2$: " + (
+        items[0] if len(items) == 1 else ", ".join(items[:-1]) + " and " + items[-1]) + "." + rest
 
 
 def main() -> None:
@@ -161,9 +162,9 @@ def main() -> None:
          r"with 20 services per operating system; without the attack profiles, the APT attacker model runs on the attack graph: "
          r"NCR, $d$ on NCR, with minus without, with its 95\,\% percentile bootstrap interval "
          r"over seeds, and NCR reduction (Section~\ref{sec:evaluation-metrics}), blank with no MTD, its reference. "
-         r"Random: the mean over ten random partitions of the attack flows, each group the size of an attack profile, "
+         r"Random: the mean over 10 random partitions of the attack flows, each group the size of an attack profile, "
          r"each partition's NCR reduction against its own runs with no MTD; blank outside the attack profiles' ablation. "
-         r"Bold: the interval, before rounding, lies wholly beyond $\pm 0.2$." + _named() + "}"),
+         r"Bold: not negligible, the interval, before rounding, wholly outside $\pm 0.2$." + _named() + "}"),
         r"  \label{tab:ablation}",
         r"  \tablestyle\setlength{\tabcolsep}{4pt}",  # group rows keep the stripes (Marc, 2026-10-01); 4 pt fits the random columns
         r"  \begin{tabular}{@{}lccccccc@{}}",
