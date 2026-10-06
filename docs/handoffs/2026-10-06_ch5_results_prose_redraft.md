@@ -214,6 +214,19 @@ the quantity and its JSON path, so the swap is mechanical.
 
 **Budget:** about 1 400 words for §5.2–§5.4, against 3 270 now.
 
+### §5.1 Statistics unit (was *MTD ranking*; Q7 ruled yes, 2026-10-06), ≈ 150 words
+
+Marc's condition: each statistic is said in plain words, so that a reader who
+has never met it can read it off a float.
+
+| Slot | Job | Facts | Ceiling |
+|---|---|---|---|
+| St-1 | the interval rule | each value carries its 95 % interval; an effect is *told apart from zero* when its interval excludes zero (M4) | define "told apart" here, once |
+| St-2 | the profiles as one | where the APT attacker model is one line or column, it is averaged over $c_1$ to $c_4$ (M5, in Q12's wording) | — |
+| St-3 | Scott–Knott, in plain words | it sorts the MTD mechanisms and deployment strategies into ranks; two in one rank are not told apart; rank 1 compromises the fewest hosts (cited) | no test mechanics |
+| St-4 | ρ, in plain words (M7) | Spearman's ρ compares the two attackers' rankings: 1 when they rank the MTD in the same order, 0 when the orders are unrelated, −1 when one is the reverse of the other | it is not a p-value; the reader should never need to ask |
+| St-5 | Cohen's $d$, in plain words (M6) | the difference between two means, in units of their standard deviation over seeds; below 0.2 the component moves the result by less than a fifth of its ordinary seed-to-seed variation, which counts as negligible (Cohen's small effect) | the threshold is Cohen's convention, and is attributed to him as that |
+
 ### §5.2 (≈ 250 words, 4 paragraphs)
 
 | Slot | Job | Facts (named, no numbers) | Float | Ceiling |
@@ -341,6 +354,166 @@ sentences. The amendment is named here so Marc can overturn it (Q11).
 | Q13 | A3: drop the $c_3$ clause ("I don't know why you're separating C3", 2026-09-30), or keep it as the marked exception | drop it from §5.2; $c_3$'s host-layer exception stays in §5.3.3 (D3), where it is a result |
 | Q14 | B3 ("a blocked attack action need not cost time") as a headline for §6.2 | yes. Fig. 5.2 already shows it, and it explains B2. |
 | L5 | the memory floats re-read at 1 000 seeds | no ruling needed; it is a correction, done in the numbers phase |
+
+## 7. Marc's rulings and his read of the floats (2026-10-06, second turn, dictated)
+
+**Ruled:**
+- A4, B2 and B3 accepted (Q14 yes).
+- L1: Table 5.3 to Appendix E.
+- L4 accepted.
+- The move list (§3) accepted.
+- Q7 yes, with a condition. The statistics go to §5.1 **and are explained
+  there in plain words**: "what's the Spearman's ρ, the Cohen's d, it's not
+  really explained to me".
+
+**Not yet ruled:** Q3, Q5, Q11, Q12, Q13. On Q3 Marc notes that his "complete
+bonkers" read of ASP was made on the 100-seed run. At 1 000 seeds he reads the
+ASP rows as "it just mirrors the same story but with different looking
+graphs", which still argues for the appendix.
+
+**His walk-through, the content for the prose** (each reading checked against
+the floats; the slips are corrected after the list):
+1. Fig. 5.1(a): the baseline attacker has a gap, the unmapped tactics. Fig.
+   5.1(b): the baseline attacker is procedural, the same opening every time,
+   while the profiles vary across 1 000 runs.
+2. Table 5.2: ASP and NCR are far lower than the baseline attacker's. MTTC is
+   comparable, slightly longer. The attack rate is lower, about half. Attack
+   confidentiality is lower for the baseline attacker, so it is the more likely
+   to be detected.
+3. Fig. 5.2(a): the baseline attacker is blocked by nearly every deployment,
+   because it always has an action running. The APT attacker model is blocked
+   a third of the time on the host layer, less on the service layer, almost
+   never by user shuffle. Fig. 5.2(b): **"I would expect there to be time lost
+   … at least 20 seconds … if there's a confusion penalty … I don't expect it
+   to speed up"; the negatives are "scaring me".** See §8.
+4. Fig. 5.3: the host layer, random and alternative thwart the APT attacker
+   model best. The service layer thwarts the baseline attacker, through
+   service diversity. ASP tells the same story. The gap is widest at short
+   intervals and narrows at long ones. **The NCR-reduction axis reads from the
+   defender's side, and the supervisor, reading from the attacker's side,
+   struggled with it.** The caption and the prose must say which way is
+   better.
+5. Fig. 5.4: all the profiles move together, so "the model itself is more
+   important than the profile". IP shuffle has a smaller attacker gap than the
+   topology shuffles. Port shuffle and OS diversity work to about 500 s, then
+   join the rest. Service diversity is the baseline attacker's most effective
+   mechanism. User shuffle reduces almost nothing beyond the shortest interval.
+6. Table 5.4: the rankings are "not particularly useful". MTTC "is not really
+   doing much" (supports L3).
+7. Table 5.5: only the attack profiles move the result. The failure matrix and
+   the vulnerability memory are negligible.
+8. **The headline:** the attacker model changes the results an MTD evaluation
+   gives. A deployment strategy built on one attacker model risks overfitting to
+   its assumptions; MTDShield is the case.
+
+**Slips corrected against the floats** (for the prose, not for Marc to redo):
+- NCR is the share of the network's hosts compromised. The proportion of runs
+  that reach the target is ASP.
+- Attack confidentiality is the share of attack actions the scan detector does
+  not flag. It is not a count of actions per 60 s; the detector flags an
+  action that is the fifth within 60 s. The reading Marc drew from it stands.
+- ASP is 5 to 16 times lower than the baseline attacker's, and NCR 2.4 to 3.3
+  times lower. "Four times" fits neither.
+- On the service layer the APT attacker model is blocked by about one
+  deployment in seven, not one in eight.
+- "Only one is negligible" in the partition ablation is one combination of
+  Table 5.5's five (OS diversity at 2 000 s), not one profile.
+
+**To chapter 6 as content points, not chapter 5 prose:**
+- MTDShield overfitting to the baseline attacker (§6.2(4), §6.4).
+- Random and alternative drawing three of the seven mechanisms from the host
+  layer (§6.2(4)).
+- "the model itself is more important than the profile" (§6.1(3)).
+- The failure matrix as something the simulator already enforces (§6.3; the
+  placeholder has it).
+- The memory, if a host takes about two exploits (§6.3; a hypothesis, to check
+  before it is written).
+- Rankings tied to one simulator (§6.4).
+
+**Marc's idea for the numbers phase:** compare the attackers at a fixed NCR
+reduction, for example the interval at which each line falls to 0.5.
+Recommendation: use it only as the way slot 32-a2 reads Fig. 5.3 in words
+("the APT attacker model's host layer stays above 0.5 to about X s; the
+baseline attacker's service layer falls below it by Y s"). It is not a new
+metric (the 2026-09-22 rule: no invented metrics).
+
+## 8. Why time lost is negative for the baseline attacker (Marc's question, 2026-10-06)
+
+**Marc:** "I would expect … at least 20 seconds … if there's a confusion
+penalty … I don't expect it to speed up."
+
+**Checked on the 1 000-seed corpus** (2 000 s interval). The checker is
+`data/results/ch5_defended/time_lost_first_deployment.py`, and its output is
+`time_lost_first_deployment_numbers.json`. Each deployment that `time_lost.py`
+keeps is split three ways:
+- the run's first deployment against the later ones;
+- whether the defended run and its no-MTD twin had compromised the same hosts
+  at the same times up to the deployment;
+- whether the deployment blocked an attack action.
+
+**1. The penalty is charged.** The baseline attacker pays the confusion
+penalty, an exponential draw about 20 s, on every interrupt
+(`mtdnetwork/operation/attack_operation.py:212`). After a host-layer interrupt
+it then restarts at SCAN_HOST, and after a service-layer one at SCAN_PORT.
+Marc's expectation is right for every deployment but the first. After the
+first, time lost is positive under the host layer: +21 to +33 s against the
+baseline attacker, about the penalty plus the rescan.
+
+**2. The first deployment is the exception, and it carries every negative.** At
+every interval the first deployment completes one deployment duration into
+the run, about 110 s. At that moment the baseline attacker is exploiting its
+first host. The forced rescan puts that host back at the head of its queue, so
+the attacker gets a second attempt it would not otherwise have had.
+
+| Baseline attacker, 1 000 runs | median time to first compromise | runs whose first compromise is host 0 |
+|---|---|---|
+| no MTD | 689 s | 456 |
+| complete topology shuffle, 2 000 s | 370 s | 766 |
+| service diversity, 2 000 s | 332 s | 760 |
+| user shuffle, 2 000 s (blocks almost nothing) | 698 s | 453 |
+
+Time lost at the first deployment is −204 to −232 s for every mechanism that
+blocks the baseline attacker. That includes service diversity, whose
+deployments after the first cost +648 s. Averaged over about five deployments
+per run, the first deployment pulls the host-layer means below zero.
+
+**3. It is inherited intent, not a bug.** The intent spec classes the forced
+rescan after a block as documented intent: IS-INT-01, IS-INT-05 ("restart from
+Phase 1 regardless of prior progress") and IS-INT-07 (Brown §III-D, §V-A;
+Zhang §4.4.2). The second attempt is a consequence of that rule. Classified
+`conforms`; it is not a bug candidate. The APT attacker model does not get the
+second attempt. Its first deployment costs +73 to +106 s under the host layer.
+
+**4. B2's direction survives both subsets.** Host layer against service layer:
+- the APT attacker model: +73 to +106 against −2 to +10 s at the first
+  deployment; +257 to +361 against +34 to +76 s at the later ones;
+- the baseline attacker: about −220 s for every blocking mechanism at the first
+  deployment; at the later ones, service diversity +648 s against the host
+  layer's +21 to +33 s.
+
+**5. A measurement caveat that stays.** After the first deployment, the
+defended run and its no-MTD twin are compared at the same clock time, not at
+the same point in their campaigns. The 2026-09-24 record named this (8g-5,
+decision 3). The two runs' states differ at 80 % or more of the later deployments (bounded from the checker's marginal counts). The
+direction of B2 does not depend on it; the magnitudes might.
+
+**Ruling T1, how to report it** (recommendation first):
+- **(a)** Keep the metric as §4.5.3 defines it, and add one by-construction
+  sentence to §5.3.1: the first deployment lands while the baseline attacker
+  exploits its first host, and the forced rescan gives it a second attempt
+  there, which brings its next compromise forward. The appendix table (Table
+  5.3 after L1) gains two columns, first deployment and later deployments, so
+  the sentence has a float. The caveat in point 5 becomes one sentence in §6.5.
+  No new metric, and no post hoc change of definition.
+- (b) Exclude the first deployment from time lost. Rejected: it would change
+  the definition after seeing the data.
+- (c) Report the split in the body figure. Rejected: it doubles Figure 5.2 to
+  explain one exception.
+
+**Marc's precision question.** Time lost's intervals are 10–60 s wide, so the
+rule (results presentation standard P1) prints it to the 10 s at most. Table
+5.3 already rounds each column to its widest interval; the figure needs
+nothing finer.
 
 ## Validation gate
 
