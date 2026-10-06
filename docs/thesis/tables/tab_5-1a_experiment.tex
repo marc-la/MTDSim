@@ -1,3 +1,13 @@
+% ROUND 9 2026-10-06 (Marc: "three citations and five numbers, how am I supposed to
+% disambiguate"): the Source column cut; each citation follows the value it gives, so an
+% uncited value is visibly this dissertation's choice. Overturns the REBUILT ruling below
+% (sources in their own column, after STRESS-DES's per-row data source) on merit: a mixed
+% row (Deployment interval, MTD, End of run) cannot say which citation backs which value.
+% STRESS-DES asks for each value's source, which the inline citation gives value by value.
+% Network cited to the released code alone: it is the code's default, and Zhang reports
+% no subnet count (Table 2.4). Caption "The experimental setup" (the section's name);
+% "Both attackers"; the no-MTD exception cut (obvious, Marc's ruling on the Varied prose);
+% the APT attacker model "on $c_1$ to $c_4$", the form of every caption.
 % ROUND 8 2026-10-06 (Marc: 'nice and clean'): the Ablation studies group says only what each
 % study runs. Header reference cut (the Section 5.1 paragraph points); Random partitions folded
 % into Attack profiles (a comparison inside that study, not a component); how each component is
@@ -34,29 +44,29 @@
 % run_memory_ablation.py, constants.py, movement/run.py (GEOMETRY). Earlier forms: git.
 \begin{table}[t]
   \centering
-  \caption[The experiment]{The experiment: what is varied, what is held, and what each ablation study runs. Each attacker runs under each MTD at each deployment interval, except no MTD, which has no deployment interval. Source: the earlier study or the released simulator code that ran the value (Table~\ref{tab:lineage-configurations}); a value it does not cover is this dissertation's choice.}
+  \caption[The experimental setup]{The experimental setup. Both attackers run under each MTD at each deployment interval. A citation gives the source of the value before it; a value without one is this dissertation's choice.}
   \label{tab:experiment}
   \tablestyle
-  \begin{tabular}{@{}P{3.9cm}P{9.1cm}P{1.9cm}@{}}
+  \begin{tabular}{@{}P{3.9cm}P{11.0cm}@{}}
     \toprule
-    Setting & Value & Source \\
+    Setting & Value \\
     \midrule
-    \grouprow{3}{Varied} \\
-    \quad Attacker & the baseline attacker; the APT attacker model on $c_1$, $c_2$, $c_3$ and $c_4$ & \citep{brown2023} \\
-    \quad MTD & no MTD; the single deployment strategy, once for each of the seven MTD mechanisms; the random and alternative deployment strategies; MTDShield, as released & \citep{brown2023, zhang2023, tay2024} \\
-    \quad Deployment interval & 50, 100 and 200\,s; 500, 1\,000 and 2\,000\,s; near-periodic (Section~\ref{subsec:defence-mechanisms}) & \citep{zhang2023, ho2024, tay2024code} \\
+    \grouprow{2}{Varied} \\
+    \quad Attacker & the baseline attacker \citep{brown2023}; the APT attacker model on $c_1$ to $c_4$ \\
+    \quad MTD & no MTD; the single deployment strategy, once for each of the seven MTD mechanisms \citep{brown2023, zhang2023}; the random and alternative deployment strategies \citep{zhang2023}; MTDShield, as released \citep{tay2024} \\
+    \quad Deployment interval & 50, 100 and 200\,s \citep{zhang2023, ho2024}; 500, 1\,000 and 2\,000\,s; near-periodic (Section~\ref{subsec:defence-mechanisms}) \citep{tay2024code} \\
     \addlinespace
-    \grouprow{3}{Held} \\
-    \quad Network & 50 hosts, 4 levels of depth, 8 subnets, 5 exposed endpoints & \citep{zhang2023, tay2024code} \\
-    \quad Target hosts & 2, at the deepest level & \citep{tay2024code} \\
-    \quad Attack scenario & targeted & \citep{brown2023} \\
-    \quad End of run & a target host compromised, or 15\,000\,s & \citep{brown2023, ho2024} \\
-    \quad Runs per configuration & 1\,000, on seeds 0 to 999 & \citep{arcuri2014hitchhiker} \\
+    \grouprow{2}{Held} \\
+    \quad Network & 50 hosts, 4 levels of depth, 8 subnets, 5 exposed endpoints \citep{tay2024code} \\
+    \quad Target hosts & 2, at the deepest level \citep{tay2024code} \\
+    \quad Attack scenario & targeted \citep{brown2023} \\
+    \quad End of run & a target host compromised \citep{brown2023}, or 15\,000\,s \citep{ho2024} \\
+    \quad Runs per configuration & 1\,000 \citep{arcuri2014hitchhiker}, on seeds 0 to 999 \\
     \addlinespace
-    \grouprow{3}{Ablation studies} \\
-    \quad Attack profiles & every MTD and deployment interval above; 10 random partitions of the attack flows: no MTD, and IP shuffle and OS diversity at 200 and 2\,000\,s & \\
-    \quad Failure matrix & no MTD, and IP shuffle and OS diversity at 200 and 2\,000\,s & \\
-    \quad Vulnerability memory & no MTD, and service diversity and OS diversity at 200\,s, at 1, 2, 3, 5, 10 and 20 services per operating system & \\
+    \grouprow{2}{Ablation studies} \\
+    \quad Attack profiles & every MTD and deployment interval above; 10 random partitions of the attack flows: no MTD, and IP shuffle and OS diversity at 200 and 2\,000\,s \\
+    \quad Failure matrix & no MTD, and IP shuffle and OS diversity at 200 and 2\,000\,s \\
+    \quad Vulnerability memory & no MTD, and service diversity and OS diversity at 200\,s, at 1, 2, 3, 5, 10 and 20 services per operating system \\
     \bottomrule
   \end{tabular}
 \end{table}
