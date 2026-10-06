@@ -7400,39 +7400,43 @@ strategy running.
 %  numbers filled 2026-10-06 from the 1 000-seed JSON named in the NUMBERS line (each \prelim{n}
 %  is the grep target; Marc approved the draft's form before the fill). Replaces the 2026-09-26 text (git history). DRAFT STATE.
 % NUMBERS: ? ? = time lost, host layer, APT attacker model, lowest and highest; ? = service diversity, baseline; ? = service diversity, APT; ? = largest magnitude among the rest (time_lost_numbers_reported.json); ? = first deployment's completion time (median of mtd_executions[0]); ? = median first-compromise time, no MTD minus host layer (time_lost_first_deployment_numbers.json and Section 8 of the handoff).
-Each MTD mechanism is deployed alone every 2\,000\,s, because at 200\,s the
-next deployment caps time lost at 200\,s (Section~\ref{subsec:metrics-effectiveness}).
+% ROUND 2 2026-10-06 (Marc's noun check): 'deployed alone every 2 000 s' -> Chapter 2's terms, the single
+%  deployment strategy and the deployment interval; the reason is the cap, at whatever interval; 1.000 -> 1
+%  (exact, Section 4.5.3's 'every deployment'); 'An MTD deployment' named in full; the first-deployment fact
+%  folded into the paragraph on adaptivity beside the below-zero values it bears on; 'gives the values' ->
+%  what Table E.1 gives.
+Each MTD mechanism runs under the single deployment strategy at the longest
+deployment interval, 2\,000\,s, because the next MTD deployment caps time lost
+at the deployment interval (Section~\ref{subsec:metrics-effectiveness}).
 \begin{figure}[tp]
   \centering
   \includegraphics{fig_5-2-2a_disruption_response}
-  \caption[Attack actions blocked and time lost per MTD deployment]{Attack actions blocked and time lost per MTD deployment, each MTD mechanism deployed alone every 2\,000\,s; the APT attacker model averaged over $c_1$ to $c_4$. Table~\ref{tab:disruption} gives the values.}
+  \caption[Attack actions blocked and time lost per MTD deployment]{Attack actions blocked and time lost per MTD deployment, each MTD mechanism under the single deployment strategy at a deployment interval of 2\,000\,s; the APT attacker model averaged over $c_1$ to $c_4$. Table~\ref{tab:disruption} gives each bar's value with its confidence interval.}
   \label{fig:aio-adaptivity}
 \end{figure}
 
 An MTD deployment blocks the baseline attacker's attack actions more often
 than the APT attacker model's (Figure~\ref{fig:aio-adaptivity}(a)). Attack
-actions blocked per MTD deployment is \prelim{1.000} for the baseline attacker
+actions blocked per MTD deployment is \prelim{1} for the baseline attacker
 under every host-layer mechanism, against \prelim{0.35} to \prelim{0.39} for
 the APT attacker model. Under every service-layer mechanism it is
 \prelim{0.95} against \prelim{0.15}, and under user shuffle \prelim{0.07}
-against \prelim{0.01}. A deployment blocks only an attack action in progress,
+against \prelim{0.01}. An MTD deployment blocks only an attack action in progress,
 and the APT attacker model runs none while in an unmapped tactic.
 
 On adaptivity, the two attackers lose time to different MTD mechanisms
 (Figure~\ref{fig:aio-adaptivity}(b)). The APT attacker model loses
-\prelim{242} to \prelim{324}\,s per host-layer deployment. The baseline
-attacker, whose attack action every host-layer deployment blocks, loses none:
-its time lost is below zero, as it is under every mechanism but service
-diversity. The baseline attacker loses \prelim{493}\,s per service-diversity
-deployment, and the APT attacker model \prelim{60}\,s. Under every other
-mechanism, the APT attacker model loses \prelim{26}\,s or less.
-
-Under every mechanism but user shuffle, the first deployment of each run
-brings the baseline attacker's first compromise \prelim{204} to
-\prelim{232}\,s forward~\owed{(Appendix~\ref{app:supplementary-results})}{Section 5.3.1: the
+\prelim{242} to \prelim{324}\,s per host-layer deployment, and the baseline
+attacker, blocked by every one, none. The baseline attacker's time lost is
+below zero under every MTD mechanism but service diversity, and under every one
+but user shuffle the first deployment of each run brings its first compromise
+\prelim{204} to \prelim{232}\,s forward~\owed{(Appendix~\ref{app:supplementary-results})}{Section 5.3.1: the
 appendix item on the first deployment (Marc 2026-10-06): a worked trace of one
 seed with and without MTD, and first-deployment and later-deployment columns
 in the time-lost table, from the first-deployment numbers of the time-lost reader}.
+The baseline attacker loses \prelim{493}\,s per service-diversity deployment,
+and the APT attacker model \prelim{60}\,s. Under every other MTD mechanism,
+the APT attacker model loses \prelim{26}\,s or less.
 
 % ~1 unit. THE THESIS'S OWN CLAIM, and the subsection Marc asked the
 % hardest question about: given both attackers share the SAME SIX VERBS,
