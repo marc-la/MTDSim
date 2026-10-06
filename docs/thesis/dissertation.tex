@@ -6030,13 +6030,17 @@ as in the simulator's released experiment code \citep{tay2024code}.
 %  Table 5.1 groups them); runs and seeds collapsed into "run on the same 1 000 seeds";
 %  the plain cite (citation-pinpoint rule: paraphrase, no authors as subject); the seed's
 %  job in one clause, the "how" behind Varied settings' "same networks". DRAFT STATE.
+% [ROUND 6, 2026-10-06] Marc: "a seed fixes the network" and the terminating-simulation
+%  sentence "read like a riddle". The seed sentence now says what a seed does and what
+%  follows (Section 4.5's "starts from the same network"). The terminating-simulation
+%  and warm-up sentence cut: the MTD-evaluation lineage reports neither, every metric is
+%  read per run over the whole run, and Table 5.1's End of run row says when a run
+%  ends. law2015 and currie2016 now uncited (they drop from the bibliography).
 \paragraph{Runs.} Each combination of attacker, MTD and deployment interval
 in Table~\ref{tab:experiment} is run on the same 1\,000 seeds, the number
-recommended for randomised algorithms \citep{arcuri2014hitchhiker}. A seed
-fixes the network. Each run is
-a terminating simulation: it ends on events fixed before it starts
-(Table~\ref{tab:experiment}) \citep{law2015}, so no warm-up period is needed
-\citep{currie2016}.
+recommended for randomised algorithms \citep{arcuri2014hitchhiker}. Each
+seed generates one network, so every combination starts from the same 1\,000
+networks.
 
 \paragraph{Analysis.} Each mean over runs, such as NCR, carries a 95\,\%
 confidence interval from the normal approximation. Every other interval, such
