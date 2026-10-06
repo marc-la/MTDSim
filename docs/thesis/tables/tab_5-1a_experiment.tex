@@ -1,3 +1,7 @@
+% ROUND 8 2026-10-06 (Marc: 'nice and clean'): the Ablation studies group says only what each
+% study runs. Header reference cut (the Section 5.1 paragraph points); Random partitions folded
+% into Attack profiles (a comparison inside that study, not a component); how each component is
+% removed and the partition group size cut (Section 5.4's subsection openers and Table 5.4 say them).
 % ROUND 7 2026-10-06 (RULED): "Runs per configuration" (Chapter 2's word, Table 2.4's row);
 % "on seeds 0 to 999", concrete and reproducible (run_corpus.py REPORTED_SEEDS = range(1 000)).
 % ROUND 6 2026-10-06: Seeds row renamed "Runs per combination", Table 2.4's row ("Runs per
@@ -49,11 +53,10 @@
     \quad End of run & a target host compromised, or 15\,000\,s & \citep{brown2023, ho2024} \\
     \quad Runs per configuration & 1\,000, on seeds 0 to 999 & \citep{arcuri2014hitchhiker} \\
     \addlinespace
-    \grouprow{3}{Ablation studies (Section~\ref{sec:ablation})} \\
-    \quad Attack profiles & removed: the APT attacker model on the attack graph, under every MTD and deployment interval above & \\
-    \quad Random partitions & ten random partitions of the attack flows in place of the attack profiles, each group the size of an attack profile: no MTD, and IP shuffle and OS diversity at 200 and 2\,000\,s & \\
-    \quad Failure matrix & removed, every factor set to one: no MTD, and IP shuffle and OS diversity at 200 and 2\,000\,s & \\
-    \quad Vulnerability memory & removed: no MTD, and service diversity and OS diversity at 200\,s, at 1, 2, 3, 5, 10 and 20 services per operating system & \\
+    \grouprow{3}{Ablation studies} \\
+    \quad Attack profiles & every MTD and deployment interval above; ten random partitions of the attack flows: no MTD, and IP shuffle and OS diversity at 200 and 2\,000\,s & \\
+    \quad Failure matrix & no MTD, and IP shuffle and OS diversity at 200 and 2\,000\,s & \\
+    \quad Vulnerability memory & no MTD, and service diversity and OS diversity at 200\,s, at 1, 2, 3, 5, 10 and 20 services per operating system & \\
     \bottomrule
   \end{tabular}
 \end{table}
