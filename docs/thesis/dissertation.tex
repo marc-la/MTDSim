@@ -7435,16 +7435,19 @@ On adaptivity, the two attackers lose time to different MTD mechanisms
 (Figure~\ref{fig:aio-adaptivity}(b)). The APT attacker model loses
 \prelim{242} to \prelim{324}\,s per host-layer deployment, and the baseline
 attacker none, though every host-layer deployment blocks its attack action.
+The baseline attacker loses \prelim{493}\,s per service-diversity deployment,
+and the APT attacker model \prelim{60}\,s. Under every other MTD mechanism,
+the APT attacker model loses \prelim{26}\,s or less.
+% ROUND 3 2026-10-06 (Marc: the below-zero sentence 'long and hard to follow'): split in two and put last, after
+%  every value; the first deployment's scope named by layer (host and service layers, every mechanism but user
+%  shuffle), so neither sentence carries a 'but' exception inside another.
 The baseline attacker's time lost is below zero under every MTD mechanism but
-service diversity, and under every MTD mechanism but user shuffle the first
-deployment of each run brings its first compromise
+service diversity. Under every host-layer and service-layer mechanism, the
+first deployment of each run brings the baseline attacker's first compromise
 \prelim{204} to \prelim{232}\,s forward~\owed{(Appendix~\ref{app:supplementary-results})}{Section 5.3.1: the
 appendix item on the first deployment (Marc 2026-10-06): a worked trace of one
 seed with and without MTD, and first-deployment and later-deployment columns
 in the time-lost table, from the first-deployment numbers of the time-lost reader}.
-The baseline attacker loses \prelim{493}\,s per service-diversity deployment,
-and the APT attacker model \prelim{60}\,s. Under every other MTD mechanism,
-the APT attacker model loses \prelim{26}\,s or less.
 
 % ~1 unit. THE THESIS'S OWN CLAIM, and the subsection Marc asked the
 % hardest question about: given both attackers share the SAME SIX VERBS,
