@@ -5617,7 +5617,7 @@ the APT attacker model and the baseline attacker. Both attackers are
 measured with the attacker behaviour, attack outcome and MTD effectiveness
 metrics of Section~\ref{sec:evaluation-metrics}.
 Section~\ref{sec:dimensions} sets out the experimental setup: the varied and
-held settings, runs, analysis and ablation studies.
+held settings, runs, statistical analysis and ablation studies.
 Section~\ref{sec:attacker-in-operation} compares the attacker behaviour and
 attack outcome of the two attackers with no MTD.
 Section~\ref{sec:effectiveness} measures the MTD effectiveness of each MTD
@@ -6047,31 +6047,29 @@ recommended for randomised algorithms \citep{arcuri2014hitchhiker}. Each
 seed generates one network, so the 1\,000 runs of every configuration start
 from the same 1\,000 networks.
 
-\paragraph{Analysis.} Each mean over runs, such as NCR, carries a 95\,\%
-confidence interval from the normal approximation. Every other interval, such
-as that of NCR reduction, is a 95\,\% percentile bootstrap over runs
-\citep{efron1994introduction}. An effect differs from zero when its 95\,\%
-interval excludes zero. The APT attacker model is averaged over $c_1$ to
-$c_4$, 1\,000 runs each, wherever a figure or table gives it one line or
-column. MTTC is not reported where fewer than 10 runs reach the goal, or
-where its 95\,\% confidence interval is wider than 160\,\% of its value, the
-limit the US National Center for Health Statistics sets for presenting a
-rate \citep{kochanek2024nchs}.
-
-Cohen's $d$ is the difference between two
-means in units of their standard deviation over seeds
-\citep{cohen1988statistical}. An effect is negligible below $d = 0.2$,
-Cohen's small effect. The Scott--Knott effect size difference test
-\citep{tantithamthavorn2017empirical} ranks the seven MTD mechanisms, each
-deployed alone, and the other three deployment strategies by NCR, for each attacker at each deployment
-interval. NCR is the ranking metric because it counts the hosts compromised
-in every run, including the runs that do not reach the goal. Rank 1 holds
-those under which the fewest hosts are compromised, and neighbouring ranks differ significantly and by more than
-a negligible effect. Spearman's rank correlation, $\rho$ (rho)
-\citep{spearman1904proof}, compares the two attackers' orders of the MTD by
-NCR reduction. It is 1 when both attackers order the MTD the same way, 0 when
-the two orders are unrelated, and $-1$ when one order is the reverse of the
-other.
+% [ROUND 8, 2026-10-06] Marc on Analysis: "what facts does the examiner actually
+%  need ... you're trying to shovel all the facts together"; two paragraphs under one
+%  run-in. Diagnosis: every float's caption already states its own interval method
+%  (Table 5.2: Clopper-Pearson, bootstrap, normal; Tables 5.3, F.x likewise), the
+%  averaging over c1 to c4 and the MTTC dash rule ("fewer than 10 runs"); the 160 %
+%  NCHS rule fires in no float (cut, kochanek2024nchs uncited); Table 5.3's caption
+%  decodes rank and rho. What only this unit can give is the decision rules: when a
+%  difference is claimed, how large is negligible, how the MTD are ranked, how the two
+%  rankings are compared. One paragraph, one sentence each. Heading "Statistical
+%  analysis", the conventional name in empirical software engineering. "(rho)" and the
+%  rho value gloss cut (caption). DRAFT STATE.
+\paragraph{Statistical analysis.} Each value carries a 95\,\% confidence
+interval, a percentile bootstrap over runs \citep{efron1994introduction}
+unless its table or figure states another. A difference is reported only
+when its interval excludes zero. Its size is Cohen's $d$, the difference
+between two means in standard deviations \citep{cohen1988statistical}, and
+it is negligible below $d = 0.2$, Cohen's small effect. For each attacker at
+each deployment interval, the Scott--Knott effect size difference test
+\citep{tantithamthavorn2017empirical} ranks the MTD by NCR, which counts the
+hosts compromised in every run: neighbouring ranks differ significantly and
+by more than a negligible effect. Spearman's rank correlation, $\rho$
+\citep{spearman1904proof}, measures whether the two attackers put the MTD in
+the same order of NCR reduction.
 
 \paragraph{Ablation studies.} Each ablation study
 (Section~\ref{sec:ablation}) runs under the MTD and deployment intervals that
