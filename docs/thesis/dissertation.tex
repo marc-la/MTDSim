@@ -8162,14 +8162,21 @@ ten of the ten in each configuration.
 %  negligible). c2's sentence -> a clause pointing to Chapter 4, which says why.
 %  Shares from ablation_numbers_memory.json behaviour: c1 0.757 / 0.081, c3 0.827 / 0.097,
 %  c4 0.816 / 0.096, c2 0 / 0. No float carries them (flagged to Marc 2026-10-06).
-Removing the failure matrix sets each of its factors to one
-(Section~\ref{subsec:failure-matrix}). Without it, the APT attacker model
-returns to reconnaissance after a failed initial access less often, and the
-failure matrix's effect on NCR is negligible (Table~\ref{tab:ablation}). On
-$c_1$, $c_3$ and $c_4$, it returns in 0.76 to 0.83 of cases with the failure
-matrix and 0.08 to 0.10 without. $c_2$ has no move from initial access back to
-reconnaissance
-(Section~\ref{subsec:failure-matrix}).
+% 2026-10-06 (Marc: removing it "was the equivalent action to just choosing the success route";
+%  "it goes into different details about random things"): the opener says what removal does in
+%  Section 4.4.3's terms (the base weights say where an attacker goes after a success), not the
+%  implementation (every factor one). The point next, in the words of 4.4.3's forward pointer
+%  (changes where the attacker goes after a failure, not what it achieves). The shares are tied
+%  to 4.4.3's own example (after a failed initial access, the weight on reconnaissance), so they
+%  read as its measurement, not a new detail. c2's sentence cut: 4.4.3 says why c2 has no move back.
+Removing the failure matrix makes the APT attacker model choose its next
+tactic after a failure by the base weights, as it does after a success
+(Section~\ref{subsec:failure-matrix}). The failure matrix changes where the
+APT attacker model goes after a failure, and its effect on NCR is negligible
+(Table~\ref{tab:ablation}). After a failed initial access, the example of
+Section~\ref{subsec:failure-matrix}, the APT attacker model returns to
+reconnaissance in 0.76 to 0.83 of cases on $c_1$, $c_3$ and $c_4$ with the
+failure matrix, and in 0.08 to 0.10 without.
 
 % 2026-10-06 (Marc: "would it be more clear to just have the bold header and then the text";
 %  "we don't really need the subsections"): each ablation study is one or two paragraphs, so a
