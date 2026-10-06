@@ -1,0 +1,226 @@
+commit 89a3f59c7a2a39cda111d58a0993da89aae30d17, started 2026-10-06T16:20:12+08:00
+unopposed: 38 affected rows found (1s)
+unopposed: 38 re-run, every old record stream a prefix (10s)
+unopposed: spliced 38 rows; old ledger kept as runs_reported.jsonl.pre_ratio_fix (11s)
+defended: 1072 affected rows found (107s)
+Please report this to the TensorFlow team. When filing the bug, set the verbosity to 10 (on Linux, `export AUTOGRAPH_VERBOSITY=10`) and attach the full output.
+Cause: 'NoneType' object has no attribute '__dict__'
+To silence this warning, decorate the function with @tf.autograph.experimental.do_not_convert
+  100/1072 re-run (158s)
+Please report this to the TensorFlow team. When filing the bug, set the verbosity to 10 (on Linux, `export AUTOGRAPH_VERBOSITY=10`) and attach the full output.
+Cause: 'NoneType' object has no attribute '__dict__'
+To silence this warning, decorate the function with @tf.autograph.experimental.do_not_convert
+Please report this to the TensorFlow team. When filing the bug, set the verbosity to 10 (on Linux, `export AUTOGRAPH_VERBOSITY=10`) and attach the full output.
+Cause: 'NoneType' object has no attribute '__dict__'
+To silence this warning, decorate the function with @tf.autograph.experimental.do_not_convert
+  200/1072 re-run (193s)
+  300/1072 re-run (221s)
+  400/1072 re-run (248s)
+  500/1072 re-run (277s)
+  600/1072 re-run (303s)
+  700/1072 re-run (338s)
+  800/1072 re-run (368s)
+  900/1072 re-run (402s)
+  1000/1072 re-run (431s)
+defended: 1072 re-run, every old record stream a prefix (456s)
+defended: spliced 1072 rows; old ledger kept as runs_reported.jsonl.pre_ratio_fix (3764s)
+data/results/ch5_s531_unopposed/analyse.py start 2026-10-06T17:23:43+08:00
+wrote /home/marc/GitHub/MTDSim/data/results/ch5_s531_unopposed/numbers_reported.json
+data/results/ch5_s531_unopposed/analyse.py exit 0 2026-10-06T17:27:04+08:00
+data/results/ch5_defended/analyse.py start 2026-10-06T17:27:04+08:00
+sanity: errors 0, cells 402, seeds 1000, all at 1000: True, max_events 0, baseline blocked zero: True, uuid/positional differ: 0, interrupt tally mismatches: 22344
+wrote /home/marc/GitHub/MTDSim/data/results/ch5_defended/numbers_reported.json
+data/results/ch5_defended/analyse.py exit 0 2026-10-06T18:01:19+08:00
+data/results/ch5_defended/time_lost.py start 2026-10-06T18:01:19+08:00
+wrote /home/marc/GitHub/MTDSim/data/results/ch5_defended/time_lost_numbers_reported.json
+
+2000 s: time lost per MTD deployment (s) [95 %], wait with / no MTD, attack actions blocked per run, dropped
+  movement  ip_shuffle            324 [  314,   335]   1560 /  1236  blocked  2.78 ± 0.05  dropped 627/31684
+  movement  complete_topology     242 [  230,   253]   1479 /  1237  blocked  3.14 ± 0.05  dropped 778/31922
+  movement  host_topology         246 [  235,   257]   1481 /  1236  blocked  3.11 ± 0.05  dropped 732/31829
+  movement  port_shuffle           26 [   18,    34]   1266 /  1240  blocked  1.17 ± 0.03  dropped 409/31236
+  movement  os_diversity           -8 [  -17,     1]   1231 /  1239  blocked  1.18 ± 0.03  dropped 443/31246
+  movement  service_diversity      60 [   51,    69]   1299 /  1239  blocked  1.17 ± 0.03  dropped 521/31377
+  movement  user_shuffle          -26 [  -34,   -18]   1216 /  1242  blocked  0.07 ± 0.01  dropped 393/31151
+  baseline  ip_shuffle            -27 [  -40,   -14]    444 /   470  blocked  5.12 ± 0.12  dropped 163/5117
+  baseline  complete_topology     -14 [  -29,     2]    437 /   451  blocked  6.25 ± 0.11  dropped 1134/6246
+  baseline  host_topology         -15 [  -30,    -0]    435 /   450  blocked  6.37 ± 0.11  dropped 1143/6362
+  baseline  port_shuffle          -24 [  -35,   -12]    435 /   459  blocked  5.35 ± 0.11  dropped 289/5619
+  baseline  os_diversity          -58 [  -72,   -45]    389 /   447  blocked  5.54 ± 0.12  dropped 521/5823
+  baseline  service_diversity     493 [  469,   516]    943 /   450  blocked  6.77 ± 0.11  dropped 1534/7122
+  baseline  user_shuffle          -23 [  -37,    -9]    428 /   451  blocked  0.38 ± 0.04  dropped 469/5522
+
+200 s: time lost per MTD deployment (s) [95 %], wait with / no MTD, attack actions blocked per run, dropped
+  movement  ip_shuffle             11 [   11,    11]    200 /   188  blocked  8.06 ± 0.16  dropped 8531/300000
+  movement  complete_topology      11 [   11,    11]    200 /   188  blocked  9.29 ± 0.17  dropped 8744/300000
+  movement  host_topology          11 [   11,    11]    200 /   188  blocked  9.35 ± 0.18  dropped 8531/300000
+  movement  port_shuffle            4 [    3,     4]    192 /   189  blocked 12.17 ± 0.13  dropped 6274/296346
+  movement  os_diversity            2 [    1,     2]    190 /   189  blocked 11.94 ± 0.13  dropped 5553/294229
+  movement  service_diversity       5 [    5,     5]    194 /   189  blocked 12.51 ± 0.13  dropped 7508/298635
+  movement  user_shuffle           -1 [   -2,    -1]    187 /   189  blocked  0.65 ± 0.03  dropped 3912/289894
+  baseline  ip_shuffle             36 [   35,    37]    193 /   157  blocked 56.90 ± 1.15  dropped 10797/56885
+  baseline  complete_topology      29 [   29,    30]    187 /   157  blocked 64.48 ± 0.97  dropped 15653/64466
+  baseline  host_topology          29 [   28,    29]    186 /   157  blocked 66.41 ± 0.90  dropped 16371/66403
+  baseline  port_shuffle           41 [   40,    41]    198 /   157  blocked 73.04 ± 0.53  dropped 21669/73673
+  baseline  os_diversity           37 [   36,    38]    194 /   157  blocked 66.02 ± 0.98  dropped 17408/67823
+  baseline  service_diversity      41 [   40,    42]    198 /   157  blocked 73.20 ± 0.36  dropped 22117/74041
+  baseline  user_shuffle           -1 [   -1,    -0]    157 /   158  blocked  4.45 ± 0.28  dropped 5456/51773
+data/results/ch5_defended/time_lost.py exit 0 2026-10-06T18:13:21+08:00
+data/results/ch5_defended/time_lost_first_deployment.py start 2026-10-06T18:13:21+08:00
+data/results/ch5_defended/time_lost_first_deployment.py restart (killed at the background limit) 2026-10-06T18:18:16+08:00
+baseline|complete_topology
+   all                           -13.9  n=5112
+   first_deployment             -204.3  n=1000
+   state_identical              -219.5  n=921
+   state_differs                  31.3  n=4191
+   blocked                       -13.9  n=5112
+   not_blocked                       -  n=0
+   blocked_and_identical        -219.5  n=921
+   gap<0 (defended behind)         6.7  n=1888
+   gap=0                         -84.5  n=1679
+   gap>0                          37.8  n=1545
+baseline|host_topology
+   all                           -14.7  n=5219
+   first_deployment             -205.7  n=1000
+   state_identical              -220.0  n=938
+   state_differs                  30.2  n=4281
+   blocked                       -14.7  n=5219
+   not_blocked                       -  n=0
+   blocked_and_identical        -220.0  n=938
+   gap<0 (defended behind)        21.4  n=1885
+   gap=0                         -92.4  n=1742
+   gap>0                          27.4  n=1592
+baseline|ip_shuffle
+   all                           -26.7  n=4954
+   first_deployment             -205.3  n=1000
+   state_identical              -222.5  n=938
+   state_differs                  19.1  n=4016
+   blocked                       -26.7  n=4954
+   not_blocked                       -  n=0
+   blocked_and_identical        -222.5  n=938
+   gap<0 (defended behind)       -34.7  n=1738
+   gap=0                         -87.9  n=2044
+   gap>0                          92.1  n=1172
+baseline|os_diversity
+   all                           -58.2  n=5302
+   first_deployment             -218.9  n=1000
+   state_identical              -224.1  n=979
+   state_differs                 -20.6  n=4323
+   blocked                       -63.3  n=5053
+   not_blocked                    46.3  n=249
+   blocked_and_identical        -227.6  n=966
+   gap<0 (defended behind)       -35.6  n=2139
+   gap=0                        -110.8  n=1930
+   gap>0                         -14.8  n=1233
+baseline|port_shuffle
+   all                           -23.6  n=5330
+   first_deployment             -216.5  n=1000
+   state_identical              -220.4  n=986
+   state_differs                  21.0  n=4344
+   blocked                       -30.2  n=5075
+   not_blocked                   106.1  n=255
+   blocked_and_identical        -221.5  n=982
+   gap<0 (defended behind)       -73.1  n=1616
+   gap=0                         -83.1  n=2218
+   gap>0                         117.9  n=1496
+baseline|service_diversity
+   all                           492.5  n=5588
+   first_deployment             -232.1  n=1000
+   state_identical              -235.0  n=986
+   state_differs                 648.4  n=4602
+   blocked                       493.7  n=5328
+   not_blocked                   469.0  n=260
+   blocked_and_identical        -236.0  n=982
+   gap<0 (defended behind)       752.5  n=3226
+   gap=0                          17.6  n=1685
+   gap>0                         435.5  n=677
+baseline|user_shuffle
+   all                           -22.7  n=5053
+   first_deployment                6.5  n=1000
+   state_identical                 6.6  n=1001
+   state_differs                 -29.9  n=4052
+   blocked                       110.6  n=336
+   not_blocked                   -32.2  n=4717
+   blocked_and_identical             -  n=0
+   gap<0 (defended behind)       -79.3  n=1448
+   gap=0                          -5.4  n=1997
+   gap>0                           6.9  n=1608
+movement|complete_topology
+   all                           241.7  n=31144
+   first_deployment              106.3  n=4000
+   state_identical               170.3  n=5362
+   state_differs                 256.6  n=25782
+   blocked                       235.4  n=12228
+   not_blocked                   245.8  n=18916
+   blocked_and_identical         227.5  n=1853
+   gap<0 (defended behind)       311.8  n=14720
+   gap=0                         230.6  n=9869
+   gap>0                         101.0  n=6555
+movement|host_topology
+   all                           245.5  n=31097
+   first_deployment              104.2  n=4000
+   state_identical               176.4  n=5315
+   state_differs                 259.8  n=25782
+   blocked                       240.0  n=12148
+   not_blocked                   249.1  n=18949
+   blocked_and_identical         233.1  n=1856
+   gap<0 (defended behind)       304.3  n=14807
+   gap=0                         231.7  n=9896
+   gap>0                         130.8  n=6394
+movement|ip_shuffle
+   all                           323.9  n=31057
+   first_deployment               73.3  n=4000
+   state_identical               168.1  n=6028
+   state_differs                 361.5  n=25029
+   blocked                       309.2  n=10884
+   not_blocked                   331.9  n=20173
+   blocked_and_identical         257.3  n=2069
+   gap<0 (defended behind)       362.5  n=15070
+   gap=0                         262.8  n=12773
+   gap>0                         386.0  n=3214
+movement|os_diversity
+   all                            -7.6  n=30803
+   first_deployment                4.1  n=4000
+   state_identical                 3.3  n=7439
+   state_differs                 -11.1  n=23364
+   blocked                        40.8  n=4649
+   not_blocked                   -16.3  n=26154
+   blocked_and_identical          57.9  n=786
+   gap<0 (defended behind)       -26.8  n=7187
+   gap=0                          -1.1  n=16490
+   gap>0                          -3.4  n=7126
+movement|port_shuffle
+   all                            26.2  n=30827
+   first_deployment                2.1  n=4000
+   state_identical                 1.5  n=7661
+   state_differs                  34.4  n=23166
+   blocked                        87.8  n=4611
+   not_blocked                    15.4  n=26216
+   blocked_and_identical          75.3  n=776
+   gap<0 (defended behind)       -24.4  n=6750
+   gap=0                          16.0  n=17838
+   gap>0                         110.4  n=6239
+movement|service_diversity
+   all                            60.0  n=30856
+   first_deployment               -2.1  n=4000
+   state_identical                10.4  n=7439
+   state_differs                  75.7  n=23417
+   blocked                       137.1  n=4598
+   not_blocked                    46.5  n=26258
+   blocked_and_identical          88.2  n=718
+   gap<0 (defended behind)       102.3  n=8764
+   gap=0                          54.7  n=15565
+   gap>0                          15.6  n=6527
+movement|user_shuffle
+   all                           -26.2  n=30758
+   first_deployment                9.9  n=4000
+   state_identical                 0.9  n=12522
+   state_differs                 -44.9  n=18236
+   blocked                       -91.3  n=272
+   not_blocked                   -25.6  n=30486
+   blocked_and_identical         -16.6  n=88
+   gap<0 (defended behind)       -60.3  n=6455
+   gap=0                         -11.8  n=17223
+   gap>0                         -30.3  n=7080
+data/results/ch5_defended/time_lost_first_deployment.py exit 0 2026-10-06T18:29:59+08:00
+pipeline done 2026-10-06T18:29:59+08:00
