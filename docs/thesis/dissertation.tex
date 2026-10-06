@@ -852,6 +852,17 @@ it tries stolen credentials first, then exploits the vulnerabilities in
 order of \emph{return on attack}, an exploit's probability of success times
 its impact, divided by the time it takes \citep{brown2023}, and brute force
 last.
+% [DRAFT STATE 2026-10-06, Marc: "chapter two relies on the baseline attacker moving to
+%  the next host ... put in a clause there ... plain, clear, simple". Section 5.3.1 reads
+%  the first deployment's negative time lost through it. Code: attack_operation.py
+%  _execute_brute_force (failure -> ENUM_HOST, the next host), _enum_host (no host
+%  left -> SCAN_HOST, which lists every reachable host not given up on);
+%  constants.py ATTACKER_THRESHOLD = 10; intent IS-PRC-07, IS-SCN-04 (Brown III-C(2),
+%  V-C, Table I).]
+If all three fail, it moves to the next host on its list. When the list runs
+out, it scans for hosts again, and the new list holds every host it can reach,
+including those it has already tried. It gives up on a host after ten
+attempts, but never on a target host \citep{brown2023}.
 % [DRAFT STATE 2026-10-05, from the 4.4.2 round-4 review (Marc: should
 %  MTDSim's attack-action times be in the background, where the attack
 %  actions are introduced, so the method can use them). Verified against
@@ -6084,14 +6095,16 @@ mechanism and deployment strategy runs at six deployment intervals, so that ever
 against the interval. They run from 50\,s, the shortest Zhang and Ho ran, to
 2\,000\,s, ten times the longest the lineage has run
 (Table~\ref{tab:lineage-configurations}), three to a decade so that they fall
-evenly on a logarithmic axis; the timing distribution is varied separately
+evenly on a logarithmic axis.
+% Q8 RULED 2026-10-06: the timing distribution is held near-periodic; the clause "the timing
+%  distribution is varied separately (Table 5.1)" is cut with the exponential level.
 % [CONNECTIVE-PROSE PASS 2026-09-26, ch5 S5 interval] False
 %  self-description: Section 5.3.1 reports one interval and it is 2 000 s;
 %  200 s is the interval tabled (the slot plan's word). SESSION-GENERATED
 %  on Marc's 2026-09-26 go-ahead (docs/workflows/connective_prose.md;
 %  audit docs/implementation/connective_prose_audit.md); prior text in
 %  git. RATIFIED 2026-09-26 (Marc: 'I accept all this').
-(Table~\ref{tab:experiment}). Where one interval is tabled it is 200\,s, the
+Where one interval is tabled it is 200\,s, the
 longest Zhang ran, the interval of Ho's comparisons \citep{ho2024} and the one
 MTDShield was trained at (Appendix~\ref{app:mtdshield}). The no-MTD runs are
 the reference for every effect this chapter reports.
@@ -8145,20 +8158,9 @@ the deployment strategies. The baseline attacker's line lies above every
 attack profile's under MTDShield, up to \prelim{?}\,s. It lies below every
 profile's under random at every interval, and under alternative up to
 \prelim{?}\,s.
-\owed{Replacing the near-periodic timing distribution with the exponential one
-at 200\,s changes the sign of no reduction for either attacker, and the APT
-% [CONNECTIVE-PROSE PASS 2026-09-26, DS 5.3.3 owed] Marc 2026-09-26:
-%  'deployment strategies is very clear ... change everything to
-%  deployment strategies' (registry row re-ruled). SESSION-GENERATED on
-%  Marc's 2026-09-26 go-ahead (docs/workflows/connective_prose.md; audit
-%  docs/implementation/connective_prose_audit.md); prior text in git.
-%  RATIFIED 2026-09-26 (Marc: 'I accept all this').
-attacker model keeps its order of the seven mechanisms and two deployment strategies; against the baseline attacker service diversity stays first, but port
-shuffle falls from \prelim{0.90} to \prelim{0.14}, below IP shuffle.}{Section
-5.3.3: the exponential timing distribution's values sit in no float, so an
-appendix table is owed (200 s, both attackers, the seven MTD mechanisms and two deployment strategies, with
-intervals); MTDShield was not run under it; the interrupt-tally sanity flag
-raised in the regime runs is not yet investigated}
+% Q8 RULED 2026-10-06 (Marc: varying the timing distribution "might be a threat to validity ... second-rate"):
+%  the exponential paragraph is cut from the results; Section 6.5 carries it (content point there).
+
 % ---- S33-e, DROPPED (not live). Candidate for Marc's ruling, if the analyser emits the
 %  reduction range with its interval (Appendix C tabulates hosts reached only;
 %  from tab_C-1a's cells the random execution scheme's reduction at 200 s is
@@ -8422,7 +8424,7 @@ covers IP shuffle and OS diversity at 200\,s and 2\,000\,s
 % REDRAFT 2026-10-06 (docs/handoffs/2026-10-06_ch5_results_prose_redraft.md, 43-a, 43-b (L5: the memory floats are 100-seed until re-read)):
 %  the no-number draft; every \prelim{?} is a number owed from the 1 000-seed floats,
 %  named in the NUMBERS line. Replaces the 2026-09-26 text (git history). DRAFT STATE.
-% NUMBERS: ? ? = share of exploits that succeed with no MTD, without and with the memory; ? ? = the same with one service per operating system (memory_ablation_numbers.json, RE-READ AT 1 000 SEEDS FIRST: L5); the NCR verdict is read off the re-read table under the interval rule.
+% NUMBERS: ? ? = share of exploits that succeed with no MTD, without and with the memory; ? ? = the same with one service per operating system (memory_ablation_numbers.json, re-read at 1 000 seeds 2026-10-06: every on-minus-off d interval lies wholly inside +-0.2, widest +0.15; with one service per OS the share rises 0.69 to 0.92).
 The ablated model exploits each vulnerability with the probability its CVSS
 complexity sets, with no memory of earlier successes
 (Section~\ref{subsec:vulnerability-memory}). The prediction was that the
@@ -8441,10 +8443,8 @@ more when the diversity pool is small. Figure~\ref{fig:ablation-memory} and
 Table~\ref{tab:ablation-memory} run the pool from 20 services per operating
 system down to one. The memory's effect on exploits is largest with one
 service per operating system, where the share that succeeds rises from
-\prelim{?} to \prelim{?}. \owed{The hypothesis holds for the share of exploits
-that succeed, and not for NCR.}{Section 5.4.3: the NCR verdict waits on L5,
-the pool sweep re-read at 1 000 seeds and judged by the interval rule; at 100
-seeds three intervals reach beyond +0.2}
+\prelim{?} to \prelim{?}. The hypothesis holds for the share of exploits that succeed, and not for
+NCR.
 
 \chapter{Discussion}
 \label{ch:discussion}
@@ -8994,6 +8994,9 @@ chosen operating point.]}
 % CONTENT POINTS moved from Chapter 5 by the 2026-10-06 redraft:
 %  (M3) counting the unmapped steps as attack actions lowers the profiles' attack confidentiality to about the
 %       baseline attacker's (a dry run only; track it before stating a number).
+%  (Q8, 2026-10-06) the deployment interval is drawn from one timing distribution, the released near-periodic
+%       one; Zhang's exponential distribution at the same means was run at 200 s only and is not reported (a dry read
+%       changed the sign of no reduction; against the baseline attacker port shuffle fell below IP shuffle).
 %  (T1) time lost after the first deployment compares the two runs at the same clock time, not the same point in
 %       their campaigns (2026-09-24 record, 8g-5 decision 3); the direction of every result holds, the size may not.
 

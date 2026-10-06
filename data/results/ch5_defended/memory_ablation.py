@@ -123,22 +123,33 @@ def main() -> None:
         for cond in conds:
             arms = {m: cells.get((m, pool, cond), {}) for m in ("off", "on", "perfect")}
             base = {m: cells.get((m, pool, "none"), {}) for m in arms}
-            units = sorted(set.intersection(*(set(a) for a in arms.values()), *(set(b) for b in base.values())))
+            # The reported comparison (with against without the memory) runs over the
+            # seeds the on and off arms share (1 000). The perfect-exploit arm is a
+            # 100-seed diagnostic: intersecting it in too had cut the reported cells
+            # to 100 seeds under captions that say 1 000 (found 2026-10-06, handoff
+            # 2026-10-06_ch5_results_prose_redraft.md L5). It keeps its own seeds.
+            def _common(ms):
+                return sorted(set.intersection(*(set(arms[m]) for m in ms), *(set(base[m]) for m in ms)))
+            units = _common(("off", "on"))
+            units_perf = _common(("off", "on", "perfect"))
             if not units:
                 continue
-            desc = {m: describe(arms[m], units, rng, srng) for m in arms}
+            arm_units = {"off": units, "on": units, "perfect": units_perf}
+            desc = {m: describe(arms[m], arm_units[m], rng, srng) for m in arms}
             row = {"units": len(units), "seeds": len({s for _, s in units}),
+                   "perfect_seeds": len({s for _, s in units_perf}),
                    "arms": {m: {k: v for k, v in d.items() if not k.startswith("_")} for m, d in desc.items()},
                    "on_minus_off": compare(arms["on"], arms["off"], units, rng),
-                   "perfect_minus_off": compare(arms["perfect"], arms["off"], units, rng)}
+                   "perfect_minus_off": compare(arms["perfect"], arms["off"], units_perf, rng)}
             if cond != "none":
-                idx = rng.integers(0, len(units), size=(N_BOOT, len(units)))
                 red = {}
                 for m in arms:
+                    u = arm_units[m]
+                    idx = rng.integers(0, len(u), size=(N_BOOT, len(u)))
                     h = desc[m]["_hosts"]
-                    h0 = np.array([base[m][k]["compromised"] for k in units], float)
+                    h0 = np.array([base[m][k]["compromised"] for k in u], float)
                     a = desc[m]["_asp"]
-                    a0 = np.array([_reached(base[m][k]) for k in units], float)
+                    a0 = np.array([_reached(base[m][k]) for k in u], float)
                     red[m] = {"ncr_reduction": float(1 - h.mean() / h0.mean()),
                               "ncr_reduction_ci95": _ci(1 - h[idx].mean(1) / h0[idx].mean(1)),
                               "asp_reduction": float(1 - a.mean() / a0.mean()) if a0.mean() > 0 else None}

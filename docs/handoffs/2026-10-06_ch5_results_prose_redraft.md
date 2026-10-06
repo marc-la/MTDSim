@@ -588,6 +588,77 @@ block (Q8) is untouched.
 6. The chapter 2 clause.
 7. The caption pass.
 
+## 10. Fourth turn (2026-10-06): the bug question, L5 done, the chapter 2 clause, Q3 and Q8
+
+**"That just sounds like a bug" (Marc): classified `conforms`, with evidence.**
+His disposition is still owed. With no MTD the baseline attacker also comes
+back to a host it left:
+- when its queue holds no reachable host, ENUM_HOST hands over to SCAN_HOST
+  (`attack_operation.py` `_enum_host`);
+- the new scan lists every reachable host it has not given up on, exposed
+  endpoints included;
+- it gives up on a host only after ten attempts (`constants.py`
+  ATTACKER_THRESHOLD = 10; IS-SCN-04, Brown §V-C and Table I).
+
+So retrying a host is Brown's design. The first deployment's forced rescan
+(IS-INT-01, IS-INT-05) moves that retry earlier, before the attacker has
+tried the other endpoints. A rescan that put a partly tried host at the back
+of the queue is documented nowhere. Treating that ordering as a bug, and
+changing the inherited simulator, is Marc's call. **Recommendation:** leave
+it. Explain it in the appendix item, and let chapter 6 §6.2(2) read it.
+
+**L5 done: the memory floats re-read at 1 000 seeds, and the cause fixed.**
+`memory_ablation.py` intersected the on and off arms with the 100-seed
+perfect-exploit diagnostic arm. That cut every reported comparison to 100
+seeds, under captions saying 1 000. It now compares on against off over the
+1 000 seeds those two arms share; the perfect arm keeps its own 100.
+Regenerated: `memory_ablation_numbers.json`, Table E.6, Figure E.1, and Table
+5.5's memory block. That block's no-MTD row (0.171) now equals the partition
+block's, which closes the 2026-10-02 flag (0.167 against 0.171).
+
+Every on-minus-off interval of $d$ now lies wholly inside ±0.2; the widest
+reaches +0.15. With one service per operating system, the share of exploits
+that succeed rises from 0.69 to 0.92. The §5.4.3 verdict ("holds for the share
+of exploits that succeed, and not for NCR") is now defended. Its `\owed`
+mark is removed.
+
+**Chapter 2 clause added** (§2.2.3, after the per-host order): if all three
+attacks fail, the attacker moves to the next host on its list. When the list
+runs out it scans again, and the new list holds every reachable host,
+including those already tried. It gives up on a host after ten attempts, but
+never on a target host. The clause is DRAFT STATE, with its code and intent
+pins in the comment.
+
+**Q3 ruled yes (Marc):** "all the ASP reduction rows … basically the same thing
+as the NCR reduction … NCR reduction is more of a fine grained tool". The
+ruling extends to moving the ASP reduction definition to the appendix "if
+needed". The full extent, for the float phase:
+- Fig. 5.3 rows (g)–(l) go to Appendix E as their own figure, with the
+  §4.5.3 definition of ASP reduction beside them;
+- Table 5.4 drops its ASP-reduction column with its MTTC columns (L3);
+- Table 4.3's row moves, and the metric count drops from eleven to ten
+  (§5.1 Metrics, Table 5.1's Metrics row);
+- the §5.3.2 pointer sentence to the ASP rows becomes an appendix pointer or
+  goes.
+
+**Q8 ruled (Marc):** varying the timing distribution "might be a threat to
+validity … second-rate". Applied:
+- the exponential level is cut from Table 5.1, with its caption clause;
+- §5.1's "the timing distribution is varied separately" is cut;
+- §5.3.3's `\owed` paragraph is cut;
+- §6.5 gains a content point.
+
+**Blank cells (Marc dislikes them):** the open ruling is B, in the chat.
+S1 (ratified 2026-10-02) follows APA 7 §7.12: blank means not applicable, and
+a dash means not reported (S2). A dash in the no-MTD row would give the dash
+two meanings. **Recommendation:** write *reference* in the no-MTD row's
+reduction cells (S5: words over symbols). Marc rules.
+
+**Table 5.1 (Marc: "what do we need in there … who's using this … what's the
+convention"):** the proposal is in the chat, ruling A. Its layout comes from
+§k: a factor-and-level table of what is varied, at which levels, and what is
+held, each value with its source. Definitions stay where they are defined.
+
 ## Validation gate
 
 - Marc rules Q1–Q14.
