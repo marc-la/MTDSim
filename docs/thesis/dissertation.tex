@@ -8142,13 +8142,17 @@ configurations, negligible in seven and inconclusive in 24
 %  attack profiles against the random partitions ("also ... than with"), and says what
 %  differs between them (by objective, at the same sizes), without "control" or "removal".
 %  "With no MTD" moves into it, since under IP shuffle at 200 s two partitions go the other way.
-With no MTD, the APT attacker model also compromises more with the attack
-profiles, which group the attack flows by objective, than with each of ten
-random partitions of the attack flows into four groups of the same sizes
-(Table~\ref{tab:experiment}). The effect on NCR is not negligible against all
-ten, with a $d$ of 0.25 to 2.20 (Table~\ref{tab:ablation-random-partitions}).
-Under IP shuffle and OS diversity, it is not negligible against six to ten of
-the ten in each configuration.
+% 2026-10-06 (Marc: "so many clauses ... hard to follow"): the opener split in two. The first
+%  sentence introduces the second arm by name, so it reads as new without "also"; "by
+%  objective" is left to the heading and the contrast with "random". The verdict and its d
+%  join the comparison, in paragraph 1's form ("by an effect on NCR that is not negligible").
+Ten random partitions split the attack flows into four groups of the attack
+profiles' sizes (Table~\ref{tab:experiment}). With no MTD, the APT attacker
+model compromises more with the attack profiles than with any of the ten, by
+an effect on NCR that is not negligible, a $d$ of 0.25 to 2.20
+(Table~\ref{tab:ablation-random-partitions}). Under IP shuffle and OS
+diversity, the effect is not negligible against six to ten of the ten in each
+configuration.
 
 % 2026-10-06 (Marc: "would it be more clear to just have the bold header and then the text";
 %  "we don't really need the subsections"): each ablation study is one or two paragraphs, so a
