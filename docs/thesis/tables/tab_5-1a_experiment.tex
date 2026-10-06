@@ -1,3 +1,5 @@
+% ROUND 2 2026-10-06: group "Compared" -> "Varied" (one word with the run-in "Varied
+% settings", the pair to "Held"); the MTD row names the single deployment strategy (Table 2.5).
 % REBUILT 2026-10-06, second pass (Marc: "is the table right"; critique C4-C5, handoff
 % 2026-10-06_ch5_results_prose_redraft.md §12-§13). The table holds the values and their
 % sources; Section 5.1's prose holds the design and the analysis. Groups follow the
@@ -14,16 +16,16 @@
 % run_memory_ablation.py, constants.py, movement/run.py (GEOMETRY). Earlier forms: git.
 \begin{table}[t]
   \centering
-  \caption[The experiment]{The experiment: what is compared, what is held, and what each ablation study runs. Each attacker runs under each MTD at each deployment interval, except no MTD, which has no deployment interval. Source: the earlier study or the released simulator code that ran the value (Table~\ref{tab:lineage-configurations}); a value it does not cover is this dissertation's choice.}
+  \caption[The experiment]{The experiment: what is varied, what is held, and what each ablation study runs. Each attacker runs under each MTD at each deployment interval, except no MTD, which has no deployment interval. Source: the earlier study or the released simulator code that ran the value (Table~\ref{tab:lineage-configurations}); a value it does not cover is this dissertation's choice.}
   \label{tab:experiment}
   \tablestyle
   \begin{tabular}{@{}P{3.9cm}P{9.1cm}P{1.9cm}@{}}
     \toprule
     Setting & Value & Source \\
     \midrule
-    \grouprow{3}{Compared} \\
+    \grouprow{3}{Varied} \\
     \quad Attacker & the baseline attacker; the APT attacker model on $c_1$, $c_2$, $c_3$ and $c_4$ & \citep{brown2023} \\
-    \quad MTD & no MTD; each of the seven MTD mechanisms alone; the random and alternative deployment strategies; MTDShield, as released & \citep{brown2023, zhang2023, tay2024} \\
+    \quad MTD & no MTD; the single deployment strategy, once for each of the seven MTD mechanisms; the random and alternative deployment strategies; MTDShield, as released & \citep{brown2023, zhang2023, tay2024} \\
     \quad Deployment interval & 50, 100 and 200\,s; 500, 1\,000 and 2\,000\,s & \citep{zhang2023, ho2024} \\
     \addlinespace
     \grouprow{3}{Held} \\

@@ -5616,7 +5616,7 @@ This chapter answers \ref{sq:evaluate} by evaluating MTD in MTDSim against
 the APT attacker model and the baseline attacker. Both attackers are
 measured with the attacker behaviour, attack outcome and MTD effectiveness
 metrics of Section~\ref{sec:evaluation-metrics}.
-Section~\ref{sec:dimensions} sets out the experimental setup: the comparison,
+Section~\ref{sec:dimensions} sets out the experimental setup: the varied and
 held settings, runs, analysis and ablation studies.
 Section~\ref{sec:attacker-in-operation} compares the attacker behaviour and
 attack outcome of the two attackers with no MTD.
@@ -5978,23 +5978,32 @@ and draws out what they change for MTD evaluation.
 %  moving parts" and "open on the first object": they served a run plan, and SQ3
 %  makes this a comparison. The parked 4.4-preamble sentence lands as Comparison's
 %  last. The prior text and its ruling trail are in git (55300808^). DRAFT STATE.
-\paragraph{Comparison.} Both attackers are run with no MTD, under each of the
-seven MTD mechanisms deployed alone, and under the random deployment strategy,
-the alternative deployment strategy and MTDShield
-(Section~\ref{subsec:defence-mechanisms}). The APT attacker model runs on
-each of its four attack profiles, $c_1$ to $c_4$
-(Section~\ref{sec:attack-profiles}). Each MTD mechanism and deployment
-strategy runs at six deployment intervals, so every effect can be read
-against the interval. The intervals run from 50\,s, the shortest the earlier
-MTDSim studies ran, to 2\,000\,s, ten times their longest
-(Table~\ref{tab:lineage-configurations}), spaced about evenly on a
-logarithmic scale. The
-runs with no MTD have no deployment interval, so every interval is compared
-with the same runs with no MTD (Section~\ref{subsec:metrics-effectiveness}).
-MTDShield is run as released (Appendix~\ref{app:mtdshield}). Both attackers
-run on the same networks, against the same MTD, through the same six attack
-actions (Section~\ref{subsec:attacker-model}). A difference between their
-results is therefore a difference in the attacker.
+% [ROUND 2, 2026-10-06] Marc on the Comparison unit: is "comparison" the right word
+%  (and "Compared" in the table is a second word for it); name both attackers; "deployed
+%  alone" is a mouthful, is "single" set up; "so every effect can be read against the
+%  interval" is vague; is the interval rationale needed; "no deployment interval ... same
+%  runs with no MTD" is obvious and unclear; the six attack actions are a given; "a
+%  difference in the attacker" is vague and disconnected. Now: run-in "Varied settings",
+%  the table group "Varied", the pair to "Held settings" (the independent and control
+%  variables, read without being named); both attackers named; the four deployment
+%  strategies of Table 2.5, with the single one run once per mechanism, so "deployed
+%  alone" (the results' phrase) is tied to Chapter 2's term (Zhang's); the interval
+%  levels by their source, the log-spacing and "read against" clauses cut; the no-MTD
+%  sentence cut (Chapter 2 defines the interval as the time between deployments; 4.5
+%  gives the same-seed reference); the attack actions cut (Chapter 4's opener); the
+%  fairness sentence in SQ3's words ("how MTD performs against"). DRAFT STATE.
+\paragraph{Varied settings.} The APT attacker model and the baseline attacker
+are each run with no MTD and under each of the four deployment strategies
+(Table~\ref{tab:deployment-strategies}). The single deployment strategy is
+run once for each of the seven MTD mechanisms, so each mechanism is deployed
+alone. MTDShield is run as released (Appendix~\ref{app:mtdshield}). The APT
+attacker model runs on each of its four attack profiles, $c_1$ to $c_4$
+(Section~\ref{sec:attack-profiles}). Each deployment strategy runs at six
+deployment intervals: 50, 100 and 200\,s, which the earlier MTDSim studies
+ran, and 500, 1\,000 and 2\,000\,s, up to ten times their longest
+(Table~\ref{tab:lineage-configurations}). Both attackers run on the same
+networks and under the same MTD, so a difference in how MTD performs against
+them comes from the attacker model.
 
 \input{tables/tab_5-1a_experiment}
 
@@ -6028,8 +6037,8 @@ Cohen's $d$ is the difference between two
 means in units of their standard deviation over seeds
 \citep{cohen1988statistical}. An effect is negligible below $d = 0.2$,
 Cohen's small effect. The Scott--Knott effect size difference test
-\citep{tantithamthavorn2017empirical} ranks the seven MTD mechanisms and
-three deployment strategies by NCR, for each attacker at each deployment
+\citep{tantithamthavorn2017empirical} ranks the seven MTD mechanisms, each
+deployed alone, and the other three deployment strategies by NCR, for each attacker at each deployment
 interval. NCR is the ranking metric because it counts the hosts compromised
 in every run, including the runs that do not reach the goal. Rank 1 holds
 those under which the fewest hosts are compromised, and neighbouring ranks differ significantly and by more than
