@@ -7890,8 +7890,9 @@ diversity in \prelim{70}\,\% or more of its decisions against either attacker
 %  against the baseline attacker's distance from the nearest attack profile, condition by condition (spread
 %  < distance in all 30 cells up to 200 s; at 200 s spread <= 0.14, distance >= 0.24 but user shuffle 0.04;
 %  numbers_reported.json sweep by_interval[*].profile).
-Figure~\ref{fig:eff-suppression-profiles} draws Figure~\ref{fig:eff-cross-arm}
-for each MTD mechanism and each attack profile. At 50 to 200\,s, the
+Figure~\ref{fig:eff-suppression-profiles} separates the two averages of
+Figure~\ref{fig:eff-cross-arm}: it draws each attack profile instead of their
+average, and each MTD mechanism instead of its layer's mean. At 50 to 200\,s, the
 deployment intervals the earlier MTDSim studies ran, the four attack profiles'
 NCR reductions differ from one another less than the baseline attacker's
 differs from the nearest of them, under every MTD mechanism and deployment
@@ -7902,9 +7903,19 @@ Under the
 deployment strategies, the baseline attacker's NCR reduction lies outside the
 attack profiles' range up to \prelim{1\,000}\,s (panels h to j).
 
-At \prelim{500} and \prelim{1\,000}\,s, the host-layer mechanisms reduce
-$c_3$'s NCR more than the other three attack profiles' (panels a to c), and
-service diversity reduces it less (panel f).
+% CONTEXT 2026-10-06 (Marc: why bring c_3 up): c_3 is the APT attacker model's layer order at its strongest.
+%  Checked (numbers_reported.json sweep, by_interval[*].profile): host-layer mean > service-layer mean for
+%  every attack profile at every interval; c_3's margin the widest at every interval (0.68 to 0.85 up to
+%  1 000 s, against 0.38 to 0.75); c_3 lowest under OS diversity and service diversity at every interval;
+%  highest under every host-layer mechanism at 500 and 1 000 s. Why c_3 is Chapter 6's.
+$c_3$ shows the APT attacker model's layer order most strongly. At every
+deployment interval, the host-layer mechanisms reduce each attack profile's NCR
+more than the service-layer mechanisms do, and $c_3$'s by the widest margin.
+Under OS diversity and service diversity, $c_3$'s NCR reduction is the lowest
+of the four attack profiles at every deployment interval (panels e and f), and
+under every host-layer mechanism it is the highest at \prelim{500} and
+\prelim{1\,000}\,s (panels a to c). The attack profiles differ in how much
+each MTD layer reduces their NCR, not in which layer reduces it more.
 % Q8 RULED 2026-10-06 (Marc: varying the timing distribution "might be a threat to validity ... second-rate"):
 %  the exponential paragraph is cut from the results; Section 6.5 carries it (content point there).
 
