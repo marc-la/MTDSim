@@ -33,6 +33,11 @@
 \usepackage{multirow}          % rotated row-group labels in tab:mtd-metrics
 \usepackage{placeins}          % \FloatBarrier: a section's floats stay in it (2026-09-24)
 \usepackage{float}             % [H] for ch5's PLACEHOLDER floats only --- see below
+\usepackage{etoolbox}
+% 2026-10-06 (Marc: Table 5.1's and Table E.8's captions touch the top rule): every table
+%  puts its caption above, and LaTeX's \belowcaptionskip is 0pt (it assumes captions below),
+%  so each table's last caption line sat on its \toprule. 6pt under a table caption, tables only.
+\AtBeginEnvironment{table}{\setlength{\belowcaptionskip}{6pt}}
 % ch5's floats are placeholder boxes with no prose between them, so the
 % float queue flushed ahead of the headings and every sensitivity figure
 % rendered BEFORE the subsection it belongs to (Marc, 2026-09-09: "the
