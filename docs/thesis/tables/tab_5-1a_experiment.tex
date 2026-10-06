@@ -1,3 +1,12 @@
+% ROUND 11 2026-10-06 (Marc: "it says every MTD interval and deployment above, I don't know why";
+% "you just pulled 10 out of nowhere"; "attack graph of Section this and 10 random partitions"):
+% each Ablation studies row now reads "<what takes the component's place>: <configurations>".
+% Overturns ROUND 8's cut of how each component is removed, on merit: the attack-profiles
+% row runs two different arms on two different sets of configurations, and without naming
+% them the reader could not tell which configurations belonged to which; "removed" gives the
+% other two rows the same form. "above" cut (the Varied rows are the only MTD list). The 10
+% is now visibly this dissertation's choice (no citation). The memory sweep reads as diversity
+% pools, the Held row's term.
 % ROUND 10 2026-10-06 (Marc, Section 5.4): Held gains the diversity pool (Section 4.4.4's term),
 % the value every result but the memory's pool sweep runs at, MTDSim's
 % SERVICE_NO_OF_SERVICES_PER_OS; Table 5.4's caption carried it before.
@@ -68,9 +77,9 @@
     \quad Runs per configuration & 1\,000 \citep{arcuri2014hitchhiker}, on seeds 0 to 999 \\
     \addlinespace
     \grouprow{2}{Ablation studies} \\
-    \quad Attack profiles & every MTD and deployment interval above; 10 random partitions of the attack flows: no MTD, and IP shuffle and OS diversity at 200 and 2\,000\,s \\
-    \quad Failure matrix & no MTD, and IP shuffle and OS diversity at 200 and 2\,000\,s \\
-    \quad Vulnerability memory & no MTD, and service diversity and OS diversity at 200\,s, at 1, 2, 3, 5, 10 and 20 services per operating system \\
+    \quad Attack profiles & replaced by the attack graph (Section~\ref{sec:technique-graph}): every MTD and deployment interval; by 10 random partitions of the attack flows: no MTD, and IP shuffle and OS diversity at 200 and 2\,000\,s \\
+    \quad Failure matrix & removed: no MTD, and IP shuffle and OS diversity at 200 and 2\,000\,s \\
+    \quad Vulnerability memory & removed: no MTD, and service diversity and OS diversity at 200\,s, each at diversity pools of 1, 2, 3, 5, 10 and 20 services per operating system \\
     \bottomrule
   \end{tabular}
 \end{table}
