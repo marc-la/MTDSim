@@ -180,8 +180,8 @@ def main() -> None:
 def control_table() -> None:
     """Appendix F's table of the size-matched control (Section 5.4.1, Table 5.1): NCR on the
     attack profiles, on the attack graph, and the ten random partitions' mean, lowest and
-    highest, so the prose's two reads (the random partitions sit below both; the order holds
-    in every configuration but IP shuffle at 200 s) come from a float (2026-10-06)."""
+    highest, so the prose's read (with no MTD the random partitions sit below both) comes
+    from a float (2026-10-06; the order-across-configurations read was cut from 5.4.1 the same day)."""
     part = json.loads(PART.read_text())["by_n"]["1000"]["outcome"]["shared"]
     c = json.loads(CTRL.read_text())
     assert c["n_seeds"] == 1000
