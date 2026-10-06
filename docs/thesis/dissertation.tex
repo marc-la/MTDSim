@@ -7283,13 +7283,16 @@ strategy running.
 % REDRAFT 2026-10-06 (docs/handoffs/2026-10-06_ch5_results_prose_redraft.md, 31-h (M10 cut)):
 %  numbers filled 2026-10-06 from the 1 000-seed JSON named in the NUMBERS line (each \prelim{n}
 %  is the grep target; Marc approved the draft's form before the fill). Replaces the 2026-09-26 text (git history). DRAFT STATE.
-Adaptivity, the attacker's response to an MTD deployment
-(Table~\ref{tab:attacker-properties}), needs MTD to be seen. Attack actions
-blocked per MTD deployment and time lost per MTD deployment record it
-(Section~\ref{subsec:metrics-effectiveness}). Both are read at the
-2\,000\,s deployment interval, because at 200\,s the next deployment caps time
-lost at 200\,s.
-
+% ROUND 2026-10-06 (Marc: the Section 5.2 lessons applied to 5.3.1). Opener: the condition and why 2 000 s,
+%  one clause (the 'adaptivity needs MTD to be seen' restatement cut; it also tied attack actions blocked to
+%  adaptivity, which Section 4.5.3 does not: time lost is adaptivity's metric). Each paragraph gives the two
+%  attackers side by side at the figure's scale (0.35, not '35 times in 100'). The layer rule is Section 2.2.3's,
+%  cut from prose and both captions. Why the APT attacker model is blocked less often: a deployment landing on a
+%  tactic with no attack action blocks none (time_lost.py's docstring, the counting rule). Old paragraph 4 said the
+%  first deployment accounts for every value below zero: false for the baseline attacker's OS diversity (-21 s
+%  without it) and user shuffle (first deployment +7 s), and for the APT attacker model's two negatives
+%  (time_lost_first_deployment_numbers.json); now the fact alone, its mechanism to Appendix E and Chapter 6. DRAFT STATE.
+% ---- The comments that sat among the paragraphs replaced 2026-10-06, kept in order as the trail:
 % ---- Figure-history comments, carried forward verbatim (dissertation.tex l.7387-7450):
 % REWORKED 2026-09-13 (stage-2 float audit, ch5 design handoff §18) --- grouped bars in a 2 x 2 of lettered panels
 % (mechanism x tempo), the control as a series beside the treatment, legend
@@ -7355,17 +7358,9 @@ lost at 200\,s.
 % (the quantity changed: the per-event wait to the next compromise failed on
 % censoring and on an unmatched reference) --- Marc's to overturn. Caption:
 % how to read it, no result. DRAFT STATE --- ratify on read.
-
-\begin{figure}[tp]
-  \centering
-  \includegraphics{fig_5-2-2a_disruption_response}
   % 2026-10-02 (Marc: "if somebody just read the captions ... they could figure out what's happening";
   %  results_presentation_standard.md S4, I1-I3, T2, F5): caption rewritten to read the float alone,
   %  decoding only; metrics stay defined in Section 4.5. Session-written, DRAFT STATE --- ratify on read.
-  \caption[What an MTD deployment costs each attacker]{What an MTD deployment costs each attacker: each MTD mechanism deployed alone every 2\,000\,s, against the APT attacker model averaged over $c_1$ to $c_4$ (black; 4\,000 runs, 1\,000 per attack profile) and against the baseline attacker (grey; 1\,000 runs), grouped by what each reconfigures. (a)~Attack actions blocked per MTD deployment: 1 when every deployment disrupts an attack action, 0 when none does. A deployment's layer, not its mechanism, decides which attack actions it can disrupt (Section~\ref{subsec:attacker-model}), so the mechanisms of one layer block nearly the same share. (b)~Time lost per MTD deployment: the delay to the attacker's next compromise against the same seed with no MTD; below zero, the next compromise came sooner. A disrupted attack action need not delay the next compromise, so a mechanism can block every attack action in~(a) and still not delay the next compromise in~(b) (Section~\ref{subsec:metrics-effectiveness}). Time lost is taken over the deployments that complete while the same seed's run with no MTD is still going, at least 78\,\% of each bar's. Whiskers: 95\,\% percentile bootstrap intervals over runs. Table~\ref{tab:disruption} gives the values, and Section~\ref{subsec:metrics-effectiveness} defines both metrics.}
-  \label{fig:aio-adaptivity}
-\end{figure}
-
 % ---------------------------------------------------------------- PART 2 (body)
 % Goes immediately after \end{figure} of fig:aio-adaptivity. DRAFT STATE 2026-09-25,
 % agent-drafted; ratify on read (provenance in the PART 1 comment).
@@ -7393,7 +7388,6 @@ lost at 200\,s.
 %  docs/implementation/connective_prose_audit.md); prior text in git.
 %  RATIFIED 2026-09-26 (Marc: 'I accept all this').
 % L1 RULED 2026-10-06: Table 5.3 (the values behind Figure 5.2) moved to Appendix E.
-
 % 2026-09-30 (Marc: Figure 5.3's former (a), (b), the share of deployments
 % followed by a compromise, is no metric of Table 4.3): the figure is now (a)
 % attack actions blocked and (b) time lost; its paragraph on the curves is cut.
@@ -7402,42 +7396,43 @@ lost at 200\,s.
 %  numbers filled 2026-10-06 from the 1 000-seed JSON named in the NUMBERS line (each \prelim{n}
 %  is the grep target; Marc approved the draft's form before the fill). Replaces the 2026-09-26 text (git history). DRAFT STATE.
 % NUMBERS: ? ? = attack actions blocked per MTD deployment, APT attacker model, host layer and service layer, x100 (time_lost_numbers_reported.json blocked_per_deployment).
-Figure~\ref{fig:aio-adaptivity}(a) shows that a deployment blocks the baseline
-attacker far more often than the APT attacker model. Nearly every host-layer
-and service-layer deployment blocks one of the baseline attacker's attack
-actions. A host-layer deployment blocks one of the APT attacker model's
-\prelim{35} to \prelim{39} times in 100, and a service-layer deployment \prelim{15} times. The
-mechanisms of one layer block nearly the same share, because a deployment's
-layer decides which attack actions it can disrupt
-(Section~\ref{subsec:attacker-model}). User shuffle blocks almost neither
-attacker.
-
 % REDRAFT 2026-10-06 (docs/handoffs/2026-10-06_ch5_results_prose_redraft.md, 31-b, 31-c, T1 (a) (M8, M9 moved)):
 %  numbers filled 2026-10-06 from the 1 000-seed JSON named in the NUMBERS line (each \prelim{n}
 %  is the grep target; Marc approved the draft's form before the fill). Replaces the 2026-09-26 text (git history). DRAFT STATE.
 % NUMBERS: ? ? = time lost, host layer, APT attacker model, lowest and highest; ? = service diversity, baseline; ? = service diversity, APT; ? = largest magnitude among the rest (time_lost_numbers_reported.json); ? = first deployment's completion time (median of mtd_executions[0]); ? = median first-compromise time, no MTD minus host layer (time_lost_first_deployment_numbers.json and Section 8 of the handoff).
-Figure~\ref{fig:aio-adaptivity}(b) shows that the MTD mechanism that costs one
-attacker time costs the other little. The three host-layer mechanisms cost the
-APT attacker model \prelim{242} to \prelim{324}\,s per deployment. Service
-diversity costs the baseline attacker \prelim{493}\,s per deployment, and the
-APT attacker model \prelim{60}\,s. The other mechanisms cost either attacker
-\prelim{26}\,s or less, and several cost the baseline attacker less than zero:
-its next compromise comes sooner than with no MTD.
+Each MTD mechanism is deployed alone every 2\,000\,s, because at 200\,s the
+next deployment caps time lost at 200\,s (Section~\ref{subsec:metrics-effectiveness}).
+\begin{figure}[tp]
+  \centering
+  \includegraphics{fig_5-2-2a_disruption_response}
+  \caption[Attack actions blocked and time lost per MTD deployment]{Attack actions blocked and time lost per MTD deployment, each MTD mechanism deployed alone every 2\,000\,s; the APT attacker model averaged over $c_1$ to $c_4$. Table~\ref{tab:disruption} gives the values.}
+  \label{fig:aio-adaptivity}
+\end{figure}
 
-Figures~\ref{fig:aio-adaptivity}(a) and~(b) together show that a blocked
-attack action need not cost time. Every host-layer deployment blocks the
-baseline attacker, and none costs it time. The first deployment of each run
-accounts for the values below zero. It completes about \prelim{100}\,s into the
-run, while the baseline attacker is still exploiting its first host. The
-deployment sends it back to scanning hosts
-(Section~\ref{subsec:attacker-model}), and the scan puts the same host first
-again. The attacker exploits that host a second time instead of moving to the
-next, and its first compromise comes about \prelim{200}\,s sooner than with no
-MTD~\owed{(Appendix~\ref{app:supplementary-results})}{Section 5.3.1: the
+An MTD deployment blocks the baseline attacker's attack actions more often
+than the APT attacker model's (Figure~\ref{fig:aio-adaptivity}(a)). Attack
+actions blocked per MTD deployment is \prelim{1.000} for the baseline attacker
+under every host-layer mechanism, against \prelim{0.35} to \prelim{0.39} for
+the APT attacker model. Under every service-layer mechanism it is
+\prelim{0.95} against \prelim{0.15}, and under user shuffle \prelim{0.07}
+against \prelim{0.01}. A deployment blocks only an attack action in progress,
+and the APT attacker model runs none while in an unmapped tactic.
+
+On adaptivity, the two attackers lose time to different MTD mechanisms
+(Figure~\ref{fig:aio-adaptivity}(b)). The APT attacker model loses
+\prelim{242} to \prelim{324}\,s per host-layer deployment. The baseline
+attacker, whose attack action every host-layer deployment blocks, loses none:
+its time lost is below zero, as it is under every mechanism but service
+diversity. The baseline attacker loses \prelim{493}\,s per service-diversity
+deployment, and the APT attacker model \prelim{60}\,s. Under every other
+mechanism, the APT attacker model loses \prelim{26}\,s or less.
+
+Under every mechanism but user shuffle, the first deployment of each run
+brings the baseline attacker's first compromise \prelim{204} to
+\prelim{232}\,s forward~\owed{(Appendix~\ref{app:supplementary-results})}{Section 5.3.1: the
 appendix item on the first deployment (Marc 2026-10-06): a worked trace of one
 seed with and without MTD, and first-deployment and later-deployment columns
-in the time-lost table; Chapter 2 also owes the clause that the baseline
-attacker moves to the next host when every attack on one fails}.
+in the time-lost table, from the first-deployment numbers of the time-lost reader}.
 
 % ~1 unit. THE THESIS'S OWN CLAIM, and the subsection Marc asked the
 % hardest question about: given both attackers share the SAME SIX VERBS,
