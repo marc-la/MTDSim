@@ -31,6 +31,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import math
 import subprocess
 import sys
 from pathlib import Path
@@ -275,14 +276,17 @@ def emit_fig_a(core: dict) -> tuple[str, dict]:
     def xb_(k):
         return XB0 + (k - 0.5) / kmax * (XB1 - XB0)
 
+    # 2026-10-06 (Marc, section 5.2 round): a log axis, so the baseline attacker's
+    # 1 to 3 and the first four steps, flat on zero on a linear axis, can be read and
+    # the caption need not state them.
     def yb(v):
-        return YB0 + v / nruns * (YB1 - YB0)
+        return YB0 + math.log10(v) / math.log10(nruns) * (YB1 - YB0)
 
     axes(w, XB0, XB1, YB0, YB1,
          xticks=[(k, xb_(k)) for k in ks],
-         yticks=[(v, yb(v)) for v in range(0, nruns + 1, nruns // 4)],
+         yticks=[(10 ** e, yb(10 ** e)) for e in range(0, round(math.log10(nruns)) + 1)],
          xlabel=r"First $k$ steps", ylabel="")
-    w(r"\node[rotate=90,anchor=south,align=center] at (%.3f,%.3f) {Distinct openings\\(of %s runs)};"
+    w(r"\node[rotate=90,anchor=south,align=center] at (%.3f,%.3f) {Distinct openings\\(of %s runs, log scale)};"
       % (XB0 - 0.8, (YB0 + YB1) / 2, fmt_thousands(nruns)))
     for p in SERIES:
         pts = [(xb_(k), yb(paths[p][str(k)])) for k in ks]
@@ -359,9 +363,10 @@ def emit_table(core: dict) -> str:
     w("% Rebuilt 2026-09-24 on the metrics design (Table 5.2's names and classes).")
     w("% 2026-09-30: MTTC at a target host (section 4.5.2, ruling H1), over the runs that take one.")
     w("% Caption session-written, how-to-read only. DRAFT STATE --- ratify on read.")
+    w("% 2026-10-06 (Marc, section 5.2 round): caption decodes only; the definitions, the unit and the default bootstrap cut (Section 4.5, the header, Section 5.1).")
     w(r"\begin{table}[htbp]")
     w(r"  \centering")
-    w(r"  \caption[Both attackers with no MTD running]{The attack outcome, attack rate and attack confidentiality with no MTD running (Section~\ref{sec:evaluation-metrics}), for the APT attacker model on each attack profile $c_1$ to $c_4$ and for the baseline attacker, over %s runs each (Table~\ref{tab:experiment}). MTTC is taken over the runs that compromise a target host, whose share of all runs is the ASP: %d to %d runs per attack profile and %d for the baseline attacker.%s Attack rate is per minute of simulated time. Attack confidentiality is the percentage of attack actions not flagged by a scan detector that flags any attack action that is the fifth within 60\,s. Brackets: a %s for ASP and a %s for attack confidentiality; $\pm$: a %s. Each value is rounded to the precision of its interval.}" % (fmt_thousands(t[PROFILES[0]]["n"]), min(m[q]["outcome"]["mttc"]["n"] for q in PROFILES), max(m[q]["outcome"]["mttc"]["n"] for q in PROFILES), m["baseline"]["outcome"]["mttc"]["n"], mttc_dash_decode({mttc_unreported(m[p]["outcome"]["mttc"]) for p in (*PROFILES, "baseline")} - {None}), IV_PROP, IV_BOOT, IV_MEAN))
+    w(r"  \caption[Both attackers with no MTD running]{Attack outcome, attack rate and attack confidentiality with no MTD running: the APT attacker model on $c_1$ to $c_4$ and the baseline attacker, over %s runs each (Section~\ref{sec:evaluation-metrics}). MTTC is over the runs that compromise a target host: %d to %d per attack profile and %d for the baseline attacker.%s Brackets and $\pm$: 95\,\%% intervals, Clopper--Pearson for ASP and a normal approximation for $\pm$.}" % (fmt_thousands(t[PROFILES[0]]["n"]), min(m[q]["outcome"]["mttc"]["n"] for q in PROFILES), max(m[q]["outcome"]["mttc"]["n"] for q in PROFILES), m["baseline"]["outcome"]["mttc"]["n"], mttc_dash_decode({mttc_unreported(m[p]["outcome"]["mttc"]) for p in (*PROFILES, "baseline")} - {None})))
     w(r"  \label{tab:unopposed-summary}")
     # one header row (2026-09-24, Marc: the class headers read loose; Table 4.3
     # carries the classes), full text width
