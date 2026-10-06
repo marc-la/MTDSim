@@ -48,6 +48,10 @@ sys.path.insert(0, str(HERE))
 from partition_ablation import AGG, FOUR, N_BOOT, N_HOSTS, SEED, _d  # noqa: E402
 
 RUNS = Path(os.environ.get("RUNS", HERE / "runs_partition_control.jsonl"))
+# 2026-10-07: the five partitions redrawn by redraw_partition_control.py run into their own
+# stream; their original rows (the superseded draws) stay in RUNS and are dropped here.
+RUNS_REDRAW = Path(os.environ.get("RUNS_REDRAW", HERE / "runs_partition_control_redraw.jsonl"))
+MANIFEST = HERE.parents[2] / "data" / "ogasp" / "partition_control" / "partitions.json"
 CACHE = Path(os.environ.get("PKL", HERE / "runs_reported_summaries.pkl"))
 OUT = HERE / "partition_control_numbers.json"
 CELLS = (("none", 0), ("ip_shuffle", 200), ("ip_shuffle", 2_000),
@@ -59,18 +63,39 @@ _ROW = re.compile(rb'"profile": "(\w+)", "objective": "\w+", "condition": "(\w+)
                   rb'"interval": (\d+), .*?"seed": (\d+), "partition": (\d+), .*?"compromised": (\d+)')
 
 
+def redrawn() -> set[int]:
+    """The partitions whose original draw was superseded (partitions.json)."""
+    m = json.loads(MANIFEST.read_text())
+    return {r["partition"] for r in m.get("redraw_2026_10_07", {}).get("replaced", [])}
+
+
 def load_control() -> tuple[dict, int]:
-    """(partition, slot, condition, interval) -> {seed: hosts}; and the error count."""
+    """(partition, slot, condition, interval) -> {seed: hosts}; and the error count.
+    The redrawn partitions are read from RUNS_REDRAW only."""
+    gone = redrawn()
+    runs, errors = _load(RUNS, skip=gone)
+    if gone:
+        new, e2 = _load(RUNS_REDRAW, keep=gone)
+        runs.update(new)
+        errors += e2
+    return runs, errors
+
+
+def _load(path: Path, skip: set = frozenset(), keep: set | None = None) -> tuple[dict, int]:
     runs: dict = defaultdict(dict)
     errors = 0
-    with RUNS.open("rb") as fh:
+    with path.open("rb") as fh:
         for line in fh:
             m = _ROW.search(line[:4096])
             if m:
                 pr, c, i, s, k, h = m.groups()
+                if int(k) in skip or (keep is not None and int(k) not in keep):
+                    continue
                 runs[(int(k), pr.decode(), c.decode(), int(i))][int(s)] = int(h)
                 continue
             r = json.loads(line)
+            if r.get("partition") in skip or (keep is not None and r.get("partition") not in keep):
+                continue
             if "error" in r:
                 errors += 1
                 continue
