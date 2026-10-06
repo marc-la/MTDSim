@@ -5616,8 +5616,8 @@ This chapter answers \ref{sq:evaluate} by evaluating MTD in MTDSim against
 the APT attacker model and the baseline attacker. Both attackers are
 measured with the attacker behaviour, attack outcome and MTD effectiveness
 metrics of Section~\ref{sec:evaluation-metrics}.
-Section~\ref{sec:dimensions} sets out the experimental setup: the network,
-attacker, MTD, metrics, statistics and runs.
+Section~\ref{sec:dimensions} sets out the experimental setup: the comparison,
+held settings, runs, analysis and ablation studies.
 Section~\ref{sec:attacker-in-operation} compares the attacker behaviour and
 attack outcome of the two attackers with no MTD.
 Section~\ref{sec:effectiveness} measures the MTD effectiveness of each MTD
@@ -5966,478 +5966,84 @@ and draws out what they change for MTD evaluation.
 \section{Experimental setup}
 \label{sec:dimensions}
 
-% DRAFT STATE 2026-09-18 --- RESTRUCTURED against the shape in
-% docs/handoffs/2026-09-17_ch5_s52_setup_critique.md §W, which Marc ruled the same
-% day ("execute on this meticulously and then I'll be able to give feedback").
-% What stood here was the 2026-09-17 five-answer redraft (539 words, five
-% paragraphs, three tables); Part 3 §N and Part 4 §V of that handoff are the
-% diagnosis. Two things changed and both are Marc's.
-% (1) THE UNITS ARE THE SIMULATION'S MOVING PARTS, declared under bold run-in
-%     labels rather than joined into flowing paragraphs. His framing: "what are
-%     the big abstract moving parts of the simulation --- the network, the
-%     attacker, the defence, the metrics we use, the things we keep the same."
-%     A run plan is scanned for its answers and then left; the joins were the
-%     verbosity. The form is the corpus's own for exactly this content: He's
-%     threat AND defence models are Goal / Knowledge / Capability run-ins,
-%     Zhang's attacker profile is four bold run-ins, Cho and Ben-Asher walk their
-%     net under seven, Alavizadeh heads its limitations with one. voice.md §(h)
-%     and §(d) carry a scoped carve-out for it, ruled the same day.
-% (2) EACH UNIT CARRIES ONE HIGH-LEVEL MOTIVATING CLAUSE and the tables carry
-%     none. The per-row justification columns are deleted (Marc: "I would just
-%     lose the column on each of them --- what do I need them for?"). Why the
-%     attacker is varied, and why the defence is, are questions a reader asks;
-%     why row eleven holds the value it does is not.
-% NO LEAD SENTENCE --- THE SECTION OPENS ON ITS FIRST OBJECT (Marc, 2026-09-18:
-% "it reads like a caption ... just cut it"). The sentence that stood here was the
-% caption for its own table, then briefly the experiment stated in one breath;
-% both are gone. The corpus backs the cut outright: NOT ONE of the four setup
-% sections with an anatomy on file opens by introducing its own parameter table,
-% or by summarising itself --- Kim opens on the testbed, Reti on the network
-% configuration, Ho on the simulator settings, He on the dataset, each straight
-% into the first object. Table~\ref{tab:experiment} is now pointed at
-% parenthetically at the first value it holds, which is Kim's and Reti's pattern
-% (values in the prose, the table alongside), so the float keeps a reference
-% without a sentence spent on it.
-% THE SAME CAPTION-FAULT was in the Metrics unit, unflagged --- it opened on
-% "Table 5.3 names every metric" --- and is re-cut the same way: the claim leads,
-% the table reference is subordinate.
-% NO DESIGN PARAGRAPH: with both kinds of row in one table the design is one
-% sentence in that table's caption, which is the question Marc put to the old
-% paragraph three ("what can it do that the captions are not doing").
-% NO RESULT IS REPORTED HERE. The operating-point finding that stood in the old
-% paragraph three --- at the inherited interval neither attacker reaches its
-% objective, so a success-shaped measure is pinned at zero --- reads as a result
-% because it is one, and it is left to §5.4, where it is evidenced, and to ch6 for
-% its methodological reading.
-% 257 words against the 546 that stood here and 905 originally; two tables
-% against three, measuring 710 pt of table body against 1 168 pt. (Counted with
-% the same script on both, references expanded as a reader reads them; the "333"
-% in an earlier draft of the brief was an undercount of the specimen and is
-% corrected here and in the handoff.) One [3b] still standing: the
-% per-claim effect floors (C7), Marc's numbers.
-% THE RUN COUNT IS A THOUSAND (handoff §J, Marc's ruling): the corpus at
-% data/results/ch5_defended/run_corpus.py still sets SEEDS = range(100), which
-% is the preliminary pass the floats are argued from. The chapter reports
-% thousand-seed numbers, and the word "preliminary" appears nowhere in it.
-% RATIFIED 2026-09-23 (register E5; Marc: "literally it needs to be visible
-%  that we're citing where we got the numbers from"; "that's fine"). Two
-%  session edits: (i) "Fifty hosts" recast as "The network has 50 hosts" --- E5's
-%  numerals rule, and a sentence may not open on a numeral; (ii) the third
-%  sentence is new: the network is Zhang's second of four exactly (Table 2,
-%  p.33: 50 nodes, 5 endpoints, 4 layers), and a database target is Brown's
-%  Scenario 2 (p.4). The subnet count has no lineage precedent (Brown's 20 is
-%  the only stated value) and rides "the simulator's own default".
-% [CH3 REDRAFT ROUND 54, 2026-10-02, 5.1 run-in heads] Marc: "if we had to update 5.1" ... "please fix". The six bold lead-ins were hand-set (\textbf at the head of an ordinary paragraph), bypassing the class; now the class's \paragraph, as in 3.3.2 and 4.5. No wording changed.
-\paragraph{Network.} The network has 50 hosts across four levels of depth, eight
-subnets and five exposed endpoints (Table~\ref{tab:experiment}), with the
-network regenerated for each seed and the two database hosts at the deepest
-level as the target. Every value is the configuration the simulator's released
-experiment code runs \citep{tay2024code}, which differs from the defaults of
-Section~\ref{subsec:network-model} (Figure~\ref{fig:network-model}) only in
-taking two database hosts as the target rather than five. The hosts, levels
-and endpoints are also the second of the four networks Zhang evaluated on
-\citep{zhang2023}, inside the 25 to 200 hosts the lineage has run
-(Table~\ref{tab:lineage-configurations}), and a database as the target
-follows Brown's targeted scenario \citep{brown2023}. The configuration
-never changes, so every difference reported is the
-attacker's or MTD's.
-% [3b] "narrowed from five hosts to two" --- the fact is verified: GEOMETRY
-%  sets total_database=2 (src/mtdsim/l3_simulation/movement/run.py:67) against
-%  TimeNetwork's own default of 5 (mtdnetwork/component/time_network.py:12), and
-%  every other value in GEOMETRY is that class's default. The CHANGE is real and
-%  is declared nowhere else in the document; the REASON is yours. If the set was
-%  narrowed to make the objective a harder and more specific target, say so in a
-%  clause here; if it came from somewhere else, say that. Do not leave it silent:
-%  a target set that departs from the simulator's default and is not declared is
-%  exactly what a reader checks.
+% REDRAFT 2026-10-06 (Marc: "translate all these critique elements into your
+%  proposed shape ... everything that you choose must have a reason"; critique and
+%  rulings R1-R3: docs/handoffs/2026-10-06_ch5_results_prose_redraft.md §12-§13).
+%  The units answer the examiner's questions of a setup in order: what is
+%  compared and is it fair (Comparison), what is held (Held settings), how many
+%  runs (Runs), how a number becomes a claim (Analysis), and the ablation studies
+%  last. Table 5.1 carries every value and its source; the prose carries only the
+%  design and the analysis. Nothing chapters 2-4 or the preamble give is restated.
+%  Overturns on merit the 2026-09-18 rulings "the units are the simulation's
+%  moving parts" and "open on the first object": they served a run plan, and SQ3
+%  makes this a comparison. The parked 4.4-preamble sentence lands as Comparison's
+%  last. The prior text and its ruling trail are in git (55300808^). DRAFT STATE.
+\paragraph{Comparison.} Both attackers are run with no MTD, under each of the
+seven MTD mechanisms deployed alone, and under the random deployment strategy,
+the alternative deployment strategy and MTDShield
+(Section~\ref{subsec:defence-mechanisms}). The APT attacker model runs on
+each of its four attack profiles, $c_1$ to $c_4$
+(Section~\ref{sec:attack-profiles}). Each MTD mechanism and deployment
+strategy runs at six deployment intervals, so every effect can be read
+against the interval. The intervals run from 50\,s, the shortest the earlier
+MTDSim studies ran, to 2\,000\,s, ten times their longest
+(Table~\ref{tab:lineage-configurations}), spaced about evenly on a
+logarithmic scale. The
+runs with no MTD have no deployment interval, so every interval is compared
+with the same runs with no MTD (Section~\ref{subsec:metrics-effectiveness}).
+MTDShield is run as released (Appendix~\ref{app:mtdshield}). Both attackers
+run on the same networks, against the same MTD, through the same six attack
+actions (Section~\ref{subsec:attacker-model}). A difference between their
+results is therefore a difference in the attacker.
 
 \input{tables/tab_5-1a_experiment}
-% [OWED 2026-09-28: the generated table needs the vulnerability memory as a
-%  fixed setting --- on ($\lambda$ declared) for the APT attacker model, off for
-%  the baseline attacker --- once the 1 000-seed corpus runs with it on.]
 
-% POINTER PROPOSED 2026-09-20 (Marc to dictate or drop): one clause in this unit
-% that the movement attacker's chosen values (Section~\ref{sec:execution}) are held
-% at their chapter 4 values, their sweep being Appendix~\ref{app:sensitivity} ---
-% V6's "before the results" honoured by a pointer now that the section is cut.
-\paragraph{Attacker.} The baseline attacker of
-Section~\ref{subsec:attacker-model}, and the APT attacker model of
-Chapter~\ref{ch:attacker-model} on each of its four attack profiles $c_1$ to
-$c_4$. Both pursue the targeted attack scenario
-(Table~\ref{tab:attacker-objectives}).
-% 2026-09-20 (P1, P6; setup handoff §AL1 1a, 1f, §AM; Marc: "we default to the
-%  targeted for the movement attacker so I don't even think the split is even
-%  necessary"). OBJECTIVE IS HELD, NOT VARIED: the opportunistic runs exist for
-%  §5.4.3's re-run of the prior evaluations and are declared there (tab 5.4.3a's
-%  caption already does). The motive clause goes with the factor. In chapter 5
-%  "objective" now always arrives as "the targeted objective (Table 2.5)", and
-%  §4.2's sense is always "attack profile", which is the collision's repair.
-% CUT 2026-09-18 (Marc: "what is the last clause doing here ... is this
-%  convention?"). It was "Whether that choice changes what an evaluation
-%  concludes is the chapter's question" --- the research question restated in the
-%  setup. It is not convention: no setup section in the corpus states the study's
-%  question (Reti, He, Kim and Ho each declare and stop), conventions §a is
-%  explicit that a setup declares and does not argue, and §b puts the
-%  question-naming roadmap at the head of the RESULTS, which for this chapter is
-%  the preamble --- which §20.1 already ruled §5.2 must not repeat.
-%  NOTE THE DISTINCTION, so this is not over-applied: the Network unit's third
-%  sentence ("the configuration never changes ... so every difference reported is
-%  the attacker's or the defence's") is a DESIGN reason and stays; this one was a
-%  research question. The attacker unit keeps its design reason in sentence two.
-% OWED BY THE CHAPTER PREAMBLE (still a placeholder): with this sentence gone,
-%  nothing in §5.2 says why two attackers are run. That belongs in the roadmap,
-%  where Tay's house pattern puts it; §5.4.2's figure caption currently carries
-%  it alone ("this is the chapter's central comparison").
+\paragraph{Held settings.} Every run uses the default network of
+Section~\ref{subsec:network-model}, with two target hosts in place of five,
+as in the simulator's released experiment code \citep{tay2024code}. Both
+attackers pursue the targeted attack scenario
+(Table~\ref{tab:attacker-objectives}). Table~\ref{tab:experiment} gives every
+held setting and its source.
 
-% APPLIED 2026-09-25 (Marc: "5.1 shows two intervals and no MTDShield ... please fix
-%  that"): the staged MTDShield sentence (without "beside random selection over the
-%  same four mechanisms": that control is reported nowhere, Marc 2026-09-25) and the
-%  sweep rewrite in Marc's ruled words (2026-09-23: "50 seconds to 2000 seconds as a
-%  range ... our results have the MTD interval along the x axis"). Zhang ran 50, 100,
-%  150 and 200 s (zhang2023.md l.418); Ho 200 s. DRAFT STATE --- ratify on read.
-% [CONNECTIVE-PROSE PASS 2026-09-26, ch5 S6 Eleven] Numerals rule
-%  (register b8, supervisor E5): the number was spelt out to dodge it;
-%  colon-list removed. SESSION-GENERATED on Marc's 2026-09-26 go-ahead
-%  (docs/workflows/connective_prose.md; audit
-%  docs/implementation/connective_prose_audit.md); prior text in git.
-%  RATIFIED 2026-09-26 (Marc: 'I accept all this').
-% TERM SWEEP 2026-09-30 (Marc: remove 'condition' and bare 'defence'; no
-%  collective noun; defence mechanism, deployment strategy, MTD, no MTD).
-\paragraph{MTD.} The attackers run with no MTD, under each of the seven defence
-% [CONNECTIVE-PROSE PASS 2026-09-26, DS 5.1 Defence] Marc 2026-09-26:
-%  'deployment strategies is very clear ... change everything to
-%  deployment strategies' (registry row re-ruled). SESSION-GENERATED on
-%  Marc's 2026-09-26 go-ahead (docs/workflows/connective_prose.md; audit
-%  docs/implementation/connective_prose_audit.md); prior text in git.
-%  RATIFIED 2026-09-26 (Marc: 'I accept all this').
-mechanisms under the single deployment strategy, the random and alternative deployment strategies,
-% [2026-09-30: owed mark retired --- the simultaneous deployment strategy is
-%  no longer listed in Chapter 2 (Marc: "we don't use simultaneous so we
-%  could drop it").]
-which draw on the whole pool (Section~\ref{subsec:defence-mechanisms}), and
-under MTDShield. MTDShield is run as released: Tay's highest-scoring agent, choosing what to deploy at every decision (Appendix~\ref{app:mtdshield}). Each defence
-mechanism and deployment strategy runs at six deployment intervals, so that every effect can be read
-against the interval. They run from 50\,s, the shortest Zhang and Ho ran, to
-2\,000\,s, ten times the longest the lineage has run
-(Table~\ref{tab:lineage-configurations}), three to a decade so that they fall
-evenly on a logarithmic axis.
-% Q8 RULED 2026-10-06: the timing distribution is held near-periodic; the clause "the timing
-%  distribution is varied separately (Table 5.1)" is cut with the exponential level.
-% [CONNECTIVE-PROSE PASS 2026-09-26, ch5 S5 interval] False
-%  self-description: Section 5.3.1 reports one interval and it is 2 000 s;
-%  200 s is the interval tabled (the slot plan's word). SESSION-GENERATED
-%  on Marc's 2026-09-26 go-ahead (docs/workflows/connective_prose.md;
-%  audit docs/implementation/connective_prose_audit.md); prior text in
-%  git. RATIFIED 2026-09-26 (Marc: 'I accept all this').
-Where one interval is tabled it is 200\,s, the
-longest Zhang ran, the interval of Ho's comparisons \citep{ho2024} and the one
-MTDShield was trained at (Appendix~\ref{app:mtdshield}). The no-MTD runs are
-the reference for every effect this chapter reports.
-% STAGED 2026-09-25, APPLY WHEN THE MTDSHIELD CONDITION LANDS (handoff
-%  2026-09-22_ch5_defended_corpus_schemes_intervals_mtdshield.md §5.7 item 2;
-%  Marc: "one sentence ... details in appendix", and no judgement of the model
-%  in §5.1). Beside the sweep rewrite above, the condition list gains two
-%  entries and this sentence follows it:
-%    "MTDShield is run as released: Tay's highest-scoring agent, choosing its
-%     own action at every decision, beside random selection over the same four
-%     mechanisms (Appendix~\ref{app:mtdshield})."
-%  Table 5.1's Condition row gains "MTDShield \citep{tay2024}; random over
-%  MTDShield's four mechanisms". Held back now so §5.1 stays true to what has run.
-% RATIFIED 2026-09-23 (Marc: "that's fine"); register E5. 200 s is the top of
-%  Zhang's 50--200 s and Ho's comparison interval (Table 8, p.24).
-% [3b] RESOLVED 2026-09-23, Marc's ruling: 2 000 s is NOT defended by precedent.
-%  It is the top of a RANGE: "2000 is just something we came up with in terms
-%  of a range ... we can do 50 seconds to 2000 seconds as a range, and that's a
-%  number that we have motivated, because then our results have the MTD
-%  interval along the x axis." So the motive is the analysis (interval as the
-%  results' x axis, 50 s the lineage's floor), not a claim about 2 000 s itself.
-%  The design record's "above the boundary at which the objective becomes
-%  reachable" is NOT the reason and is not to be asserted. REWRITE WHEN THE
-%  SWEEP LANDS (corpus handoff): "a range from 50 s, the shortest the lineage
-%  has run, to 2 000 s (Table 2.2), so that every effect can be read against
-%  the interval" --- the interval sentence then names the six levels, and
-%  Table 5.1's row takes them. Until then this sentence stays true to the two
-%  levels actually run.
-% REWORKED 2026-09-18, THIRD pass, on four of Marc's rulings. The unit is now
-%  three declarations and no argument, which is what conventions §a asks a setup
-%  for, and it is 54 words against 75.
-% (1) THE FIRST SENTENCE'S TAIL WAS THE RUN-THROUGH, not its length: "the two
-%  execution schemes, random and alternative, that draw from all seven" makes the
-%  reader hold an appositive open while a relative clause lands on the head noun
-%  behind it, and then ends on a bare number whose noun was never supplied
-%  ("all 7 --- all 7 what?"). Now "the random and alternative execution schemes,
-%  which draw on the whole pool": the names are attributive, one clause hangs off
-%  one noun, and POOL is ch2's own word for the seven (Table 2.3: "draws one
-%  mechanism from the pool at random"; "rotates through the pool in a fixed
-%  order"), so the number needs no repeating.
-% (2) "DEFENCE MECHANISMS", NOT "MTD MECHANISMS". §2.2.2 is titled "Defence
-%  mechanisms", Table 2.2 is "The seven defence mechanisms", and the document
-%  census is 36 "defence mechanism" against 7 "MTD mechanism" --- and all seven of
-%  those are generic, about the field's mechanisms (§1.1, §2.1, §3.2), never
-%  about this roster. And "MTD configurations" as the covering noun is rejected:
-%  a configuration is a setting of the NETWORK, which is how the Network unit
-%  four lines up uses it.
-% (3) THE REFERENCE SENTENCE IS ONE CLAUSE (Marc: "it could just be one
-%  clause"). "The no-defence runs are the reference: every effect this chapter
-%  reports is a difference from them" said reference, then glossed reference.
-%  "The reference for every effect this chapter reports" is the same fact with
-%  the colon and the gloss gone, 12 words against 18.
-% (4) BOTH MOTIVE CLAUSES ARE CUT. "Since a defence is as much when it moves as
-%  what it moves" was built out of ch2's "what to move" / "when to move" headings
-%  and Marc could not read it ("what does that point even mean to your average
-%  reader?"); a chiasmus that needs the headings in front of you to parse is not
-%  a motive, and the Network and Attacker units already carry one motive clause
-%  each, which is the ration. "Every deployment is time-triggered" goes for
-%  Marc's reason, that it is background: ch2's Table 2.3 files random and
-%  alternative under the PROACTIVE regime, §2.2.2 states no detection channel is
-%  encoded, and Table 5.2 declares the adaptive selector not exercised. Three
-%  places already say it.
-% WHAT REPLACES THEM IS THE FACT THEY WERE DECORATING: the interval is swept, and
-%  the prose now says how, which the caption alone was carrying. NOTE THE TRUTH
-%  CONDITION --- "every condition runs at both deployment intervals" would be
-%  FALSE. The no-defence cell never reads the interval, so it is run once per arm
-%  and objective and serves as the reference at both (run_corpus.py:257-260 and
-%  its module docstring). Hence "each DEFENDED condition". This is the same trap
-%  that made "all ten conditions are time-triggered" false last pass: any sentence
-%  quantifying over the ten crosses a control that has no defence parameters to
-%  quantify over. "Varied separately" is exact: the exponential regime is run over
-%  all nine defended conditions at 200 s only (run_corpus.py:268-271).
-% FLAGGED, NOT CHANGED: Table 5.2's caption says arm, condition and deployment
-%  interval "are run in every combination", which collapses on the no-defence
-%  cell for the reason above. The cell is interval-independent, so no number is
-%  affected and the caption is not wrong about the design; if it is ever
-%  tightened, "every combination" takes an "each defended" of its own.
-% THE WORD "BASELINE" IS UNAVAILABLE FOR THE NO-DEFENCE CONDITION, which is why
-%  this sentence reads around it. conventions §f2: the corpus uses "baseline" for
-%  two different objects --- the no-defence control and the comparison arm --- and
-%  "a chapter that says 'the baseline' without saying which will be read as
-%  confusing a control with a competitor". The Attacker unit two paragraphs up
-%  says "the baseline attacker". So the no-defence condition takes "reference"
-%  and never "baseline", here or anywhere in this chapter.
-% "CONDITION" IS ALSO THE ONLY WORD LEFT. It has to cover a control, seven
-%  mechanisms and two schemes at once, so "mechanism" is wrong by extension;
-%  "configuration" is taken by the Network unit ("the configuration never changes
-%  across this chapter") and would name two objects with one word in the same
-%  section. "Condition" is the corpus's own (He's techniques are "the compared
-%  conditions"), it is the neutral experimental term for a level of a factor, and
-%  it is Table 5.2's row name, so prose and table agree.
-% CUT 2026-09-18 (Marc: "this is a limitation which exists in the discussion
-%  maybe ... that exists already somewhere else in the background"). Two of the
-%  defender's three clauses are gone --- "its goal is to disrupt the attacker,
-%  not to detect it" and "it knows nothing of the attacker, there being no
-%  detection channel for that knowledge to arrive through". He is right on both
-%  counts and the second is checkable: §2.2.2 already ends "There are no purely
-%  reactive deployment strategies in the simulator: no detection channel is
-%  encoded, so a detection-triggered strategy, such as an IDS-based scheme, is
-%  not possible." §5.2 was restating ch2 in ch2's own terms.
-%  WHAT STAYS IS THE SCHEDULING REGIME --- time-triggered, never reacting ---
-%  because that is a RUN-PLAN fact and the corpus puts it in the setup: Kim
-%  declares "time-based, all techniques triggered every MTD interval", Ho
-%  declares the controller and its forced-trigger guard. The goal and knowledge
-%  clauses are MODEL, and He --- the only paper that writes them --- puts them in
-%  §IV.A, its defence model section, not in §V's setup.
-% OWED BY §2.2.2, proposed not drafted: conventions §g asks for a threat model
-%  written symmetrically on both sides, He's Goal / Knowledge / Capability being
-%  the tightest form. Chapter 4 is the attacker's half in full; the defender's
-%  half exists only as scattered facts in §2.2.2. Three clauses there would
-%  discharge it, and §5.2 would keep pointing at them as it now does. Marc's
-%  ruling and his prose.
-% OWED BY ch6/ch7: with the tables' reason column gone, the REASON MTDShield is
-%  not exercised is now recorded nowhere in the document --- Table 5.2 declares
-%  the absence ("Adaptive selector | not exercised") but no longer says why, and
-%  ch2's Table 2.5 puts MTDShield in a roster of five that this chapter runs none
-%  of. It is a limitation paired with future work, which is He's form and ch7's
-%  register: the selector would need retraining before it could trade cost
-%  against risk.
+\paragraph{Runs.} Every combination in Table~\ref{tab:experiment} is run
+1\,000 times, one run per seed, the number Arcuri and Briand
+\citep{arcuri2014hitchhiker} recommend for randomised algorithms. The seeds
+are the same in every combination, and a seed fixes the network. Each run is
+a terminating simulation: it ends on events fixed before it starts
+(Table~\ref{tab:experiment}) \citep{law2015}, so no warm-up period is needed
+\citep{currie2016}.
 
-% FOLDED FROM 4.5.4, 2026-09-30 (Marc: "I would fold it"; "MTD ranking";
-%  "say more with less"). The ranked set in ratified terms (terminology.md
-%  rows 62, 72): the seven defence mechanisms and three deployment strategies,
-%  MTDShield being one (Table 2.4); no MTD is the reference and takes no rank.
-%  Cut 2026-09-30 (Marc: "why is there so much nuance ... one 95% confidence
-%  interval"; "ranking only has so much utility"): the interval methods
-%  (normal approximation; percentile bootstrap, 2 000 resamples, Efron), the
-%  tie rule (alpha 0.05, Cohen's h >= 0.2), rank 1 the lowest, the 0/1 coding.
-%  The analyser's record keeps them. The
-%  analyser still ranks on hosts per seed with Cohen's d (owed, handoff
-%  2026-09-29_ch4_consolidation.md). DRAFT STATE --- ratify on read.
-\paragraph{Metrics.} Both attackers are measured on the ten metrics of
-Section~\ref{sec:evaluation-metrics} (Table~\ref{tab:metrics}), each with its
-95\,\% confidence interval.
-% 2026-10-05: MOVED from Section 4.5.2 (MTTC), where the interval was not yet
-%  defined (results_presentation_standard.md N1; Marc 2026-10-02: "don't report
-%  MTTC over too few runs"). Text unchanged but "interval" -> "confidence
-%  interval" (this paragraph's term). DRAFT STATE --- ratify on read.
-MTTC is not reported where fewer than 10 runs compromise a target host, or
+\paragraph{Analysis.} Each mean over runs, such as NCR, carries a 95\,\%
+confidence interval from the normal approximation. Every other interval, such
+as that of NCR reduction, is a 95\,\% percentile bootstrap over runs
+\citep{efron1994introduction}. An effect differs from zero when its 95\,\%
+interval excludes zero. The APT attacker model is averaged over $c_1$ to
+$c_4$, 1\,000 runs each, wherever a figure or table gives it one line or
+column. MTTC is not reported where fewer than 10 runs reach the goal, or
 where its 95\,\% confidence interval is wider than 160\,\% of its value, the
-minimum the US National Center for Health Statistics sets for presenting a
+limit the US National Center for Health Statistics sets for presenting a
 rate \citep{kochanek2024nchs}.
 
-% REDRAFT 2026-10-06 (docs/handoffs/2026-10-06_ch5_results_prose_redraft.md, St-1 to St-5):
-%  numbers filled 2026-10-06 from the 1 000-seed JSON named in the NUMBERS line (each \prelim{n}
-%  is the grep target; Marc approved the draft's form before the fill). Replaces the 2026-09-26 text (git history). DRAFT STATE.
-\paragraph{Statistics.} An effect is \emph{told apart} from zero when its
-95\,\% interval excludes zero. The APT attacker model is averaged over $c_1$ to
-$c_4$ wherever it is one line or column. The Scott--Knott effect size
-difference test \citep{tantithamthavorn2017empirical} sorts the seven MTD
-mechanisms and three deployment strategies into ranks by NCR, for each
-attacker at each deployment interval. Rank 1 holds those under which the
-fewest hosts are compromised, and those sharing a rank are not told apart. NCR
-is the ranking metric because it counts the hosts compromised in every run,
-including the runs in which the attacker does not reach its goal. Spearman's
-rank correlation, $\rho$ (rho) \citep{spearman1904proof}, compares the two
-attackers' rankings. It is 1 when both attackers rank
-the MTD in the same order, 0 when the two orders are unrelated, and $-1$ when
-one order is the reverse of the other. Each ablation
-(Section~\ref{sec:ablation}) is measured by the effect size Cohen's $d$: the difference
-between the means with and without the component, in units of their standard
-deviation over seeds \citep{cohen1988statistical}. A component's effect is
-negligible when the 95\,\% interval of $d$ lies wholly inside $\pm 0.2$,
-Cohen's small effect. The component then moves the result by less than a
-fifth of its variation from one seed to the next.
-% [TERM SWEEP 2026-09-24, DRAFT STATE: "They are grouped by effectiveness and
-%  efficiency, as Table 3.x groups the field's." CUT --- false since the metrics
-%  design (three classes of our own, defined in §4.5); "ranked on hosts reached,
-%  the distinct hosts an attacker compromises" -> "ranked on the NCR reduction"
-%  (Table 5.2's name). The replacement sentence on the three classes is Marc's to
-%  dictate (§4.5 brief, "why did you do that" items).]
-% 2026-09-20 (P11, P12; setup handoff §AL4, §AM): Table 5.3 is named ONCE, in
-%  Marc's dictated sentence, which now leads; "every comparison is made on hosts
-%  reached" was false (tab 5.4.1a compares on delay, runs with no compromise and
-%  blocked fraction; tab 5.5a on actions per host) and is scoped to the ranking.
-% 2026-09-20: Marc's dictation replaces the session's ending ("each under the
-%  quantity of Table 3.1 that it measures") --- the quantity is not to be referred
-%  to as a concept. NOTE: the unit's first sentence already names Table 5.3.
-% 2026-09-20: counts removed on Marc's read --- "it's the idea; the facts live in
-%  the table".
-% DRAFT STATE 2026-09-20 --- session-drafted on Marc's request ("would you dictate
-%  that"), from his own spoken version: "the field normally instruments new
-%  things to measure new things ... to answer our research question we have to
-%  instrument our simulator with new metrics, which we detail in Table 5.3".
-%  "Instrumented" is ch4's word (§4 opener, "we are instrumenting our existing
-%  attacker model"). NOT carried: "the field normally does this" --- it is true
-%  (Alavizadeh, Hong, Masud each define their own) but §3.2.2 names exactly that,
-%  metrics "produced on an ad hoc basis", as the field's primary problem, so
-%  leaning on it argues against the lit review. What answers the ad hoc charge
-%  is the last clause: every new metric is filed under Table 3.1. Ratify on read.
-% 2026-09-20: "host breadth" -> "hosts reached", Marc's ruling that the results
-%  floats' names win (handoff §AK8); Table 5.3 rebuilt the same day (§AK--§AK11).
-% SECOND PASS 2026-09-18, on Marc's read of the first one. Two sentences, 37
-%  words, neither longer than a line and a half --- "be mindful, long sentences
-%  are unreadable".
-% (a) THE TWO GLOSSES ARE CUT, and his instinct was right for a reason that is
-%  not the one he gave: §3.2.2 NAMES the split and cites Cho for it ("Metrics can
-%  be split on perspective ... and purpose, effectiveness or efficiency") but
-%  never glosses either word in prose --- the gloss lives in a source comment.
-%  What DOES gloss them is the chapter preamble two pages up, in Marc's own
-%  dictation: "what the defences do to it (§5.4), and what that costs (§5.5)".
-%  So the glosses were redundant against the preamble, not against ch3, and the
-%  preamble is where a reader meets them first. "Grouped by effectiveness and
-%  efficiency" also drops the abstract word "purpose", which was carrying the
-%  sentence's only piece of unexplained vocabulary.
-% (b) "JUDGES A DEFENCE BY" IS SCOPE, NOT BOAST, AND IT WAS LOAD-BEARING. Marc
-%  read sentence two as being about "metrics for attack validation" --- the §5.3
-%  instruments --- and the confusion is the prose's fault, because "every metric
-%  this chapter reports" was FALSE: §5.3 reports four more that are deliberately
-%  not in Table 5.3. The cut opener had been carrying that scope inside its
-%  objection-answer, and the scope was the half worth keeping. Table 5.3's
-%  caption said the same false thing and is fixed with it.
-% (c) SENTENCE TWO NOW STATES ITS JOB IN ITS FIRST FOUR WORDS. "Host breadth ...
-%  carries every comparison" put the metric first and the job last, which is why
-%  it read as disjointed: nothing told the reader what the sentence was for until
-%  it was over. Target reach leaves the prose entirely --- the conditional
-%  reporting is a results fact, the table already lists the metric, and the
-%  clause was the second thing in a two-clause sentence with no visible purpose.
-% REWORKED 2026-09-18, on Marc's read of the unit he had not seen before: "what
-%  does that even mean --- it is so obviously not relevant, such a nothing of a
-%  sentence, and it's two lines", and what it must instead carry, "these are the
-%  metrics, we've enumerated them in this table, bang, this is what we're using
-%  to measure our research question".
-% (1) THE OPENER IS CUT, not rewritten. "What judges a defence here is the
-%  field's measure and not this thesis's" was an ANSWER TO AN OBJECTION --- his
-%  own circularity worry, that scoring your own attacker model with your own
-%  metrics lets you fudge the numbers --- and answering it here does two things
-%  wrong. Conventions §a: a setup declares and does not argue. And a sentence
-%  that says "these are not self-serving" is the form of the claim a reader
-%  discounts on sight. THE OBJECTION IS STILL ANSWERED, and better, by the thing
-%  that carries it: Table 5.3's Family column keys every metric to Table 3.1's
-%  own inner key, which a reader checks rather than takes. The verdict-level
-%  version of the argument belongs in the discussion (conventions §f).
-% (2) THE TIE-BACK IS NOW FACTUAL AND IT DOES THE ENUMERATING. "Grouped by
-%  purpose as Table 3.1 groups the field's" states what is literally true of
-%  Table 5.3's two row groups, and "purpose, effectiveness or efficiency" is
-%  §3.2.2's own ratified sentence ("Metrics can be split on perspective,
-%  attacker-side or defender-side, and purpose, effectiveness or efficiency"),
-%  so the reader meets no new axis. The two glosses are the high-level statement
-%  he asked for: what a defence takes from the attacker, and what it costs to run.
-% (3) "DENOMINATOR" IS NOT THE WORD (Marc: "is that standard language we should
-%  be using? No, I think not"). He is right for prose, and the odd part is that
-%  it was literally true of one section only: §5.5 reports actions and successes
-%  PER HOST REACHED (tab:eff-cost), so hosts reached is an actual denominator
-%  there, while in §5.4 it is the outcome axis of every float. "Carries every
-%  comparison" is the one statement true of both, and it is checkable: every
-%  §5.4 float is suppression of hosts reached, and §5.5's frontier plots that
-%  same suppression against occupancy (FLOATS.md, §5.4.1--§5.5).
-% (4) THE JUSTIFICATION CLAUSE IS CUT (Marc, on "because it responds at every
-%  interval": "so we're putting justification into our experimental setup, is
-%  that what we're doing now?"). It is the same cut the Defence unit just took,
-%  and consistency is the point --- the ration is one motive clause each in the
-%  Network and Attacker units, and none after that.
-% (5) "DEGENERATE" IS JARGON for a fact worth keeping: target reach is pinned
-%  near zero on the database set under the targeted objective and at zero under
-%  the opportunistic one (targeted_attacker_findings.md §4; hypothesis_tree.md
-%  §8e, "no leaf denominated on objective achievement can be stated"), which is
-%  why breadth is the through-line at all. "Wherever the conditions differ on
-%  it" says the same thing in the reader's words, and declaring that a tabled
-%  metric appears only sometimes is a setup job (conventions §c, name the
-%  absences).
-% FLAGGED, NOT CHANGED --- TWO NAMES FOR ONE METRIC. Table 5.3 calls it "host
-%  breadth", every §5.4/§5.5 float caption calls it "hosts reached", and the
-%  records call it "host-compromise breadth". The prose here takes the table's
-%  name and glosses it once. One of the three should win document-wide; the
-%  float captions are generated, so that is a one-line change in
-%  tools/ch5_effectiveness_figures.py and a terminology row. Marc's ruling.
+Cohen's $d$ is the difference between two
+means in units of their standard deviation over seeds
+\citep{cohen1988statistical}. An effect is negligible below $d = 0.2$,
+Cohen's small effect. The Scott--Knott effect size difference test
+\citep{tantithamthavorn2017empirical} ranks the seven MTD mechanisms and
+three deployment strategies by NCR, for each attacker at each deployment
+interval. NCR is the ranking metric because it counts the hosts compromised
+in every run, including the runs that do not reach the goal. Rank 1 holds
+those under which the fewest hosts are compromised, and neighbouring ranks differ significantly and by more than
+a negligible effect. Spearman's rank correlation, $\rho$ (rho)
+\citep{spearman1904proof}, compares the two attackers' orders of the MTD by
+NCR reduction. It is 1 when both attackers order the MTD the same way, 0 when
+the two orders are unrelated, and $-1$ when one order is the reverse of the
+other.
 
-% TABLE MOVED 2026-09-24 to §4.5 (tables/tab_4-5a_metrics.tex, Table 4.x); tab:metrics keeps its label.
-
-% PASS 5, 2026-09-20 (compress-to-ledger; Marc accepted R1, C1-C4 in chat, and
-%  ruled ~250 words, one unit, a reasonable size for this section). R1 "timing
-%  distribution" (Table 5.2's renamed row); C1 Runs sentences fused, "each on its
-%  own seed" dropped (Table 5.2's Seeds row carries it; the joint "on the same
-%  seeds for" is forced by the merge); C2 "Two arms:" cut (the Arm row lists six);
-% PASS 6, 2026-09-20 (voice-pass; Marc accepted both in chat). V1 "for every arm"
-%  cut from the Runs sentence: arm had no prose antecedent once C2 cut "Two arms:",
-%  and Table 5.2's Seeds row carries it. V2 "Both attacker models" -> "Both
-%  attackers" (attacker model is the generic concept in the registry). Gate: nine
-%  of nine after V1. Section is through pass 6; the integration check is next.
-%  C3 "for this chapter" cut; C4 "across this chapter" cut. DO NOT RE-FLAG: the
-%  Network unit's first sentence duplicating Table 5.2's values (ruled form,
-%  2026-09-18). 274 -> 258 words. Unit is through pass 5.
-% RATIFIED 2026-09-23 (register E5): "a thousand" -> 1 000 (E5's numerals
-%  rule) and the Zhang clause added. Zhang is the only lineage
-%  study that states a run count (100 per variable set, p.33); Brown, Ho and Tay
-%  state none --- Ho's 100 is training episodes (H-PAR-06), not runs, which the
-%  setup handoff had wrong. The clause compares; it does not claim a standard.
-\paragraph{Runs.} Every combination in Table~\ref{tab:experiment} is run 1\,000
-% [CONNECTIVE-PROSE PASS 2026-09-26, S23 ten times] Decorative comparison
-%  cut (Marc 2026-09-26: 'we don't need that'); Section 4.5.4 grounds the
-%  count. Overturns the 2026-09-23 E5 clause. SESSION-GENERATED on Marc's
-%  2026-09-26 go-ahead (docs/workflows/connective_prose.md; audit
-%  docs/implementation/connective_prose_audit.md); prior text in git.
-%  RATIFIED 2026-09-26 (Marc: 'I accept all this').
-times, one run per seed, the number Arcuri and Briand
-\citep{arcuri2014hitchhiker} recommend for randomised algorithms. Every
-combination uses the same seeds, and a seed fixes the network.
-% [PARKED 2026-10-04 from the 4.4 preamble (round 3), OUT OF CHAPTER, Marc to
-%  rule: the comparison design belongs here. Candidate sentence: "Both attackers
-%  run on the same MTDSim: the same six attack actions, deployment schedule,
-%  confusion penalty and targeted attack scenario. The APT attacker model changes
-%  two things about an attack action, its duration (Section 4.4.1) and, for an
-%  exploit, its odds after earlier successes (Section 4.4.4), so a difference
-%  between the two attackers' runs is a difference in the attacker."]
-Each run is a terminating simulation: it ends at the
-first of the stopping events in Table~\ref{tab:experiment}, fixed before it
-starts \citep{law2015}, so no warm-up period is needed \citep{currie2016}.
+\paragraph{Ablation studies.} Each ablation study
+(Section~\ref{sec:ablation}) runs under the MTD and deployment intervals that
+Table~\ref{tab:experiment} gives for it. A component's effect is negligible
+when the 95\,\% interval of $d$, between the APT attacker model with and
+without the component, lies wholly inside $\pm 0.2$.
 % REBUILT 2026-09-18 on Marc's read: "that reads like compaction for an LLM ...
 %  this is not thesis-ready". He is right, and the diagnosis is specific --- the
 %  unit was four sentences of which THREE were arguing, in a vocabulary he could

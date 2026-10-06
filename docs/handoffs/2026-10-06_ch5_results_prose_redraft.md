@@ -864,3 +864,86 @@ the frame they served was a run plan, and SQ3 is now a comparison.
 - Chapter 6 prose. The moved items go in as content points under its
   placeholders, not as drafted text.
 - New runs, except the exponential table if Q8 asks for it.
+
+## 13. Seventh turn (2026-10-06): §5.1 and Table 5.1 redrafted to the §12 shape
+
+Marc's rulings:
+- **R1:** split by the examiner's questions, implicitly ("it will answer the
+  examiner's internal benchmark").
+- **R2:** keep the ablations in Table 5.1, last ("it's the last bit").
+- **R3:** keep the run-in heads.
+- **Terms:** every noun is from chapters 2–4 or from the MTD evaluation field
+  ("told apart is terrible").
+- **Stripes:** "present it as you see fit". He may rule them out house-wide
+  later.
+
+**Units, in order, each with its reason:**
+
+| Unit | What it holds | Why |
+|---|---|---|
+| Comparison | The attackers, every MTD, the six deployment intervals and why, the no-MTD runs (no interval), and MTDShield as released (Appendix D). Then the fairness sentence: "same networks, same MTD, same six attack actions … a difference is a difference in the attacker". | It answers E1 and E2. The fairness sentence is the parked 4.4-preamble candidate. |
+| Held settings | The default network of §2.2.1 with two target hosts, the released code as the basis, and the targeted attack scenario, with a pointer to the table. | It answers E3. Chapter 2 is not restated. |
+| Runs | Kept. | It comes before Analysis because Analysis refers to seeds and runs. |
+| Analysis, paragraph 1 | How a value is reported: the confidence intervals, the differs-from-zero rule, averaging over $c_1$ to $c_4$, and the MTTC rule. | It answers E5. |
+| Analysis, paragraph 2 | How MTD is compared: Cohen's $d$, then Scott–Knott, then $\rho$. | $d$ comes first because the Scott–Knott merge uses it. |
+| Ablation studies | Their settings in the table, and the rule for a negligible component, the interval of $d$ inside ±0.2. | Last, per R2. §5.4 already gives the purpose and the seeds. |
+
+**Cut, each because something else already carries it:**
+- **Network values:** chapter 2 and the table.
+- **Zhang's second network and the 25–200 host range:** Table 2.4.
+- **"Where one interval is tabled it is 200 s":** this is now false, because
+  Figure 5.2 is at 2 000 s. Each caption names its own interval.
+- **MTDShield's training interval:** Appendix D.
+- **"Both attackers are measured on the ten metrics":** the preamble says it.
+- **The gloss on $d$ ("a fifth of its variation"):** it repeated the
+  definition.
+
+**Interval facts verified in code:**
+- **Means** (`measures.mean_ci`) use the normal approximation, 1.96 SD/√n.
+- **These use a seeded percentile bootstrap over runs:**
+  - reductions (`analyse.suppression`, unpaired);
+  - time lost (`time_lost.py`, 2 000 resamples);
+  - ratios;
+  - $\rho$.
+
+  This is declared once, so the caption pass can shorten "95 % percentile
+  bootstrap intervals over runs" to "95 % intervals".
+- **The differs-from-zero rule holds where the text uses it:**
+  - user shuffle's NCR reduction against the APT attacker model excludes zero
+    at all six intervals;
+  - the baseline attacker's negative time lost under OS diversity at 2 000 s
+    is [−69, −42] s.
+
+**Table 5.1:**
+- The columns are Setting | Value | Source, with sources in their own column.
+- The groups are Compared / Held / Ablation studies, with the rows indented as
+  in Table 2.2.
+- The caption states the no-MTD exception. "Varied in every combination" was
+  false.
+- The row names are ratified terms: "Interval distribution", and "End of run"
+  as in Table 2.4.
+- The stripes are kept under the house rule.
+
+**Preamble:** "the network, attacker, MTD, metrics, statistics and runs" now
+reads "the comparison, held settings, runs, analysis and ablation studies".
+
+**Noun check:**
+- **From chapters 2–4:** default network, goal, attack graph, attack profile,
+  attack action, deployed alone, factor.
+- **From the field, each cited:** normal approximation; percentile bootstrap
+  (Efron); Scott–Knott effect size difference test; Cohen's $d$; Spearman's
+  $\rho$; significantly.
+- **Defined in their own cell:** the random partitions.
+
+**Length:** about 540 words, down from 622. Half of it is Analysis, which holds
+the plain definitions of $\rho$ and $d$ that Marc asked for.
+
+**Build:** 0 errors, 0 undefined references, and 12 overfull boxes, all
+pre-existing. §5.1 runs from printed p.30 to p.32.
+
+**Still open:**
+1. The chapter 6 conclusion-validity placeholder says "Spearman's $\rho$
+   without an interval". This is stale: $\rho$ now has one.
+2. The old §5.1 ruling comments after the Runs unit, before
+   `\section{APT attacker model versus baseline attacker}`, are kept as trail.
+   They describe text that no longer stands.

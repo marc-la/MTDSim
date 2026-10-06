@@ -1,41 +1,44 @@
-% REBUILT 2026-10-06 (Marc, ruling A: "what do we need in Table 5.1 ... who's using this ...
-% what's the convention"; handoff 2026-10-06_ch5_results_prose_redraft.md §10). The form is
-% the design-of-experiments factor table the setup standards ask for (evaluation_conventions
-% §k1: every value with its basis): what is varied and at which levels, what is held, one
-% source per value. Removed, each defined where it lives: the Metrics row (Table 4.3), the
-% deployment durations (Section 2.2.2), the vulnerability-memory "on" row (part of the model,
-% Section 4.4.5; its ablation stays). "Arm" (a retired word) is "Attacker". The rotated group
-% labels are plain group rows. Q8 (2026-10-06): the timing distribution is held near-periodic.
-% The random-partition control (L4) is declared in the attack-profiles row: no MTD, IP shuffle
-% and OS diversity at 200 s and 2 000 s, 1 000 seeds (partition_control.py). [t]: the table
-% now fits above text, so it opens at the top of a page. Earlier forms and their rulings: git.
-% HAND-SET. Values: run_corpus.py, run_partition_control.py, run_memory_ablation.py,
-% constants.py (MTD_TRIGGER_INTERVAL; ATTACKER_THRESHOLD), movement/targeting.py.
+% REBUILT 2026-10-06, second pass (Marc: "is the table right"; critique C4-C5, handoff
+% 2026-10-06_ch5_results_prose_redraft.md §12-§13). The table holds the values and their
+% sources; Section 5.1's prose holds the design and the analysis. Groups follow the
+% design: what is compared, what is held, then the ablation studies last (R2: "it's the
+% last bit"). "Varied in every combination" was false for no MTD, which has no
+% deployment interval (run_corpus.py docstring); the caption now says so. Rows are
+% indented under their group, as in Table 2.2. Sources sit in their own column (the
+% per-row data source of STRESS-DES; evaluation_conventions §k1), so a value cell holds
+% only the value; a value the cited study did not run is this dissertation's choice,
+% argued in Section 5.1. Row names follow ratified terms: "interval distribution"
+% (terminology.md), "End of run" (Table 2.4's row, so the two tables compare line for
+% line). Stripes kept: the house rule (Marc, 2026-10-01); Marc may rule them out
+% house-wide. HAND-SET. Values: run_corpus.py, run_partition_control.py,
+% run_memory_ablation.py, constants.py, movement/run.py (GEOMETRY). Earlier forms: git.
 \begin{table}[t]
   \centering
-  \caption[The experiment]{The experiment: what is varied, at which levels, and what is held. The attacker, MTD and deployment interval are run in every combination; each ablation (Section~\ref{sec:ablation}) runs at the settings in its row. A citation names the prior study or the released simulator code that ran the value (Table~\ref{tab:lineage-configurations}); an uncited value is argued in the text.}
+  \caption[The experiment]{The experiment: what is compared, what is held, and what each ablation study runs. Each attacker runs under each MTD at each deployment interval, except no MTD, which has no deployment interval. Source: the earlier study or the released simulator code that ran the value (Table~\ref{tab:lineage-configurations}); a value it does not cover is this dissertation's choice.}
   \label{tab:experiment}
   \tablestyle
-  \begin{tabular}{@{}P{3.6cm}P{11.9cm}@{}}
+  \begin{tabular}{@{}P{3.9cm}P{9.1cm}P{1.9cm}@{}}
     \toprule
-    Setting & Value \\
+    Setting & Value & Source \\
     \midrule
-    \grouprow{2}{Varied in every combination} \\
-    Attacker & the baseline attacker; the APT attacker model on each attack profile, $c_1$ to $c_4$ \\
-    MTD & no MTD; each of the seven MTD mechanisms alone \citep{brown2023}; the random deployment strategy; the alternative deployment strategy \citep{zhang2023}; MTDShield, as released \citep{tay2024} \\
-    Deployment interval & 50, 100 and 200\,s \citep{zhang2023, ho2024}; 500, 1\,000 and 2\,000\,s \\
+    \grouprow{3}{Compared} \\
+    \quad Attacker & the baseline attacker; the APT attacker model on $c_1$, $c_2$, $c_3$ and $c_4$ & \citep{brown2023} \\
+    \quad MTD & no MTD; each of the seven MTD mechanisms alone; the random and alternative deployment strategies; MTDShield, as released & \citep{brown2023, zhang2023, tay2024} \\
+    \quad Deployment interval & 50, 100 and 200\,s; 500, 1\,000 and 2\,000\,s & \citep{zhang2023, ho2024} \\
     \addlinespace
-    \grouprow{2}{Varied in one ablation each (Section~\ref{sec:ablation})} \\
-    Attack profiles & removed, the APT attacker model running on the attack graph, under every MTD and deployment interval above; ten random partitions of the attack flows, each group the size of an attack profile, with no MTD and under IP shuffle and OS diversity at 200 and 2\,000\,s \\
-    Failure matrix & removed, every factor set to one: with no MTD and under IP shuffle and OS diversity at 200 and 2\,000\,s \\
-    Vulnerability memory & removed: with no MTD and under service diversity and OS diversity at 200\,s, at 1, 2, 3, 5, 10 and 20 services per operating system \\
+    \grouprow{3}{Held} \\
+    \quad Network & 50 hosts, 4 levels of depth, 8 subnets, 5 exposed endpoints & \citep{zhang2023, tay2024code} \\
+    \quad Target hosts & the two database hosts at the deepest level & \citep{tay2024code} \\
+    \quad Attack scenario & targeted & \citep{brown2023} \\
+    \quad Interval distribution & near-periodic: the deployment interval plus a random delay of 0.5\,s on average & \citep{tay2024code} \\
+    \quad End of run & a target host compromised, over 80\,\% of the hosts compromised, or 15\,000\,s & \citep{brown2023, zhang2023, ho2024} \\
+    \quad Seeds & 1\,000 per combination, the same in every combination & \citep{arcuri2014hitchhiker} \\
     \addlinespace
-    \grouprow{2}{Held} \\
-    Network & 50 hosts over 4 levels of depth \citep{zhang2023}, 8 subnets \citep{tay2024code}, 5 exposed endpoints \citep{zhang2023} \\
-    Target & the two database hosts at the deepest level \citep{tay2024code}, in the targeted attack scenario \citep{brown2023} \\
-    Timing distribution & near-periodic: each deployment interval plus a random delay of 0.5\,s on average (Section~\ref{subsec:defence-mechanisms}) \citep{tay2024code} \\
-    Time limit & 15\,000\,s \citep{ho2024}; a run ends sooner if the attacker compromises a target host or more than 80\,\% of the hosts \citep{zhang2023} \\
-    Seeds & 1\,000 per combination \citep{arcuri2014hitchhiker}, the same for both attackers \\
+    \grouprow{3}{Ablation studies (Section~\ref{sec:ablation})} \\
+    \quad Attack profiles & removed: the APT attacker model on the attack graph, under every MTD and deployment interval above & \\
+    \quad Random partitions & ten random partitions of the attack flows in place of the attack profiles, each group the size of an attack profile: no MTD, and IP shuffle and OS diversity at 200 and 2\,000\,s & \\
+    \quad Failure matrix & removed, every factor set to one: no MTD, and IP shuffle and OS diversity at 200 and 2\,000\,s & \\
+    \quad Vulnerability memory & removed: no MTD, and service diversity and OS diversity at 200\,s, at 1, 2, 3, 5, 10 and 20 services per operating system & \\
     \bottomrule
   \end{tabular}
 \end{table}
