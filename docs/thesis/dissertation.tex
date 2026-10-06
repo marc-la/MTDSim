@@ -8103,11 +8103,21 @@ configurations, negligible in seven and inconclusive in 24
 %  graph ... would you have another entry"): the sentence never said what a random partition
 %  is next to the attack profiles. It is a third arm: the attack profiles group the attack flows
 %  by objective, a random partition groups them by chance into groups of the same sizes.
+
+% 2026-10-06 (Marc: "is it statistically significant or not is the figure I would bring up and
+%  then you could talk about NCR"; "the NCR is a bit lost ... without a frame"): its own
+%  paragraph, framed as the ablation is, by the verdict on d. d = the attack profiles minus
+%  each random partition, Table 5.4's design (partition_control.py, re-read 2026-10-06):
+%  no MTD +0.25 to +2.20, not negligible for all ten; under IP shuffle and OS diversity
+%  35 of 40 not negligible (IP shuffle at 200 s: six, two of them negative, and four
+%  negligible; OS diversity at 200 s: nine, and one inconclusive). NCR as the direction only.
 The attack profiles group the attack flows by objective. A random partition
-groups them by chance, into four groups of the attack profiles' sizes. Ten
-random partitions compromise less than both the attack profiles and the
-attack graph: with no MTD, their NCR is 0.071 to 0.157
-(Table~\ref{tab:ablation-random-partitions}).
+groups them by chance, into four groups of the attack profiles' sizes. Against
+each of ten random partitions, the attack profiles' effect on NCR with no MTD
+is not negligible: the APT attacker model compromises more with the attack
+profiles than with any of the ten, by a $d$ of 0.25 to 2.20
+(Table~\ref{tab:ablation-random-partitions}). Under IP shuffle and OS
+diversity, the effect is not negligible in 35 of the 40 comparisons.
 
 % 2026-10-06 (Marc: "would it be more clear to just have the bold header and then the text";
 %  "we don't really need the subsections"): each ablation study is one or two paragraphs, so a

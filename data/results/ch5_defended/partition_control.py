@@ -16,6 +16,14 @@ every pooled value of chapter 5 is), its mean over seeds, and Cohen's d against
 the aggregate on the same seeds — partition_ablation.py's definition (with minus
 without, pooled SD of the two arms' per-seed values; ``_d`` is imported from it).
 
+VERDICT (2026-10-06, Marc: "is it statistically significant or not is the figure I would bring
+up"): for each random partition, Cohen's d of the attack profiles minus that partition, the
+design of Table 5.4 (each arm the equal-weight per-seed mean over its four nets; pooled SD of
+the two arms' per-seed values; seeds resampled, 2 000 resamples, 95 % percentile interval),
+and Section 5.1's verdict on it: negligible inside +-0.2, not negligible outside, else
+inconclusive. One d per partition, not one against the ten pooled: each partition is an
+arm of the same form as the attack graph, so the comparison stays the one Table 5.4 makes.
+
 Inputs: runs_partition_control.jsonl (RUNS=path to override) and the reported
 corpus's runs_reported_summaries.pkl (PKL=path), seeds 0..n-1 where n is the
 number of seeds every partition and cell has completed.
@@ -37,7 +45,7 @@ import numpy as np
 
 HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(HERE))
-from partition_ablation import AGG, FOUR, N_HOSTS, _d  # noqa: E402
+from partition_ablation import AGG, FOUR, N_BOOT, N_HOSTS, SEED, _d  # noqa: E402
 
 RUNS = Path(os.environ.get("RUNS", HERE / "runs_partition_control.jsonl"))
 CACHE = Path(os.environ.get("PKL", HERE / "runs_reported_summaries.pkl"))
@@ -102,7 +110,17 @@ def complete_seeds(runs: dict, partitions: list[int]) -> int:
     return n or 0
 
 
+def verdict(ci: list) -> str:
+    """Section 5.1's three verdicts on a d interval."""
+    if ci[1] <= -0.2 or ci[0] >= 0.2:
+        return "not negligible"
+    if -0.2 < ci[0] and ci[1] < 0.2:
+        return "negligible"
+    return "inconclusive"
+
+
 def main() -> int:
+    rng = np.random.default_rng(SEED)
     runs, errors = load_control()
     ref = load_reference()
     partitions = sorted({key[0] for key in runs})
@@ -123,14 +141,24 @@ def main() -> int:
         for k in partitions:
             hosts = np.array([[runs[(k, slot, c, i)][s] for s in range(n)] for slot in FOUR], float)
             w = hosts.mean(axis=0) / N_HOSTS
+            idx = rng.integers(0, n, size=(N_BOOT, n))
+            boot = np.array([_d(real[j], w[j]) for j in idx])
+            ci = [float(np.percentile(boot, 2.5)), float(np.percentile(boot, 97.5))]
             cell["random"][str(k)] = {
                 "ncr": float(w.mean()), "cohen_d_vs_aggregate": _d(w, agg),
+                "cohen_d_profiles_minus": _d(real, w), "cohen_d_profiles_minus_ci95": ci,
+                "verdict_profiles_minus": verdict(ci),
                 "per_group_ncr": {slot: float(hosts[j].mean() / N_HOSTS) for j, slot in enumerate(FOUR)},
             }
         ds = np.array([v["cohen_d_vs_aggregate"] for v in cell["random"].values()])
         cell["random_summary"] = {"d_mean": float(ds.mean()), "d_min": float(ds.min()),
                                   "d_max": float(ds.max()),
                                   "ncr_mean": float(np.mean([v["ncr"] for v in cell["random"].values()]))}
+        dp = [v["cohen_d_profiles_minus"] for v in cell["random"].values()]
+        cell["profiles_minus_random"] = {
+            "d_min": float(min(dp)), "d_max": float(max(dp)),
+            "verdicts": {x: sum(v["verdict_profiles_minus"] == x for v in cell["random"].values())
+                         for x in ("not negligible", "negligible", "inconclusive")}}
         out["cells"][f"{c}|{i}"] = cell
     OUT.write_text(json.dumps(out, indent=1))
     print(f"n = {n} seeds, {len(partitions)} partitions, {errors} error rows")
@@ -139,6 +167,8 @@ def main() -> int:
         print(f"  {key:18s} NCR agg {cell['aggregate']['ncr']:.3f}  real {cell['real_profiles']['ncr']:.3f} "
               f"(d {cell['real_profiles']['cohen_d_vs_aggregate']:+.2f})  random {rs['ncr_mean']:.3f} "
               f"(d mean {rs['d_mean']:+.2f}, range [{rs['d_min']:+.2f}, {rs['d_max']:+.2f}])")
+        pm = cell["profiles_minus_random"]
+        print(f"      profiles minus random: d {pm['d_min']:+.2f} to {pm['d_max']:+.2f}  {pm['verdicts']}")
     return 0
 
 
