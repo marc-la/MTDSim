@@ -7884,10 +7884,21 @@ diversity in \prelim{70}\,\% or more of its decisions against either attacker
 %  host-layer mechanisms, service diversity (Section 2.1), baseline attacker (Section 2.2.3). Numbers:
 %  numbers_reported.json sweep, by_interval[*].profile (spread <= 0.19 up to 200 s, OS diversity at 100 s).
 %  DRAFT STATE.
-Up to 200\,s, the four attack profiles' NCR reductions lie within
-\prelim{0.19} of one another under every MTD mechanism and deployment strategy,
-and the baseline attacker's NCR reduction lies outside the attack profiles'
-range under every one (Figure~\ref{fig:eff-suppression-profiles}). Under the
+% CLARITY 2026-10-06 (Marc: why up to 200 s; 0.19 compared with nothing; the section does two things): the
+%  opener names what Figure 5.4 adds to Figure 5.3, each MTD mechanism and each attack profile; 50 to 200 s
+%  named as the intervals the earlier MTDSim studies ran (Section 5.1); the attack profiles' spread set
+%  against the baseline attacker's distance from the nearest attack profile, condition by condition (spread
+%  < distance in all 30 cells up to 200 s; at 200 s spread <= 0.14, distance >= 0.24 but user shuffle 0.04;
+%  numbers_reported.json sweep by_interval[*].profile).
+Figure~\ref{fig:eff-suppression-profiles} draws Figure~\ref{fig:eff-cross-arm}
+for each MTD mechanism and each attack profile. At 50 to 200\,s, the
+deployment intervals the earlier MTDSim studies ran, the four attack profiles'
+NCR reductions differ from one another less than the baseline attacker's
+differs from the nearest of them, under every MTD mechanism and deployment
+strategy. At 200\,s, the attack profiles' NCR reductions span at most
+\prelim{0.14}, and the baseline attacker's lies \prelim{0.24} or more from the
+nearest under every MTD mechanism and deployment strategy but user shuffle.
+Under the
 deployment strategies, the baseline attacker's NCR reduction lies outside the
 attack profiles' range up to \prelim{1\,000}\,s (panels h to j).
 
@@ -7942,6 +7953,9 @@ service diversity reduces it less (panel f).
 % =====================================================================
 \section{Ablation studies}
 \label{sec:ablation}
+% LAYOUT 2026-10-06 (Marc: Table 5.4 floated above this heading): no top float on the page this section
+%  opens, so Table 5.4 goes to the top of the next page, after its first citation.
+\suppressfloats[t]
 
 % RESTRUCTURED 2026-09-28 (Marc: "5.4 structure I accept"): one section, a
 % subsection per ablated component, named as in chapter 4 (4.4.4 -> 5.4.1,
