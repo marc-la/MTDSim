@@ -8156,8 +8156,12 @@ configurations, negligible in seven and inconclusive in 24
 Ten random partitions split the attack flows into four groups of the attack
 profiles' sizes (Table~\ref{tab:experiment}). With no MTD, the APT attacker
 model compromises more with the attack profiles than with any of the ten, by
-an effect on NCR that is not negligible, a $d$ of 0.25 to 2.20
-(Table~\ref{tab:ablation-random-partitions}). Under IP shuffle and OS
+an effect on NCR that is not negligible, a $d$ of 0.25 to 1.47
+(Table~\ref{tab:ablation-random-partitions}).
+% 2026-10-07: re-read after the redraw (partitions 1, 2, 4, 8 and 10 replaced; no group now
+%  compromises nothing, lowest group NCR 0.022). No MTD: d +0.25 to +1.47, all ten not
+%  negligible (was +0.25 to +2.20, the top set by partitions holding a dead group). Under IP
+%  shuffle and OS diversity: 6, 10, 9 and 10 of the ten, unchanged. Under IP shuffle and OS
 diversity, the effect is not negligible against six to ten of the ten in each
 configuration.
 
