@@ -182,6 +182,11 @@
 % sentences are read from the 100-seed corpus (tab:eff-orderings) and must
 % be re-checked at the reported seed count. To be reworked for the expert
 % reader and the 300-word budget when the abstract is written in its turn.
+% 2026-10-07 (Marc): the results sentences re-read at 1 000 seeds,
+% "Preliminary" dropped, and decoded: "contain spread" is NCR reduction, the
+% share of the network the attacker takes over. Parrots ch1 P6: IP shuffle
+% first against the new model, service diversity first against the
+% simplified attacker, at every deployment interval.
 In February 2024, US and Australian cyber agencies reported that the
 state-sponsored group Volt Typhoon had held access inside American
 critical infrastructure networks for at least five years. Advanced
@@ -195,11 +200,10 @@ attacker gives little confidence against a long, staged campaign. This
 work builds an attacker model from published reports of real intrusion
 campaigns, with profiles distinguished by objective. An
 existing MTD simulator is then run under identical conditions, once with
-its own simplified attacker and once with the new model. Preliminary
-results show that IP shuffling and topology shuffling do the most to
-contain the new model's spread through the network. Service diversity
-ranks among the best against the simplified attacker but does far less
-against the new model. These results make a case for evaluating MTD
+its own simplified attacker and once with the new model. Changing the
+network's addresses and layout most reduces the share of the network the
+new model takes over. Changing the network's software most reduces the
+simplified attacker's share, but reduces the new model's far less. These results make a case for evaluating MTD
 against attacker models grounded in documented behaviour.
 \end{abstract}
 
@@ -265,7 +269,7 @@ because the networks did not change. A static network lets an attacker
 plan at its leisure \citep{ghosh2009nitrd}. Moving target defence (MTD) changes a network's
 addresses, layout, software and credentials on a schedule, so that stolen
 credentials and reconnaissance go out of date even if the attacker is
-never detected \citep{cho2020}. It aims to shift the advantage of time
+never detected \citep{cho2020}. MTD aims to shift the advantage of time
 from the attacker to the defender \citep{ghosh2009nitrd, zhuang2012}.
 
 % P3 --- the problem (brief s14). ACCEPTED 2026-09-24 (Marc), second
@@ -397,12 +401,11 @@ graphs of an attack's steps that analysts drew by hand from CTI reports
 graph, then split it into attack profiles by objective, such
 as stealing data. Each attack profile records the steps taken by
 attackers with that objective, and how often each step led to the next.
-We execute each profile in MTDSim, an existing MTD simulator
+We execute each attack profile in MTDSim, an existing MTD simulator
 \citep{brown2023}, as the APT attacker model. The APT attacker model shares the
 attack actions of MTDSim's original scripted attacker, the baseline attacker,
 but its profile decides which attack action comes next, when, and what to do
-after one fails. Both attackers run on the same network and under the
-same MTD. We first run both with no MTD, to test whether the APT
+after one fails. Both attackers run on the same network. We first run both with no MTD, to test whether the APT
 attacker model behaves differently. We
 then run both under each of MTDSim's MTD mechanisms and deployment strategies at different deployment
 intervals. We measure MTD's performance by how much it holds back each
@@ -418,15 +421,22 @@ attacker's progress through the network.
 % Sentences 6-7 (scope) are final. Ceiling: never "weak"/"realistic"/
 % "inverts"; direction only, no ranks or numbers. Design + cold read:
 % handoff 2026-09-24_ch1_introduction_design.md sec. 17.
-Our results are preliminary. With no MTD, the APT attacker model
-compromises fewer hosts than the baseline attacker, and each one more
-slowly. Under MTD, shuffling the network's addresses and layout holds back
-the APT attacker model most, while changing its software holds back the
-baseline attacker most. An evaluation against the baseline attacker alone
-would recommend a different MTD mechanism. The results make a case for
-evaluating MTD against attacker models grounded in documented behaviour.
-\emph{[Placeholder: re-check the results above against the 1\,000-seed
-corpus.]}
+% REWRITTEN 2026-10-07 at 1 000 seeds (Marc: the headline, in nouns P2 and
+% P5 give the reader). Sentence 1: attack rate 0.680-1.228 against 1.709
+% attack actions a minute; NCR 2.4-3.3 times lower (tab:unopposed-summary).
+% Sentence 2, checked in data/results/ch5_defended/numbers_reported.json
+% (sweep.by_interval.*.attacker): at all six deployment intervals IP shuffle
+% ranks first against the APT attacker model, with host and complete topology
+% shuffle in the top three, and service diversity first against the baseline
+% attacker. "Software" is P2's word for the service layer. The old sentence
+% "each one more slowly" was wrong (MTTC is the time to the goal, not per
+% host) and is gone; the "would recommend" consequence moved to contribution
+% 3, the "make a case" closer stays in the abstract only.
+With no MTD, the APT attacker model takes fewer attack actions per minute
+than the baseline attacker and makes less progress through the network. At
+every deployment interval, changing the network's addresses and layout holds
+back the APT attacker model most, and changing the network's software holds
+back the baseline attacker most.
 % [2026-09-28: the two scope sentences that closed P6 were moved to P5, then
 %  cut (see the P5 comment).]
 
@@ -500,19 +510,29 @@ corpus.]}
 % model"): it names the attacker model and the experiment scripts, and is
 % now item 1's footnote. The link is the bare repo: Marc will merge the
 % attacker model into main, which retires the dev/main open decision.
+% THIRD PASS 2026-10-07 (Marc): three things done --- the yardstick (ch3),
+% the model (ch4), the finding (ch5) --- in plain words the reader has been
+% given. The metrics item CUT: it was stale (sec. 4.5 has no compromise-rate
+% metric) and the one metric of our own, time lost per MTD deployment, is
+% support, not a contribution. Item 2 weighs the model against the field
+% (tab:fidelity-verdict: four full, two partial; no recent model more than
+% one) and says "has", not "builds": persistence and in-part cost--benefit
+% reasoning are kept from the baseline attacker. Item 3 is P6's consequence,
+% scoped to MTDSim. The attack-action bottleneck (ablation) is left to ch6-7:
+% its cause is explanation, not measurement, and its terms are undefined here.
 \noindent This dissertation makes the following contributions:
 \begin{itemize}[align=left, leftmargin=3em, labelwidth=2.5em,
                 labelsep=0.5em, topsep=0.5\baselineskip, partopsep=0pt]
-  \item We build an APT attacker model that any MTD evaluation in MTDSim
-  can run in place of the baseline attacker.\footnote{The APT attacker
-  model and the experiment scripts are publicly available at
-  \url{https://github.com/marc-la/MTDSim}.}
-  \item We define two metrics of the attacker's adaptation to the
-  defender: the rate at which it compromises hosts after each MTD
-  deployment, and the time each deployment costs it.
-  \item We find that the attacker model changes which MTD mechanism an MTD
-  evaluation in MTDSim recommends. \emph{[Placeholder: re-check against
-  the 1\,000-seed corpus.]}
+  \item We synthesise eight properties an attacker model needs to model an
+  APT attacker, from the definition of an APT and two surveys of MTD.
+  \item We build an APT attacker model that any study using MTDSim can run
+  in place of the baseline attacker.\footnote{The APT attacker model and
+  the experiment scripts are publicly available at
+  \url{https://github.com/marc-la/MTDSim}.} The APT attacker model has four
+  of the eight properties in full and two in part; three recent attacker
+  models have at most one in full.
+  \item We find that, in MTDSim, the MTD mechanism that holds back the
+  attacker most depends on the attacker model.
 \end{itemize}
 
 % [CONNECTIVE-PROSE PASS 2026-09-26, ch1 overview] Thesis-structure
@@ -537,17 +557,27 @@ corpus.]}
 %  chapter 5 by its operation, since P5 already gives the two phases.
 %  Ratify on read.
 \medskip
+% [2026-10-07, Marc: mirror each chapter's section headings, decoded into
+%  plain words; no "reads against" / "draws out" / "toward" turns. Ch3:
+%  APT attacker behaviour, MTD evaluation, MTD attacker models. Ch4: attack
+%  graph, attack profiles, integration with MTDSim, evaluation metrics (the
+%  Petri net is not a ch1 term). Ch5: the two comparisons, then the
+%  ablation studies. Ch6: the two comparisons, properties, implications,
+%  threats. "The eight properties" is definite: contribution 1 introduces
+%  them. Re-check ch6-7 clauses when drafted. Ratify on read.]
 \noindent Chapter~\ref{ch:background} describes MTD and MTDSim.
-Chapter~\ref{ch:litreview} scores the attacker models of recent MTD
-evaluations against eight properties of an APT attacker, and
-Chapter~\ref{ch:attacker-model} builds the APT attacker model toward those
-properties and defines the metrics that measure MTD's performance. With
-those metrics, Chapter~\ref{ch:experiments} evaluates MTD against both
-attackers.
-Chapter~\ref{ch:discussion} reads the results against the eight properties
-and draws out what they change for MTD evaluation.
-Chapter~\ref{ch:conclusion} answers the research question and sets out the
-work that would extend the model.
+Chapter~\ref{ch:litreview} reviews how APT attackers behave and how MTD is
+evaluated, then sets out the eight properties and checks which of them three
+recent attacker models have. Chapter~\ref{ch:attacker-model} turns the attack
+flows into attack profiles, runs each attack profile in MTDSim as the APT
+attacker model, and defines the metrics for each attacker's behaviour and
+MTD's performance. Chapter~\ref{ch:experiments} compares the two attackers
+with no MTD and under MTD, then removes parts of the APT attacker model one
+at a time to see what each changes. Chapter~\ref{ch:discussion} explains the
+results and their limits, checks which of the eight properties the APT
+attacker model has, and states what the results mean for MTD evaluation.
+Chapter~\ref{ch:conclusion} answers the research question and sets out
+future work.
 % [2026-09-28: the Future work chapter became a section of the conclusion
 %  (Marc's macrostructure ruling; handoff 2026-09-15 §10); the two sentences
 %  on it and the conclusion merged, Marc's words kept. Re-check when chapters 6
