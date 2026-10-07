@@ -286,10 +286,13 @@ from the attacker to the defender \citep{ghosh2009nitrd, zhuang2012}.
 MTD has been proposed as a defence against APTs \citep{alshamrani2019},
 yet it is rarely tested against one. Most tests run in simulation,
 against attacker models far simpler than an APT
-\citep{cho2020, jalowski2026}. None of the recent attacker models
-% [CH3 REDRAFT ROUND 66, twin] "persistence or" cut: false since the re-score (the baseline attacker's persistence is full); no attacker model has adaptivity in full. Minimal edit to a ruled ch1 sentence; ratify on read.
-reviewed in Chapter~\ref{ch:litreview} fully captures an APT's
-adaptation to the defender. This gap motivates the
+\citep{cho2020, jalowski2026}.
+% 2026-10-07 (Marc): "None of the recent attacker models reviewed in Chapter
+% 3 fully captures an APT's adaptation to the defender" CUT --- adaptation
+% never returns in ch1, contribution 2 gives the full comparison, and it was
+% the last chapter pointer outside the overview. "This gap" is now "far
+% simpler than an APT".
+This gap motivates the
 research question of this dissertation:
 
 % The single-RQ decision (architecture (a)) is intact: the sub-questions
@@ -399,15 +402,23 @@ graphs of an attack's steps that analysts drew by hand from CTI reports
 graph, then split it into attack profiles by objective, such
 as stealing data. Each attack profile records the steps taken by
 attackers with that objective, and how often each step led to the next.
+% 2026-10-07 (Marc, the abstract's pass run on ch1): "attack actions"
+% defined in ch2's words (a fixed procedure of six); "its profile" -> "its
+% attack profile"; the no-MTD purpose clause cut (P6 no longer answers it) and
+% the two run sentences merged; "deployment strategies" cut (never used again
+% in ch1), "deployment interval" glossed; "holds back ... progress" replaced
+% by P6's field words (NCR reduction), which defines "most effective" before
+% P6 uses it.
 We execute each attack profile in MTDSim, an existing MTD simulator
-\citep{brown2023}, as the APT attacker model. The APT attacker model shares the
-attack actions of MTDSim's original scripted attacker, the baseline attacker,
-but its profile decides which attack action comes next, when, and what to do
-after one fails. Both attackers run on the same network. We first run both with no MTD, to test whether the APT
-attacker model behaves differently. We
-then run both under each of MTDSim's MTD mechanisms and deployment strategies at different deployment
-intervals. We measure MTD's performance by how much it holds back each
-attacker's progress through the network.
+\citep{brown2023}, as the APT attacker model. MTDSim's original scripted
+attacker, the baseline attacker, follows a fixed procedure of six attack
+actions, such as scanning a host's ports and exploiting its vulnerabilities.
+The APT attacker model takes the same six attack actions, but its attack
+profile decides which comes next, when, and what to do after one fails. Both
+attackers run on the same network. We run both first with no MTD, then under
+each of MTDSim's MTD mechanisms at different deployment intervals, how often
+MTD changes the network. We measure MTD's performance by how much it reduces
+the number of hosts each attacker compromises.
 
 % P6, PRELIMINARY FINDINGS + VALUE + SCOPE --- floated 2026-09-24 (Marc:
 % "it's just a placeholder"). Sentences 1-5 are PRELIMINARY (100-seed
@@ -540,8 +551,8 @@ interval, the most effective MTD mechanism differs between the two attackers.
   model needs to model an APT attacker, the APT attacker model has four in
   full and two in part; three recent attacker models have at most one in
   full.
-  \item We find that, in MTDSim, the MTD mechanism that holds back the
-  attacker most depends on the attacker model.
+  \item We find that, in MTDSim, the most effective MTD mechanism depends
+  on the attacker model.
 \end{itemize}
 
 % [CONNECTIVE-PROSE PASS 2026-09-26, ch1 overview] Thesis-structure
