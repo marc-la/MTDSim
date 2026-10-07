@@ -1,4 +1,5 @@
 ---
+superseded_for_content_by: 2026-10-07_ch6_discussion_assembly.md (2026-10-07; this board's themes vetted against the current ch4/ch5 prose there, many marked stale; §10–§11 structure research and rulings still stand here)
 status: open — design; macrostructure RULED 2026-09-28 (§10: Discussion → Conclusion with future work; supersedes §2 and §3); ch6/ch7 microstructure proposed (§11), Marc's rulings owed on its four open items (§11.6) and the disposition of every board item marked FOUNDATION (§6). Feeds ch6 drafting; nothing here is prose.
 created: 2026-09-15
 updated: 2026-09-28
