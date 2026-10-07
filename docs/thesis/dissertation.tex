@@ -421,22 +421,26 @@ attacker's progress through the network.
 % Sentences 6-7 (scope) are final. Ceiling: never "weak"/"realistic"/
 % "inverts"; direction only, no ranks or numbers. Design + cold read:
 % handoff 2026-09-24_ch1_introduction_design.md sec. 17.
-% REWRITTEN 2026-10-07 at 1 000 seeds (Marc: the headline, in nouns P2 and
-% P5 give the reader). Sentence 1: attack rate 0.680-1.228 against 1.709
-% attack actions a minute; NCR 2.4-3.3 times lower (tab:unopposed-summary).
-% Sentence 2, checked in data/results/ch5_defended/numbers_reported.json
-% (sweep.by_interval.*.attacker): at all six deployment intervals IP shuffle
-% ranks first against the APT attacker model, with host and complete topology
-% shuffle in the top three, and service diversity first against the baseline
-% attacker. "Software" is P2's word for the service layer. The old sentence
-% "each one more slowly" was wrong (MTTC is the time to the goal, not per
-% host) and is gone; the "would recommend" consequence moved to contribution
-% 3, the "make a case" closer stays in the abstract only.
-With no MTD, the APT attacker model takes fewer attack actions per minute
-than the baseline attacker and makes less progress through the network. At
-every deployment interval, changing the network's addresses and layout holds
-back the APT attacker model most, and changing the network's software holds
-back the baseline attacker most.
+% REWRITTEN 2026-10-07 at 1 000 seeds (Marc, three rounds). The headline is
+% the DISAGREEMENT, never a winner: the thesis holds that MTD rankings depend
+% on the attacker model, so no sentence may crown a mechanism because the APT
+% attacker model is "better". Field words, not "holds back" (rhetorical):
+% "effective" is sec. 4.5.3's MTD effectiveness, "compromises" the C of NCR;
+% "disrupt" stays with the disruption metrics (attack actions blocked does
+% NOT show the reversal for the baseline attacker). One comparison, in the
+% reader's units; no rho (ten mechanisms, so |rho| >= 0.65 for p < .05, and
+% ch5's interval is bootstrapped over runs). The no-MTD result is cut: a
+% property of the model, not the headline. Numbers, checked in
+% data/results/ch5_defended/numbers_reported.json: at 200 s service
+% diversity's NCR reduction is 0.92 against the baseline attacker (highest
+% point; port shuffle 0.91 shares rank 1) and 0.36 against the APT attacker
+% model; the top mechanism is IP shuffle against the APT attacker model and
+% service diversity against the baseline attacker at all six intervals.
+At the default deployment interval, service diversity is the most effective
+MTD mechanism against the baseline attacker. Service diversity reduces the
+number of hosts the baseline attacker compromises by 92\,\%, but the number
+the APT attacker model compromises by only 36\,\%. At every deployment
+interval, the most effective MTD mechanism differs between the two attackers.
 % [2026-09-28: the two scope sentences that closed P6 were moved to P5, then
 %  cut (see the P5 comment).]
 
