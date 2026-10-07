@@ -8393,385 +8393,291 @@ per operating system, the share of exploits that succeed is 0.92 with it and
 \chapter{Discussion}
 \label{ch:discussion}
 
-% RESTRUCTURED 2026-09-28 (Marc's rulings; handoff
-% 2026-09-15_ch6_discussion_affinity_board.md §10--§11). The chapter is
-% organised by the RESULTS, not by the three sub-questions: the sub-questions
-% are answered in Chapter~\ref{ch:conclusion} (the introduction--conclusion
-% link examiners check), so the discussion does the discussion's own move ---
-% comment on the key results --- and the conclusion does the conclusion's.
-% The former separate Future work chapter is now a section of the conclusion
-% (13 of 25 field papers; 93.75 % of CS thesis conclusions). Headings ACCEPTED
-% 2026-09-28. Microstructure (§11.1): one cycle per finding, major first ---
-% restate the result with a back-reference and no new numbers; account for it
-% by mechanism; compare (the two attackers, or what the lineage expected);
-% bound it (hypotheses labelled, negatives stated plainly); deduce. No
-% headings below the section; run-in labels where a section needs signage.
-% Implications BEFORE threats (Marc, 2026-09-28).
-% HEADINGS 6.1--6.2 MIRROR CHAPTER 5 VERBATIM (Marc, 2026-09-28: the
-% convention between chapters 4 and 5 applies here too; Tay's discussion
-% mirrors its results in order). The opener says so.
-% §4.4 SUBSECTIONS RE-HEADED the same day (Marc: "the proposed set is very
-% strong"): Runtime loop (Figure 4.4's own name), Tactic dwell times,
-% Tactic-to-action mapping, Failure matrix, Vulnerability memory; articles
-% dropped to match chapter 4's section headings.
-% LABEL MAP for the older comments in chapters 3--5: sec:captured (retired)
-% -> sec:disc-behaviour / sec:fidelity-verdict; sec:fidelity-verdict = 6.3
-% (label kept); sec:evaluation-implications = 6.4 (label kept);
-% ch:futurework (retired) -> sec:future-work.
+% REWRITTEN 2026-10-07 (Marc: "the placeholders are not the Bible ... fill in
+% the bold level points"). The placeholders and planning comments this chapter
+% carried until then (cue blocks, FED BY, PARKED points, relocated insertions)
+% are in git at 644dbf03 (dissertation.tex lines 8393-9053); every idea in them
+% was vetted against the chapter 4-5 prose in
+% docs/handoffs/2026-10-07_ch6_discussion_assembly.md, which keeps the sources,
+% the cut list and the rulings.
+% STANDING RULES (unchanged): 6.1-6.2 headings mirror chapter 5; organised by
+% the results, the sub-questions are answered in Chapter 7; one cycle per
+% finding, major first: restate with a back-reference and no new numbers ->
+% why -> compare (the other attacker, or the literature of chapter 3) -> bound
+% -> so what; no headings below the section; implications before threats.
+% EXPLAIN-ONCE RULE (Marc 2026-10-07): each chapter 5 finding is explained once,
+% in the section that mirrors it; 6.3 scores and points back; the ablations
+% (5.4) are 6.3's evidence.
+% REGISTER: chapter 5's sentences (short, one claim, fixed terms), plus the
+% moves chapter 5 forbade: "because", one calibrated hedge per claim, the
+% comparison with chapter 3, the bound. More reasoning per point, not more words.
+% POINT FORMAT below: bold = the paragraph's claim; under it the cycle. Points
+% marked (HYP) are explanations, written as such; (CHECK) needs a re-read first.
 
-% RENUMBERED 2026-09-08: ch6 (was ch7) after the Experiments merge. The
-% fidelity verdict is READ from the results here, never defended from the
-% model's design (Marc's ruling: the model is a hypothesis; the results
-% instrument it, the discussion interprets them).
-% The three sub-question answers converge here to answer the research
-% question. Placeholder structure; interrogative working titles from the
-% planning pass are rendered declarative (thesis headings state their
-% topic --- the interrogative form is out of register here).
-
-
-\noindent\emph{[Placeholder --- chapter opener (about 100 words): the
-chapter reads the two phases of Chapter~\ref{ch:experiments} in turn, scores
-the APT attacker model on the eight properties, draws out what follows for MTD
-evaluation, and bounds it.]}
+\noindent\emph{[Opener, about 100 words: chapter 1's four jobs in its order.
+Explains the results, with no MTD (Section~\ref{sec:disc-behaviour}) and under
+MTD (Section~\ref{sec:disc-mtd-performance}), in Chapter~\ref{ch:experiments}'s
+order; checks which of the eight properties the APT attacker model has
+(Section~\ref{sec:fidelity-verdict}); states what the results mean for MTD
+evaluation (Section~\ref{sec:evaluation-implications}); and bounds them
+(Section~\ref{sec:threats}). Scope once: every claim is about MTDSim.]}
 
 % =====================================================================
 \section{APT attacker model versus baseline attacker}
 \label{sec:disc-behaviour}
-% CONTENT POINTS moved from Section 5.2 by the 2026-10-06 redraft (handoff 2026-10-06_ch5_results_prose_redraft.md, M1):
-%  (1) the mechanism of "less, more slowly": the APT attacker model dispatches the simulator's attack actions in the
-%      order its tactics call them, so 14-28 % (100-seed; re-read) find a precondition unmet and fail before they run;
-%      the attack rate does not count them. A consequence of reusing the six attack actions (Section 4.4.1).
-%  Marc 2026-10-06: "the model itself is more important than the profile" (the profiles move together, Figure 5.4).
 
-% Reads Section~\ref{sec:attacker-in-operation} (phase one); supervisor E10
-% set-up (i). Three cycles, major first (handoff §11.2). Owed here from ch5:
-% why the unopposed gap is this size; why c3 stalls (Marc 2026-09-21,
-% "chapter 6's to discuss"). Notes: refusing_the_baseline_race.md (parked
-% point D below), persistence_duration_premise.md (G).
-\noindent\emph{[Placeholder --- (1) Less success, more slowly: NCR and the
-first compromise against the baseline attacker's; the mechanism (seven of
-fifteen tactics are unmapped and only take time; dispatched attack actions failing a
-precondition); an APT is defined by campaign persistence toward an objective, not by
-speed; pace is a declared input; the model is not competing with the baseline
-attacker. (2) Quieter: lower attack rate, higher attack confidentiality; time on
-unmapped tactics spaces the attack actions the detector counts; the field's outcome metrics cannot see
-this, which is why an APT attacker model is needed; one observation against a
-declared detector, property 5 stays blank. (3) Behaviour differs by
-objective: openings differ between profiles; why $c_3$ stalls; bounded by the
-corpus-size confound (Section~\ref{sec:threats}).]}
+\noindent\emph{[Points for dictation, reading Section~\ref{sec:attacker-in-operation}.]}
+\begin{itemize}
+  \item \textbf{With no MTD, the APT attacker model compromises less, and not
+  because it is slower to reach its target.}
+  \begin{itemize}
+    \item Result: ASP and NCR well below the baseline attacker's; MTTC only
+    just longer (Table~\ref{tab:unopposed-summary}).
+    \item Why: a quarter to a half of its steps are unmapped tactics, which take
+    time and dispatch no attack action; attack actions dispatched in its
+    tactics' order, not the baseline attacker's procedure, find a precondition
+    unmet and fail before they run (Section~\ref{subsec:runtime-mechanics}).
+    (CHECK: the share that fails, 14--28\,\% at 100 seeds.)
+    \item Bound: measured at the 15\,000\,s time limit
+    (Table~\ref{tab:experiment}); whether the gap narrows over a longer
+    campaign was not run.
+    \item So: an APT is defined by persistence toward an objective, not by speed
+    (Section~\ref{subsec:apt}). The APT attacker model is not competing with
+    the baseline attacker; the baseline attacker is the reference.
+  \end{itemize}
+
+  \item \textbf{It is quieter: fewer attack actions per minute, and fewer of
+  them flagged by a scan detector.}
+  \begin{itemize}
+    \item Result: lower attack rate, higher attack confidentiality; across all
+    five attackers, attack confidentiality falls as attack rate rises
+    (Table~\ref{tab:unopposed-summary}).
+    \item Why: time in unmapped tactics spaces out the attack actions the
+    detector counts. Instance: $c_3$ spends the most of its steps in unmapped
+    tactics (47\,\%) and has the lowest attack rate and highest attack
+    confidentiality; $c_4$ the least (26\,\%), and the reverse; $c_1$ and $c_2$
+    fall between, in the same order (Figure~\ref{fig:aio-coverage}(a)).
+    $c_3$ is the far end of the mechanism, not an exception.
+    \item Bound: MTDSim detects no attacker; attack confidentiality reads a
+    declared detector, Snort's default scan rule. The spacing follows from
+    declared tactic durations, not from a choice to avoid detection, so
+    property~5 is not met (Section~\ref{sec:fidelity-verdict}).
+    \item So: ASP and NCR alone read this attacker as weak. The field's outcome
+    metrics cannot see what makes it an APT
+    (Section~\ref{sec:evaluation-implications}).
+  \end{itemize}
+
+  \item \textbf{The baseline attacker gives MTD one attack path to defend
+  against; the APT attacker model gives it hundreds.}
+  \begin{itemize}
+    \item Result: one shared opening over four steps, then one branch, against
+    179 to 947 distinct openings over eight steps
+    (Figure~\ref{fig:aio-coverage}(b)).
+    \item Why: weighted choice at the Petri net's decision places, over the 5
+    to 19 attack flows of each attack profile.
+    \item Bound: variety in proportion to how often the attack flows took each
+    step, not a strategy chosen against the defender.
+    \item So: an MTD evaluated against the baseline attacker is tested on one
+    attack path.
+  \end{itemize}
+
+  \item \textbf{The attack profiles differ from one another, but less than all
+  four differ from the baseline attacker} (secondary).
+  \begin{itemize}
+    \item The profiles divide their steps among the tactics differently
+    (Figure~\ref{fig:aio-coverage}(a)); whether the objective or the partition's
+    size causes it is read in Section~\ref{sec:fidelity-verdict}.
+  \end{itemize}
+\end{itemize}
 
 % =====================================================================
 \section{APT attacker model versus MTD}
 \label{sec:disc-mtd-performance}
-% CONTENT POINTS moved from Section 5.3 by the 2026-10-06 redraft (M8, and Marc's read 2026-10-06):
-%  (2) the confusion penalty is paid only by deployments that disrupt an attack action, and it is small beside the
-%      wait for the next compromise; the first deployment's forced rescan gives the baseline attacker a second round
-%      on its first host (handoff Section 8; inherited intent IS-INT-01/05/07), which is why its time lost is negative.
-%  (4) MTDShield overfits to the attacker it was trained against; random and alternative draw three of seven
-%      mechanisms from the host layer. Rankings are tied to one simulator and one attacker model (Section 6.4).
 
-% Reads Section 5.3 (phase two); supervisor E10 set-up (ii). Four cycles
-% (handoff §11.2). Notes: state_bounds_measurable_disruption.md (parked
-% point C below), pure_interrupt_pair.md (F). Owed here from ch5: MTDShield's
-% service-diversity bet (Marc 2026-09-26: "that's my bet", stated as a
-% hypothesis); the SDR taxonomy is not the partition the attacker feels
-% (ch5 comment ~l.7707). How disruption reaches each attacker, directly and
-% indirectly, was modelled on purpose for a fair comparison (Marc
-% 2026-09-28) and is reported in Section~\ref{subsec:aio-disruption}
-% --- cite it, do not re-raise it.
-% [2026-09-30] The mechanism behind (1) and (2), verified against the code
-%  (docs/implementation/disruption_mechanism.md section 1; Marc: "part of the
-%  discussion"): a deployment cuts off only the action in flight; the host
-%  layer takes the attacker's position (the host it was working on), the
-%  service layer undoes its progress on a host, user shuffle changes
-%  credentials. The baseline restarts its procedure at once, so the host layer
-%  costs it about nothing and service diversity 518 s (its exploit progress is
-%  undone); the APT attacker model's tactics keep dispatching host actions that
-%  cannot run until lateral movement restores its position, so the host layer
-%  costs it 206-313 s and the service layer little. Time lost per MTD
-%  deployment is Section 4.5.3's re-defined metric (Table 5.3).
-\noindent\emph{[Placeholder --- (1) The layer reversal: the host layer holds
-back the APT attacker model most, service diversity the baseline attacker; a
-MTD mechanism can destroy only the state an attacker carries (position against
-exploit); the lineage's own disagreement (Zhang favours shuffle, Ho
-diversity) read as the same phenomenon. (2) Time lost per MTD deployment:
-severance of the foothold against a retry of the same exploit (Brown's
-``simply needs to reconnect''). (3) User shuffle helps the attacker ---
-mechanism, or stated as unexplained. (4) Deployment strategies and MTDShield:
-MTDShield chose service diversity at most decisions and was trained against
-the baseline attacker (a hypothesis); outside its training conditions.
-Close: no single MTD mechanism or deployment strategy performs best against both attackers, handed to
-Section~\ref{sec:evaluation-implications}.]}
+\noindent\emph{[Points for dictation, reading Section~\ref{sec:effectiveness}.]}
+\begin{itemize}
+  \item \textbf{The MTD mechanism that holds back one attacker most is not the
+  one that holds back the other.} (The headline; chapter 1, contribution 3.)
+  \begin{itemize}
+    \item Result: the host layer holds back the APT attacker model most, the
+    service layer the baseline attacker, at every deployment interval; no MTD
+    mechanism or deployment strategy ranks first against both, and the two
+    rankings are unrelated (Table~\ref{tab:eff-cross-arm},
+    Figure~\ref{fig:eff-cross-arm}).
+    \item Why: an MTD deployment takes only the state the attacker carries; it
+    never takes back a host or a credential
+    (Section~\ref{subsec:attacker-model}). The host layer takes the APT attacker
+    model's position: its tactics keep dispatching attack actions that cannot
+    run until lateral movement restores it. The service layer undoes the
+    baseline attacker's exploit progress, where it spends most of its time;
+    after a host-layer deployment the baseline attacker restarts its procedure
+    at once.
+    \item Compare: Cho et al.\ find that diversity defends against persistent
+    attacks (Section~\ref{subsec:defence-modelling-approaches}). In MTDSim the
+    persistent attacker is the one service diversity holds back least. Not a
+    claim about diversity in general: here the state the attacker carries
+    decides, and what each MTD mechanism takes is fixed by MTDSim's
+    implementation of it.
+    \item So: the answer an MTD evaluation gives depends on its attacker model
+    (Section~\ref{sec:evaluation-implications}).
+  \end{itemize}
+
+  \item \textbf{A blocked attack action need not cost the attacker time.}
+  \begin{itemize}
+    \item Result: every host-layer deployment blocks the baseline attacker's
+    attack action and costs it no time; the APT attacker model is blocked less
+    often and loses more (Figure~\ref{fig:aio-adaptivity},
+    Table~\ref{tab:disruption}).
+    \item Why: the baseline attacker reconnects and carries on, as Brown's design
+    intends (cite \citep{brown2023}; pinpoint if quoted). The APT attacker model
+    is blocked less because it runs no attack action while in an unmapped
+    tactic: by construction, not resilience.
+    \item So: time lost per MTD deployment, not attack actions blocked, measures
+    what MTD costs an attacker (Section~\ref{sec:evaluation-implications}).
+  \end{itemize}
+
+  \item \textbf{An MTD deployment can help an attacker whose procedure resets.}
+  \begin{itemize}
+    \item Result: the first deployment brings the baseline attacker's first
+    compromise 204 to 232\,s forward (Section~\ref{subsec:aio-disruption}).
+    \item Why: the deployment sends the baseline attacker back to rescan, which
+    gives it a second attempt on its first host. MTDSim's design, kept
+    (Marc 2026-10-07: not a bug); the worked trace is
+    Appendix~\ref{app:supplementary-results}'s.
+    \item So: the same deployment helps one attacker and holds back the other;
+    another instance of the state the attacker carries deciding.
+  \end{itemize}
+
+  \item \textbf{A deployment strategy learned against one attacker favours the
+  MTD mechanism that works against that attacker.}
+  \begin{itemize}
+    \item Result: random and alternative hold back the APT attacker model more;
+    MTDShield holds back the baseline attacker more up to 1\,000\,s, and
+    chooses service diversity in 70\,\% or more of its decisions against
+    either attacker (Section~\ref{subsec:eff-cross-arm},
+    Appendix~\ref{app:mtdshield-observed}).
+    \item Why (HYP): MTDShield was trained against the baseline attacker, at
+    200\,s; random and alternative draw three of their seven MTD mechanisms
+    from the host layer.
+    \item Bound: MTDShield run as released, outside its training conditions
+    (Appendix~\ref{app:mtdshield-limitations}).
+  \end{itemize}
+
+  \item \textbf{The attackers differ in the deployment interval MTD needs, not
+  only in its effect.}
+  \begin{itemize}
+    \item Result: the host layer holds the APT attacker model's NCR reduction
+    at 0.5 or above up to 1\,000\,s, the baseline attacker's only to 100\,s;
+    the service layer holds the baseline attacker's to 200\,s and never reaches
+    0.5 against the APT attacker model (Table~\ref{tab:eff-interval-values}).
+    \item So: an interval chosen against the baseline attacker deploys the host
+    layer up to ten times more often than the APT attacker model needs, and
+    relies on a service layer that never halves its compromise.
+    \item Bound: MTD cost is not modelled, so this sets no interval
+    (Section~\ref{sec:threats}).
+  \end{itemize}
+
+  \item \textbf{Two observations, named so they are not left loose}
+  (secondary).
+  \begin{itemize}
+    \item The four attack profiles move together under MTD, far from the
+    baseline attacker (Figure~\ref{fig:eff-suppression-profiles}): the attacker
+    model matters more than the attack profile (Marc 2026-10-06).
+    \item User shuffle increases the APT attacker model's compromise at every
+    interval; its cause is not traced (CHECK, or state as open).
+  \end{itemize}
+\end{itemize}
 
 % =====================================================================
 \section{Properties of the APT attacker model}
 \label{sec:fidelity-verdict}
 
-% The return of Table 3.3 (handoff §11.2). Walk GROUPED BY VERDICT, not eight
-% paragraphs, with run-in labels: shown to change an outcome; implemented, no
-% advantage shown on this simulator; not met. Closes on what the capture
-% licenses (38 flows: an envelope of documented behaviour, not one actor; the
-% model is only as good as the actions it adopts, ch4 --- pointing back to
-% §3.3.3's "weakest link" as the ch3 comment asks). OPEN (§11.6 item 3,
-% §11.9): properties 6 and 7 are ticked with no ch4 mechanism and no ch5
-% result behind them --- blank each with a sentence, or restore an
-% antecedent (the exploit-memory ablation, pending the pre-check). The marks
-% below are NOT changed until Marc rules.
+% SYNC OBLIGATION: Table 6.1's three prior rows are COPIED from Table 3.3;
+% any change there is re-copied here in the same commit (an examiner will check
+% that the lit review's scores and this table agree).
 
-% Capture + model converge: what of APT behaviour the movement attacker
-% carries, against the fidelity criterion's axes.
-%
-% FED BY (2026-09-09 design pass; the ch5 evidence this section reads,
-% property by property --- docs/handoffs/2026-09-09_ch5_experiments_design.md
-% §4 carries the full map). Every mark in tab:fidelity-verdict needs a
-% pointer to either a ch4 mechanism or a ch5 measurement, and this is
-% where the pointers are spent:
-% RE-POINTED 2026-09-09 (second pass): the attacker-model evidence is now
-% consolidated in sec:attacker-in-operation, so this walk points at ONE
-% section rather than three, which is the point of the restructure.
-%   1 persistence   <- sec:attacker-in-operation (distinct-tactic coverage,
-%                      deepest successfully-actioned stage, foothold
-%                      retention). Structure runs; outcome does not
-%                      follow --- the walk says both.
-%   2 objective     <- sec:attacker-in-operation (profile divergence against
-%     conditioning      each profile's own split-half null).
-%                      THE ONE PROPERTY SHOWN TO CHANGE AN OUTCOME ---
-%                      say so, because the walk's whole job is to
-%                      separate this from the five below.
-%   3 plurality     <- sec:attacker-in-operation (path entropy, distinct
-%                      prefixes) + subsec:eff-under-defence (the
-%                      per-profile defence response)
-%   4 adaptivity    <- subsec:aio-disruption (action mix before against
-%                      after a mutation; recovery time; the
-%                      verdict-blind control)
-%   5 stealth       <- nothing; blank by ruling, future work
-%   6 incentive     <- subsec:aio-capabilities (the disengagement
-%                      frontier: where a rational attacker quits)
-%   7 learning      <- subsec:aio-capabilities (breadth against the
-%                      learning exponent --- the measured negative)
-%   8 scheme aware  <- nothing; ruled out of scope 2026-07-28
-% The 2026-09-07 ruling stands: every property the model IMPLEMENTS is
-% marked met, and the walk says, per property, whether it is shown to
-% change an outcome (2) or built and shown to operate without conferring
-% advantage on this terrain (1, 3, 4, 6, 7). The measured negatives are
-% among the most credible things the work owns --- report them as
-% findings, not as apologies.
+\noindent\emph{[Points for dictation, reading Table~\ref{tab:fidelity-verdict}
+and Section~\ref{sec:ablation}.]}
+\begin{itemize}
+  \item \textbf{The eight properties were fixed from the literature before any
+  attacker model was scored, and the APT attacker model is scored by the same
+  rule as the three of Table~\ref{tab:attacker-cross-section}.}
+  \begin{itemize}
+    \item The three rows are Table~\ref{tab:attacker-cross-section}'s. The
+    properties are a census, not a scale: more marks is not a better model.
+  \end{itemize}
 
+  \item \textbf{No MTD attacker model scored has more than one property in full;
+  the APT attacker model has four, and two in part.} (Chapter 1, contribution 2.)
+  \begin{itemize}
+    \item In full: campaign persistence (kept from the baseline attacker),
+    objective-specific behaviour, choice of attack strategy, adaptivity. In
+    part: cost--benefit reasoning (kept) and learning
+    (Table~\ref{tab:fidelity-verdict}). The only one built from CTI.
+  \end{itemize}
 
-% The criterion scored honestly, badges and all; the structural
-% limitations owned here: the proof-of-concept boundary, the
-% tactic-to-verb mapping as a chosen input, the comparability boundary.
-% Opens with the scoring discipline the cut §4.1.2 carried (2026-09-04):
-% the badge vocabulary (demonstrated / designed / conjectured / not
-% addressed) and the anti-reverse-fitting provenance --- the axes were
-% fixed from the literature (ch3 §3.3.2) before the model was scored.
-%
-% FED BY sec:sensitivity (2026-09-09 design pass): the declared-parameter
-% honesty belongs to the verdict, not to the sweep. ch5 reports which
-% parameters moved an outcome and which did not; THIS section says what
-% that licenses --- that the conclusions are exposed to one declared
-% parameter rather than to all of them, and that the tactic-to-verb
-% mapping remains a chosen input with no interval, which is the standing
-% bound on every claim the chapter makes. The structural limitations
-% owned here (proof-of-concept boundary, mapping caveat, comparability
-% boundary) are the ones ch5 deliberately does NOT carry, because ch5 is
-% facts and figures.
-% Sargent's ceiling is the citable frame for the modest claim: where the
-% system is not observable it is usually not possible to obtain a high
-% degree of confidence in the model, and the behaviour should instead be
-% explored as thoroughly as possible. That is a discipline's prescription,
-% not our hedge --- docs/sources/methodology/sargent2011_vv.md, and the
-% bib entry needs activating.
+  \item \textbf{Of the three components that rest on judgement, only the attack
+  profiles change what the attacker achieves.}
+  \begin{itemize}
+    \item Result: without the attack profiles the APT attacker model compromises
+    more; with them it compromises more than with any of ten random partitions
+    of the same sizes (Section~\ref{subsec:ablation-attack-profiles},
+    Table~\ref{tab:ablation-random-partitions}).
+    \item Expected the reverse: the attack profiles drive MTDSim's six attack
+    actions, so much of each objective's behaviour could be lost where the model
+    joins MTDSim.
+    \item Read: sorting the attack flows by objective changes the outcome beyond
+    what the partition's sizes explain. (CHECK against Table~\ref{tab:ablation}
+    after the 2026-10-07 redraw.)
+    \item So: one attacker built from every attack flow does not stand in for
+    attackers with one objective (Section~\ref{sec:evaluation-implications}).
+  \end{itemize}
 
-% PLACEHOLDER STAGED 2026-09-07 (Marc's ruling: "put a placeholder just
-% with the table for future reference in the discussion"). This is the
-% RETURN of Table 3.3 ruled in the port plan (CONFIRM 3) and handoff
-% 2026-09-07_ch3_s33_context.md §2: the same matrix with the movement
-% attacker added --- a fourth ROW, since Table 3.3 was transposed to
-% works-as-rows on 2026-09-07. The ch3 copy carries nothing of this
-% thesis's own; this copy is where the model is scored. What the prose
-% here owes (Marc's dictation, once results exist): (1) the scoring
-% discipline the cut §4.1.2 carried --- the badge vocabulary
-% (demonstrated / designed / conjectured / not addressed) and the
-% anti-reverse-fitting provenance (properties fixed from the literature,
-% Section 3.3.1, before the model was scored); (2) the walk: for each of
-% the eight, what the movement attacker does, pointing back to the
-% mechanism (ch4) or the measurement (ch6) that earns the mark;
-% (3) the structural limitations owned here. OPEN, Marc's ruling: the
-% movement-attacker row's marks --- the same three marks as Table 3.3
-% (met / stand-in / blank) with the four-valued badge carried in the
-% walk prose (RECOMMENDED: one decode, the table returns as is), or a
-% fourth mark. The criterion's standing caveat travels with the row:
-% the eight are a census, not a scale --- axes 3 vs 6/7 are in measured
-% tension (apt_model_criterion.md §(b)), so "more ticks" is not "better
-% model" and the walk must say so once.
-% SYNC OBLIGATION: the three prior-work rows are COPIED from Table 3.3
-% as of 66456ce3 (cells ruled 09fa42cd; marks 136c3dd0/66456ce3). Table
-% 3.3 is the one home; any change there is re-copied here in the same
-% commit. Cells of the fourth row are placeholders until scored.
-% ROW DRAFTED 2026-09-07 (Marc: "a quick drafting of how our model hits
-% each ... I'll verify it later, don't dig deep"). Marks are READ OFF
-% apt_model_criterion.md §(c)/(d) as of its 2026-08-13 update, mapped
-% badge -> mark: DEMONSTRATED = met, DESIGNED = stand-in, NOT ADDRESSED
-% = blank. UNVERIFIED against the current run record; Marc's read owed.
-% Cue for the walk, one line each (pointer = where the mark is earned):
-%  1 Persistence --- stand-in. The 15-tactic Petri-net campaign structure
-%    runs end to end (§4.3, §4.4); sustained multi-stage progress is not
-%    shown in outcome terms (experiment 1: no run reaches the objective,
-%    App. B.7). Structure real, staged advance not on record.
-%  2 Objective conditioning --- met. Four objective classes from the L2
-%    partition, each audit-traced to the analyst-stated objective
-%    (§4.2; App. B.2, B.3).
-%  3 Strategic plurality --- stand-in. Each class net over-generates by
-%    construction (union of 5--19 flows; weighted branching per seed,
-%    §4.3). RECORD DISAGREES WITH ITSELF: §(c)'s scorecard says
-%    DEMONSTRATED, §(d)'s axis text says DESIGNED --- the conservative
-%    mark is drawn; Marc to rule and fix the record.
-%  4 Adaptivity --- stand-in. Verdict-conditioned re-weighting on failure
-%    and the net's state thrown back by a mutation (§4.4.2); built and
-%    run, not shown to change an outcome.
-%  5 Stealth --- blank. No detection model to be stealthy against, no
-%    evasion action (S2 freeze); low-and-slow appears only as dwell.
-%    Future work (ch8).
-%  6 Incentive --- stand-in. A cost/benefit decision rule built,
-%    declared and swept, shown to operate WITHOUT conferring advantage
-%    (incentive_rationality.md). FLAG: ch4 as drafted carries no
-%    incentive rule (dwell / mapping / failure matrix only) --- the mark
-%    has no ch4 antecedent unless it lives in the ablation arms
-%    (sec:families); Marc to place or drop.
-%  7 Learning --- stand-in. Within-run Laplace belief over verdicts per
-%    tactic-place, declared exponent, ablatable; found not to confer
-%    advantage (learning_capability.md, learning_readiness_findings.md).
-%    Same FLAG as 6: no ch4 antecedent in the drafted prose.
-%  8 Scheme awareness --- blank. Ruled out of scope 2026-07-28 (the three
-%    Jalowski primitives need an inference capability); future work.
-% RULED 2026-09-07 (Marc, the charitable reading): every property the
-% model IMPLEMENTS is marked met --- 1, 3, 4, 6, 7 promoted from
-% stand-in; 5 and 8 stay blank. His reasoning: the work is framed as a
-% proof of concept and the outcome ceiling is the adopted action layer
-% (ch4's own "can only be as good as what we adopt", §4.4.1) --- a
-% deliberate choice, so a stand-in under-conveys what was built. The
-% honesty moves that keep this defensible: (a) the caption's decode
-% for this row now says a tick = implemented, outcome bounded by the
-% action layer, reported per property in the text (SESSION-DRAFTED,
-% ratify on read); (b) the walk says, for each tick, whether it is shown
-% to change an outcome (2) or built and shown to operate without
-% advantage on this terrain (1, 3, 4, 6, 7) --- that distinction is the
-% result, and the repo-side badges (designed / demonstrated) stay in
-% the criterion record as the finer instrument. Consequence: this row's
-% decode differs from Table 3.3's ("has the property as Table 3.2
-% defines it") --- the caption states the difference; do not let the
-% two decodes be read as one. The axis-3 record disagreement is moot
-% for the mark (met either way) but the record still wants fixing; the
-% 6/7 no-ch4-antecedent FLAG stands.
-% [2026-10-05, Marc: "the examiner is going to give credit where credit is
-%  due"; claim honestly, lead with the comparison. Counts from Table 3.3 and
-%  Table 6.x as they stand. DRAFT STATE --- ratify on read.]
-\noindent\emph{[Placeholder --- the verdict first, against the field, not
-against eight. No MTD attacker model of Table~\ref{tab:attacker-cross-section}
-has more than one property in full: the baseline attacker has campaign persistence, Masud et al.'s and Kim et al.'s models none. The APT attacker model has four
-(Table~\ref{tab:fidelity-verdict}): it keeps the baseline attacker's campaign persistence and adds objective-specific behaviour, choice of attack strategy and adaptivity, and it is the only one built from CTI (38 attack flows). Then the
-finding the proof of concept produced: adaptivity and learning operate but do
-not change what the attacker achieves, because MTDSim's attack actions limit
-it (Section~\ref{sec:ablation}); the next gain is in the simulator's attack
-actions, not the attacker's decisions. What is left out, and why, in one
-sentence each: detection avoidance needs a detector MTDSim does not have; deployment-strategy awareness, and cost--benefit reasoning and learning in full, need a model of the deployment strategy or a cost for each attack action, and are future work
-(Chapter~\ref{ch:conclusion}).]}
+  \item \textbf{The failure matrix and the vulnerability memory operate and
+  change no outcome, because MTDSim's attack actions already decide it.}
+  \begin{itemize}
+    \item Failure matrix: changes where the attacker goes after a failure, not
+    its NCR (Section~\ref{subsec:failure-matrix}, Table~\ref{tab:ablation}).
+    Why: an attack action without a foothold already fails its precondition,
+    and the failure matrix only reweights the moves the attack flows give, so
+    it picks the next documented move.
+    \item Vulnerability memory: raises the share of exploits that succeed, not
+    NCR, even with one service per operating system
+    (Figure~\ref{fig:ablation-memory}). Why (HYP, CHECK at 1\,000 seeds): a host
+    usually takes a second visit, after a port scan finds its next service; the
+    detour costs time, not the odds.
+    \item So: reported so others need not repeat them. The next gain is in
+    MTDSim's attack actions, not the attacker's decisions
+    (Section~\ref{sec:future-work}).
+  \end{itemize}
 
-\noindent\emph{[Placeholder --- the scoring discipline (badges; the
-properties fixed before the model was scored), then the walk through
-Table~\ref{tab:fidelity-verdict}: for each property, what the APT attacker
-model does and where (Chapter~\ref{ch:attacker-model} for the
-mechanism, Chapter~\ref{ch:experiments} for the measurement).]}
+  \item \textbf{Two properties come with the baseline attacker's attack actions,
+  and learning is met in part.}
+  \begin{itemize}
+    \item Campaign persistence: it carries on through every disruption, and
+    MTDSim never takes a compromise back. Cost--benefit reasoning: the exploit's
+    order by RoA only. Learning: it learns vulnerabilities, not the MTD
+    deployments it observes, the same partial Table~\ref{tab:attacker-cross-section}
+    gives the baseline attacker.
+  \end{itemize}
 
+  \item \textbf{Detection avoidance and deployment-strategy awareness are not
+  met, each for a reason MTDSim sets.}
+  \begin{itemize}
+    \item Detection avoidance: the spacing is measured
+    (Section~\ref{sec:disc-behaviour}); the detector is missing.
+    Deployment-strategy awareness: needs inference about the schedule, and
+    MTDSim's near-periodic schedule would make it learnable. Both to
+    Section~\ref{sec:future-work}.
+  \end{itemize}
 
-% [2026-09-26, supervisor screen plan item 9: placeholder on Marc's ruling ("just
-%  put a placeholder in"). The content points, not prose; Marc dictates.]
-% [2026-09-28: re-pointed at the reshaped §5.4 (Marc, chat: "changes where the
-%  attacker goes but doesn't change what it achieves"; his explanation, "the
-%  failure itself does the work", sharpened against the runs). Content points
-%  for Marc's dictation; numbers from ablation_numbers.json.]
-\noindent\emph{[Placeholder --- adaptivity, told frankly. The failure matrix was
-the model's response to failure, declared because the corpus records only
-success (Section~\ref{subsec:failure-matrix}). Section~\ref{sec:ablation} finds
-that removing it changes where the attacker goes after a failure and not what
-it achieves; the prediction that an attacker without it fails upwards into
-more compromise is not borne out, and where there is a difference the attacker
-with the failure matrix compromises more. The likely reason, to be stated as
-the explanation and not as a measurement: the simulator already enforces what
-the failure matrix encodes. An attacker without a foothold that moves on to a
-later tactic finds its attack action's precondition unmet, and the attack action fails before
-it runs (Section~\ref{subsec:runtime-mechanics}); the moves the failure matrix
-prevents are moves the simulator refuses. After a failure with a foothold, the
-failure matrix keeps the attacker in its stage, where most of the base weight
-already sends it. Two limits: a profile whose net has no move back to
-reconnaissance ($c_2$) cannot be sent there by a multiplicative matrix, and the
-simulator returns one failure verdict whatever the cause. What it means: the
-model's adaptivity is capped by the attack actions it adopts; a response to failure in
-the routing needs attack actions whose failures differ in consequence. An idea tested
-and found not to matter here, reported so that others need not repeat it.]}
-
-
-% [RULING OWED (handoff 2026-09-28_vulnerability_memory_on.md, B0): Table 3.2
-%  defines property 7 as "the defender's patterns learned over time and retained
-%  across deployments". The vulnerability memory learns the NETWORK, not the
-%  defender --- the same kind as Zhang's halving, for which Table 3.3 marks the
-%  lineage PARTIAL (ch3 l.~3931). Consistency says partial here too, with the
-%  walk saying why; the 2026-09-07 "implemented = met" ruling would otherwise
-%  mark our mechanism met and the lineage's like one partial.]
-\noindent\emph{[Placeholder --- property 7 read like property 4: the
-vulnerability memory (Section~\ref{subsec:vulnerability-memory}) is part of the
-evaluated model, operates, and confers no advantage, because the simulator's
-exploit attack action, not the attacker's odds, limits what it can take
-(Section~\ref{sec:ablation}). It learns in part: about vulnerabilities, not
-about the MTD deployments it observes (Section~\ref{subsec:vulnerability-memory}).]}
-
-% [2026-10-05, Marc: persistence is inherent to how the model runs, so it needs
-%  no metric; incentive-driven rationality "cannot be a tick" if the only thing
-%  is the RoA order adopted with the exploit attack action. Verified in code:
-%  the model's exploit is MTDSim's (attack_operation.step -> _exploit_vuln ->
-%  host.get_vulns, sorted by RoA at host.py:388); nothing the model adds weighs
-%  a cost. The 2026-08-13 cue above ("6 Incentive --- stand-in. A cost/benefit
-%  decision rule built") describes an earlier model and is superseded; so is
-%  "Property 6: blank". DRAFT STATE --- ratify on read.]
-\noindent\emph{[Placeholder --- properties 1 and 6, inherited from the baseline
-attacker with its attack actions. Property 1: the APT attacker model has campaign persistence for the reason the baseline attacker does (Table~\ref{tab:attacker-cross-section}):
-it carries on until it reaches its goal, through every disruption, and MTDSim
-never takes a compromise back; no
-metric is owed. Property 6: in part, and for the baseline attacker's reason. Its
-exploit is MTDSim's exploit attack action, which orders the exploits on a host
-by RoA; nothing the model adds weighs the cost of an attack action against its
-benefit (the Petri net's weights are frequencies in the attack flows, the
-failure matrix a response to failure, the tactic durations times).]}
-
-% 2026-10-02: Marc's reasoning for the attack-profile ablation (Section
-%  5.4.1), held here because the why is chapter 6's. Content points only.
-\noindent\emph{[Placeholder --- property 2 read like properties 4 and 7, with
-the opposite result: the attack profiles capture different behaviour
-(Figure~\ref{fig:aio-coverage}(b)) and, unlike the failure matrix and the
-vulnerability memory, they also change the outcome
-(Section~\ref{subsec:ablation-attack-profiles}). The expectation was that they
-would not: the profiles drive the simulator's existing attack actions, a
-finite set of blunt instruments, so much of each objective's behaviour is
-standardised away where the model joins MTDSim (Marc: ``you can speak, but
-you can only say three words''). Row 2 of Table~\ref{tab:attacker-properties} asks for different
-attack actions after the foothold for different objectives: the tick rests on the
-attack profiles dividing their steps differently among the tactics that take an
-attack action (credential access takes about 1\,\% of one profile's steps and
-10\,\% of another's, 1\,000 seeds), not on an attack action for exfiltration or
-impediment, which MTDSim does not have. Why the outcome moves anyway, from the
-size-matched control (2026-10-03, 1\,000 seeds): the shift in NCR reduction
-is the size of the net's, a larger and more connected net offering the
-attacker more edges between tactics (random partitions of the same sizes give it:
-IP shuffle 2\,000\,s, 0.35 against 0.33); sorting by objective keeps the
-attacker compromising more than any size-matched random partition. What it means for
-MTD evaluation: whether one attacker built from the whole corpus stands in
-for attackers with one objective.]}
-
-\noindent\emph{[Placeholder --- what the capture licenses: 38 attack flows
-give an envelope of documented behaviour, not one named group; the model can
-only be as good as the attack actions it adopts
-(Section~\ref{subsec:tactic-verb-mapping}).]}
+  \item \textbf{What the capture licenses.}
+  \begin{itemize}
+    \item 38 attack flows give an envelope of documented behaviour, not one
+    named group; the model can only be as good as the attack actions it adopts
+    (Section~\ref{subsec:tactic-verb-mapping}).
+  \end{itemize}
+\end{itemize}
 
 \begin{table}[htbp]
   \centering
@@ -8807,248 +8713,135 @@ only be as good as the attack actions it adopts
 \end{table}
 
 % =====================================================================
-
-
-% The evaluate sub-question's implication --- what changes for how MTD
-% is evaluated; interpretation against the field.
-%
-% FED BY (2026-09-09 design pass):
-%   - subsec:eff-cross-arm --- the threat-model-dependence argument, at
-%     whatever grade the re-established measurement earns. Marc's framing
-%     (2026-09-09): we are NOT trying to beat the inherited model, ours is
-%     the new baseline; so this section's claim is about what an
-%     evaluation's choice of attacker DOES to its answer, not about which
-%     attacker is better.
-%   - sec:dimensions --- the operating-point finding (an evaluation must
-%     show its operating point can discriminate its metric before
-%     reporting it) is the cheapest and most transferable methodological
-%     result the project owns, and it generalises beyond this simulator.
-%     Its home is here, not in ch5, which only states the design fact.
-%   - subsec:aio-capabilities --- the two measured
-%     negatives generalise into design warnings for anyone building the
-%     learning, cost-sensitive attacker the literature keeps asking for:
-%     representation and reward are independent requirements, and a study
-%     scoring attacker learning on the attacker's own friction would
-%     conclude the representation makes no difference, which is the
-%     reverse of what it does.
-%   - the concession volunteered in sec:dimensions --- Jalowski's third
-%     metric guideline (compare against a state-of-the-art protected
-%     system) is not met by this evaluation or by most of the corpus.
-%     ch5 owns it in a sentence; here is where it is weighed.
 \section{Implications for MTD evaluation}
 \label{sec:evaluation-implications}
 
-% Present tense, for anyone running an MTD evaluation now. Each implication:
-% source finding -> who it changes practice for -> conditional
-% recommendation -> its own bound (handoff §11.2; the ACM antipattern:
-% implications written as though the limitations do not exist). The E10
-% hook splits here: "no single solution" is implication 1; "more research is
-% needed" is Section~\ref{sec:future-work}.
-\noindent\emph{[Placeholder --- opens by scoping what transfers: the
-dependence and the method, not the numbers. (1) The attacker model is a
-variable of the evaluation: a recommendation drawn against one attacker does
-not transfer; evaluate against more than one attacker model and name it.
-(2) Outcome metrics alone misread a slow, quiet attacker: report attacker
-behaviour beside the outcome. (3) Declare the attacker model against the
-eight properties (Table~\ref{tab:attacker-cross-section} as a reporting
-device), closing the first half of the gap of
-Section~\ref{subsec:research-gap}. (4) Show the metric can discriminate at the
-chosen operating point.]}
-
-% MAP of the parked points below to the new sections (2026-09-28): A -> 6.4
-% (implication 4); B -> 6.4 / 6.5 (construct); C -> 6.2; D -> 6.1; E -> 6.3
-% and Section~\ref{sec:future-work}; F -> 6.2; G -> 6.3 (property 1).
-
-% PARKED DISCUSSION POINTS (2026-09-09, third review pass; Marc's ask:
-% "forward pointers into the discussion, or placeholder points in the
-% discussion, are fine --- it helps flesh out the experimental setup").
-% These are the notes already written and rubric-passed in
-% docs/notes/ch7_discussion/ and ch5_experimental_setup/, each paired with
-% the ch5 measurement it needs. THE POINT OF LISTING THEM HERE IS THE
-% REVERSE DIRECTION: a discussion point with no ch5 measurement behind it
-% is either a cut or an experiment we have not designed, and reading the
-% list that way is what the ask was for. Ordered by strength of the
-% underlying evidence, not by chapter order.
-%
-%  A. AN EVALUATION MUST SHOW ITS OPERATING POINT CAN DISCRIMINATE ITS
-%     METRIC BEFORE REPORTING IT (notes/ch5_experimental_setup/
-%     operating_point_discrimination.md). NEEDS FROM ch5: the design fact
-%     stated once in sec:dimensions --- at the default tempo the success
-%     metric cannot discriminate, because neither attacker completes the
-%     objective. STANDING: strongest and cheapest transferable result the
-%     project owns; it generalises past this simulator and past MTD. It is
-%     also the only one of these that costs ch5 nothing it is not already
-%     doing.
-%  B. CHANGE THE ATTACKER'S SHAPE AND THE EVALUATION'S INSTRUMENTS FAIL,
-%     SILENTLY (notes/ch7_discussion/instruments_fail_silently.md). Four
-%     progression and credit measures failed silently when the attacker's
-%     shape changed. NEEDS FROM ch5: nothing new to run, but ch5 must say
-%     WHICH instruments were re-validated against the new attacker and how
-%     (the replacement progression measure and its gate are the worked
-%     example). Currently ch5 says none of that. One clause in
-%     sec:dimensions is enough to make this point earnable here.
-%  C. A DEFENCE CAN ONLY DESTROY THE KIND OF STATE THE ATTACKER MODEL
-%     CARRIES (notes/ch7_discussion/state_bounds_measurable_disruption.md).
-%     This IS the mechanism behind the cross-arm result --- position-driven
-%     against exploit-driven --- and it is what makes "same action set,
-%     different defence response" not a paradox. FED BY subsec:eff-cross-arm.
-%     STANDING: the thesis's own explanation of its headline; do not let it
-%     be discovered by a reader before it is stated.
-%  D. THE PROFILED ATTACKER IS NOT COMPETING WITH THE BASELINE
-%     (notes/ch7_discussion/refusing_the_baseline_race.md). The framing that
-%     makes a weaker headline the condition of the study rather than its
-%     verdict. FED BY subsec:eff-cross-arm and sec:attacker-in-operation.
-%  E. AN ATTACKER THAT LEARNS FROM OUTCOMES ALONE ROUTES AROUND A
-%     PROCEDURAL CONSTRAINT RATHER THAN SATISFYING IT
-%     (notes/ch7_discussion/learning_without_context.md), and its sibling,
-%     PROCEDURAL MISMATCH MANUFACTURES ATTACKER FAILURE AN EVALUATION WILL
-%     MISREAD AS ATTACKER WEAKNESS (procedural_mismatch_artefact.md). FED BY
-%     subsec:aio-capabilities and subsec:sens-tactic-verb-mapping. STANDING:
-%     both are design warnings for the next person to build the learning
-%     attacker the literature keeps asking for --- but E's evidence is
-%     currently pre-restoration (see the blocker at subsec:aio-capabilities),
-%     so it is the one point on this list whose FOUNDATION may move.
-%  F. IP SHUFFLE AND PORT SHUFFLE REACH THE ATTACKER THROUGH THE INTERRUPT
-%     ALONE (notes/ch7_discussion/pure_interrupt_pair.md), so the pair
-%     prices what an interrupt by itself is worth at each layer. NEEDS FROM
-%     ch5: the pair actually run as a named contrast --- it is two
-%     conditions already inside the seven, so the cost is a sentence and a
-%     column, not a run. UNPLACED AS DRAFTED; if it is not picked up, this
-%     note has no evidence behind it and should be cut rather than asserted.
-%  G. PERSISTENCE IS TWO CLAIMS, AND AN EPISODIC SIMULATION GRANTS ONE OF
-%     THEM BY CONSTRUCTION (notes/ch7_discussion/persistence_duration_
-%     premise.md). FED BY sec:attacker-in-operation, and it is the honest reading
-%     of property 1 --- structure runs, outcome does not follow. Belongs in
-%     sec:captured rather than here.
-%
-% TWO NOTES THE MERGE RULING ORPHANED, flagged for a docs pass rather than
-% actioned here: notes/ch5_experimental_setup/evaluation_burden.md and
-% evaluation_grading.md were written for units this chapter no longer has.
-% The grading vocabulary survives as a sentence at the metric's definition
-% site (magnitude / ordering / recommendation) and the burden of proof is
-% not a unit at all. Both notes need a status line saying so, or a cold
-% session will draft a section from them.
-% ---------------------------------------------------------------------
-
-
+% Present tense, for anyone running an MTD evaluation. Each implication: source
+% finding -> who it changes practice for -> conditional recommendation -> its
+% own bound (the ACM antipattern: implications written as though the
+% limitations do not exist). "More research is needed" is Section 7.2's.
+\noindent\emph{[Points for dictation. Opens by scoping what transfers: the
+dependence and the method, not the numbers. Candidates; Marc picks three or
+four.]}
+\begin{itemize}
+  \item \textbf{Name the attacker model, and evaluate MTD against more than
+  one.} From Section~\ref{sec:disc-mtd-performance}: the MTD mechanism ranked
+  first changed with the attacker model. Holds for a learned deployment
+  strategy too: train and test it against more than one. Bound: two attacker
+  models in one simulator; the direction transfers, not the rankings.
+  Earns the abstract's ``make a case''.
+  \item \textbf{Report what the attacker does beside what it achieves.} From
+  Section~\ref{sec:disc-behaviour}: outcome metrics read a slow, quiet attacker
+  as a weak one; and from Section~\ref{sec:disc-mtd-performance}, measure time
+  lost, not attack actions blocked.
+  \item \textbf{Set the deployment interval against the attacker model.}
+  CTI does not record when attackers act
+  (Section~\ref{subsec:profiling}), and the interval MTD needs differed by up to
+  ten times between the two attackers. Bound: no MTD cost modelled.
+  \item \textbf{Build the attacker by objective when the objective is known}
+  (secondary). From Section~\ref{sec:fidelity-verdict}: the attack profiles
+  changed the outcome.
+  \item \textbf{Declare the attacker model against the eight properties}
+  (secondary). Table~\ref{tab:attacker-cross-section} as a reporting device;
+  answers Section~\ref{subsec:research-gap}.
+  \item \textbf{Re-check a defence's inputs when the attacker changes}
+  (secondary). MTDShield's inputs count the baseline attacker's attack actions,
+  so it reads an unmapped tactic as nothing detected
+  (Appendix~\ref{app:mtdshield-limitations}).
+\end{itemize}
 
 % =====================================================================
 \section{Threats to validity}
 \label{sec:threats}
-% CONTENT POINTS moved from Chapter 5 by the 2026-10-06 redraft:
-%  (M3) counting the unmapped steps as attack actions lowers the profiles' attack confidentiality to about the
-%       baseline attacker's (a dry run only; track it before stating a number).
-%  (Q8, 2026-10-06) the deployment interval is drawn from one timing distribution, the released near-periodic
-%       one; Zhang's exponential distribution at the same means was run at 200 s only and is not reported (a dry read
-%       changed the sign of no reduction; against the baseline attacker port shuffle fell below IP shuffle).
-%  (T1) time lost after the first deployment compares the two runs at the same clock time, not the same point in
-%       their campaigns (2026-09-24 record, 8g-5 decision 3); the direction of every result holds, the size may not.
 
-% Heading RULED 2026-09-28 (Marc: discussed with Jin; Limitations is the
-% fallback, the organisation is the same either way). Handoff §11.1--§11.2 and
-% the 34-row inventory: scope first, then one paragraph per type, internal
-% first because the headline is causal. Each threat: the mitigation already
-% carried out (with a cross-reference) and the residual it leaves (the claim
-% it caps). No mitigation that exists only as future work (Feldt and
-% Magazinius 2010). Cite the four types to Wohlin et al. 2012 (page to check
-% from the book) and, for simulation, de Fran\c{c}a and Travassos 2015 ---
-% neither is yet in references.bib. Sargent's internal-validity technique is
-% NOT Cook and Campbell's: use the latter sense only. The biggest threat, in
-% Marc's words (2026-09-28): "literally the underlying attack phases that
-% we're adopting" --- the adopted actions are one root with four
-% consequences (the mapping with no interval, the outcome ceiling, the
-% adaptivity cap, the precondition failures); consolidate, never list four
-% times.
-\noindent\emph{[Placeholder --- scope: the model's limits by design (the six
-adopted attack actions, the defender held to its schedule, no deployment-strategy awareness, one network, simulation only), each paired forward with
-Section~\ref{sec:future-work}; the four types defined once, cited.]}
+% Heading RULED 2026-09-28 (Limitations the fallback). Scope first, then one
+% paragraph per type, internal first because the headline is causal. Each
+% threat: the mitigation already carried out (with a cross-reference) and the
+% residual it leaves; no mitigation that exists only as future work (Feldt and
+% Magazinius 2010). Cite the four types to Wohlin et al. 2012 and, for
+% simulation, de Franca and Travassos 2015 --- NEITHER IS YET IN
+% references.bib; sargent2011 is. Cook and Campbell's sense of internal
+% validity only (not Sargent's technique). Every limitation points to 7.2
+% (UWA marking guide: future work and loose ends are marked under Discussion).
+% The adopted attack actions are ONE root: state it once, never four times.
+\noindent\emph{[Points for dictation.]}
+\begin{itemize}
+  \item \textbf{Scope: the APT attacker model is bounded by the six attack
+  actions it adopts from MTDSim} (the lead).
+  \begin{itemize}
+    \item Consequences, stated once: seven unmapped tactics; a
+    tactic-to-action mapping that is a chosen input; the outcome ceiling; the
+    failure matrix and vulnerability memory that change no outcome; the attack
+    actions that fail a precondition.
+    \item Mitigation: the attack actions are MTDSim's as published
+    \citep{brown2023}, and both attackers share them, so the comparison is
+    fair. Residual: what the APT attacker model achieves cannot exceed what they
+    allow. To Section~\ref{sec:future-work}.
+    \item Other limits by design, each to Section~\ref{sec:future-work}: MTD on
+    its schedule, with no cost modelled; no detector; one 50-host network with
+    two target hosts and synthetic vulnerabilities; simulation only
+    (Section~\ref{subsec:evaluation-methods}); existing MTD only.
+  \end{itemize}
 
-\noindent\emph{[Placeholder --- internal validity: the attacker model is a
-bundle of order, timing and failure response that no control separates; the
-profiles may separate on corpus size rather than objective; the inherited
-confusion penalty. Mitigations: same network, MTD, attack actions and seeds for
-both attackers; the fair-fight disruption design
-(Section~\ref{subsec:aio-disruption}); the ablation of
-Section~\ref{sec:ablation}. Residual: the claim is that the APT attacker model
-changes the answer, not which of its parts does.]}
+  \item \textbf{Internal: the APT attacker model differs from the baseline
+  attacker in order, timing and failure response at once.}
+  \begin{itemize}
+    \item Mitigation: the same network, MTD, attack actions and seeds for both;
+    the three ablations; the random partitions for corpus size against
+    objective; disruption reaching each attacker by design
+    (Section~\ref{subsec:aio-disruption}).
+    \item Residual: the claim is that the APT attacker model changes the answer,
+    not which of its parts does.
+    \item Verification, one or two sentences: the code checked against the text
+    by named, repeatable checks (the event tracer, the audit against the
+    literature, tests, fixed seeds); defects in the inherited simulator
+    repaired before the evaluation.
+  \end{itemize}
 
-\noindent\emph{[Placeholder --- construct validity: the adopted attack actions and
-the tactic-to-action mapping (the standing bound); the declared tactic durations,
-the 45\,s mean duration above all; the failure matrix; attack confidentiality read
-through a declared detector; time lost per MTD deployment as a lower bound;
-objective classification by one coder; the eight properties of
-Table~\ref{tab:attacker-properties}, this dissertation's own synthesis and so
-its own yardstick. Mitigations: the robustness analyses of
-Appendix~\ref{app:sensitivity}, Section~\ref{sec:ablation}, the cross-check of
-Appendix~\ref{app:movement}; each property drawn from a source, the eight fixed
-before any attacker model was scored, the APT attacker model scored by the same
-rule as the three MTD attacker models of Table~\ref{tab:attacker-cross-section},
-and two of the eight it does not have. Residual: magnitudes move across the 45\,s mean
-duration's band; the orderings are what is claimed.]}
+  \item \textbf{Construct: the values of judgement, the metrics, and the
+  yardstick.}
+  \begin{itemize}
+    \item Judgement values (tactic durations, the failure matrix's factors, the
+    vulnerability memory's factor of three, the partition by objective):
+    declared, not fitted, because CTI records none of them. Mitigation: the
+    sweeps of Appendix~\ref{app:sensitivity} and the ablations; only the 45\,s
+    mean duration moves NCR. Residual: magnitudes move; whether the comparison
+    with the baseline attacker holds across the bands was not run.
+    \item Simpler alternatives not tried, as improvements: a failure matrix that
+    reverses each tactic's edges; one duration for every unmapped tactic. To
+    Section~\ref{sec:future-work}.
+    \item Metrics: each cited or defined in Section~\ref{sec:evaluation-metrics};
+    attack confidentiality through a declared detector; time lost compares the
+    two runs at the same clock time, not the same point in the campaign.
+    \item Yardstick: the eight properties are this dissertation's synthesis.
+    Mitigation: each sourced, fixed before scoring, one rule for all four
+    attacker models, two not met by the APT attacker model.
+    \item Objective classification by one coder, with its audit trail
+    (Appendix~\ref{app:movement}).
+  \end{itemize}
 
-\noindent\emph{[Placeholder --- external validity: 38 attack flows of
-detected, published campaigns, not all APT: 18 attributed to an ATT\&CK group
-(criminal groups among them), 20 to none, one an adware campaign (Section~\ref{sec:technique-graph}), sparse before intrusion, several sharing an
-operator; one network of 50 hosts; MTDShield outside its training conditions;
-no numeric comparison with the lineage papers. Sargent's ceiling for a system
-that cannot be observed: explore the model's behaviour as thoroughly as
-possible.]}
+  \item \textbf{External: what the 38 attack flows and the one network stand
+  for.}
+  \begin{itemize}
+    \item The attack flows are detected, reported, mostly successful campaigns,
+    not all APT (18 attributed to an ATT\&CK group, 20 to none, one adware;
+    Section~\ref{sec:technique-graph}), sparse before intrusion, several sharing
+    an operator: typical documented behaviour, not an optimal adversary.
+    \item Near-periodic deployment timing only; MTDShield outside its training
+    conditions; no numeric comparison with the lineage papers, whose simulator
+    was repaired here. Sargent's ceiling: explore the model as thoroughly as
+    possible \citep{sargent2011}.
+  \end{itemize}
 
-\noindent\emph{[Placeholder --- conclusion validity: 1\,000 seeds; negligible
-below $d = 0.2$ (Section~\ref{sec:evaluation-metrics}); Scott--Knott ranking;
-no correction across the comparisons; Spearman's $\rho$ without an interval.]}
-
-
-
-% PROPOSED INSERTION 2026-09-17 --- RELOCATED FROM §5.2 (critique handoff §I).
-% Two concessions were standing in the experimental setup, where the corpus puts
-% none (evaluation_conventions.md §g: Brown owns its attacker's unrealism in §V,
-% Zhang in future work, He pairs each limitation with the future work that lifts
-% it). They are content this section owes, not content §5.2 owed, and they are
-% dropped here for Marc to accept item by item; §5.2 no longer carries either.
-%
-% (1) JALOWSKI'S THIRD GUIDELINE. His four guidelines ask, third, that a metric
-%     "compare the MTD scheme to a state-of-the-art system, protected using the
-%     best available methods" \citep{jalowski2026}. This evaluation compares
-%     mechanisms against each other and against no defence, with the defender
-%     frozen. Most MTD evaluations do not meet the guideline either; owning it
-%     is cheaper than being caught by it.
-% (2) WHICH HALF OF THE ATTACKER-REALISM DEMAND IS ANSWERED. The same critique
-%     demands attackers that are "smart, adaptive ... who understand the MTD
-%     scheme". This thesis answers the half grounded in threat intelligence,
-%     conditioned on an objective and routed by outcome; it does not answer the
-%     half that reasons about the scheme itself. The unanswered half is
-%     Section~\ref{sec:future-work}'s, and pairing it there is He's form.
-%
-% (3) ONE TERRAIN --- RELOCATED FROM §5.2 2026-09-18 (Marc: "is that a necessary
-%     qualification?"). §5.2 closed its network unit with "nothing reported here
-%     speaks to how these results would move with network size or density". It is
-%     a true and worth-stating limitation, and it was in the wrong place three
-%     times over: Table~\ref{tab:experiment} already declares the geometry held,
-%     so the sentence restated the table in an apologetic register; a setup
-%     declares and does not concede, which is the principle the whole section was
-%     rebuilt on; and voice.md §c6 wants negative scope as a section or a closing
-%     move, which is where the corpus puts it too (Reti flags its step limit in
-%     the conclusion). It is owed here: every result in Chapter~\ref{ch:results}
-%     is taken on one network of one size and one density, and scale was a
-%     planned factor that was not run --- so no claim about how these effects
-%     scale is available, in either direction.
-
-
-% PROPOSED INSERTION 2026-09-17 --- RELOCATED FROM §5.2 (critique handoff §I).
-% THE COVERAGE HEADLINE. It sat in the experimental setup, where it read as a
-% concession before a number had been reported; it is a verdict about the work
-% and belongs here. On the field's own taxonomy (Table~\ref{tab:mtd-metrics})
-% this evaluation is strong on cost from both sides, adequate on containment and
-% delay, and silent on the attack surface, on payoff and on service to users ---
-% five of the ten families. The silence is the simulator's: it has no workload
-% model and no detection channel. Marc's own framing, 2026-09-09: "what do we
-% have in our simulator, what do we not --- we just need to be frank and open."
-% One or two sentences, not the audit table; the audit is the ch5 design
-% handoff's. Proposed for acceptance; §5.2 no longer carries it.
+  \item \textbf{Conclusion: what the statistics license.}
+  \begin{itemize}
+    \item 1\,000 seeds; negligible below $|d| = 0.2$; ablation cells left
+    inconclusive; no correction across comparisons; rankings over few MTD
+    mechanisms; ASP rare per attack profile, so the ranking uses NCR reduction.
+  \end{itemize}
+\end{itemize}
 
 % ---------------------------------------------------------------------
-
 
 % =====================================================================
 \chapter{Conclusion}

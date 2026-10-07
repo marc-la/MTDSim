@@ -1,5 +1,5 @@
 ---
-status: open — inventory assembled and vetted; Marc's answers to §7 owed before the structure is fixed and dot points are shaped into paragraphs
+status: open — structure ruled (§8); point sets in the ch6 placeholders for Marc's read; next: Marc triages 6.4 and marks points in or out, then slot-form dot points per paragraph
 created: 2026-10-07
 updated: 2026-10-07
 topic: "Chapter 6 (Discussion) assembly: every discussion idea on disk, in the session logs and in Marc's dictation, in one place, vetted against the current chapter 4–5 prose, arranged by section and by importance, with the contradictions to fix and the questions only Marc can answer"
@@ -382,6 +382,35 @@ Order: scope first, then internal validity first (the headline is causal). Each 
 - **Q13.** Is any discussion point from your conversations with Jin missing from §4? Is there an idea you have had since 10-06 that no session recorded?
 
 ---
+
+## 8. Marc's answers, round 2 (2026-10-07), and what was done
+
+- **Explain-once rule: yes.** The ablations go in 6.3. The five sections and headings stand. The old placeholders were stale and AI-generated, "not the Bible".
+- **Register:** chapter 5's short, sharp sentences and fixed terms, plus the moves chapter 5 forbade: "because", one calibrated hedge per claim, the chapter 3 comparison, the bound.
+- **No reruns** (a 60 000 s run is 4–5 days). The no-MTD gap is bounded "at the 15 000 s time limit".
+- **c3:** Marc's reading verified on `ch5_s531_unopposed/numbers_reported.json`. Unmapped share of steps / time, against attack rate and attack confidentiality:
+  - c4: 26/34 %, 1.23, 89.4 %
+  - c1: 36/50 %, 1.09, 92.4 %
+  - c2: 37/51 %, 0.89, 96.0 %
+  - c3: 47/57 %, 0.68, 98.1 %
+
+  c3 is the far end of the quieter mechanism, not an anomaly. Into 6.1 point 2.
+- **Cho:** scoped to MTDSim. No blanket claim about diversity; MTDSim's implementation of each mechanism fixes what it takes.
+- **Negative time lost:** not a bug (Marc). It is surfaced as a 6.2 point.
+- **Equal-effect comparison:** in 6.2, read off Table E.2.
+  - Host layer: ≥0.5 up to 1 000 s against the APT attacker model, against 100 s for the baseline attacker.
+  - Service layer: to 200 s against the baseline attacker; never 0.5 against the APT attacker model.
+- **Examiner targets, in Marc's order:**
+  1. the attack actions ("adopted from a published simulator, shared by both attackers");
+  2. the failure matrix and the vulnerability memory (ablated: no outcome);
+  3. the tactic durations;
+  4. the partition (a declared model parameter);
+  5. the metrics' provenance and numbers;
+  6. Table 6.1 agreeing with ch3's scores (sync obligation).
+- **"What I'd do differently":** goes in 6.5 construct as *simpler alternatives not tried*, framed as improvements pointing to §7.2 (reversed edges for the failure matrix; one duration for every unmapped tactic). Never as regret.
+- **Volt Typhoon:** a circular close is wanted. Recommended home: the conclusion's opener, before Contributions. Not yet drafted.
+- **Jin:** no new input; ch1–5 feedback pending (up to a week). Draft on ch1–5 as fact, judging repo ideas on merit.
+- **Done:** ch6 placeholders and planning comments replaced by point sets (bold claim; result, why, compare, bound, so). Table 6.1 and all labels kept; the old blocks are at `644dbf03`. Build clean, 102 pages, ch6 pp. 39–45.
 
 ## Validation gate
 
