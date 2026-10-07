@@ -172,41 +172,35 @@
 % Technical gap + contribution against it, expert reader, as brief as
 % possible; ends with the single headline outcome. Written second-last.
 %
-% PRELIMINARY (Marc, 2026-09-21) --- this is the SEMINAR abstract, verbatim
-% (196 words, settled sentence by sentence with Marc; handoff
-% 2026-09-21_seminar_title_abstract_design.md §8). It is written for a
-% generalist reader and therefore departs from the chapter vocabulary on
-% purpose: "simplified attacker" is the baseline attacker, "the new model"
-% is the movement attacker, and "Preliminary results" is the seminar's
-% hedge, which the dissertation abstract may not keep. The results
-% sentences are read from the 100-seed corpus (tab:eff-orderings) and must
-% be re-checked at the reported seed count. To be reworked for the expert
-% reader and the 300-word budget when the abstract is written in its turn.
-% 2026-10-07 (Marc): the results sentences re-read at 1 000 seeds,
-% "Preliminary" dropped. The results sentences are ch1 P6 verbatim (Marc:
-% mirror, do not refine), with the abstract's own attacker names: "simplified
-% attacker" for the baseline attacker, "new model" for the APT attacker model.
-In February 2024, US and Australian cyber agencies reported that the
-state-sponsored group Volt Typhoon had held access inside American
-critical infrastructure networks for at least five years. Advanced
-persistent threats like Volt Typhoon run long, staged campaigns with
-well-documented tradecraft. Moving target defence (MTD) continually
-reconfigures a network so that what an attacker has learned about it
-goes out of date before it can be used. Yet simulation studies of MTD
-commonly test it against simplified attackers that follow a fixed
-sequence of steps. MTD evaluated only against a simplified
-attacker gives little confidence against a long, staged campaign. This
-work builds an attacker model from published reports of real intrusion
-campaigns, with profiles distinguished by objective. An
-existing MTD simulator is then run under identical conditions, once with
-its own simplified attacker and once with the new model. At the default
-deployment interval, service diversity is the most effective MTD mechanism
-against the simplified attacker. Service diversity reduces the number of
-hosts the simplified attacker compromises by 92\,\%, but reduces the number
-of hosts the new model compromises by only 36\,\%. At every deployment
-interval, the most effective MTD mechanism differs between the two
-attackers. These results make a case for evaluating MTD
-against attacker models grounded in documented behaviour.
+% Was the 2026-09-21 seminar abstract (generalist reader; handoff
+% 2026-09-21_seminar_title_abstract_design.md sec. 8; prior text in git).
+% 2026-10-07 (Marc): restructured for the dissertation reader. Opens on the
+% topic (Volt Typhoon stays in ch1 P1, which opens on it); APT defined as in
+% ch1 P1; "MTD evaluated only against a simplified attacker ..." CUT
+% (restated the gap); the thesis names for the two attackers ("simplified
+% attackers" stays as the field's class); "We build" / "We run", active, as
+% ch1; the eight properties are NOT presented as a contribution (a synthesis,
+% extended from the semester-one literature review), only the APT attacker
+% model's score against them (ch6, tab:fidelity-verdict); the results
+% sentences are ch1 P6 verbatim.
+Moving target defence (MTD) has been proposed against advanced persistent
+threats (APTs), attackers who pursue a specific objective over months or
+years. MTD continually reconfigures a network so that what an attacker has
+learned about it goes out of date before it can be used. Yet simulation
+studies of MTD commonly test it against simplified attackers that follow a
+fixed sequence of steps. We build an APT attacker model from published
+reports of real intrusion campaigns, with attack profiles distinguished by
+objective. Of eight properties an attacker model needs to model an APT
+attacker, the APT attacker model has four in full, while three recent
+attacker models have at most one. We run an existing MTD simulator under
+identical conditions, once with its scripted baseline attacker and once with
+the APT attacker model. At the default deployment interval, service diversity
+is the most effective MTD mechanism against the baseline attacker. Service
+diversity reduces the number of hosts the baseline attacker compromises by
+92\,\%, but reduces the number of hosts the APT attacker model compromises
+by only 36\,\%. At every deployment interval, the most effective MTD
+mechanism differs between the two attackers. These results make a case for
+evaluating MTD against attacker models grounded in documented behaviour.
 \end{abstract}
 
 % ---------------------------------------------------------------------
@@ -534,14 +528,16 @@ interval, the most effective MTD mechanism differs between the two attackers.
 \noindent This dissertation makes the following contributions:
 \begin{itemize}[align=left, leftmargin=3em, labelwidth=2.5em,
                 labelsep=0.5em, topsep=0.5\baselineskip, partopsep=0pt]
-  \item We synthesise eight properties an attacker model needs to model an
-  APT attacker, from the definition of an APT and two surveys of MTD.
+  % 2026-10-07 (Marc): the eight-properties item FOLDED into this one --- a
+  % synthesis from the literature, extended from the semester-one literature
+  % review, not a contribution in its own right; it survives as the yardstick.
   \item We build an APT attacker model that any study using MTDSim can run
   in place of the baseline attacker.\footnote{The APT attacker model and
   the experiment scripts are publicly available at
-  \url{https://github.com/marc-la/MTDSim}.} The APT attacker model has four
-  of the eight properties in full and two in part; three recent attacker
-  models have at most one in full.
+  \url{https://github.com/marc-la/MTDSim}.} Of eight properties an attacker
+  model needs to model an APT attacker, the APT attacker model has four in
+  full and two in part; three recent attacker models have at most one in
+  full.
   \item We find that, in MTDSim, the MTD mechanism that holds back the
   attacker most depends on the attacker model.
 \end{itemize}
