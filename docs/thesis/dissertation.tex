@@ -183,10 +183,9 @@
 % be re-checked at the reported seed count. To be reworked for the expert
 % reader and the 300-word budget when the abstract is written in its turn.
 % 2026-10-07 (Marc): the results sentences re-read at 1 000 seeds,
-% "Preliminary" dropped, and decoded: "contain spread" is NCR reduction, the
-% share of the network the attacker takes over. Parrots ch1 P6: IP shuffle
-% first against the new model, service diversity first against the
-% simplified attacker, at every deployment interval.
+% "Preliminary" dropped. The results sentences are ch1 P6 verbatim (Marc:
+% mirror, do not refine), with the abstract's own attacker names: "simplified
+% attacker" for the baseline attacker, "new model" for the APT attacker model.
 In February 2024, US and Australian cyber agencies reported that the
 state-sponsored group Volt Typhoon had held access inside American
 critical infrastructure networks for at least five years. Advanced
@@ -200,10 +199,13 @@ attacker gives little confidence against a long, staged campaign. This
 work builds an attacker model from published reports of real intrusion
 campaigns, with profiles distinguished by objective. An
 existing MTD simulator is then run under identical conditions, once with
-its own simplified attacker and once with the new model. Changing the
-network's addresses and layout most reduces the share of the network the
-new model takes over. Changing the network's software most reduces the
-simplified attacker's share, but reduces the new model's far less. These results make a case for evaluating MTD
+its own simplified attacker and once with the new model. At the default
+deployment interval, service diversity is the most effective MTD mechanism
+against the simplified attacker. Service diversity reduces the number of
+hosts the simplified attacker compromises by 92\,\%, but reduces the number
+of hosts the new model compromises by only 36\,\%. At every deployment
+interval, the most effective MTD mechanism differs between the two
+attackers. These results make a case for evaluating MTD
 against attacker models grounded in documented behaviour.
 \end{abstract}
 
