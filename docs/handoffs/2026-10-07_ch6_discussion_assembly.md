@@ -1004,6 +1004,63 @@ Marc asked which levers matter most. The no-MTD corpus answers at three levels:
 
 **Interpretive link** (for paragraph 4 if B13 gets a home): plurality costs success (paragraph 3), and the attack profiles that keep more of the attack actions' moves pay less.
 
+## 12. 6.3: the grading rule, rebuilt bottom-up (proposal, 2026-10-08, NOT RATIFIED)
+
+Marc: "start with being transparent about our rules ... then regrade ... imagine the [current marks] don't exist ... grade by merit"; "how do our ablations feed into this"; "is compromising more the right metric ... we look at relatives".
+
+Two cold examiners ran on 6.3's floats: the first on the floats only, the second on chapters 3–4 as well (packets examiner_6_3_packet{,2}.tex in the session scratchpad). Every claim below was checked against the tex.
+
+**Defects found and fixed (00cb3f0f):**
+- In 5.4, a comment line had swallowed the start of the sentence "Under IP shuffle and OS diversity"; the line break is restored.
+- Table 6.1 moved to the head of 6.3.
+
+**The proposed rule: two layers.**
+1. **The mark** (the cells of Table 6.1, comparable across all four rows):
+   - Chapter 3's rule, verbatim, scored from the method text alone (chapter 4 for ours, the papers for theirs). Tick: does all the definition says. P: does part of it, or a fixed rule or an assumption sets the behaviour. Cross: neither.
+   - The caption's carve-out ("for the APT attacker model a tick marks a property the model implements") is deleted.
+   - Our own evidence may LOWER a mark (a component that fails to produce its behaviour), never raise one. The comparators had no such check, so this is stricter on us, not looser.
+2. **The evidence** (our row only, never folded into a mark; the comparators are "not tested"):
+   - **Built:** the chapter 4 component.
+   - **Seen:** a chapter 5 behaviour metric.
+   - **Consequence:** does removing the component change the evaluation's answer, i.e. NCR reduction and which MTD mechanism is most effective? Absolute NCR is not used: "compromises more" measures strength, not fidelity (Marc), and chapter 4's opener asks whether the attacker "changes what an MTD evaluation measures".
+   - Mirrors apt_model_criterion.md's badges and its Row B (evaluative consequence), which Table 6.1 had collapsed.
+
+**The regrade, under layer 1 (the session's and the blind examiner's, agreeing):**
+
+| # | Now | Regrade | Why (chapter 4, against chapter 3's comparator evidence) |
+|---|---|---|---|
+| 1 Persistence | ✓ | ✓ | the same loop as the baseline attacker's tick (column consistency); "extended period" is a bound, not a mark |
+| 2 Objective-specific | ✓ | **P** | the route differs by objective, but exfiltration and impact are unmapped: no attack action after the foothold acts on the objective. This is the baseline attacker's P reason verbatim (and Kim's). Ours does more within P |
+| 3 Choice of strategy | ✓ | ✓ | a weighted draw among several CTI-derived sequences; Masud's P was "every path, none chosen". Counted by attack action, still hundreds (A3, which now serves this too) |
+| 4 Adaptivity | ✓ | **P** | the failure matrix is nine rules plus a distance factor, set by judgement (a fixed rule); it reads the verdict, not the MTD disruption; it is inert in unmapped tactics and after c2's failed initial access. The baseline attacker's P is "a fixed rule sets its response" |
+| 5 Detection avoidance | ✗ | **P?** | Kim's P is evasion assumed with no detector. Ours: chapter 4 sets execution and defense impairment "paced to stay hidden" (an assumption), and pace is measured by proxy (5.2). Column consistency gives P; a strict "chooses" gives ✗, and then Kim's P must be revisited too (re-opens ch3) |
+| 6 Cost–benefit | P | P | the RoA order is kept: the APT attacker model dispatches MTDSim's exploit, and host.get_vulns sorts by RoA (verified) |
+| 7 Learning | P | P | the vulnerability memory learns vulnerabilities, not MTD deployments |
+| 8 Deployment awareness | ✗ | ✗ | "can neither see nor change the MTD schedule" (4.4.1) |
+
+Count: two in full (one kept, one built), five in part, one not met, against the field's at most one in full. Before the regrade: four in full and two in part.
+
+**What the ablations do under the rule:**
+- **Layer 1 (manipulation check, can only lower a mark):** all three components pass. The attack profiles' tactic mixes differ (Figure 5.1); the failure matrix's return to reconnaissance runs .76–.83 against .08–.10; the vulnerability memory's exploit success share is .73 against .69. No mark falls.
+- **Layer 2 (consequence, B15):** no component changes which mechanism is most effective. The attack profiles shift NCR reduction by up to 14 points (IP shuffle at 1 000 s: 58 against 44 %); the failure matrix and the vulnerability memory shift it by at most 2 points. So contribution 2 does not rest on the judgement-set components. What it does rest on is 6.1's: unmapped time and order (and chapter 4 already says NCR rests most on the 45 s duration).
+- **The attack-profile pair, reread (B14):** below the attack graph and above the random partitions. Random groups lose NCR with size (19 flows: median .181; 5 flows: median .120, minimum .022), while c2 (7 flows, .209) and c4 (5 flows, .154) do not, so grouping by objective keeps small groups working (HYP; B13's count is the test). Neither result is fidelity. The case for the split is the profiling assumption (objectives differ, chapter 4) and Figure 5.1, and the attack graph breaks that assumption by mixing objectives (Marc).
+- **A caution the examiner raised:** random partitions 5 and 6 beat the attack profiles under IP shuffle at 200 s (d −0.48, −1.03, both not negligible). The 5.4 sentence "not negligible against six to ten" counts both directions.
+
+**Blast radius if ratified** (rule on merit; this overturns the 2026-10-05 "honest claim" count of four in full):
+- Table 6.1's row and caption;
+- ch1 contribution 1 ("four in full and two in part");
+- ch4 opener ("built for four ...: objective-specific behaviour, choice of attack strategy, adaptivity and, in part, learning"), and 4.4.3's "gives ... adaptivity, property 4";
+- 6.1 paragraph 1 ("detection avoidance not met") if 5 becomes P;
+- 7.1 contributions;
+- apt_model_criterion.md's scorecard.
+
+The abstract states no count.
+
+**The examiner's other front-of-mind questions** (for 6.3 or 6.5):
+- The corpus is not APT-only (18 of 38 flows attributed, criminal groups among them, one adware campaign), so the marks describe attackers reported in CTI. This is already stated in 4.1 and points to 6.5.
+- "Extended period" against tactic durations of seconds and the time limit (a 6.1 paragraph 2 bound).
+- Which component produces the gap to the baseline attacker (answered by B15 plus 6.1).
+
 ## Validation gate
 
 Done when Marc has answered §7, the structure in §3 is ruled, and every primary point in §4 has its evidence re-read on the 1 000-seed corpus, or is labelled a hypothesis. The next deliverable is per-paragraph dot points (slot form) for Marc's dictation.

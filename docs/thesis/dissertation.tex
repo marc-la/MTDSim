@@ -9174,6 +9174,28 @@ four.]}
 %     the 15-to-12 step is small. Not readable from any float: needs a home
 %     (a column beside Figure B.x, or a chapter 5 sentence) before paragraph 4
 %     can use it (11f).
+%  B14 [6.3] THE ATTACK-PROFILE ABLATION BY GROUP SIZE (Marc 2026-10-08: "is
+%     compromising more the right metric"; "maybe this is an issue with the
+%     size of the data set"). No MTD, from partition_control_numbers.json
+%     (per-group NCR; Table F.4 prints only d). Random groups of 19 flows reach
+%     NCR .157-.213 (median .181), near the attack graph's .189; c1 (19) .149.
+%     Random groups of 7, 7 and 5 flows: medians .137, .134, .120, minima .067,
+%     .060, .022; c2 (7) .209, c3 (7) .172, c4 (5) .154. Reading (HYP): size
+%     costs a random group, and grouping by objective keeps a small group's
+%     chains, so the attack profiles beat random partitions through their small
+%     groups. Says nothing of fidelity. Pairs with B13 (count of usable moves);
+%     the B13 count for the attack graph and the random groups is the test.
+%  B15 [6.3] THE ABLATIONS ON THE EVALUATION'S ANSWER (Marc 2026-10-08: "we look
+%     at relatives"). NCR reduction with and without each component, point
+%     values from the ablation JSONs (no test; the d on NCR reduction was
+%     rejected 2026-10-01 as noisy, memory_ablation.py). Attack profiles: the
+%     most effective MTD mechanism is IP shuffle with and without them at every
+%     interval (a tie with host topology shuffle at 50 s); reductions shift by
+%     up to 14 points (IP shuffle at 1 000 s: 58 against 44 %). Failure matrix:
+%     at most 2 points (intervals in ablation_numbers.json). Vulnerability
+%     memory: at most 1 point. Reading: no component changes which mechanism
+%     is most effective, so contribution 2 does not rest on them. Needs a home
+%     (a column in Table F.3 or a chapter 5 sentence) before 6.3 leans on it.
 %
 %  FUTURE WORK (needs new runs or new code; for Section 7.2, not an appendix):
 %  F1 Edge ablation: remove one tactic-to-tactic edge at a time and read ASP
