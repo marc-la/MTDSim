@@ -9162,10 +9162,10 @@ dependence and the method, not the numbers or the rankings.]}
     (Section~\ref{subsec:dwell-times}). The vulnerability memory acts on the
     odds of success, the baseline attacker's on time. With no MTD, NCR is
     0.15 to 0.21 against 0.50 (Table~\ref{tab:unopposed-summary}). Mitigation: the durations declared and swept
-    (Appendix~\ref{app:sensitivity}); candidate appendix table, each attack
-    action's MTDSim time beside the tactic durations that drive it (registry
-    B21). Residual: pace is not matched. ABSTRACT: "under identical
-    conditions" to go (proposal).
+    (Appendix~\ref{app:sensitivity}); each attack action's MTDSim time beside
+    the tactic durations that drive it (Table~\ref{tab:attack-action-times}).
+    Residual: pace is not matched. The abstract now says "twice on the same
+    networks".
     \item The end of a run [T6]. A run ends at a target host compromised or
     at 15\,000\,s (Table~\ref{tab:experiment}), so the baseline attacker's
     NCR stops early in 656 of its 1\,000 runs with no MTD while the APT
@@ -9205,7 +9205,7 @@ dependence and the method, not the numbers or the rankings.]}
     deployment. The baseline attacker's negative means come from that first
     deployment, which MTDSim's restart rule pulls forward (\,$-204$ to
     $-232$\,s); each later host-layer or port-shuffle deployment costs
-    it 19 to 32\,s. NEEDS the chapter 5 sentence first (registry B20; proposal).
+    it 19 to 32\,s (Section~\ref{subsec:aio-disruption}; registry B20, homed).
     Reported at 2\,000\,s because the next deployment caps the wait. It shows
     what a disruption costs, not which component pays it.
     \item Behaviour metrics [T5]. Attack confidentiality reads a declared
@@ -9259,7 +9259,7 @@ dependence and the method, not the numbers or the rankings.]}
     attackers' rank 1 do not line up. Ten options, three of them mixtures of
     the other seven; $\rho$ near zero means no agreement, not an inverted
     order; rank 1 is a group (service diversity with port shuffle against
-    the baseline attacker). ABSTRACT: name the group (proposal).
+    the baseline attacker; the abstract now names both).
     \item Effect sizes [T11]: Cohen's $d$ on per-seed means with the pooled
     spread (STATE in Section 5.1; proposal); negligible within $\pm 0.2$ is
     Cohen's default, not a bound set for hosts compromised; $d$ grows near the
@@ -9423,7 +9423,7 @@ dependence and the method, not the numbers or the rankings.]}
 %     above the service layer. MUST HAVE A HOME: an Appendix C section (table:
 %     rank 1 and rho at each band end) + one Appendix C sentence replacing "the
 %     comparison with the baseline attacker was not repeated across the bands".
-%  B20 [6.5 T7, 6.2 P2] ON DISK: TIME LOST, FIRST DEPLOYMENT AGAINST LATER
+%  B20 [6.5 T7, 6.2 P2] HOMED 2026-10-09 (5.3.1 sentence) ON DISK: TIME LOST, FIRST DEPLOYMENT AGAINST LATER
 %     (time_lost_first_deployment_numbers.json, 2 000 s). Baseline attacker:
 %     first deployment -204 to -232 s (all but user shuffle, +6.5); every
 %     later deployment (all minus first): host layer +18.5 to +32.4 s, port
@@ -9432,7 +9432,7 @@ dependence and the method, not the numbers or the rankings.]}
 %     +361.0 s. Homes 6.2's "its later
 %     deployments cost it time" (registry: NOT IN CH5). MUST HAVE A HOME: one
 %     5.3.1 sentence (proposal to Marc).
-%  B21 [6.5 T9] TACTIC DURATIONS BESIDE MTDSIM'S TIMES (Marc 2026-10-08): each
+%  B21 [6.5 T9] HOMED 2026-10-09 (Table B.4b, generated) TACTIC DURATIONS BESIDE MTDSIM'S TIMES (Marc 2026-10-08): each
 %     mapped attack action's time in MTDSim beside the mean durations of the
 %     tactics mapped to it. A table from data/ogasp/tactic_durations.json and
 %     the attack actions' constants; no run. Candidate Appendix B row/table.
