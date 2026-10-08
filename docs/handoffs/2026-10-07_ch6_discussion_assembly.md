@@ -1368,6 +1368,46 @@ Retired P2 (verbatim):
 
 ```
 
+### 12f. 6.3 paragraph 3 drafted (2026-10-08); P3 retired; 6.3 is prose only
+
+- **Homes given first:**
+  - B15 is a 5.4.1 sentence. The same three MTD mechanisms (IP, host topology and complete topology shuffle) reduce NCR the most with and without the attack profiles, at every interval. The fourth trails by 2.3–26.1 points with and 3.3–23.8 without. It is untested, so the sentence claims the set, not an order.
+  - B16 is a 5.4.2 sentence: time lost per MTD deployment is unchanged without the failure matrix (both 2 000 s intervals include zero).
+- **Not used:** B14 and B17 have no home, so the random-partition reading is a HYP with no number.
+- **Overturned:** "the Petri net's without is the baseline attacker". It is only the nearest comparison, because the baseline attacker also differs in timing and failure response (6.5, internal).
+
+Retired P3 and the itemize shell (verbatim):
+
+```latex
+\noindent\emph{[Points for dictation, reading Table~\ref{tab:fidelity-verdict}
+and Section~\ref{sec:ablation}.]}
+\begin{itemize}
+  \item \textbf{P3. Each component works; none changes which MTD mechanism is
+  most effective.}
+  \begin{itemize}
+    \item Behaviour check: removing each changes the behaviour it was built
+    for (Section~\ref{sec:ablation}); no mark falls.
+    \item Adaptivity: the failure matrix changes where the attacker goes after
+    a failure, but not time lost per MTD deployment (registry B16, NEEDS A
+    HOME). Likely, the cost of a disruption comes from the failure itself,
+    which the attack actions force, not from the reweighting (Marc
+    2026-10-08). This is why adaptivity is in part.
+    \item Vulnerability memory: built, operates, changes no outcome; a measured
+    negative only a model with the capability can report.
+    \item Consequence, read on NCR reduction, not absolute NCR: compromising
+    more is strength, not fidelity. No component changes the most effective
+    mechanism (registry B15, NEEDS A HOME; claim the rank only where the lead
+    exceeds the interval). So contribution 2 rests on unmapped time and order
+    (Section~\ref{sec:disc-behaviour}), not on the components set by judgement.
+    \item The attack-profile pair is not fidelity. The attack graph compromises
+    more, and draws more openings (registry B17), because it mixes the
+    objectives the profiling assumption keeps apart; size likely costs a random
+    group more than an attack profile (registry B14, HYP). The Petri net's
+    choice has no ablation of its own: its ``without'' is the baseline attacker.
+  \end{itemize}
+\end{itemize}
+```
+
 ## Validation gate
 
 Done when Marc has answered §7, the structure in §3 is ruled, and every primary point in §4 has its evidence re-read on the 1 000-seed corpus, or is labelled a hypothesis. The next deliverable is per-paragraph dot points (slot form) for Marc's dictation.

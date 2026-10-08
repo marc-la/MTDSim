@@ -8177,6 +8177,18 @@ profiles and 0.189 without, a $d$ of $-0.28$. Under the MTD mechanisms and
 deployment strategies, the effect is not negligible in 29 of the 60
 configurations, negligible in seven and inconclusive in 24
 (Table~\ref{tab:ablation-attack-profiles}).
+% 2026-10-08 (Marc, Section 6.3 paragraph 3 leans on it; registry B15): the
+%  evaluation's answer with and without the attack profiles, from
+%  partition_ablation_numbers.json (NCR reduction, 1 - NCR under MTD / NCR with
+%  no MTD, per arm). Top three by NCR reduction, both arms, every interval:
+%  IP, host topology and complete topology shuffle; the fourth (a deployment
+%  strategy, random_four in the JSON) trails the third by 2.3 to 26.1 points
+%  with and 3.3 to 23.8 without. No test (the d on NCR reduction
+%  was rejected 2026-10-01), so the sentence claims the set, not an order
+%  within it. DRAFT STATE.
+At every deployment interval, the same three MTD mechanisms reduce NCR the
+most with the attack profiles and without them: IP shuffle, host topology
+shuffle and complete topology shuffle.
 % 2026-10-06 (Marc: "I thought this is the random partitioning ... are you running the attack
 %  graph ... would you have another entry"): the sentence never said what a random partition
 %  is next to the attack profiles. It is a third arm: the attack profiles group the attack flows
@@ -8273,6 +8285,14 @@ APT attacker model goes after a failure, and its effect on NCR is negligible
 Section~\ref{subsec:failure-matrix}), the APT attacker model goes back to
 reconnaissance in 0.76 to 0.83 of cases in $c_1$, $c_3$ and $c_4$ with the
 failure matrix, and in 0.08 to 0.10 without.
+% 2026-10-08 (Marc, Section 6.3 paragraph 3 leans on it; registry B16): time
+%  lost per MTD deployment with and without the failure matrix, from
+%  ablation_numbers.json (computed at 2 000 s only): IP shuffle 324.0 against
+%  331.8 s, difference -7.8 [-19.6, +4.2]; OS diversity -1.4 against -10.5 s,
+%  +9.1 [-2.6, +20.7]. DRAFT STATE.
+The failure matrix leaves time lost per MTD deployment unchanged: under IP
+shuffle and OS diversity at 2\,000\,s, the 95\,\% interval of the
+difference with and without it includes zero.
 % 2026-10-06 clarity pass (Marc): the appositive "the example of Section 4.4.3" -> a parenthesis,
 %  so the main clause reads straight; "returns to" -> 4.4.3's "goes back to"; "on c_1" -> 4.4.3's
 %  "in c_1". Every noun checked: base weights (4.3), next tactic, failure, failed initial access,
@@ -8927,33 +8947,48 @@ cost--benefit reasoning and learning, show by construction, with no metric of
 their own. Upgrading the attack actions under the Petri net would therefore
 lift the most marks (Section~\ref{sec:future-work}).
 
-\noindent\emph{[Points for dictation, reading Table~\ref{tab:fidelity-verdict}
-and Section~\ref{sec:ablation}.]}
-\begin{itemize}
-  \item \textbf{P3. Each component works; none changes which MTD mechanism is
-  most effective.}
-  \begin{itemize}
-    \item Behaviour check: removing each changes the behaviour it was built
-    for (Section~\ref{sec:ablation}); no mark falls.
-    \item Adaptivity: the failure matrix changes where the attacker goes after
-    a failure, but not time lost per MTD deployment (registry B16, NEEDS A
-    HOME). Likely, the cost of a disruption comes from the failure itself,
-    which the attack actions force, not from the reweighting (Marc
-    2026-10-08). This is why adaptivity is in part.
-    \item Vulnerability memory: built, operates, changes no outcome; a measured
-    negative only a model with the capability can report.
-    \item Consequence, read on NCR reduction, not absolute NCR: compromising
-    more is strength, not fidelity. No component changes the most effective
-    mechanism (registry B15, NEEDS A HOME; claim the rank only where the lead
-    exceeds the interval). So contribution 2 rests on unmapped time and order
-    (Section~\ref{sec:disc-behaviour}), not on the components set by judgement.
-    \item The attack-profile pair is not fidelity. The attack graph compromises
-    more, and draws more openings (registry B17), because it mixes the
-    objectives the profiling assumption keeps apart; size likely costs a random
-    group more than an attack profile (registry B14, HYP). The Petri net's
-    choice has no ablation of its own: its ``without'' is the baseline attacker.
-  \end{itemize}
-\end{itemize}
+% DRAFT STATE 2026-10-08 --- paragraph 3 drafted from point P3 on Marc's
+%  request ("P3"); P3 retired to the ch6 handoff section 12f, so 6.3 is prose
+%  only. Session-written; ratify on read.
+%  Homes given first (no new results in chapter 6): B15 as a 5.4.1 sentence
+%  (the same three MTD mechanisms reduce NCR the most with and without the
+%  attack profiles, at every interval; the set, not an order, as it is
+%  untested), B16 as a 5.4.2 sentence (time lost unchanged without the failure
+%  matrix). B14 and B17 are NOT used: their numbers have no home; the random
+%  partitions are read as a HYP with no number.
+%  Order: the claim; the behaviour check; adaptivity (the measured support for
+%  in part); the memory (a negative); the measure (NCR reduction, not NCR); the
+%  consequence and so-what; the attack-profile pair; the Petri net's missing
+%  ablation. One "likely" per explanation (two explanations).
+%  OVERTURNED on merit: the point "its without is the baseline attacker" ---
+%  the baseline attacker also differs in timing and failure response (6.5,
+%  internal), so it is only the nearest comparison.
+Each component does what it was built to do, and none changes which MTD
+mechanisms are most effective. Removing each changes the behaviour it was
+built for (Section~\ref{sec:ablation}), so no mark falls. The failure matrix
+changes where the APT attacker model goes after a failure, but not the time
+each MTD deployment costs it
+(Section~\ref{subsec:ablation-failure-matrix}): the cost likely comes from
+the failure itself, which the attack actions force, not from the reweighting,
+as adaptivity in part implies. The vulnerability memory raises the share of
+exploits that succeed and changes no outcome, a negative only a model with
+the mechanism can report. Each ablation is read on NCR reduction, the measure
+an MTD evaluation reports, not on NCR alone: an attacker that compromises
+more is stronger, not closer to an APT attacker. The failure matrix and the
+vulnerability memory move NCR negligibly with and without MTD
+(Table~\ref{tab:ablation}), and the same three MTD mechanisms reduce NCR the
+most with and without the attack profiles
+(Section~\ref{subsec:ablation-attack-profiles}). The difference from the
+baseline attacker therefore rests on unmapped time and order
+(Section~\ref{sec:disc-behaviour}), not on the components set by our
+judgement. The attack profiles' own result is no measure of fidelity either.
+The attack graph compromises more by pooling the objectives that attack
+profiling keeps apart (Section~\ref{sec:attack-profiles}), and the attack
+profiles compromise more than random partitions of the same sizes, likely
+because attack flows with one objective share more of their moves than a
+random group does. The Petri net's choice has no ablation of its own; the
+nearest comparison is the baseline attacker, which runs the same attack
+actions in a fixed order (Section~\ref{sec:disc-behaviour}).
 
 
 % =====================================================================
@@ -9231,7 +9266,7 @@ four.]}
 %     chains, so the attack profiles beat random partitions through their small
 %     groups. Says nothing of fidelity. Pairs with B13 (count of usable moves);
 %     the B13 count for the attack graph and the random groups is the test.
-%  B15 [6.3] THE ABLATIONS ON THE EVALUATION'S ANSWER (Marc 2026-10-08: "we look
+%  B15 [6.3] HOMED 2026-10-08 (5.4.1 sentence, the top-three set) THE ABLATIONS ON THE EVALUATION'S ANSWER (Marc 2026-10-08: "we look
 %     at relatives"). NCR reduction with and without each component, point
 %     values from the ablation JSONs (no test; the d on NCR reduction was
 %     rejected 2026-10-01 as noisy, memory_ablation.py). Attack profiles: the
@@ -9242,7 +9277,7 @@ four.]}
 %     memory: at most 1 point. Reading: no component changes which mechanism
 %     is most effective, so contribution 2 does not rest on them. Needs a home
 %     (a column in Table F.3 or a chapter 5 sentence) before 6.3 leans on it.
-%  B16 [6.3] ADAPTIVITY'S OWN METRIC IN THE FAILURE-MATRIX ABLATION (the
+%  B16 [6.3] HOMED 2026-10-08 (5.4.2 sentence) ADAPTIVITY'S OWN METRIC IN THE FAILURE-MATRIX ABLATION (the
 %     examiner's question, 2026-10-08). ablation_numbers.json already has time
 %     lost per MTD deployment with and without the failure matrix: IP shuffle at
 %     2 000 s 324.0 against 331.8 s (diff -7.8 [-19.6, +4.2]); OS diversity at
