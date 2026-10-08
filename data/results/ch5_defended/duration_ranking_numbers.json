@@ -1,0 +1,159 @@
+{
+ "baseline": {
+  "rank": {
+   "service_diversity": 1,
+   "port_shuffle": 1,
+   "ip_shuffle": 2,
+   "mtdshield": 2,
+   "os_diversity": 2,
+   "complete_topology": 3,
+   "alternative": 3,
+   "host_topology": 3,
+   "random": 4,
+   "user_shuffle": 5
+  },
+  "rank1": [
+   "port_shuffle",
+   "service_diversity"
+  ],
+  "ncr_reduction": {
+   "ip_shuffle": 0.6847379859937213,
+   "complete_topology": 0.4214762939708605,
+   "host_topology": 0.3782500201239636,
+   "port_shuffle": 0.9081139821299203,
+   "user_shuffle": -0.04668759558882729,
+   "os_diversity": 0.6818803831602673,
+   "service_diversity": 0.9178539805200032,
+   "random": 0.3309184576994285,
+   "alternative": 0.3832407631007003,
+   "mtdshield": 0.6834098043950736
+  }
+ },
+ "errors": 0,
+ "points": {
+  "1.0 (declared, reported corpus)": {
+   "ncr_none": 0.17093499999999998,
+   "ncr_reduction": {
+    "ip_shuffle": 0.9589902594553485,
+    "complete_topology": 0.9539298563781554,
+    "host_topology": 0.9540761108023518,
+    "port_shuffle": 0.19609793196244174,
+    "user_shuffle": -0.09957001199286286,
+    "os_diversity": 0.07262994705589831,
+    "service_diversity": 0.3641442653640272,
+    "random": 0.7458098107467751,
+    "alternative": 0.7151256325503845,
+    "mtdshield": 0.2805452364934039
+   },
+   "rank": {
+    "ip_shuffle": 1,
+    "host_topology": 1,
+    "complete_topology": 1,
+    "random": 2,
+    "alternative": 3,
+    "service_diversity": 4,
+    "mtdshield": 5,
+    "port_shuffle": 6,
+    "os_diversity": 7,
+    "user_shuffle": 8
+   },
+   "rank1": [
+    "complete_topology",
+    "host_topology",
+    "ip_shuffle"
+   ],
+   "rho": {
+    "point": 0.006060606060606061,
+    "lo": -0.18787878787878787,
+    "hi": 0.05454545454545454
+   },
+   "host_above_service": true,
+   "holds": {
+    "rank1_disjoint": true,
+    "host_above_service": true
+   }
+  },
+  "0.25": {
+   "ncr_none": 0.28158,
+   "ncr_reduction": {
+    "ip_shuffle": 0.8358370622913559,
+    "complete_topology": 0.8060053981106613,
+    "host_topology": 0.8052596065061439,
+    "port_shuffle": 0.12186589956673055,
+    "user_shuffle": -0.09285105476241218,
+    "os_diversity": 0.03462603878116344,
+    "service_diversity": 0.26415228354286535,
+    "random": 0.4444030115775268,
+    "alternative": 0.41339938916116215,
+    "mtdshield": 0.19525534483983242
+   },
+   "rank": {
+    "ip_shuffle": 1,
+    "complete_topology": 2,
+    "host_topology": 2,
+    "random": 3,
+    "alternative": 3,
+    "service_diversity": 4,
+    "mtdshield": 5,
+    "port_shuffle": 6,
+    "os_diversity": 7,
+    "user_shuffle": 8
+   },
+   "rank1": [
+    "ip_shuffle"
+   ],
+   "rho": {
+    "point": 0.0303030303030303,
+    "lo": -0.18787878787878787,
+    "hi": 0.05454545454545454
+   },
+   "host_above_service": true,
+   "holds": {
+    "rank1_disjoint": true,
+    "host_above_service": true
+   }
+  },
+  "4": {
+   "ncr_none": 0.061015,
+   "ncr_reduction": {
+    "ip_shuffle": 0.979922969761534,
+    "complete_topology": 0.979021552077358,
+    "host_topology": 0.9788576579529624,
+    "port_shuffle": 0.08776530361386548,
+    "user_shuffle": -0.0444153077112186,
+    "os_diversity": -0.08456936818815053,
+    "service_diversity": 0.2200278620011472,
+    "random": 0.8878144718511841,
+    "alternative": 0.8645415061870032,
+    "mtdshield": 0.13480291731541416
+   },
+   "rank": {
+    "ip_shuffle": 1,
+    "complete_topology": 1,
+    "host_topology": 1,
+    "random": 2,
+    "alternative": 2,
+    "service_diversity": 3,
+    "mtdshield": 4,
+    "port_shuffle": 4,
+    "user_shuffle": 5,
+    "os_diversity": 5
+   },
+   "rank1": [
+    "complete_topology",
+    "host_topology",
+    "ip_shuffle"
+   ],
+   "rho": {
+    "point": -0.0303030303030303,
+    "lo": -0.2727272727272727,
+    "hi": -0.006060606060606061
+   },
+   "host_above_service": true,
+   "holds": {
+    "rank1_disjoint": true,
+    "host_above_service": true
+   }
+  }
+ }
+}

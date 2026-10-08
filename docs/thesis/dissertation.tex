@@ -9163,8 +9163,9 @@ is future work (Section~\ref{sec:future-work}).
 %  on drafting: SIX tactics take an MTDSim attack action's time and nine take
 %  judgement (Section 4.4.x), not "two from MTDSim's constants". Points back to
 %  6.2 for the relative measure and the ASP-reduction check, and to 6.3 for the
-%  ablations. The B19 sentence is a PLACEHOLDER until the run ends (criterion
-%  fixed before the run; reported either way). Ratify on read.
+%  ablations. The B19 sentence filled 2026-10-09 from the run (HOLDS at both
+%  band ends, criterion fixed before the run; duration_ranking_numbers.json);
+%  its Appendix C home is proposal P10, pending Marc. Ratify on read.
 The comparison shows that the APT attacker model changes which MTD mechanisms
 are most effective; it does not show which of the model's parts causes the
 change. The APT attacker model differs from the baseline attacker in unmapped
@@ -9174,9 +9175,9 @@ changes which MTD mechanisms reduce NCR the most
 (Section~\ref{sec:fidelity-verdict}). That leaves unmapped time and order,
 which no run separates. NCR rests most on the 45\,s mean duration
 (Section~\ref{subsec:dwell-times}); with it at a quarter and at four times its
-value, \emph{[RESULT PENDING, registry B19: whether the APT attacker model's
-most effective MTD mechanisms still share none with the baseline attacker's,
-and the host layer still ranks above the service layer]}. Order has no test of
+value, the APT attacker model's most effective MTD mechanisms still share
+none with the baseline attacker's, and the host layer still ranks above the
+service layer (Appendix~\ref{app:dwell-robustness}). Order has no test of
 its own. The baseline attacker given the APT attacker model's unmapped time
 would separate the two, and is future work (Section~\ref{sec:future-work}).
 The two attackers also do not run under identical conditions. An attack
@@ -9494,7 +9495,13 @@ profiles share each seed's network.
 %     per seed against 978 on the attack graph; tactics entered 15 both ways.
 %     The split costs some plurality; property 3 holds either way.
 %
-%  B19 [6.5 T2, 6.3 P3] RUN 2026-10-08 (RUNNING overnight): THE RANKING ACROSS
+%  B19 [6.5 T2, 6.3 P3] DONE 2026-10-09: HOLDS AT BOTH BAND ENDS (88 000 runs,
+%     0 errors; duration_ranking.py -> duration_ranking_numbers.json). x0.25:
+%     rank 1 {IP shuffle}, topology shuffles rank 2, rho +0.03 [-0.19, +0.05];
+%     x4: rank 1 the three host-layer mechanisms, rho -0.03 [-0.27, -0.01];
+%     declared point reproduces Table 5.3 (rho +0.01 [-0.19, +0.05]). Baseline
+%     rank 1 {port shuffle, service diversity}. 6.5 P2 filled; Appendix C home
+%     = proposal P10 (pending Marc). WAS: THE RANKING ACROSS
 %     THE 45 S BAND. The 200 s cells of 5.3 for the APT attacker model with the
 %     45 s mean duration (persistence, stealth, command and control) at x0.25
 %     and x4, the four profiles, no MTD + nine + MTDShield, seeds 0-999, the
