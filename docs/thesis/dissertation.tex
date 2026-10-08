@@ -8508,6 +8508,58 @@ evaluation (Section~\ref{sec:evaluation-implications}); and bounds them
 \section{APT attacker model versus MTD}
 \label{sec:disc-mtd-performance}
 
+% DRAFT STATE 2026-10-08 --- paragraph 1 drafted from the P1 point set below, on
+%  Marc's request ("draft paragraph one ... insert the draft above it"); the point
+%  set is kept unchanged. Session-written; ratify on read.
+%  Order: claim, result, why (frame, then one line per layer), the attack
+%  profiles, counterpoints, bound, so. Numbers: none; every claim points to a
+%  chapter 5 float. Left out: the optional NOT IN CH5 instance (no-host runs).
+%  Flags: "exploiting them takes most of its time" rests on the session's 70 %
+%  check (NOT IN CH5); "most likely" carries the HYP on failed attack actions;
+%  "likely" carries the HYP on c_3.
+In MTDSim, which MTD mechanism holds an attacker back depends on the attacker
+model. The host-layer mechanisms reduce the APT attacker model's NCR most, and
+the service-layer mechanisms the baseline attacker's, at every deployment
+interval; no MTD mechanism or deployment strategy ranks first against both,
+and $\rho$ between the two rankings is near zero
+(Table~\ref{tab:eff-cross-arm}, Figure~\ref{fig:eff-cross-arm}). MTDSim
+writes each deployment's effect against the baseline attacker's procedure: the
+attack actions it blocks, and the attack action it sends the attacker back to
+(Section~\ref{subsec:attacker-model}). The APT attacker model keeps the attack
+actions and drops the procedure: its Petri net chooses the next tactic, and an
+unmapped tactic takes time without an attack action
+(Section~\ref{sec:execution}). One deployment therefore takes a different
+state from each attacker. Vulnerabilities are the baseline attacker's
+currency, and exploiting them takes most of its time; service diversity
+redraws every service, so the vulnerabilities it was exploiting are gone. A
+host-layer deployment costs either attacker only its place. The baseline
+attacker finds its place again at once, because its procedure restarts by
+scanning for hosts. The APT attacker model regains its place only when its
+Petri net next reaches lateral movement, and until then its attack actions
+most likely fail for missing preconditions. The service layer catches the APT
+attacker model less often: it blocks only port scans, exploits and brute
+force, which the APT attacker model runs between unmapped tactics
+(Section~\ref{sec:disc-behaviour}). The four attack profiles move together at
+50 to 200\,s, apart from the baseline attacker
+(Figure~\ref{fig:eff-suppression-profiles}), so the attacker model matters
+more than the attack profile. From 500\,s $c_3$ separates, highest under the
+host-layer mechanisms and lowest under service diversity. It spends the most
+steps in unmapped tactics and the fewest in lateral movement
+(Figure~\ref{fig:aio-coverage}(a)), which likely places it at the far end of
+the same mechanism. The split runs by layer. Port shuffle, a shuffle, shares
+rank 1 with service diversity against the baseline attacker, so the result
+does not rank shuffling against diversity; shuffling, diversity and redundancy
+serve different purposes (Section~\ref{sec:mtd-concept}), and MTDSim has no
+redundancy mechanism. Nor does the relative measure cause the reversal: each
+ranking compares MTD mechanisms against one attacker, over that attacker's own
+NCR with no MTD. The reversal also holds on ASP reduction
+(Table~\ref{tab:eff-interval-values-asp}). What each MTD mechanism takes from
+an attacker is MTDSim's implementation of it, on one network.
+Section~\ref{subsec:defence-modelling-approaches} argued that the attacker
+model decides which deployment strategy is optimal; in MTDSim it also decides
+which MTD mechanism ranks first. An MTD evaluation's ranking carries the
+assumptions of its attacker model (Section~\ref{sec:evaluation-implications}).
+
 \noindent\emph{[Points for dictation, reading Section~\ref{sec:effectiveness}.]}
 % RESTRUCTURED 2026-10-08 (Marc ruled the four-paragraph chain): which MTD ->
 % what a deployment costs -> how often MTD must deploy -> what a learned
