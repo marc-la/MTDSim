@@ -9142,6 +9142,19 @@ four.]}
 %     successful and failed runs follow the moves equally; r with the
 %     precondition-failure share -0.19 to +0.16. Pairwise is too coarse: a
 %     precondition is state left by any earlier step (11d).
+%     CHAIN VERSION (Marc: test the happy path, not single steps): unbroken
+%     runs of successful attack actions, each a baseline move or a repeat;
+%     strict happy chain = enumerate -> port scan -> exploit that compromises.
+%     Mean chain c1 1.55, c2 1.66, c3 1.64, c4 1.31 actions; share of actions
+%     in chains of 3+ 26/34/32/12 %; happy chains per run .27/.32/.72/.08
+%     (baseline: one chain the whole run, ~19 happy chains). SUPPORTS c4
+%     (shortest chains, fewest happy chains, lowest ASP; agrees with paragraph
+%     4's exploit-per-port-scan reading). DOES NOT explain c3 (most happy
+%     chains, ASP .06) or c1 against c2. Within each profile successful and
+%     failed runs have the same chains (c1 1.57 vs 1.55; c3 happy .59 vs .73),
+%     so within a profile the network decides (B1). Marc's ">= 3-4 actions"
+%     threshold: no profile averages above 1.7; longest chains 4-5.5.
+%     Candidate appendix column beside B4 (11e).
 %
 %  FUTURE WORK (needs new runs or new code; for Section 7.2, not an appendix):
 %  F1 Edge ablation: remove one tactic-to-tactic edge at a time and read ASP

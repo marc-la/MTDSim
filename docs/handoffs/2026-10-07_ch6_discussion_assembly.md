@@ -944,6 +944,25 @@ Marc's read: MTDShield is an Appendix D item; its line follows service diversity
 - *Within each profile,* successful and failed runs follow the moves equally (c1 45.8 against 45.8; c3 44.9 against 46.9). The correlation with the unmet-precondition share is −0.19 to +0.16.
 - *Why it fails:* a precondition is state left by any earlier step, not only the step just before, so a pairwise test is too coarse. The finer reading, exploits per port scan (11a), stays as paragraph 4's hypothesis for c4. It is readable from Figure 5.1(a), so it needs no new number.
 
+### 11e. The happy-path chain test (Marc, 2026-10-08), registry B12
+
+Marc's refinement: test unbroken chains of successful attack actions in the baseline attacker's order, not single steps. No-MTD corpus; unmapped steps dropped (they leave the attacker's state untouched). A chain is a maximal run of successful attack actions, each linked by a baseline move or a repeat. A strict happy chain is enumerate → port scan → an exploit that compromises, all successful and consecutive. The script is at the session scratchpad only, so it is not kept; re-runnable from this definition.
+
+| | mean chain | share of actions in chains of 3+ | longest | happy chains / run | ASP |
+|---|---|---|---|---|---|
+| c1 | 1.55 | 26 % | 5.5 | 0.27 | 0.12 |
+| c2 | 1.66 | 34 % | 5.5 | 0.32 | 0.14 |
+| c3 | 1.64 | 32 % | 5.3 | 0.72 | 0.06 |
+| c4 | 1.31 | 12 % | 4.0 | 0.08 | 0.04 |
+| baseline | one chain per run | 100 % | — | ~19 | 0.66 |
+
+- **Supports c4.** It has the shortest chains and the fewest happy chains, and the lowest ASP. This agrees with paragraph 4's exploit-per-port-scan reading.
+- **Does not explain c3** (most happy chains, second-lowest ASP), **or c1 against c2.**
+- **Within each profile, chains do not separate success from failure.** Success against failure: c1 mean chain 1.57 against 1.55; c3 happy chains 0.59 against 0.73. So within a profile, the network decides (B1).
+- **Marc's "3–4 actions" threshold** is never reached on average: no profile's mean is above 1.7, and the longest chains are 4–5.5.
+
+No prose change. Paragraph 4's c4 sentence ("the cause is likely order") now has two agreeing readings behind it.
+
 ## Validation gate
 
 Done when Marc has answered §7, the structure in §3 is ruled, and every primary point in §4 has its evidence re-read on the 1 000-seed corpus, or is labelled a hypothesis. The next deliverable is per-paragraph dot points (slot form) for Marc's dictation.
