@@ -1327,6 +1327,47 @@ and Section~\ref{sec:ablation}.]}
   - Transparency: the first draft marked what the model implements; scored by the rule, objective-specific behaviour and adaptivity fall to in part. Marc scored the row; a blind reader under the same rule agreed (the AI Use Declaration names it).
   - Frame, one clause: eight properties the literature finds missing, not a complete standard (its limits in Section 6.5).
 
+### 12e. 6.3 paragraph 2 drafted (2026-10-08); P2 retired
+
+Retired P2 (verbatim):
+
+```latex
+  \item \textbf{P2. What stops each mark short of in full is the ceiling: the
+  attack actions, or a decision no part of the model makes.}
+  \begin{itemize}
+    \item In full. Campaign persistence, kept: the baseline attacker's loop.
+    Choice of attack strategy, built: a draw from the attack flows with the
+    objective, which is what simulation buys over emulation
+    (Section~\ref{subsec:evaluation-methods}); one run may join several attack
+    flows. Plurality stays within what the reports document, not any tactic to
+    any other; counted by attack action, still hundreds (registry A3). The
+    mark comes from the attack flows' branching, not the Petri net: with one
+    token, a stochastic finite state machine would make the same draw.
+    \item Stopped by the attack actions. Objective-specific behaviour: the route
+    differs by objective (Figure~\ref{fig:aio-coverage}), but exfiltration and
+    impact are unmapped, so nothing acts on the objective (the baseline
+    attacker's reason, word for word; ours does more within in part).
+    Adaptivity: a failed attack action leaves its precondition unmet, so the
+    attacker must rebuild it; the failure matrix reweights the next tactic on
+    the verdict, by nine rules set by judgement, blind to whether MTD caused
+    the failure. Detection avoidance: the pace is assumed to hide the attacker
+    and measured by proxy (Section~\ref{sec:disc-behaviour}); no detector
+    exists to choose against.
+    \item Stopped because no part of the model decides. Cost--benefit
+    reasoning: the RoA order, kept. Learning: of vulnerabilities, not MTD
+    deployments. Deployment-strategy awareness: the attacker cannot see the
+    schedule.
+    \item How each is seen, one clause: by metric (objective-specific
+    behaviour, choice, detection avoidance), by construction (persistence,
+    adaptivity, cost--benefit reasoning, learning), not modelled
+    (deployment-strategy awareness). An example run, with and without MTD,
+    would show adaptivity (registry B18).
+    \item So: upgrading the attack actions under the Petri net lifts the most
+    marks (Section~\ref{sec:future-work}).
+  \end{itemize}
+
+```
+
 ## Validation gate
 
 Done when Marc has answered §7, the structure in §3 is ruled, and every primary point in §4 has its evidence re-read on the 1 000-seed corpus, or is labelled a hypothesis. The next deliverable is per-paragraph dot points (slot form) for Marc's dictation.

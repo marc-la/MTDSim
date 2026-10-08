@@ -8887,43 +8887,49 @@ has removed, gave the same eight marks (AI Use Declaration). The eight are
 what the APT definition and two surveys find missing from MTD attacker
 models; they are not a complete standard (Section~\ref{sec:threats}).
 
+% DRAFT STATE 2026-10-08 --- paragraph 2 drafted from point P2 on Marc's
+%  request ("draft paragraph two now"); P2 retired to the ch6 handoff section
+%  12e. Session-written; ratify on read.
+%  Order: the claim (two ceilings); the two in full (persistence kept; choice:
+%  the draw, simulation against emulation, bounded by the reports, the
+%  formalism not the source); three stopped by the attack actions; three by
+%  no decision; how four are seen; the so-what. Explain-once: plurality's cost
+%  and the detection proxy are Section 6.1's, pointed back to. Registry A3
+%  ("counted by attack action, still hundreds") left to 6.1 paragraph 3, not
+%  repeated here. No new numbers.
+What stops each mark short of in full is either the attack actions, the
+ceiling of Section~\ref{subsec:tactic-verb-mapping}, or a decision no part of
+the model makes. Campaign persistence is in full because the APT attacker
+model keeps the baseline attacker's loop: it carries on through every
+disruption until the run ends. Choice of attack strategy is in full because
+the Petri net draws each run's sequence from the attack flows with the
+objective, and one run may join several of them. An emulation replays one
+incident; a simulation can draw from all of them
+(Section~\ref{subsec:evaluation-methods}), so no attack strategy is written
+into an attack scenario. The choice stays within what the reports document
+(Section~\ref{sec:disc-behaviour}), and it comes from the attack flows'
+branching, not from the formalism: with one token, a stochastic finite state
+machine built from the same attack flows would make the same draw. Three marks
+stop at the attack actions. Exfiltration and impact are unmapped, so the
+routes differ by objective (Figure~\ref{fig:aio-coverage}(a)) but no attack
+action acts on one, the reason the baseline attacker has objective-specific
+behaviour only in part. A failed attack action leaves its precondition unmet,
+so the APT attacker model must rebuild it; the failure matrix reweights the
+next tactic on the verdict, by rules set by our judgement, whether or not MTD
+caused the failure. The pace is assumed to hide the attacker and is measured
+by proxy (Section~\ref{sec:disc-behaviour}), as Kim et al.'s evasion is
+assumed, but no detector exists to choose against. The other three stop
+because no part of the model makes the decision: the exploit's RoA order is
+the only cost it weighs, the vulnerability memory learns vulnerabilities, not
+MTD deployments, and the attacker cannot see the MTD schedule. Four of the
+seven properties the model has, campaign persistence, adaptivity,
+cost--benefit reasoning and learning, show by construction, with no metric of
+their own. Upgrading the attack actions under the Petri net would therefore
+lift the most marks (Section~\ref{sec:future-work}).
+
 \noindent\emph{[Points for dictation, reading Table~\ref{tab:fidelity-verdict}
 and Section~\ref{sec:ablation}.]}
 \begin{itemize}
-  \item \textbf{P2. What stops each mark short of in full is the ceiling: the
-  attack actions, or a decision no part of the model makes.}
-  \begin{itemize}
-    \item In full. Campaign persistence, kept: the baseline attacker's loop.
-    Choice of attack strategy, built: a draw from the attack flows with the
-    objective, which is what simulation buys over emulation
-    (Section~\ref{subsec:evaluation-methods}); one run may join several attack
-    flows. Plurality stays within what the reports document, not any tactic to
-    any other; counted by attack action, still hundreds (registry A3). The
-    mark comes from the attack flows' branching, not the Petri net: with one
-    token, a stochastic finite state machine would make the same draw.
-    \item Stopped by the attack actions. Objective-specific behaviour: the route
-    differs by objective (Figure~\ref{fig:aio-coverage}), but exfiltration and
-    impact are unmapped, so nothing acts on the objective (the baseline
-    attacker's reason, word for word; ours does more within in part).
-    Adaptivity: a failed attack action leaves its precondition unmet, so the
-    attacker must rebuild it; the failure matrix reweights the next tactic on
-    the verdict, by nine rules set by judgement, blind to whether MTD caused
-    the failure. Detection avoidance: the pace is assumed to hide the attacker
-    and measured by proxy (Section~\ref{sec:disc-behaviour}); no detector
-    exists to choose against.
-    \item Stopped because no part of the model decides. Cost--benefit
-    reasoning: the RoA order, kept. Learning: of vulnerabilities, not MTD
-    deployments. Deployment-strategy awareness: the attacker cannot see the
-    schedule.
-    \item How each is seen, one clause: by metric (objective-specific
-    behaviour, choice, detection avoidance), by construction (persistence,
-    adaptivity, cost--benefit reasoning, learning), not modelled
-    (deployment-strategy awareness). An example run, with and without MTD,
-    would show adaptivity (registry B18).
-    \item So: upgrading the attack actions under the Petri net lifts the most
-    marks (Section~\ref{sec:future-work}).
-  \end{itemize}
-
   \item \textbf{P3. Each component works; none changes which MTD mechanism is
   most effective.}
   \begin{itemize}
