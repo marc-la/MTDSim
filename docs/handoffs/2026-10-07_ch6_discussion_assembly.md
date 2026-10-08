@@ -1063,6 +1063,106 @@ The abstract states no count.
 - "Extended period" against tactic durations of seconds and the time limit (a 6.1 paragraph 2 bound).
 - Which component produces the gap to the baseline attacker (answered by B15 plus 6.1).
 
+### 12a. 6.3 point set rebuilt (2026-10-08); Marc's answers to the examiner's questions, and where each went
+
+Marc's answers (short): he scored the row and checked it, and a blind reader agreed. The marks were changed after the results. Not all eight properties are equally important, but they are presented as equal ("that's the literature review's question, not the discussion's"). He doesn't know whether a weighted draw counts as choosing. On the ceiling, there are two parts, the attack actions and the drivers; upgrade the attack actions and most marks lift, but an FSM caps plurality. Grounding in real data is assumed good and is not one of the eight. The properties may pull against each other, so the criteria are incomplete; threat modelling and MTD barely meet (future work). Properties without a chapter 5 metric: some are implicit by construction, some are not modelled, and this is worth saying. The Petri net is the data structure, so it can't be ablated. More marks, but a small sliver. The properties are those of any skilled, persistent attacker joined to the APT definition: neither complete nor APT-specific, and a model with all eight evaluates MTD above the current standard. The mapping is declared by logic, after a total mapping was tried. On objectives in outcome, the profiles should behave in line with their objectives: exfiltration and impact need the target's data, while pre-positioning doesn't.
+
+Routed:
+- **6.3 points:** the rule and the transparency line; persistence and choice in full (the draw follows frequency, with reasoning left to property 6); one token means a stochastic choice among tactics, so the mark is earned by the CTI branching, not the formalism; each in-part mark with its stop; the seen rung (metric / by construction / not modelled); the ablations (behaviour check, consequence on NCR reduction, the profile pair, the baseline attacker as the driver's "without"); the two-part ceiling; what the marks mean.
+- **6.5 construct:** the yardstick's limits; the mapping declared by logic (Appendix B total mapping: 0.15 against 8.13 hosts).
+- **Registry:** F7 (threat modelling into MTD), F8 (FSM against Petri net on the same attack actions; multi-token), F9 (upgraded attack actions).
+
+**Session correction to Marc's c4 reading:** c4 is not mainly pre-positioning. Section 4.2 says three of its five attackers were removed before they acted, one positioned itself for future operations, and one ran adware. So c4's low ASP fits campaigns cut short. c3 (ransomware, which needs the data) is the one that does not fit the objective logic. This goes in 6.3 as "seen in outcome, in part", with a CHECK against Table 5.2, pointing back to 6.1 paragraph 4.
+
+**Process note (Marc):** "now you're just attacking me"; "these are questions about the literature review, not specific to the discussion". Pose only questions the section's own floats raise; questions that re-open an earlier chapter's settled choices go to 6.5 as one line, not to Marc.
+
+Retired point set (pre-rule), verbatim:
+
+```latex
+\noindent\emph{[Points for dictation, reading Table~\ref{tab:fidelity-verdict}
+and Section~\ref{sec:ablation}.]}
+\begin{itemize}
+  \item \textbf{The eight properties were fixed from the literature before any
+  attacker model was scored, and the APT attacker model is scored by the same
+  rule as the three of Table~\ref{tab:attacker-cross-section}.}
+  \begin{itemize}
+    \item The three rows are Table~\ref{tab:attacker-cross-section}'s. The
+    properties are a census, not a scale: more marks is not a better model.
+  \end{itemize}
+
+  \item \textbf{No MTD attacker model scored has more than one property in full;
+  the APT attacker model has four, and two in part.} (Chapter 1, contribution 2.)
+  \begin{itemize}
+    \item In full: campaign persistence (kept from the baseline attacker),
+    objective-specific behaviour, choice of attack strategy, adaptivity. In
+    part: cost--benefit reasoning (kept) and learning
+    (Table~\ref{tab:fidelity-verdict}). The only one built from CTI.
+  \end{itemize}
+
+  \item \textbf{Of the three components that rest on judgement, only the attack
+  profiles change what the attacker achieves.}
+  \begin{itemize}
+    \item Result: without the attack profiles the APT attacker model compromises
+    more; with them it compromises more than with any of ten random partitions
+    of the same sizes (Section~\ref{subsec:ablation-attack-profiles},
+    Table~\ref{tab:ablation-random-partitions}).
+    \item Expected the reverse: the attack profiles drive MTDSim's six attack
+    actions, so much of each objective's behaviour could be lost where the model
+    joins MTDSim.
+    \item Read: sorting the attack flows by objective changes the outcome beyond
+    what the partition's sizes explain. (CHECK against Table~\ref{tab:ablation}
+    after the 2026-10-07 redraw.)
+    \item So: one attacker built from every attack flow does not stand in for
+    attackers with one objective (Section~\ref{sec:evaluation-implications}).
+  \end{itemize}
+
+  \item \textbf{The failure matrix and the vulnerability memory operate and
+  change no outcome, because MTDSim's attack actions already decide it.}
+  \begin{itemize}
+    \item Failure matrix: changes where the attacker goes after a failure, not
+    its NCR (Section~\ref{subsec:failure-matrix}, Table~\ref{tab:ablation}).
+    Why: an attack action without a foothold already fails its precondition,
+    and the failure matrix only reweights the moves the attack flows give, so
+    it picks the next documented move.
+    \item Vulnerability memory: raises the share of exploits that succeed, not
+    NCR, even with one service per operating system
+    (Figure~\ref{fig:ablation-memory}). Why (HYP, CHECK at 1\,000 seeds): a host
+    usually takes a second visit, after a port scan finds its next service; the
+    detour costs time, not the odds.
+    \item So: reported so others need not repeat them. The next gain is in
+    MTDSim's attack actions, not the attacker's decisions
+    (Section~\ref{sec:future-work}).
+  \end{itemize}
+
+  \item \textbf{Two properties come with the baseline attacker's attack actions,
+  and learning is met in part.}
+  \begin{itemize}
+    \item Campaign persistence: it carries on through every disruption, and
+    MTDSim never takes a compromise back. Cost--benefit reasoning: the exploit's
+    order by RoA only. Learning: it learns vulnerabilities, not the MTD
+    deployments it observes, the same partial Table~\ref{tab:attacker-cross-section}
+    gives the baseline attacker.
+  \end{itemize}
+
+  \item \textbf{Detection avoidance and deployment-strategy awareness are not
+  met, each for a reason MTDSim sets.}
+  \begin{itemize}
+    \item Detection avoidance: the spacing is measured
+    (Section~\ref{sec:disc-behaviour}); the detector is missing.
+    Deployment-strategy awareness: needs inference about the schedule, and
+    MTDSim's near-periodic schedule would make it learnable. Both to
+    Section~\ref{sec:future-work}.
+  \end{itemize}
+
+  \item \textbf{What the capture licenses.}
+  \begin{itemize}
+    \item 38 attack flows give an envelope of documented behaviour, not one
+    named group; the model can only be as good as the attack actions it adopts
+    (Section~\ref{subsec:tactic-verb-mapping}).
+  \end{itemize}
+\end{itemize}
+```
+
 ## Validation gate
 
 Done when Marc has answered §7, the structure in §3 is ruled, and every primary point in §4 has its evidence re-read on the 1 000-seed corpus, or is labelled a hypothesis. The next deliverable is per-paragraph dot points (slot form) for Marc's dictation.

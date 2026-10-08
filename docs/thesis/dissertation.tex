@@ -8847,86 +8847,114 @@ assumptions comes first (Section~\ref{sec:evaluation-implications}).
   \end{tabular}
 \end{table}
 
+% 2026-10-08 POINT SET REBUILT on the ratified two-layer rule (handoff 12, 12a):
+% the mark is chapter 3's rule from the method text; our evidence may only lower
+% it; the evidence ladder (built / seen / consequence on the evaluation's
+% answer) is reported beside the mark, never folded into it. The old points are
+% in handoff 12a. Table 6.1's row still shows the old marks (2, 4 full; 5 none):
+% it follows when this section is drafted (Marc: "get this right first").
 \noindent\emph{[Points for dictation, reading Table~\ref{tab:fidelity-verdict}
 and Section~\ref{sec:ablation}.]}
 \begin{itemize}
-  \item \textbf{The eight properties were fixed from the literature before any
-  attacker model was scored, and the APT attacker model is scored by the same
-  rule as the three of Table~\ref{tab:attacker-cross-section}.}
+  \item \textbf{The rule, and what it gives: two properties in full, five in
+  part, one not met; no other MTD attacker model scored has more than one in
+  full.}
   \begin{itemize}
-    \item The three rows are Table~\ref{tab:attacker-cross-section}'s. The
-    properties are a census, not a scale: more marks is not a better model.
+    \item The eight properties were fixed in Chapter~\ref{ch:litreview} before
+    any attacker model was scored. Our row is scored by
+    Table~\ref{tab:attacker-cross-section}'s rule, from
+    Chapter~\ref{ch:attacker-model}'s text, as theirs were from their papers.
+    \item Our runs may lower a mark, never raise one: the other three had no
+    runs to be checked against.
+    \item Marc scored the row; a blind reader under the same rule agreed (the
+    AI Use Declaration names the reader).
+    \item Transparency: the first draft marked what the model implements.
+    Scored by the rule, objective-specific behaviour and adaptivity fall to in
+    part.
   \end{itemize}
 
-  \item \textbf{No MTD attacker model scored has more than one property in full;
-  the APT attacker model has four, and two in part.} (Chapter 1, contribution 2.)
+  \item \textbf{In full: campaign persistence, kept, and choice of attack
+  strategy, built.}
   \begin{itemize}
-    \item In full: campaign persistence (kept from the baseline attacker),
-    objective-specific behaviour, choice of attack strategy, adaptivity. In
-    part: cost--benefit reasoning (kept) and learning
-    (Table~\ref{tab:fidelity-verdict}). The only one built from CTI.
+    \item Persistence: the same loop that earns the baseline attacker its
+    mark. Seen by construction, with no metric.
+    \item Choice: a weighted draw among the sequences the attack flows
+    document; counted by attack action, still hundreds (registry A3). The draw
+    follows documented frequency, not reasoning; reasoning is cost--benefit's.
+    \item With one token, the Petri net is a stochastic choice among tactics.
+    The mark comes from the branching and weights of the attack flows, not
+    from the formalism: a stochastic finite state machine built from the same
+    attack flows would earn it too. What plurality costs is
+    Section~\ref{sec:disc-behaviour}'s.
   \end{itemize}
 
-  \item \textbf{Of the three components that rest on judgement, only the attack
-  profiles change what the attacker achieves.}
+  \item \textbf{In part: what stops each one short of in full.}
   \begin{itemize}
-    \item Result: without the attack profiles the APT attacker model compromises
-    more; with them it compromises more than with any of ten random partitions
-    of the same sizes (Section~\ref{subsec:ablation-attack-profiles},
-    Table~\ref{tab:ablation-random-partitions}).
-    \item Expected the reverse: the attack profiles drive MTDSim's six attack
-    actions, so much of each objective's behaviour could be lost where the model
-    joins MTDSim.
-    \item Read: sorting the attack flows by objective changes the outcome beyond
-    what the partition's sizes explain. (CHECK against Table~\ref{tab:ablation}
-    after the 2026-10-07 redraw.)
-    \item So: one attacker built from every attack flow does not stand in for
-    attackers with one objective (Section~\ref{sec:evaluation-implications}).
+    \item Objective-specific behaviour: the route differs by objective
+    (Figure~\ref{fig:aio-coverage}), but exfiltration and impact are unmapped,
+    so no attack action acts on the objective. This is the baseline attacker's
+    reason, word for word; ours does more within in part.
+    \item Seen in outcome, in part (Marc 2026-10-08; CHECK against Table 5.2
+    before use): the objectives that need the target's data, $c_1$ and $c_2$,
+    reach the target host most; $c_4$'s attack flows mostly ended before the
+    attacker acted (Section~\ref{sec:attack-profiles}); $c_3$, ransomware that
+    needs the data too, does not fit. Point back to
+    Section~\ref{sec:disc-behaviour}, paragraph 4.
+    \item Adaptivity: the failure matrix is nine rules set by judgement; it
+    reads the verdict, not the MTD deployment; it is inert during unmapped
+    tactics.
+    \item Detection avoidance, by proxy: the pace is assumed to hide the
+    attacker (Section~\ref{subsec:dwell-times}) and is measured by two metrics
+    (Section~\ref{sec:disc-behaviour}), but no detector exists to choose
+    against: the partial mark Kim et al.\ earn for evasion they assume.
+    \item Cost--benefit reasoning: the RoA order, kept. Learning:
+    vulnerabilities, not MTD deployments. Both seen by construction.
+    \item Not met: deployment-strategy awareness; the attacker cannot see the
+    MTD schedule. Not modelled, so not seen.
   \end{itemize}
 
-  \item \textbf{The failure matrix and the vulnerability memory operate and
-  change no outcome, because MTDSim's attack actions already decide it.}
+  \item \textbf{The ablations: each component works, and none changes which MTD
+  mechanism is most effective.}
   \begin{itemize}
-    \item Failure matrix: changes where the attacker goes after a failure, not
-    its NCR (Section~\ref{subsec:failure-matrix}, Table~\ref{tab:ablation}).
-    Why: an attack action without a foothold already fails its precondition,
-    and the failure matrix only reweights the moves the attack flows give, so
-    it picks the next documented move.
-    \item Vulnerability memory: raises the share of exploits that succeed, not
-    NCR, even with one service per operating system
-    (Figure~\ref{fig:ablation-memory}). Why (HYP, CHECK at 1\,000 seeds): a host
-    usually takes a second visit, after a port scan finds its next service; the
-    detour costs time, not the odds.
-    \item So: reported so others need not repeat them. The next gain is in
-    MTDSim's attack actions, not the attacker's decisions
-    (Section~\ref{sec:future-work}).
+    \item Behaviour check: removing each changes the behaviour it was built
+    for (Section~\ref{sec:ablation}); no mark falls.
+    \item Consequence, read on the evaluation's measure (NCR reduction), not
+    on absolute NCR: compromising more is strength, not fidelity. The attack
+    profiles shift NCR reduction but not the most effective mechanism; the
+    failure matrix and the vulnerability memory barely shift it (registry B15,
+    NEEDS A HOME). So contribution 2 rests on unmapped time and order
+    (Section~\ref{sec:disc-behaviour}), not on the components set by judgement.
+    \item The attack-profile pair (below the attack graph, above the random
+    partitions) is not fidelity either. The split rests on the profiling
+    assumption; the attack graph mixes the objectives that assumption keeps
+    apart. Size likely costs a random group more than an attack profile
+    (registry B14, HYP).
+    \item The Petri net's choice has no ablation of its own: the baseline
+    attacker, on the same attack actions, is its ``without''.
   \end{itemize}
 
-  \item \textbf{Two properties come with the baseline attacker's attack actions,
-  and learning is met in part.}
+  \item \textbf{The ceiling has two parts: the attack actions and the driver.}
   \begin{itemize}
-    \item Campaign persistence: it carries on through every disruption, and
-    MTDSim never takes a compromise back. Cost--benefit reasoning: the exploit's
-    order by RoA only. Learning: it learns vulnerabilities, not the MTD
-    deployments it observes, the same partial Table~\ref{tab:attacker-cross-section}
-    gives the baseline attacker.
+    \item The six attack actions cap objective-specific behaviour, adaptivity
+    and detection avoidance: no attack action acts on an objective, sees an MTD
+    deployment or avoids a detector. A deterministic finite state machine caps
+    choice of attack strategy. Cost--benefit reasoning, learning and
+    deployment-strategy awareness need decisions neither has.
+    \item Upgrading the attack actions under the Petri net would lift the most
+    marks (Section~\ref{sec:future-work}).
   \end{itemize}
 
-  \item \textbf{Detection avoidance and deployment-strategy awareness are not
-  met, each for a reason MTDSim sets.}
+  \item \textbf{What the marks mean.}
   \begin{itemize}
-    \item Detection avoidance: the spacing is measured
-    (Section~\ref{sec:disc-behaviour}); the detector is missing.
-    Deployment-strategy awareness: needs inference about the schedule, and
-    MTDSim's near-periodic schedule would make it learnable. Both to
-    Section~\ref{sec:future-work}.
-  \end{itemize}
-
-  \item \textbf{What the capture licenses.}
-  \begin{itemize}
-    \item 38 attack flows give an envelope of documented behaviour, not one
-    named group; the model can only be as good as the attack actions it adopts
-    (Section~\ref{subsec:tactic-verb-mapping}).
+    \item Properties of a skilled, persistent attacker that two surveys find
+    under-modelled, joined to the APT definition: neither complete nor
+    specific to APT attackers, and weighed equally though not equally
+    important.
+    \item An attacker model with all eight would evaluate MTD above the
+    standard of recent evaluations; ours has two in full, so much remains.
+    \item The table does not score grounding in CTI, which this dissertation
+    assumes is good; that claim rests on Chapter~\ref{ch:attacker-model}, not
+    on Table~\ref{tab:fidelity-verdict}.
   \end{itemize}
 \end{itemize}
 
@@ -9050,7 +9078,17 @@ four.]}
     two runs at the same clock time, not the same point in the campaign.
     \item Yardstick: the eight properties are this dissertation's synthesis.
     Mitigation: each sourced, fixed before scoring, one rule for all four
-    attacker models, two not met by the APT attacker model.
+    attacker models, two not met by the APT attacker model. (STALE after the 6.3 regrade: one
+    not met, five in part; propagate with 6.3.)
+    \item Yardstick, its limits (Marc 2026-10-08): not complete (a sliver of what
+    the literature asks for); not specific to APT attackers; weighed equally
+    though not equally important; the properties may pull against each other
+    (cost--benefit reasoning and learning narrow choice of attack strategy).
+    One scorer, with a blind reader under the same rule.
+    \item The tactic-to-action mapping is declared by logic: a tactic maps to
+    the attack action whose techniques it contains. A total mapping was tried:
+    it forces tactics onto attack actions that do not carry them, and the
+    attacker reaches 0.15 hosts against 8.13 (Appendix~\ref{app:experiment-one}).
     \item Objective classification by one coder, with its audit trail
     (Appendix~\ref{app:movement}).
   \end{itemize}
@@ -9215,6 +9253,18 @@ four.]}
 %  F5 A detector that both depends on the attacker and drives MTD (6.1 P1).
 %  F6 An attacker that times its attack actions around the deployment interval
 %     (Marc's side channel; property 8) (11b).
+%  F7 Threat modelling into MTD evaluation (Marc 2026-10-08, 6.3): build the
+%     MTD evaluation around an existing threat model, or derive the attacker
+%     model from one; the two literatures barely meet. LITERATURE TO CHECK
+%     (threat modelling, adversary emulation) before claiming a gap.
+%  F8 Driver against attack actions (Marc 2026-10-08, 6.3): run a finite state
+%     machine and the Petri net on the same attack actions and ask what each
+%     gives the other does not; a stochastic finite state machine built from
+%     the same attack flows; a Petri net with more than one token (parallel
+%     lines of a campaign).
+%  F9 Upgraded attack actions (Marc 2026-10-08, 6.3): actions on objectives
+%     (exfiltration, impact), a failure that knows the MTD caused it, passive
+%     reconnaissance against a detector: the route to full marks on 2, 4, 5.
 % =====================================================================
 
 % ---------------------------------------------------------------------
