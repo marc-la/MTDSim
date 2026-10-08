@@ -9266,35 +9266,57 @@ them, with a language model's blind re-score as the check (Section~\ref{sec:fide
 %  partial and assumed; one scorer, LLM blind re-score; not complete, not
 %  APT-specific, equal weights; mitigation: sourced, fixed before scoring, one
 %  rule, first marking regraded and disclosed); one coder with audit trail.
+% DRAFT STATE 2026-10-08 --- paragraph 4 (external) drafted from the three
+%  external points, which it replaces: the corpus [T4, T13], the envelope,
+%  the defender side and Sargent [T12]. DROPPED on drafting: "in the random
+%  control, smaller partitions give lower and more spread NCR" --- no float
+%  prints it (Table 5.x gives effect sizes only), so it is not claimed; the
+%  attack profiles' sizes (Table 4.x) carry the point instead. Sargent's
+%  operational-validity rule for a non-observable system (explore the model's
+%  behaviour as thoroughly as possible; compare with other models) is read
+%  from sargent2011_vv.md p. 189-190, paraphrased, so no pinpoint. The 6.1
+%  point (detected, reported, mostly successful) is pointed back to, not
+%  repeated. Ratify on read.
+How far the results reach beyond MTDSim rests on the 38 attack flows and the
+one network. The attack flows record campaigns that were detected and
+reported (Section~\ref{sec:disc-behaviour}), and each draws only the steps its
+threat report describes, which can stop short of the objective
+(Section~\ref{sec:attack-profiles}). Only 18 of the 38 are attributed to a
+group in ATT\&CK, criminal groups among them, so the attack graph records
+attackers reported in CTI, not APT attackers alone
+(Section~\ref{sec:technique-graph}). We chose attack flows because CTI and
+ATT\&CK rarely record the order of an attack's techniques
+(Section~\ref{subsec:profiling}), and traded the volume of the reports for
+that order. The corpus is therefore small: three of the four attack profiles
+rest on 5 to 7 attack flows (Table~\ref{tab:attack-profiles}), so each attack
+profile's results rest on a handful of incidents. The APT attacker model is
+the behaviour these incidents document, not an optimal adversary. A run is
+also a draw from what an attack profile allows, not a replay: it may join
+parts of several attack flows into a campaign no attacker ran, so the results
+describe attack profiles, never one incident. On the defender's side, every
+MTD deployment comes at a near-periodic deployment interval
+(Section~\ref{subsec:defence-mechanisms}), and MTDShield runs as released,
+outside its training conditions (Section~\ref{sec:disc-mtd-performance}).
+MTDSim was repaired before this evaluation, so its results are not compared
+numerically with the earlier MTDSim studies. Last, APT campaigns against MTD
+cannot be observed, so the APT attacker model cannot be checked against one.
+For a system that cannot be observed, Sargent advises exploring the model's
+behaviour as thoroughly as possible and comparing it with other models
+\citep{sargent2011}. Appendix~\ref{app:sensitivity} and the ablations explore
+it, and the baseline attacker is the other model. Attack flows built from APT
+reports by language models, and the 18 attributed attack flows run alone, are
+future work (Section~\ref{sec:future-work}).
+
+% External points [T4, T13, T12], dictated as paragraph 4 above on 2026-10-08:
+%  the corpus (sparse; detected and reported; not all APT, 18 attributed,
+%  criminal groups among them, 20 none, one adware; incomplete; profiled by
+%  hand; ATT&CK groups record techniques not order, volume traded for
+%  sequence; three profiles on 5-7 flows; random-partition spread [dropped];
+%  typical documented behaviour, not optimal; F10, F12); the envelope (a draw,
+%  not a replay; read as the envelope's); near-periodic timing only; MTDShield
+%  as released, four inputs zero; no numeric lineage comparison; Sargent.
 \noindent\emph{[Points for dictation.]}
 \begin{itemize}
-  \item \textbf{External: what the 38 attack flows and the one network stand
-  for.}
-  \begin{itemize}
-    \item The corpus [T4, T13] (Marc 2026-10-08, non-exhaustive): sparse;
-    detected and reported incidents; not all APT (18 attributed to an
-    ATT\&CK group, criminal groups among them, 20 to none, one adware;
-    Section~\ref{sec:technique-graph}); incomplete, carrying only what was
-    observed, so a theft the report implies but nobody observed is missing;
-    profiled by hand. ATT\&CK's groups record which techniques a group used,
-    not their order, so attack flows were chosen: volume traded for sequence.
-    Three of the four attack profiles rest on 5 to 7 attack flows; in the
-    random control, smaller partitions give lower and more spread NCR
-    (Table~\ref{tab:ablation-random-partitions}). Typical documented
-    behaviour, not an optimal adversary. To Section~\ref{sec:future-work}:
-    attack flows built from APT-only reports with language models (F10); the
-    18 attributed attack flows against all 38 (F12).
-    \item A run is a draw from an envelope, not a replay: it may join parts
-    of several attack flows into a campaign no attacker ran. The price of
-    simulating rather than emulating; read results as the envelope's, never
-    one incident's (Section~\ref{sec:fidelity-verdict}).
-    \item Near-periodic deployment timing only; MTDShield run as released,
-    outside its training conditions, with four inputs zero at every decision
-    [T12]; no numeric comparison with the lineage papers, whose simulator was
-    repaired here. Sargent's ceiling: explore the model as thoroughly as
-    possible \citep{sargent2011}.
-  \end{itemize}
-
   \item \textbf{Conclusion: what the statistics license.}
   \begin{itemize}
     \item Rankings [T10] carry the assumptions of the simulator and the
