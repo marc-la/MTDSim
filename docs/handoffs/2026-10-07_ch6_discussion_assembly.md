@@ -749,6 +749,62 @@ Marc's read: MTDShield is an Appendix D item; its line follows service diversity
 
 **Method kept (Marc):** for each discussion section, a cold examiner reads the floats the section reads. Its questions are triaged (covered / added as a bound / belongs elsewhere / not covered), and the uncovered ones go to Marc, each with a recommendation. His answers are routed to whichever section they belong in.
 
+### 11b. 6.1 paragraphs 1–2 drafted (2026-10-08); point 1 retired; what makes a run succeed
+
+**Point 1, retired verbatim** (drafted as paragraph 1; every idea carried, except the two points overturned on merit and named in the draft's comment: rate and confidentiality are not "one effect", per §4.5.1; MTDShield does deploy on detection):
+
+```latex
+  \item \textbf{With no MTD, the APT attacker model is quieter: fewer attack
+  actions per minute, and fewer of them flagged by a scan detector.}
+  \begin{itemize}
+    \item Result: lower attack rate, higher attack confidentiality
+    (Table~\ref{tab:unopposed-summary}).
+    \item Why: unmapped tactics take time and dispatch no attack action, so
+    they space out the attack actions the detector counts.
+    \begin{itemize}
+      \item Instance: the unmapped share orders all three. $c_3$ has the most
+      (47\,\%), the lowest attack rate and the highest attack confidentiality;
+      $c_4$ the least (26\,\%), and the reverse; $c_1$ and $c_2$ between
+      (Figure~\ref{fig:aio-coverage}(a)). $c_3$ is the far end of the
+      mechanism, not an exception.
+      \item Stealth itself is unmapped (10 to 16\,\% of steps): the quiet comes
+      from its time, not from hiding. (EXAMINER)
+    \end{itemize}
+    \item Bound:
+    \begin{itemize}
+      \item No detector: nothing in MTDSim watches the attacker
+      (Section~\ref{subsec:tactic-verb-mapping}), so detection is read by
+      proxy, through Snort's default scan rule.
+      \item That rule counts a rate, so attack rate and attack confidentiality
+      are one effect read twice; the claim is the ordering, which holds at six
+      of nine detector settings (Appendix~\ref{app:sensitivity}). (EXAMINER)
+      \item The spacing follows from declared tactic durations, not a choice
+      to avoid detection, so property~5 is not met
+      (Section~\ref{sec:fidelity-verdict}).
+    \end{itemize}
+    \item Compare (Marc 2026-10-07): Tay models detection by proxy on the
+    defender's side, feeding his agent a varying share of the attacker's
+    actions \citep{tay2024}; here the proxy is on the attacker's side. Neither
+    closes the loop from detection to an MTD deployment
+    (Section~\ref{sec:future-work}). CHECK antecedent: Tay's detection-rate
+    experiment is only in the MTDShield appendix, not chapter 3.
+  \end{itemize}
+```
+
+**The precondition CHECK, closed.** At 1 000 seeds, the share of the APT attacker model's attack actions that fail on an unmet precondition is c1 14 %, c2 27 %, c3 30 %, c4 28 %. Paragraph 2 gives the mechanism only (chapter 4's), so it needs no number.
+
+**Marc's question for paragraph 2: what happens in a successful run that does not happen in a failed one?** This was a one-off analysis (NOT IN CH5; the scripts were not kept). It ran on `ch5_s531_unopposed/runs_reported.jsonl`, plus IP shuffle and service diversity at 200 s, grepped from `ch5_defended/runs_reported.jsonl`.
+
+- *With no MTD, pace and tactic mix do not separate success from failure.* Within each attack profile, successful and failed runs have the same attack rate, unmapped share (e.g. c1 36 against 37 %) and lateral-movement share. Successful runs land their first compromise earlier (c1 1 686 against 2 492 s; c4 1 471 against 2 055 s).
+- *The network the seed draws decides most of it.* Every attacker runs on the same 1 000 networks. Each profile's ASP on the seeds where the baseline attacker succeeds is 0.06–0.20; on the seeds where it fails, it is 0.000–0.017. Any two profiles succeed on the same seed 3–6× more often than chance (e.g. c3 and c4 on 14 seeds, against 2.4 expected). **The luck is the network, not the timing.**
+- *The baseline attacker's failed runs are wide, not slow.* They compromise more hosts than its successful runs (26.6 against 24.0) and never reach a target.
+- *Marc's MTD-timing hypothesis is not supported* ("the successful runs dodge the deployments"). Under service diversity at 200 s, the share of attack actions an MTD deployment interrupts is the same in successful and failed runs (c1 15.5 against 15.1 %; c2 17.5 against 18.0 %; c3 23.3 against 24.1 %). The runs that succeed sit mostly on seeds that also succeed with no MTD (33–100 %, against 4–12 % for failed runs). Under IP shuffle at 200 s no APT run succeeds at all, so the hypothesis cannot be tested there. Successful-run counts under MTD are thin (2–33).
+- *Where it could go (Marc's call):*
+  - an appendix "what a successful run looks like" (Supplementary results), with paragraph 2's optional sentence (in its DRAFT STATE comment);
+  - or future work: which network features (the target's exposure, path length) decide success. That needs the network regenerated from the seed, which was not done here.
+
+  Marc's real-world reading is a side channel: an attacker that learns the deployment interval and times its attack actions around it. That is deployment-strategy awareness (property 8), which the APT attacker model does not have. So it belongs in future work, not in a finding.
+
 ## Validation gate
 
 Done when Marc has answered §7, the structure in §3 is ruled, and every primary point in §4 has its evidence re-read on the 1 000-seed corpus, or is labelled a hypothesis. The next deliverable is per-paragraph dot points (slot form) for Marc's dictation.
