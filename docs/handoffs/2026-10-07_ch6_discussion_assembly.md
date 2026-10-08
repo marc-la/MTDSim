@@ -630,6 +630,65 @@ Marc's frame: deployment intervals are secondary to "attacker models versus MTD"
 
 ```
 
+### 10c. Paragraph 4 (drafted 2026-10-08), and the point-set header
+
+Marc's read: MTDShield is an Appendix D item; its line follows service diversity's and sits below it. Correction made in chat and in the draft: the gap is the doing-nothing share (23 % and 29 % at 200 s), not other mechanisms (IP shuffle, complete topology shuffle and OS diversity under 1 % together). The two strengthening facts (the host layer on its menu; inputs passed as measured at the other intervals) are already in Appendix D (Table D settings, Behaviour observed, the configuration paragraph): no appendix change needed. MTDShield against service diversity, baseline attacker, 200 s: 0.68 against 0.92 (Table E.2). Marc's closing lesson ("if we can model what we know about the attacker, we can work out how to hold it back"; reduce assumptions first) is a comment in the future-work placeholder. Not carried: "deploys less, NOT IN CH5" (about 55 against 75 deployments per run at 200 s) is now carried by the Appendix D doing-nothing shares.
+
+**The retired LaTeX, verbatim (the dictation line, the header comment, and P4).**
+
+```latex
+\noindent\emph{[Points for dictation, reading Section~\ref{sec:effectiveness}.]}
+% 2026-10-08: P1 and P2 drafted above; their point groups retired to the ch6
+% handoff, section 10 (Marc: drafted ideas leave the LaTeX). P3 drafted and
+% retired the same day; P4 remains.
+% RESTRUCTURED 2026-10-08 (Marc ruled the four-paragraph chain): which MTD ->
+% what a deployment costs -> how often MTD must deploy -> what a learned
+% strategy does with it. Each paragraph is the next one's cause. The old
+% "observations" paragraph is gone; its items are sub-points where they
+% belong. Layout: bold = the paragraph's claim; level 2 = its elements
+% (result, why, counterpoint, so); level 3 = the detail under each.
+% Tags: (HYP) an explanation, written as one; (NOT IN CH5) a number chapter 5
+% does not give: give it a chapter 5 home or drop it. Evidence for every
+% check: docs/implementation/disruption_mechanism.md section 9; the ch6
+% handoff section 9. Earlier point sets: git d736bbac, 7fe97e76, 33d2e16d.
+\begin{itemize}
+  % ------------------------------------------------------------------- P4
+  \item \textbf{MTDShield favours the MTD mechanism that holds back the
+  attacker it was trained against.}
+  \begin{itemize}
+    \item Result (Section~\ref{subsec:eff-cross-arm},
+    Appendix~\ref{app:mtdshield-observed}):
+    \begin{itemize}
+      \item MTDShield holds back the baseline attacker more, up to 1\,000\,s;
+      random and alternative hold back the APT attacker model more;
+      \item MTDShield chooses service diversity in most decisions, against
+      either attacker.
+    \end{itemize}
+    \item Why (HYP; Marc's ``overfits'' is this hypothesis):
+    \begin{itemize}
+      \item service diversity is what a reader of
+      Table~\ref{tab:eff-interval-values} would pick against the baseline
+      attacker, and it ranks mid-table against the APT attacker model;
+      \item MTDShield was trained against the baseline attacker;
+      \item random and alternative draw three of seven mechanisms from the
+      host layer, so they carry no such bias.
+    \end{itemize}
+    \item Instance: under MTDShield all four attack profiles sit below the
+    baseline attacker (Figure~\ref{fig:eff-suppression-profiles}(i)): Marc's
+    ``slide underneath''.
+    \item Counterpoints:
+    \begin{itemize}
+      \item one policy, run as released, outside its training conditions
+      (Appendix~\ref{app:mtdshield-limitations});
+      \item it also deploys less often, choosing no deployment at some
+      intervals (NOT IN CH5).
+    \end{itemize}
+    \item So (to 6.4): train and test a learned deployment strategy against
+    more than one attacker model.
+  \end{itemize}
+\end{itemize}
+```
+
 ## Validation gate
 
 Done when Marc has answered §7, the structure in §3 is ruled, and every primary point in §4 has its evidence re-read on the 1 000-seed corpus, or is labelled a hypothesis. The next deliverable is per-paragraph dot points (slot form) for Marc's dictation.

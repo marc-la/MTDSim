@@ -8642,56 +8642,45 @@ against the baseline attacker would judge the host layer spent far sooner
 than it is against the APT attacker model, and rely on a service layer that
 never halves the APT attacker model's NCR.
 
-\noindent\emph{[Points for dictation, reading Section~\ref{sec:effectiveness}.]}
-% 2026-10-08: P1 and P2 drafted above; their point groups retired to the ch6
-% handoff, section 10 (Marc: drafted ideas leave the LaTeX). P3 drafted and
-% retired the same day; P4 remains.
-% RESTRUCTURED 2026-10-08 (Marc ruled the four-paragraph chain): which MTD ->
-% what a deployment costs -> how often MTD must deploy -> what a learned
-% strategy does with it. Each paragraph is the next one's cause. The old
-% "observations" paragraph is gone; its items are sub-points where they
-% belong. Layout: bold = the paragraph's claim; level 2 = its elements
-% (result, why, counterpoint, so); level 3 = the detail under each.
-% Tags: (HYP) an explanation, written as one; (NOT IN CH5) a number chapter 5
-% does not give: give it a chapter 5 home or drop it. Evidence for every
-% check: docs/implementation/disruption_mechanism.md section 9; the ch6
-% handoff section 9. Earlier point sets: git d736bbac, 7fe97e76, 33d2e16d.
-\begin{itemize}
-  % ------------------------------------------------------------------- P4
-  \item \textbf{MTDShield favours the MTD mechanism that holds back the
-  attacker it was trained against.}
-  \begin{itemize}
-    \item Result (Section~\ref{subsec:eff-cross-arm},
-    Appendix~\ref{app:mtdshield-observed}):
-    \begin{itemize}
-      \item MTDShield holds back the baseline attacker more, up to 1\,000\,s;
-      random and alternative hold back the APT attacker model more;
-      \item MTDShield chooses service diversity in most decisions, against
-      either attacker.
-    \end{itemize}
-    \item Why (HYP; Marc's ``overfits'' is this hypothesis):
-    \begin{itemize}
-      \item service diversity is what a reader of
-      Table~\ref{tab:eff-interval-values} would pick against the baseline
-      attacker, and it ranks mid-table against the APT attacker model;
-      \item MTDShield was trained against the baseline attacker;
-      \item random and alternative draw three of seven mechanisms from the
-      host layer, so they carry no such bias.
-    \end{itemize}
-    \item Instance: under MTDShield all four attack profiles sit below the
-    baseline attacker (Figure~\ref{fig:eff-suppression-profiles}(i)): Marc's
-    ``slide underneath''.
-    \item Counterpoints:
-    \begin{itemize}
-      \item one policy, run as released, outside its training conditions
-      (Appendix~\ref{app:mtdshield-limitations});
-      \item it also deploys less often, choosing no deployment at some
-      intervals (NOT IN CH5).
-    \end{itemize}
-    \item So (to 6.4): train and test a learned deployment strategy against
-    more than one attacker model.
-  \end{itemize}
-\end{itemize}
+% DRAFT STATE 2026-10-08 --- paragraph 4 drafted from the arrangement Marc
+%  approved in chat: a short paragraph that points to Appendix D for how
+%  MTDShield was run. Decision shares from Appendix D, Behaviour observed
+%  (200 s; 100 runs per attacker). "suggests" carries the HYP (Marc's
+%  "overfits"). Marc's lesson closes it; his "if we can model what we know
+%  about the attacker, we can work out how to hold it back" went to the
+%  future-work placeholder. Session-written; ratify on read.
+MTDShield favours the MTD mechanism that holds back the attacker it was
+trained against. It holds back the baseline attacker more than the APT
+attacker model at every deployment interval up to 1\,000\,s, while random and
+alternative hold back the APT attacker model more
+(Figure~\ref{fig:eff-cross-arm}). At 200\,s it chooses service diversity at
+76\,\% of its decisions against the baseline attacker and 70\,\% against the
+APT attacker model, and does nothing at most of the rest
+(Appendix~\ref{app:mtdshield-observed}). Its line therefore follows service
+diversity's and sits below it, because each decision to do nothing leaves a
+deployment interval with no deployment. Service diversity shares rank 1
+against the baseline attacker, the attacker MTDShield was trained against,
+which suggests a policy fitted to that attacker. IP shuffle and complete
+topology shuffle, which share rank 1 against the APT attacker model, are among
+its options, and it chose them, with OS diversity, at under 1\,\% of its
+decisions. Under MTDShield all four attack profiles sit below the baseline
+attacker up to 1\,000\,s (Figure~\ref{fig:eff-suppression-profiles}). Two bounds hold. First,
+it is one policy, run as released and outside its training conditions
+(Appendix~\ref{app:mtdshield-limitations}). Second, doing nothing counts as
+pure loss only because MTDSim charges a deployment nothing; where a
+deployment has a cost, doing nothing can be the better choice, so the gap to
+service diversity says nothing of MTDShield on a real network. A deployment
+strategy learned against the APT attacker model would likely favour the host
+layer (Table~\ref{tab:eff-interval-values}). This dissertation does not build
+one, because it would fit the APT attacker model's assumptions (its tactic
+durations, its failure matrix, deployments without cost) as MTDShield fits
+the baseline attacker's. A learned deployment strategy is only as faithful as
+the attacker model, network and MTD cost it is trained in, so reducing those
+assumptions comes first (Section~\ref{sec:evaluation-implications}).
+
+% 2026-10-08: all four paragraphs drafted; the point sets are retired to the
+% ch6 handoff, section 10 (Marc: drafted ideas leave the LaTeX). Kept below:
+% the items routed to 6.5 and chapter 4.
 % TO 6.5 (from the examiner reads): random against alternative (same seven
 % mechanisms, fixed cycle against draws; differ by 0.06 or less; the first
 % deployment predicts the opposite direction; at 50-100 s alternative is
@@ -9009,6 +8998,12 @@ operates and is blocked by the simulator's exploit attack action,
 Section~\ref{sec:ablation}), and where vulnerability types recur more often; MTD selected or
 optimised against the APT attacker model; other network sizes and
 emulation.]}
+% Marc 2026-10-08 (from 6.2 paragraph 4): MTD optimised against the APT
+% attacker model comes after reducing assumptions: model what is known about
+% the attacker faithfully, realistically and for the network in question;
+% then "if I were the attacker, this is what I would do, and this is how to
+% hold it back". A learned strategy trained on today's assumptions inherits
+% them, as MTDShield inherits the baseline attacker's.
 
 
 
