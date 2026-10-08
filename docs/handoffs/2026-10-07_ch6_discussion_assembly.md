@@ -1530,6 +1530,54 @@ RULED 2026-10-09 (Marc): P1, P2, P3, P5, P6 APPLIED; P4 DECLINED ("that nuance i
 as "After the first MTD deployment, each later host-layer or port-shuffle deployment costs it 19 to 32 s"; P10 after the run; P11
 APPLIED (tools/attack_action_times_table.py -> tab_B-4b, one Appendix B sentence).
 
+## 14. 6.4: six cold examiners, merged and ranked (2026-10-09, NOT RULED)
+
+Marc: "spawn off critical internal UWA examiners that act on a dimension of this work and pose questions that will elicit an
+implication for MTD evaluation ... rank". Brief: scratchpad examiners64/brief.md (questions that draw implications out; three
+kinds: earned / overreach / builders; never 9022-9575 except examiner 6). Dimensions: results (ch5, App D-E); MTD evaluation
+practice (ch1-3); the simulator's design choices; the method as something others adopt (ch4, App B-C, 5.4, 6.3); the defender's
+side and the metrics; the whole argument plus the draft points (may read 6.4 points and 6.5).
+
+Consensus (6/6): a ranking of MTD mechanisms is conditional on its attacker model; report it so and test against more than one.
+Must-not-claim (5/6): CTI grounding caused the reversal or gives the "realistic" ranking; (3/6) host layer best against APTs, or
+any mechanism or interval recommendation.
+
+VERIFIED by the session (tab_5-3-2d, tab_F-0a NCR and ASP, mtd_scheme.py):
+- NCR/ASP sign split: baseline attacker, IP shuffle NCR reduction 0.39/0.30/0.19 at 500/1000/2000 s, ASP reduction -0.09/-0.11/
+  -0.10; complete topology 0.09 vs -0.23 at 500 s. App E l.10399-10400 "ASP reduction shows the order of NCR reduction" holds at
+  200 s only (outside ch6: a proposal, if wanted).
+- Worst case over the two attackers, NCR reduction: IP shuffle highest at every interval (0.88, 0.70, 0.68, 0.39, 0.30, 0.19). ASP
+  reduction: service diversity higher from 100 s (0.93 vs 0.78; 0.62 vs -0.09 at 500 s).
+- Random (pool: complete topology, IP shuffle, OS diversity, service diversity) vs its members at 200 s: baseline 0.33 below every
+  member (0.42-0.92); APT 0.75 above the members' mean (0.585). MTDShield vs random: baseline 0.68 vs 0.33; APT 0.28 vs 0.75.
+- User shuffle: NCR reduction negative against the APT attacker model at every interval (-0.13 to -0.04; ASP -0.34 at 200 s).
+  Draft point 2's "barely touches it" understates: it helps the APT attacker model.
+- ch4 l.4934: the nine judgement durations were kept under the 200 s default deployment interval (pace set against the interval).
+
+Ranked questions (n = examiners raising it):
+ 1. Grounding or plurality? Is the case for CTI-grounded attacker models, or for more than one attacker model, given 6.3 puts the
+    cause in unmapped time and order (4/6). Abstract closer: P4 DECLINED 2026-10-09; 6.4 can answer it without touching the abstract.
+ 2. What does the measurement add to Cho's argument that the attacker model decides the optimal strategy (ch3)? (2/6)
+ 3. Is the ranking the overlap of what each deployment takes and what each attacker depends on, predictable before running? Which
+    "findings about MTD mechanisms" are about MTDSim (precondition chain; nothing taken back, so user shuffle and OS diversity
+    never get their job; persistence unmapped)? (4/6)
+ 4. Which metric? NCR/ASP sign split; ASP ceiling for the APT attacker model; MTTC over 20 successful runs; blocks vs time lost
+    (4/6; blocks vs time lost covered by draft point 3).
+ 5. Swapping in an attacker is not drop-in: what must another builder re-derive (mapping, durations anchored on MTDSim's times)
+    and check (preconditions, restart rule, the defence's inputs)? Report the tactic-to-action interface (unmapped, refused share).
+    (3/6)
+ 6. Learned strategies: test beside random over the same mechanisms and against an attacker not trained on; check the inputs for
+    unobservable steps (4/6). Evidence = the random comparison, not "fitted".
+ 7. Intervals: no cost so no interval; the lineage's 50-200 s sits at the APT ceiling; sweep until reductions fall away (3/6).
+ 8. Robust choice: worst case over attacker models, and the metric decides it (2/6). Tension with "never a verdict".
+ 9. CTI is thinnest where MTD acts (reconnaissance in 10 of 38 flows; no failures in reports) (1/6).
+10. Components that change behaviour but not outcome pay only if behaviour is reported (1/6).
+11. Mixed strategies cannot be read off their members (1/6).
+12. NCR at a fixed time limit measures delay, not prevention, for an attacker that never gives up (1/6; 6.5 P2 bounds it).
+Draft-point triage (examiner 6, checked): 1 lead (MTDShield as method, not evidence; "dependence transfers, direction does not");
+2 keep, cut "change the rule and the ranking changes" (never run), fix user shuffle, merge 7; 3 keep; 4 trim the adoption claims
+(no result, literature unchecked); 5 merge into 1; 6 cut or one clause; 7 merge into 2.
+
 ## Validation gate
 
 Done when Marc has answered §7, the structure in §3 is ruled, and every primary point in §4 has its evidence re-read on the 1 000-seed corpus, or is labelled a hypothesis. The next deliverable is per-paragraph dot points (slot form) for Marc's dictation.
