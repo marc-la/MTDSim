@@ -194,13 +194,14 @@ learned about it goes out of date before it can be used. Yet simulation
 studies of MTD commonly test it against simplified attackers that follow a
 fixed sequence of steps. We build an APT attacker model from published
 reports of real intrusion campaigns, with attack profiles distinguished by
-objective. We run an existing MTD simulator under
-identical conditions, once with its scripted baseline attacker and once with
+objective. We run an existing MTD simulator twice on the same networks, once
+with its scripted baseline attacker and once with
 the APT attacker model. At the default deployment interval, service diversity
-is the most effective MTD mechanism against the baseline attacker. Service
+and port shuffle are the most effective MTD mechanisms against the baseline
+attacker. Service
 diversity reduces the number of hosts the baseline attacker compromises by
 92\,\%, but reduces the number of hosts the APT attacker model compromises
-by only 36\,\%. At every deployment interval, the most effective MTD
+by 36\,\%. At every deployment interval, the most effective MTD
 mechanism differs between the two attackers. These results make a case for
 evaluating MTD against attacker models grounded in documented behaviour.
 \end{abstract}
@@ -450,10 +451,10 @@ the number of hosts each attacker compromises.
 % intervals --- {IP, host topology, complete topology shuffle} against
 % {service diversity, port shuffle} at 50-200 s, IP shuffle against service
 % diversity at 500-2 000 s. No p-value in ch1; ch5 carries the test.
-At the default deployment interval, service diversity is the most effective
-MTD mechanism against the baseline attacker. Service diversity reduces the
+At the default deployment interval, service diversity and port shuffle are
+the most effective MTD mechanisms against the baseline attacker. Service diversity reduces the
 number of hosts the baseline attacker compromises by 92\,\%, but reduces the
-number of hosts the APT attacker model compromises by only 36\,\%. At every deployment
+number of hosts the APT attacker model compromises by 36\,\%. At every deployment
 interval, the most effective MTD mechanism differs between the two attackers.
 % [2026-09-28: the two scope sentences that closed P6 were moved to P5, then
 %  cut (see the P5 comment).]
@@ -548,8 +549,8 @@ interval, the most effective MTD mechanism differs between the two attackers.
   in place of the baseline attacker.\footnote{The APT attacker model and
   the experiment scripts are publicly available at
   \url{https://github.com/marc-la/MTDSim}.} Of eight properties an attacker
-  model needs to model an APT attacker, the APT attacker model has four in
-  full and two in part; three recent attacker models have at most one in
+  model needs to model an APT attacker, the APT attacker model has two in
+  full and five in part; three recent attacker models have at most one in
   full.
   \item We find that, in MTDSim, the most effective MTD mechanism depends
   on the attacker model.
@@ -3862,9 +3863,12 @@ built for four of the eight properties of
 Section~\ref{subsec:attacker-criterion}: objective-specific behaviour, choice of attack strategy, adaptivity and, in part, learning. It takes the same attack actions
 as the baseline attacker, but the Petri net of its attack profile chooses its
 next tactic at runtime. With those attack actions it keeps the baseline
-attacker's campaign persistence and, in part, its cost--benefit reasoning. It is a
+attacker's campaign persistence and, in part, its cost--benefit reasoning;
+they also cap what it gains, so it has two properties in full and five in part
+(Section~\ref{sec:fidelity-verdict}). It is a
 proof of concept: it tests whether an attacker that behaves like an APT changes
-what an MTD evaluation measures. Detection avoidance and deployment-strategy awareness are left to future work.
+what an MTD evaluation measures. Detection avoidance rests on a pace assumed to
+hide the attacker, and deployment-strategy awareness is left to future work.
 Figure~\ref{fig:pipeline} shows the pipeline that builds the model from 38
 attack flows and runs it in MTDSim. Sections~\ref{sec:technique-graph}
 and~\ref{sec:attack-profiles} answer \ref{sq:capture}: they recover the
@@ -7535,7 +7539,12 @@ the APT attacker model loses \prelim{26}\,s or less.
 The baseline attacker's time lost is below zero under every MTD mechanism but
 service diversity. Under every host-layer and service-layer mechanism, the
 first deployment of each run brings the baseline attacker's first compromise
-\prelim{204} to \prelim{232}\,s forward.
+\prelim{204} to \prelim{232}\,s forward. After the first MTD deployment, each
+later host-layer or port-shuffle deployment costs it \prelim{19} to
+\prelim{32}\,s.
+% 2026-10-09 (Marc, P9 of handoff 13b): registry B20's home; the later
+%  deployments = every deployment but the run's first, from
+%  time_lost_first_deployment_numbers.json (all minus first). DRAFT STATE.
 % 2026-10-08 (Marc): the owed appendix item on the first deployment is not
 %  written; its key points are Section 6.2's (blocked attack action paragraph)
 %  and the rest is docs/implementation/disruption_mechanism.md section 9.
@@ -9766,6 +9775,14 @@ band of each mean duration of Section~\ref{subsec:dwell-times}, and the reason
 for each.
 
 \input{tables/tab_B-4a_dwell_derivation}
+
+% 2026-10-09 (Marc, P11 of handoff 13b; registry B21; examiner threat 9): the
+%  two attackers do not run under identical conditions. DRAFT STATE.
+Table~\ref{tab:attack-action-times} sets each attack action's time in MTDSim,
+which the baseline attacker takes, beside the mean durations of the tactics
+mapped to it, which the APT attacker model takes instead.
+
+\input{tables/tab_B-4b_attack_action_times}
 \FloatBarrier
 
 % Table generated by tools/controller_mapping_figure.py, the generator of

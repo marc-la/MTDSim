@@ -1525,6 +1525,11 @@ PROPOSED, NOT APPLIED (each needs Marc's yes):
  P10 Appendix C: B19's section and sentence, after the run.
  P11 Appendix B: the durations-beside-MTDSim's-times table (B21), if wanted.
 
+RULED 2026-10-09 (Marc): P1, P2, P3, P5, P6 APPLIED; P4 DECLINED ("that nuance is a bit lost on me"; the closer stays); P7 DECLINED
+(the divergence after an interruption is implicit); P8 wording owed ("pooled" disliked; the session to give the right term); P9 APPLIED
+as "After the first MTD deployment, each later host-layer or port-shuffle deployment costs it 19 to 32 s"; P10 after the run; P11
+APPLIED (tools/attack_action_times_table.py -> tab_B-4b, one Appendix B sentence).
+
 ## Validation gate
 
 Done when Marc has answered §7, the structure in §3 is ruled, and every primary point in §4 has its evidence re-read on the 1 000-seed corpus, or is labelled a hypothesis. The next deliverable is per-paragraph dot points (slot form) for Marc's dictation.
