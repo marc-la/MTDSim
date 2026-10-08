@@ -991,6 +991,19 @@ No prose change. Paragraph 4's c4 sentence ("the cause is likely order") now has
 
 **Use:** no prose change. This is the strongest candidate to replace paragraph 4's two "likely" sentences, if it gets a home (a column beside the profile-edges figure, or a chapter 5 sentence).
 
+### 11g. What decides success, by level (synthesis, 2026-10-08)
+
+Marc asked which levers matter most. The no-MTD corpus answers at three levels:
+1. **APT attacker model against the baseline attacker:**
+   - unmapped time (fewer attack actions by the time limit);
+   - precondition failures, because the attack actions encode one order (paragraphs 2–3).
+2. **Between attack profiles:** how many of the baseline attacker's moves a profile's net can make (B13, HYP). This explains only the two-group split, c1 and c2 against c3 and c4. That is all the ASP intervals separate: c1 against c2, and c3 against c4, overlap.
+3. **Within an attack profile:** the network the seed draws (B1). Pace, tactic mix, chains and interruption by MTD do not separate successful from failed runs (B2, B12).
+
+**Marc's ratio check.** Coverage over net size (23/74, 15/43, 12/47, 10/39) mixes units: the ideal edges are effective mapped edges, while the transitions include unmapped places. In consistent units (ideal over effective mapped edges: 48, 43, 55, 45 %) the share does not order ASP. **It is the count of usable moves that matters, not the share.**
+
+**Interpretive link** (for paragraph 4 if B13 gets a home): plurality costs success (paragraph 3), and the attack profiles that keep more of the attack actions' moves pay less.
+
 ## Validation gate
 
 Done when Marc has answered §7, the structure in §3 is ruled, and every primary point in §4 has its evidence re-read on the 1 000-seed corpus, or is labelled a hypothesis. The next deliverable is per-paragraph dot points (slot form) for Marc's dictation.
