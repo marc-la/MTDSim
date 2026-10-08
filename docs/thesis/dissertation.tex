@@ -6140,8 +6140,9 @@ from the same 1\,000 networks.
 \paragraph{Statistical analysis.} Every interval is a 95\,\% confidence
 interval: Clopper--Pearson for ASP \citep{clopper1934use}, the normal
 approximation for a mean, printed with $\pm$, and otherwise a percentile
-bootstrap over runs \citep{efron1994introduction}. Effect size is Cohen's $d$,
-negligible within $\pm 0.2$ \citep{cohen1988statistical}. The Scott--Knott
+bootstrap over runs \citep{efron1994introduction}. Effect size is Cohen's $d$
+with the pooled standard deviation, negligible within $\pm 0.2$
+\citep{cohen1988statistical}. The Scott--Knott
 effect size difference test \citep{tantithamthavorn2017empirical} ranks the
 MTD by NCR reduction for each attacker at each deployment interval.
 Neighbouring ranks differ significantly and by more than a negligible effect.
@@ -9261,7 +9262,7 @@ dependence and the method, not the numbers or the rankings.]}
     order; rank 1 is a group (service diversity with port shuffle against
     the baseline attacker; the abstract now names both).
     \item Effect sizes [T11]: Cohen's $d$ on per-seed means with the pooled
-    spread (STATE in Section 5.1; proposal); negligible within $\pm 0.2$ is
+    spread (stated in Section 5.1, 2026-10-09); negligible within $\pm 0.2$ is
     Cohen's default, not a bound set for hosts compromised; $d$ grows near the
     floor; ablation cells left inconclusive; no correction across
     comparisons.
