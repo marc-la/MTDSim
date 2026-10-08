@@ -9155,6 +9155,21 @@ four.]}
 %     so within a profile the network decides (B1). Marc's ">= 3-4 actions"
 %     threshold: no profile averages above 1.7; longest chains 4-5.5.
 %     Candidate appendix column beside B4 (11e).
+%  B13 [6.1 P4] THE ONE-LINER CANDIDATE (Marc: translate the baseline
+%     attacker's moves into an ideal tactic graph and measure each profile's
+%     overlap). Ideal graph: 24 edges among the 8 mapped tactics (tactic pairs
+%     whose attack actions are a baseline move or the same action). Edges each
+%     net can make between mapped tactics, through unmapped ones: c1 23, c2 15,
+%     c3 12, c4 10 of 24. This matches ASP's two groups (c1, c2 at .12-.14
+%     against c3, c4 at .04-.06, CIs apart). How often the walk takes those
+%     edges does not (.54/.51/.55/.43 by the net's weights; .52/.49/.56/.48 in
+%     the runs); net size does not (74/43/47/39 transitions); direct edges
+%     alone do not (17/6/6/8, Figure B.x). Reading (HYP): ASP follows how many
+%     of the baseline attacker's moves a profile's net can make, not how often
+%     it makes them: more ways to rebuild what an exploit needs. Four points;
+%     the 15-to-12 step is small. Not readable from any float: needs a home
+%     (a column beside Figure B.x, or a chapter 5 sentence) before paragraph 4
+%     can use it (11f).
 %
 %  FUTURE WORK (needs new runs or new code; for Section 7.2, not an appendix):
 %  F1 Edge ablation: remove one tactic-to-tactic edge at a time and read ASP

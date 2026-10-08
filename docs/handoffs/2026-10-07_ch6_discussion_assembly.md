@@ -963,6 +963,34 @@ Marc's refinement: test unbroken chains of successful attack actions in the base
 
 No prose change. Paragraph 4's c4 sentence ("the cause is likely order") now has two agreeing readings behind it.
 
+### 11f. The ideal tactic graph (Marc, 2026-10-08), registry B13
+
+**Marc's ask:** translate the baseline attacker's state machine into a tactic graph through the tactic-to-action mapping (an edge where the two attack actions are a baseline move), measure each profile's overlap with it, and find the one-liner for why c1 and c2 succeed more.
+
+**Method.**
+- *Ideal graph:* 24 directed edges among the 8 mapped tactics. A pair counts when its attack actions are one of the baseline attacker's 12 moves (§11d) or the same attack action.
+- *Effective edges:* each profile's net from `data/ogasp/petri/*_structural.json`, with weights > 0. A mapped tactic's next mapped tactic is found by walking through unmapped places, which leave the attacker's state untouched.
+- The script is at the session scratchpad only, so it is not kept; re-runnable from this definition.
+
+| | ASP | effective ideal edges / 24 | P(next follows an ideal edge): dedup / raw / runs | transitions (w > 0) | direct ideal edges |
+|---|---|---|---|---|---|
+| c1 | 0.12 | 23 | 0.54 / 0.53 / 0.52 | 74 | 17 |
+| c2 | 0.14 | 15 | 0.51 / 0.51 / 0.49 | 43 | 6 |
+| c3 | 0.06 | 12 | 0.55 / 0.55 / 0.56 | 47 | 6 |
+| c4 | 0.04 | 10 | 0.43 / 0.45 / 0.48 | 39 | 8 |
+
+**Reading (HYP).**
+- Only the effective coverage separates ASP's two groups: c1 and c2 against c3 and c4. Their CIs are apart.
+- Probability, size and direct edges do not.
+- So **ASP follows how many of the baseline attacker's moves a profile's net can make, not how often it makes them.** More such edges give more ways to rebuild the state an exploit needs. Within a profile, the network decides which runs succeed (B1). So the coverage plausibly sets how many networks a profile can exploit.
+
+**Bounds.**
+- Four points.
+- The 15-to-12 step between the groups is small.
+- c1's 23 partly reflects its 19 attack flows. But c2 and c3 both have 7 flows and still differ (15 against 12).
+
+**Use:** no prose change. This is the strongest candidate to replace paragraph 4's two "likely" sentences, if it gets a home (a column beside the profile-edges figure, or a chapter 5 sentence).
+
 ## Validation gate
 
 Done when Marc has answered §7, the structure in §3 is ruled, and every primary point in §4 has its evidence re-read on the 1 000-seed corpus, or is labelled a hypothesis. The next deliverable is per-paragraph dot points (slot form) for Marc's dictation.
