@@ -805,6 +805,69 @@ Marc's read: MTDShield is an Appendix D item; its line follows service diversity
 
   Marc's real-world reading is a side channel: an attacker that learns the deployment interval and times its attack actions around it. That is deployment-strategy awareness (property 8), which the APT attacker model does not have. So it belongs in future work, not in a finding.
 
+### 11c. 6.1 paragraph 3 drafted (2026-10-08); point 2 retired
+
+**Point 2, retired verbatim** (ratified by Marc: "seems about right"). Its candidate "success given undetected" is registry item B7.
+
+```latex
+  \item \textbf{It compromises less by the time limit; the runs that reach a
+  target reach it only just later.}
+  \begin{itemize}
+    \item Result: ASP and NCR well below the baseline attacker's; MTTC only
+    just longer, and $c_3$'s overlaps the baseline attacker's
+    (Table~\ref{tab:unopposed-summary}).
+    \item Why:
+    \begin{itemize}
+      \item the same unmapped time leaves fewer attack actions in
+      15\,000\,s;
+      \item attack actions dispatched in its tactics' order, not the baseline
+      attacker's procedure, find a precondition unmet and fail
+      (Section~\ref{subsec:runtime-mechanics}). (CHECK: 14--28\,\% at 100
+      seeds.)
+    \end{itemize}
+    \item Bound:
+    \begin{itemize}
+      \item read at the 15\,000\,s time limit (Table~\ref{tab:experiment}); a
+      longer campaign was not run;
+      \item MTTC is over the runs that reach a target, 42 to 139 of 1\,000
+      against the baseline attacker's 656, so it compares the fastest
+      successes (EXAMINER);
+      \item ASP scores the target host for both attackers; the attack
+      profiles' own objectives (collection, exfiltration, impact) are
+      unmapped (Section~\ref{subsec:tactic-verb-mapping}), so whether an
+      attack profile meets its objective is not scored (EXAMINER, new; to
+      Section~\ref{sec:threats}, construct);
+      \item the frame for every outcome claim (Marc 2026-10-08): the attack
+      flows record campaigns that were detected, mostly succeeded and were
+      reported (Section~\ref{subsec:failure-matrix}); how often APTs fail, or
+      go undetected, is not in the record. No claim on which attacker is more
+      successful in the world: the claims are on the mechanisms modelled and
+      the outcomes seen in MTDSim.
+      \begin{itemize}
+        \item Candidate (Marc; appendix or Section~\ref{sec:future-work}):
+        for each attacker, the share of its successful runs that stayed
+        undetected. Not computed; it needs a per-run detection rule, a new
+        metric.
+      \end{itemize}
+    \end{itemize}
+    \item So:
+    \begin{itemize}
+      \item an APT is defined by persistence toward an objective, not by speed
+      (Section~\ref{subsec:apt}); the APT attacker model is not competing with
+      the baseline attacker, which is the reference;
+      \item ASP and NCR alone read a quiet attacker as a weak one
+      (Section~\ref{sec:evaluation-implications}).
+    \end{itemize}
+  \end{itemize}
+```
+
+**Paragraph 3 notes.**
+- The term "attack path" is replaced by "opening" (§4.5's rename).
+- "Not a strategy chosen against the defender" is replaced by the cost–benefit bound. The old wording read against Table 6.1's "choice of attack strategy, in full".
+- The prose leans on the attack-action recount, now registry A3. It needs a ch5 footnote, or the clause goes.
+
+**Network structure, Marc's future-work idea** (registry F3): which network features decide success; adversarial network structures; construction principles portable to other simulators. Check the literature first (network hardening, attack-graph-based network design) before calling it a field.
+
 ## Validation gate
 
 Done when Marc has answered §7, the structure in §3 is ruled, and every primary point in §4 has its evidence re-read on the 1 000-seed corpus, or is labelled a hypothesis. The next deliverable is per-paragraph dot points (slot form) for Marc's dictation.

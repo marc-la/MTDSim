@@ -8486,7 +8486,8 @@ attacker behaves, but no MTD deployment depends on detection. A detector that
 joins the two is future work (Section~\ref{sec:future-work}).
 
 % DRAFT STATE 2026-10-08 --- paragraph 2 drafted from point 2 of the set below
-%  on Marc's request; point 1's set retired to the ch6 handoff section 11b.
+%  on Marc's request; point 1's set retired to the ch6 handoff section 11b,
+%  point 2's (ratified, Marc: "seems about right") to 11c.
 %  Session-written; ratify on read. Order: claim (chained to paragraph 1),
 %  result, two causes, the three bounds (MTTC's runs, the time limit, the
 %  objective not scored), the frame (Marc: CTI holds detected, reported, mostly
@@ -8525,58 +8526,42 @@ an objective (Section~\ref{subsec:apt}), and the APT attacker model is not
 competing with the baseline attacker, which is the reference. Read alone, ASP
 and NCR call a quiet attacker weak (Section~\ref{sec:evaluation-implications}).
 
+% DRAFT STATE 2026-10-08 --- paragraph 3 drafted from point 3 of the set below
+%  on Marc's request. Session-written; ratify on read. Order: claim, result,
+%  why, chapter 3 compare, three bounds, so. TERM: "opening", never "attack
+%  path" (Section 4.5 renamed the metric because an attack path is a sequence
+%  of hosts; the point set's "one attack path" is replaced). LEANS ON an
+%  unreported check: "counted by attack action, the attack profiles still have
+%  hundreds" (190-844 against 3) --- registry A3; it needs a chapter 5 footnote
+%  to Figure 5.1(b), or the clause goes. The third bound replaces the point
+%  set's "not a strategy chosen against the defender", which read against
+%  Table 6.1's choice of attack strategy in full; the honest limit is
+%  cost-benefit reasoning, in part.
+With no MTD running, the baseline attacker opens almost every run the same
+way, and the APT attacker model opens its runs in hundreds of ways
+(Figure~\ref{fig:aio-coverage}(b)). The baseline attacker's runs share one
+opening over their first four steps, the order of its procedure, then branch
+once, into brute force or scan neighbours. Each attack profile chooses its
+next tactic at the Petri net's decision places, weighted by how often its
+attack flows took each edge (Section~\ref{sec:petri-formalism}), so its 5 to
+19 attack flows give it 179 to 947 distinct openings over eight steps.
+Chapter~\ref{ch:litreview} credited the baseline attacker with choice of
+attack strategy in part: it can enter a host by stolen credentials, an
+exploit or brute force, but a fixed rule sets the order
+(Section~\ref{subsec:recent-threat-models}). Its single branch is that rule
+at work. Three bounds hold. First, the two attackers' steps differ: an attack
+profile's step is a tactic, the baseline attacker's an attack action; counted
+by attack action, the attack profiles still have hundreds of distinct
+openings. Second, the count is capped by the 1\,000 runs, which $c_1$ nearly
+reaches. Third, the APT attacker model chooses as the documented attackers
+did, not by what works best on the network in front of it; that would take
+cost--benefit reasoning, which it keeps from the baseline attacker only in
+part (Table~\ref{tab:fidelity-verdict}). An MTD evaluated against the
+baseline attacker is tested against one opening;
+Section~\ref{sec:disc-mtd-performance} reads what MTD does against many.
+
 \noindent\emph{[Points for dictation, reading Section~\ref{sec:attacker-in-operation}.]}
 \begin{itemize}
-  \item \textbf{It compromises less by the time limit; the runs that reach a
-  target reach it only just later.}
-  \begin{itemize}
-    \item Result: ASP and NCR well below the baseline attacker's; MTTC only
-    just longer, and $c_3$'s overlaps the baseline attacker's
-    (Table~\ref{tab:unopposed-summary}).
-    \item Why:
-    \begin{itemize}
-      \item the same unmapped time leaves fewer attack actions in
-      15\,000\,s;
-      \item attack actions dispatched in its tactics' order, not the baseline
-      attacker's procedure, find a precondition unmet and fail
-      (Section~\ref{subsec:runtime-mechanics}). (CHECK: 14--28\,\% at 100
-      seeds.)
-    \end{itemize}
-    \item Bound:
-    \begin{itemize}
-      \item read at the 15\,000\,s time limit (Table~\ref{tab:experiment}); a
-      longer campaign was not run;
-      \item MTTC is over the runs that reach a target, 42 to 139 of 1\,000
-      against the baseline attacker's 656, so it compares the fastest
-      successes (EXAMINER);
-      \item ASP scores the target host for both attackers; the attack
-      profiles' own objectives (collection, exfiltration, impact) are
-      unmapped (Section~\ref{subsec:tactic-verb-mapping}), so whether an
-      attack profile meets its objective is not scored (EXAMINER, new; to
-      Section~\ref{sec:threats}, construct);
-      \item the frame for every outcome claim (Marc 2026-10-08): the attack
-      flows record campaigns that were detected, mostly succeeded and were
-      reported (Section~\ref{subsec:failure-matrix}); how often APTs fail, or
-      go undetected, is not in the record. No claim on which attacker is more
-      successful in the world: the claims are on the mechanisms modelled and
-      the outcomes seen in MTDSim.
-      \begin{itemize}
-        \item Candidate (Marc; appendix or Section~\ref{sec:future-work}):
-        for each attacker, the share of its successful runs that stayed
-        undetected. Not computed; it needs a per-run detection rule, a new
-        metric.
-      \end{itemize}
-    \end{itemize}
-    \item So:
-    \begin{itemize}
-      \item an APT is defined by persistence toward an objective, not by speed
-      (Section~\ref{subsec:apt}); the APT attacker model is not competing with
-      the baseline attacker, which is the reference;
-      \item ASP and NCR alone read a quiet attacker as a weak one
-      (Section~\ref{sec:evaluation-implications}).
-    \end{itemize}
-  \end{itemize}
-
   \item \textbf{The baseline attacker gives MTD one attack path to defend
   against; the APT attacker model gives it hundreds.}
   \begin{itemize}
@@ -9119,6 +9104,9 @@ four.]}
 %     the session's 70 % check (handoff s9-10). On disk.
 %  A2 [6.1 P1] c3 47 % / c4 26 % unmapped: summed from Figure 5.1(a); ends of
 %     chapter 5's range. Probably fine as is; listed for completeness.
+%  A3 [6.1 P3] "counted by attack action, the attack profiles still have
+%     hundreds of distinct openings" (190-844 against 3; = B3). Needs a
+%     chapter 5 footnote to Figure 5.1(b), or the clause goes.
 %
 %  CANDIDATES (on disk, no re-run):
 %  B1 [6.1 P2] What a successful run looks like: with no MTD, success follows
@@ -9159,8 +9147,13 @@ four.]}
 %  F1 Edge ablation: remove one tactic-to-tactic edge at a time and read ASP
 %     and NCR; the most sensitive edge points to a mitigation (11a).
 %  F2 Partition-size sweep (11a).
-%  F3 Which network features decide success (the target's exposure, path
-%     length): networks regenerated from the seeds (11b, after B1).
+%  F3 Network structure and success (Marc 2026-10-08, after B1): which
+%     network features decide success (the target's exposure, path length),
+%     from networks regenerated from the seeds; then adversarial network
+%     structures, the networks most favourable to the attacker, and from them
+%     construction principles portable to other simulators and real networks.
+%     LITERATURE TO CHECK before claiming a field: network hardening and
+%     attack-graph-based network design (Marc: "I'm not an expert on this").
 %  F4 A longer time limit: 60 000 s, 4-5 days per run; ruled no re-run (s8).
 %  F5 A detector that both depends on the attacker and drives MTD (6.1 P1).
 %  F6 An attacker that times its attack actions around the deployment interval
