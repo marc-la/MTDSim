@@ -9315,29 +9315,48 @@ future work (Section~\ref{sec:future-work}).
 %  typical documented behaviour, not optimal; F10, F12); the envelope (a draw,
 %  not a replay; read as the envelope's); near-periodic timing only; MTDShield
 %  as released, four inputs zero; no numeric lineage comparison; Sargent.
-\noindent\emph{[Points for dictation.]}
-\begin{itemize}
-  \item \textbf{Conclusion: what the statistics license.}
-  \begin{itemize}
-    \item Rankings [T10] carry the assumptions of the simulator and the
-    attacker model (Marc 2026-10-08); they are used only to show that the two
-    attackers' rank 1 do not line up. Ten options, three of them mixtures of
-    the other seven; $\rho$ near zero means no agreement, not an inverted
-    order; rank 1 is a group (service diversity with port shuffle against
-    the baseline attacker; the abstract now names both).
-    \item Effect sizes [T11]: Cohen's $d$ on per-seed means with the pooled
-    spread (stated in Section 5.1, 2026-10-09); negligible within $\pm 0.2$ is
-    Cohen's default, not a bound set for hosts compromised; $d$ grows near the
-    floor; ablation cells left inconclusive; no correction across
-    comparisons.
-    \item The random partitions are descriptive: ten partitions, so beating
-    all ten is $p \geq 1/11$ [T11].
-    \item Intervals bootstrap over runs, and the four attack profiles share
-    each seed's network, so their intervals are somewhat narrow [below cut].
-    \item 1\,000 seeds; ASP rare per attack profile, so the ranking uses NCR
-    reduction.
-  \end{itemize}
-\end{itemize}
+% DRAFT STATE 2026-10-08 --- paragraph 5 (conclusion) drafted from the five
+%  conclusion points, which it replaces and closes the section: rankings
+%  [T10], effect sizes [T11], the random partitions [T11], the bootstrap,
+%  1 000 seeds and ASP. Points back to 6.2 ("a ranking carries the assumptions
+%  of its attacker model") rather than repeating it. The bootstrap point is
+%  stated as a fact, with NO direction: analyse.suppression resamples runs
+%  unpaired (which widens) and pools the four attack profiles' runs on shared
+%  seeds (which narrows), so "somewhat narrow" was not claimed. "Why NCR, not
+%  ASP" was printed nowhere; it rests on 6.1's 42 to 139 of 1 000. Ratify on
+%  read.
+The statistics support the comparison of the two attackers' rank 1, and
+little beyond it. A ranking carries the assumptions of its attacker model
+(Section~\ref{sec:disc-mtd-performance}), and each orders ten options, three
+of which, the random and alternative deployment strategies and MTDShield,
+deploy the other seven. The Scott--Knott ESD test groups options that do not
+differ by more than a negligible effect, so rank 1 can hold several: service
+diversity and port shuffle share it against the baseline attacker
+(Section~\ref{subsec:eff-cross-arm}). $\rho$ near zero means that the two
+attackers' orders do not agree, which is weaker than one inverting the other.
+The rankings are therefore used only to show that the two attackers' rank 1
+share no MTD mechanism, never as a verdict on one
+(Section~\ref{sec:evaluation-implications}). The APT attacker model reaches a
+target host in only 42 to 139 of each attack profile's 1\,000 runs with no MTD
+(Section~\ref{sec:disc-behaviour}), so the ranking uses NCR reduction, with
+ASP reduction as the check. A negligible effect is Cohen's default of
+$\pm 0.2$, not a bound set for hosts compromised, and where NCR is near zero
+its spread is small, so a small difference in hosts can give a large $d$. The
+ablations leave some cells inconclusive, 24 of 60 for the attack profiles, and
+no correction is made for the number of cells compared
+(Section~\ref{sec:ablation}). The random partitions are descriptive: with no
+MTD the attack profiles beat all ten, a result chance alone would give one time in
+eleven. The intervals also resample runs, not seeds, although the four attack
+profiles share each seed's network.
+
+% Conclusion points [T10, T11], dictated as paragraph 5 above on 2026-10-08:
+%  rankings carry the assumptions of simulator and attacker model; used only
+%  to show rank 1 does not line up; ten options, three mixtures; rho near zero
+%  = no agreement, not inversion; rank 1 a group. Effect sizes: d on per-seed
+%  means, pooled SD; +-0.2 Cohen's default; d grows near the floor; ablation
+%  cells inconclusive; no correction. Random partitions p >= 1/11. Bootstrap
+%  over runs; four profiles share each seed's network. 1 000 seeds; ASP rare
+%  per attack profile, so NCR reduction.
 
 % =====================================================================
 % FURTHER-ANALYSES REGISTRY (Marc 2026-10-08). Analyses run while drafting
