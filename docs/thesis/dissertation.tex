@@ -8426,59 +8426,94 @@ evaluation (Section~\ref{sec:evaluation-implications}); and bounds them
 \section{APT attacker model versus baseline attacker}
 \label{sec:disc-behaviour}
 
+% [6.1 POINT SET REFINED 2026-10-08 (Marc: "refine the points under the
+% paragraphs ... how do you logically arrange this"). ORDER: the behaviour (1),
+% then the outcome the same cause explains (2), then the variety (3), then the
+% attack profiles (4, secondary). A chain, not a list: unmapped time makes it
+% quiet, the same time leaves it fewer attack actions by the time limit.
+% A cold examiner read Figure 5.1, Table 5.2 and Figure 5.4 with no chapter 6;
+% its questions answered here are marked (EXAMINER); the full triage, and the
+% one-off checks behind two new bounds, are in
+% docs/handoffs/2026-10-07_ch6_discussion_assembly.md section 11.
+% The old point set is in git at 861e74ee. DRAFT STATE --- ratify on read.]
 \noindent\emph{[Points for dictation, reading Section~\ref{sec:attacker-in-operation}.]}
 \begin{itemize}
-  \item \textbf{With no MTD, the APT attacker model compromises less, and not
-  because it is slower to reach its target.}
+  \item \textbf{With no MTD, the APT attacker model is quieter: fewer attack
+  actions per minute, and fewer of them flagged by a scan detector.}
   \begin{itemize}
-    \item Result: ASP and NCR well below the baseline attacker's; MTTC only
-    just longer (Table~\ref{tab:unopposed-summary}).
-    \item Why: a quarter to a half of its steps are unmapped tactics, which take
-    time and dispatch no attack action; attack actions dispatched in its
-    tactics' order, not the baseline attacker's procedure, find a precondition
-    unmet and fail before they run (Section~\ref{subsec:runtime-mechanics}).
-    (CHECK: the share that fails, 14--28\,\% at 100 seeds.)
-    \item Bound: measured at the 15\,000\,s time limit
-    (Table~\ref{tab:experiment}); whether the gap narrows over a longer
-    campaign was not run.
-    \item Interpretation (Marc 2026-10-08): the attack flows record campaigns
-    that succeeded and were reported (Section~\ref{subsec:failure-matrix});
-    how often real APT attackers fail is not in the record. A lower ASP is a
-    property of the model in MTDSim, not an estimate of how often APTs succeed.
-    Keep in mind as a frame for every outcome claim.
-    \item So: an APT is defined by persistence toward an objective, not by speed
-    (Section~\ref{subsec:apt}). The APT attacker model is not competing with
-    the baseline attacker; the baseline attacker is the reference.
+    \item Result: lower attack rate, higher attack confidentiality
+    (Table~\ref{tab:unopposed-summary}).
+    \item Why: unmapped tactics take time and dispatch no attack action, so
+    they space out the attack actions the detector counts.
+    \begin{itemize}
+      \item Instance: the unmapped share orders all three. $c_3$ has the most
+      (47\,\%), the lowest attack rate and the highest attack confidentiality;
+      $c_4$ the least (26\,\%), and the reverse; $c_1$ and $c_2$ between
+      (Figure~\ref{fig:aio-coverage}(a)). $c_3$ is the far end of the
+      mechanism, not an exception.
+      \item Stealth itself is unmapped (10 to 16\,\% of steps): the quiet comes
+      from its time, not from hiding. (EXAMINER)
+    \end{itemize}
+    \item Bound:
+    \begin{itemize}
+      \item No detector: nothing in MTDSim watches the attacker
+      (Section~\ref{subsec:tactic-verb-mapping}), so detection is read by
+      proxy, through Snort's default scan rule.
+      \item That rule counts a rate, so attack rate and attack confidentiality
+      are one effect read twice; the claim is the ordering, which holds at six
+      of nine detector settings (Appendix~\ref{app:sensitivity}). (EXAMINER)
+      \item The spacing follows from declared tactic durations, not a choice
+      to avoid detection, so property~5 is not met
+      (Section~\ref{sec:fidelity-verdict}).
+    \end{itemize}
+    \item Compare (Marc 2026-10-07): Tay models detection by proxy on the
+    defender's side, feeding his agent a varying share of the attacker's
+    actions \citep{tay2024}; here the proxy is on the attacker's side. Neither
+    closes the loop from detection to an MTD deployment
+    (Section~\ref{sec:future-work}). CHECK antecedent: Tay's detection-rate
+    experiment is only in the MTDShield appendix, not chapter 3.
   \end{itemize}
 
-  \item \textbf{It is quieter: fewer attack actions per minute, and fewer of
-  them flagged by a scan detector.}
+  \item \textbf{It compromises less by the time limit; the runs that reach a
+  target reach it only just later.}
   \begin{itemize}
-    \item Result: lower attack rate, higher attack confidentiality; across all
-    five attackers, attack confidentiality falls as attack rate rises
+    \item Result: ASP and NCR well below the baseline attacker's; MTTC only
+    just longer, and $c_3$'s overlaps the baseline attacker's
     (Table~\ref{tab:unopposed-summary}).
-    \item Why: time in unmapped tactics spaces out the attack actions the
-    detector counts. Instance: $c_3$ spends the most of its steps in unmapped
-    tactics (47\,\%) and has the lowest attack rate and highest attack
-    confidentiality; $c_4$ the least (26\,\%), and the reverse; $c_1$ and $c_2$
-    fall between, in the same order (Figure~\ref{fig:aio-coverage}(a)).
-    $c_3$ is the far end of the mechanism, not an exception.
-    \item Bound: MTDSim detects no attacker; attack confidentiality reads a
-    declared detector, Snort's default scan rule. The spacing follows from
-    declared tactic durations, not from a choice to avoid detection, so
-    property~5 is not met (Section~\ref{sec:fidelity-verdict}).
-    \item Compare (Marc 2026-10-07): Tay also models detection by proxy, on the
-    defender's side: his agent is fed a varying share of the attacker's
-    actions \citep{tay2024}. Here the proxy is on the attacker's side, a rate
-    read against a declared rule. Neither closes the loop from detection to an
-    MTD deployment; that, with a detector of its own, is
-    Section~\ref{sec:future-work}'s (the proposal's detectability layer was
-    scoped out: intrusion detection is its own literature). CHECK antecedent:
-    Tay's detection-rate experiment appears only in the MTDShield appendix
-    (Table D settings), not in chapter 3.
-    \item So: ASP and NCR alone read this attacker as weak. The field's outcome
-    metrics cannot see what makes it an APT
-    (Section~\ref{sec:evaluation-implications}).
+    \item Why:
+    \begin{itemize}
+      \item the same unmapped time leaves fewer attack actions in
+      15\,000\,s;
+      \item attack actions dispatched in its tactics' order, not the baseline
+      attacker's procedure, find a precondition unmet and fail
+      (Section~\ref{subsec:runtime-mechanics}). (CHECK: 14--28\,\% at 100
+      seeds.)
+    \end{itemize}
+    \item Bound:
+    \begin{itemize}
+      \item read at the 15\,000\,s time limit (Table~\ref{tab:experiment}); a
+      longer campaign was not run;
+      \item MTTC is over the runs that reach a target, 42 to 139 of 1\,000
+      against the baseline attacker's 656, so it compares the fastest
+      successes (EXAMINER);
+      \item ASP scores the target host for both attackers; the attack
+      profiles' own objectives (collection, exfiltration, impact) are
+      unmapped (Section~\ref{subsec:tactic-verb-mapping}), so whether an
+      attack profile meets its objective is not scored (EXAMINER, new; to
+      Section~\ref{sec:threats}, construct);
+      \item the attack flows record campaigns that succeeded and were
+      reported (Section~\ref{subsec:failure-matrix}): a lower ASP is a
+      property of the model in MTDSim, not an estimate of how often APTs
+      succeed (Marc 2026-10-08).
+    \end{itemize}
+    \item So:
+    \begin{itemize}
+      \item an APT is defined by persistence toward an objective, not by speed
+      (Section~\ref{subsec:apt}); the APT attacker model is not competing with
+      the baseline attacker, which is the reference;
+      \item ASP and NCR alone read a quiet attacker as a weak one
+      (Section~\ref{sec:evaluation-implications}).
+    \end{itemize}
   \end{itemize}
 
   \item \textbf{The baseline attacker gives MTD one attack path to defend
@@ -8489,18 +8524,40 @@ evaluation (Section~\ref{sec:evaluation-implications}); and bounds them
     (Figure~\ref{fig:aio-coverage}(b)).
     \item Why: weighted choice at the Petri net's decision places, over the 5
     to 19 attack flows of each attack profile.
-    \item Bound: variety in proportion to how often the attack flows took each
-    step, not a strategy chosen against the defender.
+    \item Bound:
+    \begin{itemize}
+      \item The two are counted in different units: the APT attacker model's
+      steps are tactics, the baseline attacker's attack actions. Counted by
+      attack action, the attack profiles still have 190 to 844 against 3.
+      (EXAMINER; one-off check, NOT IN CH5: one clause, or a ch5 footnote.)
+      \item The count is capped by the runs: $c_1$'s 947 is near its 1\,000.
+      \item Variety in proportion to how often the attack flows took each
+      step, not a strategy chosen against the defender.
+    \end{itemize}
     \item So: an MTD evaluated against the baseline attacker is tested on one
-    attack path.
+    attack path; Section~\ref{sec:disc-mtd-performance} reads what MTD does
+    against many.
   \end{itemize}
 
   \item \textbf{The attack profiles differ from one another, but less than all
   four differ from the baseline attacker} (secondary).
   \begin{itemize}
-    \item The profiles divide their steps among the tactics differently
-    (Figure~\ref{fig:aio-coverage}(a)); whether the objective or the partition's
-    size causes it is read in Section~\ref{sec:fidelity-verdict}.
+    \item Result: ranges in ASP, NCR and attack confidentiality
+    (Table~\ref{tab:unopposed-summary}) and in distinct openings
+    (Figure~\ref{fig:aio-coverage}(b)).
+    \item Why: each divides its steps over the tactics its attack flows reach
+    (Figure~\ref{fig:aio-coverage}(a)).
+    \item Carries under MTD (Marc): $c_3$, the slowest, is furthest from the
+    baseline attacker from 500\,s (Figure~\ref{fig:eff-suppression-profiles});
+    explained in Section~\ref{sec:disc-mtd-performance}.
+    \begin{itemize}
+      \item Bound (checked): $c_3$ only. The other three move together and do
+      not follow their attack rates (service diversity at 500\,s: $c_2$ 0.20,
+      $c_4$ 0.24, $c_1$ 0.28).
+    \end{itemize}
+    \item Bound: whether the objective or the partition's size causes the
+    differences is the random-partition ablation's
+    (Section~\ref{sec:fidelity-verdict}).
   \end{itemize}
 \end{itemize}
 

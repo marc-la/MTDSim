@@ -1,7 +1,7 @@
 ---
 status: open — structure ruled (§8); point sets in the ch6 placeholders for Marc's read; next: Marc triages 6.4 and marks points in or out, then slot-form dot points per paragraph
 created: 2026-10-07
-updated: 2026-10-07
+updated: 2026-10-08
 topic: "Chapter 6 (Discussion) assembly: every discussion idea on disk, in the session logs and in Marc's dictation, in one place, vetted against the current chapter 4–5 prose, arranged by section and by importance, with the contradictions to fix and the questions only Marc can answer"
 supersedes: "2026-09-15_ch6_discussion_affinity_board.md for CONTENT (its §10–§11 structure research and rulings stand and are summarised in §1 and §3 below)"
 ---
@@ -688,6 +688,52 @@ Marc's read: MTDShield is an Appendix D item; its line follows service diversity
   \end{itemize}
 \end{itemize}
 ```
+
+## 11. 6.1 point set refined, and a cold examiner's questions (2026-10-08)
+
+**Ask (Marc).** Refine the 6.1 point set and arrange it logically, with nested points. First, give the floats 6.1 reads (Figure 5.1, both panels; Table 5.2), plus Figure 5.4 for the profiles point, to a cold examiner agent with no chapter 6. Its questions show what the discussion covers and what it misses, and may change the framing.
+
+**New order in the tex (DRAFT STATE; old set at `861e74ee`).**
+1. Quieter.
+2. Compromises less by the time limit.
+3. One attack path against hundreds.
+4. The profiles differ (secondary).
+
+1 → 2 is a chain with one cause: unmapped time makes it quiet, and the same time leaves it fewer attack actions by 15 000 s. This is the examiner's framing point, owned up front rather than left for the examiner to find.
+
+**Two one-off checks (scripts not kept; re-runnable from the record layout in `run_corpus.py`).**
+- *Openings by attack action.* `ch5_s531_unopposed/runs_reported.jsonl`, k = 8, dwell-only records dropped, consecutive repeats collapsed (the baseline row's rule): c1 844, c2 484, c3 190, c4 592, against the baseline attacker's 3. Keeping unmapped steps as one "none" symbol gives c1 814, c2 628, c3 100, c4 460. The tactic count reproduces Figure 5.1(b) (947, 748, 179, 662). The plurality point survives the unit change. **NOT IN CH5.**
+- *Does rate order the profiles under MTD?* `ch5_defended/numbers_reported.json`, `sweep.by_interval.*.profile`. c3, the slowest, separates from 500 s: it is highest under the host layer (0.88 against 0.71–0.76 at 500 s) and lowest under service diversity (0.10 against 0.20–0.28). The other three move together and do not follow their attack rates (service diversity at 500 s: c2 0.20, c4 0.24, c1 0.28; host topology at 1 000 s: c1 0.49, c2 0.44, c4 0.38). Marc's "less frequent = further from the baseline" holds for c3 only.
+
+**Examiner questions, triaged.**
+
+*Already covered by the point set:*
+- Tempo and the time limit (Q1, Q3).
+- Stealth, or a side effect of time? (Q6)
+- Openings: choice, or the walk's randomness? (Q7)
+- Objective, or partition size? (Q14; Figure 5.4 "does objective matter")
+
+*Added as bounds:*
+- Attack rate and attack confidentiality are one effect read twice, through a rate rule (Q5).
+- MTTC is over the successful runs only: 42–139 against 656 (Q12). c3's MTTC overlaps the baseline attacker's, so the claim is "only just longer", not "longer".
+- **ASP scores the target host, not the profiles' own objectives, which are unmapped (Q2). This is new; it also belongs in 6.5 construct.**
+- Openings are counted in different units (B).
+- The openings count is capped by the runs (B).
+- c3 alone follows the rate order under MTD (D).
+
+*Belongs elsewhere:*
+- Mapping semantics, e.g. command and control dispatches a neighbour scan (Q10): ch4 ceiling, 6.5 construct.
+- Persistence unmapped (Q11): ch4 already says "a compromised host stays compromised".
+- Figure 5.4's ceiling at 50–200 s, relative versus absolute reduction, the baseline attacker's cliff at 200–500 s, negative user shuffle and topology shuffle, and near-ties in "most effective" (D): 6.2; most are already in the 6.2 draft or §10.
+- Long intervals limited by the time limit, about 7 deployments at 2 000 s (D): 6.5.
+
+*Not covered. Recommend leaving out unless Marc wants them:*
+- Why the baseline attacker fails about a third of its runs with no MTD (Q4). No mechanism on record. The 100-seed 60 000 s comment suggests a plateau, not the time limit, but that is undeclared.
+- c4 has the highest attack rate of the profiles but the lowest ASP (Q8).
+- ASP and NCR rank c1 and c3 differently (Q9).
+- What each tactic mix predicts for MTD (Q13).
+
+*Flag for the ch5 float owner (out of scope here):* Figure 5.1(a) prints "0" for resource development (c1, c2) as distinct from "<1" and blank. Either a reached-but-rounded cell needs a key, or it is a rounding artefact.
 
 ## Validation gate
 
