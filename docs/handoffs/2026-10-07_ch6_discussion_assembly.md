@@ -571,6 +571,65 @@ Marc's ruling (2026-10-08): once a paragraph is drafted and every idea in its po
 
 ```
 
+### 10b. Paragraph 3 (drafted 2026-10-08)
+
+Marc's frame: deployment intervals are secondary to "attacker models versus MTD"; MTD efficiency (overhead, loss of service) is not modelled, so faster is always better in MTDSim and the right interval cannot be known. The claim was reworded from "the attackers need different deployment intervals" (it implied a recommendation) to "a shorter deployment interval holds an attacker back more, and the interval at which that effect falls away depends on the attacker model". 6.4's interval implication now states the direction only (the "up to ten times" factor is dropped).
+
+**Cut from the paragraph, kept here:**
+- The suspension plateau: below about 100 s deployments overlap and MTDSim suspends the excess, so the curves flatten (service-layer mechanisms 148 executed at 50 s against 149 at 100 s; disruption_mechanism.md section 9). No chapter states the suspension rule; it re-enters only if chapter 2 or 5 gets a sentence on it.
+- User shuffle holds the baseline attacker back at 50 s (NCR reduction 0.45) by a brute-force loop (checked; disruption_mechanism.md section 9). Below any practical interval.
+- Topology shuffles (HYP, not traced): rebuilt links can hand the baseline attacker new neighbours, so its NCR rises above its no-MTD NCR from 1 000 s; IP shuffle, which rebuilds no links, does not.
+
+**The retired LaTeX, verbatim.**
+
+```latex
+  % ------------------------------------------------------------------- P3
+  \item \textbf{The attackers need different deployment intervals.}
+  (Follows from P2.)
+  \begin{itemize}
+    \item Result (Figure~\ref{fig:eff-cross-arm},
+    Table~\ref{tab:eff-interval-values}):
+    \begin{itemize}
+      \item the host layer keeps half or more of the APT attacker model's NCR
+      off up to a far longer interval than it does the baseline
+      attacker's;
+      \item the service layer halves the baseline attacker's NCR only at
+      short intervals, and never the APT attacker model's;
+      \item the direction holds at a stricter threshold; the factor between
+      the attackers does not.
+    \end{itemize}
+    \item Why (HYP): MTD holds an attacker back while the interval is
+    shorter than the time the attacker needs to recover what a deployment
+    took (P2):
+    \begin{itemize}
+      \item hence the cliffs, at different intervals for the two attackers;
+      \item hence port shuffle and OS diversity near zero against both from
+      500\,s.
+    \end{itemize}
+    \item Counterpoints:
+    \begin{itemize}
+      \item faster is always better here only because MTDSim charges a
+      deployment no cost (6.5 scope); below the 200\,s default the intervals
+      are the least practical;
+      \item below about 100\,s deployments overlap and MTDSim suspends the
+      excess, so the curves flatten (CH2 or CH5 FIRST: the suspension rule is
+      stated nowhere);
+      \item user shuffle holds the baseline attacker back at 50\,s by a
+      brute-force loop (checked): one clause, or cut, since it sits below any
+      practical interval.
+      \item topology shuffles (HYP, not traced; moved from P2 2026-10-08):
+      rebuilt links can hand the baseline attacker new neighbours, so its NCR
+      rises above its no-MTD NCR from 1\,000\,s; IP shuffle, which rebuilds
+      no links, does not.
+    \end{itemize}
+    \item So: the earlier MTDSim studies ran 50 to 200\,s, where both layers
+    hold the baseline attacker back; an interval tuned against the baseline
+    attacker is mis-set for an APT attacker. Bound: no interval is
+    recommended (6.5).
+  \end{itemize}
+
+```
+
 ## Validation gate
 
 Done when Marc has answered §7, the structure in §3 is ruled, and every primary point in §4 has its evidence re-read on the 1 000-seed corpus, or is labelled a hypothesis. The next deliverable is per-paragraph dot points (slot form) for Marc's dictation.

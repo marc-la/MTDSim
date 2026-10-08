@@ -8610,9 +8610,42 @@ the baseline attacker, which loses no time to it. Time lost per MTD
 deployment measures what MTD costs an attacker
 (Section~\ref{sec:evaluation-implications}).
 
+% DRAFT STATE 2026-10-08 --- paragraph 3 drafted on Marc's frame ("a secondary
+%  point ... efficiency isn't modelled ... we just cannot know" the right
+%  interval): about half the length of P1 and P2. Claim reworded from "the
+%  attackers need different deployment intervals" (implied a recommendation).
+%  Numbers: 1 000 s and 200 s from Section 5.3.2's prose; 100 s from
+%  Table E.2 (host-layer mean 0.52 at 100 s, 0.49 at 200 s, baseline
+%  attacker). "likely" carries the HYP (recovery time). Cut to the ch6 handoff
+%  section 10: the suspension plateau, user shuffle at 50 s, topology shuffles
+%  above the no-MTD NCR. The no-cost fact is stated in full in 6.5; here one
+%  sentence and a pointer. Session-written; ratify on read.
+In MTDSim, a shorter deployment interval holds an attacker back more, and the
+interval at which that effect falls away depends on the attacker model. NCR
+reduction under both MTD layers falls as the deployment interval grows
+(Figure~\ref{fig:eff-cross-arm}, Table~\ref{tab:eff-interval-values}). The
+host layer keeps half or more of the APT attacker model's NCR off up to
+1\,000\,s, and the baseline attacker's only up to 100\,s; the service layer
+halves the baseline attacker's NCR up to 200\,s, and never the APT attacker
+model's. MTD likely holds an attacker back only while the deployment interval
+is shorter than the time the attacker needs to recover what a deployment
+took, and the two attackers recover from different MTD layers. Faster is
+better here only because MTDSim charges a deployment nothing. On a real
+network the deployment interval trades how much MTD holds an attacker back
+against the overhead and loss of service each deployment costs, and MTDSim
+models neither (Section~\ref{sec:threats}), so these results set no
+deployment interval. The intervals shorter than MTDSim's default of 200\,s are
+also the least practical. The results give a direction. The earlier MTDSim
+studies ran 50 to 200\,s (Table~\ref{tab:lineage-configurations}), where both
+MTD layers hold the baseline attacker back. A deployment interval chosen
+against the baseline attacker would judge the host layer spent far sooner
+than it is against the APT attacker model, and rely on a service layer that
+never halves the APT attacker model's NCR.
+
 \noindent\emph{[Points for dictation, reading Section~\ref{sec:effectiveness}.]}
 % 2026-10-08: P1 and P2 drafted above; their point groups retired to the ch6
-% handoff, section 10 (Marc: drafted ideas leave the LaTeX). P3 and P4 remain.
+% handoff, section 10 (Marc: drafted ideas leave the LaTeX). P3 drafted and
+% retired the same day; P4 remains.
 % RESTRUCTURED 2026-10-08 (Marc ruled the four-paragraph chain): which MTD ->
 % what a deployment costs -> how often MTD must deploy -> what a learned
 % strategy does with it. Each paragraph is the next one's cause. The old
@@ -8624,51 +8657,6 @@ deployment measures what MTD costs an attacker
 % check: docs/implementation/disruption_mechanism.md section 9; the ch6
 % handoff section 9. Earlier point sets: git d736bbac, 7fe97e76, 33d2e16d.
 \begin{itemize}
-  % ------------------------------------------------------------------- P3
-  \item \textbf{The attackers need different deployment intervals.}
-  (Follows from P2.)
-  \begin{itemize}
-    \item Result (Figure~\ref{fig:eff-cross-arm},
-    Table~\ref{tab:eff-interval-values}):
-    \begin{itemize}
-      \item the host layer keeps half or more of the APT attacker model's NCR
-      off up to a far longer interval than it does the baseline
-      attacker's;
-      \item the service layer halves the baseline attacker's NCR only at
-      short intervals, and never the APT attacker model's;
-      \item the direction holds at a stricter threshold; the factor between
-      the attackers does not.
-    \end{itemize}
-    \item Why (HYP): MTD holds an attacker back while the interval is
-    shorter than the time the attacker needs to recover what a deployment
-    took (P2):
-    \begin{itemize}
-      \item hence the cliffs, at different intervals for the two attackers;
-      \item hence port shuffle and OS diversity near zero against both from
-      500\,s.
-    \end{itemize}
-    \item Counterpoints:
-    \begin{itemize}
-      \item faster is always better here only because MTDSim charges a
-      deployment no cost (6.5 scope); below the 200\,s default the intervals
-      are the least practical;
-      \item below about 100\,s deployments overlap and MTDSim suspends the
-      excess, so the curves flatten (CH2 or CH5 FIRST: the suspension rule is
-      stated nowhere);
-      \item user shuffle holds the baseline attacker back at 50\,s by a
-      brute-force loop (checked): one clause, or cut, since it sits below any
-      practical interval.
-      \item topology shuffles (HYP, not traced; moved from P2 2026-10-08):
-      rebuilt links can hand the baseline attacker new neighbours, so its NCR
-      rises above its no-MTD NCR from 1\,000\,s; IP shuffle, which rebuilds
-      no links, does not.
-    \end{itemize}
-    \item So: the earlier MTDSim studies ran 50 to 200\,s, where both layers
-    hold the baseline attacker back; an interval tuned against the baseline
-    attacker is mis-set for an APT attacker. Bound: no interval is
-    recommended (6.5).
-  \end{itemize}
-
   % ------------------------------------------------------------------- P4
   \item \textbf{MTDShield favours the MTD mechanism that holds back the
   attacker it was trained against.}
@@ -8865,9 +8853,11 @@ four.]}
   lost, not attack actions blocked.
   \item \textbf{Set the deployment interval against the attacker model.}
   CTI does not record when attackers act
-  (Section~\ref{subsec:profiling}), and the interval MTD needs differed by up to
-  ten times between the two attackers (at an NCR reduction of 0.5; the factor
-  depends on the threshold, the direction does not). Bound: no MTD cost modelled.
+  (Section~\ref{subsec:profiling}), and the interval at which MTD stops
+  holding an attacker back differed between the two attackers
+  (Section~\ref{sec:disc-mtd-performance}). Direction only, no factor (Marc
+  2026-10-08: with no MTD cost modelled, the right interval cannot be known);
+  the no-cost bound is 6.5's.
   \item \textbf{Build the attacker by objective when the objective is known}
   (secondary). From Section~\ref{sec:fidelity-verdict}: the attack profiles
   changed the outcome.
