@@ -8856,25 +8856,40 @@ assumptions comes first (Section~\ref{sec:evaluation-implications}).
 % secondary). The ceiling is now paragraph 2's logic: each in-part mark stops
 % where the ceiling is. The six-point set is in handoff 12c. Rule ratified in
 % handoff 12; Table 6.1 updated to it.
+% DRAFT STATE 2026-10-08 --- paragraph 1 drafted from point P1 on Marc's
+%  request ("draft paragraph 1 ... be transparent about our rules"); P1 retired
+%  to the ch6 handoff section 12d. Session-written; ratify on read.
+%  Order: verdict against the field; the gain on the baseline attacker; the rule
+%  (fixed first, one source each, runs lower never raise); the transparency
+%  sentence; the check; the frame. No new numbers.
+%  THE CHECK SENTENCE: the reader named in the earlier points as "blind" saw
+%  Table 6.1's marks (the cold examiner's packet), so the session re-ran a truly
+%  blind scorer 2026-10-08: chapters 3 and 4 only, the property claims of
+%  chapter 4's opener, 4.4.3 and 4.4.4 redacted. It gave the same eight marks
+%  (handoff 12d). OWED: the AI Use Declaration (empty) must name this use.
+Scored by the rule of Chapter~\ref{ch:litreview}, the APT attacker model has
+two of the eight properties in full, five in part, and lacks one; none of the
+three MTD attacker models scored there has more than one in full
+(Table~\ref{tab:fidelity-verdict}). Against the baseline attacker, it gains
+choice of attack strategy in full and detection avoidance in part. The eight
+properties were fixed before any attacker model was scored
+(Section~\ref{subsec:attacker-criterion}). Each mark scores what an attacker
+model does as its source describes it: the three from their papers
+(Section~\ref{subsec:recent-threat-models}), the APT attacker model from
+Chapter~\ref{ch:attacker-model}. The runs of Chapter~\ref{ch:experiments}
+could lower one of its marks, if a component failed to produce its behaviour,
+but never raise one, because the other three had no runs to be checked
+against. We first marked what the model implements, which put
+objective-specific behaviour and adaptivity in full; scored by the rule, both
+are in part. A language model given only Chapters~\ref{ch:litreview}
+and~\ref{ch:attacker-model}, with our claims of which properties the model
+has removed, gave the same eight marks (AI Use Declaration). The eight are
+what the APT definition and two surveys find missing from MTD attacker
+models; they are not a complete standard (Section~\ref{sec:threats}).
+
 \noindent\emph{[Points for dictation, reading Table~\ref{tab:fidelity-verdict}
 and Section~\ref{sec:ablation}.]}
 \begin{itemize}
-  \item \textbf{P1. Scored by Chapter~\ref{ch:litreview}'s rule, the APT
-  attacker model has two properties in full, five in part and one not met; no
-  other MTD attacker model scored has more than one in full.}
-  \begin{itemize}
-    \item Scored by Table~\ref{tab:attacker-cross-section}'s rule from
-    Chapter~\ref{ch:attacker-model}'s text, as the others were from their
-    papers. Our runs may lower a mark, never raise one: the others had no runs
-    to be checked against.
-    \item Transparency: the first draft marked what the model implements;
-    scored by the rule, objective-specific behaviour and adaptivity fall to in
-    part. Marc scored the row; a blind reader under the same rule agreed (the
-    AI Use Declaration names it).
-    \item Frame, one clause: eight properties the literature finds missing,
-    not a complete standard (its limits in Section~\ref{sec:threats}).
-  \end{itemize}
-
   \item \textbf{P2. What stops each mark short of in full is the ceiling: the
   attack actions, or a decision no part of the model makes.}
   \begin{itemize}

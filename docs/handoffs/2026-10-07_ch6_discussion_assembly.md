@@ -1313,6 +1313,20 @@ and Section~\ref{sec:ablation}.]}
 \end{itemize}
 ```
 
+### 12d. 6.3 paragraph 1 drafted (2026-10-08); P1 retired; a truly blind re-score
+
+- **Correction:** the earlier points said "a blind reader agreed", but that reader was the second cold examiner, and its packet held Table 6.1's marks. So the session ran a truly blind scorer. Its packet (scratchpad blind_score_packet.tex) held chapter 3, 2870–3430, and chapter 4, 3840–5277, with comments stripped and three property claims redacted: chapter 4's opener ("built for four ..."), 4.4.3 ("gives ... adaptivity, property 4") and 4.4.4 ("gives ... learning, property 7, in part").
+- **Result:** ✓ P ✓ P P P P ✗, the same as the ratified row. Close calls it named:
+  - 3 drops to P if a frequency-weighted draw counts as a fixed rule (Marc's simulation-vs-emulation answer, 12b);
+  - 4 rises only if the failure matrix were data-derived or keyed to the MTD disruption;
+  - 5 drops to ✗ if a timed delay is not "choosing an action" (Kim picked a concrete action);
+  - 6 rests on "the same attack actions" (verified in code: host.get_vulns sorts by RoA).
+- **Owed:** the AI Use Declaration (currently empty) must name this use: a language model re-scored the row from chapters 3–4 with the claims redacted.
+- **Retired P1 (verbatim):** "P1. Scored by Chapter 3's rule, the APT attacker model has two properties in full, five in part and one not met; no other MTD attacker model scored has more than one in full."
+  - Scored by Table 3.3's rule from Chapter 4's text, as the others were from their papers. Our runs may lower a mark, never raise one: the others had no runs to be checked against.
+  - Transparency: the first draft marked what the model implements; scored by the rule, objective-specific behaviour and adaptivity fall to in part. Marc scored the row; a blind reader under the same rule agreed (the AI Use Declaration names it).
+  - Frame, one clause: eight properties the literature finds missing, not a complete standard (its limits in Section 6.5).
+
 ## Validation gate
 
 Done when Marc has answered §7, the structure in §3 is ruled, and every primary point in §4 has its evidence re-read on the 1 000-seed corpus, or is labelled a hypothesis. The next deliverable is per-paragraph dot points (slot form) for Marc's dictation.
