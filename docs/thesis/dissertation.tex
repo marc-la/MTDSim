@@ -9157,46 +9157,60 @@ is future work (Section~\ref{sec:future-work}).
 %  stepping stone; mitigation shared actions/network/MTD/seeds); other limits
 %  (one token, registry F8; one network; 15 000 s; simulation only; existing
 %  MTD only; MTD on its schedule).
+% DRAFT STATE 2026-10-08 --- paragraph 2 (internal) drafted from the four
+%  internal points, which it replaces: the cause not isolated [T1], not
+%  identical conditions [T9], the end of a run [T6], verification. Corrected
+%  on drafting: SIX tactics take an MTDSim attack action's time and nine take
+%  judgement (Section 4.4.x), not "two from MTDSim's constants". Points back to
+%  6.2 for the relative measure and the ASP-reduction check, and to 6.3 for the
+%  ablations. The B19 sentence is a PLACEHOLDER until the run ends (criterion
+%  fixed before the run; reported either way). Ratify on read.
+The comparison shows that the APT attacker model changes which MTD mechanisms
+are most effective; it does not show which of the model's parts causes the
+change. The APT attacker model differs from the baseline attacker in unmapped
+time, order and its response to failure at once. The ablations remove the
+failure matrix, the vulnerability memory and the attack profiles, and none
+changes which MTD mechanisms reduce NCR the most
+(Section~\ref{sec:fidelity-verdict}). That leaves unmapped time and order,
+which no run separates. NCR rests most on the 45\,s mean duration
+(Section~\ref{subsec:dwell-times}); with it at a quarter and at four times its
+value, \emph{[RESULT PENDING, registry B19: whether the APT attacker model's
+most effective MTD mechanisms still share none with the baseline attacker's,
+and the host layer still ranks above the service layer]}. Order has no test of
+its own. The baseline attacker given the APT attacker model's unmapped time
+would separate the two, and is future work (Section~\ref{sec:future-work}).
+The two attackers also do not run under identical conditions. An attack
+action takes the mean duration of the tactic that dispatches it, not MTDSim's
+time: scan neighbours takes 45\,s for command and control, and 5\,s for the
+baseline attacker (Table~\ref{tab:attack-action-times}). Six tactics take the
+time of one of MTDSim's attack actions, and nine take our judgement, all set
+before any result (Section~\ref{subsec:dwell-times}). The vulnerability memory
+also acts on an exploit's chance of success, where the baseline attacker's
+acts on its time. With no MTD, the APT attacker model's NCR is 0.15 to 0.21
+against the baseline attacker's 0.50 (Table~\ref{tab:unopposed-summary}), so
+each ranking compares MTD mechanisms against one attacker, over that
+attacker's own NCR with no MTD (Section~\ref{sec:disc-mtd-performance}). A run
+also ends at the first target host compromised or at 15\,000\,s
+(Table~\ref{tab:experiment}). The baseline attacker's NCR therefore stops
+short in 656 of its 1\,000 runs with no MTD, and the APT attacker model's
+mostly runs to the time limit. The reversal also holds on ASP reduction, which
+an early end does not cut short (Section~\ref{sec:disc-mtd-performance}).
+Last, the code was checked against this text by repeatable checks: an event
+tracer that replays a run step by step, an audit of MTDSim's code against
+what its papers describe, unit tests of the Petri net and the simulator, and
+fixed seeds that reproduce every run exactly. Defects found in MTDSim were
+repaired before the evaluation.
+
+% Internal points [T1, T9, T6], dictated as paragraph 2 above on 2026-10-08:
+%  cause not isolated (ablations of failure matrix, vulnerability memory,
+%  attack profiles change no ranking; Petri net's choice no ablation; random
+%  partitions; B19); not identical conditions (tactic durations, not MTDSim's
+%  times; memory on odds vs time; NCR 0.15-0.21 vs 0.50; durations declared and
+%  swept; Table B.4b); end of a run (656/1000; ranking within one attacker;
+%  ASP reduction; MTTC not comparable when one attacker is slower);
+%  verification (tracer, intent audit, tests, seeds; defects repaired).
 \noindent\emph{[Points for dictation.]}
 \begin{itemize}
-  \item \textbf{Internal: the APT attacker model differs from the baseline
-  attacker in order, pace and failure response at once.}
-  \begin{itemize}
-    \item The cause is not isolated [T1]. Ablations remove the failure matrix,
-    the vulnerability memory and the attack profiles; none changes which MTD
-    mechanisms are most effective (Section~\ref{sec:fidelity-verdict}). The
-    Petri net's choice has no ablation of its own. Mitigation: the same
-    network, MTD, attack actions and seeds; the three ablations; the random
-    partitions for corpus size against objective; the ranking repeated with
-    the 45\,s mean duration at both ends of its band (registry B19, RUNNING;
-    result and appendix home pending). Residual: the claim is that the APT
-    attacker model changes the answer, not which of its parts does.
-    \item Not identical conditions [T9]. The attack actions take the tactic
-    durations, not MTDSim's times: two durations come from MTDSim's
-    constants, the rest were extrapolated by reasoning before any result
-    (Section~\ref{subsec:dwell-times}). The vulnerability memory acts on the
-    odds of success, the baseline attacker's on time. With no MTD, NCR is
-    0.15 to 0.21 against 0.50 (Table~\ref{tab:unopposed-summary}). Mitigation: the durations declared and swept
-    (Appendix~\ref{app:sensitivity}); each attack action's MTDSim time beside
-    the tactic durations that drive it (Table~\ref{tab:attack-action-times}).
-    Residual: pace is not matched. The abstract now says "twice on the same
-    networks".
-    \item The end of a run [T6]. A run ends at a target host compromised or
-    at 15\,000\,s (Table~\ref{tab:experiment}), so the baseline attacker's
-    NCR stops early in 656 of its 1\,000 runs with no MTD while the APT
-    attacker model's mostly runs to the time limit. Mitigation: each ranking
-    is within one attacker, over its own NCR with no MTD; the reversal also
-    holds on ASP reduction (Section~\ref{sec:disc-mtd-performance}), which the
-    end of a run does not cut short. MTTC cannot be compared when one attacker
-    is slower (Marc). Residual: NCR reduction is the measure left standing,
-    not a perfect one.
-    \item Verification, one or two sentences: the code checked against the
-    text by named, repeatable checks (the event tracer, the audit against the
-    literature, tests, fixed seeds; every added run reproduces the reported
-    corpus at the declared point); defects in the inherited simulator repaired
-    before the evaluation.
-  \end{itemize}
-
   \item \textbf{Construct: the values of judgement, the metrics, and the
   yardstick.}
   \begin{itemize}
