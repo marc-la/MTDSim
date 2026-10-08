@@ -9109,42 +9109,56 @@ dependence and the method, not the numbers or the rankings.]}
 % time: does the reversal survive?) is answered by this framing plus the
 % duration-band ranking run (RUNNING; registry B19). Items carry their
 % examiner rank as [Tn].
+% DRAFT STATE 2026-10-08 --- paragraph 1 (scope) drafted from the four scope
+%  points of the rebuilt spine (two roots, both inherited from MTDSim; their
+%  consequence; the other limits by design), which it replaces. Points back to
+%  6.1 (refusal), 6.2 (cost) and 6.3 (unmapped time and order) rather than
+%  re-explaining them. Wohlin et al. 2012 for the four types is still NOT in
+%  references.bib, so the first sentence carries no citation yet. Ratify on read.
+This section bounds the results: first the limits set by design, then the
+threats to internal, construct, external and conclusion validity. Every result
+is a result in MTDSim, and two of its design choices bound them all. The first
+is its attack actions. The APT attacker model runs the six that MTDSim adopted
+\citep{brown2023}, so that both attackers act through the same attack
+actions on the same networks. Seven tactics have no attack action to
+dispatch, and the tactic-to-action mapping is an input we chose
+(Section~\ref{subsec:tactic-verb-mapping}). The six also encode one order:
+each relies on the state the one before it leaves
+(Figure~\ref{fig:attacker-model}), so an attack action that arrives before its
+preconditions is refused (Section~\ref{sec:disc-behaviour}). The second is
+that MTDSim prices nothing. A deployment costs no overhead or loss of service,
+and nothing watches the attacker, so the faster attacker and the shorter
+deployment interval gain at no cost (Section~\ref{sec:disc-mtd-performance}).
+On a real network, speed raises alarms and every deployment costs service.
+Section~\ref{sec:fidelity-verdict} traced the difference between the two
+attackers to unmapped time and order, and these are where the APT attacker
+model meets MTDSim's two design choices. In a simulator that prices nothing,
+unmapped time earns the APT attacker model nothing and costs it outcome; its
+order is cut short by the attack actions' own. The grounding in CTI is
+therefore a first step: it decides what runs between the attack actions, and
+these two choices decide how much that pays off. Both attackers share the
+attack actions, the networks, the MTD mechanisms and the seeds, so a
+difference between their results comes from the attackers alone. What the APT
+attacker model achieves, though, cannot exceed what the attack actions allow.
+Other limits are also set by design: one token, so the attacker pursues one
+line of the campaign at a time; one 50-host network with two target hosts and
+synthetic vulnerabilities; runs of 15\,000\,s, about four hours, against
+campaigns of months; simulation only (Section~\ref{subsec:evaluation-methods});
+and existing MTD mechanisms only, each deployed at a deployment interval. Each
+is future work (Section~\ref{sec:future-work}).
+
+% Scope points [T1, T14, T4], dictated as paragraph 1 above on 2026-10-08:
+%  the attack actions (six adopted from Brown 2023 for tractability and
+%  comparability; one order; seven unmapped; mapping a chosen input; outcome
+%  ceiling; refusals; failure matrix and vulnerability memory change no
+%  outcome; plurality costs success); a simulator that prices nothing (speed
+%  wins on both sides; intervals below 200 s least practical, read as the
+%  simulator's); consequence (pace and order meet the two roots; grounding a
+%  stepping stone; mitigation shared actions/network/MTD/seeds); other limits
+%  (one token, registry F8; one network; 15 000 s; simulation only; existing
+%  MTD only; MTD on its schedule).
 \noindent\emph{[Points for dictation.]}
 \begin{itemize}
-  \item \textbf{Scope: two roots, both inherited from MTDSim} (the lead).
-  \begin{itemize}
-    \item The attack actions [T1, T14]. The APT attacker model runs MTDSim's
-    six, adopted from \citet{brown2023} to keep the work tractable and
-    comparable. They encode one order: each relies on the state the one before
-    it leaves (Figure~\ref{fig:attacker-model}). Consequences, stated once:
-    seven unmapped tactics; a tactic-to-action mapping that is a chosen input;
-    the outcome ceiling; attack actions refused for a missing precondition;
-    the failure matrix and vulnerability memory that change no outcome.
-    Plurality was not in mind when they were written, so adding it costs
-    success.
-    \item A simulator that prices nothing [T1] (Marc 2026-10-08). A deployment
-    costs no overhead or loss of service, and nothing watches the attacker. So
-    speed wins on both sides: the faster attacker, and the shorter deployment
-    interval. On a real network speed raises alarms and deployments cost
-    service. Intervals below the 200\,s default are where most of the holding
-    back happens and the least practical; read results there as the
-    simulator's.
-    \item Consequence: pace and order, the two levers that move attack outcome
-    most, are exactly where the APT attacker model meets these two roots
-    (Section~\ref{sec:disc-behaviour}). The grounding in CTI decides what runs
-    between the attack actions; how much it pays off in MTDSim is set by pace
-    and order. Mitigation: both attackers share the attack actions, network,
-    MTD and seeds. Residual: what the APT attacker model achieves cannot
-    exceed what the attack actions allow. The grounding is a stepping stone
-    for threat modelling in MTD. To Section~\ref{sec:future-work}.
-    \item Other limits by design, each to Section~\ref{sec:future-work}: one
-    token (MTDSim's attack actions share one context; registry F8); one 50-host
-    network with two target hosts and synthetic vulnerabilities; runs of
-    15\,000\,s, about four hours, against campaigns of months [T4]; simulation
-    only (Section~\ref{subsec:evaluation-methods}); existing MTD only; MTD on
-    its schedule.
-  \end{itemize}
-
   \item \textbf{Internal: the APT attacker model differs from the baseline
   attacker in order, pace and failure response at once.}
   \begin{itemize}
