@@ -1450,6 +1450,61 @@ Ranked (n = examiners raising it, of 6):
 Below the cut: unreported numbers in 6.1-6.2 (registry A1, A3); a second cause of quietness (refused actions drop out of attack rate);
 the inherited restart artefact (unflagged in ch2); post-hoc c3 story; run-level vs seed-level resampling; one network (well bounded).
 
+### 13a. Marc's answers to the fifteen (2026-10-08, dictated; NOT RULED into prose yet)
+
+1. Cause of the reversal. Pace and order are the biggest levers on attack outcome. Pace: MTDSim models no efficiency (no overhead, no
+   detection), so the faster attacker (and the faster MTD) wins; in the real world speed raises alarms. Order: a concession of adopting
+   Brown 2023's attack actions to keep the project tractable and defensible. The grounding in documented behaviour does choose what runs
+   between the attack actions; it is a stepping stone for threat modelling in MTD. Answered in part.
+   SESSION READ: holds as a bounded claim. NEW SPINE for 6.5: two roots, both inherited from MTDSim -- the attack actions (order,
+   unmapped tactics, mapping) and a simulator that prices nothing (no MTD cost, no detection), so speed wins on both sides.
+2. Headline untested across the judgement values. Marc read it as "the headline is not derived"; it is derived (5.3). SESSION
+   CLARIFICATION: the ranking is shown at the declared durations only; Appendix C varies the durations on the APT attacker model's NCR
+   under random, never the ranking against the baseline attacker. The baseline attacker uses no tactic duration, so only the APT arm
+   needs re-running at the band ends. Decision owed: run (APT arm, 45 s band ends, ten MTD options, 200 s) or bound.
+3. Counts: "on purpose ... happy for this to be fixed". Propagate.
+4. Name and corpus. Major; conceded. Corpus issues (non-exhaustive): sparse; records incidents; not all APT (ransomware, ~20 of 38);
+   incomplete; profiled by hand. Without the 20, too few flows. Idea: 18 attributed flows against 38 (appendix?).
+   SESSION READ: the 18-flow subset cannot carry four attack profiles; at most an attack-graph-only arm. Future work, not now.
+5. Choice of attack strategy. The Petri net offers several sequences of attack actions toward the same objective within a profile;
+   an aggregate of documented behaviour, a plausible campaign per objective. Calling it a random draw extends the attack-action
+   limitation dishonestly. (Also argued property 2: the profiles' differing post-intrusion edges, e.g. defence impairment in some
+   profiles and not others, encode objective-specific behaviour.) SESSION READ: holds for 3 in full by the rule (Table 3.2's wording);
+   P2 already carries simulation against emulation. 2 stays in part (the edges differ; the terminal actions on objectives are unmapped).
+6. End-of-run rule. NCR reduction is relative within each attacker, normalised so attackers can be compared; MTTC cannot be standardised
+   when one attacker is slower; NCR reduction is "the last man standing" despite its flaws. Successful-only / failed-only split as an
+   appendix? SESSION READ: within-attacker argument holds for the rankings; 6.2 already shows the reversal on ASP reduction
+   (tab:eff-interval-values-asp), which the end-of-run rule does not truncate. That is the answer; no new run.
+7. Time lost per MTD deployment. Concern: 2 000 s, not the default 200 s; the first deployment's pull-forward (restart rule) weighs
+   against ~6 later ones at 2 000 s but ~74 at 200 s, so negative time lost may be an artefact of the interval choice and "looks like
+   a bug". SESSION CHECK (time_lost_first_deployment_numbers.json, on disk): baseline attacker, first deployment -204 to -232 s (every
+   mechanism but user shuffle); later deployments (state differs) +19 to +31 s for the four shuffles, +648 s service diversity,
+   -21 s OS diversity, -30 s user shuffle. The negative means come from the first deployment. Homes 6.2's "its later deployments cost
+   it time" if given a chapter 5 sentence. Adaptivity: answered in part; 6.3's "no metric of their own" to reconcile with ch4.
+8. Yardstick: not answered separately; one line in 6.5 (scope rule).
+9. "Identical conditions": conceded. The tactic durations were set early, two from MTDSim's constants, the rest by reasoned
+   extrapolation; too late to change after the results. Idea: an appendix table of each attack action's baseline time beside the
+   tactic durations that drive it. A reusable point: the full set of tactic durations lets others use the APT attacker model as a
+   second baseline without re-deriving times (6.4 candidate, modestly).
+10. Rankings. A ranking is tied to the simulator's assumptions (how disruption is modelled between attacker, network and defence);
+   MTDShield shows the same (it favours service diversity, the baseline attacker's rank 1; NOTE Marc's 96/89 % is 76/70 % in App D).
+   User shuffle is weak because vulnerabilities, not credentials, are the currency of MTDSim's attacker. Rankings are used only to show
+   that the two attackers' rank 1 do not line up, never as a verdict or to build an APT-optimised MTD. Rant (6.4 / ch7 candidate):
+   ranking MTD mechanisms is close to a dead end; the field should move from effectiveness to efficiency, cost and simplicity; MTD is
+   unadopted since 2009 because of cost, legacy systems, quality of service, technical debt; "MTD by default" needs frameworks and
+   best practice; AI may help integrate legacy attack surfaces. LITERATURE TO CHECK before any claim on adoption barriers.
+11. Ablation: the +-0.2 bound is Cohen's default, conceded; d type to state; ablations must be read on NCR reduction. SESSION CHECK:
+   d is Cohen's d on per-seed means with the pooled SD, interval by resampling seeds (ablation.py); 5.4 reports d on NCR; 6.3 P3 says
+   "read on NCR reduction" -- only B15 (the top-three set) is on NCR reduction. Fix the P3 sentence.
+12. MTDShield: keep "as released"; AI models assume their training environment (cite Zhang/Cho, to check). SESSION: soften, not cut.
+13. Profile data: conceded; LLMs could synthesise attack flows from APT-only reports with sequence and dependency (Attack Flow now
+   ingests threat reports with AI -- TO VERIFY before citing); ATT&CK groups are membership only, no dependency or order, hence
+   attack flows; traded volume for specificity. Future work (registry F10).
+14. Mapping: one judgement, presented as such; total mapping tried and illogical. Stays.
+15. 6.4 unwritten: constraint on drafting.
+Authorised now: #3 propagation; "fix up those sentences" (6.3 P3 judgement clause, NCR-reduction clause). HOLD: any mark change
+(adaptivity, choice of attack strategy) until Marc has read the session's reading.
+
 ## Validation gate
 
 Done when Marc has answered §7, the structure in §3 is ruled, and every primary point in §4 has its evidence re-read on the 1 000-seed corpus, or is labelled a hypothesis. The next deliverable is per-paragraph dot points (slot form) for Marc's dictation.
