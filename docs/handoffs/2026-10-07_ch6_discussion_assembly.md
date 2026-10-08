@@ -429,7 +429,7 @@ Marc dictated a read of Figures 5.2–5.4 and Tables 5.3, E.2 against the 6.2 po
 | MTDShield picks what one would pick against the baseline | **Holds.** | SD first or tied first against the baseline at every interval; rank 4 against the APT model (Table 5.3); MTDShield ≥ 70 % SD. "Overfit" stays the hypothesis's word. |
 | Tay modelled IDS by proxy | **Holds, defender side.** | `extractions/tay2024.md` T-EVAL-04/05: a varying fraction of attacker-action information fed to the agent; nothing about the attacker changes. Antecedent only in App. D. |
 
-**Placement.** The 6.2 point set in `dissertation.tex` now carries these (P2 and old P3 merged; user shuffle no longer "open"; random vs alternative added as a loose end for 6.5). 6.1's quieter point gained the Tay compare. **Owed by Marc:** ratify the App. E first-deployment appendix item (session-generated, unread) before 6.2-P2 leans on it.
+**Placement.** The 6.2 point set in `dissertation.tex` now carries these (P2 and old P3 merged; user shuffle no longer "open"; random vs alternative added as a loose end for 6.5). 6.1's quieter point gained the Tay compare. **2026-10-08:** the App. E first-deployment item is ruled out; its key points are in 6.2-P2 and the rest in `docs/implementation/disruption_mechanism.md` §9.
 
 ## Validation gate
 

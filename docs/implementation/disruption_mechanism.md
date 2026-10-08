@@ -500,3 +500,61 @@ baseline attacker's first compromise shortens its time to that compromise by
 which rarely interrupts it. The uniformity points to the baseline restarting its
 procedure after an interrupt rather than to any mechanism. Classify it against
 `mtdsim_intent_spec.md` before calling it a bug.
+
+## 9. The first deployment: why the baseline attacker's time lost is below zero (1 000 seeds, 2026-10-06; placed 2026-10-08)
+
+**Why this is here.** Section 8's last finding, re-checked on the 1 000-seed corpus at Marc's question (2026-10-06: "I would expect … at least 20 seconds … I don't expect it to speed up"). It was owed to Appendix E of the dissertation as a worked trace plus first/later-deployment columns. On 2026-10-08 Marc ruled the appendix item out: its key points are chapter 6.2's blocked-attack-action paragraph, and the rest is this record. Copied from the 2026-10-06 ch5 redraft handoff §8, which retires with that handoff.
+
+Checker: `data/results/ch5_defended/time_lost_first_deployment.py` → `time_lost_first_deployment_numbers.json` (2 000 s interval). Each deployment `time_lost.py` keeps is split three ways: first deployment against later ones; whether the run with MTD and its no-MTD twin had compromised the same hosts at the same times up to the deployment; whether the deployment blocked an attack action.
+
+**1. The penalty is charged.** The baseline attacker pays the confusion
+penalty, an exponential draw about 20 s, on every interrupt
+(`mtdnetwork/operation/attack_operation.py:212`). After a host-layer interrupt
+it then restarts at SCAN_HOST, and after a service-layer one at SCAN_PORT.
+Marc's expectation is right for every deployment but the first. After the
+first, time lost is positive under the host layer: +21 to +33 s against the
+baseline attacker, about the penalty plus the rescan.
+
+**2. The first deployment is the exception, and it carries every negative.** At
+every interval the first deployment completes one deployment duration into
+the run, about 110 s. At that moment the baseline attacker is exploiting its
+first host. The forced rescan puts that host back at the head of its queue, so
+the attacker gets a second attempt it would not otherwise have had.
+
+| Baseline attacker, 1 000 runs | median time to first compromise | runs whose first compromise is host 0 |
+|---|---|---|
+| no MTD | 689 s | 456 |
+| complete topology shuffle, 2 000 s | 370 s | 766 |
+| service diversity, 2 000 s | 332 s | 760 |
+| user shuffle, 2 000 s (blocks almost nothing) | 698 s | 453 |
+
+Time lost at the first deployment is −204 to −232 s for every mechanism that
+blocks the baseline attacker. That includes service diversity, whose
+deployments after the first cost +648 s. Averaged over about five deployments
+per run, the first deployment pulls the host-layer means below zero.
+
+**3. It is inherited intent, not a bug.** The intent spec classes the forced
+rescan after a block as documented intent: IS-INT-01, IS-INT-05 ("restart from
+Phase 1 regardless of prior progress") and IS-INT-07 (Brown §III-D, §V-A;
+Zhang §4.4.2). The second attempt is a consequence of that rule. Classified
+`conforms`; it is not a bug candidate. The APT attacker model does not get the
+second attempt. Its first deployment costs +73 to +106 s under the host layer.
+
+**4. B2's direction survives both subsets.** Host layer against service layer:
+- the APT attacker model: +73 to +106 against −2 to +10 s at the first
+  deployment; +257 to +361 against +34 to +76 s at the later ones;
+- the baseline attacker: about −220 s for every blocking mechanism at the first
+  deployment; at the later ones, service diversity +648 s against the host
+  layer's +21 to +33 s.
+
+**5. A measurement caveat that stays.** After the first deployment, the
+defended run and its no-MTD twin are compared at the same clock time, not at
+the same point in their campaigns. The 2026-09-24 record named this (8g-5,
+decision 3). The two runs' states differ at 80 % or more of the later deployments (bounded from the checker's marginal counts). The
+direction of B2 does not depend on it; the magnitudes might.
+
+**Later checks (2026-10-07), on the same numbers.**
+- **User shuffle is not this mechanism.** For the APT attacker model the first user-shuffle deployment costs +9.9 s; the negative mean (−26 s) comes from later deployments that block nothing (−25.6 s, 30 486 deployments; 0.01 blocked per deployment). Its cause is the credential re-draw: `usershuffle.py` re-draws every internal host's accounts and leaves the attacker's held accounts valid (ruling D-02), and `host.py` `can_auto_compromise_with_users` (credential reuse, at SCAN_PORT) and `compromise_with_users` (brute force) log in with any held account. Compromises by credential reuse at 200 s rise 1.30 → 2.44 per run for the APT attacker model and 5.18 → 7.56 for the baseline attacker.
+- **Random against alternative is not this mechanism either.** Alternative always opens with complete topology shuffle (`mtd_scheme.py` deque over `run_corpus.py` MODULES order), so it gives the baseline attacker the second attempt in every run, random in about 6 runs of 7. That predicts alternative holding the baseline attacker back less; at 100–200 s it holds it back more (0.58 vs 0.52; 0.38 vs 0.33). Against the APT attacker model a host-layer first deployment costs time, which predicts alternative ahead; it is slightly behind. Cause untraced; the gap is ≤ 0.06.
+
+**How it is reported.** §5.3.1 states the fact (204–232 s forward) with no appendix pointer; §6.2 gives the mechanism (rescan → second attempt on the first host), the intent classification and the APT contrast; the clock-time caveat (point 5) is a §6.5 conclusion-validity clause.
