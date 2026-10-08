@@ -9209,51 +9209,65 @@ repaired before the evaluation.
 %  swept; Table B.4b); end of a run (656/1000; ranking within one attacker;
 %  ASP reduction; MTTC not comparable when one attacker is slower);
 %  verification (tracer, intent audit, tests, seeds; defects repaired).
+% DRAFT STATE 2026-10-08 --- paragraph 3 (construct) drafted from the six
+%  construct points, which it replaces: judgement values [T2, T13], the
+%  mapping [T14], objective classification by one coder, time lost [T7],
+%  behaviour metrics [T5], the yardstick in one line [T8]. The untested values
+%  follow Table C.0b (per-tactic multipliers, overlay share, one attack flow
+%  per APT group); the leftmost-tactic rule is a construction rule, not a value,
+%  and is left out. NCR reduction across the 45 s band (0.44/0.75/0.90 under
+%  random at 200 s) is derivable from Table C.1a but printed nowhere, so the
+%  paragraph says "with it" and gives no number. Points back to 6.2 (the
+%  restart) and 6.3 (what time lost shows; the re-score). Ratify on read.
+The values and metrics of the APT attacker model bound what its results
+measure. CTI records no tactic durations, failure-matrix values or factor for
+the vulnerability memory, so we declared them by judgement rather than fitting
+them (Table~\ref{tab:value-bases}). Each was varied, substituted or removed
+one at a time, which leaves their interactions untested, and three were not
+tested at all: the per-tactic duration multipliers, the share of weight given
+to the pre-intrusion overlay and the choice of one attack flow per APT group.
+Only the 45\,s mean duration changes NCR much, and it changes NCR reduction
+with it (Table~\ref{tab:anchor-sensitivity}). The tactic-to-action mapping is
+also our input. Command and control is the only tactic that maps to scan
+neighbours, the attack action that finds new hosts, so it sets how fast the
+APT attacker model spreads (Section~\ref{subsec:dwell-times}). A total mapping
+gives every tactic an attack action, and most are then refused: the attacker
+reaches 0.15 hosts with no MTD, against 8.13 under the partial mapping
+(Table~\ref{tab:experiment-one}). The attack profiles rest on two yes-or-no
+questions asked of each attack flow, answered by one coder from the CTID
+descriptions and their sources, three of them by our own decision
+(Appendix~\ref{app:classification-audit}). The metrics measure their
+properties in part. Time lost per MTD deployment compares the wait under MTD
+with the wait from the same moment on the run with no MTD. The two runs are
+identical only up to the first MTD deployment, and that first deployment is
+where the baseline attacker's time lost falls below zero
+(Section~\ref{sec:disc-mtd-performance}). Attack rate and attack
+confidentiality measure detection avoidance by proxy, through pace and a
+declared scan detector (Section~\ref{subsec:metrics-behaviour},
+Appendix~\ref{app:detector-memory}). Distinct openings counts any variety, so
+it shows that the APT attacker model chooses among attack strategies; whether
+it chooses well is not measured. Last, the eight properties are this
+dissertation's reading of the APT definition and two surveys. They are not a
+complete standard, they are weighed equally though not equally important, and
+one scorer marked the APT attacker model and three recent attacker models on
+them, with a language model's blind re-score as the check (Section~\ref{sec:fidelity-verdict}).
+
+% Construct points [T2, T13, T14, T7, T5, T8], dictated as paragraph 3 above on
+%  2026-10-08: judgement values (durations, failure matrix, memory factor,
+%  partition by objective, leftmost-tactic rule, overlay share; declared, not
+%  fitted; swept one at a time; untested per Table C.0b; only 45 s moves NCR,
+%  and NCR reduction with it); the mapping (declared by logic; C2 to scan
+%  neighbours carries the pace; total mapping 0.15 vs 8.13); time lost
+%  (counterfactual exact to the first deployment; -204 to -232 s first; 19 to
+%  32 s later; at 2 000 s because the next deployment caps the wait); behaviour
+%  metrics (declared detector; distinct openings rewards any variety; choice of
+%  attack strategy in full rests on the definition's wording); yardstick
+%  (synthesis; three comparators, no game-theoretic attacker; in part covers
+%  partial and assumed; one scorer, LLM blind re-score; not complete, not
+%  APT-specific, equal weights; mitigation: sourced, fixed before scoring, one
+%  rule, first marking regraded and disclosed); one coder with audit trail.
 \noindent\emph{[Points for dictation.]}
 \begin{itemize}
-  \item \textbf{Construct: the values of judgement, the metrics, and the
-  yardstick.}
-  \begin{itemize}
-    \item Judgement values [T2, T13] (tactic durations, the failure matrix's
-    factors, the vulnerability memory's factor of three, the partition by
-    objective, the leftmost-tactic rule, the pre-intrusion overlay's share):
-    declared, not fitted, because CTI records none of them. Mitigation: the
-    sweeps of Appendix~\ref{app:sensitivity}, the ablations, the duration-band
-    ranking (B19). Residual: one value at a time; the per-tactic multipliers,
-    the overlay's share, the leftmost-tactic rule and the profiles' weights
-    untested; only the 45\,s mean duration moves NCR, and it moves NCR
-    reduction with it.
-    \item The tactic-to-action mapping [T14] is declared by logic: a tactic
-    maps to the attack action whose techniques it contains. Command and
-    control maps to scan neighbours, the only way to find new hosts, so it
-    carries the pace. A total mapping was tried: it forces tactics onto attack
-    actions that do not carry them, and the attacker reaches 0.15 hosts
-    against 8.13 (Appendix~\ref{app:experiment-one}).
-    \item Time lost per MTD deployment [T7]. It compares two runs at the same
-    clock time, so its counterfactual is exact only up to the first
-    deployment. The baseline attacker's negative means come from that first
-    deployment, which MTDSim's restart rule pulls forward (\,$-204$ to
-    $-232$\,s); each later host-layer or port-shuffle deployment costs
-    it 19 to 32\,s (Section~\ref{subsec:aio-disruption}; registry B20, homed).
-    Reported at 2\,000\,s because the next deployment caps the wait. It shows
-    what a disruption costs, not which component pays it.
-    \item Behaviour metrics [T5]. Attack confidentiality reads a declared
-    detector; distinct openings rewards any variety, so it shows that the
-    model chooses among attack strategies, not that it chooses well; choice of
-    attack strategy in full rests on the definition's wording, a draw from
-    what the attackers in the reports did (Section~\ref{sec:fidelity-verdict}).
-    \item Yardstick, one line [T8]: the eight properties are this
-    dissertation's synthesis; three comparators chosen as the likeliest to
-    have them, with no game-theoretic attacker scored; in part covers both a
-    partial and an assumed property; one scorer, with a language model's
-    blind re-score of our row; not complete, not specific to APTs, weighed
-    equally though not equally important. Mitigation: each sourced, fixed
-    before scoring, one rule for all four, the first marking regraded and
-    disclosed.
-    \item Objective classification by one coder, with its audit trail
-    (Appendix~\ref{app:movement}).
-  \end{itemize}
-
   \item \textbf{External: what the 38 attack flows and the one network stand
   for.}
   \begin{itemize}
