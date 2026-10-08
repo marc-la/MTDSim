@@ -1004,7 +1004,9 @@ Marc asked which levers matter most. The no-MTD corpus answers at three levels:
 
 **Interpretive link** (for paragraph 4 if B13 gets a home): plurality costs success (paragraph 3), and the attack profiles that keep more of the attack actions' moves pay less.
 
-## 12. 6.3: the grading rule, rebuilt bottom-up (proposal, 2026-10-08, NOT RATIFIED)
+## 12. 6.3: the grading rule, rebuilt bottom-up (2026-10-08, RATIFIED)
+
+**Marc's rulings (2026-10-08):** the two-layer rule is ratified ("honest and clear"); 2 and 4 go to P; 5 goes to P ("we model stealth by proxy"); the 5.4 "six to ten" sentence is fixed. The stale counts elsewhere (ch1, ch4, 6.1 P1, 7.1, the criterion doc) are NOT to be propagated yet: "I want to get this right first". Table 6.1's row follows when 6.3 is drafted.
 
 Marc: "start with being transparent about our rules ... then regrade ... imagine the [current marks] don't exist ... grade by merit"; "how do our ablations feed into this"; "is compromising more the right metric ... we look at relatives".
 
