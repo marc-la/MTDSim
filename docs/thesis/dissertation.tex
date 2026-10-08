@@ -9195,8 +9195,8 @@ dependence and the method, not the numbers or the rankings.]}
     clock time, so its counterfactual is exact only up to the first
     deployment. The baseline attacker's negative means come from that first
     deployment, which MTDSim's restart rule pulls forward (\,$-204$ to
-    $-232$\,s); later deployments cost it time (+19 to +31\,s under the
-    shuffles). NEEDS the chapter 5 sentence first (registry B20; proposal).
+    $-232$\,s); each later host-layer or port-shuffle deployment costs
+    it 19 to 32\,s. NEEDS the chapter 5 sentence first (registry B20; proposal).
     Reported at 2\,000\,s because the next deployment caps the wait. It shows
     what a disruption costs, not which component pays it.
     \item Behaviour metrics [T5]. Attack confidentiality reads a declared
@@ -9416,10 +9416,11 @@ dependence and the method, not the numbers or the rankings.]}
 %     comparison with the baseline attacker was not repeated across the bands".
 %  B20 [6.5 T7, 6.2 P2] ON DISK: TIME LOST, FIRST DEPLOYMENT AGAINST LATER
 %     (time_lost_first_deployment_numbers.json, 2 000 s). Baseline attacker:
-%     first deployment -204 to -232 s (all but user shuffle, +6.5); later
-%     (state differs) +19 to +31 s for the four shuffles, +648 s service
-%     diversity, -21 s OS diversity, -30 s user shuffle. APT attacker model:
-%     first +2 to +106 s, later -45 to +362 s. Homes 6.2's "its later
+%     first deployment -204 to -232 s (all but user shuffle, +6.5); every
+%     later deployment (all minus first): host layer +18.5 to +32.4 s, port
+%     shuffle +20.9, service diversity +650.5, OS diversity -20.8, user
+%     shuffle -29.9. APT attacker model: first +2 to +106 s, later -31.6 to
+%     +361.0 s. Homes 6.2's "its later
 %     deployments cost it time" (registry: NOT IN CH5). MUST HAVE A HOME: one
 %     5.3.1 sentence (proposal to Marc).
 %  B21 [6.5 T9] TACTIC DURATIONS BESIDE MTDSIM'S TIMES (Marc 2026-10-08): each

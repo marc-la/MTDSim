@@ -1505,6 +1505,26 @@ the inherited restart artefact (unflagged in ch2); post-hoc c3 story; run-level 
 Authorised now: #3 propagation; "fix up those sentences" (6.3 P3 judgement clause, NCR-reduction clause). HOLD: any mark change
 (adaptivity, choice of attack strategy) until Marc has read the session's reading.
 
+### 13b. Applied in chapter 6, and proposals outside it (2026-10-08)
+
+Marc: "every single line that you insert outside of chapter 6, propose to me ... inside chapter 6, I don't really care"; run B19; first-against-later split is ready; no re-run for #7 (the 2 000 s first/later split answers it).
+APPLIED in ch6 (commit 3c9c559e and after): 6.1 P1 (detection avoidance in part; refused actions as a second cause of quiet); 6.2 MTDShield
+("consistent with ... cannot tell", App D's four zero inputs); 6.3 P2 (adaptivity's metric reconciled); 6.3 P3 (NCR-reduction and judgement
+clauses); 6.4 and 6.5 point sets rebuilt; registry B19-B21, F10-F13.
+RUNNING: B19 (run_duration_ranking.sh; ~9-10 h from 2026-10-08 23:10; pgid file beside it).
+PROPOSED, NOT APPLIED (each needs Marc's yes):
+ P1 abstract l.197-198 "under identical conditions" -> "twice on the same networks" [T9]
+ P2 abstract l.199-200 + ch1 P6: "service diversity is the most effective MTD mechanism" -> "service diversity and port shuffle are the most effective MTD mechanisms" [T10]
+ P3 abstract l.203 + ch1 P6: "by only 36 %" -> "by 36 %" [T3 ch1 examiner]
+ P4 abstract closer -> "...against more than one attacker model, including models grounded in documented behaviour" [T1]
+ P5 ch1 contribution 1: "four in full and two in part" -> "two in full and five in part" [T3]
+ P6 ch4 opener l.3860-3867: the regrade and detection avoidance by pace [T3]
+ P7 ch4 time-lost definition: one clause on the counterfactual [T7]
+ P8 ch5 5.1 stats: "Cohen's d with the pooled standard deviation" [T11]
+ P9 ch5 5.3.1 after l.7538: "After the first, each host-layer and port-shuffle deployment costs it 19 to 32 s." [T7; B20; homes 6.2]
+ P10 Appendix C: B19's section and sentence, after the run.
+ P11 Appendix B: the durations-beside-MTDSim's-times table (B21), if wanted.
+
 ## Validation gate
 
 Done when Marc has answered §7, the structure in §3 is ruled, and every primary point in §4 has its evidence re-read on the 1 000-seed corpus, or is labelled a hypothesis. The next deliverable is per-paragraph dot points (slot form) for Marc's dictation.
