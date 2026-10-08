@@ -8212,7 +8212,9 @@ an effect on NCR that is not negligible, a $d$ of 0.25 to 1.47
 % 2026-10-07: re-read after the redraw (partitions 1, 2, 4, 8 and 10 replaced; no group now
 %  compromises nothing, lowest group NCR 0.022). No MTD: d +0.25 to +1.47, all ten not
 %  negligible (was +0.25 to +2.20, the top set by partitions holding a dead group). Under IP
-%  shuffle and OS diversity: 6, 10, 9 and 10 of the ten, unchanged. Under IP shuffle and OS
+%  shuffle and OS diversity: 6, 10, 9 and 10 of the ten, unchanged.
+% 2026-10-08: line break restored; the sentence's opening had been folded into the comment above.
+Under IP shuffle and OS
 diversity, the effect is not negligible against six to ten of the ten in each
 configuration.
 
@@ -8808,6 +8810,40 @@ assumptions comes first (Section~\ref{sec:evaluation-implications}).
 % any change there is re-copied here in the same commit (an examiner will check
 % that the lit review's scores and this table agree).
 
+% 2026-10-08: moved to the head of the section (it sat after the points, so it floated pages late).
+\begin{table}[htbp]
+  \centering
+  % [CH3 REDRAFT ROUND 51, 2026-10-02, tab:fidelity-verdict] kept in step with Table 3.3: the re-scored rows, tick / P / cross, the year column. The APT attacker model's row is unchanged except blank -> cross on 5 and 8. The caption's decode follows Table 3.3's; its second sentence (what a tick means for this model) kept.
+% [CH3 REDRAFT ROUND 55, 2026-10-02, Table 6.1 caption] "cross-section" (open flag) -> the three MTD attacker models, in step with Table 3.3. Ratify on read.
+  \caption[The APT attacker model scored beside three MTD attacker models]{The
+  APT attacker model scored on the eight properties beside the three MTD
+  attacker models of Table~\ref{tab:attacker-cross-section}:
+  \propmet\ has the property as Table~\ref{tab:attacker-properties}
+  defines it, \propstandin\ has it in part, a fixed rule or assumption
+  taking the place of the behaviour, \propnone\ does not have it. For the
+  APT attacker model a tick marks a property the model implements; whether
+  it changes an outcome on this simulator is bounded by the adopted attack
+  actions (Section~\ref{subsec:runtime-mechanics}) and is reported property
+  by property in the text.}
+  \label{tab:fidelity-verdict}
+  \tablestyle\setlength{\tabcolsep}{3pt}
+  \begin{tabular}{@{}ll*{8}{>{\centering\arraybackslash}m{1.1cm}}@{}}
+    \toprule
+    Attacker model & Year & 1\newline Pers. & 2\newline Obj. & 3\newline Strat. & 4\newline Adapt. & 5\newline Detect. & 6\newline Cost & 7\newline Learn. & 8\newline Deploy. \\
+    \midrule
+    Baseline attacker~\citep{brown2023, zhang2023} & 2023 & \propmet & \propstandin & \propstandin & \propstandin & \propnone & \propstandin & \propstandin & \propnone \\
+    Masud et al.~\citep{masud2025} & 2025 & \propstandin & \propstandin & \propstandin & \propstandin & \propnone & \propstandin & \propnone & \propnone \\
+    Kim et al.~\citep{kim2026} & 2026 & \propstandin & \propstandin & \propnone & \propnone & \propstandin & \propnone & \propnone & \propstandin \\
+    \midrule
+    % [CH3 REDRAFT ROUND 52, 2026-10-02] Marc: the dissertation's own row named as such, at the bottom, 2026.
+    \begin{tabular}[c]{@{}l@{}}APT attacker model,\\ this dissertation\end{tabular} & 2026 & \propmet & \propmet & \propmet & \propmet & \propnone & \propstandin & \propstandin & \propnone \\
+    % [2026-10-05, Marc: incentive "cannot be a tick" (the RoA order only,
+    %  inherited); learning "in part" as Section 4.4.4 states it. 6 and 7 tick ->
+    %  in part. DRAFT STATE.]
+    \bottomrule
+  \end{tabular}
+\end{table}
+
 \noindent\emph{[Points for dictation, reading Table~\ref{tab:fidelity-verdict}
 and Section~\ref{sec:ablation}.]}
 \begin{itemize}
@@ -8891,38 +8927,6 @@ and Section~\ref{sec:ablation}.]}
   \end{itemize}
 \end{itemize}
 
-\begin{table}[htbp]
-  \centering
-  % [CH3 REDRAFT ROUND 51, 2026-10-02, tab:fidelity-verdict] kept in step with Table 3.3: the re-scored rows, tick / P / cross, the year column. The APT attacker model's row is unchanged except blank -> cross on 5 and 8. The caption's decode follows Table 3.3's; its second sentence (what a tick means for this model) kept.
-% [CH3 REDRAFT ROUND 55, 2026-10-02, Table 6.1 caption] "cross-section" (open flag) -> the three MTD attacker models, in step with Table 3.3. Ratify on read.
-  \caption[The APT attacker model scored beside three MTD attacker models]{The
-  APT attacker model scored on the eight properties beside the three MTD
-  attacker models of Table~\ref{tab:attacker-cross-section}:
-  \propmet\ has the property as Table~\ref{tab:attacker-properties}
-  defines it, \propstandin\ has it in part, a fixed rule or assumption
-  taking the place of the behaviour, \propnone\ does not have it. For the
-  APT attacker model a tick marks a property the model implements; whether
-  it changes an outcome on this simulator is bounded by the adopted attack
-  actions (Section~\ref{subsec:runtime-mechanics}) and is reported property
-  by property in the text.}
-  \label{tab:fidelity-verdict}
-  \tablestyle\setlength{\tabcolsep}{3pt}
-  \begin{tabular}{@{}ll*{8}{>{\centering\arraybackslash}m{1.1cm}}@{}}
-    \toprule
-    Attacker model & Year & 1\newline Pers. & 2\newline Obj. & 3\newline Strat. & 4\newline Adapt. & 5\newline Detect. & 6\newline Cost & 7\newline Learn. & 8\newline Deploy. \\
-    \midrule
-    Baseline attacker~\citep{brown2023, zhang2023} & 2023 & \propmet & \propstandin & \propstandin & \propstandin & \propnone & \propstandin & \propstandin & \propnone \\
-    Masud et al.~\citep{masud2025} & 2025 & \propstandin & \propstandin & \propstandin & \propstandin & \propnone & \propstandin & \propnone & \propnone \\
-    Kim et al.~\citep{kim2026} & 2026 & \propstandin & \propstandin & \propnone & \propnone & \propstandin & \propnone & \propnone & \propstandin \\
-    \midrule
-    % [CH3 REDRAFT ROUND 52, 2026-10-02] Marc: the dissertation's own row named as such, at the bottom, 2026.
-    \begin{tabular}[c]{@{}l@{}}APT attacker model,\\ this dissertation\end{tabular} & 2026 & \propmet & \propmet & \propmet & \propmet & \propnone & \propstandin & \propstandin & \propnone \\
-    % [2026-10-05, Marc: incentive "cannot be a tick" (the RoA order only,
-    %  inherited); learning "in part" as Section 4.4.4 states it. 6 and 7 tick ->
-    %  in part. DRAFT STATE.]
-    \bottomrule
-  \end{tabular}
-\end{table}
 
 % =====================================================================
 \section{Implications for MTD evaluation}
