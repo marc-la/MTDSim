@@ -868,6 +868,82 @@ Marc's read: MTDShield is an Appendix D item; its line follows service diversity
 
 **Network structure, Marc's future-work idea** (registry F3): which network features decide success; adversarial network structures; construction principles portable to other simulators. Check the literature first (network hardening, attack-graph-based network design) before calling it a field.
 
+### 11d. 6.1 paragraph 4 drafted (2026-10-08); points 3 and 4 retired; 6.1 is prose only
+
+**Points 3 and 4, retired verbatim** (with the "[Points for dictation]" line):
+
+```latex
+\noindent\emph{[Points for dictation, reading Section~\ref{sec:attacker-in-operation}.]}
+\begin{itemize}
+  \item \textbf{The baseline attacker gives MTD one attack path to defend
+  against; the APT attacker model gives it hundreds.}
+  \begin{itemize}
+    \item Result: one shared opening over four steps, then one branch, against
+    179 to 947 distinct openings over eight steps
+    (Figure~\ref{fig:aio-coverage}(b)).
+    \item Why: weighted choice at the Petri net's decision places, over the 5
+    to 19 attack flows of each attack profile.
+    \item Bound:
+    \begin{itemize}
+      \item The two are counted in different units: the APT attacker model's
+      steps are tactics, the baseline attacker's attack actions. Counted by
+      attack action, the attack profiles still have 190 to 844 against 3.
+      (EXAMINER; one-off check, NOT IN CH5: one clause, or a ch5 footnote.)
+      \item The count is capped by the runs: $c_1$'s 947 is near its 1\,000.
+      \item Variety in proportion to how often the attack flows took each
+      step, not a strategy chosen against the defender.
+    \end{itemize}
+    \item So: an MTD evaluated against the baseline attacker is tested on one
+    attack path; Section~\ref{sec:disc-mtd-performance} reads what MTD does
+    against many.
+  \end{itemize}
+
+  \item \textbf{The attack profiles differ from one another, but less than all
+  four differ from the baseline attacker} (secondary).
+  \begin{itemize}
+    \item Result: ranges in ASP, NCR and attack confidentiality
+    (Table~\ref{tab:unopposed-summary}) and in distinct openings
+    (Figure~\ref{fig:aio-coverage}(b)).
+    \item Why: each divides its steps over the tactics its attack flows reach
+    (Figure~\ref{fig:aio-coverage}(a)).
+    \item Two instances, each HYP (Marc 2026-10-08; one-off checks, NOT IN
+    CH5):
+    \begin{itemize}
+      \item $c_4$ has the highest attack rate of the four and the lowest ASP.
+      It tries the most exploits, and two-thirds find a precondition unmet,
+      the most of any attack profile: an exploit needs a port scan first
+      (Section~\ref{subsec:runtime-mechanics}), and across the four the share
+      follows how often each exploits per port scan. Candidate cause: $c_4$
+      rests on five attack flows. Bound: $c_1$ makes as few successful
+      exploits per run and reaches the target three times as often, so this
+      is not the whole story.
+      \item ASP and NCR rank $c_1$ and $c_3$ oppositely. $c_3$ compromises more
+      hosts than $c_1$ whether or not it reaches a target: breadth against
+      depth. ASP needs one of two target hosts; NCR counts every host
+      (Section~\ref{subsec:metrics-outcome}).
+    \end{itemize}
+    \item Carries under MTD (Marc): $c_3$, the slowest, is furthest from the
+    baseline attacker from 500\,s (Figure~\ref{fig:eff-suppression-profiles});
+    explained in Section~\ref{sec:disc-mtd-performance}.
+    \begin{itemize}
+      \item Bound (checked): $c_3$ only. The other three move together and do
+      not follow their attack rates (service diversity at 500\,s: $c_2$ 0.20,
+      $c_4$ 0.24, $c_1$ 0.28).
+    \end{itemize}
+    \item Bound: whether the objective or the partition's size causes the
+    differences is the random-partition ablation's
+    (Section~\ref{sec:fidelity-verdict}).
+  \end{itemize}
+\end{itemize}
+```
+
+**Marc's hypothesis for paragraph 4, tested and not supported** (registry B12). The hypothesis: the profiles' ASP follows how closely their attack actions keep to the baseline attacker's moves.
+- *Move set:* the 12 transitions the baseline attacker takes with no MTD, after collapsing repeats. These match Figure 2.3.
+- *Per run:* attack actions only (unmapped steps dropped), consecutive repeats collapsed, then the share of consecutive pairs that are baseline moves.
+- *Results by profile* (moves followed / unmet-precondition share / ASP): c1 45.8 % / 14.5 % / 0.12; c2 39.2 / 26.9 / 0.14; c3 46.8 / 29.8 / 0.06; c4 39.4 / 28.3 / 0.04.
+- *Within each profile,* successful and failed runs follow the moves equally (c1 45.8 against 45.8; c3 44.9 against 46.9). The correlation with the unmet-precondition share is −0.19 to +0.16.
+- *Why it fails:* a precondition is state left by any earlier step, not only the step just before, so a pairwise test is too coarse. The finer reading, exploits per port scan (11a), stays as paragraph 4's hypothesis for c4. It is readable from Figure 5.1(a), so it needs no new number.
+
 ## Validation gate
 
 Done when Marc has answered §7, the structure in §3 is ruled, and every primary point in §4 has its evidence re-read on the 1 000-seed corpus, or is labelled a hypothesis. The next deliverable is per-paragraph dot points (slot form) for Marc's dictation.
