@@ -8537,11 +8537,18 @@ and NCR call a quiet attacker weak (Section~\ref{sec:evaluation-implications}).
 %  set's "not a strategy chosen against the defender", which read against
 %  Table 6.1's choice of attack strategy in full; the honest limit is
 %  cost-benefit reasoning, in part.
+%  REVISED same day on Marc's reading: the baseline attacker's limited
+%  plurality (1 opening to step 4, 2 from step 5, 3 at step 8;
+%  numbers_reported.json core.table.baseline.distinct_openings) and "the
+%  plurality has a price": MTDSim's attack actions were written for one order
+%  (Figure 2.3's moves), plurality was not in mind, so adding it costs success
+%  (Marc: "it reflects the poorer result"); also a 6.5 scope sub-point.
 With no MTD running, the baseline attacker opens almost every run the same
 way, and the APT attacker model opens its runs in hundreds of ways
 (Figure~\ref{fig:aio-coverage}(b)). The baseline attacker's runs share one
 opening over their first four steps, the order of its procedure, then branch
-once, into brute force or scan neighbours. Each attack profile chooses its
+once, into brute force or scan neighbours: three openings over eight steps.
+Each attack profile chooses its
 next tactic at the Petri net's decision places, weighted by how often its
 attack flows took each edge (Section~\ref{sec:petri-formalism}), so its 5 to
 19 attack flows give it 179 to 947 distinct openings over eight steps.
@@ -8549,7 +8556,20 @@ Chapter~\ref{ch:litreview} credited the baseline attacker with choice of
 attack strategy in part: it can enter a host by stolen credentials, an
 exploit or brute force, but a fixed rule sets the order
 (Section~\ref{subsec:recent-threat-models}). Its single branch is that rule
-at work. Three bounds hold. First, the two attackers' steps differ: an attack
+at work. The plurality has a price. MTDSim's attack actions were written for
+the baseline attacker's procedure: each relies on the state the one before it
+leaves, the moves of Figure~\ref{fig:attacker-model}. The APT attacker model
+keeps the attack actions and drops the moves
+(Section~\ref{subsec:tactic-verb-mapping}), and neither its Petri net nor its
+failure matrix encodes them. The more ways it opens a run, the more of its
+attack actions arrive before their preconditions and fail, the second cause of
+its lower success. With every tactic mapped to an attack action, most are
+refused (Appendix~\ref{app:experiment-one}). This is the ceiling
+Chapter~\ref{ch:attacker-model} set: the APT attacker model can only be as good as
+the attack actions it adopts. An order hard-coded into an attacker's attack
+actions passes to every extension and is hard to unwind; plurality in MTDSim
+needs attack actions written without it (Section~\ref{sec:future-work}).
+Three bounds hold. First, the two attackers' steps differ: an attack
 profile's step is a tactic, the baseline attacker's an attack action; counted
 by attack action, the attack profiles still have hundreds of distinct
 openings. Second, the count is capped by the 1\,000 runs, which $c_1$ nearly
@@ -9005,6 +9025,12 @@ four.]}
     \citep{brown2023}, and both attackers share them, so the comparison is
     fair. Residual: what the APT attacker model achieves cannot exceed what they
     allow. To Section~\ref{sec:future-work}.
+    \item The attack actions encode one order (Marc 2026-10-08): each relies
+    on the state the one before it leaves (Figure~\ref{fig:attacker-model}).
+    Plurality was not in mind when they were written, so adding it costs
+    success; a simplified attacker's hard-coded assumptions pass to every
+    extension and are hard to unwind. Read in Section~\ref{sec:disc-behaviour},
+    paragraph 3.
     \item No MTD cost (Marc 2026-10-08): MTDSim charges a deployment no
     overhead and no loss of service, so a shorter deployment interval is
     always better in it. Intervals below the 200\,s default are where most
