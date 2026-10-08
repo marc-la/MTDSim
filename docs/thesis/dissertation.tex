@@ -8504,155 +8504,146 @@ evaluation (Section~\ref{sec:evaluation-implications}); and bounds them
 \label{sec:disc-mtd-performance}
 
 \noindent\emph{[Points for dictation, reading Section~\ref{sec:effectiveness}.]}
-% MARC'S READ 2026-10-07 (dictated against Figures 5.2-5.4 and Tables 5.3, E.2),
-% checked against the 1 000-seed corpus the same day; the checks and their
-% numbers are in docs/handoffs/2026-10-07_ch6_discussion_assembly.md, section 9.
-% Touch-up 2026-10-08 (Marc): P1 rewritten to its final point set; P2 takes the
-% first-deployment item that was owed to Appendix E (the rest in
-% docs/implementation/disruption_mechanism.md section 9).
-% Changes 2026-10-07: P1 gains the relative-measure bound and the ASP cross-check; P2 and
-% the old P3 merge (one mechanism, two faces); P3 gains Marc's "what would I
-% pick against the baseline attacker" reading; P4 gains the 0.8 threshold and
-% the cliff; P5 gains random versus alternative, and the user shuffle cause is
-% no longer open (Marc's first-deployment hypothesis does not hold for it; the
-% credential re-draw does).
+% ROUND 2026-10-08 (Marc): P1 is the lead-in; his points placed where each
+% belongs across 6.2. Coverage checked by two examiner reads of Figures
+% 5.2-5.4 and Table 5.3 (a cold read of the floats alone; a coverage audit of
+% 5.3 against this set); the patterns they raised are placed below or sent to
+% 6.5. Mechanism checks on the 1 000-seed corpus are in
+% docs/implementation/disruption_mechanism.md section 9 and the ch6 handoff
+% section 9. Tags: (HYP) an explanation, written as one; (NOT IN CH5) a number
+% chapter 5 does not give: give it a chapter 5 home or drop it.
+% The 2026-10-07 point set and its trail are in git (d736bbac, 7fe97e76).
 \begin{itemize}
   \item \textbf{In MTDSim, the MTD mechanism that holds back one attacker most
-  is not the one that holds back the other.} (The headline; chapter 1,
-  contribution 3. Touch-up 2026-10-08: scoped to MTDSim; ``holds back'', never
-  ``disrupts'', for an effect on NCR; one line of why per layer; the Cho
-  contrast cut.)
+  is not the one that holds back the other.} (Lead-in and headline; chapter 1,
+  contribution 3.)
   \begin{itemize}
     \item Result: the host layer reduces the APT attacker model's NCR most,
     the service layer the baseline attacker's, at every deployment interval;
-    no MTD mechanism or deployment strategy ranks first against both, and the
-    two rankings are unrelated (Table~\ref{tab:eff-cross-arm},
-    Figure~\ref{fig:eff-cross-arm}).
-    \item Why, the frame (Marc's ``what do we actually change''): MTDSim
+    no MTD mechanism or deployment strategy ranks first against both, and
+    $\rho$ between the two rankings is near zero
+    (Table~\ref{tab:eff-cross-arm}, Figure~\ref{fig:eff-cross-arm}).
+    \item Why, the frame (Marc: ``what do we actually change''): MTDSim
     defines each deployment by the baseline attacker's procedure, as the
     attack actions it blocks and the attack action it sends the attacker back
     to (Section~\ref{subsec:attacker-model},
     Figure~\ref{fig:attacker-model}). The APT attacker model keeps the attack
     actions and drops the procedure: its Petri net chooses the next tactic,
     and its unmapped tactics take time without dispatching an attack action
-    (Section~\ref{sec:execution}). So one deployment takes a different state
-    from each attacker.
+    (Section~\ref{sec:execution}). One deployment therefore takes a different
+    state from each attacker.
     \item Why the service layer holds back the baseline attacker: service
     diversity redraws every service on every internal host, so the
     vulnerabilities the baseline attacker was exploiting, and the impact it
-    had built up on them, are gone; exploiting is 70\,\% of its time with no
-    MTD. (The 70\,\% is a session check on 200 runs, not in chapter 5: use
-    ``most of its time'', or give it a chapter 5 home.)
+    had built up on them, are gone. Vulnerabilities are the currency of
+    MTDSim's attacker (Marc), and exploiting is most of the baseline attacker's
+    time (70\,\%, NOT IN CH5: say ``most'').
     \item Why the host layer holds back the APT attacker model: a host-layer
     deployment costs either attacker only its place
-    (Section~\ref{subsec:attacker-model}). The baseline attacker finds it again
-    at once, because its procedure restarts by scanning for hosts. The APT
-    attacker model's tactics keep dispatching attack actions whose
-    preconditions are now missing, and these fail, until a lateral-movement
-    tactic restores its place.
+    (Section~\ref{subsec:attacker-model}). The baseline attacker finds it
+    again at once, because its procedure restarts by scanning for hosts. The
+    APT attacker model regains it only when its Petri net next reaches a
+    lateral-movement tactic; until then its attack actions fail for missing
+    preconditions (Section~\ref{sec:execution}). (HYP in prose: chapter 5
+    shows the time lost, not the failed dispatches.)
     \item Why the service layer holds back the APT attacker model little: a
     service-layer deployment blocks only port scans, exploits and brute force,
-    and the APT attacker model runs these less often, between unmapped tactics
-    (the spacing explained in Section~\ref{sec:disc-behaviour}; point back,
-    do not re-explain).
-    \item Instance (CH5 FIRST): up to 200\,s, the host layer leaves 69 to
-    89\,\% of the APT attacker model's runs with no host compromised, against
-    3 to 20\,\% of the baseline attacker's. It needs one sentence in
-    Section~\ref{subsec:eff-cross-arm} before chapter 6 may use it.
+    and the APT attacker model runs these less often, between unmapped
+    tactics (the spacing of Section~\ref{sec:disc-behaviour}; point back).
+    Explained here once; P2 points back.
+    \item Instance (NOT IN CH5): up to 200\,s the host layer leaves 69 to
+    89\,\% of the APT attacker model's runs with no host compromised, against 3
+    to 20\,\% of the baseline attacker's: it stops the APT attacker model
+    before its first compromise.
     \item Compare: the split runs by layer, not by operation. Port shuffle, a
-    shuffle, ranks first with service diversity against the baseline
-    attacker, so the result does not rank shuffling against diversity.
-    Shuffling, diversity and redundancy serve different purposes
+    shuffle, ties first with service diversity against the baseline attacker,
+    so the result does not rank shuffling against diversity; shuffling,
+    diversity and redundancy serve different purposes
     (Section~\ref{sec:mtd-concept}). It agrees with Cho et al.: the attacker
     model decides which deployment strategy is optimal
-    (Section~\ref{subsec:defence-modelling-approaches}). Cut (Marc
-    2026-10-08): ``the persistent attacker is the one diversity holds back
-    least''. It reads as a claim about diversity, and MTDSim's service
-    diversity is not Cho's platform migration.
+    (Section~\ref{subsec:defence-modelling-approaches}).
     \item Bound, relative measure: NCR reduction is a share of each attacker's
-    own NCR with no MTD, 8.5 hosts for the APT attacker model against 24.8 for
-    the baseline attacker. A ranking compares MTD mechanisms against one
-    attacker, so the share cannot cause the reversal. Across attackers, say ``a
-    larger share'', never ``more hosts''. At 200\,s IP shuffle removes 8.2 of
-    the APT attacker model's hosts and 17.0 of the baseline attacker's.
-    \item Bound, scope: one simulator and one network, and what each MTD
-    mechanism takes is MTDSim's implementation of it. MTDSim has no
-    redundancy mechanism, so whether one would change either ranking is open
-    (Section~\ref{sec:future-work}). The reversal also holds on ASP reduction
-    (Table~\ref{tab:eff-interval-values-asp}): one clause, and why chapter 5
-    ranks on NCR is not reopened.
+    own NCR with no MTD (8.5 hosts against 24.8; NOT IN CH5 as hosts). A
+    ranking compares MTD mechanisms against one attacker, so the share cannot
+    cause the reversal; across attackers, say ``a larger share'', never ``more
+    hosts''.
+    \item Bound, scope: one simulator and one network; what each MTD mechanism
+    takes is MTDSim's implementation of it, and MTDSim has no redundancy
+    mechanism (Section~\ref{sec:future-work}). The reversal also holds on ASP
+    reduction (Table~\ref{tab:eff-interval-values-asp}), in one clause.
     \item So: in MTDSim, the MTD mechanism an evaluation ranks first depends on
     its attacker model (Section~\ref{sec:evaluation-implications}).
   \end{itemize}
 
-  \item \textbf{A blocked attack action need not cost the attacker time; it
-  can even save it time.} (Old P2 and P3 merged: one mechanism.)
+  \item \textbf{At a deployment interval of 2\,000\,s, a blocked attack
+  action need not cost the attacker time; the first can even save the
+  baseline attacker time.}
   \begin{itemize}
     \item Result: for the APT attacker model, attack actions blocked and time
-    lost per MTD deployment order the MTD layers the same way (host layer
-    highest on both, user shuffle lowest). For the baseline attacker they
-    are unrelated: every host-layer deployment blocks its attack action and
-    costs it no time, and only service diversity costs it time
+    lost per MTD deployment order the MTD layers the same way. For the
+    baseline attacker they do not: every host-layer deployment blocks its
+    attack action and costs it no time, and of the three service-layer
+    mechanisms, which block it equally, only service diversity costs it time
     (Figure~\ref{fig:aio-adaptivity}, Table~\ref{tab:disruption}).
-    \item Why, APT attacker model: blocked less because it runs no attack
-    action while in an unmapped tactic (by construction, not resilience);
-    when blocked it loses time, because a lateral-movement tactic must restore
-    its place (P1).
-    \item Why, baseline attacker: every block costs it the confusion penalty,
-    about 20\,s (Section~\ref{subsec:attacker-model}), and it then restarts its
-    procedure; after any deployment but the first, a host-layer deployment
-    costs it about the penalty and the rescan.
-    \item Why its time lost is below zero: the first deployment completes
-    about 110\,s into every run, while the baseline attacker is exploiting its
-    first host. The rescan puts that host back at the head of its list, so it
-    gets a second attempt it would not otherwise have had, and its first
-    compromise comes 204 to 232\,s earlier (Section~\ref{subsec:aio-disruption}).
-    Averaged over the few deployments of a 2\,000\,s run, that one deployment
-    pulls the mean below zero.
-    \item Not a bug: Brown's design restarts the attacker from its first
-    attack action after a block, whatever its progress
-    (cite \citep{brown2023}; pinpoint if quoted); the second attempt follows
-    from that rule (Marc 2026-10-07: kept).
+    \item Why the blocked bars match within a layer: one rule decides what a
+    deployment blocks for every mechanism of a layer
+    (Section~\ref{subsec:attacker-model}); by construction.
+    \item Why time lost differs (Marc 2026-10-08): every block ends the
+    attack action as a failure, so what decides time lost is what each
+    attacker does after a failure. The APT attacker model's failure matrix
+    routes its token, and a host-layer block leaves it without its place
+    (P1). The baseline attacker restarts its procedure at once.
+    \item Why only service diversity costs the baseline attacker time: it
+    erases exploit progress (P1). Port shuffle moves services to new ports, so
+    the rescan finds the same vulnerabilities; OS diversity redraws only the
+    services the new operating system cannot run (Table~\ref{tab:defence-mechanisms}).
+    \item Why the baseline attacker's time lost is below zero: the first
+    deployment completes while it is exploiting its first host, and the
+    restart puts that host back at the head of its list, so it gets a second
+    attempt it would not otherwise have had; its first compromise comes 204 to
+    232\,s earlier (Section~\ref{subsec:aio-disruption}).
+    \item Framing (Marc 2026-10-08): inherited design, not a flaw of this
+    work. Brown's design restarts the attacker from its first attack action
+    after a block, whatever its progress (cite \citep{brown2023}); the second
+    attempt follows from that rule. Lead with the rule, then the consequence,
+    so it does not read as a simulator bug.
     \item Compare: the APT attacker model gets no second attempt; its first
     host-layer deployment costs it time.
-    \item Bound, to 6.5: after the first deployment, the run with MTD and its
-    twin with no MTD are compared at the same time, not at the same point of
-    the attack; their states differ at most later deployments. The direction
-    holds; the magnitudes may not.
+    \item Bound: Figure~\ref{fig:aio-adaptivity} is at 2\,000\,s because the
+    next deployment caps time lost (Section~\ref{subsec:aio-disruption});
+    at 200\,s the host layer still reduces the baseline attacker's NCR (0.38
+    to 0.68, Table~\ref{tab:eff-cross-arm}). Run and twin compared at the same
+    clock time, not the same point of the attack: to 6.5.
     \item So: time lost per MTD deployment, not attack actions blocked,
-    measures what MTD costs an attacker; the same deployment helps one
-    attacker and holds back the other
+    measures what MTD costs an attacker
     (Section~\ref{sec:evaluation-implications}).
   \end{itemize}
 
-  \item \textbf{A deployment strategy learned against one attacker favours the
-  MTD mechanism that works against that attacker.}
+  \item \textbf{MTDShield, trained against the baseline attacker, favours the
+  MTD mechanism that holds back the baseline attacker.}
   \begin{itemize}
     \item Result: random and alternative hold back the APT attacker model more;
     MTDShield holds back the baseline attacker more up to 1\,000\,s, and
     chooses service diversity in 70\,\% or more of its decisions against
     either attacker (Section~\ref{subsec:eff-cross-arm},
     Appendix~\ref{app:mtdshield-observed}).
-    \item Instance (Marc 2026-10-07): service diversity is the MTD mechanism a
-    reader of Table~\ref{tab:eff-interval-values} would pick against the
-    baseline attacker: first or tied first against it at every deployment
-    interval. Against the APT attacker model it ranks fourth
-    (Table~\ref{tab:eff-cross-arm}), and under MTDShield all four attack
-    profiles sit below the baseline attacker up to 1\,000\,s
-    (Figure~\ref{fig:eff-suppression-profiles}): Marc's ``slide underneath''.
-    \item Why (HYP): MTDShield was trained against the baseline attacker, at
-    200\,s; random and alternative draw three of their seven MTD mechanisms
-    from the host layer (checked in the run script: the full pool of seven,
-    three of them host layer).
-    \item Wording: Marc's ``overfits to the baseline attacker'' is the
-    hypothesis; write it as one (``consistent with a policy fitted to the
-    attacker it was trained against''), since the training attacker, network
-    and interval cannot be told apart here.
-    \item Bound: MTDShield run as released, outside its training conditions
+    \item Instance (Marc): service diversity is the mechanism a reader of
+    Table~\ref{tab:eff-interval-values} would pick against the baseline
+    attacker, first or tied first at every deployment interval; against the
+    APT attacker model it ranks fourth (Table~\ref{tab:eff-cross-arm}). Under
+    MTDShield all four attack profiles sit below the baseline attacker up to
+    1\,000\,s (Figure~\ref{fig:eff-suppression-profiles}(i)): Marc's ``slide
+    underneath''.
+    \item Why (HYP): consistent with a policy fitted to the attacker it was
+    trained against, at 200\,s; Marc's ``overfits'' is this hypothesis.
+    MTDShield also deploys less often, choosing no deployment at some
+    intervals (about 55 against 75 deployments per run at 200\,s, against either attacker; NOT IN CH5).
+    Random and alternative draw three of their seven mechanisms from the
+    host layer.
+    \item Bound: one policy, run as released, outside its training conditions
     (Appendix~\ref{app:mtdshield-limitations}).
     \item So (to 6.4, bounded): a learned deployment strategy trained against
-    a simple attacker model can be passed underneath by a different attacker;
-    one policy, one simulator.
+    a simple attacker model can be passed underneath by a different attacker.
   \end{itemize}
 
   \item \textbf{The attackers differ in the deployment interval MTD needs, not
@@ -8662,57 +8653,78 @@ evaluation (Section~\ref{sec:evaluation-implications}); and bounds them
     at 0.5 or above up to 1\,000\,s, the baseline attacker's only to 100\,s;
     the service layer holds the baseline attacker's to 200\,s and never reaches
     0.5 against the APT attacker model (Table~\ref{tab:eff-interval-values}).
-    \item Robustness (Marc's 0.8 threshold): the direction holds at 0.8. The
-    host layer holds the APT attacker model's at 0.8 or above to 200\,s and
-    never reaches 0.8 against the baseline attacker; the service layer holds
-    the baseline attacker's to 200\,s and never reaches 0.8 against the APT
-    attacker model. The factor between the attackers depends on the
-    threshold, so 6.4's ``up to ten times'' is stated at 0.5 or dropped for
-    the direction.
-    \item Shape (HYP): under port shuffle and OS diversity, NCR reduction falls
-    to near zero by 500\,s against both attackers (Marc's ``merge''), and the
-    baseline attacker's service-layer reduction drops from 0.84 at 200\,s to
-    0.27 at 500\,s. Read: MTD holds an attacker back only while the
-    deployment interval is shorter than the time the attacker needs to rebuild
-    what a deployment takes. It explains the cliffs; not traced.
-    \item So: an interval chosen against the baseline attacker deploys the host
-    layer up to ten times more often than the APT attacker model needs, and
-    relies on a service layer that never halves its compromise.
+    At 0.8 the direction holds and the factor changes, so the factor is
+    stated at 0.5 only.
+    \item Why the plateau at 50 to 100\,s: a deployment takes 70 to 110\,s,
+    longer than these intervals, and MTDSim suspends a deployment due while
+    another runs. The service layer runs about the same number of deployments
+    at 50\,s as at 100\,s (NOT IN CH5), so its curves are flat there.
+    (CH2 or CH5 FIRST: the suspension rule is stated nowhere; an examiner
+    will ask how a 110\,s deployment runs every 50\,s.)
+    \item Shape (HYP): the cliffs, the baseline attacker's service layer from
+    0.84 at 200\,s to 0.27 at 500\,s, its host layer from 0.49 to 0.16, and
+    port shuffle and OS diversity near zero against both attackers by
+    500\,s. Read: MTD holds an attacker back only while the deployment
+    interval is shorter than the time the attacker needs to rebuild what a
+    deployment takes.
+    \item So: the earlier MTDSim studies ran 50 to 200\,s
+    (Section~\ref{subsec:eff-under-defence}), on the plateau, where both
+    layers hold the baseline attacker back. An interval chosen against the
+    baseline attacker deploys the host layer up to ten times more often than
+    the APT attacker model needs (at 0.5), and relies on a service layer that
+    never halves the APT attacker model's compromise.
     \item Bound: MTD cost is not modelled, so this sets no interval
-    (Section~\ref{sec:threats}). Neither attacker stops trying before the
-    15\,000\,s time limit, so a long deployment interval only delays it.
+    (Section~\ref{sec:threats}); neither attacker stops before the
+    15\,000\,s time limit, so a long interval only delays it.
   \end{itemize}
 
   \item \textbf{Observations, named so they are not left loose}
-  (secondary).
+  (secondary; each one clause).
   \begin{itemize}
-    \item The four attack profiles move together under MTD, far from the
-    baseline attacker (Figure~\ref{fig:eff-suppression-profiles}): the attacker
-    model matters more than the attack profile (Marc 2026-10-06). $c_3$, the
-    quietest, sits furthest from the baseline attacker: the mechanism of
-    Section~\ref{sec:disc-behaviour}, not a new one.
+    \item The attack profiles move together at 50 to 200\,s, far from the
+    baseline attacker (Figure~\ref{fig:eff-suppression-profiles}): the
+    attacker model matters more than the attack profile (Marc 2026-10-06). At
+    500\,s and beyond $c_3$ separates: highest under the host layer, lowest
+    under the service layer and MTDShield. (HYP) $c_3$ spends the most steps
+    in unmapped tactics and the fewest in lateral movement
+    (Figure~\ref{fig:aio-coverage}(a)): slowest to regain its place, least
+    often exploiting. The far end of P1's mechanism, not a new one.
     \item User shuffle increases the APT attacker model's compromise at every
     deployment interval, and the baseline attacker's from 200 to 1\,000\,s.
-    Cause (checked; state as HYP): credential reuse and brute force log in
-    with any account the attacker holds; user shuffle re-draws every internal
-    host's accounts and leaves the attacker's accounts valid, so each
-    deployment re-rolls the hosts it could not log into. At 200\,s,
-    compromises by credential reuse rise from 1.3 to 2.4 per run for the APT
-    attacker model (its NCR rises by 0.85 hosts) and from 5.2 to 7.6 for the
-    baseline attacker. Not the first deployment (Marc's hypothesis): at 2\,000\,s it
-    costs the APT attacker model 10\,s; the gain comes from later deployments
-    that block nothing. Points at the attack actions MTDSim models (6.3
-    ceiling, 7.2), not at a broken MTD mechanism.
-    \item Random and alternative are not expected to match (Marc
-    2026-10-07): the same seven MTD mechanisms, but alternative runs them in a
-    fixed cycle and random draws with replacement. They differ by 0.06 or
-    less; their intervals do not overlap at 1\,000 seeds, so the gap is real,
-    not noise, and no re-run is owed. Scott--Knott puts them one rank apart
-    (Table~\ref{tab:eff-cross-arm}). A 6.5 conclusion-validity clause (large
-    samples separate gaps too small to matter; read ranks as groups), not a
-    6.2 paragraph.
+    (HYP, checked) user shuffle re-draws every internal host's accounts and
+    leaves the attacker's accounts valid, so each deployment re-rolls the
+    hosts it could not log into; compromises by credential reuse rise at
+    200\,s (NOT IN CH5). At 50\,s it holds the baseline attacker back (0.45),
+    checked: a block during brute force sends the baseline attacker back to
+    exploit the same host (Section~\ref{subsec:attacker-model}), whose
+    exploits have already failed, so with a deployment every 50\,s it loops
+    between the two (138 brute forces per run, 118 blocked, against 43 and
+    none with no MTD; NOT IN CH5). From 200\,s the loop is rare (4 blocked
+    per run).
+    \item The topology shuffles raise the baseline attacker's NCR at 1\,000
+    and 2\,000\,s, and IP shuffle, which rebuilds no links, holds back both
+    attackers more than they do. (HYP) a topology shuffle rebuilds the links
+    of hosts the attacker already holds, which can hand it new neighbours
+    (Section~\ref{subsec:attacker-model}). Not traced.
+    \item Random and alternative: the same seven mechanisms, alternative in a
+    fixed cycle and random drawn with replacement; at 50 and 100\,s
+    alternative's back-to-back long deployments are suspended more, so it
+    deploys less (NOT IN CH5). They differ by 0.06 or less; the first
+    deployment does not explain the gap (it predicts the opposite
+    direction). One rank apart in Table~\ref{tab:eff-cross-arm}: a 6.5
+    clause.
   \end{itemize}
 \end{itemize}
+% TO 6.5 (from the examiner reads): Scott--Knott separates gaps too small to
+% matter at 1 000 to 4 000 runs, so read ranks as groups; rho over eleven
+% rows says little beyond "unrelated"; the intervals are declared, not
+% chosen after the data (200 s MTDSim's default, 2 000 s for the time-lost
+% cap); run and twin compared at the same clock time; why NCR, not ASP, needs
+% one line in Section 4.5 (the reason is only in Appendix E).
+% TO CH4 (Marc's pivot question, 2026-10-08): the fresh-host rule (enumerate
+% host skips hosts the attacker already owns, and enumerate host, scan port
+% and scan neighbours fail when they find nothing new) is in the reported runs
+% but not in Section 4.4; it decides how the APT attacker model pivots.
 
 % =====================================================================
 \section{Properties of the APT attacker model}
@@ -8863,7 +8875,8 @@ four.]}
   \item \textbf{Set the deployment interval against the attacker model.}
   CTI does not record when attackers act
   (Section~\ref{subsec:profiling}), and the interval MTD needs differed by up to
-  ten times between the two attackers. Bound: no MTD cost modelled.
+  ten times between the two attackers (at an NCR reduction of 0.5; the factor
+  depends on the threshold, the direction does not). Bound: no MTD cost modelled.
   \item \textbf{Build the attacker by objective when the objective is known}
   (secondary). From Section~\ref{sec:fidelity-verdict}: the attack profiles
   changed the outcome.
