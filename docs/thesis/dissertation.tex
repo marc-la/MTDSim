@@ -9096,6 +9096,77 @@ four.]}
   \end{itemize}
 \end{itemize}
 
+% =====================================================================
+% FURTHER-ANALYSES REGISTRY (Marc 2026-10-08). Analyses run while drafting
+% chapter 6 that are not in chapter 5: candidates for an appendix, a chapter 5
+% footnote, or future work. NOT triaged yet: Marc decides once chapter 6 is
+% drafted. Append as ideas come; never delete, mark the ruling instead.
+% Numbers and method for each are in docs/handoffs/2026-10-07_ch6_discussion_
+% assembly.md (section given); none needs a re-run unless marked RUN.
+%
+% TRIAGE RULE (proposed, for the end):
+%  (1) MUST HAVE A HOME: any item whose number the chapter 6 prose leans on.
+%      It goes in chapter 5 or an appendix, or the sentence goes.
+%  (2) MAY GO IN: an item that answers a question an examiner would raise
+%      from a chapter 5 float, and that the discussion cannot close without it.
+%  (3) Otherwise it stays here, or becomes one future-work line.
+%  Anything that goes in is labelled as exploratory (chosen after the results
+%  were seen), in one appendix section, and chosen by (1)-(2), never by
+%  whether the result helps the argument.
+%
+%  MUST-HAVE-A-HOME, already leaned on by drafted prose:
+%  A1 [6.2 P1] "exploiting them takes most of [the baseline attacker's] time":
+%     the session's 70 % check (handoff s9-10). On disk.
+%  A2 [6.1 P1] c3 47 % / c4 26 % unmapped: summed from Figure 5.1(a); ends of
+%     chapter 5's range. Probably fine as is; listed for completeness.
+%
+%  CANDIDATES (on disk, no re-run):
+%  B1 [6.1 P2] What a successful run looks like: with no MTD, success follows
+%     the network the seed draws, not pace or tactic mix. Profiles succeed
+%     almost only where the baseline attacker does (ASP 0.06-0.20 there,
+%     <= 0.017 elsewhere); any two profiles succeed on the same seed 3-6x more
+%     often than chance. Answers "why does the baseline attacker fail a
+%     third?" and "what goes right?" (handoff 11b). Optional sentence held in
+%     paragraph 2's comment. Strongest candidate.
+%  B2 [6.1 P2, with B1] Under MTD (service diversity, 200 s) successful and
+%     failed runs are interrupted equally; the successes sit on seeds that also
+%     succeed with no MTD. Thin: 2-33 successful runs per profile (11b).
+%  B3 [6.1 P3] Distinct openings counted by attack action: 190-844 against 3
+%     (handoff 11). Better as a chapter 5 footnote to Figure 5.1(b).
+%  B4 [6.1 P4] c4: the share of its exploits that fail for a missing
+%     precondition (66 %, highest) follows exploit steps per port-scan step
+%     across the four profiles (11a). HYP.
+%  B5 [6.1 P4] c1 against c3: c3 compromises more hosts in both failed and
+%     successful runs (breadth against depth) (11a). HYP.
+%  B6 [6.1 P4] Under MTD only c3 follows the attack-rate order; the other
+%     three cluster (11). Already a bound in the point set.
+%  B7 [6.1 P2 frame] Success given undetected: each attacker's share of
+%     successful runs the scan detector would not have flagged. Needs a
+%     per-run detection rule, i.e. a new metric (11a). Not computed.
+%  B8 [6.1 P4, 6.5] Partition size: in the random control, 19-flow groups give
+%     NCR 0.16-0.21 and 5-7-flow groups 0.02-0.18 (11a). ASP per group is
+%     recomputable from runs_partition_control.jsonl. Not computed.
+%  B9 [6.2] The host layer stops the APT attacker model before a foothold: up
+%     to 200 s, 69-89 % of its runs compromise no host, against 3-20 % for the
+%     baseline attacker (handoff s9-10). Needs a chapter 5 sentence first.
+%  B10 [6.2 P2] User shuffle helps by credential reuse: compromises by a held
+%     account per run at 200 s rise 1.30 -> 2.44 (APT attacker model) and
+%     5.18 -> 7.56 (baseline attacker) (s9).
+%  B11 [6.1 P2] The precondition-failure share at 1 000 seeds: 14-30 %
+%     (11b). Not needed by the prose; recorded only.
+%
+%  FUTURE WORK (needs new runs or new code; for Section 7.2, not an appendix):
+%  F1 Edge ablation: remove one tactic-to-tactic edge at a time and read ASP
+%     and NCR; the most sensitive edge points to a mitigation (11a).
+%  F2 Partition-size sweep (11a).
+%  F3 Which network features decide success (the target's exposure, path
+%     length): networks regenerated from the seeds (11b, after B1).
+%  F4 A longer time limit: 60 000 s, 4-5 days per run; ruled no re-run (s8).
+%  F5 A detector that both depends on the attacker and drives MTD (6.1 P1).
+%  F6 An attacker that times its attack actions around the deployment interval
+%     (Marc's side channel; property 8) (11b).
+% =====================================================================
+
 % ---------------------------------------------------------------------
 
 % =====================================================================
