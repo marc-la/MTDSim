@@ -1163,6 +1163,13 @@ and Section~\ref{sec:ablation}.]}
 \end{itemize}
 ```
 
+### 12b. Marc on one token and on "is a draw a choice" (2026-10-08)
+
+- **One token:** the Petri net can extend to more tokens (attack actions run at once) and to the scheduling of tactics. One token was kept to keep the results reasonable, and because the attack actions are not "thread safe". Verified: MTDSim's adversary keeps one context (adversary.py:84, 206–215: curr_host, curr_ports, curr_vulns), so two tokens would overwrite each other's exploit precondition. Section 4.3 gives only the behavioural reason (one line of the campaign at a time); the CHECK sits in the 6.3 points (the structural reason may belong in 4.3, not to be propagated yet).
+- **Is a draw a choice?** It is the difference between simulation and emulation (ch2, subsec:evaluation-methods). An emulation replays one incident step by step. A simulation draws from the envelope, so no attack strategy is hard-coded into an attack scenario, and a run may splice several attack flows into a campaign no attacker ran ("frankenstein"), which gives plurality and flexibility.
+- **Routed:** 6.3 choice sub-points (the draw as simulation's gain; the formalism's room to extend; the structural reason for one token); 6.5 scope (one token: no attacker acting on several fronts); 6.5 external (a run is a draw from an envelope, not a replay); registry F8 extended (per-token context, then scheduling).
+- **Ruling:** the full mark on choice of attack strategy is KEPT.
+
 ## Validation gate
 
 Done when Marc has answered §7, the structure in §3 is ruled, and every primary point in §4 has its evidence re-read on the 1 000-seed corpus, or is labelled a hypothesis. The next deliverable is per-paragraph dot points (slot form) for Marc's dictation.

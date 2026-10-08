@@ -8881,11 +8881,23 @@ and Section~\ref{sec:ablation}.]}
     \item Choice: a weighted draw among the sequences the attack flows
     document; counted by attack action, still hundreds (registry A3). The draw
     follows documented frequency, not reasoning; reasoning is cost--benefit's.
-    \item With one token, the Petri net is a stochastic choice among tactics.
-    The mark comes from the branching and weights of the attack flows, not
-    from the formalism: a stochastic finite state machine built from the same
-    attack flows would earn it too. What plurality costs is
-    Section~\ref{sec:disc-behaviour}'s.
+    \item Is a draw a choice? (Marc 2026-10-08) It is what simulation buys over
+    emulation (Section~\ref{subsec:evaluation-methods}). An emulation replays
+    one incident step by step; a simulation draws from the envelope of every
+    attack flow with the objective, so no attack strategy is hard-coded into an
+    attack scenario, and one run may join parts of several attack flows into a
+    campaign no attacker ran. The envelope is the attack strategies; the draw
+    picks one per run.
+    \item With one token, the Petri net makes a stochastic choice among
+    tactics, which a stochastic finite state machine built from the same attack
+    flows could also make: the mark comes from the attack flows' branching.
+    What the Petri net adds is room to extend: more tokens for attack actions
+    run at once, and the scheduling of tactics. One token was kept because
+    MTDSim's attack actions share one context (the current host, its ports and
+    their vulnerabilities), so two tokens would overwrite each other's
+    precondition (CHECK: Section~\ref{sec:petri-formalism} gives the
+    behavioural reason only, one line of the campaign at a time).
+    What plurality costs is Section~\ref{sec:disc-behaviour}'s.
   \end{itemize}
 
   \item \textbf{In part: what stops each one short of in full.}
@@ -9044,6 +9056,10 @@ four.]}
     its schedule, with no cost modelled; no detector; one 50-host network with
     two target hosts and synthetic vulnerabilities; simulation only
     (Section~\ref{subsec:evaluation-methods}); existing MTD only.
+    \item One token (Marc 2026-10-08): MTDSim's attack actions share one
+    context, so the APT attacker model runs one attack action at a time; an
+    attacker that acts on several fronts at once is not modelled. To
+    Section~\ref{sec:future-work} (registry F8).
   \end{itemize}
 
   \item \textbf{Internal: the APT attacker model differs from the baseline
@@ -9100,6 +9116,10 @@ four.]}
     not all APT (18 attributed to an ATT\&CK group, 20 to none, one adware;
     Section~\ref{sec:technique-graph}), sparse before intrusion, several sharing
     an operator: typical documented behaviour, not an optimal adversary.
+    \item A run is a draw from an envelope, not a replay (Marc 2026-10-08): it
+    may join parts of several attack flows into a campaign no attacker ran.
+    The price of simulating rather than emulating; read results as the
+    envelope's, never one incident's (Section~\ref{sec:fidelity-verdict}).
     \item Gaps (Marc 2026-10-08): an attack flow carries only what was observed;
     a theft the report's narrative implies but nobody observed is not in it,
     which weakens a partition by objective. Three of the four attack profiles
@@ -9261,7 +9281,9 @@ four.]}
 %     machine and the Petri net on the same attack actions and ask what each
 %     gives the other does not; a stochastic finite state machine built from
 %     the same attack flows; a Petri net with more than one token (parallel
-%     lines of a campaign).
+%     lines of a campaign). Needs attack actions that keep a context per token
+%     (MTDSim's share one: adversary.py curr_host, curr_ports, curr_vulns);
+%     then the scheduling of tactics (Marc 2026-10-08).
 %  F9 Upgraded attack actions (Marc 2026-10-08, 6.3): actions on objectives
 %     (exfiltration, impact), a failure that knows the MTD caused it, passive
 %     reconnaissance against a detector: the route to full marks on 2, 4, 5.
