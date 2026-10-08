@@ -8818,16 +8818,17 @@ assumptions comes first (Section~\ref{sec:evaluation-implications}).
   \centering
   % [CH3 REDRAFT ROUND 51, 2026-10-02, tab:fidelity-verdict] kept in step with Table 3.3: the re-scored rows, tick / P / cross, the year column. The APT attacker model's row is unchanged except blank -> cross on 5 and 8. The caption's decode follows Table 3.3's; its second sentence (what a tick means for this model) kept.
 % [CH3 REDRAFT ROUND 55, 2026-10-02, Table 6.1 caption] "cross-section" (open flag) -> the three MTD attacker models, in step with Table 3.3. Ratify on read.
+  % [2026-10-08, Marc: the two-layer rule ratified (handoff 12). The APT
+  %  attacker model is scored by Table 3.3's rule, from Chapter 4, as the
+  %  others are from their papers; the carve-out "a tick marks a property the
+  %  model implements" is deleted. DRAFT STATE.]
   \caption[The APT attacker model scored beside three MTD attacker models]{The
   APT attacker model scored on the eight properties beside the three MTD
-  attacker models of Table~\ref{tab:attacker-cross-section}:
-  \propmet\ has the property as Table~\ref{tab:attacker-properties}
-  defines it, \propstandin\ has it in part, a fixed rule or assumption
-  taking the place of the behaviour, \propnone\ does not have it. For the
-  APT attacker model a tick marks a property the model implements; whether
-  it changes an outcome on this simulator is bounded by the adopted attack
-  actions (Section~\ref{subsec:runtime-mechanics}) and is reported property
-  by property in the text.}
+  attacker models of Table~\ref{tab:attacker-cross-section}, by the same rule,
+  from Chapter~\ref{ch:attacker-model}: \propmet\ has the property as
+  Table~\ref{tab:attacker-properties} defines it, \propstandin\ has it in
+  part, or a fixed rule or assumption takes the place of the behaviour,
+  \propnone\ does not have it.}
   \label{tab:fidelity-verdict}
   \tablestyle\setlength{\tabcolsep}{3pt}
   \begin{tabular}{@{}ll*{8}{>{\centering\arraybackslash}m{1.1cm}}@{}}
@@ -8839,7 +8840,10 @@ assumptions comes first (Section~\ref{sec:evaluation-implications}).
     Kim et al.~\citep{kim2026} & 2026 & \propstandin & \propstandin & \propnone & \propnone & \propstandin & \propnone & \propnone & \propstandin \\
     \midrule
     % [CH3 REDRAFT ROUND 52, 2026-10-02] Marc: the dissertation's own row named as such, at the bottom, 2026.
-    \begin{tabular}[c]{@{}l@{}}APT attacker model,\\ this dissertation\end{tabular} & 2026 & \propmet & \propmet & \propmet & \propmet & \propnone & \propstandin & \propstandin & \propnone \\
+    \begin{tabular}[c]{@{}l@{}}APT attacker model,\\ this dissertation\end{tabular} & 2026 & \propmet & \propstandin & \propmet & \propstandin & \propstandin & \propstandin & \propstandin & \propnone \\
+    % [2026-10-08 regrade, Marc: 2 and 4 tick -> in part (exfiltration and
+    %  impact unmapped; the failure matrix a fixed rule that reads the verdict);
+    %  5 cross -> in part (stealth by proxy, Kim's precedent). DRAFT STATE.]
     % [2026-10-05, Marc: incentive "cannot be a tick" (the RoA order only,
     %  inherited); learning "in part" as Section 4.4.4 states it. 6 and 7 tick ->
     %  in part. DRAFT STATE.]
@@ -8851,8 +8855,7 @@ assumptions comes first (Section~\ref{sec:evaluation-implications}).
 % the mark is chapter 3's rule from the method text; our evidence may only lower
 % it; the evidence ladder (built / seen / consequence on the evaluation's
 % answer) is reported beside the mark, never folded into it. The old points are
-% in handoff 12a. Table 6.1's row still shows the old marks (2, 4 full; 5 none):
-% it follows when this section is drafted (Marc: "get this right first").
+% in handoff 12a. Table 6.1's row and caption updated to the regrade 2026-10-08.
 \noindent\emph{[Points for dictation, reading Table~\ref{tab:fidelity-verdict}
 and Section~\ref{sec:ablation}.]}
 \begin{itemize}
@@ -9257,6 +9260,18 @@ four.]}
 %     memory: at most 1 point. Reading: no component changes which mechanism
 %     is most effective, so contribution 2 does not rest on them. Needs a home
 %     (a column in Table F.3 or a chapter 5 sentence) before 6.3 leans on it.
+%  B16 [6.3] ADAPTIVITY'S OWN METRIC IN THE FAILURE-MATRIX ABLATION (the
+%     examiner's question, 2026-10-08). ablation_numbers.json already has time
+%     lost per MTD deployment with and without the failure matrix: IP shuffle at
+%     2 000 s 324.0 against 331.8 s (diff -7.8 [-19.6, +4.2]); OS diversity at
+%     2 000 s -1.4 against -10.5 s (diff +9.1 [-2.6, +20.7]). Both intervals
+%     cross zero: the component built for adaptivity does not move adaptivity's
+%     metric. Unreported in 5.4; 6.3 must say it or not claim time lost as the
+%     seen rung for property 4.
+%  B17 [6.3] PLURALITY WITHOUT THE ATTACK PROFILES (partition_ablation_numbers
+%     behaviour): distinct openings over 8 steps, 752 with one attack profile
+%     per seed against 978 on the attack graph; tactics entered 15 both ways.
+%     The split costs some plurality; property 3 holds either way.
 %
 %  FUTURE WORK (needs new runs or new code; for Section 7.2, not an appendix):
 %  F1 Edge ablation: remove one tactic-to-tactic edge at a time and read ASP
