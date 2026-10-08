@@ -8441,6 +8441,11 @@ evaluation (Section~\ref{sec:evaluation-implications}); and bounds them
     \item Bound: measured at the 15\,000\,s time limit
     (Table~\ref{tab:experiment}); whether the gap narrows over a longer
     campaign was not run.
+    \item Interpretation (Marc 2026-10-08): the attack flows record campaigns
+    that succeeded and were reported (Section~\ref{subsec:failure-matrix});
+    how often real APT attackers fail is not in the record. A lower ASP is a
+    property of the model in MTDSim, not an estimate of how often APTs succeed.
+    Keep in mind as a frame for every outcome claim.
     \item So: an APT is defined by persistence toward an objective, not by speed
     (Section~\ref{subsec:apt}). The APT attacker model is not competing with
     the baseline attacker; the baseline attacker is the reference.
@@ -8916,6 +8921,13 @@ four.]}
     \citep{brown2023}, and both attackers share them, so the comparison is
     fair. Residual: what the APT attacker model achieves cannot exceed what they
     allow. To Section~\ref{sec:future-work}.
+    \item No MTD cost (Marc 2026-10-08): MTDSim charges a deployment no
+    overhead and no loss of service, so a shorter deployment interval is
+    always better in it. Intervals below the 200\,s default are where most
+    of the holding back happens and the least practical on a real network;
+    read results there as the simulator's, not a recommendation. The same
+    holds for whatever an attacker model plugs into: it inherits the
+    simulator's assumptions.
     \item Other limits by design, each to Section~\ref{sec:future-work}: MTD on
     its schedule, with no cost modelled; no detector; one 50-host network with
     two target hosts and synthetic vulnerabilities; simulation only
