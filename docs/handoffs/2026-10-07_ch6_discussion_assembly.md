@@ -735,6 +735,20 @@ Marc's read: MTDShield is an Appendix D item; its line follows service diversity
 
 *Flag for the ch5 float owner (out of scope here):* Figure 5.1(a) prints "0" for resource development (c1, c2) as distinct from "<1" and blank. Either a reached-but-rounded cell needs a key, or it is a rounding artefact.
 
+### 11a. Marc's answers to the four "leave out" questions (2026-10-08), and where each went
+
+| Question | Marc's answer | Check (one-off; NOT IN CH5) | Routed to |
+|---|---|---|---|
+| Baseline attacker fails a third of its runs | A framing answer: CTI holds only detected, reported, mostly successful campaigns. So no claim on real-world success rates, only on modelled mechanisms and outcomes seen in MTDSim. New idea: each attacker's share of successful runs that stayed undetected. | Not computed; it needs a per-run detection rule, which is a new metric. | 6.1 point 2 frame bullet; candidate in the future-work comment |
+| c4: highest rate, lowest ASP | Sparsity (five attack flows) limits the orders that meet an attack action's preconditions. | c4 makes 116 exploits per run, the most, and 66 % fail on an unmet precondition, the highest share (c3 52, c1 57, c2 60). The share follows exploit-dispatching steps per port-scan step (c3 1.0, c1 1.75, c2 1.9, c4 2.2): an exploit needs `curr_ports` from a port scan (`attack_operation.py` `assert_action_context`). Bound: c1 has as few successful exploits per run (6.38 against c4's 6.32) but three times the ASP. Random control, NCR with no MTD: the 19-flow groups give 0.16–0.21; the 7- and 5-flow groups give 0.02–0.18, lower and more spread. ASP is not recorded per group. | 6.1 point 4 (HYP); 6.5 external; future work (partition size) |
+| ASP and NCR rank c1 and c3 oppositely | Breadth against depth: ASP needs one of two target hosts, NCR counts every host. | Hosts per run: c3 8.48 against c1 7.32 in failed runs, and 10.43 against 8.29 in successful runs. So c3 is broader either way, not only because success truncates the run. | 6.1 point 4 (HYP) |
+| What the tactic mix predicts for MTD | Reread as an edge ablation: remove one tactic-to-tactic edge at a time and measure ASP and NCR. The most sensitive edge is where a mitigation that breaks that transition matters most, which lets mitigations be proposed from the attacker model. | — | Future-work comment |
+| Attack flows have gaps | A technique that was not directly observed (theft implied by the report's narrative) is absent from the flow, which made a partition by terminal objective hard. | — | 6.5 external |
+
+**Figure 5.1(a) "0" fixed.** The 0 is a true zero, not a rounding artefact. Resource development is in c1's and c2's attack flows, but no run can enter it: c1 has no incoming arc, and c2's one incoming arc has weight 0 (`data/ogasp/petri/*_structural.json`). The caption is keyed ("0: a tactic they reach that no run takes"); the cell is left as generated.
+
+**Method kept (Marc):** for each discussion section, a cold examiner reads the floats the section reads. Its questions are triaged (covered / added as a bound / belongs elsewhere / not covered), and the uncovered ones go to Marc, each with a recommendation. His answers are routed to whichever section they belong in.
+
 ## Validation gate
 
 Done when Marc has answered §7, the structure in §3 is ruled, and every primary point in §4 has its evidence re-read on the 1 000-seed corpus, or is labelled a hypothesis. The next deliverable is per-paragraph dot points (slot form) for Marc's dictation.
