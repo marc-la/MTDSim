@@ -1408,6 +1408,48 @@ and Section~\ref{sec:ablation}.]}
 \end{itemize}
 ```
 
+## 13. 6.5: six cold examiners, merged and ranked (2026-10-08, NOT RULED)
+
+Marc: "spawn ... a cold really really harsh critical ... examiner of UWA ... chapter specific ... then we can ... rank". Six examiners, one brief
+(UWA honours, 80-90 benchmark, harsh but fair, not pedantic; four validity types plus scope; check the text before saying "not addressed";
+never shown 6.5 or the registry): ch1-2 framing; ch3 literature review; ch4 method with App B-C; ch5 with App D-E; 6.1-6.4; the whole
+argument. Brief and transcripts in the session scratchpad (examiners/brief.md). Verified by the session: Table C.1a (the 45 s band moves
+NCR reduction 0.44-0.90 at 200 s and -0.10 to 0.31 at 2 000 s under random; the cells, not stated in any float); End of run is "a target
+host compromised, or 15 000 s" (Table 5.1); baseline ASP 5-16x the profiles' (~two thirds of its runs stop early); 6.2's MTDShield
+"suggests a policy fitted to that attacker" stands against App D's degenerate inputs; 6.3 P3's "not on the components set by our
+judgement" is wrong (the durations and the mapping are judgement) -- the session's sentence, to fix.
+
+All six asked the same first oral question: give the baseline attacker the APT attacker model's idle time (or uniform weights to the
+APT attacker model) -- does the reversal survive? If yes, what in the headline is about APTs?
+
+Ranked (n = examiners raising it, of 6):
+ 1. Cause of the reversal not isolated: pace and order at the seam, not CTI behaviour; no pace-matched or uniform-weight control (6/6).
+    Elephant. Partly addressed (6.2 P1, 6.3 P3). The abstract's "grounded in documented behaviour" outruns it.
+ 2. The headline untested across the judgement-set durations (45 s band; comparison with the baseline attacker not repeated) (4/6). Elephant.
+ 3. Property counts inconsistent across chapters (ch1 4+2, ch4 "four", 6.1 "does not have" detection avoidance vs Table 6.1) (5/6).
+    Major; the propagation already owed.
+ 4. "APT attacker model" vs the corpus and the run (18/38 attributed, criminal, adware; 4-hour runs; objectives unmapped) (4/6).
+ 5. Choice of attack strategy in full is a weighted draw; distinct openings rewards any randomness; the net gain is one in full,
+    one in part (5/6).
+ 6. Run ends at a target host compromised: NCR truncated by success for the baseline attacker (~2/3 of runs), censored by the time
+    limit for the slow APT attacker model; NCR reduction not on a common footing across attackers (2/6). Not addressed.
+ 7. Time lost per MTD deployment as adaptivity's metric: drifting counterfactual, the cap, the restart artefact, 2 000 s only, and the
+    failure-matrix ablation does not move it; 6.3 says "no metric of their own" vs ch4/ch5 (4/6).
+ 8. Yardstick and comparators: own rubric, three hand-picked comparators (no game-theoretic or FlipIt-style attacker), P too coarse,
+    one scorer plus an LLM re-score of our row only, definitions mirror the components (2/6; the ch3 examiner's elephant). One line
+    in 6.5 under the scope limit.
+ 9. "Identical conditions": action times differ, memory acts on odds vs time, NCR bases 0.17 vs 0.50 (3/6).
+10. Ranking statistics: ten dependent items (three mixtures), rho ~ 0 is no agreement not a reversal, rank-1 ties (service diversity
+    with port shuffle), bootstrap over correlated runs (3/6).
+11. Ablation inference: d standardised near the floor, default +-0.2 bound, d type unstated, 6.3 "read on NCR reduction" vs 5.4's d on
+    NCR, ten random partitions give p >= 1/11, partition size confounded (3/6).
+12. MTDShield "fitted to that attacker" while its inputs are degenerate (4/6). Fix the 6.2 sentence.
+13. Profiles thin, one coder, corpus weights never varied; c4 a residual bin; the leftmost-tactic rule; the overlay share untested (2/6).
+14. The tactic-to-action mapping is one judgement; command and control -> scan neighbours carries the pace; only the total mapping tried (1/6).
+15. 6.4's implications outrun one network, simulator and corpus (2/6). A constraint on drafting 6.4, not a 6.5 threat.
+Below the cut: unreported numbers in 6.1-6.2 (registry A1, A3); a second cause of quietness (refused actions drop out of attack rate);
+the inherited restart artefact (unflagged in ch2); post-hoc c3 story; run-level vs seed-level resampling; one network (well bounded).
+
 ## Validation gate
 
 Done when Marc has answered §7, the structure in §3 is ruled, and every primary point in §4 has its evidence re-read on the 1 000-seed corpus, or is labelled a hypothesis. The next deliverable is per-paragraph dot points (slot form) for Marc's dictation.
