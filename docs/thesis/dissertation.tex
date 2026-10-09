@@ -8554,8 +8554,11 @@ no MTD running, it compromises less than the baseline attacker by the
 15\,000\,s time limit, but its runs that reach a target reach it only just
 later (Table~\ref{tab:unopposed-summary}). Its ASP and NCR are well below the
 baseline attacker's; its MTTC is only just longer, and $c_3$'s overlaps the
-baseline attacker's. Two causes compound. Its unmapped tactics take time, so
-it takes fewer attack actions before the time limit. And its attack actions
+baseline attacker's. Two causes compound. Its tactics take time: an unmapped
+tactic dispatches no attack action, and command and control, the only tactic
+that finds new hosts, takes a mean of 45\,s for scan neighbours against the
+baseline attacker's 5\,s (Section~\ref{subsec:dwell-times}). So it takes fewer
+attack actions before the time limit and finds new hosts more slowly. And its attack actions
 come in its tactics' order, not the baseline attacker's procedure, so some
 arrive before their preconditions, an exploit before the port scan it needs,
 and fail (Section~\ref{subsec:runtime-mechanics}). Three bounds hold. First,
@@ -8681,8 +8684,8 @@ In MTDSim, which MTD mechanism holds an attacker back depends on the attacker
 model. The host-layer mechanisms reduce the APT attacker model's NCR most, and
 the service-layer mechanisms the baseline attacker's, at every deployment
 interval; no MTD mechanism or deployment strategy ranks first against both,
-and $\rho$ between the two rankings is near zero
-(Table~\ref{tab:eff-cross-arm}, Figure~\ref{fig:eff-cross-arm}). MTDSim
+and $\rho$ between the two rankings lies between $-0.24$ and $0.25$
+(Section~\ref{subsec:eff-cross-arm}). MTDSim
 writes each deployment's effect against the baseline attacker's procedure: the
 attack actions it blocks, and the attack action it sends the attacker back to
 (Section~\ref{subsec:attacker-model}). The APT attacker model keeps the attack
@@ -8690,8 +8693,7 @@ actions and drops the procedure: its Petri net chooses the next tactic, and an
 unmapped tactic takes time without an attack action
 (Section~\ref{sec:execution}). One deployment therefore takes a different
 state from each attacker. Vulnerabilities are the baseline attacker's
-currency, and exploiting them takes most of its time; service diversity
-redraws every service, so the vulnerabilities it was exploiting are gone. A
+currency; service diversity redraws every service, so the vulnerabilities it was exploiting are gone. A
 host-layer deployment costs either attacker only its place. The baseline
 attacker finds its place again at once, because its procedure restarts by
 scanning for hosts. The APT attacker model regains its place only when its
@@ -8714,7 +8716,7 @@ redundancy mechanism. Nor does the relative measure cause the reversal: each
 ranking compares MTD mechanisms against one attacker, over that attacker's own
 NCR with no MTD. The reversal also holds on ASP reduction
 (Table~\ref{tab:eff-interval-values-asp}). What each MTD mechanism takes from
-an attacker is MTDSim's implementation of it, on one network.
+an attacker is MTDSim's implementation of it, on its default network.
 Section~\ref{subsec:defence-modelling-approaches} argued that the attacker
 model decides which deployment strategy is optimal; in MTDSim it also decides
 which MTD mechanism ranks first. An MTD evaluation's ranking carries the
@@ -8731,12 +8733,11 @@ assumptions of its attacker model (Section~\ref{sec:evaluation-implications}).
 %  about -220 s, later ones +21 to +33 s under the host layer) is in
 %  docs/implementation/disruption_mechanism.md section 9, NOT IN CH5, so no
 %  number is given for it here.
-MTD holds an attacker back by the time it costs it, not by the attack actions
-it blocks. For the APT attacker model, attack actions blocked and time lost
-per MTD deployment rank the MTD layers the same way, the host layer first and
-user shuffle last (Figure~\ref{fig:aio-adaptivity},
+Attack actions blocked and time lost per MTD deployment rank the MTD layers
+the same way for the APT attacker model, the host layer first and user
+shuffle last (Figure~\ref{fig:aio-adaptivity},
 Table~\ref{tab:disruption}). For the baseline attacker they part. Every
-host-layer deployment blocks its attack action and costs it no time, and the
+host-layer deployment blocks its attack action and costs it no time on average, and the
 three service-layer mechanisms block it equally, but only service diversity
 costs it time. A block ends the attack action as a failure, so its cost is
 what the attacker does next. The baseline attacker restarts its procedure,
@@ -8764,7 +8765,7 @@ attacker furthest below zero, possibly because it redraws only the services
 the new operating system cannot run, which can hand the attacker easier
 vulnerabilities on hosts it has not reached. An evaluation that counts
 blocked attack actions would rank the host layer the most disruptive against
-the baseline attacker, which loses no time to it. Time lost per MTD
+the baseline attacker, whose mean time lost to it is below zero. Time lost per MTD
 deployment measures what MTD costs an attacker
 (Section~\ref{sec:evaluation-implications}).
 
@@ -9003,8 +9004,7 @@ lift the most marks (Section~\ref{sec:future-work}).
 %  OVERTURNED on merit: the point "its without is the baseline attacker" ---
 %  the baseline attacker also differs in timing and failure response (6.5,
 %  internal), so it is only the nearest comparison.
-Each component does what it was built to do, and none changes which MTD
-mechanisms are most effective. Removing each changes the behaviour it was
+Each component does what it was built to do. Removing each changes the behaviour it was
 built for (Section~\ref{sec:ablation}), so no mark falls. The failure matrix
 changes where the APT attacker model goes after a failure, but not the time
 each MTD deployment costs it
@@ -9015,15 +9015,15 @@ exploits that succeed and changes no outcome, a negative only a model with
 the mechanism can report. What an MTD evaluation reports is NCR reduction,
 not NCR: an attacker that compromises more is stronger, not closer to an APT
 attacker. The failure matrix and the vulnerability memory move NCR negligibly
-both with no MTD and under it (Table~\ref{tab:ablation}), so neither can move
-NCR reduction much, and the same three MTD mechanisms reduce NCR the most with
-and without the attack profiles
-(Section~\ref{subsec:ablation-attack-profiles}). The difference from the
-baseline attacker therefore rests on unmapped time and order
+both with no MTD and under the two MTD mechanisms each was run against
+(Table~\ref{tab:ablation}), so neither is likely to move NCR reduction much,
+and the same three MTD mechanisms reduce NCR the most with and without the
+attack profiles (Section~\ref{subsec:ablation-attack-profiles}). The reversal
+therefore rests on the tactic durations and order
 (Section~\ref{sec:disc-behaviour}), where the APT attacker model meets
 MTDSim's attack actions, not on the failure matrix, the vulnerability memory
-or the attack profiles. Unmapped time is set by tactic durations of our
-judgement (Section~\ref{sec:threats}). The attack profiles' own result is no measure of fidelity either.
+or the attack profiles. The tactic durations are our judgement
+(Section~\ref{sec:threats}). The attack profiles' own result is no measure of fidelity either.
 The attack graph compromises more by pooling the objectives that attack
 profiling keeps apart (Section~\ref{sec:attack-profiles}), and the attack
 profiles compromise more than random partitions of the same sizes, likely
@@ -9061,14 +9061,14 @@ actions in a fixed order (Section~\ref{sec:disc-behaviour}).
 %  rho -0.24 to 0.25), as Section 5.3.2 prints them. Bound points to 6.5
 %  (internal: the model changes the answer, not which part does).
 This section states what the results mean for anyone who evaluates MTD. One
-simulator on one network cannot transfer its numbers or its rankings; what
+simulator on its default network cannot transfer its numbers or its rankings; what
 transfers is that a ranking depends on the attacker model. The literature
 argued that the attacker model decides which deployment strategy is optimal
 (Section~\ref{subsec:defence-modelling-approaches}), and we measure it. On the
 same simulator, networks, MTD mechanisms and seeds, no MTD mechanism or
 deployment strategy ranks first against both attackers at any deployment
 interval, and $\rho$ between the two rankings lies between $-0.24$ and $0.25$
-(Table~\ref{tab:eff-cross-arm}). This holds with the 45\,s mean duration at
+(Section~\ref{subsec:eff-cross-arm}). At 200\,s, this holds with the 45\,s mean duration at
 both ends of its band (Appendix~\ref{app:dwell-robustness}). An optimal MTD
 mechanism is therefore optimal for one attacker model, and an evaluation
 should report its ranking with the attacker model behind it and the
@@ -9151,9 +9151,9 @@ and NCR call a quiet attacker weak (Section~\ref{sec:disc-behaviour}), so an
 evaluation should report what the attacker does
 (Section~\ref{subsec:metrics-behaviour}) beside what it achieves. Counting the
 attack actions MTD blocks would rank the host layer the most disruptive
-against the baseline attacker, which loses no time to it
+against the baseline attacker, whose mean time lost to it is below zero
 (Section~\ref{sec:disc-mtd-performance}), so an evaluation should report the
-time lost per MTD deployment. Of the outcome metrics, NCR reduction counts
+time lost per MTD deployment beside it. Of the outcome metrics, NCR reduction counts
 hosts in every run, while ASP reduction rests on the few runs that reach a
 target host and reaches its ceiling of 1 against the APT attacker model
 (Table~\ref{tab:eff-interval-values-asp}). An evaluation of an attacker that
@@ -9214,19 +9214,20 @@ that MTDSim prices nothing. A deployment costs no overhead or loss of service,
 and nothing watches the attacker, so the faster attacker and the shorter
 deployment interval gain at no cost (Section~\ref{sec:disc-mtd-performance}).
 On a real network, speed raises alarms and every deployment costs service.
-Section~\ref{sec:fidelity-verdict} traced the difference between the two
-attackers to unmapped time and order, and these are where the APT attacker
+Section~\ref{sec:fidelity-verdict} traced the reversal to the tactic
+durations and order, and these are where the APT attacker
 model meets MTDSim's two design choices. In a simulator that prices nothing,
-unmapped time earns the APT attacker model nothing and costs it outcome; its
+the tactic durations earn the APT attacker model nothing and cost it outcome; its
 order is cut short by the attack actions' own. The grounding in CTI is
 therefore a first step: it decides what runs between the attack actions, and
 these two choices decide how much that pays off. Both attackers share the
 attack actions, the networks, the MTD mechanisms and the seeds, so a
-difference between their results comes from the attackers alone. What the APT
+difference between their results comes from the attackers, not from the
+networks, the MTD mechanisms or the seeds. What the APT
 attacker model achieves, though, cannot exceed what the attack actions allow.
 Other limits are also set by design: one token, so the attacker pursues one
-line of the campaign at a time; one 50-host network with two target hosts and
-synthetic vulnerabilities; runs of 15\,000\,s, about four hours, against
+line of the campaign at a time; MTDSim's default network, of 50 hosts with two
+target hosts and synthetic vulnerabilities; runs of 15\,000\,s, about four hours, against
 campaigns of months; simulation only (Section~\ref{subsec:evaluation-methods});
 and existing MTD mechanisms only, each deployed at a deployment interval. Each
 is future work (Section~\ref{sec:future-work}).
@@ -9252,17 +9253,17 @@ is future work (Section~\ref{sec:future-work}).
 %  its Appendix C.1 home is P10, accepted 2026-10-09. Ratify on read.
 The comparison shows that the APT attacker model changes which MTD mechanisms
 are most effective; it does not show which of the model's parts causes the
-change. The APT attacker model differs from the baseline attacker in unmapped
-time, order and its response to failure at once. The ablations remove the
-failure matrix, the vulnerability memory and the attack profiles, and none
-changes which MTD mechanisms reduce NCR the most
-(Section~\ref{sec:fidelity-verdict}). That leaves unmapped time and order,
-which no run separates. NCR rests most on the 45\,s mean duration
+change. The APT attacker model differs from the baseline attacker in its tactic
+durations, order and its response to failure at once. Removing the failure
+matrix or the vulnerability memory moves NCR negligibly where each was run,
+and without the attack profiles the same three MTD mechanisms reduce NCR the
+most (Section~\ref{sec:fidelity-verdict}). That leaves the tactic durations
+and order, which no run separates. NCR rests most on the 45\,s mean duration
 (Section~\ref{subsec:dwell-times}); with it at a quarter and at four times its
 value, the APT attacker model's most effective MTD mechanisms still share
 none with the baseline attacker's, and the host layer still ranks above the
 service layer (Appendix~\ref{app:dwell-robustness}). Order has no test of
-its own. The baseline attacker given the APT attacker model's unmapped time
+its own. The baseline attacker given the APT attacker model's tactic durations
 would separate the two, and is future work (Section~\ref{sec:future-work}).
 The two attackers also do not run under identical conditions. An attack
 action takes the mean duration of the tactic that dispatches it, not MTDSim's
@@ -9363,7 +9364,7 @@ them, with a language model's blind re-score as the check (Section~\ref{sec:fide
 %  point (detected, reported, mostly successful) is pointed back to, not
 %  repeated. Ratify on read.
 How far the results reach beyond MTDSim rests on the 38 attack flows and the
-one network. The attack flows record campaigns that were detected and
+default network. The attack flows record campaigns that were detected and
 reported (Section~\ref{sec:disc-behaviour}), and each draws only the steps its
 threat report describes, which can stop short of the objective
 (Section~\ref{sec:attack-profiles}). Only 18 of the 38 are attributed to a
@@ -9417,7 +9418,7 @@ of which, the random and alternative deployment strategies and MTDShield,
 deploy the other seven. The Scott--Knott ESD test groups options that do not
 differ by more than a negligible effect, so rank 1 can hold several: service
 diversity and port shuffle share it against the baseline attacker
-(Section~\ref{subsec:eff-cross-arm}). $\rho$ near zero means that the two
+(Section~\ref{subsec:eff-cross-arm}). $\rho$ between $-0.24$ and $0.25$ means that the two
 attackers' orders do not agree, which is weaker than one inverting the other.
 The rankings are therefore used only to show that the two attackers' rank 1
 share no MTD mechanism, never as a verdict on one
@@ -9431,8 +9432,8 @@ ablations leave some cells inconclusive, 24 of 60 for the attack profiles, and
 no correction is made for the number of cells compared
 (Section~\ref{sec:ablation}). The random partitions are descriptive: with no
 MTD the attack profiles beat all ten, a result chance alone would give one time in
-eleven. The intervals also resample runs, not seeds, although the four attack
-profiles share each seed's network.
+eleven. The intervals on the metrics of Chapter~\ref{ch:experiments} also resample
+runs, not seeds, although the four attack profiles share each seed's network.
 
 % Conclusion points [T10, T11], dictated as paragraph 5 above on 2026-10-08:
 %  rankings carry the assumptions of simulator and attacker model; used only
