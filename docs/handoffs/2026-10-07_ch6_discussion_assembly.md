@@ -1787,6 +1787,40 @@ Holes against Marc's earlier answers:
 - Fixed before results PARTLY: §13a #9 (durations set early), §14a Q4 (NCR for resolution). One sentence in 6.5.
 - Repaired comparator, plurality price (c1), fall-off at 200 s only: NOT ANSWERED.
 
+### 16b. One pass over ch6: RQ integration, §15 cuts, answered holes (2026-10-09)
+
+Marc 2026-10-09: B ("a tick means it meets all the clauses ... there are still improvements within a partial ... CTI is an
+approach but it's not sufficient"; "what's the appropriate honest frame"); F ("the research question, the sub questions need
+to be specific and answered here and decomposed ... complete ... visibly integrated"); D (comparability: "lowest common
+denominator ... the lowest NCR reduction could be a lower bound ... your mechanism has to be broadly effective against
+everything"; APT "the pinnacle ... you got all the other things in between").
+APPLIED (inside ch6):
+- Preamble maps sections to SQs: 6.1 how the recovered behaviour shows once executed; 6.2 answers SQ3; 6.3 answers SQ1 and SQ2;
+  ch7 draws them into the RQ answer. 6.2 opens on SQ3 and closes on a "To SQ3, then" paragraph (level by layer, Table E.1 at
+  200 s; ch1's advantage-of-time premise, ghosh2009nitrd; 1 000 s vs 100 s). 6.3 opens on SQ1/SQ2 and closes on a "To SQ1
+  and SQ2, then" paragraph carrying Marc's honest frame (two marks gained; upgrades within a partial do not show; ablations;
+  order and tactic durations reorder; CTI grounding changes the finding but is not sufficient). 6.4 opens on the RQ; 6.5
+  opens on bounding the three answers and SQ3's reach to APT attackers.
+- D: Cho direction in 6.2 ¶1 (scoped to MTDSim); 6.4 ¶1 hong2018 (metrics depend on the attacker's implementation),
+  jalowski2026 comparability -> shared attacker models + Marc's lower bound. Marc's "APT as pinnacle" NOT written: at 200 s
+  the APT attacker model sets the lower bound for the service layer, the baseline attacker for the host layer (Table E.1),
+  so the text says no one attacker model sets the bound throughout. Told to Marc.
+- A: 6.4 ¶1 (the ranking moves through MTDSim's rules for what a deployment takes) and 6.5 ¶1 (third design root).
+- Answered holes: MTTC clause and the interval-against-the-baseline point (T4) in 6.4 ¶4; MTDShield bound in 6.4 ¶2;
+  "can depend"; T3 (order in the attack actions) in 6.4 ¶3; 6.3 attack-profile effect under the host layer (d -0.76).
+- §15 cuts: D1, D2, D3, D4 (6.2 keeps one clause), D5 (6.5 home), D6 (6.2 reads, 6.4 points), D7/"first step" (moved to 6.3's
+  SQ answer), D8, D9, D10 (6.1 "5 to 7"; 6.3 "not a complete standard"); T1, T2, T3, T4, T5 ("no redundancy mechanism").
+- To ch7 (cut from ch6, for §7.1/§7.2): 6.4 ¶3 "Before the runs, we could predict only ..."; "Within MTDSim, another
+  evaluation can run its MTD against the APT attacker model beside the baseline attacker"; 6.3 "Upgrading the attack
+  actions under the Petri net would lift the most marks" (at most two: detection avoidance also needs a detector); 6.1
+  "a detector that joins detection to MTD deployment is future work".
+Words (crude count, comments and floats out): ch6 6 292 -> 6 759 (6.1 -119, 6.2 -34, 6.3 +308, 6.4 +258, 6.5 +48).
+Main text ch1-7 roughly 19 000 by the same crude count against the 16 500 ceiling: the cut pass must take ch6 to ~4 500.
+NOT APPLIED: H-I (choices fixed before results), the repaired comparator, fall-off at 200 s only, 6.2 "attacker model
+matters more than the attack profile". PROPOSALS outside ch6: P13 (ch5 l.6735, openings by attack action, needs a
+recorder); P14 (ch1 roadmap l.597-599: "Chapter 6 explains the results, answers the three sub-questions, checks which of
+the eight properties the APT attacker model has, and states what the answers mean for MTD evaluation and where they stop.").
+
 ## Validation gate
 
 Done when Marc has answered §7, the structure in §3 is ruled, and every primary point in §4 has its evidence re-read on the 1 000-seed corpus, or is labelled a hypothesis. The next deliverable is per-paragraph dot points (slot form) for Marc's dictation.
