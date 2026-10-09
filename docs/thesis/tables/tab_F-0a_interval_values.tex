@@ -6,7 +6,7 @@
 %   the body keeps the ranking table. DRAFT STATE --- ratify on read.
 \begin{table}[htbp]
   \centering
-  \caption[NCR reduction under each attacker, by MTD and deployment interval]{NCR reduction for each MTD mechanism and deployment strategy against the APT attacker model averaged over $c_1$ to $c_4$, and against the baseline attacker, at each deployment interval; 1 is no host compromised, 0 is as many as with no MTD, and a negative value is more hosts compromised than with no MTD. Rows grouped as panels~(a) to~(f) of Figure~\ref{fig:eff-cross-arm}; an italic row with values is a layer's mean over its mechanisms, the line the figure plots. Grey text: its 95\,\% percentile bootstrap interval over runs includes zero; each cell is from 4\,000 runs for the APT attacker model (1\,000 per attack profile) and 1\,000 for the baseline attacker, and a layer's mean from its mechanisms' runs together.}
+  \caption[NCR reduction under each attacker, by MTD and deployment interval]{NCR reduction for each MTD mechanism and deployment strategy against the APT attacker model averaged over $c_1$ to $c_4$, and against the baseline attacker, at each deployment interval; 1 is no host compromised, 0 is as many as with no MTD, and a negative value is more hosts compromised than with no MTD. Rows grouped as panels~(a) to~(f) of Figure~\ref{fig:eff-cross-arm}; an italic row with values is a layer's mean over its mechanisms, the line the figure plots. Grey text: its 95\,\% percentile bootstrap interval over runs includes zero; each cell is from 4\,000 runs for the APT attacker model (1\,000 per attack profile) and 1\,000 for the baseline attacker, and a layer's mean from its mechanisms' runs together. Random, MTDShield's four: the random deployment strategy over the four MTD mechanisms MTDShield chooses from (Appendix~\ref{app:mtdshield}).}
   \label{tab:eff-interval-values}
   \tablestyle\scriptsize\setlength{\tabcolsep}{3pt}
   \begin{tabular}{@{}P{3.75cm}*{12}{>{\centering\arraybackslash}p{0.78cm}}@{}}
@@ -31,6 +31,7 @@
     \grouprow{13}{deployment strategies} \\
     \quad random & $0.95$ & $0.90$ & $0.75$ & $0.43$ & $0.22$ & $0.08$ & $0.67$ & $0.52$ & $0.33$ & $0.06$ & \textcolor{black!55}{$-0.01$} & \textcolor{black!55}{$-0.01$} \\
     \quad MTDShield & $0.42$ & $0.39$ & $0.28$ & $0.15$ & $0.09$ & $0.04$ & $0.84$ & $0.83$ & $0.68$ & $0.40$ & $0.19$ & $0.05$ \\
+    \quad random, MTDShield's four & $0.95$ & $0.92$ & $0.80$ & $0.51$ & $0.28$ & $0.13$ & $0.78$ & $0.68$ & $0.56$ & $0.19$ & $0.09$ & $0.04$ \\
     \quad alternative & $0.94$ & $0.89$ & $0.72$ & $0.42$ & $0.19$ & $0.07$ & $0.65$ & $0.58$ & $0.38$ & $0.05$ & \textcolor{black!55}{$-0.02$} & \textcolor{black!55}{$-0.02$} \\
     \bottomrule
   \end{tabular}
@@ -38,7 +39,7 @@
 
 \begin{table}[htbp]
   \centering
-  \caption[ASP reduction under each attacker, by MTD and deployment interval]{ASP reduction for each MTD mechanism and deployment strategy against the APT attacker model averaged over $c_1$ to $c_4$, and against the baseline attacker, at each deployment interval; 1 is no run compromising a target host, 0 is as many as with no MTD, and a negative value is more runs compromising a target host than with no MTD. Rows grouped as panels~(g) to~(l) of Figure~\ref{fig:eff-cross-arm}; an italic row with values is a layer's mean over its mechanisms, the line the figure plots. Grey text: its 95\,\% percentile bootstrap interval over runs includes zero; each cell is from 4\,000 runs for the APT attacker model (1\,000 per attack profile) and 1\,000 for the baseline attacker, and a layer's mean from its mechanisms' runs together. A printed 1.00 is exactly 1; a value above 0.99 but short of 1 prints as $>0.99$.}
+  \caption[ASP reduction under each attacker, by MTD and deployment interval]{ASP reduction for each MTD mechanism and deployment strategy against the APT attacker model averaged over $c_1$ to $c_4$, and against the baseline attacker, at each deployment interval; 1 is no run compromising a target host, 0 is as many as with no MTD, and a negative value is more runs compromising a target host than with no MTD. Rows grouped as panels~(g) to~(l) of Figure~\ref{fig:eff-cross-arm}; an italic row with values is a layer's mean over its mechanisms, the line the figure plots. Grey text: its 95\,\% percentile bootstrap interval over runs includes zero; each cell is from 4\,000 runs for the APT attacker model (1\,000 per attack profile) and 1\,000 for the baseline attacker, and a layer's mean from its mechanisms' runs together. A printed 1.00 is exactly 1; a value above 0.99 but short of 1 prints as $>0.99$. Random, MTDShield's four: the random deployment strategy over the four MTD mechanisms MTDShield chooses from (Appendix~\ref{app:mtdshield}).}
   \label{tab:eff-interval-values-asp}
   \tablestyle\scriptsize\setlength{\tabcolsep}{3pt}
   \begin{tabular}{@{}P{3.75cm}*{12}{>{\centering\arraybackslash}p{0.78cm}}@{}}
@@ -63,6 +64,7 @@
     \grouprow{13}{deployment strategies} \\
     \quad random & $1.00$ & $1.00$ & ${>}0.99$ & $0.91$ & $0.76$ & $0.51$ & $0.77$ & $0.69$ & $0.43$ & $0.10$ & $0.09$ & \textcolor{black!55}{$0.01$} \\
     \quad MTDShield & $0.86$ & $0.83$ & $0.69$ & $0.41$ & $0.36$ & $0.25$ & $0.98$ & $0.98$ & $0.93$ & $0.67$ & $0.48$ & $0.17$ \\
+    \quad random, MTDShield's four & $1.00$ & $1.00$ & $1.00$ & $0.96$ & $0.83$ & $0.52$ & $0.92$ & $0.84$ & $0.74$ & $0.15$ & $0.18$ & $0.06$ \\
     \quad alternative & $1.00$ & $1.00$ & $0.99$ & $0.94$ & $0.70$ & $0.30$ & $0.76$ & $0.73$ & $0.56$ & $0.11$ & $0.12$ & \textcolor{black!55}{$0.00$} \\
     \bottomrule
   \end{tabular}

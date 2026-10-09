@@ -1638,6 +1638,16 @@ Routed elsewhere (not applied):
 - 6.5: covers unmapped tactics, "nothing watches the attacker", the time limit; persistence by name is optional.
 - Outside ch6, proposal only: App E "ASP reduction shows the order of NCR reduction" needs "at 200 s" (the baseline sign split).
 
+### 14b. 6.4 drafted; P11 and P12 applied (2026-10-09)
+
+6.4 drafted as four paragraphs from the plan (the dependence; where it travels; what to report; what the numbers cannot
+decide), about 800 words; slots retired. Marc: "all the proposals are fine, no need for cut pass yet".
+- P11 (a): random over MTDShield's four restored as a row of Tables E.1 and E.2 only (tools/ch5_sweep_figures.py
+  VALUE_ROWS, MATCHED_DECODE in the caption); figures keep it out. Overturns the 2026-09-25 "a bit vacuous" cut for those
+  tables, because Appendix D promises the comparison and 6.4 P2 recommends it. P2 now cites 0.68 vs 0.56 and 0.28 vs 0.80.
+- P12: Appendix E "At 200 s, ASP reduction shows the order of NCR reduction" (the baseline sign split from 500 s).
+- For the cut pass (not yet, Marc): 6.4 P2 and 6.2's MTDShield paragraph overlap on service diversity; P3 and P4 longest.
+
 ## Validation gate
 
 Done when Marc has answered §7, the structure in §3 is ruled, and every primary point in §4 has its evidence re-read on the 1 000-seed corpus, or is labelled a hypothesis. The next deliverable is per-paragraph dot points (slot form) for Marc's dictation.

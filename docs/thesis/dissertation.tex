@@ -9064,12 +9064,10 @@ holds on a real network, nor that the grounding in CTI caused the reversal
 (Section~\ref{sec:threats}), and they recommend no MTD mechanism.
 
 % DRAFT STATE 2026-10-09 --- paragraph 2 (where it travels) drafted from its
-%  five slots, which it replaces. Numbers are Table 5.3's (MTDShield against
-%  random over all seven): the matched control, random over MTDShield's four
-%  (0.56 and 0.80 at 200 s), is printed in no included float (Marc
-%  2026-09-25 cut it as "a bit vacuous"; UNREPORTED in tools/_ch5_style.py),
-%  yet Appendix D still says Chapter 5 runs it beside MTDShield: proposal P11.
-%  Same direction either way. The service
+%  five slots, which it replaces. P11 ACCEPTED 2026-10-09 ("all the proposals
+%  are fine"): the matched control, random over MTDShield's four, is now a row
+%  of Tables E.1 and E.2, so the numbers are MTDShield against it (0.68 vs
+%  0.56; 0.28 vs 0.80 at 200 s), no longer against random over all seven. The service
 %  diversity share and the detection input are Appendix D's; "network
 %  metrics" dropped, since the released evaluation code holds four inputs at
 %  zero (Appendix D, limitations). Marc's training-set analogy carries the
@@ -9079,10 +9077,10 @@ deployment strategy against the baseline attacker
 (Appendix~\ref{app:mtdshield-limitations}), and at 200\,s it chooses service
 diversity at 70\,\% or more of its decisions against either attacker
 (Appendix~\ref{app:mtdshield-observed}). Service diversity ranks first against
-the baseline attacker and fourth against the APT attacker model. MTDShield
-ranks above the random deployment strategy against the baseline attacker, with
-an NCR reduction of 0.68 against 0.33, and below it against the APT attacker
-model, with 0.28 against 0.75 (Table~\ref{tab:eff-cross-arm}). The attacker
+the baseline attacker and fourth against the APT attacker model. Against the
+random deployment strategy over the same four MTD mechanisms, MTDShield's NCR
+reduction is 0.68 against 0.56 for the baseline attacker, and 0.28 against
+0.80 for the APT attacker model (Table~\ref{tab:eff-interval-values}). The attacker
 model also sits beneath its inputs: the detection input codes the attacker's
 current attack action, so an unmapped tactic of the APT attacker model reads
 as nothing detected (Appendix~\ref{app:mtdshield-limitations}). A learned
@@ -9131,8 +9129,8 @@ one did.
 %  rather than repeating its numbers. The 52-of-60 count dropped: 6.2 and 6.5
 %  already say the reversal holds on ASP reduction. Worst case checked on
 %  numbers_reported.json (min over the two attackers, every interval).
-%  Appendix E's "ASP reduction shows the order of NCR reduction" conflicts
-%  with the sign split from 500 s: proposal P12.
+%  Appendix E's "ASP reduction shows the order of NCR reduction" now reads
+%  "At 200 s, ..." (P12, accepted 2026-10-09).
 The metric an evaluation reports decides part of its answer. Read alone, ASP
 and NCR call a quiet attacker weak (Section~\ref{sec:disc-behaviour}), so an
 evaluation should report what the attacker does
@@ -10490,7 +10488,7 @@ reduction, the share of an attacker's ASP that MTD removes:
 \end{equation}
 It is 0 when MTD has no effect, 1 when the attacker reaches its goal in no run
 under MTD, and negative when MTD raises ASP, after the mitigation factor of
-Alavizadeh et al.\ \citep[Eq.~13]{alavizadeh2022}. ASP reduction shows the
+Alavizadeh et al.\ \citep[Eq.~13]{alavizadeh2022}. At 200\,s, ASP reduction shows the
 order of NCR reduction, and reaches its ceiling of 1 against the APT attacker
 model, whose ASP with no MTD is low, so Chapter~\ref{ch:experiments} ranks on
 NCR reduction.

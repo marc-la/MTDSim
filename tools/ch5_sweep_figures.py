@@ -294,7 +294,12 @@ def emit_mechanisms(sweep, yr):
 VALUE_ROWS = (("host layer", "host", ("ip_shuffle", "complete_topology", "host_topology")),
               ("service layer", "service", ("port_shuffle", "os_diversity", "service_diversity")),
               ("credentials", None, ("user_shuffle",)),
-              ("deployment strategies", None, HEAD_STRATEGIES))  # the panels' order
+              # the panels' order, plus MTDShield's matched control after it (proposal P11, Marc
+              # 2026-10-09: Appendix D promises it, and 6.4 recommends the test; overturns the
+              # 2026-09-25 "a bit vacuous" cut for this table only, the figures keep it out)
+              ("deployment strategies", None, ("random", "mtdshield", "random_four", "alternative")))
+MATCHED_DECODE = (r" Random, MTDShield's four: the random deployment strategy over the four MTD"
+                  r" mechanisms MTDShield chooses from (Appendix~\ref{app:mtdshield}).")
 GREY = "black!55"  # survives a greyscale print (cold reader, 2026-09-25)
 
 
@@ -369,7 +374,7 @@ def emit_value_table(sweeps: dict) -> tuple[str, list]:
         w(r"\end{table}")
         w("")
         bound = any("{>}" in x or "{<}" in x for x in L[cap_at + 1:])
-        L[cap_at] = L[cap_at].replace("@BOUND@", BOUND_DECODE if bound else "")
+        L[cap_at] = L[cap_at].replace("@BOUND@", (BOUND_DECODE if bound else "") + MATCHED_DECODE)
     return "\n".join(L), facts
 
 
