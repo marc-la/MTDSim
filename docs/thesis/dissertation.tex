@@ -8450,13 +8450,28 @@ per operating system, the share of exploits that succeed is 0.92 with it and
 % POINT FORMAT below: bold = the paragraph's claim; under it the cycle. Points
 % marked (HYP) are explanations, written as such; (CHECK) needs a re-read first.
 
-\noindent\emph{[Opener, about 100 words: chapter 1's four jobs in its order.
-Explains the results, with no MTD (Section~\ref{sec:disc-behaviour}) and under
-MTD (Section~\ref{sec:disc-mtd-performance}), in Chapter~\ref{ch:experiments}'s
-order; checks which of the eight properties the APT attacker model has
-(Section~\ref{sec:fidelity-verdict}); states what the results mean for MTD
-evaluation (Section~\ref{sec:evaluation-implications}); and bounds them
-(Section~\ref{sec:threats}). Scope once: every claim is about MTDSim.]}
+% DRAFT STATE 2026-10-09 --- chapter preamble drafted (Marc: "mirroring the
+%  structure of the chapter preambles from ch2-5"), replacing the opener
+%  placeholder. Mirrors chapter 5's: the chapter's job in one sentence, then
+%  one sentence per section in order, then where the sub-questions are
+%  answered. Each section is named by its job and its present claim, kept at
+%  the level that survives the cut pass (no numbers). Re-read once 6.1-6.5
+%  are final.
+This chapter explains the results of Chapter~\ref{ch:experiments}, scores the
+APT attacker model on the eight properties, and states what the results mean
+for MTD evaluation and where they stop. Every claim is about MTDSim.
+Sections~\ref{sec:disc-behaviour} and~\ref{sec:disc-mtd-performance} follow
+Chapter~\ref{ch:experiments}'s order. Section~\ref{sec:disc-behaviour}
+explains why, with no MTD, the APT attacker model is quieter than the
+baseline attacker and succeeds less often.
+Section~\ref{sec:disc-mtd-performance} explains why each attacker is held
+back most by a different MTD layer. Section~\ref{sec:fidelity-verdict} scores
+the APT attacker model on the eight properties of
+Section~\ref{subsec:attacker-criterion}, beside the three MTD attacker models
+scored there. Section~\ref{sec:evaluation-implications} states what the
+results mean for anyone who evaluates MTD, and Section~\ref{sec:threats} sets
+out the threats to their validity. Chapter~\ref{ch:conclusion} answers the
+three sub-questions.
 
 % =====================================================================
 \section{APT attacker model versus baseline attacker}
