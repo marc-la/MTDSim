@@ -270,3 +270,31 @@ Each says what it holds and carries its own float.
 **B.4 (edges of the attack profiles)** is one figure and one sentence, but ch4 cites it on its own (line 4203), so it keeps its line.
 
 **No section is unwarranted** after these changes: each holds its own float or answers its own question.
+
+### 9b. The three front lists read together (Marc 2026-10-09)
+
+- Marc: the examiner reads the contents, the list of figures and the list of tables together.
+- The "Owed before submission" page was removed (commit 35db0030; no `\owed` mark remains).
+- The contents print to subsection depth (cls `tocdepth` 2), so the run-in paragraph headings do not print.
+- **The main-text contents read cleanly.** Each heading names its content, and ch5 and ch6 mirror each other in 5.2/6.1 and 5.3/6.2.
+
+Short captions that fail the cold-read test (proposals; each changes only the `[...]` short caption):
+
+| List | Now | Problem | Proposed |
+|---|---|---|---|
+| LoT E.4, E.5 | MTD mechanisms and deployment strategies against APT attacker model, with intervals | missing "the"; "intervals" reads as deployment intervals | Every metric for the APT attacker model (the baseline attacker), with 95 % intervals |
+| LoT E.6 | ... at every MTD and deployment interval | "every MTD" | The APT attacker model with and without the attack profiles, at every MTD mechanism, deployment strategy and deployment interval |
+| LoT E.2, E.3 | NCR (ASP) reduction under each attacker, by MTD and deployment interval | MTD acts against an attacker, not under it | NCR (ASP) reduction against each attacker, by MTD mechanism and deployment interval |
+| LoT C.2 | The declared inputs and what moved | "what moved" is vague | The declared values of the APT attacker model and the effect of moving each |
+| LoT C.5 | A less variable delay of the same mean | names no measure | NCR with a less variable tactic duration of the same mean |
+| LoT B.2 | The sources that answered each attack flow | "answered" needs B.3's text | The sources behind each attack flow's attack profile |
+| LoF E.2 | What removing the vulnerability memory changes | the one clause among noun phrases; it names no measure | NCR with and without the vulnerability memory, by services per operating system |
+| LoT 3.1 | MTD metrics | the one entry without an article; it doesn't say whose metrics | The MTD metrics of the literature |
+
+**Kept:** LoT E.1 and LoF 5.2 share a title on purpose: the table gives the figure's values. The same holds for E.2 and Figure 5.3.
+
+**Order of work:**
+1. Marc's yes on P15-P17, 9a and 9b.
+2. Apply them and rebuild.
+3. Generators for F.1-F.3 and F.5 (recomputes only).
+4. F.4's tracer replay, if time.
