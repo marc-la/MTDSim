@@ -1816,6 +1816,10 @@ APPLIED (inside ch6):
   "a detector that joins detection to MTD deployment is future work".
 Words (crude count, comments and floats out): ch6 6 292 -> 6 759 (6.1 -119, 6.2 -34, 6.3 +308, 6.4 +258, 6.5 +48).
 Main text ch1-7 roughly 19 000 by the same crude count against the 16 500 ceiling: the cut pass must take ch6 to ~4 500.
+RULED 2026-10-09: P13 DECLINED (count not from the reported evaluation; 6.1 clause cut, fe456919); P14 APPLIED as
+"It answers SQ1 and SQ2 by scoring the APT attacker model on the eight properties, and SQ3 by explaining why a different MTD
+layer disrupts each attacker most. It closes on what the results mean for MTD evaluation." Marc dislikes "held back":
+prefer ch2's "disrupt" (he will remove it in ch6 himself unless asked).
 NOT APPLIED: H-I (choices fixed before results), the repaired comparator, fall-off at 200 s only, 6.2 "attacker model
 matters more than the attack profile". PROPOSALS outside ch6: P13 (ch5 l.6735, openings by attack action, needs a
 recorder); P14 (ch1 roadmap l.597-599: "Chapter 6 explains the results, answers the three sub-questions, checks which of
