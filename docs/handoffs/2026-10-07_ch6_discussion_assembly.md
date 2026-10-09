@@ -1648,6 +1648,48 @@ decide), about 800 words; slots retired. Marc: "all the proposals are fine, no n
 - P12: Appendix E "At 200 s, ASP reduction shows the order of NCR reduction" (the baseline sign split from 500 s).
 - For the cut pass (not yet, Marc): 6.4 P2 and 6.2's MTDShield paragraph overlap on service diversity; P3 and P4 longest.
 
+## 15. Ch6 structural pass (2026-10-09, NOT RULED)
+
+Marc: "Are the points relevant where they are at, in a logical order, is there any duplication ... I'm not trying to
+pare down sentences ... just logically arrange." Section order holds (6.1 and 6.2 follow ch5; 6.3 properties and
+ablations; 6.4 implications; 6.5 threats). The faults are one point stated in two to four sections, and tangents in 6.1.
+Rule proposed: **6.1–6.3 explain, 6.4 draws the implication, 6.5 bounds; a point has one home and the others point to it.**
+Line numbers are dissertation.tex as of 1fcf80d9.
+
+Duplicates (home in bold):
+- D1 Literature link "attacker model decides which deployment strategy is optimal" + "a ranking carries its attacker
+  model's assumptions": 6.2 ¶1 end (8718–8721), **6.4 ¶1**, 6.5 ¶5 (9414, cites 6.2; repoint to 6.4).
+- D2 "Counting blocked attack actions would rank the host layer most disruptive against the baseline attacker": 6.2 ¶2
+  end (8765–8769), **6.4 ¶4** (verbatim).
+- D3 "Read alone, ASP and NCR call a quiet attacker weak": 6.1 ¶2 end (8578–8579), **6.4 ¶4** (verbatim, mutual refs).
+- D4 MTDSim prices no deployment, so no interval is chosen: 6.2 ¶3 (8791–8796), 6.2 ¶4 bound (8830–8833), 6.4 ¶4 end,
+  **6.5 ¶1** (design limit). 6.2 keeps one clause pointing to 6.5; 6.4 keeps the evaluator's implication.
+- D5 Relative measure ("each ranking over that attacker's own NCR with no MTD") and the ASP check: 6.2 ¶1 (8713–8716),
+  6.4 ¶3 (9131), 6.4 ¶4 ("agree on the reversal"), **6.5 ¶2** (9274–9282) and 6.5 ¶5. Cut from 6.2; 6.4 keeps the sign split.
+- D6 MTDShield trained against the baseline attacker, service diversity at 70 % or more, one policy as released: 6.2 ¶4,
+  6.4 ¶2, 6.5 ¶4. Proposal: **6.2 ¶4** holds the reading, and takes the matched-random numbers (0.68 vs 0.56; 0.28 vs
+  0.80); 6.4 ¶2 opens on a pointer and keeps the detection input and the recommendation; 6.2 ¶4's last sentence ("only as
+  faithful as ... comes first") is 6.4's. "One agent, as released" stays in 6.2 and 6.5.
+- D7 "The difference rests on unmapped time and order": **6.3 ¶3**, 6.5 ¶1 (9217–9219), 6.5 ¶2 (9256–9260). 6.5 ¶2
+  keeps "no run separates them"; 6.5 ¶1 keeps the "first step" point without re-deriving it.
+- D8 The attack-action ceiling (order encoded, preconditions refused): **6.1 ¶3** explains it, 6.3 ¶2 uses it for the
+  marks, 6.5 ¶1 re-explains it (9209–9212). 6.5 ¶1 points to 6.1.
+- D9 Detection avoidance in part: 6.1 ¶1 argues the mark (8529–8533); **6.3 ¶2** owns marks.
+- D10 Minor: "not a complete standard" 6.3 ¶1 and **6.5 ¶3**; "5 to 7 attack flows" 6.1 ¶4 and **6.5 ¶4**.
+
+Misplaced or tangent:
+- T1 6.1 ¶1 end (8533–8538): MTDShield's detection input and the IDS future-work line are MTD content in the no-MTD
+  section; 6.4 ¶2 and 6.5 ¶1 ("nothing watches the attacker") cover both. Cut.
+- T2 6.1 ¶4 (8649–8652): c3 under MTD from 500 s; 6.2 ¶1 holds it. Cut.
+- T3 6.1 ¶3 (8621–8623): "an order hard-coded into attack actions passes to every extension" is an implication for
+  simulator builders; move to 6.4 ¶3 (the interface).
+- T4 6.2 ¶3 end (8796–8801): the earlier MTDSim studies' 50–200 s and the interval chosen against the wrong attacker is
+  6.4's; move to 6.4 ¶4 beside "an interval needs a price".
+- T5 Low: 6.4 ¶3 "Before the runs, we could predict only ..." (9128–9132) sits loosely in the interface paragraph; 6.2 ¶1
+  "MTDSim has no redundancy mechanism" (8712).
+
+Consistency (not a cut): 6.2 ¶1 and 6.5 ¶5 say ρ is "near zero"; 6.4 ¶1 says −0.24 to 0.25 (500 s is 0.25 [0.14, 0.38]).
+
 ## Validation gate
 
 Done when Marc has answered §7, the structure in §3 is ruled, and every primary point in §4 has its evidence re-read on the 1 000-seed corpus, or is labelled a hypothesis. The next deliverable is per-paragraph dot points (slot form) for Marc's dictation.
