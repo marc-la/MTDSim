@@ -9549,14 +9549,14 @@ runs, not seeds, although the four attack profiles share each seed's network.
 %     "the two counts are not in the same unit". B3 closed with it.
 %
 %  CANDIDATES (on disk, no re-run):
-%  B1 [6.1 P2] What a successful run looks like: with no MTD, success follows
+%  B1 [6.1 P2] HOMED 2026-10-09 (Appendix F.1, app:fa-success) What a successful run looks like: with no MTD, success follows
 %     the network the seed draws, not pace or tactic mix. Profiles succeed
 %     almost only where the baseline attacker does (ASP 0.06-0.20 there,
 %     <= 0.017 elsewhere); any two profiles succeed on the same seed 3-6x more
 %     often than chance. Answers "why does the baseline attacker fail a
 %     third?" and "what goes right?" (handoff 11b). Optional sentence held in
 %     paragraph 2's comment. Strongest candidate.
-%  B2 [6.1 P2, with B1] Under MTD (service diversity, 200 s) successful and
+%  B2 [6.1 P2, with B1] HOMED 2026-10-09 (Appendix F.1; per-run counts replaced by interruptions per 1 000 s, equal; 34 of 61 successes on no-MTD-successful seeds) Under MTD (service diversity, 200 s) successful and
 %     failed runs are interrupted equally; the successes sit on seeds that also
 %     succeed with no MTD. Thin: 2-33 successful runs per profile (11b).
 %  B3 [6.1 P3] Distinct openings counted by attack action: 190-844 against 3
@@ -9574,10 +9574,10 @@ runs, not seeds, although the four attack profiles share each seed's network.
 %  B8 [6.1 P4, 6.5] Partition size: in the random control, 19-flow groups give
 %     NCR 0.16-0.21 and 5-7-flow groups 0.02-0.18 (11a). ASP per group is
 %     recomputable from runs_partition_control.jsonl. Not computed.
-%  B9 [6.2] The host layer stops the APT attacker model before a foothold: up
+%  B9 [6.2] HOMED 2026-10-09 (Appendix F.2, app:fa-foothold) The host layer stops the APT attacker model before a foothold: up
 %     to 200 s, 69-89 % of its runs compromise no host, against 3-20 % for the
 %     baseline attacker (handoff s9-10). Needs a chapter 5 sentence first.
-%  B10 [6.2 P2] User shuffle helps by credential reuse: compromises by a held
+%  B10 [6.2 P2] HOMED 2026-10-09 (Appendix F.3, app:fa-accounts; scripted APT count 1.26 -> 2.37 supersedes 1.30 -> 2.44) User shuffle helps by credential reuse: compromises by a held
 %     account per run at 200 s rise 1.30 -> 2.44 (APT attacker model) and
 %     5.18 -> 7.56 (baseline attacker) (s9).
 %  B11 [6.1 P2] The precondition-failure share at 1 000 seeds: 14-30 %
@@ -9617,7 +9617,7 @@ runs, not seeds, although the four attack profiles share each seed's network.
 %     the 15-to-12 step is small. Not readable from any float: needs a home
 %     (a column beside Figure B.x, or a chapter 5 sentence) before paragraph 4
 %     can use it (11f).
-%  B14 [6.3] THE ATTACK-PROFILE ABLATION BY GROUP SIZE (Marc 2026-10-08: "is
+%  B14 [6.3] HOMED 2026-10-09 (Appendix F.5, app:fa-group-size) THE ATTACK-PROFILE ABLATION BY GROUP SIZE (Marc 2026-10-08: "is
 %     compromising more the right metric"; "maybe this is an issue with the
 %     size of the data set"). No MTD, from partition_control_numbers.json
 %     (per-group NCR; Table F.4 prints only d). Random groups of 19 flows reach
@@ -9647,7 +9647,7 @@ runs, not seeds, although the four attack profiles share each seed's network.
 %     cross zero: the component built for adaptivity does not move adaptivity's
 %     metric. Unreported in 5.4; 6.3 must say it or not claim time lost as the
 %     seen rung for property 4.
-%  B18 [6.3] AN EXAMPLE RUN SHOWING ADAPTIVITY (Marc 2026-10-08): one seed, no
+%  B18 [6.3] HOMED 2026-10-09 (Appendix F.4, fig:fa-traced-run; drawn from stored records, c1 seed 7) AN EXAMPLE RUN SHOWING ADAPTIVITY (Marc 2026-10-08): one seed, no
 %     MTD against MTD, from the movement tracer: the disruption, the failed
 %     attack action, the token's route back, the time until the target. Shows
 %     what no metric does (adaptivity is seen by construction). Candidate
@@ -10817,11 +10817,24 @@ the mechanism in Section~\ref{sec:disc-mtd-performance}; it is not a result.
 
 \section{Attack profiles against random groups of the same size}
 \label{app:fa-group-size}
-% Registry B14 and B8. TODO: prose once f5 is in further_analyses_numbers.json.
-\noindent\emph{[Placeholder --- Table~\ref{tab:fa-group-size}: NCR and ASP of
-each attack profile and of the random groups of its size.]}
+% Registry B14 and B8.
+Section~\ref{sec:fidelity-verdict} reads the random-partition ablation as
+showing that grouping by objective carries structure: with no MTD, the attack
+profiles compromise more than random partitions of the same sizes
+(Table~\ref{tab:ablation-random-partitions}). Table~\ref{tab:fa-group-size}
+shows where. Each random partition splits the 38 attack flows into groups of
+19, 7, 7 and 5, the sizes of $c_1$ to $c_4$. The ten random groups of 19 attack
+flows reach an NCR of 0.16 to 0.21, near the attack graph's 0.19, and all ten
+lie above $c_1$'s 0.15. The random groups of 7 and 5 attack flows reach less,
+with medians of 0.12 to 0.14, and $c_2$, $c_3$ and $c_4$ lie above 26 of their
+30. A small random group can lose the chains of tactics that lead to a
+compromise, and grouping by objective likely keeps them, so the attack profiles
+beat random partitions through their small groups. Each attack profile's ASP is
+also above the median of its random groups, most clearly $c_2$'s, 0.14 against
+0.03. The reading is a hypothesis on four attack profiles and says nothing of
+fidelity, so it is not part of the main argument.
 
-\IfFileExists{tables/tab_FA-5_group_size.tex}{\input{tables/tab_FA-5_group_size}}{}
+\input{tables/tab_FA-5_group_size}
 
 \bibliography{references}
 
