@@ -1761,6 +1761,32 @@ Holes, triaged (C = covered, B = bound to add, E = elsewhere, N = not covered):
 - To ch7 (6.4 examiner, agrees with §15 T5): 6.4 ¶3 "Before the runs, we could predict ..." and "Within MTDSim,
   another evaluation can run ..."; 6.3 ¶2 "Upgrading the attack actions would lift the most marks" (at most two).
 
+### 16a. Factual fixes applied; Marc's earlier answers mapped to the holes (2026-10-09)
+
+Marc: "factual errors fixed regardless"; "do I give any answers on any of these from any of my previous discussion".
+APPLIED (376b480b): X1, X2, X3, X4 (scope as run), X5, X6, rho range in 6.2 and 6.5, 6.4 rho cited to 5.3.2 and B19
+scoped to 200 s. HELD: X7 needs a home outside ch6 -> proposal P13, ch5 after l.6735 "openings over eight steps.":
+"Counted by attack action, the baseline attacker's unit, they have 190 to 844." (source: handoff §11 l.705, a one-off
+scan of ch5_s531_unopposed/runs_reported.jsonl; needs a recorder before it is a reported number). Else the 6.1 clause goes.
+
+Holes against Marc's earlier answers:
+- A ANSWERED: §13a #10 "a ranking is tied to the simulator's assumptions (how disruption is modelled between attacker,
+  network and defence)"; §14a Q2 "optimal is optimal for the simulator". Not yet in 6.4 ¶1 or 6.5 ¶1. Apply.
+- B NOT ANSWERED; consistent with §13a #1 "pace and order are the biggest levers". Needs a yes.
+- C PARTLY: §14a "disrupted more holds per mechanism, not overall" (checked). Ch1's "advantage of time" premise and the
+  RQ tie unanswered; Marc 2026-10-09: "they want chapter one to match chapter 6 and chapter 7".
+- D PARTLY: Cho answered (§8 scoped to MTDSim; §14a Q2 "right in context"); Jalowski comparability not answered; prior
+  MTDSim studies: "repaired, not compared numerically" (6.5).
+- E ANSWERED AND RULED: §12b full mark kept; §13a #5. No change.
+- F RULED EARLIER (ch6 answers no SQ); Marc's 2026-10-09 remark may reopen it. Ask.
+- Worst case over attacker models ANSWERED: §14a Q8 "take the bottom of each". Add to 6.4 ¶4.
+- MTTC ANSWERED: §13a #6 "cannot be standardised when one attacker is slower". One clause in 6.4 ¶4.
+- MTDShield fitted vs fixed ANSWERED: §13a #12, §14a Q1 (over-fitting risk). Add the bound to 6.4 ¶2.
+- "What transfers" ANSWERED: §14a Q2 "measured here: rank 1 disjoint on one simulator". Soften to "can depend".
+- CTI sentence: Marc's Q1 position. Keep.
+- Fixed before results PARTLY: §13a #9 (durations set early), §14a Q4 (NCR for resolution). One sentence in 6.5.
+- Repaired comparator, plurality price (c1), fall-off at 200 s only: NOT ANSWERED.
+
 ## Validation gate
 
 Done when Marc has answered §7, the structure in §3 is ruled, and every primary point in §4 has its evidence re-read on the 1 000-seed corpus, or is labelled a hypothesis. The next deliverable is per-paragraph dot points (slot form) for Marc's dictation.
