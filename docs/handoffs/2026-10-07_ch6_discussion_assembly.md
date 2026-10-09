@@ -1548,8 +1548,8 @@ VERIFIED by the session (tab_5-3-2d, tab_F-0a NCR and ASP, mtd_scheme.py):
   200 s only (outside ch6: a proposal, if wanted).
 - Worst case over the two attackers, NCR reduction: IP shuffle highest at every interval (0.88, 0.70, 0.68, 0.39, 0.30, 0.19). ASP
   reduction: service diversity higher from 100 s (0.93 vs 0.78; 0.62 vs -0.09 at 500 s).
-- Random (pool: complete topology, IP shuffle, OS diversity, service diversity) vs its members at 200 s: baseline 0.33 below every
-  member (0.42-0.92); APT 0.75 above the members' mean (0.585). MTDShield vs random: baseline 0.68 vs 0.33; APT 0.28 vs 0.75.
+- WRONG, corrected in 14a: "Random (pool: the lineage four) ... 0.33 below every member; MTDShield vs random 0.68 vs 0.33,
+  0.28 vs 0.75". Random runs over all seven (run_corpus.py _strategies); MTDShield's control is random_four.
 - User shuffle: NCR reduction negative against the APT attacker model at every interval (-0.13 to -0.04; ASP -0.34 at 200 s).
   Draft point 2's "barely touches it" understates: it helps the APT attacker model.
 - ch4 l.4934: the nine judgement durations were kept under the 200 s default deployment interval (pace set against the interval).
@@ -1577,6 +1577,66 @@ Ranked questions (n = examiners raising it):
 Draft-point triage (examiner 6, checked): 1 lead (MTDShield as method, not evidence; "dependence transfers, direction does not");
 2 keep, cut "change the rule and the ranking changes" (never run), fix user shuffle, merge 7; 3 keep; 4 trim the adoption claims
 (no result, literature unchecked); 5 merge into 1; 6 cut or one clause; 7 merge into 2.
+
+### 14a. Marc's answers to the twelve (2026-10-09, dictated) and the rebuilt 6.4 point set
+
+Marc's answers, condensed (his words in quotes):
+- Q1 Grounding or plurality: neither framing. "It's really about looking [at] your own assumptions." CTI limits the assumption
+  surface ("it's been observed ... we don't need to assume that"); simulation can aggregate incidents where emulation picks one.
+  Plurality is not good in itself: the baseline attacker "was good for its purpose", the APT attacker model for its; neither is
+  better. The risk is a learned deployment strategy over-fitting its training attacker, with assumptions "multiple layers down"
+  in the metrics it reads (MTDShield's network metrics). Future work (7.2): technique-level graph ablation (cut edges/nodes, read
+  NCR/ASP) on a larger corpus, tied to mitigations, so MTD can be built around the most sensitive edge.
+- Q2 Cho: right in context; "optimal" is optimal for the simulator, like a model on its training set; a validation/test set from
+  the same simulator encodes the same assumptions. Measured here: rank 1 disjoint on one simulator.
+- Q3 Prediction: not possible beforehand (many integration assumptions; NCR reduction is relative); only the direction (more
+  failure, fewer hosts, slower) and MTDShield. Persistence is unmapped; persistence is emergent (runs to 15 000 s). Accepts: fix
+  the user-shuffle example, cut "change the rule and the ranking changes".
+- Q4 Metric: NCR reduction for resolution (hosts per run vs one yes/no), ASP's wider intervals and ceiling at 1; reasoning in 4.5.
+  Claims the two agree in which attacker is disrupted more.
+- Q5 Drop-in: no; the two attackers are for different purposes. A builder supplies mapping, durations, failure handling (4.4's
+  loop) and documents each; "we engaged in each assumption in good faith".
+- Q6 Learned strategies: should recommend a fixed set of mechanisms rather than choose each deployment (opinion; 7.2). MTDShield
+  beat random against the baseline attacker, not against the APT attacker model, on the same simulator.
+- Q7 Intervals: the sweep is illustrative; which mechanisms keep disrupting at long intervals; faster always wins while free; an
+  ASP reduction of 1 is unrealistic; cost, overhead, QoS are future work.
+- Q8 Unknown attacker: IDS-paired, risk-based MTD (a colleague's area) is outside the simulator; otherwise "take the bottom of
+  each" (worst case over attacker models) against the overhead an interval costs.
+- Q9 CTI thin where MTD acts: the pre-intrusion overlay; MTD's post-intrusion blind spot (e.g. shuffle a database's logical name
+  so a foothold's information expires): 7.2.
+- Q10 Failure matrix: not worth building as is (210 values on nine rules); its effect is capped by the attack actions' fixed
+  preconditions (failures loop back to the initial-access mapping); simpler stand-ins would do; different attack actions might
+  let it matter.
+- Q11 Random: disputed the session's numbers. Marc was right that they were wrong (see the corrections).
+- Q12 NCR measures delay and disruption; fine.
+
+Checked against numbers_reported.json (ranking.by_interval, sweep.by_interval):
+- CORRECTION 1: random runs over all seven mechanisms. At 200 s, baseline attacker: random 0.33, members' mean 0.56, below six of
+  seven (above only user shuffle, -0.05). APT attacker model: random 0.75, members' mean 0.48, above four of seven. So random is
+  not its members' mean, and the gap changes sign with the attacker. Marc's rank reading (three ranks above, one below) is the
+  rank view of the same fact. His 0.59 used the lineage four with OS diversity at 0.95; it is 0.07.
+- CORRECTION 2: MTDShield's matched control is random over Tay's four: 0.68 vs 0.56 (baseline), 0.28 vs 0.80 (APT).
+- Marc's Q4 claim HOLDS: which attacker is disrupted more agrees on NCR and ASP in 52 of 60 mechanism-interval cells; the 8
+  others are within 0.04 on NCR. Distinct and also true: within the baseline attacker, NCR and ASP reductions split sign from
+  500 s with ASP intervals clear of zero (IP shuffle 500/1000/2000 s; complete topology and OS diversity 500 s; host topology
+  1000/2000 s the other way). The APT attacker model shows no clear split.
+- "The APT attacker model is disrupted more" holds per mechanism, not overall: at 200 s more for the host layer, random,
+  alternative; less for port shuffle, OS and service diversity, MTDShield, user shuffle.
+- Sweep at 2 000 s: service diversity 0.30 (baseline), 0.06 (APT); IP shuffle 0.19 (baseline), 0.33 (APT).
+
+Applied in ch6 (Marc: inside ch6 "I don't really care"): the 6.4 point set rebuilt as five points plus the cut candidate:
+1 "optimal" for an attacker model, report the assumptions (Cho measured; CTI shrinks the assumption surface; neither attacker
+better); 2 a deployment strategy inherits its attacker model (MTDShield vs random_four; random not its members' mean, optional);
+3 integration is not a drop-in, report the interface on both sides (mapping, durations, failure; what a deployment takes; user
+shuffle fixed; prediction only of direction; failure matrix as ablate-before-building; reuse as a second baseline); 4 lead with
+the finer metric (52/60 agreement; the baseline sign split; worst case decided by the metric); 5 intervals, no cost so no
+interval; detection out of scope. Old 6 kept as cut candidate.
+
+Routed elsewhere (not applied):
+- 7.2 future work: technique-level graph ablation on a larger corpus tied to mitigations; a learned strategy that recommends a
+  fixed set; cost/overhead/QoS beside NCR reduction; IDS-paired risk-based MTD; post-intrusion MTD.
+- 6.5: covers unmapped tactics, "nothing watches the attacker", the time limit; persistence by name is optional.
+- Outside ch6, proposal only: App E "ASP reduction shows the order of NCR reduction" needs "at 200 s" (the baseline sign split).
 
 ## Validation gate
 

@@ -9026,65 +9026,86 @@ actions in a fixed order (Section~\ref{sec:disc-behaviour}).
 % finding -> who it changes practice for -> conditional recommendation -> its
 % own bound (the ACM antipattern: implications written as though the
 % limitations do not exist). "More research is needed" is Section 7.2's.
-% REBUILT 2026-10-08 after the six cold examiners and Marc's answers (handoff
-% 13, 13a). Spine (Marc's thread 10): a ranking carries the simulator's and the
-% attacker model's assumptions, so report those assumptions, not only the
-% ranking; then price what MTDSim does not. RETIRED: "build the attacker by
-% objective ... the attack profiles changed the outcome" (6.3: no component
-% changes which MTD mechanisms are most effective; three examiners flagged the
-% contradiction); "set the deployment interval against the attacker model"
-% folded into the pricing point as its bound (no cost modelled, no interval).
+% REBUILT 2026-10-09 from the 6.4 examiners (handoff 14) and Marc's answers
+% (handoff 14a). Spine (Marc, Q1): "it's really about looking [at] your own
+% assumptions"; "optimal" is optimal for the simulator and its attacker model.
+% Neither attacker model is the better one; each served its purpose. Points:
+% 1 ranking + assumptions (was 1, 5); 2 deployment strategies inherit the
+% attacker (was 1's MTDShield, 7); 3 integration is not a drop-in, report the
+% interface on both sides (was 2, 5, 6); 4 metrics (was 3, plus the sign split
+% and the worst case); 5 intervals and cost (was 4, trimmed). Old 6 (eight
+% properties as a reporting device) is the cut candidate.
+% Numbers: numbers_reported.json, ranking/sweep by_interval; 200 s unless said.
+% CORRECTED 2026-10-09: random runs over all seven mechanisms; MTDShield's
+% matched control is random over Tay's four (random_four), not random.
 \noindent\emph{[Points for dictation. Opens by scoping what transfers: the
 dependence and the method, not the numbers or the rankings.]}
 \begin{itemize}
-  \item \textbf{A ranking belongs to its attacker model: evaluate MTD against
-  more than one.} From Section~\ref{sec:disc-mtd-performance}: the MTD
-  mechanism ranked first differs between the two attackers at every deployment
-  interval. The ranking is used here only to show that disagreement, never as
-  a verdict on a mechanism; no deployment strategy is built from it. MTDShield
-  is the same lesson from the defender's side: a learned deployment strategy
-  takes on the attacker it was trained against (Marc: "AI models assume the
-  training environment they are given"; CITE TO CHECK, Zhang or Cho 2020).
-  Bound: two attacker models in one simulator on one network; the direction
-  transfers, not the rankings. Earns the abstract's ``make a case''.
-  \item \textbf{Report the model of disruption beside the ranking.} One rule
-  per layer decides what a deployment takes from an attacker
-  (Section~\ref{sec:disc-mtd-performance}); change the rule and the ranking
-  changes. User shuffle is the example: MTDSim's attacker trades in
-  vulnerabilities, and a credential is only a step towards one, so shuffling
-  users barely touches it (Marc 2026-10-08). That says more about the model
-  than about user shuffle. An evaluation should state what each deployment
-  blocks or resets, for which attack actions.
-  \item \textbf{Report what the attacker does, and what a disruption costs it,
-  beside what it achieves.} From Section~\ref{sec:disc-behaviour}: outcome
-  metrics read a slow, quiet attacker as a weak one. From
-  Section~\ref{sec:disc-mtd-performance}: time lost per MTD deployment, not
-  attack actions blocked. Bound: time lost has its own limits (6.5, construct).
-  \item \textbf{Price speed: model what MTD costs and who watches.} MTDSim
-  charges a deployment nothing and nothing watches the attacker, so the faster
-  attacker and the shorter deployment interval win (6.5, scope). The interval
-  at which MTD stops holding an attacker back differed between the two
-  attackers, but with no cost no interval can be recommended, and CTI does not
-  record when attackers act (Section~\ref{subsec:profiling}). Marc's thread:
-  effectiveness alone measures the simulator's assumptions; the field needs
-  efficiency, cost and simplicity before practitioners adopt MTD (cost, legacy
-  systems, quality of service). LITERATURE TO CHECK before any adoption claim;
-  "MTD by default" is Section 7.2's.
-  \item \textbf{Reuse the APT attacker model as a second baseline}
-  (secondary). Every one of the 15 tactics has a mean duration
-  (Section~\ref{subsec:dwell-times}), so the model runs over another set of
-  attack actions without new timings, and another evaluation can compare
-  against it as this one compared against the baseline attacker (Marc
-  2026-10-08). Bound: the durations are judgement; the grounding is the order
-  of tactics.
+  \item \textbf{``Optimal'' is optimal for an attacker model: report a ranking
+  with the assumptions it rests on.} Same simulator, networks and MTD
+  mechanisms, two attacker models: the MTD mechanism ranked first shares
+  nothing between them at any deployment interval, and $\rho$ is near zero
+  (Table~\ref{tab:eff-cross-arm}); it holds across the 45\,s band
+  (Appendix~\ref{app:dwell-robustness}). Cho argued that the attacker model
+  decides the optimal strategy (Chapter~\ref{ch:litreview}); this measures it
+  in one simulator. Neither attacker model is the better one; the baseline
+  attacker served its purpose. CTI is one way to shrink what an attacker model
+  assumes: it records what attackers did, and a simulation can aggregate many
+  incidents where an emulation follows one. Bound: says nothing about which
+  ranking is realistic; CTI grounding is not shown to cause the reversal
+  (6.3: unmapped time and order); no mechanism is recommended.
+  \item \textbf{A deployment strategy inherits the attacker model it was built
+  against.} MTDShield against random over the same four MTD mechanisms: 0.68
+  against 0.56 for the baseline attacker, 0.28 against 0.80 for the APT
+  attacker model. Its inputs count the baseline attacker's attack actions
+  (Appendix~\ref{app:mtdshield-limitations}), so the assumptions sit layers
+  below the ranking it acts on. Implication: test a learned deployment
+  strategy beside random over the same mechanisms, against an attacker model
+  it was not trained on; a test set drawn from the same simulator carries the
+  training set's assumptions. Bound: one agent, Tay's released weights, not
+  retrained. Optional clause: random is not the mean of its members (0.33
+  against 0.56 for the baseline attacker; 0.75 against 0.48 for the APT
+  attacker model), so a mixed deployment strategy is measured, not read off
+  its members. Marc's view that a learned strategy should recommend a fixed
+  set of mechanisms rather than choose each deployment: Section 7.2.
+  \item \textbf{A new attacker model is integration work, not a drop-in:
+  report the interface on both sides.} The attacker's side: the mapping from
+  tactics to attack actions, the durations anchored on the simulator's own
+  times, and what happens on failure (Section~\ref{sec:execution}'s loop),
+  each a declared assumption; report the unmapped tactics and the refused
+  share. The defender's side: what each deployment takes, for which attack
+  actions. User shuffle raises NCR against the APT attacker model ($-0.10$;
+  $-0.05$ for the baseline attacker): MTDSim's attacker trades in
+  vulnerabilities, and that says more about the model than about user
+  shuffle. Before running, only the direction was predictable (more failure,
+  fewer hosts, slower), since NCR reduction is relative to no MTD. A component
+  that changes behaviour but not outcome (the failure matrix) is worth an
+  ablation before it is built. Positive: the APT attacker model gives every
+  tactic a mean duration, so another evaluation can reuse it as a second
+  baseline.
+  \item \textbf{Lead with the finer metric; report the coarser beside it.} NCR
+  reduction counts hosts per run; ASP reduction is one outcome per run, with
+  wider intervals and a ceiling at 1 at short deployment intervals. Which
+  attacker is disrupted more agrees on the two in 52 of 60 mechanism and
+  interval cells (the other 8 within 0.04 on NCR). Within the baseline
+  attacker, the sign can split from 500\,s: IP shuffle 0.39 on NCR against
+  $-0.09$ on ASP (fewer hosts, the target host reached more often). Worst case
+  over the two attackers: IP shuffle on NCR at every interval, service
+  diversity on ASP from 100\,s; the metric decides even the cautious choice.
+  Report what the attacker does and the time lost per MTD deployment beside
+  the outcome (was point 3).
+  \item \textbf{Intervals: effectiveness is free here, so no interval can be
+  recommended.} The sweep shows which MTD mechanisms keep disrupting at long
+  deployment intervals (service diversity 0.30 for the baseline attacker at
+  2\,000\,s; IP shuffle 0.33 for the APT attacker model). MTDSim charges a
+  deployment nothing, so a shorter interval always wins, up to an ASP
+  reduction of 1 no real network would pay for. Choosing an interval needs
+  overhead and quality of service beside NCR reduction. Detection (an
+  intrusion detection system driving a risk-based MTD) is outside the
+  simulator (6.5, scope; Section 7.2).
   \item \textbf{Declare the attacker model against the eight properties}
-  (secondary). Table~\ref{tab:attacker-cross-section} as a reporting device,
-  not a standard (Section~\ref{sec:fidelity-verdict}); answers
-  Section~\ref{subsec:research-gap}.
-  \item \textbf{Re-check a defence's inputs when the attacker changes}
-  (secondary). MTDShield's inputs count the baseline attacker's attack actions,
-  so it reads an unmapped tactic as nothing detected
-  (Appendix~\ref{app:mtdshield-limitations}).
+  (CUT CANDIDATE). Table~\ref{tab:attacker-cross-section} as a reporting
+  device, not a standard (Section~\ref{sec:fidelity-verdict}).
 \end{itemize}
 
 % =====================================================================
