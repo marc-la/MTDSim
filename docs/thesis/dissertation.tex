@@ -9063,22 +9063,37 @@ model must assume, because it records what attackers did. The results do not say
 holds on a real network, nor that the grounding in CTI caused the reversal
 (Section~\ref{sec:threats}), and they recommend no MTD mechanism.
 
+% DRAFT STATE 2026-10-09 --- paragraph 2 (where it travels) drafted from its
+%  five slots, which it replaces. Numbers are Table 5.3's (MTDShield against
+%  random over all seven): the matched control, random over MTDShield's four
+%  (0.56 and 0.80 at 200 s), is printed in no included float (Marc
+%  2026-09-25 cut it as "a bit vacuous"; UNREPORTED in tools/_ch5_style.py),
+%  yet Appendix D still says Chapter 5 runs it beside MTDShield: proposal P11.
+%  Same direction either way. The service
+%  diversity share and the detection input are Appendix D's; "network
+%  metrics" dropped, since the released evaluation code holds four inputs at
+%  zero (Appendix D, limitations). Marc's training-set analogy carries the
+%  test sentence.
+The dependence travels into deployment strategies. MTDShield learned its
+deployment strategy against the baseline attacker
+(Appendix~\ref{app:mtdshield-limitations}), and at 200\,s it chooses service
+diversity at 70\,\% or more of its decisions against either attacker
+(Appendix~\ref{app:mtdshield-observed}). Service diversity ranks first against
+the baseline attacker and fourth against the APT attacker model. MTDShield
+ranks above the random deployment strategy against the baseline attacker, with
+an NCR reduction of 0.68 against 0.33, and below it against the APT attacker
+model, with 0.28 against 0.75 (Table~\ref{tab:eff-cross-arm}). The attacker
+model also sits beneath its inputs: the detection input codes the attacker's
+current attack action, so an unmapped tactic of the APT attacker model reads
+as nothing detected (Appendix~\ref{app:mtdshield-limitations}). A learned
+deployment strategy should therefore be tested beside random over the same MTD
+mechanisms, against an attacker model it was not trained on. A test in the
+same simulator against the same attacker model shares the assumptions the
+agent was trained on, so it cannot show that the agent generalises. The
+evidence is one agent, Tay's as released, not retrained.
+
 \noindent\emph{[Paragraphs for dictation.]}
 \begin{itemize}
-  \item \textbf{Paragraph 2 (where it travels): a deployment strategy
-  inherits the attacker model it was built against.}
-  \begin{itemize}
-    \item MTDShield chooses from network metrics that count the baseline
-    attacker's attack actions (Appendix~\ref{app:mtdshield-limitations}).
-    \item Against random over the same four MTD mechanisms: 0.68 against 0.56
-    for the baseline attacker, 0.28 against 0.80 for the APT attacker model.
-    \item The assumptions sit layers below the ranking the strategy acts on.
-    \item Implication: test a learned deployment strategy beside random over
-    the same mechanisms, against an attacker model it was not trained on; a
-    test drawn from the same simulator carries the training's assumptions.
-    \item Bound: one agent, Tay's released weights, not retrained.
-  \end{itemize}
-
   \item \textbf{Paragraph 3 (what to report): a new attacker model is
   integration work, not a drop-in, so report the interface on both sides.}
   \begin{itemize}
