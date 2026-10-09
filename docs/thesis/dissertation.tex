@@ -8555,7 +8555,8 @@ no MTD running, it compromises less than the baseline attacker by the
 15\,000\,s time limit, but its runs that reach a target reach it only just
 later (Table~\ref{tab:unopposed-summary}). Its ASP and NCR are well below the
 baseline attacker's; its MTTC is only just longer, and $c_3$'s overlaps the
-baseline attacker's. Two causes compound. Its tactics take time: an unmapped
+baseline attacker's. Each attack profile succeeds almost only on the networks
+where the baseline attacker also succeeds (Appendix~\ref{app:fa-success}). Two causes compound. Its tactics take time: an unmapped
 tactic dispatches no attack action, and command and control, the only tactic
 that finds new hosts, takes a mean of 45\,s for scan neighbours against the
 baseline attacker's 5\,s (Section~\ref{subsec:dwell-times}). So it takes fewer
@@ -8692,7 +8693,8 @@ host-layer deployment costs either attacker only its place. The baseline
 attacker finds its place again at once, because its procedure restarts by
 scanning for hosts. The APT attacker model regains its place only when its
 Petri net next reaches lateral movement, and until then its attack actions
-most likely fail for missing preconditions. The service layer catches the APT
+most likely fail for missing preconditions (Appendices~\ref{app:fa-foothold}
+and~\ref{app:fa-traced-run}). The service layer catches the APT
 attacker model less often: it blocks only port scans, exploits and brute
 force, which the APT attacker model runs between unmapped tactics
 (Section~\ref{sec:disc-behaviour}). The four attack profiles move together at
@@ -8750,7 +8752,7 @@ second attempt there and brings its first compromise 204 to 232\,s forward
 deployments cost it time, but the one gain pulls the mean below zero. The APT attacker model gets no second
 attempt. User shuffle re-draws every host's accounts and leaves the accounts
 the attacker holds valid, so each deployment gives it a fresh chance at the
-hosts it could not log into. It is the one MTD mechanism under which the APT
+hosts it could not log into (Appendix~\ref{app:fa-accounts}). It is the one MTD mechanism under which the APT
 attacker model's time lost is below zero (Table~\ref{tab:disruption}). OS
 diversity costs the APT attacker model no time and takes the baseline
 attacker furthest below zero, possibly because it redraws only the services
@@ -9048,7 +9050,7 @@ from threat reports as attack flows, aggregated into an attack graph of how
 often each tactic led to the next and split by objective into attack
 profiles (Chapter~\ref{ch:attacker-model}). With no MTD, the attack profiles
 compromise more than random partitions of the same sizes, so grouping by
-objective carries structure. They differ most in actions on objectives,
+objective carries structure (Appendix~\ref{app:fa-group-size}). They differ most in actions on objectives,
 which are unmapped, so in MTDSim an objective shows only in how an attack
 profile spends its steps (Section~\ref{sec:disc-behaviour}), and three of
 the four rest on 5 to 7 attack flows (Section~\ref{sec:threats}). The
@@ -10708,67 +10710,118 @@ per operating system.
 \chapter{Further analyses}
 \label{app:further-analyses}
 
-\noindent\emph{[Placeholder --- one sentence: these analyses were run while
-Chapter~\ref{ch:discussion} was written, after the results were seen; each
-answers a question a float of Chapter~\ref{ch:experiments} raises, and none
-enters the main argument. They follow Chapter~\ref{ch:discussion}'s order.]}
+% SESSION-DRAFTED 2026-10-09, DRAFT STATE: ratify on read. Openers approved in
+% outline (Marc: "Yep, that looks good"). Numbers from
+% data/results/ch6_further_analyses/further_analyses_numbers.json; tables and
+% the figure from tools/further_analyses_tables.py and
+% tools/further_analyses_run_figure.py.
+These analyses were run while Chapter~\ref{ch:discussion} was written, after
+the results of Chapter~\ref{ch:experiments} were seen. Each answers a question
+that a table or figure of Chapter~\ref{ch:experiments} raises, and checks a
+mechanism Chapter~\ref{ch:discussion} names or tests one of its hypotheses;
+none enters the main argument. They follow Chapter~\ref{ch:discussion}'s order,
+and each reads runs already recorded, so none needed a new run.
 
 \section{Where each attacker succeeds with no MTD}
 \label{app:fa-success}
-% TODO registry B1, with B2 as one line. Question (tab:unopposed-summary): what
-%  makes a run succeed? Content: success by seed; the attack profiles succeed
-%  almost only where the baseline attacker does (ASP 0.06-0.20 there, <= 0.017
-%  elsewhere); pairs of profiles succeed on the same seed 3-6x chance. Supports
-%  6.1 P2 and future work (network features). Not in the main argument: a
-%  property of MTDSim's networks, not of either attacker. Source:
-%  ch5_s531_unopposed/runs_reported.jsonl; recompute, no runs.
-\noindent\emph{[Placeholder --- success by seed with no MTD, for each attacker.]}
+% Registry B1 and B2.
+Each seed generates its own network, and both attackers run on the same 1\,000
+(Table~\ref{tab:unopposed-summary}). Table~\ref{tab:fa-success} splits each
+attack profile's successes by whether the baseline attacker succeeds on the same
+seed. On the 656 seeds where it does, the attack profiles' ASP is 0.06 to 0.20;
+on the other 344 it is at most 0.02, and $c_4$ succeeds on none of them. Two
+attack profiles also succeed on the same seed three to six times as often as
+they would if their successes did not depend on the seed
+(Table~\ref{tab:fa-success-pairs}). With no MTD, then, whether a run succeeds
+depends mostly on the network its seed generates, and the attackers differ in
+how often they succeed on the networks that allow it. Under service diversity
+at 200\,s, 34 of the attack profiles' 61 successful runs are on seeds where the
+same attack profile succeeds with no MTD, and MTD interrupts successful and
+failed runs at the same rate, 3.1 to 4.2 times per 1\,000\,s. The analysis
+describes MTDSim's networks rather than either attacker, so it is not part of
+the main argument; which features of a network decide success is future work
+(Section~\ref{sec:future-work}).
+
+\input{tables/tab_FA-1a_success_by_seed}
+
+\input{tables/tab_FA-1b_success_pairs}
 
 \section{Runs with no foothold under the host layer}
 \label{app:fa-foothold}
-% TODO registry B9. Question (fig:eff-cross-arm): why does the host layer
-%  disrupt the APT attacker model most? Content: share of runs that compromise
-%  no host, per attacker, under the three host-layer MTD mechanisms at 50-200 s
-%  (APT 0.69-0.89, baseline 0.03-0.20). Supports 6.2 P1. Not in the main
-%  argument: checks a mechanism 6.2 states. Source: ch5_defended/
-%  runs_reported.jsonl; recompute, no runs.
-\noindent\emph{[Placeholder --- the share of runs with no foothold under the
-host layer, for each attacker.]}
+% Registry B9.
+Section~\ref{sec:disc-mtd-performance} explains why the host layer disrupts the
+APT attacker model most: a host-layer deployment costs either attacker its
+place, and the APT attacker model regains it only when its Petri net next
+reaches lateral movement. Table~\ref{tab:fa-foothold} gives the share of runs in
+which the attacker compromises no host. Under the three host-layer MTD
+mechanisms at 50 to 200\,s, 70 to 89\,\% of the APT attacker model's runs
+compromise no host, against 3 to 20\,\% of the baseline attacker's; with no MTD,
+1\,\% and none. From 500\,s the share falls for both. The host layer therefore
+disrupts the APT attacker model mostly before its first foothold. The table
+checks the mechanism Section~\ref{sec:disc-mtd-performance} states; the claim
+stands on the results of Chapter~\ref{ch:experiments} without it.
+
+\input{tables/tab_FA-2_foothold}
 
 \section{Accounts reused under user shuffle}
 \label{app:fa-accounts}
-% TODO registry B10. Question (tab:eff-interval-values, tab:disruption): why
-%  does user shuffle raise the APT attacker model's NCR? Content: compromises by
-%  a held account per run at 200 s, no MTD against user shuffle (APT 1.30 ->
-%  2.44, baseline 5.18 -> 7.56). Supports 6.2 P2 and 6.4 P3. Not in the main
-%  argument: a property of MTDSim's rule for user shuffle, not of MTD. Source:
-%  the records field of ch5_defended/runs_reported.jsonl; the s9 count was ad
-%  hoc, so a script is needed; no runs expected (verify).
-\noindent\emph{[Placeholder --- compromises by a held account per run, with no
-MTD and under user shuffle, for each attacker.]}
+% Registry B10. The 2026-10-07 one-off count (APT 1.30 -> 2.44 at 200 s) is
+% superseded by the script's 1.26 -> 2.37.
+Section~\ref{sec:disc-mtd-performance} explains why user shuffle raises the APT
+attacker model's NCR at every deployment interval
+(Table~\ref{tab:eff-interval-values}): it redraws every host's accounts but
+leaves valid the accounts the attacker holds, so each deployment gives the
+attacker a fresh chance to log in to hosts it could not. A port scan compromises
+a host when an account the attacker holds is valid on it, and
+Table~\ref{tab:fa-accounts} counts these compromises. With no MTD, the APT
+attacker model compromises 1.26 hosts per run this way; under user shuffle,
+1.65 to 2.77, more at shorter deployment intervals, and its hosts compromised
+per run rise from 8.55 to between 8.86 and 9.67. The baseline attacker gains
+too from 100\,s, 6.71 to 7.78 hosts per run by a held account against 5.18;
+at 50\,s user shuffle disrupts it, and it compromises 13.77 hosts per run
+against 24.85. The gain follows from MTDSim's rule for user shuffle, not from
+user shuffle as an MTD mechanism (Section~\ref{sec:evaluation-implications}), so
+it is not part of the main argument.
+
+\input{tables/tab_FA-3_accounts}
 
 \section{One run under MTD, traced}
 \label{app:fa-traced-run}
-% TODO registry B18, IF TIME. Question (fig:aio-adaptivity): what does one
-%  disruption look like? Content: one seed traced with no MTD and under IP
-%  shuffle at 200 s: the deployment, the failed attack action, the Petri net's
-%  route back, the time to the target. Supports 6.2 P1-P2 and 6.3 (adaptivity
-%  seen by construction). Not in the main argument: an illustration of one run,
-%  not a result. Source: the movement tracer replaying one seed; minutes.
-\noindent\emph{[Placeholder --- one seed traced with no MTD and under IP
-shuffle.]}
+% Registry B18. The run is chosen by a rule fixed before any run was looked at.
+Figure~\ref{fig:fa-traced-run} draws one run of $c_1$, the attack profile with
+the most attack flows, on seed~7, the lowest seed on which it compromises a
+target host with no MTD; the rule was fixed before any run was looked at. Both
+runs draw from the same seed, so they are the same run until 267\,s, when an
+IP shuffle deployment interrupts scan neighbours. With no MTD, the same step
+finds a neighbour, and the Petri net's next exploit compromises the first host
+at 584\,s; the run compromises 11 hosts and reaches a target host at
+14\,926\,s. Under IP shuffle the attacker has lost its place, and the attack
+actions that follow are refused for a missing precondition: 255 of its 363
+attack actions over the run, against 42 of 317 with no MTD. It compromises one
+host, at 2\,650\,s, and never a target host. The figure illustrates one run of
+the mechanism in Section~\ref{sec:disc-mtd-performance}; it is not a result.
+
+\begin{figure}[p]
+  \centering
+  \includegraphics{fig_FA-4_traced_run}
+  % Generated by tools/further_analyses_run_figure.py from the stored records
+  % (further_analyses_numbers.json, section f4); design in its docstring.
+  \caption[One run of $c_1$ with no MTD and under IP shuffle]{One run of $c_1$
+  on seed~7, (a, c)~with no MTD and (b, d)~under IP shuffle every 200\,s:
+  (a, b)~the whole run, (c, d)~its first 1\,000\,s. Each lane is one of the
+  baseline attacker's attack actions (Figure~\ref{fig:attacker-model}), and the
+  last holds the tactics that dispatch none. Each bar is one step of the Petri
+  net, from its start to its end.}
+  \label{fig:fa-traced-run}
+\end{figure}
 
 \section{Attack profiles against random groups of the same size}
 \label{app:fa-group-size}
-% TODO registry B14, with B8. Question (tab:ablation-random-partitions prints
-%  only d): do the attack profiles beat random partitions through their size?
-%  Content: NCR (and ASP) per group, random groups of 19, 7, 7 and 5 attack
-%  flows against c1-c4. Supports the close of 6.3 and the corpus threat in 6.5.
-%  Not in the main argument: a hypothesis on four points; it says nothing of
-%  fidelity. Source: partition_control_numbers.json (NCR); ASP recomputed from
-%  runs_partition_control.jsonl; no runs.
-\noindent\emph{[Placeholder --- NCR and ASP of each attack profile and of the
-random groups of its size.]}
+% Registry B14 and B8. TODO: prose once f5 is in further_analyses_numbers.json.
+\noindent\emph{[Placeholder --- Table~\ref{tab:fa-group-size}: NCR and ASP of
+each attack profile and of the random groups of its size.]}
+
+\IfFileExists{tables/tab_FA-5_group_size.tex}{\input{tables/tab_FA-5_group_size}}{}
 
 \bibliography{references}
 
