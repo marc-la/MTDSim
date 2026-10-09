@@ -9122,30 +9122,41 @@ like it before refining its values. Within MTDSim, another evaluation can run
 its MTD against the APT attacker model beside the baseline attacker, as this
 one did.
 
-\noindent\emph{[Paragraphs for dictation.]}
-\begin{itemize}
-  \item \textbf{Paragraph 4 (what the numbers cannot decide): the metric and
-  the price of a deployment.}
-  \begin{itemize}
-    \item Lead with the finer metric: NCR reduction counts hosts per run; ASP
-    reduction is one outcome per run, with wider intervals and a ceiling at 1
-    (Section~\ref{sec:evaluation-metrics}).
-    \item The two agree on which attacker is disrupted more in 52 of 60
-    mechanism and interval cells; within the baseline attacker their signs
-    split from 500\,s (IP shuffle 0.39 on NCR against $-0.09$ on ASP).
-    \item Even the cautious choice, the worst case over the two attackers,
-    turns on the metric: IP shuffle on NCR, service diversity on ASP from
-    100\,s.
-    \item Report what the attacker does and the time lost per MTD deployment
-    beside the outcome (Section~\ref{sec:disc-behaviour}).
-    \item Price: MTDSim charges a deployment nothing, so the shorter interval
-    always wins, up to an ASP reduction of 1. The sweep shows which MTD
-    mechanisms keep disrupting at 2\,000\,s (service diversity 0.30 against
-    the baseline attacker, IP shuffle 0.33 against the APT attacker model);
-    choosing an interval needs overhead and quality of service beside NCR
-    reduction (Section~\ref{sec:future-work}).
-  \end{itemize}
-\end{itemize}
+% DRAFT STATE 2026-10-09 --- paragraph 4 (what the numbers cannot decide)
+%  drafted from its five slots, which it replaces; 6.4 is now prose
+%  throughout. Pays off the two forward pointers to 6.4: 6.1 ("Read alone,
+%  ASP and NCR call a quiet attacker weak") and 6.2 ("Time lost per MTD
+%  deployment measures what MTD costs an attacker"). The interval part points
+%  to 6.2, which already says faster wins only because a deployment is free,
+%  rather than repeating its numbers. The 52-of-60 count dropped: 6.2 and 6.5
+%  already say the reversal holds on ASP reduction. Worst case checked on
+%  numbers_reported.json (min over the two attackers, every interval).
+%  Appendix E's "ASP reduction shows the order of NCR reduction" conflicts
+%  with the sign split from 500 s: proposal P12.
+The metric an evaluation reports decides part of its answer. Read alone, ASP
+and NCR call a quiet attacker weak (Section~\ref{sec:disc-behaviour}), so an
+evaluation should report what the attacker does
+(Section~\ref{subsec:metrics-behaviour}) beside what it achieves. Counting the
+attack actions MTD blocks would rank the host layer the most disruptive
+against the baseline attacker, which loses no time to it
+(Section~\ref{sec:disc-mtd-performance}), so an evaluation should report the
+time lost per MTD deployment. Of the outcome metrics, NCR reduction counts
+hosts in every run, while ASP reduction rests on the few runs that reach a
+target host and reaches its ceiling of 1 against the APT attacker model
+(Table~\ref{tab:eff-interval-values-asp}). An evaluation of an attacker that
+rarely reaches its target should therefore lead with NCR reduction and report
+ASP reduction beside it. The two agree on the reversal, but not always in
+sign: from 500\,s, IP shuffle reduces the baseline attacker's NCR by 0.39 and
+raises its ASP, an ASP reduction of $-0.09$ (Tables~\ref{tab:eff-interval-values}
+and~\ref{tab:eff-interval-values-asp}), so under it the baseline attacker
+compromises fewer hosts but reaches a target host more often. Even a cautious
+choice turns on the metric. Taking each MTD mechanism's worse value over the
+two attackers, IP shuffle is highest on NCR reduction at every deployment
+interval, and service diversity on ASP reduction from 100\,s. A deployment
+interval also needs a price. MTDSim charges a deployment nothing, so a sweep
+shows where MTD stops holding an attacker back but cannot choose an interval
+(Section~\ref{sec:disc-mtd-performance}); an evaluation that sets one should
+model the overhead and loss of service each deployment costs.
 
 % =====================================================================
 \section{Threats to validity}
