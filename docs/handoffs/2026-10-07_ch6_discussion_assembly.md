@@ -1825,6 +1825,14 @@ matters more than the attack profile". PROPOSALS outside ch6: P13 (ch5 l.6735, o
 recorder); P14 (ch1 roadmap l.597-599: "Chapter 6 explains the results, answers the three sub-questions, checks which of
 the eight properties the APT attacker model has, and states what the answers mean for MTD evaluation and where they stop.").
 
+### 16c. Cut-pass target (Marc 2026-10-09)
+
+Ch6 target ~3 300 words ("3.3k is a good length ... if the content justifies it"). Basis: ~13 load-bearing points at
+~200 words each plus ~750 for threats; ch1-5 ~11 200 (10-07) + ch6 3 300 + ch7 ~800 = ~15 300 against the 15 000 target.
+Budget: 6.1 ~550, 6.2 ~750, 6.3 ~650, 6.4 ~600, 6.5 ~750. Levers, in order: (1) each bound once, in 6.5, sections point;
+(2) mechanism detail to appendices (user shuffle, OS diversity, the restart rule, MTDShield's shares -> App D); ch4 untouched.
+Re-count with texcount before and after (not installed; the session counts are crude).
+
 ## Validation gate
 
 Done when Marc has answered §7, the structure in §3 is ruled, and every primary point in §4 has its evidence re-read on the 1 000-seed corpus, or is labelled a hypothesis. The next deliverable is per-paragraph dot points (slot form) for Marc's dictation.
