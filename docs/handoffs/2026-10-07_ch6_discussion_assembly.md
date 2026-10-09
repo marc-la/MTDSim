@@ -1690,6 +1690,77 @@ Misplaced or tangent:
 
 Consistency (not a cut): 6.2 ¶1 and 6.5 ¶5 say ρ is "near zero"; 6.4 ¶1 says −0.24 to 0.25 (500 s is 0.25 [0.14, 0.38]).
 
+## 16. Ch6: six cold examiners on the first overdraft, verified and triaged (2026-10-09, NOT RULED)
+
+Brief: scratchpad examiners_ch6/brief.md (own benchmark dimensions, UWA bands, holes checked against the whole text,
+overreach, placement; not told about vagueness or length; registry and handoffs hidden). Grades: 6.1 72, 6.2 72,
+6.3 76, 6.4 74, 6.5 76, whole chapter 73 (all H2A). Marks lost on: positioning against prior work (whole: H3, five
+\cite in the chapter); causal claims stronger than their evidence; repetition and overloaded paragraphs (6.2 ¶1 ~ten
+moves, 6.3 ¶3 ~eight claims, 6.5 economy H2B at ~1 650 words); no tie to the RQ or SQs. Marked high: bounds (H1 in
+6.1, 6.2, 6.5), explanation (whole H1), self-evaluation (whole H1). Nobody called the chapter vague. Their placement
+lists reproduce §15 (MTDShield twice, price x4, metric arguments x2-3, attribution 6.3 vs 6.5, c3-under-MTD in 6.1).
+
+Verified against the tex and tables (V = checked true):
+- X1 (V) 6.2 ¶1 "exploiting them takes most of its time": ch2 942-944 says an exploit takes 0-9 s against 25 s for a
+  port scan. No float supports the premise. Cut the clause.
+- X2 (V) 6.2 ¶2 opener "by the time it costs it, not by the attack actions it blocks": Table 5.x disruption, baseline
+  time lost IP shuffle -27, port shuffle -24, OS diversity -58 s, yet NCR reduction 0.68 / 0.91 / 0.68 at 200 s.
+  Licensed: blocks and time lost rank the layers alike for the APT attacker model and part for the baseline attacker.
+  6.4 ¶4's "which loses no time to it, so report time lost" inherits it.
+- X3 (V) "unmapped time" mislabels the pace: ch4 4966-4970, the 45 s moves NCR "most likely through command and
+  control", a MAPPED tactic (scan neighbours 45 s against 5 s, 6.5 ¶2). The attribution "unmapped time and order"
+  (6.1, 6.3 ¶3, 6.5 ¶1-2) should be "tactic durations and order" (ch4's term).
+- X4 (V) ablation reach: failure matrix ran under IP shuffle and OS diversity only, vulnerability memory under service
+  and OS diversity only (tab 5-4a), so "none changes which MTD mechanisms are most effective" is measured for the
+  attack profiles alone. And the attack profiles are not negligible under the host layer: d -0.70 / -0.76 under IP
+  shuffle at 500 / 1 000 s against -0.28 with no MTD (tab F-3). Positive reading (6.3 examiner): the reversal survives
+  on the attack graph, so it does not come from grouping by objective.
+- X5 (V) "one network" (6.2, 6.4 ¶1, 6.5 ¶1 "one 50-host network"): each seed generates its own network (6105-6108).
+- X6 (V) 6.5 internal contradictions: "comes from the attackers alone" (9224) against "do not run under identical
+  conditions" (9267); "intervals resample runs, not seeds" against rho and Table E ablation intervals over seeds.
+- X7 (V) 6.1 ¶3 "counted by attack action, ... hundreds of distinct openings" has no ch5 or appendix home (registry
+  A3/B3: 190-844 against 3). Number-home rule.
+- X8 (V) repairs to MTDSim are typeset only at 9287 and 9385; nothing says what was repaired. AI Use Declaration empty.
+- X9 (V) ch3 2137-2140 Cho: platform diversity "defends against persistent attacks but can weaken the defence against
+  fast ones"; here diversity ranks best against the fast baseline attacker. Unaddressed.
+- X10 (V) ch3 2206 "mechanisms cannot be compared across evaluations" (Jalowski): 6.4 never answers it.
+
+Holes, triaged (C = covered, B = bound to add, E = elsewhere, N = not covered):
+- H-A N, high (6.4, 6.5, 6.2, whole): the reversal runs through MTDSim's deployment rules, written for the baseline
+  attacker (host layer costs the APT attacker model its place until lateral movement). Is the dependence on the
+  attacker model or on the attacker model meeting those rules? Rec: 6.4 ¶1 says the ranking depends on the attacker
+  model as it meets the simulator's MTD rules; 6.5 ¶1 names the deployment rules as a third design root. Fits
+  Marc's spine ("looking at your own assumptions").
+- H-B N, high (6.3): the two marks gained over the baseline attacker (choice = order; detection avoidance = pace) are
+  exactly where the difference rests, and the components behind adaptivity and learning moved no result. Rec: one
+  synthesis sentence in 6.3 ¶3.
+- H-C partly, high (whole, 6.1): the level answer. At 200 s the host layer and every deployment strategy remove more
+  of the APT attacker model's NCR than the baseline attacker's (0.96 vs 0.49; random 0.75 vs 0.33), the service
+  layer less (0.21 vs 0.84). Ch1's "advantage of time" premise is not revisited. Rec: one sentence in 6.2 ¶3; the RQ
+  answer stays in ch7.
+- H-D N, medium-high (6.2, 6.4, whole): positioning. X9 (Cho) in 6.2 ¶1; X10 (comparability) in 6.4 ¶1; prior
+  MTDSim studies' rankings (check tab 5-3-3a lineage first). Game theory (6.4 H3) low.
+- H-E partly, high (6.3): "choice of attack strategy in full" against the rule ("a fixed rule ... takes the place");
+  6.1 bound 3 and 6.5 "whether it chooses well is not measured" concede it. Rec: 6.3 ¶2 defends it against ch3's
+  definition in one sentence. Marc's ruling: the blind re-score already gave the same mark.
+- H-F partly, medium (6.1): the plurality-price claim has no per-profile evidence (c1 has the most openings and the
+  second-highest ASP; App B ties refusals to order, not variety). Rec: tie the refusals to order (24 % refused,
+  Table B.7), drop "the more ways ... the more".
+- H-G partly, medium (6.2, 6.5): the fall-off intervals and the duration band were tested at 200 s only; timescale
+  ratio (tactic duration / deployment interval) as the bound on 15 000 s runs.
+- H-H partly, medium (6.4): MTTC reporting (with the share of runs it covers); test against more than one attacker
+  model; residual NCR beside the reduction (low).
+- H-I N, medium (6.5): which analysis choices were fixed before results (200 s headline, Cohen's 0.2, NCR over ASP).
+- H-J N, medium (preamble): one clause per section naming the SQ it bears on (Marc ruled ch6 answers none; a pointer
+  is not an answer).
+- Overreach to soften: "what transfers" / "optimal for one attacker model" (an existence proof: "can depend");
+  6.4 ¶2 "the dependence travels" beside 6.2's "cannot tell a fitted policy from a fixed preference" (add the bound);
+  6.2 ¶1 "attacker model matters more than the attack profile" (the profiles share durations, mapping and failure
+  matrix); 6.4 ¶1 "CTI is one way to cut what an attacker model must assume" (Marc's Q1 ruling; examiners read the
+  results as not supporting it -- keep as rationale, not result).
+- To ch7 (6.4 examiner, agrees with §15 T5): 6.4 ¶3 "Before the runs, we could predict ..." and "Within MTDSim,
+  another evaluation can run ..."; 6.3 ¶2 "Upgrading the attack actions would lift the most marks" (at most two).
+
 ## Validation gate
 
 Done when Marc has answered §7, the structure in §3 is ruled, and every primary point in §4 has its evidence re-read on the 1 000-seed corpus, or is labelled a hypothesis. The next deliverable is per-paragraph dot points (slot form) for Marc's dictation.
