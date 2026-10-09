@@ -8615,9 +8615,8 @@ its lower success. With every tactic mapped to an attack action, most are
 refused. This is the ceiling
 Chapter~\ref{ch:attacker-model} set: the APT attacker model can only be as good as
 the attack actions it adopts. Three bounds hold. First, the two attackers' steps differ: an attack
-profile's step is a tactic, the baseline attacker's an attack action; counted
-by attack action, the attack profiles still have hundreds of distinct
-openings. Second, the count is capped by the 1\,000 runs, which $c_1$ nearly
+profile's step is a tactic, the baseline attacker's an attack action, so the
+two counts are not in the same unit. Second, the count is capped by the 1\,000 runs, which $c_1$ nearly
 reaches. Third, the APT attacker model chooses as the documented attackers
 did, not by what works best on the network in front of it; that would take
 cost--benefit reasoning, which it keeps from the baseline attacker only in
@@ -9529,6 +9528,9 @@ runs, not seeds, although the four attack profiles share each seed's network.
 %  A3 [6.1 P3] "counted by attack action, the attack profiles still have
 %     hundreds of distinct openings" (190-844 against 3; = B3). Needs a
 %     chapter 5 footnote to Figure 5.1(b), or the clause goes.
+%     RULED 2026-10-09 (Marc, P13 declined: "not directly pulled from the
+%     evaluation ... supplementing it"): the clause goes; the bound keeps
+%     "the two counts are not in the same unit". B3 closed with it.
 %
 %  CANDIDATES (on disk, no re-run):
 %  B1 [6.1 P2] What a successful run looks like: with no MTD, success follows
