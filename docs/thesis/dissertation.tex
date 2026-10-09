@@ -84,6 +84,12 @@
 % any prose is written (writing guide: figures, then captions written long,
 % then text). Replacing a placeholder is one line: swap \placeholderbox for
 % \includegraphics{fig_5-...}. Delete this macro when the last one is replaced.
+% Drafting notes (2026-10-09, chapter 7): a visible, grey-ruled list of the
+% slots a section is to be drafted from; delete each block when its prose is in.
+\newenvironment{draftnotes}[1]{%
+  \par\medskip\noindent{\small\sffamily\bfseries [Drafting notes] #1}%
+  \begin{itemize}[leftmargin=1.5em, itemsep=2pt, topsep=3pt]\small\color{black!70}}%
+  {\end{itemize}\medskip}
 \newcommand{\placeholderbox}[2]{%
   \setlength{\fboxsep}{0pt}%
   \fbox{\parbox[c][#1][c]{\dimexpr\textwidth-2\fboxrule\relax}{%
@@ -9738,107 +9744,126 @@ runs, not seeds, although the four attack profiles share each seed's network.
 \chapter{Conclusion}
 \label{ch:conclusion}
 
-% SLOT SHEET (P15, Marc approved 2026-10-09; handoff 2026-10-09_ch7_conclusion_
-% and_appendix_structure section 3, rulings section 8). About 800 words:
+% DRAFTING NOTES, VISIBLE (Marc 2026-10-09: "put in all of the conclusion
+% drafting and boilerplate ... so that I can draft it later"). Each \draftnotes
+% block below is the slot sheet of handoff 2026-10-09_ch7_conclusion_and_
+% appendix_structure section 3 (rulings section 8), printed so it can be read
+% beside the PDF; replace each block with prose. About 800 words in all:
 % preamble ~120, each contribution ~170, future work ~330. Not the abstract in
 % the past tense; no number or claim chapter 6 did not make; each hedge once,
-% where its claim is made ("in MTDSim"; "the APT attacker model", never "APT
-% attackers", for a measured result; "can depend"; "at no cost"; "not which of
-% its parts"). The previous comment block is in the handoff, section 9c.
-%
-% S1 JOB: answer "How does MTD perform against APT attackers?" at the measured
-%  scope. FACTS: in MTDSim, MTD performs differently against the APT attacker
-%  model than against the baseline attacker; the difference runs by MTD layer
-%  (the host layer disrupts the APT attacker model more, the service layer
-%  less); no MTD mechanism ranks first against both at any deployment interval
-%  (6.2 close). CEILING: no verdict on a mechanism; never "better".
-% S2 JOB: what reaches the research question's "APT attackers". FACTS: a
-%  ranking can depend on the attacker model, so how MTD performs against APT
-%  attackers cannot be read from an evaluation against a simplified attacker
-%  alone (6.4 P1). CEILING: "can"; not "MTD fails against APTs".
-% S3 (OPTIONAL) JOB: the bound that carries most. FACTS: rests on what MTDSim's
-%  attack actions and deployment rules let the model do, with deployments that
-%  cost nothing (6.5 P1). CEILING: one clause per root, and a pointer.
-\noindent\emph{[Placeholder --- the research question answered directly, in
-the introduction's words, in two or three sentences.]}
+% where its claim is made. The comment block that stood here before 2026-10-09
+% is in the handoff, section 9c.
+\begin{draftnotes}{Preamble: the research question answered, two or three sentences}
+\item \textbf{The answer in MTDSim.} MTD performs differently against the APT
+attacker model than against the baseline attacker, and the difference runs by
+MTD layer: the host layer disrupts the APT attacker model more, and the service
+layer less. No MTD mechanism ranks first against both attackers at any
+deployment interval (Section~\ref{sec:disc-mtd-performance}). \emph{Keep:} ``in
+MTDSim''; ``the APT attacker model'', never ``APT attackers'', for a measured
+result; no verdict on a mechanism; never ``better''.
+\item \textbf{What reaches APT attackers.} A ranking can depend on the attacker
+model, so how MTD performs against APT attackers cannot be read from an
+evaluation against a simplified attacker alone
+(Section~\ref{sec:evaluation-implications}). \emph{Keep:} ``can''; not ``MTD
+fails against APTs''.
+\item \textbf{The bound (optional).} The answer rests on MTDSim's attack actions
+and its rules for what each deployment takes, and on deployments that cost
+nothing (Section~\ref{sec:threats}). \emph{Keep:} one clause per root.
+\item \emph{Hedges, each once, where its claim is made:} ``in MTDSim''; ``the
+APT attacker model''; ``can depend''; ``at no cost''; ``not which of its
+parts''.
+\end{draftnotes}
 
 \section{Contributions}
 \label{sec:contributions}
 
-% Chapter 1's two contributions, in its order and nouns, now as delivered:
-% each a paragraph with claim, evidence, impact (what it changes for whom) and
-% bound. Ruled 2026-10-09 (Marc: "contributions - yes thats fine").
-%
-% CONTRIBUTION 1 (answers SQ1 and SQ2; 6.3).
-%  a CLAIM: an APT attacker model recovered from 38 attack flows, aggregated and
-%   split by objective into four attack profiles, executed in MTDSim as a Petri
-%   net over its six attack actions, run in place of the baseline attacker.
-%   CEILING: "built", "runs"; never "reproduces APT behaviour".
-%  b EVIDENCE: two properties in full and five in part, against at most one in
-%   full for three recent attacker models (Table 6.1); the gains over the
-%   baseline attacker are choice of attack strategy in full and detection
-%   avoidance in part.
-%  c IMPACT: another MTDSim evaluation can run its MTD against the APT attacker
-%   model beside the baseline attacker (routed from 6.4); another simulator
-%   needs the interface: mapping, tactic durations, failure handling (6.4 P3).
-%  d BOUND: CTI grounding changes the finding but is not sufficient on its own;
-%   what it adds reaches the result only as far as the attack actions allow;
-%   the failure matrix and the vulnerability memory move NCR negligibly.
-%
-% CONTRIBUTION 2 (answers SQ3; 6.2 and 6.4).
-%  a CLAIM: in MTDSim, the most effective MTD mechanism depends on the attacker
-%   model: the two attackers' rank 1 share no MTD mechanism at any deployment
-%   interval; the host layer disrupts the APT attacker model most, the service
-%   layer the baseline attacker. AT MOST ONE NUMBER (candidate: half of NCR kept
-%   off to 1 000 s against 100 s; not the 0.92/0.36 pair, already in the
-%   abstract and chapter 1).
-%  b NOT: that either attacker model is the better one; which part causes the
-%   reversal is not separated (it rests on the tactic durations and order).
-%  c IMPACT FOR EVALUATORS (6.4): report a ranking with its attacker model;
-%   comparability needs shared attacker models; where the attacker is unknown,
-%   the lowest NCR reduction across attacker models as the lower bound; test a
-%   learned deployment strategy against an attacker model it was not trained on
-%   (MTDShield). OPTIONAL (routed from 6.4): before the runs only the direction
-%   could be predicted, so an attacker model has to be run, not reasoned about.
-%  d BOUND: one simulator, its default network, deployments that cost nothing.
-\noindent\emph{[Placeholder --- one paragraph per contribution of
-Chapter~\ref{ch:intro}, each stated as the answer to its sub-questions
-(\ref{sq:capture} and~\ref{sq:model}, then~\ref{sq:evaluate}) with its impact;
-the bounds of Sections~\ref{sec:fidelity-verdict} and~\ref{sec:threats} travel
-with each claim.]}
+% Chapter 1's two contributions, in its order and nouns, now as delivered: a
+% paragraph each (claim, evidence, impact, bound). Ruled 2026-10-09 (Marc:
+% "contributions - yes thats fine").
+\begin{draftnotes}{Contribution 1: the APT attacker model (answers \ref{sq:capture} and~\ref{sq:model}; Section~\ref{sec:fidelity-verdict})}
+\item \textbf{Claim.} An APT attacker model recovered from 38 attack flows,
+aggregated into an attack graph and split by objective into four attack
+profiles, executed in MTDSim as a Petri net over its six attack actions, and run
+in place of the baseline attacker. \emph{Keep:} ``built'', ``runs''; never
+``reproduces APT behaviour''.
+\item \textbf{Evidence.} Two of the eight properties in full and five in part,
+against at most one in full for three recent attacker models
+(Table~\ref{tab:fidelity-verdict}). Over the baseline attacker it gains choice of
+attack strategy in full and detection avoidance in part.
+\item \textbf{Impact.} Another evaluation in MTDSim can run its MTD against the
+APT attacker model beside the baseline attacker. Another simulator needs the
+interface: the tactic-to-action mapping, the tactic durations and the failure
+handling (Section~\ref{sec:evaluation-implications}).
+\item \textbf{Bound.} Grounding in CTI changes what the evaluation finds but is
+not sufficient on its own: what it adds reaches the result only as far as the
+attack actions allow. The failure matrix and the vulnerability memory move NCR
+negligibly.
+\end{draftnotes}
+
+\begin{draftnotes}{Contribution 2: the finding (answers \ref{sq:evaluate}; Sections~\ref{sec:disc-mtd-performance} and~\ref{sec:evaluation-implications})}
+\item \textbf{Claim.} In MTDSim, the most effective MTD mechanism depends on the
+attacker model: the two attackers' rank~1 share no MTD mechanism at any
+deployment interval; the host layer disrupts the APT attacker model most, and
+the service layer the baseline attacker. \emph{At most one number;} candidate:
+the host layer keeps half of the APT attacker model's NCR off up to 1\,000\,s,
+against 100\,s for the baseline attacker. Not the 92 and 36\,\% pair, which the
+abstract and Chapter~\ref{ch:intro} already give.
+\item \textbf{Not claimed.} That either attacker model is the better one; which
+of the APT attacker model's parts causes the reversal (it rests on the tactic
+durations and order, which no run separates).
+\item \textbf{Impact for those who evaluate MTD.} Report a ranking with the
+attacker model behind it; comparability needs shared attacker models; where the
+attacker is unknown, take each MTD mechanism's lowest NCR reduction across
+attacker models as its lower bound; test a learned deployment strategy against
+an attacker model it was not trained on (MTDShield). \emph{Optional:} before the
+runs only the direction could be predicted, so an attacker model has to be run,
+not reasoned about.
+\item \textbf{Bound.} One simulator, its default network, and deployments that
+cost nothing.
+\end{draftnotes}
 
 \section{Future work}
 \label{sec:future-work}
 
 % Dot points (Marc 2026-10-09), ranked by the limit each lifts, in Section
-% 6.5's order; each opens on the limit, then the work (two sentences). A lead
-% sentence before; the dissertation's last sentence names the attack actions as
-% the next step (Marc 2026-10-09: "last sentence - yes").
-%  FW1 THE ATTACK ACTIONS; ONE TOKEN (registry F8, F9): attack actions without a
-%   fixed order and with a context per token, which then allows more than one
-%   token; actions on objectives; a failure that knows MTD caused it. Lifts at
-%   most two marks; detection avoidance also needs a detector.
-%  FW2 PRICING NOTHING; THE DEPLOYMENT INTERVAL (F5, F11): a detector that
-%   depends on the attacker and drives MTD; deployment overhead and loss of
-%   service beside NCR reduction, so a sweep can choose an interval.
-%  FW3 THE BUNDLE (F13, F1): the baseline attacker given the APT attacker
-%   model's tactic durations, and a uniform-weight Petri net, to separate pace,
-%   order and the CTI weights; then an edge ablation tied to mitigations.
-%  FW4 THE CORPUS (F10, F12, F2): attack flows drafted by language models from
-%   APT-only reports and checked against analysts'; the 18 attributed attack
-%   flows alone; a larger corpus for a partition-size sweep.
-%  FW5 REACH (F3 with Appendix F.1, F4, F6): other networks and which network
-%   features decide success; longer runs; an attacker that times the deployment
-%   interval (property 8); learned deployment strategies retrained and tested
-%   against an unseen attacker model; emulation.
-% PROMISES CHAPTER 6 MAKES WITH \ref{sec:future-work}, ALL PAID: one token
-%  (FW1), the default network, 15 000 s runs, simulation only (FW5), existing MTD
-%  at a deployment interval (FW2), the baseline attacker with the APT tactic
-%  durations (FW3), language-model attack flows and the 18 attributed flows
-%  (FW4). LITERATURE TO CHECK before wording FW2, FW4, FW5 as gaps: F3, F10, F11.
-\noindent\emph{[Placeholder --- five dot points, each opening on the limit of
-Section~\ref{sec:threats} it lifts, ranked in that section's order; the last
-sentence names the attack actions as the next step.]}
+% 6.5's order. Registry rows in brackets; literature to check before wording
+% FW2, FW4 and FW5 as gaps (registry F3, F10, F11).
+\begin{draftnotes}{Future work: a lead sentence, five dot points, the last sentence}
+\item \textbf{Lead.} Each direction lifts a limit of Section~\ref{sec:threats},
+in that section's order.
+\item \textbf{The attack actions, and one token} (F8, F9). Attack actions
+without a fixed order and with a context of their own, which then allows more
+than one token, so the attacker can pursue several lines of a campaign; actions
+on objectives; a failure that knows MTD caused it. This lifts at most two marks,
+because detection avoidance also needs a detector.
+\item \textbf{A simulator that prices nothing} (F5, F11). A detector that
+depends on the attacker and drives MTD; the overhead and loss of service of each
+deployment beside NCR reduction, so that a sweep can choose a deployment
+interval.
+\item \textbf{Which part causes the reversal} (F13, F1). The baseline attacker
+given the APT attacker model's tactic durations, and a Petri net with uniform
+weights, to separate pace, order and the weights from CTI; then removing the
+attack profiles' edges one at a time, to find the transition a mitigation should
+break.
+\item \textbf{The corpus} (F10, F12, F2). Attack flows drafted by language
+models from reports on APT campaigns only, checked against analysts' attack
+flows; the 18 attack flows attributed to a group, run alone; a larger corpus,
+for a sweep over the size of the attack profiles.
+\item \textbf{Reach} (F3, F4, F6). Other networks, and which features of a
+network decide success (Appendix~\ref{app:fa-success}); longer runs; an attacker
+that times its attack actions around the deployment interval (property~8);
+learned deployment strategies retrained and tested against an attacker model
+they were not trained on; emulation.
+\item \textbf{Last sentence.} Names the attack actions as the next step: every
+result rests on them (Sections~\ref{sec:fidelity-verdict}
+and~\ref{sec:threats}), and MTD optimised against the APT attacker model comes
+only after its assumptions are reduced.
+\item \emph{Promises Chapter~\ref{ch:discussion} makes, all paid above:} one
+token; the default network; runs of 15\,000\,s; simulation only; existing MTD
+at a deployment interval; the baseline attacker with the APT attacker model's
+tactic durations; attack flows from language models; the 18 attributed attack
+flows.
+\end{draftnotes}
 
 
 
