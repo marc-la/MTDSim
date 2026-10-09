@@ -238,3 +238,35 @@ Each F table comes from a generator in `tools/` writing a numbers JSON, followin
 - E's stale "PRELIMINARY: 100 seeds" comment;
 - a ch6 first-use gloss of ASP reduction that points to E.2;
 - the AI Use Declaration.
+
+### 9a. Headings read as table-of-contents lines (Marc 2026-10-09)
+
+Marc: "the appendix is listed in the table of contents and vacuous or clearly unwarranted section headers is a bit hard to follow". The contents list every appendix section (dissertation.toc, lines 77-98).
+
+**Test for each heading:**
+- Read cold in the contents, it says what the section holds.
+- It earns its own line: its own float, or its own question.
+
+| Now | Problem | Proposed |
+|---|---|---|
+| C.2 The exponential delay | names a thing, not what is tested; breaks C's "Robustness ..." pattern | Robustness to the shape of the tactic durations |
+| B.7 (now B.6) A total tactic-to-action mapping | reads as the mapping used | Mapping every tactic to an attack action |
+| D.1 Selection | vacuous out of context | The agent chosen |
+| D.2 Settings | vacuous | The agent's settings |
+| D.3 Changes made to run it | "it" has no antecedent in the contents | Changes made to run the agent |
+| D.4 Known limitations | whose? | Known limitations of the released agent |
+| D.5 Behaviour observed | vacuous | The agent's choices in the runs |
+| E (no sections) | eight floats behind one contents line | E.1 Every metric for each attacker; E.2 MTD's effect on each attacker at every deployment interval; E.3 The ablation studies in full |
+| F (new) | -- | F.1 Where each attacker succeeds with no MTD; F.2 Runs with no foothold under the host layer; F.3 Accounts reused under user shuffle; F.4 One run under MTD, traced (if time); F.5 Attack profiles against random groups of the same size |
+
+**Kept as they are:**
+- A;
+- B.1-B.5;
+- B.8;
+- C.1, C.3, C.4.
+
+Each says what it holds and carries its own float.
+
+**B.4 (edges of the attack profiles)** is one figure and one sentence, but ch4 cites it on its own (line 4203), so it keeps its line.
+
+**No section is unwarranted** after these changes: each holds its own float or answers its own question.
