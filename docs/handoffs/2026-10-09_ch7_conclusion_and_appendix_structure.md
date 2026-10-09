@@ -192,3 +192,49 @@ Each existing linking sentence stays under its new section, unchanged.
 2. **Future work format:** five bullets ranked by the limit lifted (2 sentences each), or run-in paragraphs? *Recommended: bullets. The items are parallel, the order shows the ranking, and bullets cut connective words.*
 3. **Last sentence:** name the attack actions as the next step? *Recommended: yes. Every result rests on them (6.3 close, 6.5 ¶1). This follows Marc's 2026-10-08 line that MTD optimised against the APT attacker model comes only after the assumptions are reduced.*
 4. **Appendix:** B9+B10, B1 and B14 into E.4, with B18 only if time? *Recommended: yes.*
+
+## 8. Marc's rulings (2026-10-09)
+
+- Q1 contributions: **yes**, ch1's two (SQ1+SQ2, then SQ3; 6.4's guidance as the second's impact).
+- Q2 future work: **dot points**.
+- Q3 last sentence: **yes**, the attack actions as the next step.
+- Q4 further analyses: **approved** (B9+B10, B1, B14; B18 if time). Marc: the appendix must be structurally clear to the examiner, every entry logically arranged and relevant, each with the reason it did not make the main argument. The further analyses emerged after the discussion was written, so they are **kept separate** from the supplementary results: their own appendix, not E.4 (P16 revised: E gets its three ch5 sections only; Further analyses becomes Appendix F).
+- Next: Marc reviews the appendix structure, then the runs/recomputes for Appendix F.
+
+## 9. The appendix, whole (proposed 2026-10-09, NOT RULED)
+
+**Ordering rule:** appendices follow the order in which the main text first calls on them, which is chapter order:
+- B backs ch4 (first cited at line 3999);
+- C backs ch4's declared values (4966);
+- D backs ch5's set-up (6067);
+- E backs ch5's results (7518);
+- F backs ch6.
+
+A is the record of the plan. **Each appendix opens with one sentence** naming what it backs and its order (B, C and D already do; E and F need one). **Each section states its reason for not being in the main text.**
+
+| App | Backs | Sections, in order | Why it is not in the main text |
+|---|---|---|---|
+| A Original honours proposal | the plan | (the proposal) | record of scope as proposed |
+| B Supplementary material for the APT attacker model | ch4, in its order | B.1 edges from mining; B.2 techniques or tactics as nodes; B.3 attack profile of each attack flow; B.4 edges of the attack profiles; **B.5 reasons for the mapping; B.6 a total mapping; B.7 how each tactic duration was set** (P17 swap); B.8 rules of the failure matrix | per-row reasons and rejected alternatives; ch4 states each choice |
+| C Supplementary sensitivity analyses | ch4's declared values | C.1 tactic durations across their bands (+ the ranking at both band ends); C.2 the exponential delay; C.3 the failure matrix's distance factor; C.4 attack confidentiality and the scan detector | robustness, not results; the main text cites the verdict |
+| D MTDShield as run | ch5's MTDShield arm | D.1 selection; D.2 settings; D.3 changes made to run it; D.4 known limitations; D.5 behaviour observed | reproducibility of a third-party agent |
+| E Supplementary results | ch5, in its order | **E.1 every metric at every condition** (5.2, 5.3: `tab:full-movement`, `tab:full-baseline`); **E.2 MTD against each attacker at every deployment interval** (5.3: `tab:disruption`, `tab:eff-interval-values`, ASP reduction defined, `fig:eff-cross-arm-asp`, `tab:eff-interval-values-asp`); **E.3 ablation studies** (5.4: `tab:ablation-attack-profiles`, `tab:ablation-random-partitions`, `fig:ablation-memory`, `tab:ablation-memory`) | full grids; ch5 prints the comparison |
+| **F Further analyses (new)** | ch6, in its order | F.1-F.5 below | emerged after the discussion was written, after the results were seen; kept apart from the planned evaluation |
+
+**The opener for F** (slot, not prose): these analyses were run while ch6 was written, after the results were seen. Each answers a question a ch5 float raises. None enters the main argument: each checks a mechanism ch6 names, or sharpens a hypothesis. They follow ch6's order.
+
+| Section | Question, from which float | Content | Supports | Why not in the main argument | Source; new runs? |
+|---|---|---|---|---|---|
+| F.1 Successful runs with no MTD | Why does each attacker succeed where it does? (`tab:unopposed-summary`) | Success by seed. The profiles succeed almost only where the baseline attacker does: ASP 0.06-0.20 there, at most 0.017 elsewhere. Pairs of profiles succeed on the same seed 3-6x more often than chance. One line from B2: under service diversity at 200 s, successes sit on seeds that succeed with no MTD. | 6.1 ¶2; FW5 (network features) | a property of MTDSim's networks, not of either attacker | recompute from `ch5_s531_unopposed/runs_reported.jsonl`; no runs |
+| F.2 Footholds under the host layer | Why does the host layer reduce the APT attacker model's NCR most? (`fig:eff-cross-arm`) | Share of runs that compromise no host, per attacker, under the three host-layer mechanisms at 50-200 s: 0.69-0.89 against 0.03-0.20 | 6.2 ¶1 ("regains its place only at lateral movement") | checks a mechanism ch6 states; the claim stands on ch5's floats | recompute (`denied_share`) from `ch5_defended/runs_reported.jsonl`; no runs |
+| F.3 Accounts reused under user shuffle | Why does user shuffle raise the APT attacker model's NCR? (`tab:eff-interval-values`, `tab:disruption`) | Compromises by a held account per run at 200 s, with no MTD against user shuffle: APT 1.30 -> 2.44, baseline 5.18 -> 7.56 | 6.2 ¶2; 6.4 ¶3 | a property of MTDSim's user-shuffle rule, not of MTD | recompute from the `records` field; the s9 count was ad hoc, so a script is needed; no runs expected (verify) |
+| F.4 One run of the APT attacker model under MTD (if time) | What does one disruption look like? (`fig:aio-adaptivity`) | One seed traced with no MTD against IP shuffle at 200 s: the deployment, the failed attack action, the Petri net's route back, the time to the target | 6.2 ¶1-2; 6.3 (adaptivity seen by construction) | an illustration of one run, not a result | movement tracer replay of one seed, two conditions; minutes |
+| F.5 Attack profiles against random groups by size | Do the attack profiles beat random partitions through their size? (`tab:ablation-random-partitions` prints only d) | NCR (and ASP) per group: random groups of 19, 7, 7 and 5 attack flows against c1-c4 (B14), with B8 | 6.3 close ("grouping by objective carries structure"); 6.5 corpus threat | a hypothesis on four points; says nothing of fidelity | `partition_control_numbers.json` (NCR); ASP recomputed from `runs_partition_control.jsonl`; no runs |
+
+Each F table comes from a generator in `tools/` writing a numbers JSON, following `results_section_workflow.md`.
+
+**Also owed in the back matter:**
+- C.4's two `\prelim` values, to check at 1 000 seeds;
+- E's stale "PRELIMINARY: 100 seeds" comment;
+- a ch6 first-use gloss of ASP reduction that points to E.2;
+- the AI Use Declaration.
