@@ -9092,28 +9092,38 @@ same simulator against the same attacker model shares the assumptions the
 agent was trained on, so it cannot show that the agent generalises. The
 evidence is one agent, Tay's as released, not retrained.
 
+% DRAFT STATE 2026-10-09 --- paragraph 3 (what to report) drafted from its
+%  five slots, which it replaces. User shuffle's cause is 6.2's (it re-draws
+%  every host's accounts and leaves the attacker's valid), not the slot's
+%  "trades in vulnerabilities", and is pointed to, not re-explained. "Before
+%  the runs we could predict only the direction" is Marc's account (Q3,
+%  handoff 14a). Reuse bounded to MTDSim: in another simulator the six mapped
+%  tactics take that simulator's times (Marc, Q5).
+Joining a new attacker model to a simulator is integration work, so an
+evaluation should report the interface on both sides. On the attacker's side,
+three choices join the APT attacker model to MTDSim: the mapping from tactics
+to attack actions (Section~\ref{subsec:tactic-verb-mapping}), the tactic
+durations anchored on MTDSim's times (Section~\ref{subsec:dwell-times}), and
+the failure matrix that reweights the next tactic after a failed attack action
+(Section~\ref{subsec:failure-matrix}). Each is a declared assumption, and an
+evaluation should report them with the tactics left unmapped and the attack
+actions refused. On the defender's side, it should report what each
+deployment takes from the attacker. User shuffle raises the APT attacker
+model's NCR at every deployment interval (Table~\ref{tab:eff-interval-values})
+because of the rule MTDSim gives it (Section~\ref{sec:disc-mtd-performance}),
+which says more about the simulator than about user shuffle. Without the
+interface, a reader cannot trace a ranking to its assumptions. Before the
+runs, we could predict only that the APT attacker model would fail more,
+compromise fewer hosts and move more slowly, not how much each MTD mechanism
+would take from it, because NCR reduction is measured against each attacker's
+own NCR with no MTD. The failure matrix moves NCR negligibly
+(Section~\ref{sec:fidelity-verdict}), so a builder should ablate a component
+like it before refining its values. Within MTDSim, another evaluation can run
+its MTD against the APT attacker model beside the baseline attacker, as this
+one did.
+
 \noindent\emph{[Paragraphs for dictation.]}
 \begin{itemize}
-  \item \textbf{Paragraph 3 (what to report): a new attacker model is
-  integration work, not a drop-in, so report the interface on both sides.}
-  \begin{itemize}
-    \item Attacker side: the mapping from tactics to attack actions, the
-    durations anchored on the simulator's times, and what happens on failure
-    (Section~\ref{sec:execution}), each a declared assumption; report the
-    unmapped tactics and the share of attack actions refused.
-    \item Defender side: what each deployment takes, for which attack actions.
-    User shuffle raises NCR ($-0.10$ against the APT attacker model, $-0.05$
-    against the baseline attacker): MTDSim's attacker trades in
-    vulnerabilities, which says more about the model than about user shuffle.
-    \item Why report it: before running, only the direction was predictable
-    (more failure, fewer hosts, slower); the size was not, since NCR reduction
-    is relative to no MTD.
-    \item A component that changes behaviour but not outcome (the failure
-    matrix) is worth an ablation before it is built.
-    \item Close: every tactic has a mean duration, so another evaluation can
-    reuse the APT attacker model as a second baseline.
-  \end{itemize}
-
   \item \textbf{Paragraph 4 (what the numbers cannot decide): the metric and
   the price of a deployment.}
   \begin{itemize}
