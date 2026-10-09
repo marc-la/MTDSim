@@ -2465,7 +2465,7 @@ APT attacker.
   % [CH3 SCRUTINY 2026-09-30, T1] round-1 changes (X10-X12, option B, C3) are in git.
   % [CH3 REDRAFT ROUND 2, 2026-10-01, T1] Marc: "shrink it down ... what does a reader need ... what it counts, what does that mean". Now Cho's 2x2 itself: the "What it counts" grouping column is gone (it was this dissertation's, not Cho's); each cell keeps the metrics a later chapter uses (ASP, MTTC, NCR, attack actions blocked, the mitigation factor ch4's reductions take their form from, RoA) and enough of the rest to show the frame. Acronyms only where used again. Session-drafted, ratify on read.
   % [CH3 REDRAFT ROUND 31] caption: "frame of perspective and purpose" -> "classify", the prose's one verb; no meta-nouns. Ratify on read.
-  \caption[MTD metrics]{MTD metrics as Cho et al.\ classify them
+  \caption[The MTD metrics of the literature]{MTD metrics as Cho et al.\ classify them
   \citep{cho2020}, with examples from the works surveyed.}
   \label{tab:mtd-metrics}
   \tablestyle
@@ -9738,98 +9738,107 @@ runs, not seeds, although the four attack profiles share each seed's network.
 \chapter{Conclusion}
 \label{ch:conclusion}
 
-
-
-% Not the abstract in past tense: the impact of the specific technical
-% move, and the next step in the line of research.
-
-% RESTRUCTURED 2026-09-28 (handoff §10--§11): organised by the research
-% question. Evans et al. 2014: "summaries are not conclusions"; the
-% contributions are stated as answers with their impact, not recapped.
+% SLOT SHEET (P15, Marc approved 2026-10-09; handoff 2026-10-09_ch7_conclusion_
+% and_appendix_structure section 3, rulings section 8). About 800 words:
+% preamble ~120, each contribution ~170, future work ~330. Not the abstract in
+% the past tense; no number or claim chapter 6 did not make; each hedge once,
+% where its claim is made ("in MTDSim"; "the APT attacker model", never "APT
+% attackers", for a measured result; "can depend"; "at no cost"; "not which of
+% its parts"). The previous comment block is in the handoff, section 9c.
+%
+% S1 JOB: answer "How does MTD perform against APT attackers?" at the measured
+%  scope. FACTS: in MTDSim, MTD performs differently against the APT attacker
+%  model than against the baseline attacker; the difference runs by MTD layer
+%  (the host layer disrupts the APT attacker model more, the service layer
+%  less); no MTD mechanism ranks first against both at any deployment interval
+%  (6.2 close). CEILING: no verdict on a mechanism; never "better".
+% S2 JOB: what reaches the research question's "APT attackers". FACTS: a
+%  ranking can depend on the attacker model, so how MTD performs against APT
+%  attackers cannot be read from an evaluation against a simplified attacker
+%  alone (6.4 P1). CEILING: "can"; not "MTD fails against APTs".
+% S3 (OPTIONAL) JOB: the bound that carries most. FACTS: rests on what MTDSim's
+%  attack actions and deployment rules let the model do, with deployments that
+%  cost nothing (6.5 P1). CEILING: one clause per root, and a pointer.
 \noindent\emph{[Placeholder --- the research question answered directly, in
 the introduction's words, in two or three sentences.]}
 
 \section{Contributions}
 \label{sec:contributions}
 
+% Chapter 1's two contributions, in its order and nouns, now as delivered:
+% each a paragraph with claim, evidence, impact (what it changes for whom) and
+% bound. Ruled 2026-10-09 (Marc: "contributions - yes thats fine").
+%
+% CONTRIBUTION 1 (answers SQ1 and SQ2; 6.3).
+%  a CLAIM: an APT attacker model recovered from 38 attack flows, aggregated and
+%   split by objective into four attack profiles, executed in MTDSim as a Petri
+%   net over its six attack actions, run in place of the baseline attacker.
+%   CEILING: "built", "runs"; never "reproduces APT behaviour".
+%  b EVIDENCE: two properties in full and five in part, against at most one in
+%   full for three recent attacker models (Table 6.1); the gains over the
+%   baseline attacker are choice of attack strategy in full and detection
+%   avoidance in part.
+%  c IMPACT: another MTDSim evaluation can run its MTD against the APT attacker
+%   model beside the baseline attacker (routed from 6.4); another simulator
+%   needs the interface: mapping, tactic durations, failure handling (6.4 P3).
+%  d BOUND: CTI grounding changes the finding but is not sufficient on its own;
+%   what it adds reaches the result only as far as the attack actions allow;
+%   the failure matrix and the vulnerability memory move NCR negligibly.
+%
+% CONTRIBUTION 2 (answers SQ3; 6.2 and 6.4).
+%  a CLAIM: in MTDSim, the most effective MTD mechanism depends on the attacker
+%   model: the two attackers' rank 1 share no MTD mechanism at any deployment
+%   interval; the host layer disrupts the APT attacker model most, the service
+%   layer the baseline attacker. AT MOST ONE NUMBER (candidate: half of NCR kept
+%   off to 1 000 s against 100 s; not the 0.92/0.36 pair, already in the
+%   abstract and chapter 1).
+%  b NOT: that either attacker model is the better one; which part causes the
+%   reversal is not separated (it rests on the tactic durations and order).
+%  c IMPACT FOR EVALUATORS (6.4): report a ranking with its attacker model;
+%   comparability needs shared attacker models; where the attacker is unknown,
+%   the lowest NCR reduction across attacker models as the lower bound; test a
+%   learned deployment strategy against an attacker model it was not trained on
+%   (MTDShield). OPTIONAL (routed from 6.4): before the runs only the direction
+%   could be predicted, so an attacker model has to be run, not reasoned about.
+%  d BOUND: one simulator, its default network, deployments that cost nothing.
 \noindent\emph{[Placeholder --- one paragraph per contribution of
-Chapter~\ref{ch:intro}, each stated as the answer to its sub-question
-(\ref{sq:capture}, \ref{sq:model}, \ref{sq:evaluate}) with its impact; the
-bounds of Sections~\ref{sec:fidelity-verdict} and~\ref{sec:threats} travel
+Chapter~\ref{ch:intro}, each stated as the answer to its sub-questions
+(\ref{sq:capture} and~\ref{sq:model}, then~\ref{sq:evaluate}) with its impact;
+the bounds of Sections~\ref{sec:fidelity-verdict} and~\ref{sec:threats} travel
 with each claim.]}
 
 \section{Future work}
 \label{sec:future-work}
 
-% Was Chapter 7 (ch:futurework) until 2026-09-28. Each item opens on the
-% limitation it lifts (Section~\ref{sec:threats}'s scope paragraph, in the
-% same order); run-in paragraphs, no subsections. The dissertation's last
-% sentence names the next step.
-\noindent\emph{[Placeholder --- a richer set of attack actions (the binding
-constraint); detection avoidance against a detector (property 5: the observer, not the
-behaviour); deployment-strategy awareness and learning across runs (property 8); a
-richer exploit attack action for the vulnerability memory to act on (the memory
-operates and is blocked by the simulator's exploit attack action,
-Section~\ref{sec:ablation}), and where vulnerability types recur more often; MTD selected or
-optimised against the APT attacker model; other network sizes and
-emulation.]}
-
-% [ADDED 2026-10-08 (Marc, answering the 6.1 cold examiner's questions),
-% candidates for the list above, DRAFT STATE:
-%  - Edge ablation on the attack profiles: remove one tactic-to-tactic edge at a
-%    time and measure ASP and NCR. The edge the outcome is most sensitive to is
-%    where a mitigation that breaks that transition (initial access to a
-%    post-intrusion tactic, say) would matter most: mitigations proposed from
-%    the attacker model itself.
-%  - Partition size: vary the size of the attack profiles' partitions and read
-%    the effect on ASP (c4 rests on five attack flows).
-%  - Success given undetected: each attacker's successful runs that a detector
-%    would not have flagged (6.1, point 2's frame).]
-% Marc 2026-10-08 (from 6.2 paragraph 4): MTD optimised against the APT
-% attacker model comes after reducing assumptions: model what is known about
-% the attacker faithfully, realistically and for the network in question;
-% then "if I were the attacker, this is what I would do, and this is how to
-% hold it back". A learned strategy trained on today's assumptions inherits
-% them, as MTDShield inherits the baseline attacker's.
-
-
-
-% The ruled-out directions, each with its reason: stealth semantics
-% (blocked three independent ways), MTD-scheme awareness (ruled out of
-% scope), event-based orchestration / retraining the reactive defender
-% (V3), full incentive rationality. Collects the revisit conditions the
-% notes carry.
-%
-% WHAT ch5 HANDS THIS CHAPTER (2026-09-09, third review pass). Each of these
-% is an EXCLUSION ch5 makes explicitly, so the future-work claim is earned by
-% a measurement or a stated scope rather than by a wish:
-%  - THE ADAPTIVE DEFENDER. ch2 lists MTDShield in the roster and ch5 runs
-%    none of it; the rebuild established that a cost-aware agent CAN trade
-%    downtime against risk (the ladder's C1 held by a wide margin) but the go
-%    is for a scaled training proposal, not for a trained model, and the
-%    published figures characterise a uniform random selector. This is the
-%    concrete form of the frozen-defender concession sec:dimensions
-%    volunteers, and it is the first of the two substrate upgrades
-%    notes/ch8_future_work/successor_programme.md names.
-%  - A TACTIC-LEVEL ACTION LAYER. The second upgrade in the same note, and
-%    the bind ch5's own ceiling sentence points at: the outcome is bounded by
-%    the six inherited verbs, so a structure-rich attacker cannot convert
-%    structure into outcome on this substrate.
-%  - STEALTH SEMANTICS. Axis 5 stays blank because there is no detection
-%    model for a tempo or spacing choice to matter against --- that is the
-%    axis's own argument, held three times. WHAT MAKES THE FUTURE-WORK CLAIM
-%    SHARP RATHER THAN GENERIC: the behaviour is already there and already
-%    measured (spacing 1.5-1.8x wider, 45 % quieter on the level, the whole
-%    margin attributable to the non-action tactics), so what is missing is
-%    the DEFENDER-SIDE OBSERVER, not the attacker-side behaviour. Say it that
-%    way; it converts a blank cell into a specified next experiment.
-%  - THE TARGETED OBJECTIVE AT DEPTH. The Gate probe passed at layer 1 on the
-%    aggregate envelope only and failed at every depth for the four
-%    objective-conditioned profiles. That is a measured boundary on what this
-%    attacker can be asked to do, not an untried idea.
-%  - THE EMULATION RUNG (notes/ch8_future_work/emulation_rung.md): what
-%    carries up the evaluation ladder and what must be re-derived.
-
+% Dot points (Marc 2026-10-09), ranked by the limit each lifts, in Section
+% 6.5's order; each opens on the limit, then the work (two sentences). A lead
+% sentence before; the dissertation's last sentence names the attack actions as
+% the next step (Marc 2026-10-09: "last sentence - yes").
+%  FW1 THE ATTACK ACTIONS; ONE TOKEN (registry F8, F9): attack actions without a
+%   fixed order and with a context per token, which then allows more than one
+%   token; actions on objectives; a failure that knows MTD caused it. Lifts at
+%   most two marks; detection avoidance also needs a detector.
+%  FW2 PRICING NOTHING; THE DEPLOYMENT INTERVAL (F5, F11): a detector that
+%   depends on the attacker and drives MTD; deployment overhead and loss of
+%   service beside NCR reduction, so a sweep can choose an interval.
+%  FW3 THE BUNDLE (F13, F1): the baseline attacker given the APT attacker
+%   model's tactic durations, and a uniform-weight Petri net, to separate pace,
+%   order and the CTI weights; then an edge ablation tied to mitigations.
+%  FW4 THE CORPUS (F10, F12, F2): attack flows drafted by language models from
+%   APT-only reports and checked against analysts'; the 18 attributed attack
+%   flows alone; a larger corpus for a partition-size sweep.
+%  FW5 REACH (F3 with Appendix F.1, F4, F6): other networks and which network
+%   features decide success; longer runs; an attacker that times the deployment
+%   interval (property 8); learned deployment strategies retrained and tested
+%   against an unseen attacker model; emulation.
+% PROMISES CHAPTER 6 MAKES WITH \ref{sec:future-work}, ALL PAID: one token
+%  (FW1), the default network, 15 000 s runs, simulation only (FW5), existing MTD
+%  at a deployment interval (FW2), the baseline attacker with the APT tactic
+%  durations (FW3), language-model attack flows and the 18 attributed flows
+%  (FW4). LITERATURE TO CHECK before wording FW2, FW4, FW5 as gaps: F3, F10, F11.
+\noindent\emph{[Placeholder --- five dot points, each opening on the limit of
+Section~\ref{sec:threats} it lifts, ranked in that section's order; the last
+sentence names the attack actions as the next step.]}
 
 
 
@@ -10010,6 +10019,43 @@ gives them.
 \end{figure}
 \FloatBarrier
 
+% Table generated by tools/controller_mapping_figure.py, the generator of
+% Figure 4.6, so the two cannot disagree. Record:
+% docs/implementation/pipeline/ogasp/controller_mapping_v2.md.
+\section{Reasons for the tactic-to-action mapping}
+\label{app:controller-mapping}
+
+Table~\ref{tab:controller-mapping} gives the reason for each row of the
+tactic-to-action mapping of Section~\ref{subsec:tactic-verb-mapping}. A
+tactic is unmapped where the simulator has nothing for it to act on.
+
+\input{tables/tab_B-5a_controller_mapping_reasons}
+\FloatBarrier
+
+% Table generated by tools/total_mapping_table.py from
+% data/results/ch5_s51_sensitivity/numbers.json (the run Table C.1 cites;
+% record: ch5_s51_sensitivity_findings.md section 5). The numbers in the
+% opener are that table's no-MTD row.
+\section{Mapping every tactic to an attack action}
+% [heading renamed 2026-10-09 for the contents (Marc approved; handoff 9a)]
+\label{app:experiment-one}
+% [2026-10-05, Section 4.4.1 round 3: no longer cited from Section 4.4.1
+%  (Marc: the mapping is argued from what the attack actions carry out).
+%  Kept because Appendix C's Tables C.0a and C.0b cite it as the mapping's
+%  alternative; whether to cut it there is Marc's ruling.]
+
+A total mapping gives every tactic an attack action, so the APT attacker
+model takes the baseline attacker's attack actions in a stochastic order.
+The baseline attacker runs them in a fixed order, each meeting the
+precondition of the next; out of that order most are refused, and the
+attacker reaches 0.15 hosts without MTD, against 8.13 under the partial
+mapping of Figure~\ref{fig:controller-mapping}
+(Table~\ref{tab:experiment-one}).
+
+\input{tables/tab_B-7a_total_mapping}
+\FloatBarrier
+
+% [2026-10-09, Marc approved P17: moved after the mapping, in chapter 4's order.]
 % Table generated by tools/dwell_catalogue_tables.py from
 % data/ogasp/tactic_durations.json (reasons: short_justification, reworded
 % 2026-10-04 in the chapter's terms).
@@ -10029,41 +10075,6 @@ which the baseline attacker takes, beside the mean durations of the tactics
 mapped to it, which the APT attacker model takes instead.
 
 \input{tables/tab_B-4b_attack_action_times}
-\FloatBarrier
-
-% Table generated by tools/controller_mapping_figure.py, the generator of
-% Figure 4.6, so the two cannot disagree. Record:
-% docs/implementation/pipeline/ogasp/controller_mapping_v2.md.
-\section{Reasons for the tactic-to-action mapping}
-\label{app:controller-mapping}
-
-Table~\ref{tab:controller-mapping} gives the reason for each row of the
-tactic-to-action mapping of Section~\ref{subsec:tactic-verb-mapping}. A
-tactic is unmapped where the simulator has nothing for it to act on.
-
-\input{tables/tab_B-5a_controller_mapping_reasons}
-\FloatBarrier
-
-% Table generated by tools/total_mapping_table.py from
-% data/results/ch5_s51_sensitivity/numbers.json (the run Table C.1 cites;
-% record: ch5_s51_sensitivity_findings.md section 5). The numbers in the
-% opener are that table's no-MTD row.
-\section{A total tactic-to-action mapping}
-\label{app:experiment-one}
-% [2026-10-05, Section 4.4.1 round 3: no longer cited from Section 4.4.1
-%  (Marc: the mapping is argued from what the attack actions carry out).
-%  Kept because Appendix C's Tables C.0a and C.0b cite it as the mapping's
-%  alternative; whether to cut it there is Marc's ruling.]
-
-A total mapping gives every tactic an attack action, so the APT attacker
-model takes the baseline attacker's attack actions in a stochastic order.
-The baseline attacker runs them in a fixed order, each meeting the
-precondition of the next; out of that order most are refused, and the
-attacker reaches 0.15 hosts without MTD, against 8.13 under the partial
-mapping of Figure~\ref{fig:controller-mapping}
-(Table~\ref{tab:experiment-one}).
-
-\input{tables/tab_B-7a_total_mapping}
 \FloatBarrier
 
 % Tables and figure generated by tools/failure_weight_decomposition_figure.py
@@ -10247,7 +10258,8 @@ ranks first.
 
 \input{tables/tab_C-1b_duration_ranking}
 
-\section{The exponential delay}
+\section{Robustness to the shape of the tactic durations}
+% [heading renamed 2026-10-09 for the contents (Marc approved; handoff 9a)]
 \label{app:exponential-shape}
 
 % [prose slot --- Marc] the shape defence. The spine, from
@@ -10396,7 +10408,8 @@ as released: his weights, and his code for building the agent's inputs
 \citep{tay2024code}. This appendix gives which agent, its settings, what was
 changed to run it and its known limitations.
 
-\section{Selection}
+\section{The agent chosen}
+% [heading renamed 2026-10-09 for the contents (Marc approved; handoff 9a)]
 \label{app:mtdshield-selection}
 
 Tay trained 38 agents in three hyperparameter sweeps
@@ -10438,7 +10451,8 @@ the difference between the two is what the agent's policy adds.
   \end{tabular}
 \end{table}
 
-\section{Settings}
+\section{The agent's settings}
+% [heading renamed 2026-10-09 for the contents (Marc approved; handoff 9a)]
 \label{app:mtdshield-configuration}
 
 Table~\ref{tab:mtdshield-configuration} gives the agent's settings in training,
@@ -10475,7 +10489,8 @@ measured, not rescaled, because they describe the network as it is.
   \end{tabular}
 \end{table}
 
-\section{Changes made to run it}
+\section{Changes made to run the agent}
+% [heading renamed 2026-10-09 for the contents (Marc approved; handoff 9a)]
 \label{app:mtdshield-changes}
 
 Two changes were made to run the agent, and neither alters the simulation; the third item is what was kept.
@@ -10494,7 +10509,8 @@ Two changes were made to run the agent, and neither alters the simulation; the t
   deployment at random (the release forced complete topology shuffle).
 \end{itemize}
 
-\section{Known limitations}
+\section{Known limitations of the released agent}
+% [heading renamed 2026-10-09 for the contents (Marc approved; handoff 9a)]
 \label{app:mtdshield-limitations}
 
 Each is found in the release \citep{tay2024code} and left as it is; correcting
@@ -10520,7 +10536,8 @@ any would make the agent this dissertation's rather than Tay's.
   attacker, on 100-host networks (Table~\ref{tab:mtdshield-configuration}).
 \end{itemize}
 
-\section{Behaviour observed}
+\section{The agent's choices in the runs}
+% [heading renamed 2026-10-09 for the contents (Marc approved; handoff 9a)]
 \label{app:mtdshield-observed}
 
 % POPULATED 2026-09-25 from data/results/ch5_defended/numbers.json §shield
@@ -10552,9 +10569,16 @@ attacker and deployment interval, averaged over $c_1$ to $c_4$ for the APT attac
 % =====================================================================
 % NEW 2026-09-25 (results context §8j-4; Marc agreed the intervals leave the body
 % table): the per-attacker tables with every interval. Heading and placement are
-% the session's; DRAFT STATE --- ratify on read. PRELIMINARY: 100 seeds.
+% the session's; DRAFT STATE --- ratify on read. [2026-10-09: 1 000 seeds; the
+% '100 seeds' note was stale.] SECTIONED 2026-10-09 (Marc approved, handoff s9-9a):
+% three sections in the floats' existing order, which is chapter 5's (5.3.1, 5.3.2,
+% 5.4). PROPOSED OPENER (not yet ratified): "Each section gives the full grid
+% behind a comparison of Chapter 5, in its order."
 \chapter{Supplementary results}
 \label{app:supplementary-results}
+
+\section{MTD's effect on each attacker at every deployment interval}
+\label{app:sup-mtd-effect}
 
 % 2026-09-30 (Marc): the headline's values, moved from Section 5.3.2 with the ASP
 %  reduction values beside them. SESSION-GENERATED sentences, DRAFT STATE.
@@ -10589,6 +10613,9 @@ NCR reduction.
 
 \input{tables/tab_F-0a_interval_values}
 
+\section{Every metric for each attacker}
+\label{app:sup-every-metric}
+
 Tables~\ref{tab:full-movement} and~\ref{tab:full-baseline} give every metric of
 Table~\ref{tab:eff-cross-arm} with its interval, for each attacker.
 
@@ -10598,6 +10625,9 @@ Table~\ref{tab:eff-cross-arm} with its interval, for each attacker.
 \input{tables/tab_F-1_conditions_movement}
 \input{tables/tab_F-1_conditions_baseline}
 \end{landscape}
+
+\section{The ablation studies in full}
+\label{app:sup-ablations}
 
 % 2026-10-01 (Marc: "table 5.7 moves to the appendix"): the vulnerability
 %  memory's pool sweep, in Table 5.6's form. SESSION-GENERATED sentence, DRAFT STATE.
@@ -10630,7 +10660,7 @@ per operating system.
   %  becomes 5.7; one term (with and without, not on and off); bars over seeds,
   %  the unit Cohen's d uses; the pool sweep's table moved to Appendix F.
   %  2026-10-02: moved here from Section 5.4.3 (stem fig_5-4b -> fig_F-2).
-  \caption[What removing the vulnerability memory changes]{NCR of the APT
+  \caption[NCR with and without the vulnerability memory, by services per operating system]{NCR of the APT
   attacker model averaged over $c_1$ to $c_4$, with and without the
   vulnerability memory, on the same 1\,000 seeds, against the number of
   services per operating system, (a)~with no MTD and (b)~under service
@@ -10641,6 +10671,79 @@ per operating system.
 \end{figure}
 
 \input{tables/tab_F-2_ablation_memory}
+
+% =====================================================================
+% NEW 2026-10-09 (Marc approved; handoff 2026-10-09_ch7_conclusion_and_appendix_
+% structure sections 8-9a): analyses run while chapter 6 was written, after the
+% results were seen, kept apart from the planned evaluation of Appendix E. Rows
+% of the further-analyses registry (end of chapter 6). Each section gives: the
+% question a chapter 5 float raises, what was computed, the result, the chapter 6
+% sentence it supports, and why it is not in the main argument. Tables come from
+% generators in tools/ writing a numbers JSON (results_section_workflow.md).
+\chapter{Further analyses}
+\label{app:further-analyses}
+
+\noindent\emph{[Placeholder --- one sentence: these analyses were run while
+Chapter~\ref{ch:discussion} was written, after the results were seen; each
+answers a question a float of Chapter~\ref{ch:experiments} raises, and none
+enters the main argument. They follow Chapter~\ref{ch:discussion}'s order.]}
+
+\section{Where each attacker succeeds with no MTD}
+\label{app:fa-success}
+% TODO registry B1, with B2 as one line. Question (tab:unopposed-summary): what
+%  makes a run succeed? Content: success by seed; the attack profiles succeed
+%  almost only where the baseline attacker does (ASP 0.06-0.20 there, <= 0.017
+%  elsewhere); pairs of profiles succeed on the same seed 3-6x chance. Supports
+%  6.1 P2 and future work (network features). Not in the main argument: a
+%  property of MTDSim's networks, not of either attacker. Source:
+%  ch5_s531_unopposed/runs_reported.jsonl; recompute, no runs.
+\noindent\emph{[Placeholder --- success by seed with no MTD, for each attacker.]}
+
+\section{Runs with no foothold under the host layer}
+\label{app:fa-foothold}
+% TODO registry B9. Question (fig:eff-cross-arm): why does the host layer
+%  disrupt the APT attacker model most? Content: share of runs that compromise
+%  no host, per attacker, under the three host-layer MTD mechanisms at 50-200 s
+%  (APT 0.69-0.89, baseline 0.03-0.20). Supports 6.2 P1. Not in the main
+%  argument: checks a mechanism 6.2 states. Source: ch5_defended/
+%  runs_reported.jsonl; recompute, no runs.
+\noindent\emph{[Placeholder --- the share of runs with no foothold under the
+host layer, for each attacker.]}
+
+\section{Accounts reused under user shuffle}
+\label{app:fa-accounts}
+% TODO registry B10. Question (tab:eff-interval-values, tab:disruption): why
+%  does user shuffle raise the APT attacker model's NCR? Content: compromises by
+%  a held account per run at 200 s, no MTD against user shuffle (APT 1.30 ->
+%  2.44, baseline 5.18 -> 7.56). Supports 6.2 P2 and 6.4 P3. Not in the main
+%  argument: a property of MTDSim's rule for user shuffle, not of MTD. Source:
+%  the records field of ch5_defended/runs_reported.jsonl; the s9 count was ad
+%  hoc, so a script is needed; no runs expected (verify).
+\noindent\emph{[Placeholder --- compromises by a held account per run, with no
+MTD and under user shuffle, for each attacker.]}
+
+\section{One run under MTD, traced}
+\label{app:fa-traced-run}
+% TODO registry B18, IF TIME. Question (fig:aio-adaptivity): what does one
+%  disruption look like? Content: one seed traced with no MTD and under IP
+%  shuffle at 200 s: the deployment, the failed attack action, the Petri net's
+%  route back, the time to the target. Supports 6.2 P1-P2 and 6.3 (adaptivity
+%  seen by construction). Not in the main argument: an illustration of one run,
+%  not a result. Source: the movement tracer replaying one seed; minutes.
+\noindent\emph{[Placeholder --- one seed traced with no MTD and under IP
+shuffle.]}
+
+\section{Attack profiles against random groups of the same size}
+\label{app:fa-group-size}
+% TODO registry B14, with B8. Question (tab:ablation-random-partitions prints
+%  only d): do the attack profiles beat random partitions through their size?
+%  Content: NCR (and ASP) per group, random groups of 19, 7, 7 and 5 attack
+%  flows against c1-c4. Supports the close of 6.3 and the corpus threat in 6.5.
+%  Not in the main argument: a hypothesis on four points; it says nothing of
+%  fidelity. Source: partition_control_numbers.json (NCR); ASP recomputed from
+%  runs_partition_control.jsonl; no runs.
+\noindent\emph{[Placeholder --- NCR and ASP of each attack profile and of the
+random groups of its size.]}
 
 \bibliography{references}
 

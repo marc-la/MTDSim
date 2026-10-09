@@ -298,3 +298,102 @@ Short captions that fail the cold-read test (proposals; each changes only the `[
 2. Apply them and rebuild.
 3. Generators for F.1-F.3 and F.5 (recomputes only).
 4. F.4's tracer replay, if time.
+
+### 9c. Chapter 7's tex block as it stood before P15 (moved here 2026-10-09; superseded by the slot sheet in section 3)
+
+```latex
+\chapter{Conclusion}
+\label{ch:conclusion}
+
+
+
+% Not the abstract in past tense: the impact of the specific technical
+% move, and the next step in the line of research.
+
+% RESTRUCTURED 2026-09-28 (handoff §10--§11): organised by the research
+% question. Evans et al. 2014: "summaries are not conclusions"; the
+% contributions are stated as answers with their impact, not recapped.
+\noindent\emph{[Placeholder --- the research question answered directly, in
+the introduction's words, in two or three sentences.]}
+
+\section{Contributions}
+\label{sec:contributions}
+
+\noindent\emph{[Placeholder --- one paragraph per contribution of
+Chapter~\ref{ch:intro}, each stated as the answer to its sub-question
+(\ref{sq:capture}, \ref{sq:model}, \ref{sq:evaluate}) with its impact; the
+bounds of Sections~\ref{sec:fidelity-verdict} and~\ref{sec:threats} travel
+with each claim.]}
+
+\section{Future work}
+\label{sec:future-work}
+
+% Was Chapter 7 (ch:futurework) until 2026-09-28. Each item opens on the
+% limitation it lifts (Section~\ref{sec:threats}'s scope paragraph, in the
+% same order); run-in paragraphs, no subsections. The dissertation's last
+% sentence names the next step.
+\noindent\emph{[Placeholder --- a richer set of attack actions (the binding
+constraint); detection avoidance against a detector (property 5: the observer, not the
+behaviour); deployment-strategy awareness and learning across runs (property 8); a
+richer exploit attack action for the vulnerability memory to act on (the memory
+operates and is blocked by the simulator's exploit attack action,
+Section~\ref{sec:ablation}), and where vulnerability types recur more often; MTD selected or
+optimised against the APT attacker model; other network sizes and
+emulation.]}
+
+% [ADDED 2026-10-08 (Marc, answering the 6.1 cold examiner's questions),
+% candidates for the list above, DRAFT STATE:
+%  - Edge ablation on the attack profiles: remove one tactic-to-tactic edge at a
+%    time and measure ASP and NCR. The edge the outcome is most sensitive to is
+%    where a mitigation that breaks that transition (initial access to a
+%    post-intrusion tactic, say) would matter most: mitigations proposed from
+%    the attacker model itself.
+%  - Partition size: vary the size of the attack profiles' partitions and read
+%    the effect on ASP (c4 rests on five attack flows).
+%  - Success given undetected: each attacker's successful runs that a detector
+%    would not have flagged (6.1, point 2's frame).]
+% Marc 2026-10-08 (from 6.2 paragraph 4): MTD optimised against the APT
+% attacker model comes after reducing assumptions: model what is known about
+% the attacker faithfully, realistically and for the network in question;
+% then "if I were the attacker, this is what I would do, and this is how to
+% hold it back". A learned strategy trained on today's assumptions inherits
+% them, as MTDShield inherits the baseline attacker's.
+
+
+
+% The ruled-out directions, each with its reason: stealth semantics
+% (blocked three independent ways), MTD-scheme awareness (ruled out of
+% scope), event-based orchestration / retraining the reactive defender
+% (V3), full incentive rationality. Collects the revisit conditions the
+% notes carry.
+%
+% WHAT ch5 HANDS THIS CHAPTER (2026-09-09, third review pass). Each of these
+% is an EXCLUSION ch5 makes explicitly, so the future-work claim is earned by
+% a measurement or a stated scope rather than by a wish:
+%  - THE ADAPTIVE DEFENDER. ch2 lists MTDShield in the roster and ch5 runs
+%    none of it; the rebuild established that a cost-aware agent CAN trade
+%    downtime against risk (the ladder's C1 held by a wide margin) but the go
+%    is for a scaled training proposal, not for a trained model, and the
+%    published figures characterise a uniform random selector. This is the
+%    concrete form of the frozen-defender concession sec:dimensions
+%    volunteers, and it is the first of the two substrate upgrades
+%    notes/ch8_future_work/successor_programme.md names.
+%  - A TACTIC-LEVEL ACTION LAYER. The second upgrade in the same note, and
+%    the bind ch5's own ceiling sentence points at: the outcome is bounded by
+%    the six inherited verbs, so a structure-rich attacker cannot convert
+%    structure into outcome on this substrate.
+%  - STEALTH SEMANTICS. Axis 5 stays blank because there is no detection
+%    model for a tempo or spacing choice to matter against --- that is the
+%    axis's own argument, held three times. WHAT MAKES THE FUTURE-WORK CLAIM
+%    SHARP RATHER THAN GENERIC: the behaviour is already there and already
+%    measured (spacing 1.5-1.8x wider, 45 % quieter on the level, the whole
+%    margin attributable to the non-action tactics), so what is missing is
+%    the DEFENDER-SIDE OBSERVER, not the attacker-side behaviour. Say it that
+%    way; it converts a blank cell into a specified next experiment.
+%  - THE TARGETED OBJECTIVE AT DEPTH. The Gate probe passed at layer 1 on the
+%    aggregate envelope only and failed at every depth for the four
+%    objective-conditioned profiles. That is a measured boundary on what this
+%    attacker can be asked to do, not an untried idea.
+%  - THE EMULATION RUNG (notes/ch8_future_work/emulation_rung.md): what
+%    carries up the evaluation ladder and what must be re-derived.
+```

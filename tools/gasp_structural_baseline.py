@@ -322,7 +322,7 @@ def write_tex() -> None:
         "",
         "\\begin{table}[htbp]",
         "\\centering",
-        "\\caption[The sources that answered each attack flow]{The sources that answered "
+        "\\caption[The sources behind each attack flow's attack profile]{The sources that answered "
         "the two questions of Section~\\ref{sec:attack-profiles} for each attack flow, "
         "grouped by attack profile (Table~\\ref{tab:attack-profiles}). The CTID description "
         "of every attack flow was read \\citep{ctid2025attackflow}; the columns give what else "

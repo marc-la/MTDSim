@@ -223,7 +223,7 @@ def write_table(result: dict) -> None:
         "% (n = 1 000); never hand-edit. Section 5.4.1's grid. Caption DRAFT STATE 2026-10-02, ratify on read.",
         r"\begin{table}[tp]",
         r"  \centering",
-        (r"  \caption[The APT attacker model with and without the attack profiles, at every MTD and deployment interval]"
+        (r"  \caption[The APT attacker model with and without the attack profiles, at every MTD mechanism, deployment strategy and deployment interval]"
          r"{The effect size $d$ on NCR of the APT attacker model averaged over $c_1$ to $c_4$, minus the APT attacker model on the "
          r"attack graph, on the same 1\,000 seeds, for every MTD mechanism and deployment strategy at every "
          rf"deployment interval (with no MTD, ${none['cohen_d']:+.2f}$ [${lo:+.2f}$, ${hi:+.2f}$]). "

@@ -433,7 +433,7 @@ def frag_body(out: dict) -> str:
     w(r"\begin{table}[htbp]")
     w(r"  \centering")
     w(r"  % CAPTION DRAFT STATE 2026-09-17 --- voice pass owed.")
-    w(r"  \caption[The declared inputs and what moved]{Each value the APT attacker model was given rather than derived, "
+    w(r"  \caption[The declared values of the APT attacker model and the effect of moving each]{Each value the APT attacker model was given rather than derived, "
       r"grouped by the three inputs of Section~\ref{sec:execution}: the value declared, the range it was moved across "
       r"with the other inputs held at their declared values, and what happened to NCR (Section~\ref{sec:evaluation-metrics}), read against "
       r"the " + IV_MEAN + r" at the declared value, under no MTD and under the random deployment strategy at both "
@@ -512,7 +512,7 @@ def frag_shape(out: dict) -> str:
     w(r"\begin{table}[htbp]")
     w(r"\centering\footnotesize")
     w(r"% CAPTION DRAFT STATE 2026-09-17 --- voice pass owed.")
-    w(r"\caption[A less variable delay of the same mean]{NCR (Section~\ref{sec:evaluation-metrics}) under an Erlang-4 delay against the "
+    w(r"\caption[NCR with a less variable tactic duration of the same mean]{NCR (Section~\ref{sec:evaluation-metrics}) under an Erlang-4 delay against the "
       r"declared exponential delay, of the same mean, on the tactics with a 45\,s mean duration and those set at half "
       r"of it, paired by attack profile and seed, at 45\,s and at the top of its band, 180\,s. Averaged over "
       r"$c_1$ to $c_4$, 400 pairs per cell; $\pm$: a " + IV_MEAN + r"; each column is rounded to the precision of "
