@@ -1,5 +1,5 @@
 ---
-status: open — scrutiny done; Marc rules on Q1–Q5, then dictates §6.1 slot by slot (§5 below)
+status: open — §6.1 redrafted 2026-10-11 on Marc's rulings (§8); awaiting his line-by-line read. §9 carries the lessons to §6.2–§6.5: keep this file until ch6 is redrafted
 created: 2026-10-11
 topic: "§6.1 (APT attacker model versus baseline attacker): why the overdraft does not read, what the section is for, the structure that purpose sets, and a line-by-line verdict"
 reads: dissertation.tex 8486–8662 (§6.1, four paragraphs, ~1 120 words); §5.2 6493–7206; Table 3.2 (tab:attacker-properties); §4.5.1; Table 6.1 and §6.3 8862–9076; §6.5 9240–
@@ -60,7 +60,7 @@ Name the two causes once and repeat them verbatim (term: Q3).
 
 This order is §5.2's with attack outcome moved from third to last. **Q1:** move §5.2's outcome paragraph last too, a one-paragraph move with the prose unchanged, so the mirror is exact?
 
-Budget: about 600 words (ch6 target ~3 300 over five sections; ch6 now measures ~6 700). Paragraphs of 110–160 words.
+Budget: about 600 words (ch6 target ~3 300 over five sections; ch6 now measures ~6 700). **A guide, not a target to compress to (Marc 2026-10-11):** the length comes from strong arguments prevailing and weak or irrelevant points being discarded, over several redrafts.
 
 ## 4. Line-by-line verdicts on the overdraft
 
@@ -180,3 +180,35 @@ K keep (as is or re-worded into defined terms) · R rewrite · M move (where to)
 - UBC Writing Library, *Discussion sections in research articles* (Hopkins & Dudley-Evans moves): https://writing-library.sites.olt.ubc.ca/files/2024/05/Discussion-Sections-in-Research-Articles.pdf
 - Shalevska 2024, *Hedges and boosters in AI and human writing*: https://eprints.uklo.edu.mk/id/eprint/10825/
 - The ch6 handoff D_examiner_benchmarks (UWA marking guide, "interpret, never replay").
+
+## 8. Rulings and what was applied (2026-10-11)
+
+Marc on §1–§3: the diagnosis is "spot on"; the purpose, message and structure stand.
+
+- **Q1 yes.** §5.2's attack-outcome paragraph moved to last; prose unchanged, with a comment. §5.2 describes, §6.1 explains: the mirror is the order, not the register.
+- **Q2.** Marc: "comparing openings across different units is a bit of a bummer … whichever is fair". His 2026-10-09 ruling declined the attack-action recount (190–844 against 3) as supplementing the evaluation. Applied: the concession is stated once, in §6.5 beside "distinct openings counts any variety": an attack profile's steps are tactics and the baseline attacker's are attack actions (§4.5.1), so the two counts are not in the same unit. §6.1 carries no unit sentence (explain once). *Open option:* the recount is a pure read of the stored runs and could be Appendix F.6, which would let §6.5 say the gap survives it. Not done; Marc's call.
+- **Q3** ("whatever is the most clear"). "The order of its tactics" at first use, then "order", as §6.3 already says ("order, the substance of choice of attack strategy"). Not "sequence", because §4.5.1 uses *opening* for a sequence of steps.
+- **Q4 yes, "as long as it's very clear in the figure".** Figure 5.1(a) gains an *All unmapped* row: the column sums (36, 37, 47, 26), plain numbers with no heat fill (a sum is off the cells' colour scale), and the baseline attacker's cell blank. Generator `tools/ch5_unopposed_figures.py`; the tables regenerate byte-identical.
+- **Q5 keep.** Marc's reading: network topology; both attackers compromise through identical attack actions, so easy networks are easy for both. Written as "likely because both attackers compromise hosts through the same attack actions".
+
+Applied to the tex:
+- §6.1 replaced: an opener and four paragraphs (objective-specific behaviour, choice of attack strategy, detection avoidance, attack outcome), about 760 words.
+- The ch6 preamble's §6.1 sentence now names the two causes; *quieter* is gone.
+- §6.5: "detected and reported" re-pointed from §6.1 to §4.4.3 (which says the reports "describe incidents that succeeded and were worth writing about"); the unit clause added.
+- The objective-specific mark now gives chapter 3's own reason for the baseline attacker ("after a foothold … no attack action for exfiltration or impediment"), the same reason that holds for the APT attacker model.
+- Build clean, 115 pages, 0 undefined.
+
+## 9. Lessons for §6.2–§6.5 (Marc: "the lessons … translated for the other sections")
+
+Every ch6 section was drafted the same way §6.1 was, bottom-up from point sets, so expect the same defects. Run this before redrafting each one:
+
+1. **Purpose first.** Which ch5 section or float does it read, and what must it hand on? List the inbound "(Section 6.x)" references from the other sections: each is a contract the section must meet. (§6.1 failed §6.3's.)
+2. **One message**, in the first sentence, naming the causes once in terms that are then repeated verbatim.
+3. **Mirror the reader's scaffold inside the paragraphs.** Each paragraph opens on the term the reader already holds: the ch5 lead, the metric, or the property.
+4. **Sort every sentence**: needed here, already elsewhere (§4.5 definitions, §6.5 bounds, appendices), or nowhere.
+5. **Bounds live once, in §6.5.** A section keeps only the rival explanation for its own finding, as one hedged clause.
+6. **No coined compressions.** If a short phrase is not a ch2–5 term, use the defined term, even when it is longer.
+7. **Hedge inside the inferred claim** ("likely"); no hedge on what is measured or true by construction.
+8. **Floats sit next to the metric they show.** Every number has a job, and the reader can find it in the float cited; if they cannot, fix the float (as Figure 5.1(a)'s unmapped row did) or drop the number.
+9. **Length comes from cutting weak points across redrafts**, never from compressing sentences toward a word target.
+10. **Cold examiner read** on the redraft (PDF only), then verify and triage, before handing to Marc.

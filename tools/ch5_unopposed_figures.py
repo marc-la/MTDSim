@@ -225,9 +225,9 @@ def emit_fig_a(core: dict) -> tuple[str, dict]:
     X0 = LAB + 0.12
     cols = [(p, X0 + j * cw, cw) for j, p in enumerate(FOUR)]
     xb = X0 + len(FOUR) * cw + GAP
-    n_rows = sum(len(ts) for _, _, ts in GROUPS)
+    n_rows = sum(len(ts) for _, _, ts in GROUPS) + 1   # + the all-unmapped total row
     MY0 = 4.2   # (b)'s title and plot below; the key is at the figure's foot (conventions §o)
-    MY1 = MY0 + n_rows * ch + (len(GROUPS) - 1) * GG
+    MY1 = MY0 + n_rows * ch + len(GROUPS) * GG
     # headers
     w(r"\node[anchor=south] at (%.3f,%.3f) {%s};" % (X0 + len(FOUR) * cw / 2, MY1 + 0.42, LABEL["movement"]))
     w(r"\draw[black!60,line width=0.4pt] (%.3f,%.3f) -- (%.3f,%.3f);" % (X0 + 0.05, MY1 + 0.42, X0 + len(FOUR) * cw - 0.05, MY1 + 0.42))
@@ -263,6 +263,18 @@ def emit_fig_a(core: dict) -> tuple[str, dict]:
         w(r"\draw[black!55,line width=0.4pt] (%.3f,%.3f) rectangle (%.3f,%.3f);" % (xb, gbot, xb + bw, gtop))
         w(r"\draw[black!55,line width=0.4pt] (%.3f,%.3f) rectangle (%.3f,%.3f);" % (X0, gbot, X0 + len(FOUR) * cw, gtop))
         y -= GG
+
+    # 2026-10-11 (Marc, §6.1 redraft Q4): the unmapped group's column sums, so the
+    # reader can check the share of steps in unmapped tactics that §6.1 reads
+    # against attack rate. Plain numbers, no heat fill: a sum is not on the cells'
+    # colour scale. The baseline attacker's cell stays blank (it has no tactics).
+    dwell_ts = [t for _, v, ts in GROUPS if v is None for t in ts]
+    y -= ch
+    w(r"\node[anchor=east] at (%.3f,%.3f) {All unmapped};" % (LAB, y + ch / 2))
+    for p, x, cwid in cols:
+        tot = sum(share[p].get(t, 0.0) for t in dwell_ts)
+        w(r"\node at (%.3f,%.3f) {%s};" % (x + cwid / 2, y + ch / 2, _pct(tot)))
+    w(r"\draw[black!55,line width=0.4pt] (%.3f,%.3f) rectangle (%.3f,%.3f);" % (X0, y, X0 + len(FOUR) * cw, y + ch))
 
     # ---- (b) distinct openings, full width ----------------------------------------
     # Scrutiny round, 2026-09-30 (Marc; cold readers and critics): the axis names

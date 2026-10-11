@@ -6931,16 +6931,6 @@ openings over eight steps.
 %  is the grep target; Marc approved the draft's form before the fill). Replaces the 2026-09-26 text (git history). DRAFT STATE.
 % NUMBERS: ? ? = baseline ASP over each profile's, lowest and highest ratio; ? ? = the same for NCR (Table 5.2).
 
-% ROUND 2026-10-06 (Marc, section 5.2): property first, its numbers, no closing method sentence; captions decode only.
-% CLARITY PASS 2026-10-06 (Marc, section 5.2 round 3): each comparison names the metric and its subject; no bare its/their.
-On attack outcome, the baseline attacker has a higher ASP and NCR than any
-attack profile (Table~\ref{tab:unopposed-summary}). The baseline attacker's
-ASP is \prelim{5} to \prelim{16} times that of an attack profile, and its NCR
-\prelim{2.4} to \prelim{3.3} times. The baseline attacker's MTTC,
-\prelim{9\,100}\,s, is just shorter than the attack profiles',
-\prelim{9\,700} to \prelim{11\,300}\,s.
-% Cut 2026-10-06 (round 2): "inside the interval of c_3" and "The MTTC of the APT attacker model rests on
-% the tactic durations of Section 4.x" (Marc: "there's so much"); the attribution is Chapter 6's.
 
 
 % SPLIT 2026-09-24 from Figure 5.1 (Marc: "attack confidentiality is a bit constrained
@@ -6976,6 +6966,19 @@ lower attack confidentiality than any attack profile
 \prelim{82.2}\,\%, against \prelim{89.4} to \prelim{98.1}\,\%. Across the four
 attack profiles and the baseline attacker, attack confidentiality falls as
 attack rate rises.
+
+% MOVED 2026-10-11 (Marc, §6.1 redraft Q1): attack outcome last, after the three
+% behaviour properties, so 5.2 and 6.1 share one order; prose unchanged.
+% ROUND 2026-10-06 (Marc, section 5.2): property first, its numbers, no closing method sentence; captions decode only.
+% CLARITY PASS 2026-10-06 (Marc, section 5.2 round 3): each comparison names the metric and its subject; no bare its/their.
+On attack outcome, the baseline attacker has a higher ASP and NCR than any
+attack profile (Table~\ref{tab:unopposed-summary}). The baseline attacker's
+ASP is \prelim{5} to \prelim{16} times that of an attack profile, and its NCR
+\prelim{2.4} to \prelim{3.3} times. The baseline attacker's MTTC,
+\prelim{9\,100}\,s, is just shorter than the attack profiles',
+\prelim{9\,700} to \prelim{11\,300}\,s.
+% Cut 2026-10-06 (round 2): "inside the interval of c_3" and "The MTTC of the APT attacker model rests on
+% the tactic durations of Section 4.x" (Marc: "there's so much"); the attribution is Chapter 6's.
 
 
 % ~1 unit. CARRIES PROPERTIES 6 and 7 --- the two declared capabilities,
@@ -8470,9 +8473,9 @@ answers the three sub-questions of Chapter~\ref{ch:intro}; Chapter~\ref{ch:concl
 draws the answers together into the answer to the research question. Every
 claim is about MTDSim. Sections~\ref{sec:disc-behaviour}
 and~\ref{sec:disc-mtd-performance} follow Chapter~\ref{ch:experiments}'s
-order. Section~\ref{sec:disc-behaviour} explains why, with no MTD, the APT
-attacker model is quieter than the baseline attacker and succeeds less
-often: how the recovered behaviour shows once executed.
+order. Section~\ref{sec:disc-behaviour} explains each difference between the
+two attackers with no MTD by two things the APT attacker model adds: its
+tactic durations and the order of its tactics.
 Section~\ref{sec:disc-mtd-performance} explains why each attacker is held
 back most by a different MTD layer, and answers~\ref{sq:evaluate}.
 Section~\ref{sec:fidelity-verdict} scores the APT attacker model on the eight
@@ -8486,178 +8489,97 @@ sets out the threats to their validity.
 \section{APT attacker model versus baseline attacker}
 \label{sec:disc-behaviour}
 
-% [6.1 POINT SET REFINED 2026-10-08 (Marc: "refine the points under the
-% paragraphs ... how do you logically arrange this"). ORDER: the behaviour (1),
-% then the outcome the same cause explains (2), then the variety (3), then the
-% attack profiles (4, secondary). A chain, not a list: unmapped time makes it
-% quiet, the same time leaves it fewer attack actions by the time limit.
-% A cold examiner read Figure 5.1, Table 5.2 and Figure 5.4 with no chapter 6;
-% its questions answered here are marked (EXAMINER); the full triage, and the
-% one-off checks behind two new bounds, are in
-% docs/handoffs/2026-10-07_ch6_discussion_assembly.md section 11.
-% The old point set is in git at 861e74ee. DRAFT STATE --- ratify on read.]
-% DRAFT STATE 2026-10-08 --- paragraph 1 drafted from point 1 of the set below,
-%  on Marc's request ("draft paragraph one ... the lead discussion paragraph for
-%  6.1"); its point set retired to the ch6 handoff section 11b (Marc,
-%  2026-10-08). Session-written; ratify on read.
-%  Order: claim, why, instance, stealth unmapped, the proxy and its bound,
-%  chapter 3 compare, MTDShield compare. Numbers: only 47 and 26 %, the ends of
-%  chapter 5's range, attributed to c3 and c4 (summed from Figure 5.1(a)).
-%  Two points of the set OVERTURNED on merit:
-%  (1) "attack rate and attack confidentiality are one effect read twice"
-%      contradicts Section 4.5.1, which adds attack confidentiality because a
-%      mean hides bursts; now: the two order the five attackers the same way,
-%      so the spacing sets both.
-%  (2) "neither closes the loop from detection to an MTD deployment" is wrong
-%      for MTDShield, which deploys on what it is told; now: its detection is a
-%      fixed share whatever the attacker does, and here detection depends on
-%      the attacker but drives no deployment.
-%  The chapter 3 compare (low and slow, Section 3.1.1) replaces the CHECK on
-%  Tay's antecedent; Tay's detection rate is in Table~\ref{tab:mtdshield-configuration}'s settings.
-With no MTD running, the APT attacker model is quieter than the baseline
-attacker: it takes fewer attack actions per minute, and the scan detector
-flags fewer of them (Table~\ref{tab:unopposed-summary}). An unmapped tactic
-takes time and dispatches no attack action
-(Section~\ref{subsec:tactic-verb-mapping}), so the APT attacker model's attack
-actions arrive spaced out. The share of steps in unmapped tactics orders the
-attack profiles. $c_3$ spends the most, 47\,\%, and has the lowest attack rate
-and the highest attack confidentiality; $c_4$ spends the least, 26\,\%, and has
-the reverse; $c_1$ and $c_2$ lie between (Figure~\ref{fig:aio-coverage}(a)).
-$c_3$ sits at the far end of this mechanism. Stealth is itself an unmapped
-tactic, because nothing in MTDSim watches the attacker, so the APT attacker
-model is quiet only because its tactics take time and its attack actions
-refused for a missing precondition never reach the network. For the same reason,
-detection is read by proxy, through the scan detector of
-Section~\ref{subsec:metrics-behaviour}. The scan detector flags bursts, which
-attack rate, a mean, does not show; across the five attackers the two metrics
-still order the same way, so the spacing sets both. The order holds at six of
-the nine settings of the scan detector in Appendix~\ref{app:detector-memory};
-the other three flag under 2\,\% of the baseline attacker's attack actions.
-Section~\ref{subsec:apt} described an APT that moves low and slow, trading
-speed for staying undetected. The APT attacker model makes the same trade, but
-through declared tactic durations, which Section~\ref{sec:fidelity-verdict}
-scores as detection avoidance in part.
+% REDRAFT 2026-10-11 (Marc: "I'm happy for you to go with a redraft of 6.1").
+%  Scrutiny, purpose, structure and line verdicts:
+%  docs/handoffs/2026-10-11_ch6_1_redraft_scrutiny.md. The overdraft of
+%  2026-10-08 and its point-set comments are in git at 5f50d910.
+%  PURPOSE: explain each difference of Section 5.2 and tie it to its property's
+%  mark in Table 6.1. MESSAGE: two things the model adds explain every
+%  difference, its tactic durations and the order of its tactics (Q3: "order"
+%  after first use, as Section 6.3 says it).
+%  STRUCTURE: Section 5.2's four leads, in its order (outcome moved last there
+%  too, Q1), each paragraph: property, mechanism, mark. Bounds stated in
+%  Sections 4.5 and 6.5 are not repeated; the one rival explanation (a longer
+%  run) stays, hedged. Distinct openings' unit difference conceded in 6.5 (Q2).
+%  Session-drafted; DRAFT STATE --- ratify on read.
+Two things the APT attacker model adds to MTDSim's attack actions explain each
+difference between the two attackers in
+Section~\ref{sec:attacker-in-operation}: its tactic durations and the order of
+its tactics. Every tactic takes its tactic duration
+(Section~\ref{subsec:dwell-times}), including the seven unmapped tactics, which
+dispatch no attack action (Section~\ref{subsec:tactic-verb-mapping}). The order
+of its tactics is drawn from the attack flows by the Petri net
+(Section~\ref{sec:petri-formalism}), where the baseline attacker's procedure
+fixes its order (Section~\ref{subsec:attacker-model}).
 
-% DRAFT STATE 2026-10-08 --- paragraph 2 drafted from point 2 of the set below
-%  on Marc's request; point 1's set retired to the ch6 handoff section 11b,
-%  point 2's (ratified, Marc: "seems about right") to 11c.
-%  Session-written; ratify on read. Order: claim (chained to paragraph 1),
-%  result, two causes, the three bounds (MTTC's runs, the time limit, the
-%  objective not scored), the frame (Marc: CTI holds detected, reported, mostly
-%  successful campaigns; MTDSim holds every run), so. Numbers: the MTTC run
-%  counts only (Table 5.2's cells). The precondition share CHECK is dropped:
-%  the mechanism is chapter 4's, and the share (14-30 % at 1 000 seeds) is not
-%  needed. OPTIONAL, only if Marc adds the success-anatomy appendix (handoff
-%  11b): "Its successes fall on the networks the baseline attacker also
-%  succeeds on; they are not runs that act faster or dodge a deployment."
-The time that makes the APT attacker model quiet also costs it outcome. With
-no MTD running, it compromises less than the baseline attacker by the
-15\,000\,s time limit, but its runs that reach a target reach it only just
-later (Table~\ref{tab:unopposed-summary}). Its ASP and NCR are well below the
-baseline attacker's; its MTTC is only just longer, and $c_3$'s overlaps the
-baseline attacker's. Each attack profile succeeds almost only on the networks
-where the baseline attacker also succeeds (Appendix~\ref{app:fa-success}). Two causes compound. Its tactics take time: an unmapped
-tactic dispatches no attack action, and command and control, the only tactic
-that finds new hosts, takes a mean of 45\,s for scan neighbours against the
-baseline attacker's 5\,s (Section~\ref{subsec:dwell-times}). So it takes fewer
-attack actions before the time limit and finds new hosts more slowly. And its attack actions
-come in its tactics' order, not the baseline attacker's procedure, so some
-arrive before their preconditions, an exploit before the port scan it needs,
-and fail (Section~\ref{subsec:runtime-mechanics}). Three bounds hold. First,
-MTTC is over the runs that reach a target, 42 to 139 of the APT attacker
-model's 1\,000 against 656 of the baseline attacker's, so it compares only
-the runs that succeed within the time limit. Second, whether the gap narrows
-over a longer campaign was not run. Third, ASP scores reaching a target host
-for both attackers. The attack profiles' own objectives, collection,
-exfiltration and impact, are unmapped tactics
-(Section~\ref{subsec:tactic-verb-mapping}), so whether an attack profile meets
-its objective is not scored. The attack flows record campaigns that were
-detected, reported and mostly successful
-(Section~\ref{subsec:failure-matrix}); how often APTs fail, or go unseen, is
-not in that record. MTDSim records every run, the failed ones included, so
-Chapter~\ref{ch:experiments} can measure how often each attacker succeeds,
-but nothing in the world can check that measure against real campaigns. A
-lower ASP is therefore a property of the APT attacker model in MTDSim, not an
-estimate of how often APTs succeed. An APT is defined by persistence toward
-an objective (Section~\ref{subsec:apt}), and the APT attacker model is not
-competing with the baseline attacker, which is the reference.
+On objective-specific behaviour, the attack profiles divide their steps among
+the tactics differently (Figure~\ref{fig:aio-coverage}(a)), because each attack
+profile takes only the tactics its own attack flows reach. The tactics of
+actions on objectives, collection, exfiltration and impact, are unmapped. In
+MTDSim, an attack profile's objective therefore shows in how it divides its
+steps, not in what it does to a host. Table~\ref{tab:fidelity-verdict} marks
+objective-specific behaviour in part, for the same reason as the baseline
+attacker's: after a foothold, MTDSim has no attack action for exfiltration or
+impediment (Section~\ref{subsec:recent-threat-models}).
 
-% DRAFT STATE 2026-10-08 --- paragraph 3 drafted from point 3 of the set below
-%  on Marc's request. Session-written; ratify on read. Order: claim, result,
-%  why, chapter 3 compare, three bounds, so. TERM: "opening", never "attack
-%  path" (Section 4.5 renamed the metric because an attack path is a sequence
-%  of hosts; the point set's "one attack path" is replaced). LEANS ON an
-%  unreported check: "counted by attack action, the attack profiles still have
-%  hundreds" (190-844 against 3) --- registry A3; it needs a chapter 5 footnote
-%  to Figure 5.1(b), or the clause goes. The third bound replaces the point
-%  set's "not a strategy chosen against the defender", which read against
-%  Table 6.1's choice of attack strategy in full; the honest limit is
-%  cost-benefit reasoning, in part.
-%  REVISED same day on Marc's reading: the baseline attacker's limited
-%  plurality (1 opening to step 4, 2 from step 5, 3 at step 8;
-%  numbers_reported.json core.table.baseline.distinct_openings) and "the
-%  plurality has a price": MTDSim's attack actions were written for one order
-%  (Figure 2.3's moves), plurality was not in mind, so adding it costs success
-%  (Marc: "it reflects the poorer result"); also a 6.5 scope sub-point.
-With no MTD running, the baseline attacker opens almost every run the same
-way, and the APT attacker model opens its runs in hundreds of ways
-(Figure~\ref{fig:aio-coverage}(b)). The baseline attacker's runs share one
-opening over their first four steps, the order of its procedure, then branch
-once, into brute force or scan neighbours: three openings over eight steps.
-Each attack profile chooses its
-next tactic at the Petri net's decision places, weighted by how often its
-attack flows took each edge (Section~\ref{sec:petri-formalism}), so its 5 to
-19 attack flows give it 179 to 947 distinct openings over eight steps.
-Chapter~\ref{ch:litreview} credited the baseline attacker with choice of
-attack strategy in part: it can enter a host by stolen credentials, an
-exploit or brute force, but a fixed rule sets the order
-(Section~\ref{subsec:recent-threat-models}). Its single branch is that rule
-at work. The plurality has a price. MTDSim's attack actions were written for
-the baseline attacker's procedure: each relies on the state the one before it
-leaves, the moves of Figure~\ref{fig:attacker-model}. The APT attacker model
-keeps the attack actions and drops the moves
-(Section~\ref{subsec:tactic-verb-mapping}), and neither its Petri net nor its
-failure matrix encodes them. So its attack actions arrive out of the
-procedure's order, and with no MTD about a quarter of them are refused for a
-missing precondition (Table~\ref{tab:experiment-one}), the second cause of
-its lower success. With every tactic mapped to an attack action, most are
-refused. This is the ceiling
-Chapter~\ref{ch:attacker-model} set: the APT attacker model can only be as good as
-the attack actions it adopts. Three bounds hold. First, the two attackers' steps differ: an attack
-profile's step is a tactic, the baseline attacker's an attack action, so the
-two counts are not in the same unit. Second, the count is capped by the 1\,000 runs, which $c_1$ nearly
-reaches. Third, the APT attacker model chooses as the documented attackers
-did, not by what works best on the network in front of it; that would take
-cost--benefit reasoning, which it keeps from the baseline attacker only in
-part (Table~\ref{tab:fidelity-verdict}). An MTD evaluated against the
-baseline attacker is tested against one opening;
+On choice of attack strategy, order gives the APT attacker model hundreds of
+distinct openings, where the baseline attacker has one to three
+(Figure~\ref{fig:aio-coverage}(b)). Each attack profile draws its next tactic
+at the Petri net's decision places, weighted by how often its attack flows took
+each edge (Section~\ref{sec:petri-formalism}), so its 5 to 19 attack flows give
+it 179 to 947 distinct openings over eight steps. Chapter~\ref{ch:litreview}
+marked the baseline attacker's choice of attack strategy in part: it can enter
+a host with stolen credentials, an exploit or brute force, but a fixed rule sets
+the order in which it tries them (Section~\ref{subsec:recent-threat-models}).
+Its one branch, into brute force or scan neighbours after the fourth step, is
+that rule at work. Drawing the order from the attack flows gives the APT
+attacker model choice of attack strategy in full
+(Table~\ref{tab:fidelity-verdict}). An MTD evaluated against the baseline
+attacker therefore meets the same opening in most runs;
 Section~\ref{sec:disc-mtd-performance} reads what MTD does against many.
 
-% DRAFT STATE 2026-10-08 --- paragraph 4 (secondary) drafted from point 4 of
-%  the set and Marc's reading; points 3 and 4 retired to the ch6 handoff 11d,
-%  so 6.1 is prose only. Session-written; ratify on read. No number outside
-%  chapter 5: c4's exploit-per-port-scan reading is summed from Figure 5.1(a)'s
-%  rows (exploit group against discovery); the c3 breadth reading is Table
-%  5.2's ASP against NCR. Both are explanations, each carried by one "likely".
-%  Marc's hypothesis that ASP follows how closely a profile's attack actions
-%  keep to the baseline attacker's moves was tested and not supported
-%  (registry B12); left out.
-The attack profiles differ from one another, but less than they differ from
-the baseline attacker. Their ASP, NCR, attack confidentiality and distinct
-openings each span a range (Table~\ref{tab:unopposed-summary},
-Figure~\ref{fig:aio-coverage}(b)), because each attack profile divides its
-steps over the tactics its own attack flows reach
-(Figure~\ref{fig:aio-coverage}(a)). ASP does not follow attack
-rate: $c_3$, the slowest attack profile, and $c_4$, the fastest, have the two
-lowest. For $c_4$ the cause is likely order. It spends the most steps in
-tactics that dispatch an exploit for each step in discovery, the tactic that
-scans ports (Figure~\ref{fig:aio-coverage}(a)), so more of its exploits find
-no port scanned: the price of plurality at its sharpest. For $c_3$, ASP and
-NCR part: its ASP is below $c_1$'s and its NCR above, so it likely
-compromises more widely without reaching a target. Which of these
-differences the objective causes, and which the size of each attack
-profile's share of the attack flows, is the random-partition ablation's
-question (Section~\ref{sec:fidelity-verdict}).
+On detection avoidance, the tactic durations lower the APT attacker model's
+attack rate (Table~\ref{tab:unopposed-summary}). An unmapped tactic takes time
+and dispatches no attack action, so the more of its steps an attack profile
+spends in unmapped tactics, the lower its attack rate: from $c_4$, at 26\,\%
+of its steps, to $c_3$, at 47\,\% (Figure~\ref{fig:aio-coverage}(a)). An attack
+action that fails because its precondition is missing never reaches the
+network and is not counted (Section~\ref{subsec:metrics-behaviour}), which
+lowers the attack rate further. Attack confidentiality orders the five
+attackers as attack rate does, so the scan detector likely flags the APT
+attacker model less for the same reason. Section~\ref{subsec:apt} described an
+APT that moves low and slow, trading speed for staying undetected. The APT
+attacker model moves low and slow because of its declared tactic durations,
+not because it chooses attack actions a detector does not flag: MTDSim has no
+detector to choose against. Table~\ref{tab:fidelity-verdict} therefore marks
+detection avoidance in part.
+
+On attack outcome, the same tactic durations and order leave the APT attacker
+model with a lower ASP and NCR than the baseline attacker by the 15\,000\,s
+time limit (Table~\ref{tab:unopposed-summary}). The tactic durations slow its
+spread. Command and control is the only tactic that dispatches scan
+neighbours, the attack action that finds new hosts, and it takes a mean of
+45\,s, against 5\,s for the baseline attacker's scan neighbours
+(Section~\ref{subsec:dwell-times}), so the APT attacker model reaches fewer
+hosts before the time limit. Order costs it attack actions. MTDSim's attack
+actions were written for the baseline attacker's procedure, each relying on
+the state the one before it leaves (Figure~\ref{fig:attacker-model}). In the
+order of its tactics, an attack action can come before the one it relies on,
+such as an exploit of a vulnerability not yet scanned for, and fail because
+its precondition is missing. With no MTD, about a quarter of the APT attacker
+model's attack actions fail this way (Table~\ref{tab:experiment-one}). This is
+the ceiling Section~\ref{subsec:tactic-verb-mapping} set: the APT attacker
+model can only be as good as the attack actions it adopts. The attack profiles
+succeed almost only on the networks where the baseline attacker also succeeds
+(Appendix~\ref{app:fa-success}), likely because both attackers compromise
+hosts through the same attack actions. A longer run may narrow the gap; this
+was not tested. A lower ASP is a property of the APT attacker model in MTDSim,
+not an estimate of how often APTs succeed: the attack flows record incidents
+that succeeded and were worth reporting (Section~\ref{subsec:failure-matrix}),
+so they say nothing of how often APTs fail. An APT is defined by persistence
+toward its objective, not by speed (Section~\ref{subsec:apt}), and the baseline
+attacker is the reference the APT attacker model is compared with, not a rival
+it must beat.
 
 % =====================================================================
 \section{APT attacker model versus MTD}
@@ -9400,7 +9322,10 @@ confidentiality measure detection avoidance by proxy, through pace and a
 declared scan detector (Section~\ref{subsec:metrics-behaviour},
 Appendix~\ref{app:detector-memory}). Distinct openings counts any variety, so
 it shows that the APT attacker model chooses among attack strategies; whether
-it chooses well is not measured. Last, the eight properties are this
+it chooses well is not measured. It also counts an attack profile's steps as
+tactics and the baseline attacker's as attack actions
+(Section~\ref{subsec:metrics-behaviour}), so the two attackers' counts are not
+in the same unit. Last, the eight properties are this
 dissertation's reading of the APT definition and two surveys. They are not a
 complete standard, they are weighed equally though not equally important, and
 one scorer marked the APT attacker model and three recent attacker models on
@@ -9433,7 +9358,7 @@ them, with a language model's blind re-score as the check (Section~\ref{sec:fide
 %  repeated. Ratify on read.
 How far the results reach beyond MTDSim rests on the 38 attack flows and the
 default network. The attack flows record campaigns that were detected and
-reported (Section~\ref{sec:disc-behaviour}), and each draws only the steps its
+reported (Section~\ref{subsec:failure-matrix}), and each draws only the steps its
 threat report describes, which can stop short of the objective
 (Section~\ref{sec:attack-profiles}). Only 18 of the 38 are attributed to a
 group in ATT\&CK, criminal groups among them, so the attack graph records
