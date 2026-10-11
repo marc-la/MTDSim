@@ -419,3 +419,91 @@ A re-wording that raises the APT attacker model's mark is the one an examiner wi
 - **Q12.** Row 2: (a) or (b)?
 - **Q13.** Rows 1, 4, 7 and 8 re-worded as proposed? Row 7's strict reading (P to ✗ for the baseline attacker and the APT attacker model): apply it, or keep P?
 - **Q14.** After any re-wording, re-run the blind scorer and declare the change beside Table 3.2?
+
+## 13. Round 4: Marc's rulings on §12; Table 3.2 proposals, word by word (2026-10-11)
+
+### 13.1 Rulings and what was applied
+- **Q11 yes** ("Title Case … 100 % agree"). Applied dissertation-wide in commit 1754681a:
+  - prose, tables and figures;
+  - `literature_conventions.md` §a4 updated, and a pointer added to `terminology.md`.
+- **§6.1 openers.** Marc asked "why don't we just cite objective-specific behaviour, Table 3.2". Applied: each paragraph names its property and cites Table 3.2. Restating the definition was a re-gloss, and a definition under audit should not be copied into §6.1.
+- **The opener's "where the other five live".** Marc reads it as right: 2, 3 and 5 compare without MTD; 4 needs MTD; 1, 6 and 7 are implicit, by construction. He wants the relation to MTD clear. Kept as drafted.
+- **Q12.** Re-word row 2 to the source's intent, yes, "but propose it to me, and tell me why" each operative word and hedge.
+- **Q14 yes.** After the re-wording, re-run the blind scorer on all four rows: the baseline attacker, Masud et al., Kim et al. and the APT attacker model.
+- **NIST SP 800-39** is fetched, and the extract is at `docs/sources/nist2011sp80039.md` (gitignored). Its glossary (App. B, p. B-1) is where row 2's examples come from: objectives "typically include establishing and extending footholds … for purposes of exfiltrating information, undermining or impeding critical aspects of a mission … or positioning itself to carry out these objectives in the future"; (i) "pursues its objectives repeatedly over an extended period of time"; (ii) "adapts to defenders' efforts to resist it"; (iii) "is determined to maintain the level of interaction needed to execute its objectives".
+
+### 13.2 Proposals (none applied; Marc rules each)
+
+The rules each word answers to:
+- **specific** (a defined term, or a word with one reading);
+- **testable** (each clause is a yes/no question about an attacker model);
+- **faithful** (the source's intent, cited).
+
+"Such as" marks an example, never a clause. Marks are *predicted* here; the blind scorer decides them.
+
+**Row 2, objective-specific behaviour.**
+- Now: *after the foothold, takes different attack actions for different objectives, such as exfiltration or impediment*
+- Proposed: *after the foothold, takes the attack actions that carry out its objective, such as exfiltrating data, impeding a system or positioning for a later attack, so that different objectives lead to different attack actions*
+- Word by word:
+  - *after the foothold.* Alshamrani §II-C: "for any of the 3 APT goals, the first 2 stages are necessary"; NIST: footholds are established "for purposes of" the objectives. Behaviour before the foothold is shared by every objective, so it neither earns nor costs the property. Clause 1.
+  - *takes the attack actions.* The unit rows 3 to 6 use, and the one a run records.
+  - *that carry out its objective.* The operative change. Alshamrani: the later stages are "applicable based on the attackers' goal", and a data thief "involve[s] in data exfiltration activities". The objective decides the actions, and the actions do the objective. "Carry out" is chosen over "serve": every action an attacker takes arguably serves its objective, so "serve" tests nothing. Clause 2.
+  - *such as exfiltrating data, impeding a system or positioning for a later attack.* NIST's three objectives, all of them (the current row drops the third, which Alshamrani says "take[s] a different path"). "Such as" makes them examples, not clauses, so a model with another objective is not excluded. The gerunds name what the attacker does, matching "takes the attack actions".
+  - *so that different objectives lead to different attack actions.* The comparison the property's name promises ("objective-specific"), kept as its own clause, so a model with only one objective can meet clause 2 without clause 3. "Attack actions", not "behaviour": behaviour would let a change of target host count. Clause 3.
+- Predicted marks:
+
+  | Model | Clause 1 | Clause 2 | Clause 3 | Mark |
+  |---|---|---|---|---|
+  | Baseline attacker | ✓ | ✗ (its goal is the compromise itself, NIST's foothold) | ✗ (the scenario changes the host, not the attack actions) | **✗** (now P) |
+  | Masud et al. | n/a (nothing follows the database) | ✗ | ✗ | **✗** (now P) |
+  | Kim et al. | ✓ | ✓ for positioning (a kept reverse shell, tools installed) | ✗ (one objective) | P |
+  | APT attacker model | ✓ | ✗ (the objectives' tactics are unmapped) | ✓ (F.2: brute force 2 % to 19 %) | P |
+
+- **The cost.** Two comparators would fall, and ch3's Finding paragraph would change. Objective-specific behaviour would become a property one model has (Kim in part) plus ours in part. An examiner may read lowering the comparators as convenient. The defence is that the wording is NIST's and Alshamrani's, applied to all four, and re-scored blind.
+
+**Row 4, adaptivity.**
+- Now: *chooses its next attack action in response to an MTD disruption*
+- Proposed: *chooses its next attack action in response to the MTD disruption it has just met*
+- Word by word:
+  - *chooses.* Kept. NIST (ii) "adapts"; a fixed response is ch3's in-part clause ("a fixed rule sets the behaviour").
+  - *next attack action.* Kept. It sets the horizon at the immediate response.
+  - *in response to.* The disruption must be an input to the choice.
+  - *the MTD disruption it has just met.* The present disruption only. That is what separates 4 from 7: adaptivity reacts to what is happening now, learning carries the past forward (Cho §V-A :381 "adaptive to dynamically changing … conditions" against §V-D :458 "learn"). "MTD" narrows NIST's "defenders' efforts" on purpose, because MTD is the only defender in the dissertation's scope.
+- Predicted marks: unchanged (baseline P, Masud P, Kim ✗, APT P).
+
+**Row 7, learning.**
+- Now: *keeps what it observes of past MTD deployments, and uses it to choose later attack actions*
+- Proposed: *keeps what it observes of each MTD deployment, and uses it to choose its attack actions after later deployments*
+- Word by word:
+  - *keeps.* Memory across time (Jalowski "over time").
+  - *what it observes of each MTD deployment.* The object is the MTD (Cho: "what types of MTD techniques are used and what the patterns are to trigger an MTD operation"). That is why a memory of vulnerabilities is not learning in this sense.
+  - *to choose.* The kept observation must change a choice, not only a speed or an odds.
+  - *after later deployments.* The use comes after a later deployment. That is the time horizon that separates 7 from 4.
+- Predicted marks:
+  - **Baseline attacker and APT attacker model at risk, P to ✗.** Both keep vulnerabilities, not MTD observations, and the memory changes an exploit's time or odds, not a choice. Only the "keeps … uses later" shape is met.
+  - Masud ✗ and Kim ✗, unchanged.
+
+**Row 1, campaign persistence** (agent's finding; smaller).
+- Now: *runs one multi-stage campaign toward its objective over an extended period*
+- Proposed: *pursues its objective through many stages over an extended period, and does not give up*
+- Word by word:
+  - *pursues … over an extended period.* NIST (i) verbatim.
+  - *through many stages.* Alshamrani :55 "multiple stages".
+  - *does not give up.* Alshamrani :51; NIST (iii) "determined to maintain the level of interaction". It replaces the untestable weight "extended" with a testable clause: does it carry on through every disruption until the run ends?
+  - "one" is dropped, because NIST says "repeatedly".
+- Predicted marks: unchanged.
+
+**Row 8, deployment-strategy awareness** (agent's finding).
+- Proposed: append *and uses the prediction to choose its attack actions* (Cho §V-D :464 "leverage how MTD works"). A prediction that drives nothing leaves no trace in a run.
+- Predicted marks: **Kim at risk, P to ✗.** Its success probability depends on the time to the next deployment, but that is the evaluators' model, not a prediction the attacker makes or uses. The others are unchanged.
+
+**Rows 3, 5 and 6: no change.**
+- Row 5 stays, so as not to widen in our favour; the omission of pace is noted for §6.5.
+- Row 3's parenthesis is a gloss on "strategy", not a clause.
+
+### 13.3 Questions
+- **Q15.** Row 2 as proposed, accepting that the baseline attacker and Masud are likely to fall to ✗? Or a softer clause 3 ("lead to different behaviour"), which would keep the baseline attacker's P through its choice of host but is vaguer?
+- **Q16.** Rows 4 and 7 as proposed, accepting that row 7 is likely to fall to ✗ for both the baseline attacker and the APT attacker model?
+- **Q17.** Rows 1 and 8 as proposed (Kim's row 8 at risk)?
+
+After the rulings: re-word Table 3.2; re-run the blind scorer on all four rows; re-copy Table 3.3 into Table 6.1; update ch3's per-model paragraphs and Finding, §6.3, ch7 and the abstract; declare the re-wording beside Table 3.2.
