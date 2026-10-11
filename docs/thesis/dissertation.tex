@@ -3015,6 +3015,11 @@ while an APT attacker uses passive reconnaissance to stay hidden
   \caption[The eight properties an MTD attacker model needs to model an APT
   attacker]{The eight properties an MTD attacker model needs to model an APT
   attacker, and their sources.}
+  % [2026-10-11, Marc, Table 3.2 audit (handoff 2026-10-11_ch6_1_redraft_scrutiny
+  %  section 14): row 1 runs -> pursues (NIST (i)'s verb; "run" is a simulation
+  %  run); row 7 "what it observes of" -> "the patterns it observes in" (Cho
+  %  V-D, Jalowski: patterns; a pattern needs more than one deployment, which
+  %  separates 7 from 4's one disruption). Blind re-score of all four rows owed.]
   \label{tab:attacker-properties}
   \tablestyle
   % [CH3 REDRAFT ROUND 43, 2026-10-02, Table 3.2] Marc: cells "so long and vague". Header "Definition"; cells cut to the behaviour scored (subject: the attacker model). Row 4 drops "changing conditions" (no Table 3.3 cell rests on it); row 8 "how and when the MTD scheme moves" is the wording 3.3.2's lineage cell (8) already uses; Cho cut from rows 1 and 5 (Marc: prose and table consistent; Cho V-A's characteristics no longer in the prose). Scores unchanged. Ratify on read.
@@ -3024,14 +3029,14 @@ while an APT attacker uses passive reconnaissance to stay hidden
     \toprule
     & Property & Definition & Source \\
     \midrule
-    1 & Campaign persistence & runs one multi-stage campaign toward its objective over an extended period & \citep{alshamrani2019, nist2011sp80039} \\
+    1 & Campaign persistence & pursues one multi-stage campaign toward its objective over an extended period & \citep{alshamrani2019, nist2011sp80039} \\
     2 & Objective-specific behaviour & after the foothold, takes different attack actions for different objectives, such as exfiltration or impediment & \citep{alshamrani2019} \\
     3 & Choice of attack strategy & chooses among several attack strategies (sequences of attack actions) toward the same objective & \citep{cho2020} \\
     4 & Adaptivity & chooses its next attack action in response to an MTD disruption & \citep{cho2020, nist2011sp80039} \\
     % [CH3 REDRAFT ROUND 46, 2026-10-02, Table 3.2 row 5] RULED (Marc): "instead of active scanning" cut; passive already says it (the CS reader knows the pair). "such as by" -> "for example by" (grammatical).
     5 & Detection avoidance & chooses attack actions a detector does not flag, for example passive reconnaissance & \citep{alshamrani2019, jalowski2026} \\
     6 & Cost--benefit reasoning & chooses each attack action by weighing its cost against its benefit & \citep{cho2020} \\
-    7 & Learning & keeps what it observes of past MTD deployments, and uses it to choose later attack actions & \citep{cho2020, jalowski2026} \\
+    7 & Learning & keeps the patterns it observes in past MTD deployments, and uses them to choose later attack actions & \citep{cho2020, jalowski2026} \\
     8 & Deployment-strategy awareness & predicts which mechanism the deployment strategy deploys next, and when & \citep{cho2020, jalowski2026} \\
     \bottomrule
   \end{tabular}
@@ -5416,8 +5421,8 @@ attack rate is a more aggressive attacker \citep{pendleton2016}.
 \paragraph{Attack confidentiality.}
 Attack rate is a mean, so it does not show bursts of attack actions, which
 scan detectors flag. Attack confidentiality is the share of an attacker's
-attack actions that a detection mechanism does not flag \citep{zaffarano2015}.
-MTDSim has no detection mechanism, so a scan detector stands in. The default
+attack actions that a detector does not flag \citep{zaffarano2015}.
+MTDSim has no detector, so a scan detector stands in. The default
 port-scan rule of the Snort intrusion detection system flagged a source that
 connected to five different addresses within 60\,s
 \citep[Sec.~5.2]{jung2004}. Here an attack action is flagged when it is at
