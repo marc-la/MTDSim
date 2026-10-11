@@ -556,7 +556,7 @@ interval, the most effective MTD mechanism differs between the two attackers.
   the experiment scripts are publicly available at
   \url{https://github.com/marc-la/MTDSim}.} Of eight properties an attacker
   model needs to model an APT attacker, the APT attacker model has two in
-  full and five in part; three recent attacker models have at most one in
+  full and four in part; three recent attacker models have at most one in
   full.
   \item We find that, in MTDSim, the most effective MTD mechanism depends
   on the attacker model.
@@ -3191,12 +3191,12 @@ attacker model described this way to be the most likely to have the
 % [CH3 REDRAFT ROUND 58, 2026-10-02, 3.3.2 P1 rule] Marc: round 57's P said the same thing twice ("has it in part: does part of") and lost round 56's second route; keep both routes, and make "stands in for it" plain. The colon glosses cut (the caption decodes the marks); the second route is now who does it, the authors, by a fixed rule (with the baseline's example) or an assumption (Kim's stealth); the cross is "neither applies". Overturns round 57's one-route rule.
 % [CH3 REDRAFT ROUND 57, 2026-10-02, 3.3.2 P1 rule] Marc: standardise the term. "Score" is the act (S1, the Table 3.3 caption), "mark" the symbol; each mark is named by the caption's words, the words the per-model paragraphs use ("has", "has it in part", "has no"). The partial rule had two routes (part of the definition, or a stand-in); every P in Table 3.3 meets the first (checked row by row: each P does part of its definition and a fixed rule does the rest), so one route. "shows the marks" -> what the marks are of. Ratify on read.
 properties. This dissertation scores each attacker model on each property
-from its paper, with one of three marks. A \propmet\ means the attacker
-model does all that the property's definition in
-Table~\ref{tab:attacker-properties} says. A \propstandin\ means it does
-part of what the definition says, or its authors set the behaviour by a
-fixed rule, such as always re-scanning after a host-layer disruption, or
-assume it.
+from its paper, clause by clause of each definition in
+Table~\ref{tab:attacker-properties} (Appendix~\ref{app:clause-tests}), with
+one of three marks. A \propmet\ means the attacker model meets every
+clause. A \propstandin\ means it meets at least half of them, outright or
+because its authors set the behaviour by a fixed rule, such as always
+re-scanning after a host-layer disruption, or assume it.
 A \propnone\ means neither applies. Table~\ref{tab:attacker-cross-section} shows each
 attacker model's mark on each property, and the paragraph on each attacker
 model below cites the evidence from its paper for each mark.
@@ -3322,9 +3322,9 @@ model below cites the evidence from its paper for each mark.
     \toprule
     Attacker model & Year & 1\newline Pers. & 2\newline Obj. & 3\newline Strat. & 4\newline Adapt. & 5\newline Detect. & 6\newline Cost & 7\newline Learn. & 8\newline Deploy. \\
     \midrule
-    Baseline attacker~\citep{brown2023, zhang2023} & 2023 & \propmet & \propstandin & \propstandin & \propstandin & \propnone & \propstandin & \propstandin & \propnone \\
-    Masud et al.~\citep{masud2025} & 2025 & \propstandin & \propstandin & \propstandin & \propstandin & \propnone & \propstandin & \propnone & \propnone \\
-    Kim et al.~\citep{kim2026} & 2026 & \propstandin & \propstandin & \propnone & \propnone & \propstandin & \propnone & \propnone & \propstandin \\
+    Baseline attacker~\citep{brown2023, zhang2023} & 2023 & \propmet & \propnone & \propstandin & \propstandin & \propnone & \propstandin & \propnone & \propnone \\
+    Masud et al.~\citep{masud2025} & 2025 & \propstandin & \propnone & \propstandin & \propstandin & \propnone & \propstandin & \propnone & \propnone \\
+    Kim et al.~\citep{kim2026} & 2026 & \propstandin & \propnone & \propnone & \propnone & \propstandin & \propnone & \propnone & \propnone \\
     \bottomrule
   \end{tabular}
 \end{table}
@@ -3342,15 +3342,15 @@ model below cites the evidence from its paper for each mark.
 % [CH3 REDRAFT ROUND 60, 2026-10-02, 3.3.2 baseline attacker] Marc: the opener said one thing twice ("runs a procedure" + Brown's "always follow the attack procedure"), and "procedure" is no longer set against behaviour (the scripted / behavioural taxonomy is gone; the marks carry the judgement); the Zhang sentence read as a timeline and raised "which model is scored?". Section 2.2.3 already describes the baseline attacker with Zhang's additions (the 80 % end, the halved exploit, the confusion penalty), and P1 points there, so the paragraph opens on its tick. Ho and Tay are not cited: they reuse the attacker unchanged (Ho l.242, Tay l.206), and Table 2.2 shows the lineage. Each mark in ch2's terms (six attack actions, goal, attack scenario, return on attack, host-layer disruption) and in the P1 rule's two routes: "X, but not Y" (part of the definition) or "a fixed rule sets ..." (the authors set it). Marks unchanged. Supersedes round 55's head comment. Ratify on read.
 \paragraph{Baseline attacker.} The baseline attacker has campaign persistence: it
 repeats its six attack actions host by host until it reaches its goal, and
-carries on through every disruption \citep{brown2023}. It has objective-specific behaviour in part: its attack scenario decides which host it attacks
-next, but after a foothold it has no attack action for exfiltration or
-impediment. It has choice of attack strategy in part: it can enter a host with stolen credentials, an exploit or brute force, but a fixed rule sets the order in which it tries them. It has adaptivity in part: a fixed
+carries on through every disruption \citep{brown2023}. It has choice of attack strategy in part: it can enter a host with stolen credentials, an exploit or brute force, but a fixed rule sets the order in which it tries them. It has adaptivity in part: a fixed
 rule sets its response to each kind of disruption, such as always
 re-scanning after a host-layer disruption \citep{brown2023}. It has cost--benefit reasoning in part: it orders the exploits on a host by
-return on attack (RoA), but weighs the cost of no other attack action. It
-has learning in part: an exploit of a vulnerability it has exploited before
-takes half the time \citep{zhang2023}, but it learns about
-vulnerabilities, not about the MTD deployments it observes. It has no detection avoidance: it scans actively and does nothing to avoid an IDS. It has no deployment-strategy awareness: nothing in it uses which mechanism deploys next or when
+return on attack (RoA), but weighs the cost of no other attack action. It has no objective-specific behaviour: after a foothold it takes the same
+six attack actions in either attack scenario, which changes only the host it
+attacks next, and none of them exfiltrates or impedes. It has no learning: an
+exploit of a vulnerability it has exploited before takes half the time
+\citep{zhang2023}, but it keeps vulnerabilities, not the patterns of MTD
+deployments, and the memory changes no choice. It has no detection avoidance: it scans actively and does nothing to avoid an IDS. It has no deployment-strategy awareness: nothing in it uses which mechanism deploys next or when
 it deploys.
 % [CH3 REDRAFT ROUND 64, 2026-10-02, 3.3.2 baseline crosses] Marc: one sentence per cross, as in the Masud and Kim paragraphs; scheme awareness in the Masud wording. Ratify on read.
 
@@ -3371,11 +3371,11 @@ the set of attack paths through a graph model of that network, from the
 Internet to a target database. At each deployment interval, the analytical
 model computes each attack path's success probability, cost and RoA,
 before and after the MTD deploys. It has campaign persistence in part: each attack path is a multi-stage chain of exploits, but each deployment interval's
-attack paths are computed afresh, so no campaign spans intervals. It has objective-specific behaviour in part: every attack path leads to its objective,
-the database, but nothing follows once it reaches it. It has choice of attack strategy in part: it has every attack path to the database, but chooses
+attack paths are computed afresh, so no campaign spans intervals. It has choice of attack strategy in part: it has every attack path to the database, but chooses
 none. It has adaptivity in part: its attack paths are recomputed after
 each MTD deployment, but no next technique is chosen from them. It has cost--benefit reasoning in part: it computes each attack path's cost
-and RoA, but no choice depends on them. It has no detection avoidance: the analytical model has no IDS for an attack path to avoid. It has no learning:
+and RoA, but no choice depends on them. It has no objective-specific behaviour: every attack path leads to one
+objective, the database, and nothing follows once it reaches it. It has no detection avoidance: the analytical model has no IDS for an attack path to avoid. It has no learning:
 each deployment interval's attack paths are computed afresh, so nothing
 from earlier MTD deployments is kept. It has no deployment-strategy awareness: nothing in the analytical model uses which mechanism deploys next or when it
 deploys.
@@ -3404,14 +3404,16 @@ service it finds, exploits one known vulnerability of the Apache web
 server, and keeps a reverse shell, an outbound connection from the
 compromised server back to the attacker. Each attack is a new run of the
 script, started at a random time. It has campaign persistence in part: each attack runs all four stages, but in one short attempt, and the next attack starts
-again with no knowledge of the network. It has objective-specific behaviour in part: after the foothold it keeps its shell and installs tools, but it has
-no technique for exfiltration or impediment. It has detection avoidance in part:
+again with no knowledge of the network. It has detection avoidance in part:
 the reverse shell is chosen ``in order to evade the detection by a defense
 system'' \citep[p.~7]{kim2026}, but the testbed runs no IDS, so the
-evasion is assumed. It has deployment-strategy awareness in part: its success
-probability at each stage depends on the time left before the next MTD
-deployment \citep[p.~10]{kim2026}, but not on which mechanism deploys, and
-no technique uses it. It has no choice of attack strategy: every attack
+evasion is assumed. It has no objective-specific behaviour: after the
+foothold it keeps its shell and installs tools, but it has one objective, so
+no technique differs by objective, and none exfiltrates or impedes. It has
+no deployment-strategy awareness: its success probability at each stage
+depends on the time left before the next MTD deployment
+\citep[p.~10]{kim2026}, but that is the authors' model of the attack, not a
+prediction the attacker makes, and no technique uses it. It has no choice of attack strategy: every attack
 follows one attack scenario, in the same four stages. It has no
 adaptivity: the script does not observe the MTD, and an attack that a
 deployment disrupts fails. It has no cost--benefit reasoning: no technique's cost is weighed against its benefit. It has no learning:
@@ -3423,8 +3425,9 @@ to the next.
 % [CH3 REDRAFT ROUND 54, 2026-10-02, 3.3.2 close head] Marc: "please fix". Under \paragraph a run-in unit runs to the next heading, so the close sat inside Kim's; its own head makes it the three rows read together, and 3.3 still answers its own question (round 41).
 % [CH3 REDRAFT ROUND 65, 2026-10-02, 3.3.2 Finding] Marc: what is the Finding's purpose, and how does it differ from 3.4? Purpose: answer the question the 3.3 preamble asks ("whether recent MTD attacker models still lack them") from Table 3.3 alone, and close the expectation P1 opened; 3.4 then uses it as evidence for what MTD evaluation leaves unmeasured. Carried: the answer, the one tick, the column reading (stealth, learning and scheme awareness rarest; Bonneau: read by column, no per-row aggregate), the expectation answered. Not carried: after-the-foothold (3.4's S1 reads objective conditioning and adaptivity), why it matters, what this dissertation does, the APT attacker model (ch6). Fixed: "lack seven of the eight" (Masud and Kim lack all eight in full) and "for every other mark, a fixed rule or assumption takes the place" (false for the crosses, and the stand-in wording P1 replaced). Ratify on read.
 \paragraph{Finding.} The three MTD attacker models still lack the
-properties of an APT attacker: only the baseline attacker has one in full, campaign persistence. Detection avoidance, learning and deployment-strategy awareness are the rarest: one
-attacker model has each in part, and the other two do not have it. The
+properties of an APT attacker: only the baseline attacker has one in full, campaign persistence. None of
+the three has objective-specific behaviour, learning or deployment-strategy
+awareness, and only Kim et al.'s has detection avoidance, in part. The
 attacker models of Masud et al.\ and Kim et al., which this dissertation
 expected to be the most likely to have the properties, have none in full.
 
@@ -3872,12 +3875,12 @@ properties of an APT attacker. % [ROUND 7, 2026-10-05, Marc: "built to meet six 
 %  eight, matching Table 6.x mark for mark. Marc: "honest version, let's do
 %  that". DRAFT STATE --- ratify on read.]
 This chapter defines an APT attacker model
-built for four of the eight properties of
-Section~\ref{subsec:attacker-criterion}: objective-specific behaviour, choice of attack strategy, adaptivity and, in part, learning. It takes the same attack actions
+built for three of the eight properties of
+Section~\ref{subsec:attacker-criterion}: objective-specific behaviour, choice of attack strategy and adaptivity. It takes the same attack actions
 as the baseline attacker, but the Petri net of its attack profile chooses its
 next tactic at runtime. With those attack actions it keeps the baseline
 attacker's campaign persistence and, in part, its cost--benefit reasoning;
-they also cap what it gains, so it has two properties in full and five in part
+they also cap what it gains, so it has two properties in full and four in part
 (Section~\ref{sec:fidelity-verdict}). It is a
 proof of concept: it tests whether an attacker that behaves like an APT changes
 what an MTD evaluation measures. Detection avoidance rests on a pace assumed to
@@ -5215,10 +5218,10 @@ attacker already remembers the vulnerabilities it has exploited: exploiting
 one again takes it half the time (Section~\ref{subsec:attacker-model}). In the
 APT attacker model, the tactic duration replaces the exploit's time (step~3
 of Figure~\ref{fig:runtime-loop}), so the baseline attacker's memory saves it
-no time. The vulnerability memory acts on the chance of success instead. It
-gives the APT attacker model learning, property~7 of
-Table~\ref{tab:attacker-properties}, in part: it learns about
-vulnerabilities, not about the MTD deployments it observes.
+no time. The vulnerability memory acts on the chance of success instead. It is
+not learning, property~7 of Table~\ref{tab:attacker-properties}: it keeps
+vulnerabilities, not the patterns of MTD deployments, and it changes the odds
+of an exploit, not which technique comes next.
 
 Each earlier success on a vulnerability, on any host, triples the attacker's
 odds of exploiting it again (the odds its attack complexity sets,
@@ -8847,12 +8850,12 @@ takes from an attacker at each deployment (Section~\ref{sec:threats}).
     \toprule
     Attacker model & Year & 1\newline Pers. & 2\newline Obj. & 3\newline Strat. & 4\newline Adapt. & 5\newline Detect. & 6\newline Cost & 7\newline Learn. & 8\newline Deploy. \\
     \midrule
-    Baseline attacker~\citep{brown2023, zhang2023} & 2023 & \propmet & \propstandin & \propstandin & \propstandin & \propnone & \propstandin & \propstandin & \propnone \\
-    Masud et al.~\citep{masud2025} & 2025 & \propstandin & \propstandin & \propstandin & \propstandin & \propnone & \propstandin & \propnone & \propnone \\
-    Kim et al.~\citep{kim2026} & 2026 & \propstandin & \propstandin & \propnone & \propnone & \propstandin & \propnone & \propnone & \propstandin \\
+    Baseline attacker~\citep{brown2023, zhang2023} & 2023 & \propmet & \propnone & \propstandin & \propstandin & \propnone & \propstandin & \propnone & \propnone \\
+    Masud et al.~\citep{masud2025} & 2025 & \propstandin & \propnone & \propstandin & \propstandin & \propnone & \propstandin & \propnone & \propnone \\
+    Kim et al.~\citep{kim2026} & 2026 & \propstandin & \propnone & \propnone & \propnone & \propstandin & \propnone & \propnone & \propnone \\
     \midrule
     % [CH3 REDRAFT ROUND 52, 2026-10-02] Marc: the dissertation's own row named as such, at the bottom, 2026.
-    \begin{tabular}[c]{@{}l@{}}APT attacker model,\\ this dissertation\end{tabular} & 2026 & \propmet & \propstandin & \propmet & \propstandin & \propstandin & \propstandin & \propstandin & \propnone \\
+    \begin{tabular}[c]{@{}l@{}}APT attacker model,\\ this dissertation\end{tabular} & 2026 & \propmet & \propstandin & \propmet & \propstandin & \propstandin & \propstandin & \propnone & \propnone \\
     % [2026-10-08 regrade, Marc: 2 and 4 tick -> in part (exfiltration and
     %  impact unmapped; the failure matrix a fixed rule that reads the verdict);
     %  5 cross -> in part (stealth by proxy, Kim's precedent). DRAFT STATE.]
@@ -8883,12 +8886,14 @@ takes from an attacker at each deployment (Section~\ref{sec:threats}).
 from threat reports and executed in an existing MTD simulator; the eight
 properties score the answer. Scored by the rule of
 Chapter~\ref{ch:litreview}, the APT attacker model has
-two of the eight properties in full, five in part, and lacks one; none of the
+two of the eight properties in full, four in part, and lacks two; none of the
 three MTD attacker models scored there has more than one in full
 (Table~\ref{tab:fidelity-verdict}). Against the baseline attacker, it gains
-choice of attack strategy in full and detection avoidance in part. The eight
-properties were fixed before any attacker model was scored
-(Section~\ref{subsec:attacker-criterion}). Each mark scores what an attacker
+choice of attack strategy in full, and objective-specific behaviour and
+detection avoidance in part. The eight properties were fixed before any
+attacker model was scored (Section~\ref{subsec:attacker-criterion}); their
+wording was later tightened so that each clause can be tested, which lowered
+marks and raised none (Appendix~\ref{app:clause-tests}). Each mark scores what an attacker
 model does as its source describes it: the three from their papers
 (Section~\ref{subsec:recent-threat-models}), the APT attacker model from
 Chapter~\ref{ch:attacker-model}. The runs of Chapter~\ref{ch:experiments}
@@ -8896,9 +8901,11 @@ could lower one of its marks, if a component failed to produce its behaviour,
 but never raise one, because the other three had no runs to be checked
 against. We first marked what the model implements, which put
 objective-specific behaviour and adaptivity in full; scored by the rule, both
-are in part. A language model given only Chapters~\ref{ch:litreview}
-and~\ref{ch:attacker-model}, with our claims of which properties the model
-has removed, gave the same eight marks (AI Use Declaration).
+are in part. Four language models, each given only the rule, Table~\ref{tab:attacker-properties}
+and one attacker model's sources, with our claims of which properties the
+APT attacker model has removed, gave the marks of
+Table~\ref{tab:fidelity-verdict} but one, which
+Appendix~\ref{app:clause-tests} reconciles (AI Use Declaration).
 
 % DRAFT STATE 2026-10-08 --- paragraph 2 drafted from point P2 on Marc's
 %  request ("draft paragraph two now"); P2 retired to the ch6 handoff section
@@ -8924,18 +8931,20 @@ into an attack scenario. The choice stays within what the reports document
 branching, not from the formalism: with one token, a stochastic finite state
 machine built from the same attack flows would make the same draw. Three marks
 stop at the attack actions. Exfiltration and Impact are unmapped, so the
-routes differ by objective (Figure~\ref{fig:aio-coverage}(a)) but no attack
-action acts on one, the reason the baseline attacker has objective-specific
-behaviour only in part. A failed attack action leaves its precondition unmet,
+attack profiles take the same six attack actions at different rates
+(Figure~\ref{fig:aio-coverage}(a)) and none exfiltrates or impedes; the
+baseline attacker, whose attack scenarios change only the host it attacks
+next, has no objective-specific behaviour at all. A failed attack action leaves its precondition unmet,
 so the APT attacker model must rebuild it; the failure matrix reweights the
 next tactic on the verdict, by rules set by our judgement, whether or not MTD
 caused the failure. The pace is assumed to hide the attacker and is measured
 by proxy (Section~\ref{sec:disc-behaviour}), as Kim et al.'s evasion is
-assumed, but no IDS exists to choose against. The other three stop
-because no part of the model makes the decision: the exploit's RoA order is
-the only cost it weighs, the vulnerability memory learns vulnerabilities, not
-MTD deployments, and the attacker cannot see the MTD schedule. Campaign persistence,
-cost--benefit reasoning and learning show by construction, with no metric of
+assumed, but no IDS exists to choose against. Cost--benefit
+reasoning stops at the exploit's RoA order, the only cost it weighs. Two it
+lacks, because no part of the model makes the decision: the vulnerability
+memory keeps vulnerabilities, not the patterns of MTD deployments, and
+changes no choice, and the attacker cannot see the MTD schedule. Campaign
+persistence and cost--benefit reasoning show by construction, with no metric of
 their own; adaptivity's metric, time lost per MTD deployment, shows what a
 disruption costs, not which component pays it.
 
@@ -9016,12 +9025,12 @@ the four rest on 5 to 7 attack flows (Section~\ref{sec:threats}). The
 recovered behaviour can be executed in an existing MTD simulator as a Petri
 net over the simulator's own attack actions, joined to them by a
 tactic-to-action mapping, tactic durations, a failure matrix and a
-vulnerability memory. Executed so, the APT attacker model gains two
-properties over the baseline attacker: choice of attack strategy in full and
-detection avoidance in part. A mark in full means the model meets every
-clause of a property's definition, so the marks do not show the upgrades
-made within a mark in part, such as routes that differ by objective, a
-response to failure and a memory of vulnerabilities. The ablations show that
+vulnerability memory. Executed so, the APT attacker model gains three
+properties over the baseline attacker: choice of attack strategy in full, and
+objective-specific behaviour and detection avoidance in part. A mark in full
+means the model meets every clause of a property's definition, so the marks
+do not show the upgrades made within a mark in part or short of one, such as
+a response to failure and a memory of vulnerabilities. The ablations show that
 the failure matrix and the vulnerability memory move NCR negligibly, and
 that the attack profiles move it without changing which MTD mechanisms
 reduce it the most. What reorders the MTD mechanisms is order, the substance
@@ -9750,10 +9759,11 @@ aggregated into an attack graph and split by objective into four attack
 profiles, executed in MTDSim as a Petri net over its six attack actions, and run
 in place of the baseline attacker. \emph{Keep:} ``built'', ``runs''; never
 ``reproduces APT behaviour''.
-\item \textbf{Evidence.} Two of the eight properties in full and five in part,
+\item \textbf{Evidence.} Two of the eight properties in full and four in part,
 against at most one in full for three recent attacker models
 (Table~\ref{tab:fidelity-verdict}). Over the baseline attacker it gains choice of
-attack strategy in full and detection avoidance in part.
+attack strategy in full, and objective-specific behaviour and detection
+avoidance in part.
 \item \textbf{Impact.} Another evaluation in MTDSim can run its MTD against the
 APT attacker model beside the baseline attacker. Another simulator needs the
 interface: the tactic-to-action mapping, the tactic durations and the failure
@@ -9854,6 +9864,105 @@ The proposal is reproduced on the following pages as submitted in
 March 2026, with its own reference list.
 
 \includepdf[pages=-]{proposal.pdf}
+
+
+% =====================================================================
+% NEW 2026-10-11 (Marc: "put this into the appendix ... testing each clause of
+%  the definition ... more transparent"; the plain rule stays in 3.3.2).
+%  Clause split, cells and reasons: docs/handoffs/2026-10-11_ch6_1_redraft_scrutiny.md
+%  sections 14-15 (four blind scorers, reconciled). Typed, not generated: 31
+%  cells of judgement with no data artefact (the Table 3.2 deviation). The
+%  APT attacker model's column is Table 6.1's row. Session-drafted; DRAFT
+%  STATE --- ratify on read.
+\chapter{The attacker models tested clause by clause}
+\label{app:clause-tests}
+
+Section~\ref{subsec:recent-threat-models} scores each attacker model by the
+clauses of each definition in Table~\ref{tab:attacker-properties}.
+Table~\ref{tab:clause-tests} splits each definition into its clauses and
+records whether each attacker model meets each clause outright (yes), only
+because its authors set the behaviour by a fixed rule or assume it (rule,
+assumed), or not at all (no). The three MTD attacker models are tested from
+their papers, as in Section~\ref{subsec:recent-threat-models}, and the APT
+attacker model from Chapter~\ref{ch:attacker-model}. A property is marked
+\propmet\ when every clause is met outright, \propstandin\ when at least half
+are met, outright or by a fixed rule or an assumption, and \propnone\
+otherwise. An example in a definition, such as passive reconnaissance,
+illustrates a clause and is not one.
+
+Table~\ref{tab:attacker-properties} was reworded after the attacker models
+were first scored, so that each clause can be tested: its rows name
+techniques, ATT\&CK's term, where they had named MTDSim's attack actions, and
+learning names the patterns of MTD deployments. The rewording lowered six
+marks and raised none. All four attacker models were then scored again by
+four language models, each given only the rule above,
+Table~\ref{tab:attacker-properties} and one attacker model's sources, with
+our claims of which properties the APT attacker model has removed (AI Use
+Declaration). They gave every mark of Table~\ref{tab:clause-tests} but one:
+the baseline attacker's campaign persistence, in part on the reading that its
+papers never call a run an extended period. The APT attacker model keeps the
+baseline attacker's loop, and its scorer gave the same evidence a full mark.
+We mark both in full: a campaign that spans the whole run and many MTD
+deployments is extended, and campaign persistence names no choice for a fixed
+rule to stand in for.
+
+\begin{table}[htbp]
+  \centering
+  \caption[Each attacker model tested on each clause]{Each attacker model
+  tested on each clause of the eight definitions of
+  Table~\ref{tab:attacker-properties}, and the mark that follows.}
+  \label{tab:clause-tests}
+  \tablestyle\setlength{\tabcolsep}{4pt}
+  \begin{tabular}{@{}P{7.4cm}*{3}{>{\centering\arraybackslash}p{1.7cm}}>{\centering\arraybackslash}p{2.3cm}@{}}
+    \toprule
+    Clause & \shortstack{Baseline\\attacker} & \shortstack{Masud\\et al.} & \shortstack{Kim\\et al.} & \shortstack{APT attacker\\model} \\
+    \midrule
+    \multicolumn{5}{@{}l}{\emph{1 Campaign persistence}} \\
+    \quad one campaign & yes & no & no & yes \\
+    \quad multi-stage & yes & yes & yes & yes \\
+    \quad toward its objective & yes & yes & yes & yes \\
+    \quad over an extended period & yes & no & no & yes \\
+    \quad mark & \propmet & \propstandin & \propstandin & \propmet \\
+    \midrule
+    \multicolumn{5}{@{}l}{\emph{2 Objective-specific behaviour}} \\
+    \quad after the foothold & yes & yes & yes & yes \\
+    \quad uses different techniques & no & no & no & no \\
+    \quad for different objectives & no & no & no & yes \\
+    \quad mark & \propnone & \propnone & \propnone & \propstandin \\
+    \midrule
+    \multicolumn{5}{@{}l}{\emph{3 Choice of attack strategy}} \\
+    \quad chooses & rule & no & no & yes \\
+    \quad among several sequences of techniques & yes & yes & no & yes \\
+    \quad toward the same objective & yes & yes & yes & yes \\
+    \quad mark & \propstandin & \propstandin & \propnone & \propmet \\
+    \midrule
+    \multicolumn{5}{@{}l}{\emph{4 Adaptivity}} \\
+    \quad chooses its next technique & rule & no & no & yes \\
+    \quad in response to an MTD disruption & yes & assumed & no & rule \\
+    \quad mark & \propstandin & \propstandin & \propnone & \propstandin \\
+    \midrule
+    \multicolumn{5}{@{}l}{\emph{5 Detection avoidance}} \\
+    \quad chooses techniques & no & no & assumed & no \\
+    \quad that an IDS does not flag & no & no & no & assumed \\
+    \quad mark & \propnone & \propnone & \propstandin & \propstandin \\
+    \midrule
+    \multicolumn{5}{@{}l}{\emph{6 Cost--benefit reasoning}} \\
+    \quad chooses each technique & no & no & no & no \\
+    \quad by weighing its cost against its benefit & yes & yes & no & yes \\
+    \quad mark & \propstandin & \propstandin & \propnone & \propstandin \\
+    \midrule
+    \multicolumn{5}{@{}l}{\emph{7 Learning}} \\
+    \quad keeps the patterns of past MTD deployments & no & no & no & no \\
+    \quad uses them to choose later techniques & no & no & no & no \\
+    \quad mark & \propnone & \propnone & \propnone & \propnone \\
+    \midrule
+    \multicolumn{5}{@{}l}{\emph{8 Deployment-strategy awareness}} \\
+    \quad predicts which mechanism deploys next & no & no & no & no \\
+    \quad and when & no & no & no & no \\
+    \quad mark & \propnone & \propnone & \propnone & \propnone \\
+    \bottomrule
+  \end{tabular}
+\end{table}
 
 
 % =====================================================================

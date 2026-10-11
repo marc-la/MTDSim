@@ -652,3 +652,47 @@ Applied to 15.2 it reproduces every blind mark (row 1 reconciled):
 **Q19.** The in-part rule as proposed, with the assumption branch kept?
 
 **Q20.** Then: redraft chapter 3's four model paragraphs clause by clause in their current layout ("It has X in part: it does a and b, but not c, because …"), apply the marks (Tables 3.3 and 6.1), and carry every consequence (§14.3).
+
+## 16. Q18–Q20 applied (2026-10-11)
+
+**Marc's rulings:**
+- The clause-by-clause test goes in an appendix, for transparency; §3.3.2 keeps the plain rule.
+- An assumption can earn at most *in part* ("you have to model an assumption properly").
+- "Does not flag" stays.
+- The blind marks are accepted, with row 1 reconciled to full for both the baseline attacker and the APT attacker model.
+
+**Applied:**
+- **§3.3.2 rule.** Clause by clause, with three marks: ✓ every clause; P at least half, met outright or by a fixed rule or an assumption; ✗ neither. It points to the new appendix.
+- **Tables 3.3 and 6.1, synced:**
+  - baseline attacker: ✓ ✗ P P ✗ P ✗ ✗;
+  - Masud et al.: P ✗ P P ✗ P ✗ ✗;
+  - Kim et al.: P ✗ ✗ ✗ P ✗ ✗ ✗;
+  - APT attacker model: ✓ P ✓ P P P ✗ ✗.
+- **Chapter 3 model paragraphs** (current layout, one sentence per property, clause language):
+  - baseline attacker: objective-specific behaviour and learning are now crosses, with mechanism reasons;
+  - Masud et al.: objective-specific behaviour is a cross;
+  - Kim et al.: objective-specific behaviour and deployment-strategy awareness are crosses.
+- **Chapter 3 Finding.** None of the three has objective-specific behaviour, learning or deployment-strategy awareness; only Kim et al. has detection avoidance, in part.
+- **Counts:**
+  - Chapter 1: two in full, four in part.
+  - Chapter 4 opener: built for three properties; two in full, four in part.
+  - §4.4.4: the vulnerability memory "is not learning … keeps vulnerabilities, not the patterns of MTD deployments, and changes the odds of an exploit, not which technique comes next".
+- **§6.3:**
+  - ¶1: counts; three gains; the rewording declared ("lowered marks and raised none"); the blind sentence now covers four scorers, one mark reconciled, pointing to the appendix.
+  - ¶2: the objective-specific reason (the same six attack actions at different rates); cost–benefit reasoning separated; learning and deployment-strategy awareness "lacks".
+  - ¶4: three gains.
+- **Chapter 7 Evidence:** four in part; three gains.
+- **New Appendix B, "The attacker models tested clause by clause"** (label `app:clause-tests`):
+  - the rule;
+  - the declaration of the rewording (six marks lowered, none raised) and of the blind re-score, with the row 1 reconciliation and its reason;
+  - Table B.1, every clause against the four models: yes, rule, assumed or no, and the resulting mark.
+  - The cells are typed, not generated (judgement, no data artefact).
+  - One clause label is shortened for width ("keeps the patterns of past MTD deployments").
+- **Appendix letters shift:** the old B–F are now C–G. Handoffs written before today use the old letters; `\ref` labels are unchanged.
+
+Build clean: 118 pages, 0 undefined, overfull count unchanged at 14.
+
+**Owed:**
+- The AI Use Declaration is still empty. §6.3 and Appendix B cite it for both blind re-scores (2026-10-08 and today); the packets are in the session scratchpad (`blind2/`).
+- The abstract states no counts (checked), so it needs no change.
+- Future work: dynamic weighting (Q8).
