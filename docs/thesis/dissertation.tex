@@ -2908,7 +2908,7 @@ recent MTD attacker models on them.
 % [CH3 REDRAFT ROUND 47, 2026-10-02, 3.3.1 P1 S1] RULED (Marc): the claim becomes the criterion. Marc ruled the logic fix ("well thought through and well integrated"): the unit asserted its conclusion as its premise (the APT definition says what an APT attacker is, not what MTD attacker models lack; the surveys' evidence covers six of the eight). The criterion section now says what an MTD attacker model needs; the lack is the surveys' finding for six and 3.3.2's for all eight.
 An MTD attacker model needs eight properties to model an APT attacker. The APT
 definition of Section~\ref{subsec:apt} gives four: the APT attacker
-pursues its objective over an extended period (campaign persistence), takes different attack actions after the foothold for different objectives (objective-specific behaviour), adapts
+pursues its objective over an extended period (campaign persistence), uses different techniques after the foothold for different objectives (objective-specific behaviour), adapts
 to the defender's resistance (adaptivity) and moves low and slow to avoid detection (detection avoidance) \citep{nist2011sp80039, alshamrani2019}. The two
 surveys add the other four: choice of attack strategy, cost--benefit reasoning, learning and deployment-strategy awareness \citep{cho2020, jalowski2026}.
 % [CH3 REDRAFT ROUND 46, 2026-10-02, 3.3.1 P1 close] RULED (Marc): "This dissertation synthesises the eight properties in Table 3.2"; the reason clause cut (the four-plus-four split already shows no single source lists them).
@@ -3030,13 +3030,13 @@ while an APT attacker uses passive reconnaissance to stay hidden
     & Property & Definition & Source \\
     \midrule
     1 & Campaign persistence & pursues one multi-stage campaign toward its objective over an extended period & \citep{alshamrani2019, nist2011sp80039} \\
-    2 & Objective-specific behaviour & after the foothold, takes different attack actions for different objectives, such as exfiltration or impediment & \citep{alshamrani2019} \\
-    3 & Choice of attack strategy & chooses among several attack strategies (sequences of attack actions) toward the same objective & \citep{cho2020} \\
-    4 & Adaptivity & chooses its next attack action in response to an MTD disruption & \citep{cho2020, nist2011sp80039} \\
+    2 & Objective-specific behaviour & after the foothold, uses different techniques for different objectives, such as exfiltration or impediment & \citep{alshamrani2019} \\
+    3 & Choice of attack strategy & chooses among several sequences of techniques toward the same objective & \citep{cho2020} \\
+    4 & Adaptivity & chooses its next technique in response to an MTD disruption & \citep{cho2020, nist2011sp80039} \\
     % [CH3 REDRAFT ROUND 46, 2026-10-02, Table 3.2 row 5] RULED (Marc): "instead of active scanning" cut; passive already says it (the CS reader knows the pair). "such as by" -> "for example by" (grammatical).
-    5 & Detection avoidance & chooses attack actions a detector does not flag, for example passive reconnaissance & \citep{alshamrani2019, jalowski2026} \\
-    6 & Cost--benefit reasoning & chooses each attack action by weighing its cost against its benefit & \citep{cho2020} \\
-    7 & Learning & keeps the patterns it observes in past MTD deployments, and uses them to choose later attack actions & \citep{cho2020, jalowski2026} \\
+    5 & Detection avoidance & chooses techniques an intrusion detection system (IDS) does not flag, such as passive reconnaissance & \citep{alshamrani2019, jalowski2026} \\
+    6 & Cost--benefit reasoning & chooses each technique by weighing its cost against its benefit & \citep{cho2020} \\
+    7 & Learning & keeps the patterns it observes in past MTD deployments, and uses them to choose later techniques & \citep{cho2020, jalowski2026} \\
     8 & Deployment-strategy awareness & predicts which mechanism the deployment strategy deploys next, and when & \citep{cho2020, jalowski2026} \\
     \bottomrule
   \end{tabular}
@@ -3350,7 +3350,7 @@ re-scanning after a host-layer disruption \citep{brown2023}. It has cost--benefi
 return on attack (RoA), but weighs the cost of no other attack action. It
 has learning in part: an exploit of a vulnerability it has exploited before
 takes half the time \citep{zhang2023}, but it learns about
-vulnerabilities, not about the MTD deployments it observes. It has no detection avoidance: it scans actively and does nothing to avoid a detector. It has no deployment-strategy awareness: nothing in it uses which mechanism deploys next or when
+vulnerabilities, not about the MTD deployments it observes. It has no detection avoidance: it scans actively and does nothing to avoid an IDS. It has no deployment-strategy awareness: nothing in it uses which mechanism deploys next or when
 it deploys.
 % [CH3 REDRAFT ROUND 64, 2026-10-02, 3.3.2 baseline crosses] Marc: one sentence per cross, as in the Masud and Kim paragraphs; scheme awareness in the Masud wording. Ratify on read.
 
@@ -3374,8 +3374,8 @@ before and after the MTD deploys. It has campaign persistence in part: each atta
 attack paths are computed afresh, so no campaign spans intervals. It has objective-specific behaviour in part: every attack path leads to its objective,
 the database, but nothing follows once it reaches it. It has choice of attack strategy in part: it has every attack path to the database, but chooses
 none. It has adaptivity in part: its attack paths are recomputed after
-each MTD deployment, but no next attack action is chosen from them. It has cost--benefit reasoning in part: it computes each attack path's cost
-and RoA, but no choice depends on them. It has no detection avoidance: the analytical model has no detector for an attack path to avoid. It has no learning:
+each MTD deployment, but no next technique is chosen from them. It has cost--benefit reasoning in part: it computes each attack path's cost
+and RoA, but no choice depends on them. It has no detection avoidance: the analytical model has no IDS for an attack path to avoid. It has no learning:
 each deployment interval's attack paths are computed afresh, so nothing
 from earlier MTD deployments is kept. It has no deployment-strategy awareness: nothing in the analytical model uses which mechanism deploys next or when it
 deploys.
@@ -3405,16 +3405,16 @@ server, and keeps a reverse shell, an outbound connection from the
 compromised server back to the attacker. Each attack is a new run of the
 script, started at a random time. It has campaign persistence in part: each attack runs all four stages, but in one short attempt, and the next attack starts
 again with no knowledge of the network. It has objective-specific behaviour in part: after the foothold it keeps its shell and installs tools, but it has
-no attack action for exfiltration or impediment. It has detection avoidance in part:
+no technique for exfiltration or impediment. It has detection avoidance in part:
 the reverse shell is chosen ``in order to evade the detection by a defense
-system'' \citep[p.~7]{kim2026}, but the testbed runs no detector, so the
+system'' \citep[p.~7]{kim2026}, but the testbed runs no IDS, so the
 evasion is assumed. It has deployment-strategy awareness in part: its success
 probability at each stage depends on the time left before the next MTD
 deployment \citep[p.~10]{kim2026}, but not on which mechanism deploys, and
-no attack action uses it. It has no choice of attack strategy: every attack
+no technique uses it. It has no choice of attack strategy: every attack
 follows one attack scenario, in the same four stages. It has no
 adaptivity: the script does not observe the MTD, and an attack that a
-deployment disrupts fails. It has no cost--benefit reasoning: no attack action's cost is weighed against its benefit. It has no learning:
+deployment disrupts fails. It has no cost--benefit reasoning: no technique's cost is weighed against its benefit. It has no learning:
 the script observes no MTD deployment, and nothing is kept from one attack
 to the next.
 
@@ -4278,7 +4278,7 @@ four attack profiles.
 %  tuple plus new elements). The bridge paragraph is cut: the 4.4 preamble,
 %  next, says the same. DRAFT STATE.]
 Stochastic Petri nets are an established formalism in MTD evaluation
-\citep{chobenasher2018, mendonca2023}. Cai et al.\ compare MTD techniques
+\citep{chobenasher2018, mendonca2023}. Cai et al.\ compare MTD mechanisms
 with one variant in particular, the generalised stochastic Petri net (GSPN)
 \citep{cai2016}. We follow this convention and formalise each attack profile
 as a GSPN. An attack profile gives only the edges between tactics and their
@@ -5366,7 +5366,7 @@ network. The baseline attacker's exploit attack action counts once, however
 many of a host's vulnerabilities it tries.
 
 \paragraph{Relative tactic occurrence.}
-An attacker with objective-specific behaviour takes different attack actions after the foothold for different objectives. The attack profiles of the APT attacker model should therefore
+An attacker with objective-specific behaviour uses different techniques after the foothold for different objectives. The attack profiles of the APT attacker model should therefore
 divide their steps among the tactics differently, most of all in actions on
 objectives (Section~\ref{sec:attack-profiles}). Relative tactic occurrence is
 the percentage of an attacker's steps taken in each tactic, counting over
@@ -5391,7 +5391,7 @@ attack action reweights the attacker's next tactics
 % opening is the argument for itself); "sequences of steps" cut from the last
 % sentence. DRAFT STATE --- ratify on read.
 \paragraph{Distinct openings.}
-An attacker with choice of attack strategy chooses among several attack strategies toward the same objective. An attacker with one attack strategy takes the same first steps in every run, and an
+An attacker with choice of attack strategy chooses among several sequences of techniques toward the same objective. An attacker with one attack strategy takes the same first steps in every run, and an
 attacker that chooses does not. A run's \emph{opening} is the sequence of its
 first $k$ steps. Distinct openings is the number of different openings among
 an attacker's runs, from 1, when every run has the same opening, to the number
@@ -5407,7 +5407,7 @@ Distinct openings measures how much one attacker's openings vary across its
 runs.
 
 \paragraph{Attack rate.}
-An attacker with detection avoidance chooses attack actions a detector does not flag. MTDSim detects no attacker, so the two metrics for detection avoidance measure it by proxy, through the attacker's pace.
+An attacker with detection avoidance chooses techniques an IDS does not flag. MTDSim detects no attacker, so the two metrics for detection avoidance measure it by proxy, through the attacker's pace.
 Attack rate is the number of attack actions an attacker takes per minute
 \citep{zhan2013}, averaged over its runs:
 \begin{equation}
@@ -5420,10 +5420,10 @@ attack rate is a more aggressive attacker \citep{pendleton2016}.
 
 \paragraph{Attack confidentiality.}
 Attack rate is a mean, so it does not show bursts of attack actions, which
-scan detectors flag. Attack confidentiality is the share of an attacker's
-attack actions that a detector does not flag \citep{zaffarano2015}.
-MTDSim has no detector, so a scan detector stands in. The default
-port-scan rule of the Snort intrusion detection system flagged a source that
+an IDS flags. Attack confidentiality is the share of an attacker's
+attack actions that an IDS does not flag \citep{zaffarano2015}.
+MTDSim has no IDS, so one stands in with a single rule, the default
+port-scan rule of the Snort IDS, which flagged a source that
 connected to five different addresses within 60\,s
 \citep[Sec.~5.2]{jung2004}. Here an attack action is flagged when it is at
 least the attacker's fifth attack action within a window of 60\,s, on any
@@ -5434,7 +5434,7 @@ over every run,
   \frac{\text{attack actions not flagged}}{\text{attack actions}}.
   \label{eq:confidentiality}
 \end{equation}
-A higher attack confidentiality is an attacker a scan detector flags less often.
+A higher attack confidentiality is an attacker the IDS flags less often.
 Appendix~\ref{app:detector-memory} varies the count of five and the 60\,s
 window.
 
@@ -8540,9 +8540,9 @@ attack profile is built from the attack flows that share an objective (Section~\
 its Petri net has its own edges and base weights, and its runs divide their
 steps among the tactics differently (Figure~\ref{fig:aio-coverage}(a)).
 Credential Access, the only tactic that dispatches brute force, takes 10\,\%
-of $c_1$'s steps and 1\,\% of $c_3$'s, and the difference holds in attack
-actions after the foothold (Appendix~\ref{app:fa-behaviour-actions}). The
-attack actions that differ are those that lead to an objective. Collection,
+of $c_1$'s steps and 1\,\% of $c_3$'s, and the difference holds after the foothold
+(Appendix~\ref{app:fa-behaviour-actions}). Every attack profile takes the same
+six attack actions, at different rates. Collection,
 Exfiltration and Impact, the tactics of actions on objectives, are unmapped,
 so no attack action steals data or impedes a system. The attack profiles were
 built to differ, so the runs show that the difference survives in MTDSim
@@ -8572,7 +8572,7 @@ scan the exploit needs. Section~\ref{sec:disc-mtd-performance} reads what MTD
 does against the many openings.
 
 On detection avoidance (Table~\ref{tab:attacker-properties}), MTDSim has no
-detector, so Section~\ref{sec:evaluation-metrics} measures it by
+IDS, so Section~\ref{sec:evaluation-metrics} measures it by
 proxy, through attack rate and attack confidentiality. The APT attacker
 model's attack rate is lower than the baseline attacker's
 (Table~\ref{tab:unopposed-summary}), mostly because of its unmapped tactics:
@@ -8582,14 +8582,14 @@ its attack rate would be about the baseline attacker's
 (Appendix~\ref{app:fa-run-time}). Stealth is one of them, so in MTDSim the APT
 attacker model hides by spending time without an attack action. An attack
 action that fails because its preconditions are missing is not counted,
-because it never reaches the network for a detector to flag. The scan
-detector flags the APT attacker model less too: attack confidentiality orders
+because it never reaches the network for an IDS to flag. The IDS
+flags the APT attacker model less too: attack confidentiality orders
 the four attack profiles and the baseline attacker as attack rate does
 (Table~\ref{tab:unopposed-summary}). The APT attacker model therefore moves
 low and slow, as Section~\ref{subsec:apt} describes an APT doing to stay
 undetected, and its pace is set on purpose: Section~\ref{subsec:dwell-times}
 times Stealth among the longest tactics because an attacker stays hidden
-throughout an attack. It chooses no attack action against a detector, because
+throughout an attack. It chooses no attack action against an IDS, because
 MTDSim has none to choose against.
 
 Attack outcome shows what these differences cost. With no MTD, the APT
@@ -8931,7 +8931,7 @@ so the APT attacker model must rebuild it; the failure matrix reweights the
 next tactic on the verdict, by rules set by our judgement, whether or not MTD
 caused the failure. The pace is assumed to hide the attacker and is measured
 by proxy (Section~\ref{sec:disc-behaviour}), as Kim et al.'s evasion is
-assumed, but no detector exists to choose against. The other three stop
+assumed, but no IDS exists to choose against. The other three stop
 because no part of the model makes the decision: the exploit's RoA order is
 the only cost it weighs, the vulnerability memory learns vulnerabilities, not
 MTD deployments, and the attacker cannot see the MTD schedule. Campaign persistence,
@@ -9356,7 +9356,7 @@ identical only up to the first MTD deployment, and that first deployment is
 where the baseline attacker's time lost falls below zero
 (Section~\ref{sec:disc-mtd-performance}). Attack rate and attack
 confidentiality measure detection avoidance by proxy, through pace and a
-declared scan detector (Section~\ref{subsec:metrics-behaviour},
+declared IDS rule (Section~\ref{subsec:metrics-behaviour},
 Appendix~\ref{app:detector-memory}). Distinct openings counts any variety, so
 it shows that the APT attacker model chooses among attack strategies; whether
 it chooses well is not measured. It also counts an attack profile's steps as
@@ -9799,8 +9799,8 @@ in that section's order.
 without a fixed order and with a context of their own, which then allows more
 than one token, so the attacker can pursue several lines of a campaign; actions
 on objectives; a failure that knows MTD caused it. This lifts at most two marks,
-because detection avoidance also needs a detector.
-\item \textbf{A simulator that prices nothing} (F5, F11). A detector that
+because detection avoidance also needs an IDS.
+\item \textbf{A simulator that prices nothing} (F5, F11). An IDS that
 depends on the attacker and drives MTD; the overhead and loss of service of each
 deployment beside NCR reduction, so that a sweep can choose a deployment
 interval.
@@ -10328,7 +10328,7 @@ with the floor declared.
 
 \input{tables/tab_C-3a_decay_sensitivity}
 
-\section{Robustness of attack confidentiality to the scan detector}
+\section{Robustness of attack confidentiality to the intrusion detection system}
 \label{app:detector-memory}
 
 % 2026-09-30: the placeholder described the retired tuned-alarm detector; filled
