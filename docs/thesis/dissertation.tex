@@ -3020,6 +3020,9 @@ while an APT attacker uses passive reconnaissance to stay hidden
   %  run); row 7 "what it observes of" -> "the patterns it observes in" (Cho
   %  V-D, Jalowski: patterns; a pattern needs more than one deployment, which
   %  separates 7 from 4's one disruption). Blind re-score of all four rows owed.]
+  % [2026-10-11, Marc: rows 2-7 technique (ATT&CK), row 5 IDS; then row 5 "moves
+  %  low and slow and" (Alshamrani's phrase, the 3.3.1 opener's) and row 8
+  %  "and leverages" (Cho's verb). Marks re-scored blind, Appendix B.]
   \label{tab:attacker-properties}
   \tablestyle
   % [CH3 REDRAFT ROUND 43, 2026-10-02, Table 3.2] Marc: cells "so long and vague". Header "Definition"; cells cut to the behaviour scored (subject: the attacker model). Row 4 drops "changing conditions" (no Table 3.3 cell rests on it); row 8 "how and when the MTD scheme moves" is the wording 3.3.2's lineage cell (8) already uses; Cho cut from rows 1 and 5 (Marc: prose and table consistent; Cho V-A's characteristics no longer in the prose). Scores unchanged. Ratify on read.
@@ -3034,10 +3037,10 @@ while an APT attacker uses passive reconnaissance to stay hidden
     3 & Choice of attack strategy & chooses among several sequences of techniques toward the same objective & \citep{cho2020} \\
     4 & Adaptivity & chooses its next technique in response to an MTD disruption & \citep{cho2020, nist2011sp80039} \\
     % [CH3 REDRAFT ROUND 46, 2026-10-02, Table 3.2 row 5] RULED (Marc): "instead of active scanning" cut; passive already says it (the CS reader knows the pair). "such as by" -> "for example by" (grammatical).
-    5 & Detection avoidance & chooses techniques an intrusion detection system (IDS) does not flag, such as passive reconnaissance & \citep{alshamrani2019, jalowski2026} \\
+    5 & Detection avoidance & moves low and slow and chooses techniques an intrusion detection system (IDS) does not flag, such as passive reconnaissance & \citep{alshamrani2019, jalowski2026} \\
     6 & Cost--benefit reasoning & chooses each technique by weighing its cost against its benefit & \citep{cho2020} \\
     7 & Learning & keeps the patterns it observes in past MTD deployments, and uses them to choose later techniques & \citep{cho2020, jalowski2026} \\
-    8 & Deployment-strategy awareness & predicts which mechanism the deployment strategy deploys next, and when & \citep{cho2020, jalowski2026} \\
+    8 & Deployment-strategy awareness & predicts and leverages which mechanism the deployment strategy deploys next, and when & \citep{cho2020, jalowski2026} \\
     \bottomrule
   \end{tabular}
 \end{table}
@@ -5410,7 +5413,7 @@ Distinct openings measures how much one attacker's openings vary across its
 runs.
 
 \paragraph{Attack rate.}
-An attacker with detection avoidance chooses techniques an IDS does not flag. MTDSim detects no attacker, so the two metrics for detection avoidance measure it by proxy, through the attacker's pace.
+An attacker with detection avoidance moves low and slow and chooses techniques an IDS does not flag. MTDSim detects no attacker, so the two metrics for detection avoidance measure it by proxy, through the attacker's pace.
 Attack rate is the number of attack actions an attacker takes per minute
 \citep{zhan2013}, averaged over its runs:
 \begin{equation}
@@ -9942,8 +9945,9 @@ rule to stand in for.
     \quad mark & \propstandin & \propstandin & \propnone & \propstandin \\
     \midrule
     \multicolumn{5}{@{}l}{\emph{5 Detection avoidance}} \\
+    \quad moves low and slow & no & no & no & rule \\
     \quad chooses techniques & no & no & assumed & no \\
-    \quad that an IDS does not flag & no & no & no & assumed \\
+    \quad that an IDS does not flag & no & no & assumed & assumed \\
     \quad mark & \propnone & \propnone & \propstandin & \propstandin \\
     \midrule
     \multicolumn{5}{@{}l}{\emph{6 Cost--benefit reasoning}} \\
@@ -9959,6 +9963,7 @@ rule to stand in for.
     \multicolumn{5}{@{}l}{\emph{8 Deployment-strategy awareness}} \\
     \quad predicts which mechanism deploys next & no & no & no & no \\
     \quad and when & no & no & no & no \\
+    \quad leverages the prediction & no & no & no & no \\
     \quad mark & \propnone & \propnone & \propnone & \propnone \\
     \bottomrule
   \end{tabular}
