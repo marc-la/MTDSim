@@ -62,7 +62,7 @@ def main() -> None:
         "\\begin{table}[htbp]\n\\centering\n"
         "\\caption[The ranking at the ends of the 45\\,s mean duration's band]"
         "{The MTD mechanisms and deployment strategies ranked by NCR reduction at a deployment "
-        "interval of 200\\,s, with the mean duration of persistence, stealth and command and control "
+        "interval of 200\\,s, with the mean duration of Persistence, Stealth and Command and Control "
         "at a quarter of its value, at its declared value and at four times its value. The APT "
         "attacker model averaged over $c_1$ to $c_4$, 4\\,000 runs per cell; the baseline attacker "
         "uses no tactic duration, so its ranks are Table~\\ref{tab:eff-cross-arm}'s. Ranks by "

@@ -13,10 +13,10 @@
     \toprule
     & Input & Declared & Moved across & What moved \\
     \midrule
-    \emph{Tactic durations} & initial access, privilege escalation, credential access, lateral movement & 4.5\,s & 2.25 to 9\,s & inert \\
-     & reconnaissance, discovery & 35\,s & 17.5 to 70\,s & moved: NCR 0.172 / 0.163 / 0.145 at 17.5 / 35 / 70\,s under no MTD, 0.013 lower per doubling (Appendix~\ref{app:dwell-robustness}) \\
-     & persistence, stealth, command and control; execution and defense impairment at half & 45\,s & 11.25 to 180\,s & moved: NCR 0.267 / 0.163 / 0.059 at 11.25 / 45 / 180\,s under no MTD, 0.052 lower per doubling (Appendix~\ref{app:dwell-robustness}) \\
-     & collection, exfiltration, impact & 36\,s & 18 to 72\,s & moved: NCR 0.170 / 0.163 / 0.148 at 18 / 36 / 72\,s under no MTD, 0.011 lower per doubling (Appendix~\ref{app:dwell-robustness}) \\
+    \emph{Tactic durations} & Initial Access, Privilege Escalation, Credential Access, Lateral Movement & 4.5\,s & 2.25 to 9\,s & inert \\
+     & Reconnaissance, Discovery & 35\,s & 17.5 to 70\,s & moved: NCR 0.172 / 0.163 / 0.145 at 17.5 / 35 / 70\,s under no MTD, 0.013 lower per doubling (Appendix~\ref{app:dwell-robustness}) \\
+     & Persistence, Stealth, Command and Control; Execution and Defense Impairment at half & 45\,s & 11.25 to 180\,s & moved: NCR 0.267 / 0.163 / 0.059 at 11.25 / 45 / 180\,s under no MTD, 0.052 lower per doubling (Appendix~\ref{app:dwell-robustness}) \\
+     & Collection, Exfiltration, Impact & 36\,s & 18 to 72\,s & moved: NCR 0.170 / 0.163 / 0.148 at 18 / 36 / 72\,s under no MTD, 0.011 lower per doubling (Appendix~\ref{app:dwell-robustness}) \\
      & the delay's distribution & exponential & Erlang-4, same mean & inert under no MTD; under MTD the Erlang-4 delay gives a lower NCR, by 0.005 at most (Appendix~\ref{app:exponential-shape}) \\
     \midrule
     \emph{Mapping} & tactic-to-action mapping & partial & total & the alternative gives NCR 0.003 against 0.163, no MTD (Appendix~\ref{app:experiment-one}) \\

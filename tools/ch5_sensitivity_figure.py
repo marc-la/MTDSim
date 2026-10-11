@@ -58,10 +58,10 @@ Y_STEP = 0.05
 # 2026-10-05 (Section 4.4.2 round 5): the coined family names are cut; each
 # shared mean duration is named by its value and its axis printed in seconds.
 ANCHORS = {
-    "scan": ("m_scan", "mean duration of reconnaissance and discovery", 35.0),
-    "exploit": ("m_exploit", "mean duration of initial access and the three tactics set with it", 4.5),
-    "stealth": ("m_stealth", "mean duration of persistence, stealth and command and control", 45.0),
-    "objective": ("m_objective", "mean duration of collection, exfiltration and impact", 36.0),
+    "scan": ("m_scan", "mean duration of Reconnaissance and Discovery", 35.0),
+    "exploit": ("m_exploit", "mean duration of Initial Access and the three tactics set with it", 4.5),
+    "stealth": ("m_stealth", "mean duration of Persistence, Stealth and Command and Control", 45.0),
+    "objective": ("m_objective", "mean duration of Collection, Exfiltration and Impact", 36.0),
 }
 
 

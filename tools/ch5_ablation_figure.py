@@ -50,7 +50,7 @@ NUMBERS = REPO / "data" / "results" / "ch5_defended" / "ablation_numbers.json"
 DRAWN = ("objective_exfiltration", "objective_exfiltration_impact", "objective_none_c2")  # c_2 left out: see above
 ARM = {"core": "with", "blind": "without"}
 KINDS = (  # key, legend label, fill, text colour on the fill
-    ("reconnaissance", "back to reconnaissance", "black!78", "white"),
+    ("reconnaissance", "back to Reconnaissance", "black!78", "white"),
     ("unmet", "fails before it runs", "black!52", "white"),
     ("runs_fails", "runs and fails", "black!32", "white"),
     ("succeeds", "succeeds, compromises no host", "black!11", "black"),
@@ -100,7 +100,7 @@ def main() -> None:
     CX, NX = 12.95, 13.75         # the compromise column's centre; n's west edge
     BH, GAP_IN, GAP_OUT = 0.34, 0.07, 0.26
     # (a)'s key decodes (a) only, so it sits under (a)'s title (conventions §o)
-    panel_title(w, X0, 0.22, "Next action after a failed initial access", "a")
+    panel_title(w, X0, 0.22, "Next action after a failed Initial Access", "a")
     ky = key_row(w, X0, 0.0, [(lab, "bar", fill, None) for _, lab, fill, _ in KINDS], xmax=X1 + 2.8)
     y = ky - 0.88
     w(r"\node[anchor=south,align=center,text=black!60] at (%.3f,%.3f) {compromises a host};" % (CX, y + 0.02))
@@ -130,7 +130,7 @@ def main() -> None:
         xx = X0 + v * (X1 - X0)
         w(r"\draw[black!60,line width=0.3pt] (%.3f,%.3f) -- (%.3f,%.3f);" % (xx, ybot, xx, ybot - 0.07))
         w(r"\node[anchor=north] at (%.3f,%.3f) {%g};" % (xx, ybot - 0.1, v))
-    w(r"\node[anchor=north] at (%.3f,%.3f) {Share of the next actions after a failed initial access, no MTD};"
+    w(r"\node[anchor=north] at (%.3f,%.3f) {Share of the next actions after a failed Initial Access, no MTD};"
       % ((X0 + X1) / 2, ybot - 0.5))
 
     # ---------------- (b) outcome: Cohen's d, with minus without ----------------

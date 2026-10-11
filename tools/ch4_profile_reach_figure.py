@@ -152,7 +152,7 @@ def emit(gap, axis, prof):
             counts[(p, t)] = (c, len(flows))
             svg.cell(cx, ys[t], c / len(flows))
     for t in order:
-        svg.text(NAME_R, ys[t] + 6, axis.label[t].capitalize(), anchor="end")
+        svg.text(NAME_R, ys[t] + 6, axis.label[t], anchor="end")
 
     # the key, under the columns: five discs labelled at the ends only
     mid = COL0 + 1.5 * COL_W

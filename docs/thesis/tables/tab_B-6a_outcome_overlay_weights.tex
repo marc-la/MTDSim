@@ -12,12 +12,12 @@
 \toprule
 Rule & Applies to & Value & Reason \\
 \midrule
-A & After a failed initial access, a move to a tactic that needs a foothold & 0.02 & No foothold was gained, so these moves are almost out of reach. \\
-B & After a failed reconnaissance, a move to initial access & 0.4 & Nothing was found, so breaking in is harder but still possible. \\
-C & After a failed reconnaissance, a move to a tactic that needs a foothold & 0.05 & With no foothold, a move deep into the network is implausible. \\
+A & After a failed Initial Access, a move to a tactic that needs a foothold & 0.02 & No foothold was gained, so these moves are almost out of reach. \\
+B & After a failed Reconnaissance, a move to Initial Access & 0.4 & Nothing was found, so breaking in is harder but still possible. \\
+C & After a failed Reconnaissance, a move to a tactic that needs a foothold & 0.05 & With no foothold, a move deep into the network is implausible. \\
 D & After a failure with a foothold, a move back to a tactic without one & 0.25 & Falling right back to before the foothold is an uncommon response. \\
-E & Any other move back to execution & 0.35 & Running code again on a held foothold continues the attack. \\
-F & Any other move back: from initial access to preparation, or from actions on objectives to post-intrusion operations & 0.9 & Going back one stage is the common response to a failure. \\
+E & Any other move back to Execution & 0.35 & Running code again on a held foothold continues the attack. \\
+F & Any other move back: from Initial Access to preparation, or from actions on objectives to post-intrusion operations & 0.9 & Going back one stage is the common response to a failure. \\
 G & A move within the same stage & 0.7 & Another tactic of the stage is an alternative route. \\
 H & A move forward, with a foothold & 0.35 & Advancing straight after a failure is possible but uncommon. \\
 I & A move forward, without a foothold & 0.3 & The step the next one depends on did not succeed. \\

@@ -131,12 +131,12 @@ def main() -> None:
     # asserted between them, so the table cannot claim a placement it breaks.
     deploy_s = constants.MTD_TRIGGER_INTERVAL["random"][0]
     quiet_s = anchors["stealth-low-and-slow"]["duration_s"]
-    quiet = "persistence, stealth, command and control"
+    quiet = "Persistence, Stealth, Command and Control"
     bounds = {
         ("stealth-low-and-slow", 1.0): (
             ("scanning ports", cost["SCAN_PORT"]), ("the deployment interval", deploy_s)),
         ("stealth-low-and-slow", 0.5): (("an exploit", exploit_s), (quiet, quiet_s)),
-        ("objective-execution", 1.0): (("reconnaissance, discovery", scan_s), (quiet, quiet_s)),
+        ("objective-execution", 1.0): (("Reconnaissance, Discovery", scan_s), (quiet, quiet_s)),
     }
 
     def between(anchor: str, mult: float, mu: float) -> str:
@@ -165,7 +165,6 @@ def main() -> None:
          r"Tactics & Source & Mean duration $\mu_p$ (s) \\", r"\midrule"]
     for anchor, mult in keys:
         names = [axis.label[n] for n in rows[(anchor, mult)]]
-        names = [names[0]] + [n[0].lower() + n[1:] for n in names[1:]]
         mu = {tactics[n]["duration_s"] for n in rows[(anchor, mult)]}
         assert len(mu) == 1, mu
         m = mu.pop()

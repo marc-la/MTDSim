@@ -100,18 +100,18 @@ BANDS_STEM = "fig_B-6b_distance_kernel_bands"
 # impairment" keeps ATT&CK's own spelling as the tactic's name.
 TACTIC_LABEL = {
     "reconnaissance": "Reconnaissance",
-    "resource-development": "Resource development",
-    "initial-access": "Initial access",
+    "resource-development": "Resource Development",
+    "initial-access": "Initial Access",
     "execution": "Execution",
     "persistence": "Persistence",
-    "privilege-escalation": "Privilege escalation",
+    "privilege-escalation": "Privilege Escalation",
     "stealth": "Stealth",
-    "defense-impairment": "Defense impairment",
-    "credential-access": "Credential access",
+    "defense-impairment": "Defense Impairment",
+    "credential-access": "Credential Access",
     "discovery": "Discovery",
-    "lateral-movement": "Lateral movement",
+    "lateral-movement": "Lateral Movement",
     "collection": "Collection",
-    "command-and-control": "Command and control",
+    "command-and-control": "Command and Control",
     "exfiltration": "Exfiltration",
     "impact": "Impact",
 }
@@ -542,19 +542,19 @@ def emit_bands_figure(rs: RuleSet, spec: RuleSpec, dec: dict, census: Counter, v
 # reconnaissance, resource development and initial access are the tactics
 # without a foothold. A rule with no wording here stops the build.
 RULE_TEXT = {
-    "ia_gate_foothold": ("After a failed initial access, a move to a tactic that needs a foothold",
+    "ia_gate_foothold": ("After a failed Initial Access, a move to a tactic that needs a foothold",
                          "No foothold was gained, so these moves are almost out of reach."),
-    "recon_gate_initial_access": ("After a failed reconnaissance, a move to initial access",
+    "recon_gate_initial_access": ("After a failed Reconnaissance, a move to Initial Access",
                                   "Nothing was found, so breaking in is harder but still possible."),
-    "recon_gate_deep": ("After a failed reconnaissance, a move to a tactic that needs a foothold",
+    "recon_gate_deep": ("After a failed Reconnaissance, a move to a tactic that needs a foothold",
                         "With no foothold, a move deep into the network is implausible."),
     "preintrusion_damper": ("After a failure with a foothold, a move back to a tactic without one",
                             "Falling right back to before the foothold is an uncommon response."),
-    "execution_damper": ("Any other move back to execution",
+    "execution_damper": ("Any other move back to Execution",
                          "Running code again on a held foothold continues the attack."),
     # rules A to E leave only two kinds of move back for F: initial access to
     # preparation, and actions on objectives to post-intrusion operations
-    "backward": ("Any other move back: from initial access to preparation, or from "
+    "backward": ("Any other move back: from Initial Access to preparation, or from "
                  "actions on objectives to post-intrusion operations",
                  "Going back one stage is the common response to a failure."),
     "lateral": ("A move within the same stage",

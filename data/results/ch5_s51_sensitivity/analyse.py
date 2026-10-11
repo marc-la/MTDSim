@@ -74,10 +74,10 @@ FAMILY_VALUE = {"scan-shaped": 35.0, "exploit-shaped": 4.5,
 # where a row needs them.
 FAMILY_NAME = {f: f"{v:g}\\,s" for f, v in FAMILY_VALUE.items()}
 FAMILY_TACTICS = {
-    "scan-shaped": "reconnaissance, discovery",
-    "exploit-shaped": "initial access, privilege escalation, credential access, lateral movement",
-    "stealth-low-and-slow": "persistence, stealth, command and control; execution and defense impairment at half",
-    "objective-execution": "collection, exfiltration, impact",
+    "scan-shaped": "Reconnaissance, Discovery",
+    "exploit-shaped": "Initial Access, Privilege Escalation, Credential Access, Lateral Movement",
+    "stealth-low-and-slow": "Persistence, Stealth, Command and Control; Execution and Defense Impairment at half",
+    "objective-execution": "Collection, Exfiltration, Impact",
 }
 
 

@@ -4019,8 +4019,8 @@ each next tactic. Tactics also make the tactic-to-action mapping smaller: it map
 rather than the 124 techniques the attack flows use, to MTDSim's six attack
 actions (Section~\ref{sec:execution}).
 
-The attack graph is sparsest before initial access: reconnaissance appears
-in 10 of the 38 attack flows. Reconnaissance and resource development
+The attack graph is sparsest before Initial Access: Reconnaissance appears
+in 10 of the 38 attack flows. Reconnaissance and Resource Development
 happen largely outside the scope of the defender's controls
 \citep{mitre2026attackkb}, so the investigations that CTI reports rarely
 see them, and any CTI corpus shares the gap. An MTD evaluation cannot
@@ -4162,7 +4162,7 @@ them ourselves (Appendix~\ref{app:classification-audit}). We did not read the
 answers off the attack flow, because its analyst drew only the steps the
 threat report describes, and these can stop short of the objective. Only 10
 of the 19
-attack flows of $c_1$ reach the exfiltration tactic, although the sources of
+attack flows of $c_1$ reach the Exfiltration tactic, although the sources of
 all 19 report the theft (Figure~\ref{fig:attack-profiles}).
 
 % FIGURE (REBUILT 2026-10-04, Marc: the grids were "decoration ... I don't
@@ -4196,10 +4196,10 @@ all 19 report the theft (Figure~\ref{fig:attack-profiles}).
 %  4.4.4); "objective" -> "actions on objectives" (Marc's ruling). DRAFT STATE.]
 Figure~\ref{fig:attack-profiles} groups the tactics by the four stages of
 Section~\ref{subsec:apt}. Before actions on objectives, the attack profiles
-share their most common tactics: execution, stealth, discovery and command
-and control appear in more than half the attack flows of every attack
+share their most common tactics: Execution, Stealth, Discovery and Command
+and Control appear in more than half the attack flows of every attack
 profile. The attack profiles differ in actions on objectives. No attack flow
-of $c_2$ or $c_4$ reaches exfiltration, and none of $c_4$ reaches impact.
+of $c_2$ or $c_4$ reaches Exfiltration, and none of $c_4$ reaches Impact.
 Collection, which neither question asks about, appears in 14 of the 19
 attack flows of $c_1$ but in only one each of $c_2$ and $c_3$.
 
@@ -4317,7 +4317,7 @@ $p$.
   $p \to \tau_p \to \hat{p} \to t_{pq} \to q$.
   \item[Weights $W$:] each timed transition has rate
   $W(\tau_p) = 1/\mu_p$, so that its delay has mean $\mu_p$, the mean duration
-  of tactic $p$ (Section~\ref{subsec:dwell-times}). Resource development has
+  of tactic $p$ (Section~\ref{subsec:dwell-times}). Resource Development has
   a mean duration of zero, so its transition is immediate. Each immediate
   transition has the \emph{base weight} of its edge $p \to q$, the share of
   the attack profile's attack flows leaving $p$ that go to $q$:
@@ -4329,17 +4329,17 @@ $p$.
   draw $p \to q$. The base weights count each APT group once, through its
   attack flow with the most steps, so that a group reported several times
   does not outweigh the rest. They rest on 29 of the 38 attack flows.
-  \item[Initial marking $M_0$:] one token on reconnaissance. The single token
+  \item[Initial marking $M_0$:] one token on Reconnaissance. The single token
   means the attacker pursues one line of the campaign at a time: where an
   attack flow draws parallel branches, the token follows one of them.
 \end{description}
 
-In $c_3$ and $c_4$, no attack flow leads on from reconnaissance, so the token
+In $c_3$ and $c_4$, no attack flow leads on from Reconnaissance, so the token
 could not leave the place it starts on. For these two attack profiles we add
 the \emph{pre-intrusion overlay}. It consists of three immediate transitions
-that none of their attack flows draws: from reconnaissance to resource development, from
-resource development to initial access, and from initial access back to
-reconnaissance, for an attacker whose intrusion fails. Their weights are
+that none of their attack flows draws: from Reconnaissance to Resource Development, from
+Resource Development to Initial Access, and from Initial Access back to
+Reconnaissance, for an attacker whose intrusion fails. Their weights are
 declared. A place with no transition of its own sends all its weight through
 the overlay. A place with transitions of its own gives the overlay transition
 one-tenth of its weight, and its own transitions share the other nine-tenths
@@ -4382,7 +4382,7 @@ immediate transitions keep their base weights. A factor of zero disables a
 transition for that firing only; places, transitions and arcs never change.
 An MTD deployment can also cut a timed transition short; if an attack action
 was in flight, its verdict is failure (Section~\ref{subsec:runtime-mechanics}). Figure~\ref{fig:gspn-gadget}(b)
-gives both sets of weights at initial access in $c_1$.
+gives both sets of weights at Initial Access in $c_1$.
 
 % [BRIDGE paragraph CUT in round 4 (Marc: "that reads like it's going to be
 %  the 4.4 preamble, which is literally next"). Prior text in git c25d05a5.]
@@ -4401,11 +4401,11 @@ gives both sets of weights at initial access in $c_1$.
   \includegraphics{fig_4-3a_gspn_gadget}
   \caption[One tactic of a Petri net]{One tactic of a Petri net. (a)~The
   construction for one tactic $p$, with the legend for every mark.
-  (b)~Initial access in $c_1$: each successor $q$ with its base weight
+  (b)~Initial Access in $c_1$: each successor $q$ with its base weight
   $W(t_{pq})$ and, in blue, its weight after a failure,
   $W(t_{pq} \mid \text{failure})$ (Equations~\ref{eq:base-weight}
   and~\ref{eq:routing}). After a failure, most of the weight moves to
-  reconnaissance.}
+  Reconnaissance.}
   \label{fig:gspn-gadget}
 \end{figure}
 
@@ -4552,7 +4552,7 @@ transitions that take the token to the next tactic.
   %  into the prose; the quoted step of Figure 4.1 is the section's own
   %  title). DRAFT STATE.]
   \caption[The Petri net integrated with MTDSim]{The Petri net integrated
-  with MTDSim, drawn at initial access in $c_1$ with three of its eight
+  with MTDSim, drawn at Initial Access in $c_1$ with three of its eight
   successors. Blue traces one iteration of the loop, numbered by step.}
   \label{fig:runtime-loop}
 % [CH4 SCRUTINY 2026-10-02, F5: regenerated --- "Defender" -> "MTD" (Figure
@@ -4816,16 +4816,16 @@ Figure~\ref{fig:controller-mapping} shows the attack action each of the 15
 tactics maps to, if any. We declared each pair from ATT\&CK, in which a
 tactic is what an attacker does to achieve a goal and its techniques are how
 it does it (Section~\ref{subsec:attack}). A tactic maps to the attack action
-that carries out one of its techniques. Credential access, for example,
+that carries out one of its techniques. Credential Access, for example,
 includes guessing passwords by brute force, which is what MTDSim's brute
-force attack action does. Initial access, execution and privilege escalation
+force attack action does. Initial Access, Execution and Privilege Escalation
 each include a technique that exploits a vulnerability, so all three map to
-exploit, and reconnaissance and discovery each include a scanning technique,
-so reconnaissance maps to scan host and discovery to scan port. For the remaining two, lateral
-movement and command and control, we chose the attack action that serves the
+exploit, and Reconnaissance and Discovery each include a scanning technique,
+so Reconnaissance maps to scan host and Discovery to scan port. For the remaining two, Lateral
+Movement and Command and Control, we chose the attack action that serves the
 tactic's goal. Enumerate host moves the attacker to its next host, which is
-the goal of lateral movement, and Brown describes scan neighbours as command
-and control revealing connected hosts~\citep{brown2023}.
+the goal of Lateral Movement, and Brown describes scan neighbours as Command
+and Control revealing connected hosts~\citep{brown2023}.
 Table~\ref{tab:controller-mapping} gives the reason for each tactic.
 
 % [figure LANDED 2026-08-20. Generated by tools/controller_mapping_figure.py
@@ -4843,13 +4843,13 @@ Table~\ref{tab:controller-mapping} gives the reason for each tactic.
   \label{fig:controller-mapping}
 \end{figure}
 
-Seven tactics are unmapped, because no attack action in MTDSim carries them
-out. MTDSim's attacker stops at compromising hosts, so collection,
-exfiltration and impact have nothing to act on. Nothing in MTDSim watches
-the attacker, so stealth has nothing to hide from. The attacker can neither
-see nor change the MTD schedule, so defense impairment has nothing to
-impair. A compromised host stays compromised, so persistence has no foothold
-to keep. Resource development happens off the target's network, which
+Seven tactics are \emph{unmapped}, because no attack action in MTDSim carries them
+out. MTDSim's attacker stops at compromising hosts, so Collection,
+Exfiltration and Impact have nothing to act on. Nothing in MTDSim watches
+the attacker, so Stealth has nothing to hide from. The attacker can neither
+see nor change the MTD schedule, so Defense Impairment has nothing to
+impair. A compromised host stays compromised, so Persistence has no foothold
+to keep. Resource Development happens off the target's network, which
 MTDSim does not model. These gaps set the ceiling of this dissertation: the
 APT attacker model can only be as good as the attack actions it adopts.
 
@@ -4925,10 +4925,10 @@ MTDSim for six tactics, and our judgement for the other nine.
 %  DRAFT STATE.]
 Six tactics do the same kind of work as one of MTDSim's attack actions, so
 each takes that attack action's time, even where the tactic maps to another
-(Section~\ref{subsec:attacker-model}). Initial access, privilege escalation,
-credential access and lateral movement each act briefly on one host, as the
+(Section~\ref{subsec:attacker-model}). Initial Access, Privilege Escalation,
+Credential Access and Lateral Movement each act briefly on one host, as the
 exploit attack action does, so each takes the mean time of the exploit attack
-action, 4.5~s. Reconnaissance and discovery survey a network, as MTDSim's
+action, 4.5~s. Reconnaissance and Discovery survey a network, as MTDSim's
 scans for hosts, ports and neighbours do together, so each takes the total
 time of the three scans, 35~s.
 
@@ -4943,14 +4943,14 @@ We also kept each under the 200~s default deployment interval
 (Section~\ref{subsec:defence-mechanisms}), or a deployment would disrupt most
 runs of the tactic.
 
-Persistence, stealth
-and command and control keep a foothold, stay hidden and stay in contact
+Persistence, Stealth
+and Command and Control keep a foothold, stay hidden and stay in contact
 throughout an attack~\citep{mitre2026attackkb}, so we set them longest, at
-45~s. Collection, exfiltration and impact move or destroy data, which we
+45~s. Collection, Exfiltration and Impact move or destroy data, which we
 judged to take a little longer than surveying a network, so we set them at
-36~s. Execution and defense impairment are single acts that the attacker
+36~s. Execution and Defense Impairment are single acts that the attacker
 paces to stay hidden, so we set them at 22.5~s, half the 45~s and longer than
-an exploit. Resource development happens before the attack reaches the
+an exploit. Resource Development happens before the attack reaches the
 target's network, so it takes no time.
 % ROUND 11, 2026-10-05 (Marc: as in 4.4.3, the last paragraph repeats the
 % judgement and could be integrated into the existing paragraphs). The
@@ -4972,8 +4972,8 @@ Because these values are our judgement,
 Appendix~\ref{app:dwell-robustness} tests whether NCR
 (Section~\ref{sec:evaluation-metrics}) depends on them: after the values were
 fixed, it halved and doubled each one in turn. Only the 45~s changes NCR much,
-most likely through command and control, one of the three tactics it times.
-Command and control is the only tactic that maps to scan neighbours, the
+most likely through Command and Control, one of the three tactics it times.
+Command and Control is the only tactic that maps to scan neighbours, the
 attack action that finds the hosts next to those the attacker has compromised
 (Section~\ref{subsec:tactic-verb-mapping}). The slower the attacker finds new
 hosts, the fewer it reaches before the run ends, so Chapter~\ref{ch:experiments}'s
@@ -5095,7 +5095,7 @@ about where it goes after a failure.
 We set the failure matrix from three assumptions about what an attacker does
 after a failure. First, an attacker without a foothold
 (Section~\ref{subsec:apt}) is unlikely to go on to a tactic that needs one, so
-after a failed initial access it is likely to go back to preparation to try
+after a failed Initial Access it is likely to go back to preparation to try
 again. Hutchins et al.\ describe an APT campaign that tried again the next
 day, with new recipients, after its intrusion attempt was detected and
 mitigated~\citep{hutchins2011}. Second, an attacker that fails after it has a
@@ -5112,10 +5112,10 @@ factor, which scales a move down by each lifecycle stage it skips. The rules
 and the distance factor set all 210 factors (Appendix~\ref{app:weight-sets}),
 and their values are our judgement. Equation~\ref{eq:routing} rescales
 the weights out of a tactic to sum to one, so a factor counts only against
-the other factors of the same tactic. After a failed initial access in
-$c_1$, for example, the weight on reconnaissance rises from 0.062 to 0.750
+the other factors of the same tactic. After a failed Initial Access in
+$c_1$, for example, the weight on Reconnaissance rises from 0.062 to 0.750
 (Figure~\ref{fig:gspn-gadget}(b)), so the attacker most likely goes back to
-reconnaissance to try again. Without the failure matrix, it would most likely
+Reconnaissance to try again. Without the failure matrix, it would most likely
 carry on into the network as though it had broken in.
 
 % [TIGHTENING 2026-10-05 (Marc accepted the redundancy ledger in full; his
@@ -5133,8 +5133,8 @@ Table~\ref{tab:attacker-properties}: it chooses its next tactic in response
 to a failure, and reads only the verdict, so a failure caused by an MTD
 deployment routes like any other. The
 failure matrix can reweight only the next tactics the attack flows give. In
-$c_2$, no move leads from initial access back to preparation, so a failed
-initial access still goes on into the network. Where the attack flows give
+$c_2$, no move leads from Initial Access back to preparation, so a failed
+Initial Access still goes on into the network. Where the attack flows give
 a tactic no next tactic, a dead end, there is nothing to reweight, and the
 token retraces the edge it travelled. Section~\ref{subsec:ablation-failure-matrix} sets
 every factor to one and finds that the failure matrix changes where the
@@ -6718,7 +6718,7 @@ On objective-specific behaviour, the baseline attacker takes only its six
 attack actions (Figure~\ref{fig:aio-coverage}(a)). Every attack profile also
 spends \prelim{26} to \prelim{47}\,\% of its steps in unmapped tactics, which
 dispatch no attack action (Section~\ref{subsec:tactic-verb-mapping}). The
-unmapped tactics include collection, exfiltration and impact, the tactics of
+unmapped tactics include Collection, Exfiltration and Impact, the tactics of
 actions on objectives. The attack profiles divide their
 steps among the tactics differently, each over the tactics its attack flows
 reach (Figure~\ref{fig:attack-profiles}).
@@ -8302,9 +8302,9 @@ Removing the failure matrix makes the APT attacker model choose its next
 tactic after a failure by the base weights, as it does after a success
 (Section~\ref{subsec:failure-matrix}). The failure matrix changes where the
 APT attacker model goes after a failure, and its effect on NCR is negligible
-(Table~\ref{tab:ablation}). After a failed initial access (the example of
+(Table~\ref{tab:ablation}). After a failed Initial Access (the example of
 Section~\ref{subsec:failure-matrix}), the APT attacker model goes back to
-reconnaissance in 0.76 to 0.83 of cases in $c_1$, $c_3$ and $c_4$ with the
+Reconnaissance in 0.76 to 0.83 of cases in $c_1$, $c_3$ and $c_4$ with the
 failure matrix, and in 0.08 to 0.10 without.
 % 2026-10-08 (Marc, Section 6.3 paragraph 3 leans on it; registry B16): time
 %  lost per MTD deployment with and without the failure matrix, from
@@ -8494,6 +8494,10 @@ sets out the threats to their validity.
 %  v2 is in git at d0c0dafd, the overdraft at 5f50d910.
 %  MESSAGE (Q6): the unmapped tactics and the order of its tactics explain each
 %  difference with no MTD (the run-time reading: Appendix F.3).
+%  OPENERS 2026-10-11 (Marc: "why don't we just cite objective-specific
+%  behaviour, Table 3.2"): each paragraph names its property and cites Table
+%  3.2 rather than restating the definition (no re-gloss; the definitions are
+%  under audit, handoff section 12.3).
 %  STRUCTURE: opener (the two causes; what the ablations rule out; where the
 %  other five properties are read); one paragraph per measured property, each
 %  opening on its Table 3.2 definition and testing its clauses in order;
@@ -8523,20 +8527,18 @@ Section~\ref{sec:attacker-in-operation} measured the three properties that
 have an attacker behaviour metric (Section~\ref{sec:evaluation-metrics}).
 Adaptivity needs MTD and is read in Section~\ref{sec:disc-mtd-performance},
 and Section~\ref{sec:fidelity-verdict} scores all eight. Each paragraph below
-tests one property against its definition in
-Table~\ref{tab:attacker-properties}; the last reads attack outcome, what the
+tests one property against its definition; the last reads attack outcome, what the
 differences cost.
 
-Objective-specific behaviour is taking different attack actions after the
-foothold for different objectives. Each attack profile is built from the
-attack flows that share an objective (Section~\ref{sec:attack-profiles}), so
+On objective-specific behaviour (Table~\ref{tab:attacker-properties}), each
+attack profile is built from the attack flows that share an objective (Section~\ref{sec:attack-profiles}), so
 its Petri net has its own edges and base weights, and its runs divide their
 steps among the tactics differently (Figure~\ref{fig:aio-coverage}(a)).
-Credential access, the only tactic that dispatches brute force, takes 10\,\%
+Credential Access, the only tactic that dispatches brute force, takes 10\,\%
 of $c_1$'s steps and 1\,\% of $c_3$'s, and the difference holds in attack
 actions after the foothold (Appendix~\ref{app:fa-behaviour-actions}). The
 attack actions that differ are those that lead to an objective. Collection,
-exfiltration and impact, the tactics of actions on objectives, are unmapped,
+Exfiltration and Impact, the tactics of actions on objectives, are unmapped,
 so no attack action steals data or impedes a system. The attack profiles were
 built to differ, so the runs show that the difference survives in MTDSim
 (Section~\ref{subsec:metrics-behaviour}). They do not show that the objective
@@ -8545,9 +8547,8 @@ baseline attacker follows one procedure in either attack scenario, which
 changes only the host it attacks next
 (Section~\ref{subsec:recent-threat-models}).
 
-Choice of attack strategy is choosing among several attack strategies,
-sequences of attack actions, toward the same objective. The runs of one
-attack profile, and so of one objective, take hundreds of distinct openings
+On choice of attack strategy (Table~\ref{tab:attacker-properties}), the runs
+of one attack profile, and so of one objective, take hundreds of distinct openings
 over eight steps, against the baseline attacker's one opening over its first
 four steps and three over eight (Figure~\ref{fig:aio-coverage}(b)). Counted in
 attack actions, the baseline attacker's unit, the gap holds: 190 to 844
@@ -8565,8 +8566,8 @@ the attacker knows of the network, and it can choose an exploit before the
 scan the exploit needs. Section~\ref{sec:disc-mtd-performance} reads what MTD
 does against the many openings.
 
-Detection avoidance is choosing attack actions a detector does not flag.
-MTDSim has no detector, so Section~\ref{sec:evaluation-metrics} measures it by
+On detection avoidance (Table~\ref{tab:attacker-properties}), MTDSim has no
+detector, so Section~\ref{sec:evaluation-metrics} measures it by
 proxy, through attack rate and attack confidentiality. The APT attacker
 model's attack rate is lower than the baseline attacker's
 (Table~\ref{tab:unopposed-summary}), mostly because of its unmapped tactics:
@@ -8582,7 +8583,7 @@ the four attack profiles and the baseline attacker as attack rate does
 (Table~\ref{tab:unopposed-summary}). The APT attacker model therefore moves
 low and slow, as Section~\ref{subsec:apt} describes an APT doing to stay
 undetected, and its pace is set on purpose: Section~\ref{subsec:dwell-times}
-times stealth among the longest tactics because an attacker stays hidden
+times Stealth among the longest tactics because an attacker stays hidden
 throughout an attack. It chooses no attack action against a detector, because
 MTDSim has none to choose against.
 
@@ -8596,7 +8597,7 @@ preconditions are missing (Appendix~\ref{app:fa-run-time}). MTDSim's attack
 actions were written for the baseline attacker's procedure, each relying on
 the state the one before it leaves (Figure~\ref{fig:attacker-model}), and the
 order of its tactics can put an exploit before the scan it needs. Command and
-control, the only tactic that dispatches scan neighbours, also takes a mean of
+Control, the only tactic that dispatches scan neighbours, also takes a mean of
 45\,s, against 5\,s for the baseline attacker's scan neighbours
 (Sections~\ref{subsec:attacker-model} and~\ref{subsec:dwell-times}), which
 likely slows how fast it finds new hosts. Whether a run succeeds depends
@@ -8645,7 +8646,7 @@ currency; service diversity redraws every service, so the vulnerabilities it was
 host-layer deployment costs either attacker only its place. The baseline
 attacker finds its place again at once, because its procedure restarts by
 scanning for hosts. The APT attacker model regains its place only when its
-Petri net next reaches lateral movement, and until then its attack actions
+Petri net next reaches Lateral Movement, and until then its attack actions
 most likely fail for missing preconditions (Appendices~\ref{app:fa-foothold}
 and~\ref{app:fa-traced-run}). The service layer catches the APT
 attacker model less often: it blocks only port scans, exploits and brute
@@ -8655,7 +8656,7 @@ force, which the APT attacker model runs between unmapped tactics
 (Figure~\ref{fig:eff-suppression-profiles}), so the attacker model matters
 more than the attack profile. From 500\,s $c_3$ separates, highest under the
 host-layer mechanisms and lowest under service diversity. It spends the most
-steps in unmapped tactics and the fewest in lateral movement
+steps in unmapped tactics and the fewest in Lateral Movement
 (Figure~\ref{fig:aio-coverage}(a)), which likely places it at the far end of
 the same mechanism. The split runs by layer. Port shuffle, a shuffle, shares
 rank 1 with service diversity against the baseline attacker, so the result
@@ -8690,8 +8691,8 @@ costs it time. A block ends the attack action as a failure, so its cost is
 what the attacker does next. The baseline attacker restarts its procedure,
 which costs it little unless service diversity has erased the vulnerabilities
 it was exploiting. The APT attacker model routes the failure through its
-failure matrix, and after a host-layer deployment it waits for lateral
-movement. Two of Figure~\ref{fig:aio-adaptivity}'s patterns hold by
+failure matrix, and after a host-layer deployment it waits for Lateral
+Movement. Two of Figure~\ref{fig:aio-adaptivity}'s patterns hold by
 construction: the APT attacker model is blocked less because an unmapped
 tactic runs no attack action, and the blocked bars match within a layer
 because one rule per layer decides what a deployment blocks. A deployment can
@@ -8917,7 +8918,7 @@ into an attack scenario. The choice stays within what the reports document
 (Section~\ref{sec:disc-behaviour}), and it comes from the attack flows'
 branching, not from the formalism: with one token, a stochastic finite state
 machine built from the same attack flows would make the same draw. Three marks
-stop at the attack actions. Exfiltration and impact are unmapped, so the
+stop at the attack actions. Exfiltration and Impact are unmapped, so the
 routes differ by objective (Figure~\ref{fig:aio-coverage}(a)) but no attack
 action acts on one, the reason the baseline attacker has objective-specific
 behaviour only in part. A failed attack action leaves its precondition unmet,
@@ -9230,9 +9231,9 @@ an attack action that arrives out of it is refused
 (Section~\ref{sec:disc-behaviour}). The second is MTDSim's rules for what
 each deployment takes, written against the baseline attacker's procedure
 (Section~\ref{subsec:attacker-model}). A host-layer deployment costs the APT
-attacker model its place until its Petri net next reaches lateral movement
+attacker model its place until its Petri net next reaches Lateral Movement
 (Section~\ref{sec:disc-mtd-performance}); an APT that holds hosts through
-command and control might keep its place, and the host layer's rank against
+Command and Control might keep its place, and the host layer's rank against
 the APT attacker model rests on this rule. The third is that MTDSim prices
 nothing. A deployment costs no overhead or loss of service, and nothing
 watches the attacker, so the faster attacker and the shorter deployment
@@ -9287,7 +9288,7 @@ its own. The baseline attacker given the APT attacker model's tactic durations
 would separate the two, and is future work (Section~\ref{sec:future-work}).
 The two attackers also do not run under identical conditions. An attack
 action takes the mean duration of the tactic that dispatches it, not MTDSim's
-time: scan neighbours takes 45\,s for command and control, and 5\,s for the
+time: scan neighbours takes 45\,s for Command and Control, and 5\,s for the
 baseline attacker (Table~\ref{tab:attack-action-times}). Six tactics take the
 time of one of MTDSim's attack actions, and nine take our judgement, all set
 before any result (Section~\ref{subsec:dwell-times}). The vulnerability memory
@@ -9335,7 +9336,7 @@ tested at all: the per-tactic duration multipliers, the share of weight given
 to the pre-intrusion overlay and the choice of one attack flow per APT group.
 Only the 45\,s mean duration changes NCR much, and it changes NCR reduction
 with it (Table~\ref{tab:anchor-sensitivity}). The tactic-to-action mapping is
-also our input. Command and control is the only tactic that maps to scan
+also our input. Command and Control is the only tactic that maps to scan
 neighbours, the attack action that finds new hosts, so it sets how fast the
 APT attacker model spreads (Section~\ref{subsec:dwell-times}). A total mapping
 gives every tactic an attack action, and most are then refused: the attacker
@@ -9955,7 +9956,7 @@ aggregate all 38, with techniques as nodes and then tactics.
   122 edges drawn by three or more attack flows. Each tactic gives the number
   of techniques the attack flows use for it. Darker, thicker edges are drawn
   by more attack flows, up to 11; blue edges run back to an earlier tactic.
-  Reconnaissance, resource development and defense impairment, in grey, have
+  Reconnaissance, Resource Development and Defense Impairment, in grey, have
   no edge drawn by three or more.}
   \label{fig:app-tactic-graph}
 \end{figure}
@@ -9996,7 +9997,7 @@ gives them.
   \caption[Edges of the four attack profiles]{Edges of the four attack
   profiles: each cell is an edge from the tactic of its row to the tactic of
   its column, darker where more of the attack profile's attack flows draw it.
-  Exfiltration is outlined where the attackers stole data, and impact where
+  Exfiltration is outlined where the attackers stole data, and Impact where
   they impeded systems (Table~\ref{tab:attack-profiles}).}
   \label{fig:profile-edges}
 \end{figure}
@@ -10176,7 +10177,7 @@ read the same perturbations value by value.
 Each of the four mean durations that several tactics share
 (Section~\ref{subsec:dwell-times}) was moved to both ends of a band, one at
 a time, with the other three held at their declared values. The tactics set
-from a value moved with it, so execution and defense impairment stayed at
+from a value moved with it, so Execution and Defense Impairment stayed at
 half of 45\,s. Each band runs from half to twice its value, and the band of
 the 45\,s from a quarter to four times, 11.25 to 180\,s, so that it reaches
 up to the deployment interval. Bands of fixed multiples measure how much the
@@ -10199,7 +10200,7 @@ untested~\citep{saltelli2019}. The comparison with the baseline attacker was
 repeated at both ends of the 45\,s band only (Table~\ref{tab:duration-ranking}).
 Table~\ref{tab:anchor-sensitivity} gives
 NCR, and Figure~\ref{fig:sens-dwell-anchor} draws the 45\,s of
-persistence, stealth and command and control, which moves NCR most.
+Persistence, Stealth and Command and Control, which moves NCR most.
 
 \input{tables/tab_C-1a_family_sensitivity}
 
@@ -10220,7 +10221,7 @@ persistence, stealth and command and control, which moves NCR most.
 %  docs/implementation/connective_prose_audit.md); prior text in git.
 %  RATIFIED 2026-09-26 (Marc: 'I accept all this').
   \caption[NCR against the 45\,s mean duration]{NCR
-  (Section~\ref{sec:evaluation-metrics}) as the mean duration of persistence, stealth and command and control
+  (Section~\ref{sec:evaluation-metrics}) as the mean duration of Persistence, Stealth and Command and Control
   is moved from 11.25 to 180\,s, the other mean durations held, with no MTD (grey) and
   under the random deployment strategy at 200\,s (black). Averaged over $c_1$ to
   $c_4$, 400 runs per point. The axis is logarithmic. Whiskers: 95\,\% intervals on the mean (normal approximation).}
@@ -10755,7 +10756,7 @@ the recomputation does not model.
 Section~\ref{sec:disc-mtd-performance} explains why the host layer disrupts the
 APT attacker model most: a host-layer deployment costs either attacker its
 place, and the APT attacker model regains it only when its Petri net next
-reaches lateral movement. Table~\ref{tab:fa-foothold} gives the share of runs in
+reaches Lateral Movement. Table~\ref{tab:fa-foothold} gives the share of runs in
 which the attacker compromises no host. Under the three host-layer MTD
 mechanisms at 50 to 200\,s, 70 to 89\,\% of the APT attacker model's runs
 compromise no host, against 3 to 20\,\% of the baseline attacker's; with no MTD,

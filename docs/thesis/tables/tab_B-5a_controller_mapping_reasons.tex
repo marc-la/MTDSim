@@ -10,21 +10,21 @@ Tactic & Attack action & Reason \\
 \midrule
 \grouprow{3}{preparation} \\
 Reconnaissance & scan host & Active Scanning: finds the hosts the attacker can attack from its current host. \\
-Resource development & --- & Building tools happens off the target's network, which MTDSim does not model. \\
+Resource Development & --- & Building tools happens off the target's network, which MTDSim does not model. \\
 \midrule
 \grouprow{3}{intrusion} \\
-Initial access & exploit & Exploit Public-Facing Application: the only attack action that gives the attacker a host it did not hold. \\
+Initial Access & exploit & Exploit Public-Facing Application: the only attack action that gives the attacker a host it did not hold. \\
 Execution & exploit & Exploitation for Client Execution: an exploit is MTDSim's only way to run the attacker's code on a host. \\
 \midrule
 \grouprow{3}{post-intrusion operations} \\
 Persistence & --- & A compromised host stays compromised, so there is no foothold to keep. \\
-Privilege escalation & exploit & Exploitation for Privilege Escalation: MTDSim has no privilege levels, so each further exploit brings a host closer to compromise instead. \\
+Privilege Escalation & exploit & Exploitation for Privilege Escalation: MTDSim has no privilege levels, so each further exploit brings a host closer to compromise instead. \\
 Stealth & --- & Nothing in MTDSim watches the attacker, so there is nothing to hide from. \\
-Defense impairment & --- & The MTD schedule runs on the defender's side; the attacker can neither see nor change it. \\
-Credential access & brute force & Brute Force: tries the usernames already stolen against the current host. \\
+Defense Impairment & --- & The MTD schedule runs on the defender's side; the attacker can neither see nor change it. \\
+Credential Access & brute force & Brute Force: tries the usernames already stolen against the current host. \\
 Discovery & scan port & Network Service Discovery: lists the open ports of the current host, which a later exploit needs. \\
-Lateral movement & enumerate host & Chosen for the tactic's goal: enumerating a host moves the attacker to its next host. \\
-Command and control & scan neighbours & Chosen for the tactic's goal: Brown describes this attack action as command and control revealing connected hosts \citep{brown2023}. \\
+Lateral Movement & enumerate host & Chosen for the tactic's goal: enumerating a host moves the attacker to its next host. \\
+Command and Control & scan neighbours & Chosen for the tactic's goal: Brown describes this attack action as command and control revealing connected hosts \citep{brown2023}. \\
 \midrule
 \grouprow{3}{actions on objectives} \\
 Collection & --- & Hosts in MTDSim carry services and vulnerabilities, but no data to gather. \\
