@@ -575,3 +575,80 @@ No scorer saw Table 3.3, Table 6.1 or our scoring paragraphs. The packets are in
   - the AI Use Declaration, which must name this blind re-score.
 
 **Q18.** Accept the blind marks, with row 1 reconciled to full for both the baseline attacker and the APT attacker model?
+
+## 15. Clause-by-clause tests, and the in-part rule (2026-10-11)
+
+Marc on §14: "are we testing each of the clauses of the definition"; the ch3 paragraphs should "mirror exactly how it's already laid out, but using the language and clausing … we tick this, this and this, but the model doesn't do this, because of this mechanism or the lack of it". He also asks whether *in part* should mean "ticks most of the clauses", with "does a little bit" dropping to none.
+
+### 15.1 The clauses, split once and used for every model
+1. **Campaign persistence:** (a) one campaign, (b) multi-stage, (c) toward its objective, (d) over an extended period.
+2. **Objective-specific behaviour:** (a) after the foothold, (b) uses different techniques, (c) for different objectives. *Exfiltration or impediment* illustrates (c).
+3. **Choice of attack strategy:** (a) chooses, (b) among several sequences of techniques, (c) toward the same objective.
+4. **Adaptivity:** (a) chooses its next technique, (b) in response to an MTD disruption.
+5. **Detection avoidance:** (a) chooses techniques, (b) that an IDS does not flag. *Passive reconnaissance* illustrates (b).
+6. **Cost–benefit reasoning:** (a) chooses each technique, (b) by weighing its cost against its benefit.
+7. **Learning:** (a) keeps the patterns it observes in past MTD deployments, (b) uses them to choose later techniques.
+8. **Deployment-strategy awareness:** (a) predicts which mechanism deploys next, (b) and when.
+
+### 15.2 Matrix
+
+Key:
+- ✓ met;
+- ~ met by a fixed rule or an assumption standing in;
+- ½ partly met;
+- ✗ not met.
+
+The reasons are from the four blind scorers, reconciled.
+
+| Clause | Baseline attacker | Masud et al. | Kim et al. | APT attacker model |
+|---|---|---|---|---|
+| 1a one campaign | ✓ host by host | ✗ recomputed each interval | ½ each attack starts afresh | ✓ one token |
+| 1b multi-stage | ✓ kill-chain procedure | ✓ chains of exploits | ✓ four CKC stages | ✓ 15 tactics in stages |
+| 1c toward its objective | ✓ never gives up on a target host | ✓ the database | ✓ the shell | ✓ same loop |
+| 1d extended period | ✓ the run, many deployments | ½ static per time point | ✗ one short attempt | ✓ the run, many deployments |
+| **1 mark** | **✓** | **P** | **P** | **✓** |
+| 2a after the foothold | ✓ C2, scan neighbours | ½ hops after entry | ✓ keeps shell, installs tools | ✓ |
+| 2b different techniques | ✗ same six in both scenarios | ✗ | ✗ | ½ same six at different rates; Exfiltration, Impact unmapped |
+| 2c different objectives | ✗ two goals, both compromise; scenario changes host only | ✗ one objective | ✗ one objective | ✓ four profiles by objective |
+| **2 mark** | **✗** | **✗** | **✗** | **P** |
+| 3a chooses | ~ fixed order: credentials, exploit, brute force | ✗ "chooses none" (easiest path assumed) | ✗ | ✓ immediate transition by base weight |
+| 3b several sequences | ½ vary only by outcome | ✓ every attack path | ✗ one scenario | ✓ 190–844 openings in attack actions (F.2) |
+| 3c same objective | ✓ | ✓ | n/a | ✓ within one profile |
+| **3 mark** | **P** | **P** | **✗** | **✓** |
+| 4a chooses next technique | ~ fixed response per disruption type | ✗ no next technique chosen | ✗ | ✓ failure matrix reweights the next tactic |
+| 4b in response to an MTD disruption | ✓ | ~ assumed ("forces rescanning") | ✗ does not observe the MTD | ½ responds to the failure, cannot tell MTD; none during unmapped tactics |
+| **4 mark** | **P** | **P** | **✗** | **P** |
+| 5a chooses techniques | ✗ scans actively | ✗ | ~ reverse shell assumed chosen "to evade" | ✗ nothing chosen against an IDS |
+| 5b an IDS does not flag | ✗ no IDS | ✗ | ✗ testbed runs no IDS | ~ pace assumed to hide; no IDS, proxy only |
+| **5 mark** | **✗** | **✗** | **P** | **P** |
+| 6a chooses each technique | ✗ only the exploit's vulnerability | ✗ no choice depends on it | ✗ | ✗ next tactic by CTI weights |
+| 6b weighs cost against benefit | ✓ RoA | ✓ cost, RoA computed | ✗ | ✓ RoA inside exploit, inherited |
+| **6 mark** | **P** | **P** | **✗** | **P** |
+| 7a keeps MTD patterns | ✗ keeps vulnerabilities | ✗ | ✗ | ✗ keeps vulnerabilities |
+| 7b uses them to choose | ✗ exploit time halves, no choice | ✗ | ✗ | ✗ success odds rise, no choice |
+| **7 mark** | **✗** | **✗** | **✗** | **✗** |
+| 8a predicts which mechanism | ✗ | ✗ | ✗ | ✗ cannot see the schedule |
+| 8b and when | ✗ | ✗ | ✗ (the time term is the authors' model) | ✗ |
+| **8 mark** | **✗** | **✗** | **✗** | **✗** |
+
+### 15.3 The in-part rule
+Now (§3.3.2): *P* = "does part of what the definition says, or its authors set the behaviour by a fixed rule … or assume it".
+
+Proposed: **✓ meets every clause; P meets at least half its clauses, or a fixed rule or an assumption stands in for the clauses it misses; ✗ otherwise.**
+
+Applied to 15.2 it reproduces every blind mark (row 1 reconciled):
+- baseline row 2: 1 of 3 met → ✗;
+- Kim row 2: 1 of 3 → ✗;
+- Masud rows 4 and 6: half met → P.
+
+"Does a little bit" (one clause in three) becomes none, as Marc asks. "Half" is used rather than "most" because six of the eight definitions have two clauses, and "most of two" is both, which is full.
+
+**The live question is the assumption branch.** Kim's row 5 and the APT attacker model's row 5 meet no clause outright. Each is P only because an assumption stands in: Kim's assumed evasion, and our pace, assumed to hide the attacker. If assumptions count for nothing, both fall to ✗, and the APT attacker model loses detection avoidance as a gain over the baseline attacker. Keeping the branch is consistent with chapter 3's rule as ratified and with scoring Kim the same way.
+
+### 15.4 The examples and the hedge
+- **The examples are illustrations, not clauses, and both are used.** *Exfiltration or impediment* shows what the objectives are; §6.1 tests it: Exfiltration and Impact are unmapped, so no technique carries them out. *Passive reconnaissance* shows a technique an IDS cannot see; the APT attacker model's Reconnaissance maps to scan host, which is active.
+- **"Does not flag", not "is unlikely to flag".** The property is the choice. A probability ("unlikely to flag") would admit pace alone (low and slow) and widen the row toward our model, the direction already declined for row 5. Passive reconnaissance is a technique an IDS cannot flag at all.
+
+**Q19.** The in-part rule as proposed, with the assumption branch kept?
+
+**Q20.** Then: redraft chapter 3's four model paragraphs clause by clause in their current layout ("It has X in part: it does a and b, but not c, because …"), apply the marks (Tables 3.3 and 6.1), and carry every consequence (§14.3).
