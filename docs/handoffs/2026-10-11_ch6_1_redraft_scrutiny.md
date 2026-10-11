@@ -212,3 +212,35 @@ Every ch6 section was drafted the same way §6.1 was, bottom-up from point sets,
 8. **Floats sit next to the metric they show.** Every number has a job, and the reader can find it in the float cited; if they cannot, fix the float (as Figure 5.1(a)'s unmapped row did) or drop the number.
 9. **Length comes from cutting weak points across redrafts**, never from compressing sentences toward a word target.
 10. **Cold examiner read** on the redraft (PDF only), then verify and triage, before handing to Marc.
+
+## 10. Cold examiner round (2026-10-11; PDF only, no repo), verified and triaged
+
+**Fixed in §6.1** (each checked against its source first):
+- "the five attackers" became "the four attack profiles and the baseline attacker", §5.2's own words.
+- "order gives" and "Order costs it" no longer make order the actor.
+- "spread" (undefined) became "how fast it finds new hosts".
+- "an attack profile's objective" became "the objectives". c4's attack flows "did neither" (§4.2).
+- "5 to 19 attack flows give it 179 to 947 openings" was cut. It implied that more attack flows give more openings, and c4 has 5 flows and 662 openings.
+- "the same opening in most runs" became "over the first four steps of every run". Figure 5.1(b) shows counts, not shares, so only that version can be checked.
+- Command and control's cause is now hedged "most likely", as §4.4.2 hedges it. The 5 s is cited to §2.2.3, where it is stated.
+- The rival is named in the opener: removing the failure matrix or the vulnerability memory moves NCR negligibly (§5.4).
+- MTTC is now read: it is over the runs that reach a target, and those runs fall on the same networks for both attackers. Hedged "likely".
+- The outcome paragraph is split in two: its causes, and what the lower ASP means.
+- The ceiling sentence was cut from §6.1. §6.3's close and §6.5 carry it.
+
+**Consequential edits:**
+- Appendix F.1's "so it is not part of the main argument" is cut, since §6.1 now uses F.1 under Q5.
+- The ch6 opener's "held back most" became "reduces each attacker's NCR most". Marc dislikes "held back", and NCR reduction is what §6.2 measures.
+
+**For §6.3's redraft. These are viva risks the examiner ranked highest, outside §6.1:**
+1. "How is a weighted random draw *choosing* among attack strategies? Would a uniform random walk also earn the full mark? How many openings are there counted in attack actions?" This strengthens the case for the Appendix F.6 recount (§8, Q2).
+2. "Why do judgement-set durations earn detection avoidance in part, when the baseline attacker's fixed pace earns none?"
+3. "Objective-specific behaviour is near-tautological: the attack profiles were built to differ (§4.5.1)."
+
+**Set aside:**
+- Moving the so-what and the longer-run clause to §6.5: Marc ruled them in, and the longer run is the rival explanation for this finding.
+- "Table 6.1 marks …" pre-empting §6.3: tying each difference to its mark is §6.1's purpose (§3).
+
+**Flagged only:**
+- Table B.4 says *Refused*, where §4.5.1 and §6.1 say *fails because its preconditions are missing*.
+- Table 3.3's legend never says "in full", which §6.1 and §6.3 use.
