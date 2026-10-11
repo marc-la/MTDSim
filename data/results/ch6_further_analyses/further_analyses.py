@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Appendix F, Further analyses: the numbers behind F.1, F.2, F.3 and F.5.
+"""Appendix F, Further analyses: the numbers behind F.1, F.2, F.3, F.5, F.6 and F.7.
 
 Registry rows B1 (+B2), B9, B10 and B14 (+B8) of the further-analyses registry
 at the end of chapter 6 (triaged by Marc 2026-10-09; handoff
@@ -38,6 +38,27 @@ F.4 One run under MTD, traced (B18)
     the lowest seed on which it reaches a target host with no MTD (the rule,
     fixed before any run was looked at), with no MTD and under IP shuffle at
     200 s. Its records and MTD executions are copied for the figure.
+F.6 The attacker behaviour metrics counted in attack actions (registry A3; Marc 2026-10-11)
+    ch5_s531_unopposed/runs_reported.jsonl. Distinct openings (Section 4.5.1)
+    recounted in the baseline attacker's unit: each run's sequence of attack
+    actions, consecutive repeats of one attack action counted once (the rule
+    Section 4.5.1 applies to the baseline attacker), over its first 4 and 8.
+    For the APT attacker model, two sequences: every attack action its tactics
+    dispatch, and only those that reach the network (not blocked for a missing
+    precondition). Unmapped tactics dispatch none, so they are not in either.
+    Also, after each run's foothold (its first compromise), the share of each
+    attack action among those reaching the network, pooled over runs.
+F.7 Where the APT attacker model's run time goes (Marc 2026-10-11)
+    ch5_s531_unopposed/runs_reported.jsonl. Per run: the share of the run's
+    length (start to the end of its last step) spent in unmapped tactics
+    ("dwell-only" records), and the share of dispatched attack actions blocked
+    for a missing precondition. The attack rate of Table 5.2 (attack actions
+    reaching the network per minute) and three what-ifs, each changing one
+    thing and computed from the same records: the unmapped tactics take no
+    time; blocked attack actions are counted; each counted attack action takes
+    the baseline attacker's mean time for that attack action (from its own
+    records in the same corpus). Means over runs with a 95 % percentile
+    bootstrap interval.
 F.5 Attack profiles against random groups of the same size (B14, B8)
     partition_control_numbers.json (NCR per group, per random partition, written
     by ch5_defended/partition_control.py) and, for ASP, the partition-control
@@ -47,7 +68,7 @@ F.5 Attack profiles against random groups of the same size (B14, B8)
     flows): the attack profile's NCR and ASP, and the median, minimum and
     maximum over the ten random groups of that size.
 
-Usage:   PYTHONPATH=src python data/results/ch6_further_analyses/further_analyses.py [f1 f2 f3 f5]
+Usage:   PYTHONPATH=src python data/results/ch6_further_analyses/further_analyses.py [f1 f2 f3 f5 f6 f7]
 Output:  further_analyses_numbers.json beside this file (sections not run keep
          their previous values).
 """
@@ -306,6 +327,128 @@ def f5(rng) -> dict:
     return out
 
 
+# --- F.6 -------------------------------------------------------------------------
+
+
+def _merged(seq: list) -> tuple:
+    out: list = []
+    for v in seq:
+        if not out or out[-1] != v:
+            out.append(v)
+    return tuple(out)
+
+
+VERBS = ("SCAN_HOST", "ENUM_HOST", "SCAN_PORT", "EXPLOIT_VULN", "BRUTE_FORCE", "SCAN_NEIGHBOR")
+COMPROMISE = {("EXPLOIT_VULN", "EXPLOIT_COMPROMISED"), ("BRUTE_FORCE", "TRUE"), ("SCAN_PORT", "TRUE")}
+
+
+def f6(rng) -> dict:
+    """Openings in attack actions, and the share of each attack action after the
+    foothold (the first compromise: statistics.py COMPROMISE_EVENTS for the APT
+    attacker model; a record naming a compromised host for the baseline
+    attacker). Attack actions counted as Table 5.2 counts them: the baseline
+    attacker's consecutive exploits once, the APT attacker model's blocked ones
+    not at all."""
+    seen = defaultdict(lambda: defaultdict(set))
+    after = defaultdict(lambda: defaultdict(int))
+    footholds = defaultdict(int)
+    with UNOPPOSED.open() as fh:
+        for line in fh:
+            row = json.loads(line)
+            if row["arm"] == "baseline":
+                s = _merged([rec[0] for rec in row["records"]])
+                for k in (4, 8):
+                    seen["baseline"][f"dispatched|{k}"].add(s[:k])
+                foot, prev = False, None
+                for rec in row["records"]:
+                    v = rec[0]
+                    if foot and not (v == "EXPLOIT_VULN" and prev == "EXPLOIT_VULN"):
+                        after["baseline"][v] += 1
+                    prev = v
+                    if rec[3] is not None and not foot:
+                        foot = True
+                        footholds["baseline"] += 1
+                continue
+            if row["profile"] not in CODE:
+                continue
+            code = CODE[row["profile"]]
+            acts = [r for r in row["records"] if r[9] == "action-bearing" and r[1]]
+            for name, sel in (("dispatched", acts), ("reached", [r for r in acts if not r[4]])):
+                s = _merged([r[1] for r in sel])
+                for k in (4, 8):
+                    seen[code][f"{name}|{k}"].add(s[:k])
+            foot = False
+            for r in acts:
+                if foot and not r[4]:
+                    after[code][r[1]] += 1
+                if (r[1], r[2]) in COMPROMISE and not foot:
+                    foot = True
+                    footholds[code] += 1
+    out = {who: {key: len(v) for key, v in d.items()} for who, d in seen.items()}
+    for who, c in after.items():
+        tot = sum(c.values())
+        out[who]["after_foothold_share"] = {v: c[v] / tot for v in VERBS}
+        out[who]["runs_with_foothold"] = footholds[who]
+    return out
+
+
+# --- F.7 -------------------------------------------------------------------------
+
+
+def f7(rng) -> dict:
+    base_t = defaultdict(list)
+    base_rate = []
+    runs = defaultdict(list)
+    with UNOPPOSED.open() as fh:
+        for line in fh:
+            row = json.loads(line)
+            recs = row["records"]
+            if row["arm"] == "baseline":
+                n, prev, end = 0, None, 0.0
+                for v, s, e, *_ in recs:
+                    base_t[v].append(e - s)
+                    if not (v == "EXPLOIT_VULN" and prev == "EXPLOIT_VULN"):
+                        n += 1
+                    prev, end = v, max(end, e)
+                if end > 0:
+                    base_rate.append(60.0 * n / end)
+                continue
+            if row["profile"] not in CODE:
+                continue
+            end = max((r[8] for r in recs), default=0.0)
+            if end <= 0:
+                continue
+            acts = [r for r in recs if r[9] == "action-bearing" and r[1]]
+            counted = [r for r in acts if not r[4]]
+            runs[CODE[row["profile"]]].append({
+                "end": end,
+                "dwell": sum(r[8] - r[7] for r in recs if r[9] == "dwell-only"),
+                "n": len(counted), "nb": len(acts) - len(counted),
+                "t_counted": sum(r[8] - r[7] for r in counted),
+                "verbs": [r[1] for r in counted],
+            })
+    bm = {v: float(np.mean(t)) for v, t in base_t.items()}
+    out = {"baseline": {"rate": boot_mean(base_rate, rng)},
+           "baseline_mean_time_s": bm}
+    for code, rs in sorted(runs.items()):
+        end = np.array([r["end"] for r in rs])
+        dwell = np.array([r["dwell"] for r in rs])
+        n = np.array([r["n"] for r in rs], float)
+        nb = np.array([r["nb"] for r in rs], float)
+        tc = np.array([r["t_counted"] for r in rs])
+        tc_base = np.array([sum(bm[v] for v in r["verbs"]) for r in rs])
+        disp = n + nb
+        out[code] = {
+            "unmapped_time_share": boot_mean(dwell / end, rng),
+            "blocked_share": boot_mean(np.divide(nb, disp, out=np.zeros_like(nb), where=disp > 0), rng),
+            "rate": boot_mean(60 * n / end, rng),
+            "rate_unmapped_no_time": boot_mean(60 * n / (end - dwell), rng),
+            "rate_blocked_counted": boot_mean(60 * disp / end, rng),
+            "rate_baseline_times": boot_mean(60 * n / (end - tc + tc_base), rng),
+        }
+    return out
+
+
 # --- F.4 -------------------------------------------------------------------------
 
 F4_PROFILE = "objective_exfiltration"  # c1, the attack profile with the most attack flows
@@ -352,9 +495,9 @@ def f4(rng) -> dict:
 
 
 def main(argv: list[str]) -> int:
-    which = argv or ["f1", "f2", "f3", "f4", "f5"]
+    which = argv or ["f1", "f2", "f3", "f4", "f5", "f6", "f7"]
     rng = np.random.default_rng(SEED)
-    fns = {"f1": f1, "f2": f2, "f3": f3, "f4": f4, "f5": f5}
+    fns = {"f1": f1, "f2": f2, "f3": f3, "f4": f4, "f5": f5, "f6": f6, "f7": f7}
     for w in which:
         result = fns[w](rng)
         # re-read just before writing, so sections run in parallel processes
