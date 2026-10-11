@@ -507,3 +507,71 @@ The rules each word answers to:
 - **Q17.** Rows 1 and 8 as proposed (Kim's row 8 at risk)?
 
 After the rulings: re-word Table 3.2; re-run the blind scorer on all four rows; re-copy Table 3.3 into Table 6.1; update ch3's per-model paragraphs and Finding, §6.3, ch7 and the abstract; declare the re-wording beside Table 3.2.
+
+## 14. Table 3.2 final wording; blind re-score of all four rows (2026-10-11)
+
+### 14.1 Applied (Marc's rulings)
+- Row 1: *pursues*.
+- Rows 2–7: *technique* (ATT&CK, §3.1.2).
+- Row 3: *sequences of techniques*, with no bracket.
+- Row 5: *an intrusion detection system (IDS) … such as*.
+- Row 7: *the patterns it observes in*.
+- *Attack action* is now used only for MTDSim's six. *IDS* replaces *detector* and *scan detector* dissertation-wide.
+- Commits 81d583d4 and 7ccac64b; terminology register rows added.
+
+### 14.2 Blind re-score
+**Method.** Four independent scorers, run in parallel. Each received:
+- the same rule file: the mark meanings, neutral glosses of *technique*, *IDS*, *MTD disruption*, *MTD mechanism* and *deployment strategy*, and the eight definitions as they now stand;
+- only its own model's sources:
+  - baseline attacker: Brown 2023, Zhang 2023, and the §2.2 MTDSim text;
+  - Masud et al.: their paper;
+  - Kim et al.: their paper;
+  - APT attacker model: §2.2 and chapter 4, comments stripped, with chapter 4's opener claim, the §4.4.3 claim (adaptivity) and the §4.4.4 claim (learning) redacted.
+
+No scorer saw Table 3.3, Table 6.1 or our scoring paragraphs. The packets are in the session scratchpad (`blind2/`).
+
+| Model | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 |
+|---|---|---|---|---|---|---|---|---|
+| Baseline attacker, now | ✓ | P | P | P | ✗ | P | P | ✗ |
+| Baseline attacker, blind | **P** | **✗** | P | P | ✗ | P | **✗** | ✗ |
+| Masud et al., now | P | P | P | P | ✗ | P | ✗ | ✗ |
+| Masud et al., blind | P | **✗** | P | P | ✗ | P | ✗ | ✗ |
+| Kim et al., now | P | P | ✗ | ✗ | P | ✗ | ✗ | P |
+| Kim et al., blind | P | **✗** | ✗ | ✗ | P | ✗ | ✗ | **✗** |
+| APT attacker model, now | ✓ | P | ✓ | P | P | P | P | ✗ |
+| APT attacker model, blind | ✓ | P | ✓ | P | P | P | **✗** | ✗ |
+
+**Reasons given:**
+- **Row 2 (baseline, Masud, Kim):** each has one objective, or two goals that differ only in the target host, so no model uses different techniques for different objectives.
+- **Row 7 (baseline, APT):** the memory is of vulnerabilities, not MTD patterns, and it changes time or odds, not a choice.
+- **Row 8 (Kim):** the time-to-deployment term is the evaluators' model, not a prediction the attacker makes or uses.
+- **Row 1 (baseline):** "the papers never call that duration extended", and "never give up" was read as a set rule. The scorer's own close call would give full credit if pursuing the target across many 50–200 s deployment intervals counts as extended.
+
+**Column consistency, row 1 (the scorers disagree).** The APT attacker model keeps the baseline attacker's loop, and both run the same horizon with the same never-give-up rule on target hosts. The APT scorer gave full credit for exactly the evidence the baseline scorer marked in part. One mark must hold for both.
+
+**Recommendation: full for both.**
+- Campaign persistence is not a choice property: "pursues" has no "chooses".
+- The rule's fixed-rule clause is about a rule that replaces a decision, so it does not apply.
+- The definition's "extended period" is met by a campaign that spans the whole run and many deployments.
+
+**Close calls the scorers named for the APT attacker model:**
+- Row 5 is the closest: the pace is assumed, and no technique is chosen against an IDS.
+- Row 3: is a weighted random draw a choice, and are six attack actions too coarse?
+- Row 2: a different order and frequency of the same six could be read as full or as none.
+
+### 14.3 What follows if the blind marks stand (row 1 reconciled to full)
+- **Counts.**
+  - APT attacker model: 2 full, 4 in part, 2 none (was 2/5/1).
+  - Gains over the baseline attacker: choice of attack strategy (full against in part), detection avoidance (in part against none) and objective-specific behaviour (in part against none).
+- **Chapter 3 Finding.**
+  - "Only the baseline attacker has one in full, campaign persistence" holds.
+  - "Detection avoidance, learning and deployment-strategy awareness are the rarest" becomes: none of the three has objective-specific behaviour, learning or deployment-strategy awareness, and one has detection avoidance in part.
+- **Edits needed:**
+  - Table 3.3 and Table 6.1 (synced);
+  - chapter 3's per-model paragraphs (baseline rows 2 and 7; Masud row 2; Kim rows 2 and 8) and the Finding;
+  - §4 opener ("in part, learning") and §4.4.4 ("gives … learning … in part");
+  - §6.3 ¶1, ¶2 and ¶4 (the counts; the gains; learning now "none" with the same reason);
+  - chapter 7 Contributions, the abstract and chapter 1;
+  - the AI Use Declaration, which must name this blind re-score.
+
+**Q18.** Accept the blind marks, with row 1 reconciled to full for both the baseline attacker and the APT attacker model?
