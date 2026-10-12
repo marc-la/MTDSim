@@ -8631,20 +8631,17 @@ Stealth and Defense Impairment, the tactics for avoiding detection, are
 unmapped, so in MTDSim its detection avoidance comes only from its tactic
 durations.
 
-The APT attacker model's tactic durations lower its ASP and NCR by lowering
-its attack rate, and the order of its tactics most likely lowers them by
-making some of its attack actions fail (Appendix~\ref{app:fa-run-time}). NCR depends most on one duration, the 45\,s mean, most likely through
-Command and Control, the only tactic that runs scan neighbours, which
-the baseline attacker runs in 5\,s (Section~\ref{subsec:dwell-times}). The APT
-attacker model succeeds almost only on the networks where the baseline
-attacker also succeeds (Appendix~\ref{app:fa-success}), likely because both
-compromise hosts through the same attack actions. Its MTTC is close to the
-baseline attacker's but over different runs: the 42 to 139 runs of each attack
-profile's 1\,000 that reach a target host, against the baseline attacker's 656
-(Table~\ref{tab:unopposed-summary}). Whether a longer run would narrow the gap
-in ASP was not tested. The parts that give the APT attacker model its three
-properties therefore also lower its ASP and NCR, so ASP and NCR read alone
-would rate it the weaker attacker.
+% CLOSE ROUND 3, 2026-10-12 (Marc: "keep it as drafted"; handoff 24.14): the
+%  one thing no paragraph above says, that the same two causes give both the three
+%  properties (order: objective-specific behaviour and choice; tactic durations:
+%  detection avoidance) and the lower ASP and NCR, so the outcome metrics alone
+%  rate it weaker for behaving more like an APT. Scoped by "alone": 6.2 backs it
+%  (NCR reduction, not NCR). The order's hedge is the opener's. Cut, and where it
+%  lives: the 45 s duration (6.5), success on the same networks (G.1, ch7), MTTC
+%  over different runs (Table 5.2's run counts), the longer run (ch7).
+The APT attacker model's three properties and its lower ASP and NCR have the
+same two causes: its tactic durations and the order of its tactics. ASP and
+NCR alone therefore rate it the weaker attacker for behaving more like an APT.
 
 % =====================================================================
 \section{APT attacker model versus MTD}

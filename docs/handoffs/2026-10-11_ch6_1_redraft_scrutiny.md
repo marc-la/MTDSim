@@ -1404,3 +1404,44 @@ Only the intended lines changed. Data keys (`dispatched|4`) are left alone. No "
 - (y) Use the reader's plainest fact ("MTDSim has no IDS") rather than the procedure that follows from it ("applied to its runs after they end").
 - (z) A close that names a mechanism must cover all of it. Use the defined term for the cause, not one part of it.
 
+### 24.14 The §6.1 close, rounds 1–3 (Marc 2026-10-12, "keep it as drafted")
+
+**Critique of the on-disk close (7 sentences, ~170 words):**
+- C1 repeated the opener.
+- C2 (45 s via Command and Control's scan neighbours) duplicated §6.5.
+- C3 (succeeds on the same networks, G.1) is a separate finding, about networks.
+- C4 (MTTC over different runs) is shown by Table 5.2's run counts.
+- C5 (a longer run untested) is in ch7.
+- Only C6 (the parts that give its properties also lower ASP and NCR, so they would rate it weaker) said something new.
+
+**Rounds:**
+- **v1** ("the parts … give these three properties … read alone, would rate it the weaker attacker"). Marc: rhetorical, "the parts" vague.
+- **v2** (one plain sentence, the reading consequence left to §6.2). Marc: oversteered. It lost the takeaway, so it failed purpose, context, audience and relevance.
+- **v3, first form** ("With no MTD … reaches a target host in fewer runs … the same causes that give it detection avoidance and choice … although its behaviour is closer to an APT's"). Marc:
+  - "With no MTD" is the opener's scope already.
+  - Use the metrics' names.
+  - The property list is a cliché and names only two of the three.
+  - "Closer to an APT" is true by construction, so it is no news.
+- **Diagnosis:**
+  - The news is that the same causes produce both results, so the outcome metrics alone penalise the behaviour being modelled.
+  - The order of tactics also gives objective-specific behaviour (¶1: each attack profile follows its own attack flows' order), so "three properties" is right and needs no list.
+
+**Applied:**
+> The APT attacker model's three properties and its lower ASP and NCR have the same two causes: its tactic durations and the order of its tactics. ASP and NCR alone therefore rate it the weaker attacker for behaving more like an APT.
+
+- **Hedge.** The order's "most likely" is the opener's. The close gathers it up and does not repeat it, because inline it would also hedge the order's certain role in the properties.
+- **Scope (Marc: "putting ASP and NCR on notice?").** No, not as metrics for MTD evaluation:
+  - they measure what an MTD reduces;
+  - the MTD section uses NCR reduction, which is relative to each attacker's own NCR with no MTD.
+
+  They are not a yardstick of fidelity, which §6.2 already says ("an attacker that compromises more is stronger, not closer to an APT attacker"). Nor do they show that real APTs are weaker: part of the gap is where the model meets MTDSim's attack actions (§6.5).
+
+**Logged for §6.3 (Implications), new claim, needs Marc's ruling when reached:**
+- An evaluator who picks the attacker that compromises most, as a worst case, would pick the less APT-like one.
+- The choice changes conclusions, not just levels: ρ between the two attackers' MTD rankings lies between −0.24 and 0.25.
+
+**Advice:**
+- (aa) A close says the one thing the paragraphs do not say together. Find the joint (here: same causes, both results), not a summary.
+- (bb) A contrast true by construction ("although it is closer to an APT") is no news. Look for the dependence instead ("for behaving more like an APT").
+- (cc) A close in a section that has fixed its scope does not restate it ("with no MTD"), and uses the metrics' names.
+
