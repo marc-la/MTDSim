@@ -2490,3 +2490,48 @@ About 90 words.
 **Checks:**
 - "Less than the host layer does" holds per mechanism at every interval: each host-layer mechanism exceeds each service-layer mechanism against the APT attacker model (Table F.1), so it is not only a layer mean (lesson (ac)).
 - There is no "therefore" before the numbers, because the second cause exists.
+
+### 31.11 ¶3 applied after a final clarity pass; full §6.2 pass (Marc 2026-10-12, "put it in … has 6.2 done its job: answer SQ3, engage with 5.3 constructively?")
+
+**Clarity pass on v4.** One fix: "keep it in unmapped tactics between them, where it runs no attack action". "Them" pointed at the baseline attacker's attack actions, and "attack action" came twice.
+> … but the APT attacker model's tactic durations keep it between attack actions, in unmapped tactics that run none (Section 5.3.1).
+
+The contrast with "back to back" now comes first. Applied. §6.2 is 327 words. Build clean, 119 pages, 0 undefined.
+
+**Does §6.2 answer SQ3?** Yes, in the first sentence, in the question's terms (both attackers, the MTD layers, every deployment interval), with both causes named. Each later paragraph says which cause it carries:
+- ¶2 is the order of its tactics: host-layer time lost, Figure 5.2(b).
+- ¶3 is the tactic durations: the service layer's blocks, Figure 5.2(a).
+
+**Does it engage §5.3 constructively?** Each of §5.3's results is either explained here or sent once to its owner:
+
+| §5.3 result | Where it is handled |
+|---|---|
+| §5.3.1, Figure 5.2(a) blocks | ¶3, why |
+| §5.3.1, Figure 5.2(b) time lost | ¶2, why |
+| §5.3.1, the first deployment's second attempt | §6.5 |
+| §5.3.2, the layer ordering across intervals (Figure 5.3) | the opener |
+| §5.3.2, what the interval means | §6.4 |
+| §5.3.2, the ranking and ρ | §6.4 |
+| §5.3.2, deployment strategies and MTDShield | §6.4 ¶2 |
+| §5.3.2, user shuffle | Appendix F.3, via §6.4 |
+| §5.3.3, attack profiles | §6.1 and §6.3 |
+
+**Inbound references still met:**
+- §6.4: time lost at or below zero; service diversity, the only mechanism the baseline attacker loses time to.
+- §6.5: Lateral Movement.
+- Appendices F.2 and F.4: the host-layer mechanism.
+- The ch7 draftnote's "no MTD mechanism ranks first against both (Section 6.2)" is not met here. Its repoint to §5.3.2/§6.4 is still gated.
+
+**The one gap: the baseline attacker's half of the opener.**
+- The section explains the APT attacker model's ordering fully. For the baseline attacker it explains only service diversity (493 s).
+- Port shuffle and OS diversity beat the host layer against the baseline attacker at 200 s (0.91 and 0.68 against 0.38–0.68), yet cost it no time (−24, −58 s), and blocks are alike (0.95 against 1).
+- **Candidate cause (untraced):** a block sends the baseline attacker back to scan port and erases its exploit progress on the host, which at short intervals it cannot rebuild between deployments. disruption_mechanism.md §1 gives "exploit progress erased" for the service layer.
+- **Recommendation:** no edit.
+  - The opener's causes explain "the difference between the two attackers", and the baseline attacker's own ordering is MTDSim's rules (§2.2.3) measured in ch5.
+  - Log it as a cold-examiner question; if it is asked, the answer is §2.2.3's rule plus the trace.
+  - Alternative: one hedged clause in ¶3 ("and sends it back to scan port"). But ¶2 already gives that rule for service diversity, and the size claim is untraced.
+
+**Still gated (ch1–5):**
+- ch4 l.4877: add "and, under the host layer, the host it was working on";
+- ch2 l.957: "its place" → "the attack action in progress and, under the host layer, the host it was working on";
+- the ch3/ch4 "pace" fixes.
