@@ -2408,3 +2408,23 @@ About 90 words.
 - **§6.4 (downstream):** "would judge the host layer spent far sooner than it is against the APT attacker model, and rely on a service layer that never halves the APT attacker model's NCR (Section 6.2)" becomes "would judge the host layer spent beyond 100 s, though it halves the APT attacker model's NCR up to 1 000 s, and rely on a service layer that never halves the APT attacker model's NCR (Table F.1)".
 - **Ch7 Contribution 2 draftnote (gated):** add beside the candidate number: "Tie: Chapter 1's aim of shifting the advantage of time to the defender \citep{ghosh2009nitrd}; against the APT attacker model, the host layer keeps half its NCR off at deployment intervals ten times longer."
 - **§6.2 after the change:** the opener, ¶2 and ¶3, about 310 words.
+
+### 31.8 Applied: cuts, §6.4, ch7 (Marc 2026-10-12, "Chapter 7 is fine … downstream is fine"); ¶3 v1 rejected, v2 proposed
+
+**Applied:**
+- **§6.2:** the attack-profile paragraph and the old close are cut, replaced by a comment block.
+- **§6.4:** "spent beyond 100 s, though it halves the APT attacker model's NCR up to 1 000 s … (Table F.1)".
+- **Ch7 Contribution 2 draftnote:** gains the advantage-of-time tie.
+- §6.2 is now the opener and ¶2, 238 words. Build clean, 119 pages, 0 undefined.
+
+**Marc on v1:** "vague … not specific … non-standard terms … what does 'at most' mean … 'has no attack action in progress', why say it like that … why the service layer specifically, when the host layer blocks fewer too … so what?"
+
+**Facts checked in the code for v2:**
+- **A service-layer ('application') deployment blocks the attack action in progress unless it is scan host, enumerate host or scan neighbours** (`mtd_operation._interrupt_adversary`). The baseline attacker is then sent back to scan port (`attack_operation._handle_interrupt`).
+- **A deployment during the APT attacker model's unmapped tactic is felt.** It cuts the tactic duration short and pays the confusion penalty (`attacker._serve_time` → `_pay_interrupt_cost` → `apply_mtd_interrupt_cost`). Under the host layer, that same call clears the host. **So a host-layer deployment takes the APT attacker model's host whether or not it is running an attack action.** That is why the block matters under the service layer and not under the host layer: it answers Marc's "why the service layer specifically".
+- **Gap found (ch4, gated):** l.4877, "an MTD deployment during [an unmapped tactic] cuts its duration short and costs the attacker the confusion penalty, but never changes which tactic comes next", omits that under the host layer it also takes the host. Proposed clause: "and, under the host layer, the host it was working on".
+
+**¶3 v2 (≈75 words):**
+> The APT attacker model's tactic durations likely explain why the service layer reduces its NCR less than the host layer. Its unmapped tactics, which run no attack action, take 34 to 57 % of its run (Appendix G.3), and an MTD deployment blocks only an attack action in progress (Section 4.5). Attack actions blocked per service-layer deployment is 0.15 for the APT attacker model, against 0.95 for the baseline attacker (Figure 5.2(a)). A host-layer deployment takes its host whether or not it is running an attack action.
+
+**The so-what is S1:** ¶3 explains half of the opener's ordering for the APT attacker model; ¶2 explains the host layer's time lost. The last sentence answers "why the service layer". "At most", "has no … in progress" and "dwell" are gone; the subject is specific (its unmapped tactics). There is one hedge, and "therefore" is avoided because 34–57 % does not account for all of 85 % (the service layer also cannot block the three host-discovery attack actions; that nuance stays off the page).
