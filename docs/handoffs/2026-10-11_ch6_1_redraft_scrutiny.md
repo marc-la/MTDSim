@@ -2381,3 +2381,30 @@ About 90 words.
 - ¶3 is the tactic durations (whether a deployment catches an attack action in progress: blocks).
 - ¶3 does not open "On adaptivity": §4.5 makes time lost adaptivity's metric, and blocks carry no property. The subject (the block) leads.
 - Marc: "the structure looks about right".
+
+### 31.7 The package proposed (Marc 2026-10-12, "get that in … propose the changes for ¶1, ¶2 and a draft of ¶3"; not applied)
+
+**The argument in one line (Marc):** the APT attacker model sits in unmapped tactics between attack actions.
+
+- **¶1 (opener): no change.**
+  - It names both causes, verbatim from §6.1.
+  - Its "likely" is the section's answer-level hedge.
+  - ¶2 is the order of its tactics and ¶3 the tactic durations. The order in which the opener names them is §6.1's fixed phrase, so it is kept.
+- **¶2: no change.**
+  - It ends on service diversity's 60 s, and ¶3 opens on the service layer, so they join.
+  - It cites Figure 5.2(b) and ¶3 cites (a), which splits the figure cleanly.
+  - ¶2's "fail because their preconditions are missing" is not a block. §4.5 counts only the attack action in progress, at most 1 per deployment, so the two paragraphs do not collide.
+- **¶3, draft v1 (≈60 words):**
+  > The APT attacker model's tactic durations likely mean that at most MTD deployments it has no attack action in progress, so the service layer rarely blocks one: 0.15 attack actions per service-layer deployment, against 0.95 for the baseline attacker (Figure 5.2(a)). Its unmapped tactics, which run no attack action, take 34 to 57 % of its run (Appendix G.3).
+  - **Checks:**
+    - "most": 0.15–0.39 blocked under every mechanism, so 61–85 % of deployments catch none;
+    - one hedge;
+    - the host layer's 0.35–0.39 is left out (¶2 explains the host layer without blocks).
+  - **Terms:**
+    - "attack action in progress" (§4.5);
+    - "unmapped tactics … run no attack action" (§4.3.2);
+    - "host-layer deployment" (¶2's form, here "service-layer deployment").
+- **Cuts (31.1, 31.2):** the attack-profile paragraph; the old close.
+- **§6.4 (downstream):** "would judge the host layer spent far sooner than it is against the APT attacker model, and rely on a service layer that never halves the APT attacker model's NCR (Section 6.2)" becomes "would judge the host layer spent beyond 100 s, though it halves the APT attacker model's NCR up to 1 000 s, and rely on a service layer that never halves the APT attacker model's NCR (Table F.1)".
+- **Ch7 Contribution 2 draftnote (gated):** add beside the candidate number: "Tie: Chapter 1's aim of shifting the advantage of time to the defender \citep{ghosh2009nitrd}; against the APT attacker model, the host layer keeps half its NCR off at deployment intervals ten times longer."
+- **§6.2 after the change:** the opener, ¶2 and ¶3, about 310 words.
