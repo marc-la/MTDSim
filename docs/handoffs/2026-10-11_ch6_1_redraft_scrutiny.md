@@ -725,3 +725,22 @@ Marc's ruling: point 1 was warranted, since the old marks could not be argued in
 
 **Next (Marc).** Marc will supply the three papers. Their attacker models are to be extracted near word for word and diagram for diagram, and only the contentious marks argued against the predicates; the strong ones are left alone.
 
+## 18. Comparators tested against the predicates; counterpoint table (2026-10-12)
+
+- **Kim et al.** (extraction in `docs/sources/extractions/kim2026.md`):
+  - P ✗ ✗ ✗ P ✗ ✗ ✗ confirmed.
+  - The row 1 qualifier was reworded to "until it reaches its objective, however many MTD deployments that takes", because one Kim attack outlasts a deployment.
+  - The §3.3.2 row 8 sentence now reads: predicts ("can determine", p. 10), but no technique leverages the prediction.
+- **Masud et al.** (`masud2025.md`):
+  - P ✗ ✗ ✗ ✗ ✗ ✗ ✗ confirmed under the strict reading. Behaviour the paper only describes (RoA prioritisation, "fresh scans and adaptation", p. 7) is no.
+  - Marc's ruling: strict, but acknowledge every elephant.
+  - Appendix B now carries the boundary: an assumption counts only where the model takes the behaviour's step and its authors assume what the model cannot show.
+  - The §3.3.2 Masud paragraph gains one sentence quoting the described behaviour.
+- **Why strict** (recorded for the viva):
+  - Deleting Masud's described sentences changes no number in the paper.
+  - The description contradicts Algorithm 2: every path is aggregated, none prioritised.
+  - A generous rule, applied evenly, would make Kim's row 2 assumed ("based on the objectives of the attacks", p. 7) and end the claim that only the APT attacker model has objective-specific behaviour.
+- **Table B.2 (tab:counterpoints)** quotes, for each contested cell, the strongest counterpoint from the source and why the cell stands. It covers Masud et al. (2, 4, 6), Kim et al. (1 qualifier, 2, 8) and the APT attacker model (2, 3, 4, 5); the APT attacker model's former reasons paragraph moved into it.
+- **Owed:** the baseline attacker's rows, after Brown 2023 and Zhang 2023 are extracted the same way.
+- **Checks:** build clean, 119 pages.
+

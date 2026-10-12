@@ -183,6 +183,8 @@ Source: the published PDF (Computers & Security 153, 104380; CC BY). Pages are a
 Mark: P ✗ ✗ ✗ ✗ ✗ ✗ ✗ if E counts as description. If E counts as assumption, rows 4 and 6 become P: P ✗ ✗ P ✗ P ✗ ✗, the marks before the predicate change.
 
 ### Findings for the thesis
+
+Ruled 2026-10-12: Marc chose the **strict** reading, provided every elephant is acknowledged. Findings 1 and 2 are applied, and each contested cell's strongest counterpoint is quoted in Appendix B, Table B.2, with the test that decides it.
 1. **The "assumed" cell needs a boundary** (Appendix B). Kim's assumed cell and the APT attacker model's each have a step the model takes:
    - Kim: the script opens the reverse shell, and its evasion is assumed.
    - APT attacker model: its attack profiles enter different tactics by objective, and the techniques inside the unmapped tactics are assumed.

@@ -3380,7 +3380,9 @@ before and after the MTD deploys. It has campaign persistence in part: each atta
 attack paths are computed afresh, so no campaign spans intervals. It has no choice of attack strategy: it has every attack path to the database, but chooses
 none. It has no adaptivity: its attack paths are recomputed after
 each MTD deployment, but no next technique is chosen from them. It has no cost--benefit reasoning: it computes each attack path's cost
-and RoA, but no choice depends on them. It has no objective-specific behaviour: every attack path leads to one
+and RoA, but no choice depends on them. The paper also says its attackers
+prioritise vulnerabilities by RoA and adapt to new flaws
+\citep[p.~7]{masud2025}, but no step of the analytical model does either. It has no objective-specific behaviour: every attack path leads to one
 objective, the database, and nothing follows once it reaches it. It has no detection avoidance: the analytical model has no IDS for an attack path to avoid. It has no learning:
 each deployment interval's attack paths are computed afresh, so nothing
 from earlier MTD deployments is kept. It has no deployment-strategy awareness: nothing in the analytical model uses which mechanism deploys next or when it
@@ -9901,7 +9903,10 @@ predicates: rows 1 and 6 each split off one qualifier, row 5 splits at its
 behaviour predicate, word for word. Each cell records whether the predicate
 is true of the attacker model's own behaviour (yes), true only because its
 authors set the behaviour by a fixed rule (rule) or assume it (assumed), or
-false (no). The mark follows from the cells alone: \propmet\ when every cell
+false (no). An assumption counts only where the attacker model takes the
+behaviour's step and its authors assume what the model cannot show; a
+behaviour its authors describe, but no step of the model takes, is no. The
+mark follows from the cells alone: \propmet\ when every cell
 is yes, \propstandin\ when a behaviour predicate is yes, rule or assumed but
 some cell is not yes, and \propnone\ when every behaviour predicate is no. The
 three MTD attacker models are tested from their papers, as in
@@ -9909,21 +9914,13 @@ Section~\ref{subsec:recent-threat-models}, and the APT attacker model from
 Chapter~\ref{ch:attacker-model}. An example in a definition, such as passive
 reconnaissance, illustrates a predicate and is not one.
 
-Four of the APT attacker model's cells need their reason. On
-objective-specific behaviour, its attack profiles enter different tactics
-after the foothold for different objectives (Section~\ref{sec:attack-profiles}),
-but Collection, Exfiltration and Impact are unmapped
-(Section~\ref{subsec:tactic-verb-mapping}), so the techniques that differ are
-assumed for each tactic's duration, not taken (assumed). On choice of attack
-strategy, the Petri net draws each next tactic during the run from the attack
-flows with its objective (Section~\ref{sec:petri-formalism}), where the
-baseline attacker follows a fixed order (yes). On adaptivity, the failure
-matrix, set by our judgement, reweights its next tactic after any failed
-attack action, whether or not an MTD disruption caused it
-(Section~\ref{subsec:failure-matrix}; rule). On detection avoidance, its
-declared tactic durations make it slower than the baseline attacker
-(Section~\ref{subsec:dwell-times}; rule), and no IDS exists for it to choose
-against (no).
+% [COUNTERPOINTS, 2026-10-12] Marc: strict reading, but acknowledge every
+% elephant: for each cell a source could be read against, quote the strongest
+% counterpoint found there, then the test that decides the cell. The APT
+% attacker model's four reasons moved into the table. Baseline attacker rows
+% are added after Brown 2023 and Zhang 2023 are extracted. DRAFT STATE.
+Table~\ref{tab:counterpoints} gives, for each cell its source could be read
+against, the strongest counterpoint found there and why the cell stands.
 
 Table~\ref{tab:attacker-properties} was reworded after the attacker models
 were first scored: its rows name techniques, ATT\&CK's term, where they had
@@ -9992,6 +9989,33 @@ model the only one with it in part.
     \multicolumn{5}{@{}l}{\emph{8 Deployment-strategy awareness}} \\
     \quad behaviour: predicts and leverages which mechanism the deployment strategy deploys next, and when & no & no & no & no \\
     \quad mark & \propnone & \propnone & \propnone & \propnone \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+\begin{table}[htbp]
+  \centering
+  \caption[The strongest counterpoint to each contested cell]{The strongest
+  counterpoint to each contested cell of Table~\ref{tab:clause-tests}, found
+  in the attacker model's source, and why the cell stands.}
+  \label{tab:counterpoints}
+  \tablestyle\setlength{\tabcolsep}{4pt}
+  \begin{tabular}{@{}P{2.9cm}P{5.6cm}P{6.6cm}@{}}
+    \toprule
+    Cell & Strongest counterpoint & Why the cell stands \\
+    \midrule
+    Masud et al., 2: no & Their tests include ``widespread and focused attacks aiming to breach many or specific high-value hosts'' \citep[p.~7]{masud2025} & Every attack path ends at one target, the database; no technique differs between the two, and no step of the analytical model takes either \\
+    Masud et al., 4: no & Diversity forces ``fresh scans and adaptation to new flaws'' \citep[p.~7]{masud2025} & The analytical model recomputes every attack path after each MTD deployment, and no step chooses a next technique from them \\
+    Masud et al., 6: no & ``Vulnerabilities were prioritized by return on attack'' \citep[p.~7]{masud2025} & RoA is computed and reported over every attack path, whatever its RoA; the only selection, the defender's, ranks VMs by centrality \\
+    \midrule
+    Kim et al., 1, qualifier: no & One attack outlasts an MTD deployment: its scan takes 403 to 572\,s against a 300\,s interval, and without redundancy its shell holds for over 600\,s \citep[p.~11]{kim2026} & Each attack scans at most five times and ends at the redundancy reset, and the next starts with no knowledge of the network, so none carries on until it reaches its objective \\
+    Kim et al., 2: no & The shell gives ``a set of commands that an attacker can move to the next stage based on the objectives of the attacks'' \citep[p.~7]{kim2026} & The attacker model has one objective, a shell, and one stage after the foothold; the sentence says what a shell allows, and no step of the script differs by objective \\
+    Kim et al., 8: no & ``attackers can determine the remaining available time'' before the next MTD deployment \citep[p.~10]{kim2026} & It predicts, but no technique leverages the prediction: the four stages run in the same order whatever the time left \\
+    \midrule
+    APT attacker model, 2: assumed & Its attack profiles take the same six attack actions, at different rates (Section~\ref{sec:disc-behaviour}) & Its attack profiles enter different tactics after the foothold for different objectives (Section~\ref{sec:attack-profiles}); Collection, Exfiltration and Impact are unmapped (Section~\ref{subsec:tactic-verb-mapping}), so the techniques that differ are assumed for each tactic's duration \\
+    APT attacker model, 3: yes & The Petri net draws from fixed weights, and a stochastic finite state machine built from the same attack flows would make the same draw (Section~\ref{sec:fidelity-verdict}) & The draw happens during the run, from the state reached and the attack flows with its objective (Section~\ref{sec:petri-formalism}); the baseline attacker's order is fixed before the run, a rule \\
+    APT attacker model, 4: rule & The failure matrix responds to any failed attack action, whether or not an MTD disruption caused it & The failure matrix, set by our judgement, reweights its next tactic after a failure (Section~\ref{subsec:failure-matrix}); an MTD disruption is one cause, so a fixed rule of ours sets the response \\
+    APT attacker model, 5: rule, no & No IDS exists, and its slowness is time in unmapped tactics (Appendix~\ref{app:fa-run-time}) & Its declared tactic durations make it slower than the baseline attacker (Section~\ref{subsec:dwell-times}), a rule; it chooses no technique against an IDS \\
     \bottomrule
   \end{tabular}
 \end{table}
