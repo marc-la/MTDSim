@@ -1177,3 +1177,44 @@ Marc rules each paragraph in turn. This section logs each round: what he flagged
 **Advice for the rest of Chapter 6:**
 - (h) In the body, give an analysis's result and its share. The setup goes in the appendix entry the body cites.
 - (i) One hedge per claim. A "which no run removes" clause beside "most likely" says the same thing twice.
+
+### 24.5 ¶1 (objective-specific behaviour), rounds 1–3 (Marc 2026-10-12)
+
+**Round 1, the critique of v4 on disk.** The paragraph never said what the APT attacker model does against the definition:
+- S1 restated §5.2 with the hedge first.
+- The lead evidence (Figure 5.1(a), Credential Access 1–10 %) was whole-run tactic steps, while the definition reads after the foothold, in techniques.
+- S3 re-explained §4.4.1 in five clauses.
+- "represented only by the time" was roundabout.
+- The baseline sentence carried §3.3.2 detail.
+
+**Round 2.** Marc's flags:
+- the property was de-emphasised;
+- "foothold", "shares" and "objective" were never made concrete;
+- *why* no attack action carries out an objective was missing;
+- why was the headline evidence (G.2) in the appendix?
+- "sets these shares" was opaque;
+- "the definition's own examples" was vacuous;
+- the separate baseline sentence was vacuous.
+
+The fix: name the property first; give the reason (MTDSim's six attack actions only find and compromise hosts, §2.2.3); lead with Figure 5.1(a)'s rows.
+
+**Round 3.** Marc asked why it still read as muddled.
+- **It rebuilt a frame the reader already has.** §4.5.1 already bridges the definition to the runs: "the attack profiles … should divide their steps among the tactics differently, most of all in actions on objectives … the metric tests whether their runs still differ in MTDSim". The paragraph now answers that question.
+- **Percentages read as hand-picked** without that frame. With it, the Exfiltration and Impact rows *are* the prediction, so the paragraph names the pattern (which attack profiles enter which tactic), not numbers.
+- **"Its runs reach the tactics of that objective" got the split wrong.** §4.2 split the attack flows by what the attacker did. The tactics follow from the attack flows.
+- **The tactic-step evidence and the after-foothold attack-action evidence read as one claim twice.** G.2 left the body, and Appendix B's row 2 now cites G.2 directly.
+
+**Applied** (Marc: "a lot stronger … 90 % of the way there … polishing around the edges"):
+> On objective-specific behaviour, the attack profiles' runs still differ in MTDSim, most of all in actions on objectives (Figure 5.1(a)): Exfiltration occurs only in c1 and c3, Impact almost only in c2 and c3, and neither in c4. Each attack profile follows the order of tactics of its own attack flows (Section 4.2), and the failure matrix's reweighting does not erase it. Actions on objectives are unmapped tactics, because MTDSim's six attack actions, the baseline attacker's procedure, only find and compromise hosts (Section 2.2.3), so the APT attacker model steals no data and impedes no system. Outside actions on objectives, c4, whose attack flows share no objective, also divides its steps differently from the others, so there the differences are not shown to come from the objective.
+
+- **Figure 5.1(a)'s rows:** Exfiltration c1 6, c2 –, c3 4, c4 –; Impact c1 <1, c2 8, c3 12, c4 –.
+- **Marc on "does not erase it":** right. The failure matrix reroutes after a failure, and the order of its tactics survives.
+- **Inbound references checked:**
+  - §6.3's "same six attack actions at different rates" cites Figure 5.1(a) and still holds.
+  - Appendix B row 2 cited §6.1 for that claim, which §6.1 no longer makes. It now cites Appendix G.2.
+
+**Advice for the rest of Chapter 6:**
+- (j) A discussion paragraph answers the question its metric's paragraph in §4.5 posed, in that paragraph's words. Do not rebuild the bridge from Table 3.2.
+- (k) Numbers without the frame that makes them the test read as hand-picked. Name the pattern the figure shows instead.
+- (l) Tight is not clear. Each abstract noun ("shares", "objective", "sets") must have its referent in the paragraph or in the reader's scaffold.
+- (m) Give the reason behind a negative claim in one clause, here what MTDSim's attack actions do.

@@ -8554,25 +8554,26 @@ accounts for the rest. Removing the
 failure matrix or the vulnerability memory changes its NCR negligibly
 (Section~\ref{sec:ablation}), so neither explains its lower NCR.
 
-Objective-specific behaviour shows in the runs only in how each attack profile
-divides its steps among the tactics. Each attack profile's Petri net is built
-from the attack flows of one objective (Section~\ref{sec:attack-profiles}), so
-its base weights give it its own order of tactics, and after the foothold the
-attack profiles enter different tactics. A mapped tactic dispatches the attack
-action that carries out one of its techniques
-(Section~\ref{subsec:tactic-verb-mapping}), so the attack profiles use the
-same six attack actions in different shares: Credential Access, the only
-tactic that dispatches brute force, is 1 to 10\,\% of an attack profile's
-steps (Figure~\ref{fig:aio-coverage}(a)), and the shares differ after the
-foothold too (Appendix~\ref{app:fa-behaviour-actions}). Collection,
-Exfiltration and Impact are unmapped tactics, so the techniques that steal
-data or impede a system are represented only by the time each tactic takes,
-and no attack action carries them out. The baseline attacker uses the same attack actions
-after the foothold in either attack scenario, which changes only the host it
-attacks next and whether it gives up on it
-(Section~\ref{subsec:recent-threat-models}). The runs do not show that the
-objective causes the differences: $c_4$, whose attack flows share no
-objective, divides its steps differently too.
+% P1 ROUND 3, 2026-10-12 (Marc: "a lot stronger ... 90% of the way";
+%  handoff section 24.5): answers the question Section 4.5.1 poses (do the
+%  attack profiles' runs still differ in MTDSim, most of all in actions on
+%  objectives?); the rows of Figure 5.1(a) as the pattern, not hand-picked
+%  percentages; the cause handed back; the catch with its reason (MTDSim's
+%  attack actions only find and compromise hosts); one bound. Cut: the
+%  after-foothold recount (Appendix G.2, cited by Appendix B), the mapping
+%  mechanism (4.4.1), the separate baseline sentence.
+On objective-specific behaviour, the attack profiles' runs still differ in
+MTDSim, most of all in actions on objectives (Figure~\ref{fig:aio-coverage}(a)):
+Exfiltration occurs only in $c_1$ and $c_3$, Impact almost only in $c_2$ and
+$c_3$, and neither in $c_4$. Each attack profile follows the order of tactics
+of its own attack flows (Section~\ref{sec:attack-profiles}), and the failure
+matrix's reweighting does not erase it. Actions on objectives are unmapped
+tactics, because MTDSim's six attack actions, the baseline attacker's
+procedure, only find and compromise hosts (Section~\ref{subsec:attacker-model}),
+so the APT attacker model steals no data and impedes no system. Outside
+actions on objectives, $c_4$, whose attack flows share no objective, also
+divides its steps differently from the others, so there the differences are
+not shown to come from the objective.
 
 Choice of attack strategy comes from the order of its tactics, picked in each
 run, whereas the baseline attacker's procedure fixes the order of its attack
@@ -10051,7 +10052,7 @@ model the only one with it in part.
     Kim et al., 8: no & ``attackers can determine the remaining available time'' before the next MTD deployment \citep[p.~10]{kim2026} & It predicts, but no technique leverages the prediction: the four stages run in the same order whatever the time left \\
     \midrule
     APT attacker model, 1, qualifier: yes & Chapter~\ref{ch:attacker-model} never says when a run ends & A run ends by the simulator's rule, the same for both attackers (Section~\ref{subsec:attacker-model}); nothing in the model ends its campaign, and a failed intrusion goes back to Reconnaissance to try again (Section~\ref{subsec:failure-matrix}) \\
-    APT attacker model, 2: assumed & Its attack profiles take the same six attack actions, at different rates (Section~\ref{sec:disc-behaviour}) & Its attack profiles enter different tactics after the foothold for different objectives (Section~\ref{sec:attack-profiles}); Collection, Exfiltration and Impact are unmapped (Section~\ref{subsec:tactic-verb-mapping}), so the techniques that differ are assumed for each tactic's duration \\
+    APT attacker model, 2: assumed & Its attack profiles take the same six attack actions, at different rates (Appendix~\ref{app:fa-behaviour-actions}) & Its attack profiles enter different tactics after the foothold for different objectives (Section~\ref{sec:attack-profiles}); Collection, Exfiltration and Impact are unmapped (Section~\ref{subsec:tactic-verb-mapping}), so the techniques that differ are assumed for each tactic's duration \\
     APT attacker model, 3: yes & The Petri net draws from fixed weights, and a stochastic finite state machine built from the same attack flows would make the same draw (Section~\ref{sec:fidelity-verdict}) & The draw happens during the run, from the state reached and the attack flows with its objective (Section~\ref{sec:petri-formalism}); the baseline attacker's order is fixed before the run, a rule \\
     APT attacker model, 4: rule & The failure matrix responds to any failed attack action, whether or not an MTD disruption caused it, and a deployment during an unmapped tactic never changes which tactic comes next (Section~\ref{subsec:tactic-verb-mapping}) & The failure matrix, set by our judgement, reweights its next tactic after a failure (Section~\ref{subsec:failure-matrix}); an MTD disruption is one cause, so a fixed rule of ours sets the response \\
     APT attacker model, 5: rule, no & No IDS exists; it is faster than the baseline attacker at brute force and enumerate host, and its slowness is time in unmapped tactics (Appendix~\ref{app:fa-run-time}) & Its declared tactic durations make it slower than the baseline attacker (Section~\ref{subsec:dwell-times}), a rule; it chooses no technique against an IDS \\
