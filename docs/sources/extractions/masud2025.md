@@ -123,3 +123,71 @@ it costs.
 - apt_model_criterion.md §(c), the prior-work column;
 - the §3.3.2 Masud paragraph and close;
 - the "strict but generous" rule text in the Table 3.3 comment block.
+
+## Attacker model, extracted for the predicate tests (2026-10-12)
+
+Source: the published PDF (Computers & Security 153, 104380; CC BY). Pages are as printed. The **attacker model as computed** (A–D) is listed apart from the **attacker as described** (E). E is prose about the attacker that no definition, algorithm, symbol or result carries; the earlier passes call it "framing".
+
+### A. What the attacker is
+- A1 "we assume that a potential attacker is external to the private cloud and could exploit vulnerabilities present in IoT device operating systems to gain unauthorized access … The attacker's objective is to breach the database (DB) on host8, which stores critical IoT data." (§3.1, p. 5)
+- A2 "Given its limited access solely to the database, V8 becomes a prime target for attackers and remains ineligible for migration". (§3, p. 5)
+- A3 The attacker is a node in the graphs: V_hS = (attacker, V1, …, V8) and S_hS = (attacker, S1, …, S14), with edges (attacker, V1) and (attacker, V2). (Defs. 1–3, pp. 7–8)
+- A4 An attack path ap is "a sequence of consecutive VMs in the cloud that extends from the entry node within the edge sets to the target node", and AP is "All possible cloud attack paths leading to the target node". (Table 3, p. 7)
+- A5 The attacker's capability is a set of CVEs per OS (Table 1) and per service (Table 2), each with a CVSS base score, impact, exploitability and attack cost. (p. 6)
+- A6 Large cloud: 400 VMs; "Attackers can exploit weaknesses in each VM, map out attack routes, and ultimately get access to the target node." (§4.5, p. 14)
+
+### B. What is computed (Algorithm 2, p. 9)
+- B1 Input: "All possible Edge sets G, considering time t_i edge-sets G_ti".
+- B2 ASP_Vi = 1 − (∏(1 − E_v) + ∏(1 − E_s)), from CVSS exploitability. (Eq. 1)
+- B3 "AP = all_simple_paths (G, S_s, T_r)"; for each ap and each V_i on it: R_vi (Eq. 2), AC_vi (Eq. 3), RoC_vi = R_vi / AC_vi (Eq. 4), and the centralities C, D, B (Eqs. 5–7).
+- B4 RoA: "the ratio between how much an attack costs and the benefit it provides. A higher RoA number means that attackers are more likely to take advantage of weaknesses, which means they are more likely to launch attacks." (§3.5.4, p. 9)
+- B5 "Key metrics like attack success probability, attack cost, and attack risk were automatically calculated at intervals". (§3.3, p. 7) Defense trigger interval: 10 min. (Table 4)
+- B6 Table 3 (p. 7) defines no symbol for an attacker decision, state or memory.
+
+### C. What the MTD does to it (the defender's side)
+- C1 Algorithm 3 selects the VM to move: "V*_i = rank(arg max(C_vi, D_vi, B_vi))" (Eq. 8, p. 10). It ranks by centrality, not by RoA.
+- C2 Shuffle removes and adds edges in U; diversity swaps the attack tree's OS; redundancy adds a VM with new vulnerabilities and edges. (Algorithm 3; §§3.6.2–3.6.5, pp. 10–11)
+- C3 Algorithm 1 ends with "Interrupt adversary if necessary" (line 28, p. 8); Fig. 2 has an "Interrupt Adversary" box. These are the only steps that act on the adversary, and both are the defender's.
+- C4 The defender lengthens "the easiest attack path for attackers looking to compromise the database … V2 → V7 → V8". (§3.6.2, p. 10)
+- C5 Results are recomputed metrics: e.g. R_ap1 = 43.15, AC_ap1 = 166.5, RoC_ap1 = 0.259 after V5 migrates (§4.2, p. 13); Figs. 6–9 show metrics per VM, per path and over time.
+
+### D. Time
+- D1 "Periodic triggers initiate MTD processes, exclusively designed to be proactive without reactive considerations." (§3.2, p. 5)
+- D2 THARM is indexed by network state at time t_i (Defs. 1–4). Each t_i's paths are recomputed from the attacker node. (Algorithm 2)
+
+### E. The attacker as described, carried by no definition, algorithm or result
+- E1 "A defense-adversary interaction model that evaluates how MTD strategies dynamically disrupt attacker workflows and force rescanning, credential reuse, and other adversarial efforts". (§1, p. 3)
+- E2 "Attackers were modeled after techniques in the cyber kill chain and MITRE ATT&CK, mirroring real threats … Tests included widespread and focused attacks aiming to breach many or specific high-value hosts. Vulnerabilities were prioritized by return on attack, emphasizing those with greatest impact. Successful exploitation let adversaries control internals through command channels to connected devices … Service and operating system diversification modified configurations, forcing fresh scans and adaptation to new flaws." (§3.3, p. 7)
+- E3 "attackers will be none the wiser about the hosts they previously discovered being invalid" (§3.2, p. 6); MTD nullifies "any information or progress obtained by an attacker in the current state" (§1, p. 2)
+- E4 "the attacker has fewer incentives to target that particular IoT cloud configuration when RoC_s is low … a higher RoC_s means that the attacker is more likely to attempt the same attack again, given it was previously successful." (§4.2, p. 13)
+- E5 "each of the subsequent MTD changes means that attackers will have to change their strategies" (§4.6, p. 15); "compelling them to continuously adapt" (§5, p. 15)
+- E6 Threats "avoid or neutralize standard security defensive mechanisms, including firewalls and intrusion detection systems (IDSs)" (§1, p. 1); "A cyber resilience system supported by an intrusion defence system (IDS) is made more secure with MTD." (§3.6, p. 9) Neither puts an IDS in the model.
+- E7 Future work names "assessment against sophisticated attacks". (§6, p. 16)
+
+### Predicate tests (Appendix B rule)
+
+| # | Predicate | Cell | Evidence | Strongest counter, answered | Call |
+|---|---|---|---|---|---|
+| 1 | B: pursues one multi-stage campaign toward its objective | yes | A1, A4: a multi-hop path from the entry VM to the database | — | strong |
+| 1 | Q: over an extended period, until it reaches its objective, however many MTD deployments that takes | no | D2, B6: each t_i's paths are recomputed from the attacker node, and nothing carries over | E3 implies an attacker that keeps discovered hosts across a shuffle, but no symbol or step holds them | strong |
+| 2 | B: after the foothold, uses different techniques for different objectives | no | A1, B3: one target T_r | E2 "widespread and focused attacks": two objectives at most, with no technique that differs and no parameter or result. Description only | strong |
+| 3 | B: chooses among several sequences of techniques toward the same objective | no | B3: every simple path is enumerated and aggregated; C4: the "easiest" path is the defender's target | — | strong |
+| 4 | B: chooses its next technique in response to an MTD disruption | no, if E counts as description; assumed, if it counts as assumption | B3, D2: paths are recomputed, nothing chooses; C3: the defender interrupts | **E1, E2, E5: "forcing fresh scans and adaptation to new flaws"** | **contentious** |
+| 5 | B1: moves low and slow | no | No timing in the model | — | strong |
+| 5 | B2: chooses techniques an IDS does not flag | no | No IDS in the model | E6 is general framing and the defender's IDS | strong |
+| 6 | B: chooses techniques by weighing their cost against their benefit | no, if E counts as description; assumed, if it counts as assumption | B3, B4: RoA is computed as a metric; C1: the only selection ranks by centrality | **E2: "Vulnerabilities were prioritized by return on attack"; E4** | **contentious** |
+| 6 | Q: for each technique | no | — | — | strong |
+| 7 | B: keeps the patterns of past MTD deployments and uses them | no | B6, D2 | E3, E4 are about hosts found and past success, not MTD patterns | strong |
+| 8 | B: predicts and leverages which mechanism deploys next, and when | no | C1–C3 are the defender's side | E3: the attacker is "none the wiser" | strong |
+
+Mark: P ✗ ✗ ✗ ✗ ✗ ✗ ✗ if E counts as description. If E counts as assumption, rows 4 and 6 become P: P ✗ ✗ P ✗ P ✗ ✗, the marks before the predicate change.
+
+### Findings for the thesis
+1. **The "assumed" cell needs a boundary** (Appendix B). Kim's assumed cell and the APT attacker model's each have a step the model takes:
+   - Kim: the script opens the reverse shell, and its evasion is assumed.
+   - APT attacker model: its attack profiles enter different tactics by objective, and the techniques inside the unmapped tactics are assumed.
+
+   Masud's E has no step in the model at all. Proposed sentence for Appendix B, after the cell definitions: "An assumption counts only where the attacker model takes the behaviour's step and its authors assume what the model cannot show; a behaviour its authors describe, but no step of the model takes, is no." It moves no mark (Kim and the APT attacker model keep theirs).
+2. **The Masud paragraph** should show that E was read. Proposed sentence after "no cost–benefit reasoning": "The paper also says its attackers prioritise vulnerabilities by RoA and adapt to new flaws \citep[p.~7]{masud2025}, but no step of the analytical model does either."
+3. **Either reading leaves the APT attacker model's claims intact.** None of the three comparators has more than one property in full, and the gains over the baseline attacker do not involve Masud et al.
+4. **The rest of the §3.3.2 Masud paragraph checks out** against A–D: the analytical model, the set of attack paths from the Internet to a target database, the metrics recomputed per interval before and after the MTD deploys, and every cross. One wording risk: the paper calls its evaluation "Experimental validation conducted in a simulated IoT environment" (p. 3). The thesis calls it an analytical model, which matches §3.2's definition (Algorithm 2 computes metrics; nothing is simulated), and B3 is the evidence if challenged.
