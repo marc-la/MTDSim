@@ -3069,3 +3069,40 @@ each draws only the steps its attacker completed
 **Knock-ons:**
 - ¶2 and ¶3 must land together. Otherwise adaptivity and detection avoidance lose the sentence that gave their marks.
 - Appendix B row "APT attacker model, 2" still says "enter different tactics after the foothold for different objectives". It changes to "differ in actions on objectives" when ¶2 lands (auto, downstream).
+
+## §44. §6.3 ¶2 draft (§43) rejected as a list: "so what? where's the punch?" Sort test and the punch (Marc 2026-10-12; nothing applied)
+
+Marc: the §43 draft answers the question with the right structure, but it reads as precise sentences without an argument. It tries to answer SQ1, describe the model and justify the marks all at once. He asked whether its points already live elsewhere.
+
+### 44.1 Sort test of the §43 draft
+
+| Sentence | Already in | Verdict |
+|---|---|---|
+| Attack flows drawn step by step | ch2 (manual attack profiling), ch4 §4.1 | Clause at most |
+| The order → choice in full; the Petri net draws at run time | §6.1 ¶2 (the draw), Appendix B row 3 | Cut the reasoning; cite the mark as evidence |
+| Objective-specific from the attack profiles' actions on objectives | §6.1 ¶2, ch4 §4.2 | Same |
+| Drops: the technique, tools, malware, vulnerabilities | nowhere | No consequence anywhere: cut |
+| Drops: AND joins, conditions | nowhere | Their only consequence is ¶3's "the Petri net could carry them": move to ¶3 |
+| No timing; no response to failure | ch2 l.~1883; ch4 §4.4.2–4.4.3; §6.5 (bound) | Keep: the premise of the punch |
+
+**Diagnosis:** the only sentences new to the thesis (the drops) have no consequence. Everything else repeats evidence that lives elsewhere. The paragraph never says what the answer means.
+
+### 44.2 The punch (new; nowhere in ch6)
+
+- **Premise:** in MTDSim a deployment meets the attacker at two points (ch2 l.~843; ch4 l.~4400):
+  - it disrupts an attack action in flight, which depends on how long the action takes;
+  - the failed verdict sends the attacker to its response to failure.
+- **The match:** those are the two things threat reports do not record. They describe attacks that succeeded, step by step.
+- **So:** what the model recovers from CTI is the route (which tactic follows which, by objective). Where MTD meets the attacker, it rests on our judgement.
+- **Answer to SQ1:** threat reports can recover the route of an APT attacker, but not its encounter with MTD.
+- **Sets up the close:** of what CTI gives, the route (order) likely reaches SQ3's answer.
+- §6.4 (the interface paragraph) and §6.5 (the judgement bound) state the parts; neither draws the conclusion.
+
+### 44.3 Spine proposed for ¶2 (about 90–110 words)
+
+1. **The answer:** threat reports, through attack flows, recover the route an attacker takes: which tactic follows which, for each objective. Marks 3 and 2 are cited as evidence in one clause (Table 6.1).
+2. **The limit, with its cause:** they record attacks that succeeded, so they almost never record how long a step took and never what an attacker did when a step failed.
+3. **The punch:** in MTDSim those are where a deployment meets the attacker (it disrupts an attack action in flight, and the attacker must respond to the failure). So the model is grounded in CTI along its route and rests on our judgement where MTD acts on it.
+4. **(Optional, one hedge):** any attacker model recovered from threat reports likely shares this gap.
+
+**¶3 then opens:** to run, we set the tactic durations and the failure matrix by judgement (marks 4 and 5). It also takes over the AND joins and the conditions.
