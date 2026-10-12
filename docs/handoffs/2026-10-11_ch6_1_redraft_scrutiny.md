@@ -1674,3 +1674,29 @@ Two slots, about 45 words in place of 95:
 - ¶2's first sentence restates the layer claim; ¶2 opens on its numbers instead.
 - Appendix F (fa-foothold) says "§6.2 explains why the host layer disrupts the APT attacker model most"; keep, or align with the opener's NCR wording.
 - §6.3's opener, under Q1.
+
+### 27.6 Rulings and what was applied (Marc 2026-10-12, "the fixed structure … let's get that done")
+
+**Rulings:**
+- **Q1, answer first.** Answer the question in its own terms. SQ3 was phrased so its clauses can be answered directly, and the answer is specific.
+- **Q2, cut** the no-rank-first phrase. Marc: vague language, needs to be specific.
+- **Q3, accepted.** Downstream changes are automatic.
+
+**Opener (95 → 52 words):**
+> In answer to SQ3, the host layer reduces the APT attacker model's NCR more than the service layer does at every deployment interval, and the service layer reduces the baseline attacker's NCR more than the host layer does (Figure 5.3). The APT attacker model's tactic durations and the order of its tactics likely explain the difference.
+
+- The cause sentence names the APT attacker model rather than "its". The sentence before ends on the baseline attacker, so "its" would point at the wrong attacker (advice (b)).
+- "Explain the difference" means the contrast S1 states.
+
+**Downstream (automatic):**
+- **¶2 S1** no longer restates the layer claim. It now opens on ρ ("at every deployment interval", Table 5.3).
+- **The close** loses its first sentence ("To SQ3, then: … the difference follows the MTD layer, because …"). It now opens on Chapter 1's advantage of time. Its last sentence, "Each part of this answer rests on MTDSim's rules …", is left for the close's round (Q3).
+- **§6.3's opener**, under Q1. Before: "SQ1 and SQ2 ask how … ; the eight properties score the answer. Scored by the rule of Chapter 3, …". Now: "In answer to SQ1 and SQ2, scored by the rule of Chapter 3, the APT attacker model has …". Only the tag was swapped. The specific answer in the question's terms is §6.3's own round.
+
+**Proposed, gated (Chapter 7):** the draftnotes cite §6.2 for "no MTD mechanism ranks first against both". Repoint them to §5.3.2 or §6.4.
+
+**Advice for the rest of Chapter 6:**
+- (ab) A section that answers a sub-question opens on the answer, in the question's own terms and with the specific measure, and tags the sub-question once. Never re-ask the question: §4.5 and Chapter 5 already did.
+- (ac) A layer claim uses the figure's layer term ("the host layer", the mean the figure plots). Check per-mechanism truth before writing "the host-layer mechanisms".
+
+Build clean, 120 pages, 0 undefined.

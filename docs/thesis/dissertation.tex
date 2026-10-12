@@ -8679,16 +8679,17 @@ NCR alone therefore rate it the weaker attacker for behaving more like an APT.
 %  close; "which fits Section 6.1" in paragraph 4 is the session's inference;
 %  service diversity's 60 s for the APT attacker model is stated, not explained
 %  (no traced cause, handoff 25.4).
-\ref{sq:evaluate} asks how MTD performs against the APT attacker model
-compared with the baseline attacker. In MTDSim, the host-layer mechanisms
-reduce the APT attacker model's NCR most, and the service-layer mechanisms the
-baseline attacker's; no MTD mechanism or deployment strategy ranks first
-against both (Section~\ref{subsec:eff-cross-arm}). MTDSim writes what a
-deployment disrupts, and where it sends the attacker, against the baseline
-attacker's procedure (Section~\ref{subsec:attacker-model}). The APT attacker
-model runs the same attack actions without that procedure, so these rules act
-on it through its tactic durations and the order of its tactics
-(Section~\ref{sec:disc-behaviour}).
+% OPENER ROUND 1, 2026-10-12 (Marc, handoff section 27: Q1 answer first, in
+%  the question's terms, specific; Q2 no-rank-first cut, it lives in 5.3.2 and
+%  6.4; Q3 the rules nuance lives in paragraph 1 and 6.5). "In MTDSim" cut
+%  (preamble); "the host layer"/"the service layer" are Figure 5.3's layer
+%  means (per mechanism, OS diversity fails for the baseline attacker); one
+%  "likely" (Appendix G.3's run has no MTD).
+In answer to \ref{sq:evaluate}, the host layer reduces the APT attacker
+model's NCR more than the service layer does at every deployment interval, and
+the service layer reduces the baseline attacker's NCR more than the host layer
+does (Figure~\ref{fig:eff-cross-arm}). The APT attacker model's tactic
+durations and the order of its tactics likely explain the difference.
 
 On disruption per MTD deployment, a deployment blocks the baseline attacker's
 attack actions more often than the APT attacker model's under every MTD
@@ -8714,11 +8715,9 @@ second attempt. Service diversity costs the baseline attacker 493\,s per
 deployment and the APT attacker model 60\,s: it redraws every service, so the
 baseline attacker loses the vulnerabilities it was exploiting.
 
-On MTD ranking against each attacker, the host-layer mechanisms reduce the APT
-attacker model's NCR more than the service-layer mechanisms at every deployment
-interval, and the service-layer mechanisms reduce the baseline attacker's more;
-$\rho$ between the two attackers' rankings lies between $-0.24$ and $0.25$
-(Figure~\ref{fig:eff-cross-arm}, Table~\ref{tab:eff-cross-arm}). NCR reduction
+On MTD ranking against each attacker, $\rho$ between the two attackers'
+rankings lies between $-0.24$ and $0.25$ at every deployment interval
+(Table~\ref{tab:eff-cross-arm}). NCR reduction
 falls as the deployment interval grows. The host layer reduces the APT attacker
 model's NCR by half or more up to 1\,000\,s, and the baseline attacker's only
 up to 100\,s; the service layer reduces the baseline attacker's by half or more
@@ -8758,10 +8757,6 @@ depends more on the attacker model than on the attack profile, which fits
 Section~\ref{sec:disc-behaviour}: an attack profile's objective shows only in
 actions on objectives, whose tactics are unmapped.
 
-To \ref{sq:evaluate}, then: in MTDSim, MTD performs differently against the
-APT attacker model than against the baseline attacker, and the difference
-follows the MTD layer, because MTDSim's rules for a deployment act on the APT
-attacker model through its tactic durations and the order of its tactics.
 Chapter~\ref{ch:intro} set MTD the aim of shifting the advantage of time to the
 defender \citep{ghosh2009nitrd}. Against the slower APT attacker model, the
 host layer reduces NCR by half or more at deployment intervals up to ten times
@@ -8845,9 +8840,7 @@ this answer rests on MTDSim's rules for what a deployment disrupts
 %  blind scorer 2026-10-08: chapters 3 and 4 only, the property claims of
 %  chapter 4's opener, 4.4.3 and 4.4.4 redacted. It gave the same eight marks
 %  (handoff 12d). OWED: the AI Use Declaration (empty) must name this use.
-\ref{sq:capture} and~\ref{sq:model} ask how APT behaviour can be recovered
-from threat reports and executed in an existing MTD simulator; the eight
-properties score the answer. Scored by the rule of
+In answer to \ref{sq:capture} and~\ref{sq:model}, scored by the rule of
 Chapter~\ref{ch:litreview}, the APT attacker model has
 two of the eight properties in full, three in part, and lacks three; none of the
 three MTD attacker models scored there has more than one in full
