@@ -2246,3 +2246,36 @@ About 90–110 words, from 183.
 **§6.2 now:** opener, adaptivity, by attack profile, close. The §5.3 mirror holds at the mechanism level; the deployment strategies sit in §6.4.
 
 Build clean, 119 pages, 0 undefined.
+
+## 31. §6.2's last two paragraphs (by attack profile; the close): scrutiny (Marc 2026-10-12; nothing applied)
+
+Marc: "what are their purposes, their one-liners, are they cuttable … what explanation do we need to deliver? Interval goes up, disruption goes down, as expected, almost tautological."
+
+### 31.1 By attack profile (≈75 words)
+- **One-liner it tries:** MTD's effect depends more on the attacker model than on the attack profile, because an attack profile's objective shows only in unmapped tactics.
+- **S1** is §5.3.3 ¶1 almost word for word: a ch5 rehash.
+- **S2's explanation is already given twice.**
+  - §6.1's objective-specific paragraph: "an attack profile's objective shows only in actions on objectives … unmapped".
+  - §6.3: "Exfiltration and Impact are unmapped, so the attack profiles take the same six attack actions at different rates".
+- **S2's "therefore depends more on the attacker model" is §6.3's** ("the reversal therefore rests on … not on the failure matrix, the vulnerability memory or the attack profiles", from the ablation).
+- **SQ3 relevance:** none. It compares the attack profiles with each other, not the two attackers. Its only job is a scope check (the average over c1–c4 hides no split), and Figure 5.4 and §5.3.3 already show that.
+- **Verdict: cut.** Nothing is lost. The flagged "which fits Section 6.1" (the session's inference) goes with it.
+
+### 31.2 The close (≈75 words, two sentences, two jobs)
+- **Sentence 1** (the host layer halves the APT attacker model's NCR up to 1 000 s and the baseline attacker's only up to 100 s, likely because of 242–324 s per deployment; the service layer never halves the APT attacker model's):
+  - **The downward trend is not an explanation.** NCR reduction falls as the interval grows for every mechanism and both attackers, as expected. Ch5 reports it.
+  - **The only part that isn't tautological** is the gap between the attackers (1 000 s against 100 s). That is a Table F.1 fact. Its reason is ¶2's per-deployment mechanism seen across intervals.
+  - **The reason is only half true.** It holds on the APT attacker model's side. On the baseline attacker's side, time lost does not set the result: the host layer reduces its NCR by 0.72 at 50 s with time lost at or below zero, so blocks do the work. This is the recovery-time rule that §29 rejected, back in hedged form.
+  - **§6.4 already owns what the interval means:** the earlier studies' 50–200 s, "judge the host layer spent far sooner", "a service layer that never halves". It cites §6.2 only for the numbers.
+- **Sentence 2** (Chapter 1's "shifting the advantage of time to the defender" (Ghosh): "the host layer holds it at deployment intervals ten times longer"):
+  - This is an answer-level "so what". It ties to chapter 1's aim, not an explanation of a result.
+  - "holds it" is figurative.
+  - Its home is ch7, where the answers meet the research question. Ch7's Contribution 2 draftnote already names this number as its candidate ("the host layer keeps half of the APT attacker model's NCR off up to 1 000 s, against 100 s").
+- **Verdict: cut from §6.2.**
+  - **§6.4 (downstream, auto after ruling):** "(Section 6.2)" repoints to Table F.1, and "far sooner" becomes specific: spent beyond 100 s, though it halves the APT attacker model's NCR up to 1 000 s.
+  - **Ch7 (gated, proposed):** add the advantage-of-time tie to the Contribution 2 draftnote beside its candidate number.
+
+### 31.3 What §6.2 is then
+The opener (the answer to SQ3, both causes) and ¶2 (adaptivity: why, per deployment), about 250 words.
+- It ends on ¶2's service-diversity sentence ("which likely explains its 60 s"). That is a weak last line, but it stops at the peak and adds nothing.
+- **Alternative:** keep one closing sentence that gives the interval gap and its ¶2 reason for the APT attacker model only, with no ch1 tie. That costs about 35 words and re-states a Table F.1 fact. Not recommended.
