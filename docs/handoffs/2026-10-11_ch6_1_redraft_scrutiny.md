@@ -3505,3 +3505,20 @@ Marc kept ¶3's S2 as it is. On the close he asked: what must it carry, is it ne
 - **Cut S3's bound to §6.5,** where bounds live once.
 - **Alternative:** cut the close. §6.3 then ends on ¶3, and the reader joins ¶2 to §6.2 alone. The cost: §6.3 never says why its marks matter for the result.
 - **Gated knock-on:** ch7 Contribution 1 "Bound" is written "in step with §6.3's close" (the CTI verdict, untested alone, the negligible ablations). If the close drops them, the Bound points to §6.5 and §5.4 instead. That is a ch7 edit, to be proposed.
+
+## §56. §6.3 close cut (Marc 2026-10-12, "cut it")
+
+- **Why:** the one-sentence close drafted from §55 relabelled §6.2's causes as marks (order → choice of attack strategy, tactic durations → detection avoidance). That added nothing, and it conflated a mark (a score of a property) with a cause.
+- **The only new idea** (one cause from the threat reports, one from judgement) needs a claim no run supports: no run with MTD separates the order from the durations (§6.5).
+- **Where everything now lives:**
+  - ¶2's ending carries the source split;
+  - ¶3's ending carries the scope;
+  - §6.2 carries what explains SQ3;
+  - §5.4, §6.1 and §6.5 carry the ablations and the bound.
+- **§6.3:** opener, ¶2, ¶3. About 390 words, down from 1 235 at the overdraft.
+- Nothing in ch6 refers to the close.
+- **Owed, gated (ch7):** Contribution 1's "Bound" draftnote is "in step with §6.3's close". Proposed:
+  - first clause → "SQ3's answer likely rests on the order of its tactics, from CTI, and the tactic durations, set by judgement (Section 6.2)";
+  - "no run with MTD tests the order alone" → Section 6.5;
+  - the negligible ablations → Section 5.4.
+- Build clean, 118 pages, 0 undefined.
