@@ -2855,3 +2855,25 @@ So: the threat reports give the full mark (3) and the behaviour of 2 (SQ1); ever
 - **Appendix counterpoints, row "APT attacker model, 3":** the stochastic-finite-state-machine pointer to §6.3 now reads "fixed weights, set before the run from the attack flows (Section petri-formalism)". One comment-only mention is left at l.~9549.
 - **Size:** 520 → 512 words (opener 99, SQ1 176, SQ2 148, close 89). The ~380 estimate of §35.3 did not hold: the source sentences replaced the cuts word for word.
 - Build clean, 118 pages, 0 undefined.
+
+## §38. §6.3 opener: clarity pass (Marc 2026-10-12)
+
+**One-liner.** The APT attacker model has more of the eight properties than any MTD attacker model; all four lack 6–8.
+
+**Split of work, caption against opener.**
+- The caption carries the column decode, the mark legend and "by the same rule". It now also carries the appendix pointer: "Appendix A tests each mark predicate by predicate." (Applied.)
+- The opener carries only the comparison with the field.
+- Neither carries: the predicates; the gain over the baseline attacker (the rows sit side by side, and ¶2–¶3 say what is kept and what is added; Marc: "easy", cut); the gloss of 6–8 (it restates Chapter 3).
+- No hedge: we scored the marks ourselves, so the opener states them with authority. Scorer bias is covered once, in §6.5.
+
+**Marc's critique of the first proposal** ("two in full, where none of them has more than one, and objective-specific behaviour, which none of them has. Like them, …"):
+- the clauses stack;
+- the argument oscillates between the APT attacker model and the three;
+- "them" is hard to resolve.
+
+**Fix.** One claim per sentence, with the subject named first. The APT attacker model's claims come together, then the claim about all four, with no pronoun pointing back at the three.
+
+**Proposed (not applied; the paragraph being drafted is proposed first):**
+> The APT attacker model has more of the eight properties than any of the three MTD attacker models (Table 6.1). It alone has two in full, and it alone has objective-specific behaviour. All four attacker models lack cost–benefit reasoning, learning and deployment-strategy awareness.
+
+Build clean, 118 pages, 0 undefined.
