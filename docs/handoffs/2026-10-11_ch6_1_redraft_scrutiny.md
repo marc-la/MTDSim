@@ -3363,3 +3363,55 @@ behaviour is in part. The APT attacker model avoids detection only by proxy,
 through its tactic durations, because MTDSim has no IDS to evade. Detection
 avoidance is therefore in part.
 ```
+
+## §52. Why ¶3 got worse over three drafts: a critique, no redraft (Marc 2026-10-12)
+
+**Marc:** §49 "was probably the strongest and it just gets progressively worse … am I giving the wrong prompts? Don't redraft, critique." His new flags:
+- "mapping tactics" bare is vaguer than "eight of the 15". The 15 is anchored to ATT&CK v19.1 in ch4 §4.1, so it is not stale inside the thesis.
+- "Caps what the APT attacker model can do" reads fake and vague.
+
+### 52.1 Trace: each §49 sentence, Marc's flag, and what §50/§51 did
+
+| §49 sentence | Marc on it | §50 / §51 | Right move |
+|---|---|---|---|
+| 1. executes the order … mapping eight of the 15 tactics | no flag | §51 cut "eight of the 15" | keep |
+| 2. shares attack actions and deployments → persistence | "Yep" | §50 reordered; §51 folded into a new claim sentence | keep |
+| 3. any difference comes from what it adds | "a bit vague, what does it add?" | §50 listed all four; §51 back to "the parts we declared" | name what the paragraph uses |
+| 4. we set two … by judgement | question: two or four? judgement or assumption? | §50 term swap → "declared"; §51 removed | answer in chat; fix the count/term only |
+| 5. failure matrix → fixed rule → adaptivity in part | question: is the mark the failure matrix's, given the ablation? | §50 reworded; §51 reworded again | answer in chat (yes; the ablation is the close's); no edit |
+| 6. the same attack actions cap it: the other seven have none to run | "that's true" | §50 → "unmapped"; §51 cut | keep, with "unmapped" |
+| 7. C/E/I have nothing to act on → 2 in part | "act on, or unmapped?" | §50 "among them"; §51 back to an older chain | "are unmapped" |
+| 8. nothing watches the attacker → durations → 5 in part | "MTDSim models no IDS; by proxy" | §50 "detects no attacker" (contradiction); §51 reordered | wording only: no IDS, by proxy |
+| 9. punch: comparable and the ceiling | "a bit of a cliché" | §50 made it concrete; §51 cut it and moved the claim to S2 | rephrase, keep the slot |
+
+**Result:**
+- Of nine sentences, five needed an edit and two needed only a chat answer.
+- §50 and §51 changed all nine.
+- §51 changed the structure Marc had called "100 % right".
+
+### 52.2 Diagnosis
+
+1. **Rewrote instead of editing.** This breaks the standing rule ([[feedback-redraft-edit-dont-rewrite]], ch3 round 44 of 2026-10-02, the same failure). §49 was the base, and only the flagged sentences should have moved.
+2. **Questions turned into edits.** "Do we need all four?" and "is it judgement or assumption?" were questions. Answering them in prose first added a list (§50), then removed it (§51), and so oscillated around Marc's original complaint.
+3. **A general lens applied globally.** "Clarity pass … important first … what's redundant, for everything" was read as licence to restructure. It is a lens for the flagged sentences.
+4. **Term churn.** Each pass swapped a term: judgement → declared; watches → detects no attacker → no IDS to evade. Each swap fixed one thing and broke register or added a contradiction.
+5. **Past the peak** (clarity is an inverted U). §49 was near it. §50 added nuance (the list); §51 cut the specifics that made it concrete ("eight of the 15", "the other seven", the punch).
+
+### 52.3 Marc's prompts?
+
+Mostly not the cause. His voice reviews mix agreement ("yep"), questions and fixes in one stream, and separating them is the session's job. What would help, on either side:
+- name the base round;
+- a "yep" locks a sentence;
+- questions are answered in chat;
+- each change comes back traced to a flag (the table above).
+
+### 52.4 The way back (no redraft yet)
+
+- **Base:** §49.
+- **Edits on rows 3, 4, 6, 7, 8 and 9 only:**
+  - name what it adds (the order of its tactics; the tactic durations and failure matrix that it declares);
+  - fix the count/term;
+  - "unmapped";
+  - no IDS, by proxy;
+  - rephrase the punch.
+- **Kept:** rows 1, 2 and 5.
