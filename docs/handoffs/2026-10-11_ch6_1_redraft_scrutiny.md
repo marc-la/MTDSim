@@ -2964,3 +2964,71 @@ Marc's reading (gives / drops / never records → judgement) is the right spine.
 3. The drops: one sentence, its reason fixed to building the attack graph, naming the AND joins and conditions that ¶3 picks up. Procedures and vulnerabilities go in as plain words, or are cut. **Recommended:** keep all, one sentence.
 4. Objective-specific: "the attack profiles differ in actions on objectives". **Recommended: yes**, with the mark left to ¶3.
 5. Detection avoidance's mark: given in ¶2 by its source, with ¶3 "a second reason". Alternatively, ¶2 names the source only. **Recommended:** the first.
+
+## §42. SQ1's wording, the two vocabularies, and the SQ1/SQ2 split of the marks (Marc 2026-10-12; nothing applied)
+
+Marc's questions:
+- Is "recovered" right, if behaviour only emerges when the model runs?
+- Why "published" threat reports?
+- How do the CTI terms and the MTD terms reconcile?
+- Which marks belong to SQ1 and which to SQ2?
+- What is the structure?
+
+### 42.1 SQ1's wording: keep (ch1 gated; it also touches the abstract, the ch4 opener and ch7)
+
+- **"Recovered":** the attack flows record what attackers did, and the attack profiles are a recovered description of it (the order of tactics, by objective). Behaviour appears when the description runs, which is SQ2's "executed". The two sub-questions already split it this way. A "how can" question admits a partial answer, and ¶2 gives it: the order, by objective, and not the timing or the response to failure.
+- **"Published":** it binds the source to public CTI (ch1 defines CTI as the reports firms and agencies publish). Unpublished incident reports exist, but they are not available and would make the corpus impossible to reproduce. Keep it.
+- **"APT attackers":** keep it as the aim. ¶2 states what the attack flows record in their own terms. The gap (18 of 38 attributed) is a bound for §6.5.
+
+### 42.2 The two vocabularies: relations, not equalities
+
+| The question's term | The instance | Relation | Defined |
+|---|---|---|---|
+| threat reports (SQ1) | the 38 attack flows | drawn from | ch1 approach, ch2 |
+| behaviour | the order of tactics, by objective (attack profiles) | what is recovered | ch4 §4.1–4.2 |
+| an existing MTD simulator (SQ2) | MTDSim | the instance | ch1 approach |
+| techniques | tactics | each technique stands for its tactic | ch4 §4.1 |
+| tactics | MTDSim's six attack actions | tactic-to-action mapping | ch4 §4.4.1 |
+| APT attackers | attackers reported in CTI | the corpus bound | ch4 §4.1, §6.5 |
+
+**Rule:**
+- Each "In answer to SQx" sentence uses its question's words once and names the bridge in one phrase ("threat reports, through the attack flows drawn from them"; "an existing simulator, MTDSim").
+- After that, only the instance term is used, never alternating.
+- ¶3 already does this; ¶2 does not.
+
+### 42.3 The split follows ch4's own allocation (ch4 opener l.~3899–3902)
+
+- §4.1–4.2 (the attack graph and the attack profiles) answer SQ1.
+- §4.3–4.4 (the Petri net and the integration with MTDSim) answer SQ2.
+- The tactic durations (§4.4.2) and the failure matrix (§4.4.3) sit in §4.4, so they are SQ2: running needs them, and the reports lack them.
+
+| Mark | Paragraph | Its source |
+|---|---|---|
+| 3 choice of strategy, full | ¶2 | the order, from the attack flows |
+| 2 objective-specific, in part | ¶2 gain, ¶3 cap | the attack profiles differ in actions on objectives; MTDSim cannot run them |
+| 1 campaign persistence, full | ¶3 | MTDSim's loop, kept |
+| 4 adaptivity, in part | ¶3 | the failure matrix, set by our judgement |
+| 5 detection avoidance, in part | ¶3 only | the tactic durations, set by our judgement, and MTDSim has no IDS |
+| 6, 7, 8 | neither | no part of the model; the opener says all four lack them |
+
+- ¶2 ends on the absence (the reports almost never record timing or the response to failure), which is a fact about SQ1.
+- ¶3 opens on the fill (running needs both, so we set them).
+- This also settles §41.5 Q5: detection avoidance is marked once, with both reasons.
+
+### 42.4 Structure (slots only)
+
+**¶2, SQ1 (about 110 words)**
+1. The answer, with the how: threat reports, through hand-drawn attack flows, give the model the order of tactics, by objective.
+2. Mark 3: the order, drawn at run time (Eq. base-weight).
+3. Mark 2's gain: the attack profiles differ in actions on objectives.
+4. Lost in building the attack graph: the tools and malware, the vulnerabilities, the AND joins and the conditions.
+5. Never recorded: how long a step took, and what the attacker did after a failure.
+
+**¶3, SQ2 (about 150 words)**
+1. The answer: an existing simulator, MTDSim, gives campaign persistence. Running also needs what the reports lack, and MTDSim caps marks 2 and 5.
+2. Mark 1: the kept loop.
+3. Marks 4 and 5: we set the failure matrix and the tactic durations by judgement, a fixed rule rather than the attacker's choice.
+4. The caps: actions on objectives are unmapped (mark 2 in part); there is no IDS (mark 5, a second reason).
+5. The Petri net could carry the AND joins and the conditions; built with one token, it uses neither.
+
+**Close:** unchanged.
