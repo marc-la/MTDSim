@@ -2001,3 +2001,25 @@ Nothing in the opener needs changing.
 - §6.5's first-deployment sentence repoints from §6.2 to §5.3.1 and takes the reason in one clause.
 - §6.4 l.9221–9223 ("its place … Lateral Movement") is aligned when §6.4 is reached.
 - The §5.3.1 sentence "The APT attacker model runs no attack action while in an unmapped tactic, so an MTD deployment then blocks none" stays: v7 no longer repeats it, so the ch5 cut proposed in §28.6 is withdrawn.
+
+### 28.12 v7's terms audited against what the reader is given; v8 (Marc 2026-10-12, "careful with the language … standard terms and specific terms"; proposed, not applied)
+
+| v7 phrase | What the reader has been given | v8 |
+|---|---|---|
+| "per host-layer deployment … per service-diversity deployment" (a layer against one mechanism, with no reason given) | ch5's "loses … s per host-layer deployment"; Figure 5.2(b) is per mechanism | say why these two cells: the APT attacker model loses time *mainly* to the host layer (no other mechanism costs it more than 60 s); the baseline attacker *only* to service diversity (every other mechanism is at or below zero) |
+| "costs each attacker the host it was working on" | §2.2.3: "because the host it was on may have moved" | "neither attacker has a host to act on, because the host it was on may have moved" |
+| "sent back to scanning hosts" | §2.2.3 verb phrase; the attack action's name is *scan host* (§4.3.2) | "MTDSim sends the baseline attacker back to scan host" |
+| "enumerates one next" | *enumerate host*; the baseline attacker's procedure (§2.2.3, §6.1) | "its procedure runs enumerate host next" |
+| "enumerates a host only in Lateral Movement" | §4.3.2: Lateral Movement maps to enumerate host; "a tactic runs its attack action" (ratified verb) | "only Lateral Movement runs enumerate host" |
+| "6 to 14 % of its steps" | §4.5.1's metric, *relative tactic occurrence*; Figure 5.1(a) | "a relative tactic occurrence of 6 to 14 % with no MTD" |
+| "fail for a missing host" | §4.4: "An attack action fails if its preconditions were missing" | "fail because their preconditions are missing" |
+| "sends … back to scanning the same host's ports" | §2.2.3; attack action *scan port* | "back to scan port on the same host" |
+| "starts that host's exploits again" | §2.2.3: it exploits vulnerabilities in order of return on attack | "exploits the host's new vulnerabilities from the start" |
+| "is not sent back" (no mechanism given) | §6.1 ¶2: the Petri net picks the next tactic | "its Petri net picks its next tactic" |
+| "keeps the ports it found" | scan port finds them (§2.2.3) | kept |
+
+**v8 (222 words; v7 was 173). Spelling out the terms costs about 50 words:**
+
+> On adaptivity, the APT attacker model loses time mainly to the host layer, 242 to 324 s per deployment, where the baseline attacker's time lost is at or below zero; the baseline attacker loses time only to service diversity, 493 s per deployment, where the APT attacker model loses 60 s (Figure 5.2(b)). After a host-layer deployment, neither attacker has a host to act on, because the host it was on may have moved (Section 2.2.3). MTDSim sends the baseline attacker back to scan host, and its procedure runs enumerate host next. For the APT attacker model, only Lateral Movement runs enumerate host (Section 4.3.2), and the order of its tactics gives Lateral Movement a relative tactic occurrence of 6 to 14 % with no MTD (Figure 5.1(a)). Until it next runs, the attack actions of its other tactics most likely fail because their preconditions are missing, and its tactic durations set how long that lasts (Appendices F.2 and F.4). A service-diversity deployment redraws every service on every host, and MTDSim sends the baseline attacker back to scan port on the same host, so it exploits the host's new vulnerabilities from the start. The APT attacker model is not sent back: its Petri net picks its next tactic, and it keeps the ports it had found, which likely explains its 60 s.
+
+**Still flagged:** "the ports it had found" and its effect on the 60 s come from the code audit (disruption_mechanism.md §C (iv)–(v)), not from a thesis section. They carry the paragraph's one "likely".
