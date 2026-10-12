@@ -982,3 +982,53 @@ Alternative: no close, with the implication moved to the opening of §6.2. Rejec
 - **Q23.** The random-partition result (§5.4) goes into ¶1 as its outcome sentence and answers ¶1's bound; §6.3 points back. This crosses the "ablations are §6.3's evidence" rule. *Recommend yes,* because the job differs: §6.1 uses it to explain a §5.2 difference, while §6.3 uses it to answer the sub-questions.
 - **Q24.** IDS is first expanded inside Table 3.2. Expand it at the first prose use instead: the §3.3.1 Jalowski sentence ("… to stay hidden from an intrusion detection system (IDS)"). This is a ch3 change. *Recommend yes.*
 - **Q25.** Drafting mode. (a) Marc dictates each slot, as in ch5; or (b) the session drafts one paragraph against its slots, gated, and Marc edits only the flagged sentences. *Recommend (b) for the opener and the close,* where connective prose is green-lit, *and (a) for ¶1–¶3,* where the argument is his.
+
+## 23. §6.1 v4 drafted, cold-read, revised (2026-10-12)
+
+Marc ruled Q21, Q22 and Q24 yes and Q23 yes. On Q25: "you draft, I want to see it … put in the hard work … get it very close", then he gives feedback paragraph by paragraph. v4 was drafted against the §22 slots and gated. Two cold readers then read the rendered PDF text only: a fourth-year CS student and an examiner. Their findings were verified against the tex and the floats and triaged. v4 is in the tex, about 830 words (v3 was about 1 000).
+
+### 23.1 What the cold reads changed (verified; each overturns part of the §22 plan on merit)
+
+1. **Openings "made of edges the attack flows took" was false** for c3 and c4. Their token leaves Reconnaissance only through the pre-intrusion overlay (§4.3, "three immediate transitions that none of their attack flows draws"). Now "follows edges the attack flows drew, apart from the pre-intrusion overlay". The failure matrix's reweighting is named in the mechanism sentence.
+2. **The first cause is "its tactic durations" again, not "its unmapped tactics"** (partly reverses Q6's term).
+   - §6.5 names the causes "the tactic durations and order, which no run separates".
+   - §4.4.2 and §6.5 say NCR rests most on the 45 s mean duration, most likely through Command and Control, a mapped tactic.
+   - Naming only the unmapped tactics misattributed outcome.
+   - The opener now says that most of the time goes to the unmapped tactics, which keeps Q6's point, and hedges with "likely … although no run separates the two (§6.5)".
+   - §6.3 and the preamble are kept on "tactic durations"; the first-pass edits to "unmapped tactics" were reverted.
+3. **Runs end at the first target host compromised** (§6.5, Table 5.1). The baseline attacker's NCR stops short in 656 runs. "By the 15 000 s time limit" and "fewer attack actions in that time" are gone.
+4. **Q23 reversed: the random-partition result is out of ¶1.** Three reasons:
+   - it holds averaged over c1–c4, and c1 lies below all ten of its random groups (Table G.8);
+   - it works through the small groups (G.7, "a hypothesis … not part of the main argument");
+   - the attack profiles compromise *fewer* hosts than the attack graph.
+   §6.3 keeps it with its hypothesis.
+5. **Objective-specific behaviour is now tested against Table 3.2's *techniques* and Appendix B's *assumed* cell.**
+   - The attack profiles enter different tactics after the foothold.
+   - Their mapped tactics show as the six attack actions in different shares.
+   - The techniques that steal data or impede a system are represented only by the time each tactic takes.
+   - The Credential Access example is now the range across all four profiles (1 to 10 %). c1 against c3 was a cherry-pick, since c4 is also 10 %.
+6. **"Rates" is used only for attack rate**; the share of steps is "shares". "The order of its tactics" is now defined once, in the opener (picked in each run from the attack profile's base weights, §4.3).
+7. **"Hides" is gone.** §4.4.1 says "Stealth has nothing to hide from". The close of ¶3 is now "its detection avoidance is time spent without an attack action". "Low and slow" is scoped: "in the only sense MTDSim can test: more slowly than the baseline attacker (Appendix B)".
+8. **The attack-rate counterfactual is attributed as G.3 words it:** recomputed from the recorded runs; "about the baseline attacker's" (1.60–2.16 against 1.71). Attack confidentiality is reported as ordering the attackers the same way, with no cause attached, since excluding failed attack actions also raises it.
+9. **The close's so-what was a post-hoc reason for NCR reduction**, which §4.5.3 fixes and §6.5 already bounds (each ranking over the attacker's own NCR). It is replaced by the sum: the parts that give the three properties also lower ASP and NCR, so ASP and NCR read alone would rate it the weaker attacker (§6.4's contract).
+10. **MTTC is now "close to the baseline attacker's but over different runs".** c3 overlaps (9 700 ± 900 s against 9 100 ± 200 s).
+11. **Smaller fixes:** base weights cited to §4.3; "whereas" for "where"; "the state that the attack action before it leaves behind" (it was a garden path); "three over eight" dropped, since the student could not read it off the log axis; the second-half sentence restructured.
+
+**Kept against a reader:**
+- *G.1's "likely because both compromise hosts through the same attack actions"*: Marc's Q5 reading, and compatible with G.1's network reading.
+- *The forward reference to Table 6.1*: Q22.
+- *The baseline-attacker sentence in ¶1*: it is the contrast the section is named for.
+
+**Left for §6.3's redraft (the examiner's viva question):** neither the tactic durations nor the order was removed in a run. "Is the APT attacker model the baseline attacker made slower, plus a precondition penalty?" §6.5 owns the bound and names the future-work run (the baseline attacker given the APT attacker model's tactic durations). §6.3 should answer it directly. The weighted-draw-as-choice question is already §6.3's (stochastic FSM).
+
+### 23.2 Other edits applied
+- §3.3.2 (Q24): IDS expanded at its first prose use ("an intrusion detection system (IDS)"). It was first expanded only inside Table 3.2. Jalowski's sentence was not used, because his words are "remain in the shadows", not IDS.
+- §6.3: "The pace is assumed … as Kim et al.'s evasion is assumed" became "set by its declared tactic durations … a rule, and measured by proxy (§4.5.1)". Appendix B types APT row 5 as *rule*, Kim's as *assumed*.
+- Preamble: §6.1's sentence names the three properties and the two causes.
+- Appendix G.2: Table 3.2 defines the properties "in techniques, which MTDSim carries out as its attack actions"; "hold in the unit of the definitions" became "hold when counted in attack actions".
+
+Build clean: 120 pages, 0 undefined, 14 overfull (unchanged).
+
+### 23.3 Flagged, not touched
+- §6.2 says "holds an attacker back" (Marc dislikes "held back").
+- §6.4 says "a quiet attacker" ("quiet" is not a ch2–5 term).
