@@ -3141,3 +3141,34 @@ judgement where MTD disrupts it.
 - "MTD disrupts": ch2's verb.
 
 **Knock-on for ¶3:** it opens on the fill (the tactic durations: six from MTDSim's times, nine by judgement; the failure matrix), which gives marks 4 and 5. It takes over the AND joins and the conditions.
+
+## §46. §6.3 ¶2 clarity pass (Marc 2026-10-12, "beautiful … clarity pass please"; proposed, not applied)
+
+**Marc approved the §45 draft and the cut.**
+
+**Term-by-term clarity pass:**
+- **"Step":** kept. It is the attack flow's unit (ch1 "graphs of an attack's steps"; ch4 "draws only the steps its attacker completed"). The model's unit is the tactic. "Place" is a Petri-net term, so it is wrong here.
+- **"Attacks that succeeded" → "incidents that succeeded":** ch4 l.~5060 verbatim, and ch2 defines an attack flow as one incident.
+- **"Timing and the response to failure" → "these two points":** a third name for each thing is gone. The model's components are now named (its tactic durations, its failure matrix), which bridges step → tactic duration and failure → failure matrix. They are the antecedents of "our judgement".
+- **"Land during an attack action and fail it" → "cut an attack action short and fail it":** ch4 l.~4400 says "cut … short".
+- **"Where the attacker goes next" → "which tactic it takes after an attack action fails":** specific. The flows' "step failed" and the model's "attack action fails" are kept apart.
+- **"Disrupts the attacker" → "disrupts the APT attacker model":** names it.
+
+**Draft: 146 words.**
+
+```latex
+In answer to \ref{sq:capture}, the attack flows drawn from threat reports
+give the APT attacker model the order of its tactics for each objective. That
+order gives it choice of attack strategy in full and objective-specific
+behaviour in part (Table~\ref{tab:fidelity-verdict}). Threat reports time only
+whole intrusions, so the attack flows almost never record how long a step took
+(Section~\ref{subsec:dwell-times}). Drawn from incidents that succeeded, they
+never record what the attacker did after a step failed
+(Section~\ref{subsec:failure-matrix}). In MTDSim, MTD disrupts the APT
+attacker model at these two points: its tactic durations set how likely a
+deployment is to cut an attack action short and fail it, and its failure
+matrix sets which tactic it takes after an attack action fails
+(Section~\ref{subsec:runtime-mechanics}). The APT attacker model is therefore
+grounded in threat reports for the order of its tactics, and rests on our
+judgement where MTD disrupts it.
+```
