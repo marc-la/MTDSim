@@ -2535,3 +2535,33 @@ The contrast with "back to back" now comes first. Applied. §6.2 is 327 words. B
 - ch4 l.4877: add "and, under the host layer, the host it was working on";
 - ch2 l.957: "its place" → "the attack action in progress and, under the host layer, the host it was working on";
 - the ch3/ch4 "pace" fixes.
+
+### 31.12 The gated ch2/ch4/ch5/ch7 edits, reworked in context (Marc 2026-10-12, "put in the hard work … in the context of the actual paragraphs"; proposed, not applied)
+
+**ch2 l.957 (§2.2.3, the disruption paragraph).**
+- **Problem:** "its place" is a Petri net term. The sentences before it already say where each deployment sends the attacker, so the loss is the work it must redo. That is Marc's word, progress.
+- **Proposed:** "A deployment never takes back a compromised host or a stolen credential \citep{zhang2023}; the attacker loses only the progress it must repeat, and a topology shuffle also rebuilds its visible subgraph."
+- The host-layer sentence ("sends it back to scanning hosts, because the host it was on may have moved") already gives the host loss that ¶2 cites. No change there.
+
+**ch4 l.4877 (§4.3.2, after the unmapped-tactic gaps).**
+- **Problem:** the paragraph omits that a host-layer deployment during an unmapped tactic costs the APT attacker model the host it was on (code: `_serve_time` → `apply_mtd_interrupt_cost`). ¶2's "neither attacker has a host to act on" and ¶3's reasoning rest on it.
+- **Proposed:** split into the rule, then what a deployment does, in ch2's words ("the host it was on"):
+  > An unmapped tactic runs no attack action, so it cannot fail. An MTD deployment during it still cuts its duration short and costs the attacker the confusion penalty, and a host-layer deployment also costs it the host it was on (Section 2.2.3), but no deployment changes which tactic comes next.
+- "No deployment changes which tactic comes next" stays true: no verdict, base weights.
+
+**ch4 l.4969 (§4.4, the judgement-set durations).**
+- **Problem:** "single acts that the attacker paces to stay hidden, so we set them at 22.5 s, half the 45 s and longer than an exploit". "Pace" is banned, and the two reasons are joined to the two bounds without saying which is which.
+- **Proposed:** one reason per bound:
+  > Execution and Defense Impairment are single acts, so we set them at half the 45 s, 22.5 s, still longer than an exploit because the attacker slows them to stay hidden.
+
+**ch5 l.6198 (§5.1, ablation studies).**
+- **Problem:** "what takes each component's place" uses "place" outside the Petri net sense.
+- **Proposed:** "Table 5.1 gives what replaces each component and the configurations each ablation study runs."
+- The idiom "in place of" (ll. 556, 5547, 6109; §6.1 ll. 8553, 8627; ch7 9745) is "instead of", not a position. Recommend keeping it; it is not the noun.
+
+**ch7 draftnote l.9718 (Preamble, "The answer in MTDSim").**
+- **Problems:**
+  - "No MTD mechanism ranks first against both … (Section 6.2)" points at text that was cut.
+  - Its first sentence ("the host layer disrupts the APT attacker model more, and the service layer less") is not §6.2's answer: it is in "disrupts", not NCR reduction, and it omits the baseline attacker's half.
+- **Proposed:**
+  > MTD performs differently against the APT attacker model than against the baseline attacker, and the difference runs by MTD layer: the host layer reduces the APT attacker model's NCR more than the service layer does, and the service layer the baseline attacker's (Section 6.2). No MTD mechanism ranks first against both attackers at any deployment interval (Section 5.3.2).
