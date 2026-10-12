@@ -954,8 +954,8 @@ same host's ports \citep{brown2023}. A user shuffle disrupts only brute
 force, and sends it to exploit instead. Each disruption costs the
 attacker a confusion penalty of about 20\,s \citep{zhang2023}. A deployment never
 takes back a compromised host or a stolen credential \citep{zhang2023}; the
-attacker loses only its place, and a topology shuffle also rebuilds its
-visible subgraph.
+attacker loses only the progress it must repeat, and a topology shuffle also
+rebuilds its visible subgraph.
 
 The earlier MTDSim studies ran these three modules in the configurations
 of Table~\ref{tab:lineage-configurations}.
@@ -4874,9 +4874,11 @@ APT attacker model can only be as good as the attack actions it adopts.
 %  base-weights sentence cut (Section 4.3 and step 5 say it), "still takes its
 %  duration" left to 4.4.2; the ceiling moved to close the paragraph on the
 %  gaps, its restatement of that paragraph's opener cut. DRAFT STATE.]
-An unmapped tactic runs no attack action, so it cannot fail: an MTD
-deployment during it cuts its duration short and costs the attacker the
-confusion penalty, but never changes which tactic comes next.
+An unmapped tactic runs no attack action, so it cannot fail. An MTD
+deployment during it still cuts its duration short and costs the attacker the
+confusion penalty, and a host-layer deployment also costs it the host it was
+on (Section~\ref{subsec:attacker-model}), but no deployment changes which
+tactic comes next.
 
 \subsection{Tactic durations}
 \label{subsec:dwell-times}
@@ -4965,9 +4967,9 @@ and Command and Control keep a foothold, stay hidden and stay in contact
 throughout an attack~\citep{mitre2026attackkb}, so we set them longest, at
 45~s. Collection, Exfiltration and Impact move or destroy data, which we
 judged to take a little longer than surveying a network, so we set them at
-36~s. Execution and Defense Impairment are single acts that the attacker
-paces to stay hidden, so we set them at 22.5~s, half the 45~s and longer than
-an exploit. Resource Development happens before the attack reaches the
+36~s. Execution and Defense Impairment are single acts, so we set them at
+half the 45~s, 22.5~s, still longer than an exploit because the attacker slows
+them to stay hidden. Resource Development happens before the attack reaches the
 target's network, so it takes no time.
 % ROUND 11, 2026-10-05 (Marc: as in 4.4.3, the last paragraph repeats the
 % judgement and could be integrated into the existing paragraphs). The
@@ -6194,8 +6196,8 @@ closely the two attackers order the MTD by NCR reduction.
 %  reuse those cells (2026-10-02 proposal, "the five shared cells"). The vulnerability memory
 %  runs the two MTD mechanisms that draw services from the diversity pool. The full suite for
 %  every arm was not run: each arm is 4 profiles x 1 000 seeds per configuration.
-\paragraph{Ablation studies.} Table~\ref{tab:experiment} gives what takes
-each component's place and the configurations each ablation study runs.
+\paragraph{Ablation studies.} Table~\ref{tab:experiment} gives what replaces
+each component and the configurations each ablation study runs.
 % 2026-10-07 clarity pass (Marc): the configurations sentence repeated Table 5.1's list and
 %  ended on "the vulnerability memory's runs"; it now gives only the reasons, which the table
 %  cannot. The verdict rule: "95 %" cut (Statistical analysis: every interval is 95 %) and
@@ -9714,9 +9716,10 @@ runs, not seeds, although the four attack profiles share each seed's network.
 \begin{draftnotes}{Preamble: the research question answered, two or three sentences}
 \item \textbf{The answer in MTDSim.} MTD performs differently against the APT
 attacker model than against the baseline attacker, and the difference runs by
-MTD layer: the host layer disrupts the APT attacker model more, and the service
-layer less. No MTD mechanism ranks first against both attackers at any
-deployment interval (Section~\ref{sec:disc-mtd-performance}). \emph{Keep:} ``in
+MTD layer: the host layer reduces the APT attacker model's NCR more than the
+service layer does, and the service layer the baseline attacker's
+(Section~\ref{sec:disc-mtd-performance}). No MTD mechanism ranks first against
+both attackers at any deployment interval (Section~\ref{subsec:eff-cross-arm}). \emph{Keep:} ``in
 MTDSim''; ``the APT attacker model'', never ``APT attackers'', for a measured
 result; no verdict on a mechanism; never ``better''.
 \item \textbf{What reaches APT attackers.} A ranking can depend on the attacker
