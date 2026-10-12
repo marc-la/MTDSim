@@ -783,7 +783,7 @@ The scorer was a general-purpose agent, told to use those files only.
 - `apt_model_criterion.md`: axis 6 ruling note.
 - Build clean, 120 pages.
 
-**Proposed, awaiting Marc** (ch1, ch3, ch4, ch7):
+**Proposed, then approved and applied the same day** (ch1, ch3, ch4, ch7):
 - ch1 contributions: "four in part" → "three in part".
 - ch3, Table 3.3: baseline attacker column 6 → ✗. Until this lands, Table 3.3 and Table 6.1 differ.
 - ch3 baseline paragraph: the cost–benefit sentence becomes none.

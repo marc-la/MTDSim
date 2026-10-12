@@ -557,7 +557,7 @@ interval, the most effective MTD mechanism differs between the two attackers.
   the experiment scripts are publicly available at
   \url{https://github.com/marc-la/MTDSim}.} Of eight properties an attacker
   model needs to model an APT attacker, the APT attacker model has two in
-  full and four in part; three recent attacker models have at most one in
+  full and three in part; three recent attacker models have at most one in
   full.
   \item We find that, in MTDSim, the most effective MTD mechanism depends
   on the attacker model.
@@ -3329,7 +3329,7 @@ model below cites the evidence from its paper for each mark.
     \toprule
     Attacker model & Year & 1\newline Pers. & 2\newline Obj. & 3\newline Strat. & 4\newline Adapt. & 5\newline Detect. & 6\newline Cost & 7\newline Learn. & 8\newline Deploy. \\
     \midrule
-    Baseline attacker~\citep{brown2023, zhang2023} & 2023 & \propmet & \propnone & \propstandin & \propstandin & \propnone & \propstandin & \propnone & \propnone \\
+    Baseline attacker~\citep{brown2023, zhang2023} & 2023 & \propmet & \propnone & \propstandin & \propstandin & \propnone & \propnone & \propnone & \propnone \\
     Masud et al.~\citep{masud2025} & 2025 & \propstandin & \propnone & \propnone & \propnone & \propnone & \propnone & \propnone & \propnone \\
     Kim et al.~\citep{kim2026} & 2026 & \propstandin & \propnone & \propnone & \propnone & \propstandin & \propnone & \propnone & \propnone \\
     \bottomrule
@@ -3351,8 +3351,8 @@ model below cites the evidence from its paper for each mark.
 repeats its six attack actions host by host until it reaches its goal, and
 carries on through every disruption \citep{brown2023}. It has choice of attack strategy in part: it can enter a host with stolen credentials, an exploit or brute force, but a fixed rule sets the order in which it tries them. It has adaptivity in part: a fixed
 rule sets its response to each kind of disruption, such as always
-re-scanning after a host-layer disruption \citep{brown2023}. It has cost--benefit reasoning in part: it orders the exploits on a host by
-return on attack (RoA), but weighs the cost of no other attack action. It has no objective-specific behaviour: after a foothold it takes the same
+re-scanning after a host-layer disruption \citep{brown2023}. It has no cost--benefit reasoning: it orders the exploits on a host by
+return on attack (RoA), but that chooses which vulnerability to exploit, not which technique. It has no objective-specific behaviour: after a foothold it takes the same
 six attack actions in either attack scenario, which changes only the host it
 attacks next and whether it gives up on it, and none of them exfiltrates or impedes. It has no learning: an
 exploit of a vulnerability it has exploited before takes half the time
@@ -3435,7 +3435,7 @@ to the next.
 % [CH3 REDRAFT ROUND 65, 2026-10-02, 3.3.2 Finding] Marc: what is the Finding's purpose, and how does it differ from 3.4? Purpose: answer the question the 3.3 preamble asks ("whether recent MTD attacker models still lack them") from Table 3.3 alone, and close the expectation P1 opened; 3.4 then uses it as evidence for what MTD evaluation leaves unmeasured. Carried: the answer, the one tick, the column reading (stealth, learning and scheme awareness rarest; Bonneau: read by column, no per-row aggregate), the expectation answered. Not carried: after-the-foothold (3.4's S1 reads objective conditioning and adaptivity), why it matters, what this dissertation does, the APT attacker model (ch6). Fixed: "lack seven of the eight" (Masud and Kim lack all eight in full) and "for every other mark, a fixed rule or assumption takes the place" (false for the crosses, and the stand-in wording P1 replaced). Ratify on read.
 \paragraph{Finding.} The three MTD attacker models still lack the
 properties of an APT attacker: only the baseline attacker has one in full, campaign persistence. None of
-the three has objective-specific behaviour, learning or deployment-strategy
+the three has objective-specific behaviour, cost--benefit reasoning, learning or deployment-strategy
 awareness, and only Kim et al.'s has detection avoidance, in part. The
 attacker models of Masud et al.\ and Kim et al., which this dissertation
 expected to be the most likely to have the properties, have none in full.
@@ -3888,8 +3888,8 @@ built for three of the eight properties of
 Section~\ref{subsec:attacker-criterion}: objective-specific behaviour, choice of attack strategy and adaptivity. It takes the same attack actions
 as the baseline attacker, but the Petri net of its attack profile chooses its
 next tactic at runtime. With those attack actions it keeps the baseline
-attacker's campaign persistence and, in part, its cost--benefit reasoning;
-they also cap what it gains, so it has two properties in full and four in part
+attacker's campaign persistence;
+they also cap what it gains, so it has two properties in full and three in part
 (Section~\ref{sec:fidelity-verdict}). It is a
 proof of concept: it tests whether an attacker that behaves like an APT changes
 what an MTD evaluation measures. Detection avoidance rests on a pace assumed to
@@ -9772,7 +9772,7 @@ aggregated into an attack graph and split by objective into four attack
 profiles, executed in MTDSim as a Petri net over its six attack actions, and run
 in place of the baseline attacker. \emph{Keep:} ``built'', ``runs''; never
 ``reproduces APT behaviour''.
-\item \textbf{Evidence.} Two of the eight properties in full and four in part,
+\item \textbf{Evidence.} Two of the eight properties in full and three in part,
 against at most one in full for three recent attacker models
 (Table~\ref{tab:fidelity-verdict}). Over the baseline attacker it gains choice of
 attack strategy in full, and objective-specific behaviour and detection
