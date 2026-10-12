@@ -3553,3 +3553,10 @@ Marc kept ¶3's S2 as it is. On the close he asked: what must it carry, is it ne
   - mark 3's "in full" has its reason (the draw during the run, Appendix B row 3).
 - **Word counts (prose, by label range):** §6.1 492, §6.2 327, §6.3 about 415.
 - Build clean, 118 pages, 0 undefined.
+
+## §59. §6.3 ¶3: "draws … during the run" → "chooses … at runtime" (Marc 2026-10-12)
+
+- Ch4 opener verbatim ("the Petri net of its attack profile chooses its next tactic at runtime"); §4.4 also says "chooses".
+- "Draws" is Appendix B's word; "during the run" appears only in an Appendix B cell.
+- "Chooses" also matches the property name, choice of attack strategy.
+- Build clean, 118 pages.
