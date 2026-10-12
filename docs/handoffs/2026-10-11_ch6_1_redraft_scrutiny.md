@@ -2314,3 +2314,42 @@ This is the parallel of §6.1's close: both causes joined, each to the compariso
   - "unmapped tactics" (§4.3.2);
   - "tactic durations" (§4.4);
   - "time lost".
+
+### 31.5 Marc: "this is a separate, substantive point; what's its purpose, its one-liner? Scrutinise the draft: what's missing, what nuance in or out" (no drafting)
+
+**Purpose.** Figure 5.2 has two panels: attack actions blocked per MTD deployment, and time lost per MTD deployment (§4.5). ¶2 explains only the time lost. The reader is left with two questions:
+- the baseline attacker loses no time to the host layer, so why does the host layer reduce its NCR at all;
+- where do the tactic durations, the opener's first cause, come in?
+
+**One-liner:**
+> An MTD deployment disrupts an attacker in two ways, by blocking its attack action in progress and by the time it then costs: the baseline attacker loses mostly attack actions, and the APT attacker model mostly time, because its tactic durations keep it between attack actions at most deployments.
+
+**Scrutiny of the 31.4 draft:**
+1. **The lead is a number, not the point.** "Attack actions blocked per MTD deployment is 0.95 to 1 …" is §5.3.1's sentence form. That is the MTDShield paragraph's fault again: a ch5 rehash where the claim belongs.
+2. **No frame.** The draft never says there are two ways to disrupt, or that ¶2 covered one of them, so the paragraph reads as a second list of numbers.
+3. **The one-liner is buried in the last clause** ("the host layer likely reduces its NCR through the time it costs"), after a "therefore" chain.
+4. **S3 repeats ¶2's 60 s and the opener's layer ordering.**
+5. **Three "likely" in 112 words.** Stacked hedges read weak. Restructured, there is one inferred claim (the one-liner) with one hedge; the rest are facts or rules by construction.
+
+**Missing (or nearly overclaimed):**
+- **Port shuffle.** Blocks and time lost do not explain why port shuffle (0.91 at 200 s) beats the host layer (0.38–0.68) against the baseline attacker. Blocks are 0.95 against 1, and time lost is −24 s against −14 to −27 s. The paragraph must not claim blocks explain the baseline attacker's service-over-host ordering. The draft did not; v2 must not either.
+- **The intervals differ.** Blocks and time lost are measured at 2 000 s (§5.3.1), but the opener's NCR ordering is at every interval. The link is the "likely". This is an examiner risk, but the reader was told 2 000 s in §5.3.1, so it stays off the page.
+
+**Nuance off the page:**
+- A deployment during an unmapped tactic still cuts its duration short and costs the confusion penalty (§4.3.2). That is in the time lost.
+- The mapped-time share (43–66 %) exceeds the blocks (0.35–0.39), so the tactic durations are not the whole cause. The hedge covers this.
+- Service diversity's 493 s for the baseline attacker is in "mostly".
+
+**Nuance on the page:** the 34–57 % (unmapped share of run time). "Most of its run" would be false at 34 %. It is the one fact that ties the tactic durations to the blocks.
+
+**Slots (no prose):**
+- **S1, the one-liner (one hedge),** with Figure 5.2.
+- **S2, the baseline attacker.**
+  - Facts: 0.95 to 1 attack action blocked per deployment under both layers; time lost at or below zero under every mechanism but service diversity.
+  - Job: the host layer reduces its NCR through blocks alone.
+- **S3, the APT attacker model.**
+  - Facts: 0.15 to 0.39 blocked.
+  - Job: its tactic durations put 34–57 % of its run in unmapped tactics, where a deployment blocks none (§4.3.2, Appendix G.3).
+- **No S4.** The consequence for the service layer is the opener's and ¶2's.
+
+About 90 words.
