@@ -3296,3 +3296,40 @@ ceiling.
 - "Nothing in MTDSim watches the attacker" and "nothing to act on" (ch4 §4.4.1).
 - Detection avoidance only from the tactic durations (§6.1 ¶3).
 - The ceiling (ch4 §4.4.1).
+
+## §50. §6.3 ¶3 clarity pass, on Marc's review (Marc 2026-10-12, "80% there … tidy round the edges"; proposed, not applied)
+
+**Marc's points, and what each became:**
+- **"What it adds" is vague.** It now names them: the order of its tactics and four declared parts (the tactic-to-action mapping, the tactic durations, the failure matrix, the vulnerability memory). The "two by judgement" of §49 undercounted.
+- **Judgement or assumption?** "Declared" is ch4's verb (§4.4: "we declare each, from MTDSim's constants where they exist and otherwise from the literature or our judgement"). §6.4 says "declared assumption". The durations are six from MTDSim's times and nine by judgement, so "declared" is exact. ¶2's "our judgement" stays: it names the gaps the reports leave, consistent with §6.5's "declared them by judgement".
+- **Is adaptivity's mark the failure matrix's, given the ablation?** Yes.
+  - Without it, the model routes after a failure by the base weights, as after a success (§5.4 failure-matrix paragraph). Nothing then depends on the verdict.
+  - With it, the model goes back to Reconnaissance after a failed Initial Access in 0.76–0.83 of cases, against 0.08–0.10 without.
+  - The mark scores what the model implements. The ablation measures its effect on NCR (negligible), which the close already ties to the mark.
+- **"Nothing to act on" → "unmapped":** ch4's defined term (emph).
+- **"Nothing in MTDSim watches the attacker" → "MTDSim detects no attacker":** ch4 l.~5424. Detection avoidance "only by proxy, through its tactic durations" uses ch4's "by proxy". The mark is stated first.
+- **The punch was a cliché ("the same thing is the limitation").** It is now concrete: MTDSim's attack actions make the two attackers comparable and limit the model to finding and compromising hosts (§6.1 ¶2's words).
+- **Persistence:** "It runs the baseline attacker's attack actions, so it keeps the baseline attacker's campaign persistence". "Facing the same MTD deployments" moved to the difference sentence, where it belongs.
+
+**Draft: 182 words** (148 on disk).
+
+```latex
+In answer to \ref{sq:model}, the APT attacker model executes the order of its
+tactics inside an existing simulator, MTDSim, by mapping eight of the 15
+tactics onto MTDSim's six attack actions
+(Section~\ref{subsec:tactic-verb-mapping}). It runs the baseline attacker's
+attack actions, so it keeps the baseline attacker's campaign persistence.
+Facing the same MTD deployments, the two attackers differ only in what the APT
+attacker model adds: the order of its tactics and four declared parts, the
+tactic-to-action mapping, the tactic durations, the failure matrix and the
+vulnerability memory (Section~\ref{sec:execution}). The failure matrix
+reweights the next tactic after a failed attack action by a rule we declared,
+so adaptivity is in part (Table~\ref{tab:fidelity-verdict}). The same attack
+actions cap the APT attacker model, because the other seven tactics are
+unmapped. Among them are Collection, Exfiltration and Impact, so
+objective-specific behaviour is in part. MTDSim detects no attacker, so detection
+avoidance is in part: the APT attacker model avoids detection only by proxy,
+through its tactic durations. MTDSim's
+attack actions thus make the two attackers comparable, and limit the APT
+attacker model to finding and compromising hosts.
+```
