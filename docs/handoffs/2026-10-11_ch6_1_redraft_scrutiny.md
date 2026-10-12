@@ -696,3 +696,32 @@ Build clean: 118 pages, 0 undefined, overfull count unchanged at 14.
 - The AI Use Declaration is still empty. §6.3 and Appendix B cite it for both blind re-scores (2026-10-08 and today); the packets are in the session scratchpad (`blind2/`).
 - The abstract states no counts (checked), so it needs no change.
 - Future work: dynamic weighting (Q8).
+
+## 17. Predicates replace clauses (2026-10-12)
+
+**Trigger.** A role-played critical supervisor read Table 3.2, the §3.3.2 rule, Appendix B and §6.3 cold. Points raised:
+1. the rewording moved the comparison our way: it lowered five marks of the other models and one of ours, and objective-specific behaviour became our gain only after it;
+2. most in-part marks were "setting without behaviour": the clause split cut the verb from its modifiers, and "at least half" counted them equally;
+3. "chooses" for a weighted draw had no stated reason;
+4. "low and slow" had no test;
+5. the rule was worded three ways (§3.3.2, Appendix B, the Table 6.1 caption).
+
+Marc's ruling: point 1 was warranted, since the old marks could not be argued in discussion. The root cause of 2 is that the clauses were not predicates, so none could be true or false on its own. Table 3.2 stays as it is. Make the derivation apparent in Appendix B so that the mark follows from the cells alone, and change no more than necessary.
+
+**Applied.**
+- **Rule**, word for word in §3.3.2 and Appendix B:
+  - a *behaviour predicate* is the verb, with every condition it carries; a *qualifier predicate* is a condition that can be checked apart;
+  - cells are yes / rule / assumed / no;
+  - ✓ = every cell yes; P = a behaviour predicate is yes, rule or assumed, but some cell is not yes; ✗ = every behaviour predicate is no.
+- **Predicates.** Each is Table 3.2 word for word, except that rows 1 and 6 each split off one qualifier ("over an extended period, across MTD deployments"; "for each technique") and row 5 splits at its "and". Row 5's first predicate carries its test: "slower than the baseline attacker" (Marc).
+- **Marks.** Masud rows 3, 4 and 6 go from P to ✗ (every attack path but no choice; recomputation but no next technique; RoA computed but no choice depends on it). No other mark changes. The APT attacker model stays ✓ P ✓ P P P ✗ ✗, with the same three gains.
+- **APT row 2** is P by an *assumed* cell. The attack profiles enter different tactics after the foothold by objective; Collection, Exfiltration and Impact are unmapped, so their techniques are assumed. This is the same footing as Kim's assumed evasion. Alshamrani's life cycle is the cited observation behind the definition, not the assumption.
+- **Appendix B** gains a paragraph giving the reasons for the APT attacker model's four non-obvious cells (row 2 assumed, row 3 yes against the baseline attacker's fixed order, row 4 rule for the failure matrix on any failure, row 5 rule for the declared durations). The history paragraph declares the clause-counting rule the blind scorers used and the predicate change. Against the first scoring, nine marks were lowered and none raised: one ours (learning) and eight of the others', including objective-specific behaviour for all three, which leaves the APT attacker model the only one with it in part.
+- **Knock-ons:**
+  - the Table 6.1 caption now uses Table 3.3's gloss (the stale "a fixed rule or assumption takes the place" is gone);
+  - in §6.3, the blind scorers gave every mark but four (one reconciled, three Masud marks lowered by the predicates), and "every clause" became "every predicate";
+  - the Masud paragraph in §3.3.2 and the Masud rows of Tables 3.3 and 6.1 are updated.
+- **Checks.** Build clean: 119 pages, 0 undefined, 14 overfull (unchanged).
+
+**Next (Marc).** Marc will supply the three papers. Their attacker models are to be extracted near word for word and diagram for diagram, and only the contentious marks argued against the predicates; the strong ones are left alone.
+
