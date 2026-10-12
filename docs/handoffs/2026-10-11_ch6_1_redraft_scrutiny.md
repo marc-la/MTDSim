@@ -1866,3 +1866,30 @@ Attack actions blocked per MTD deployment is the evidence for the second point, 
 **v4 (170 words, from 258):**
 
 > On adaptivity, the APT attacker model loses time mainly to the host layer, 242 to 324 s per deployment, and the baseline attacker only to service diversity, 493 s (Figure 5.2(b)). A host-layer deployment costs either attacker its place (Section 2.2.3). The baseline attacker is sent back to scanning hosts and continues its procedure from there. The APT attacker model regains its place only when its Petri net next reaches Lateral Movement, the tactic mapped to enumerate host (Section 4.3.2), and the order of its tactics decides when. Until then its attack actions most likely fail for missing preconditions (Appendices F.2 and F.4). Service diversity redraws every service, so the baseline attacker, sent back to scanning a host's ports, starts its exploits on that host again. The APT attacker model's tactic durations keep it in unmapped tactics, which run no attack action, so its attack actions blocked per service-layer deployment are 0.15, against the baseline attacker's 0.95 (Figure 5.2(a)). Service diversity therefore likely costs it only 60 s.
+
+### 28.8 ¶2 v4 critiqued (Marc 2026-10-12, "the narrative isn't as honest as it can be"), and v5 (proposed, not applied)
+
+**What Marc flagged, checked:**
+1. **"Its place" clashes with a Petri net term.** §4.2 defines places ("Tokens sit on places"), and §6.2 used "its place" in the same sentence as "its Petri net". What "place" meant is **the host it was working on**. The code clears that host on a host-layer deployment and keeps it on a service-layer one (disruption_mechanism.md §C (iv)). The source of the clash is ch2 l.957 ("the attacker loses only its place"); §6.4 (l.9221–9223, "its place until its Petri net next reaches Lateral Movement"; "might keep its place") inherits it.
+2. **"Sent back to scanning hosts and continues its procedure from there" depends on the layer.** True. The rule sends the baseline attacker back to a different attack action per layer (§2.2.3): scanning hosts, scanning that host's ports, or exploiting. v4 read as though every deployment did the same thing.
+3. **"The order of its tactics decides when" + "until then … fail" say one thing in two clauses.** Merged. The cause is now inside the clause ("only when the order of its tactics next brings it to Lateral Movement").
+4. **The narrative was not honest about the service layer.** It was not. v4 put the 60 s down to tactic durations alone. The code shows a second cause, as large or larger:
+   - the service-layer rule sends the baseline attacker back to scanning that host's ports, where it starts the host's exploits again;
+   - the APT attacker model is sent back nowhere, because its Petri net routes the failure like any other (§4.4.2). It keeps the host and the ports it had found, and nothing later fails (disruption_mechanism.md §C (iv)–(v)).
+
+   So the same difference cuts both ways:
+   - **Under the host layer**, a fixed return point helps the baseline attacker, and the APT attacker model's lack of one costs it.
+   - **Under service diversity**, the fixed return point costs the baseline attacker, and the APT attacker model's carrying on spares it.
+
+   v4's tidy split (host layer = the order of its tactics, service layer = tactic durations) was too neat. Both causes act on the service layer.
+
+**Structure of v5:**
+- the lead with both headline numbers;
+- the joint (a fixed return point against the Petri net routing a failure like any other);
+- then each layer, in parallel: what the deployment takes, then each attacker's response.
+
+**v5 (about 205 words; v4 was 168, and the parallel per-layer structure costs about 35):**
+
+> On adaptivity, the APT attacker model loses time mainly to the host layer, 242 to 324 s per deployment, and the baseline attacker only to service diversity, 493 s (Figure 5.2(b)). MTDSim sends a disrupted baseline attacker back to a fixed attack action of its procedure (Section 2.2.3), whereas the APT attacker model's Petri net routes a failure that a deployment causes like any other (Section 4.4.2). A host-layer deployment costs either attacker the host it was working on. The baseline attacker is sent back to scanning hosts and enumerates one next. The APT attacker model gets a host back only when the order of its tactics next brings it to Lateral Movement, the tactic mapped to enumerate host (Section 4.3.2); until then its attack actions most likely fail for missing preconditions (Appendices F.2 and F.4). A service-layer deployment leaves either attacker its host. The baseline attacker is sent back to scanning that host's ports, and under service diversity, which redraws every service, starts its exploits on that host again. The APT attacker model carries on, and because its tactic durations keep it in unmapped tactics, which run no attack action, its attack actions blocked per service-layer deployment are 0.15 against 0.95 (Figure 5.2(a)); service diversity likely costs it only 60 s.
+
+**Proposed, gated (ch2 l.957):** "the attacker loses only its place" → "the attacker loses only the attack action in progress and, under the host layer, the host it was working on". This takes "place" out of ch2, where it would clash with §4.2's Petri net places. §6.4 l.9221–9223 change downstream, automatically, when §6.4 is reached.
