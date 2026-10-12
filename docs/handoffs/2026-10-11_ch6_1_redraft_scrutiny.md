@@ -3522,3 +3522,25 @@ Marc kept ¶3's S2 as it is. On the close he asked: what must it carry, is it ne
   - "no run with MTD tests the order alone" → Section 6.5;
   - the negligible ablations → Section 5.4.
 - Build clean, 118 pages, 0 undefined.
+
+## §57. §6.3 as a whole: does it do its jobs? (Marc 2026-10-12; nothing applied)
+
+§6.3 is now the opener, ¶2 and ¶3 (about 406 words) plus Table 6.1.
+
+| Job | Done? | Where / gap |
+|---|---|---|
+| Set the model against the field | yes | the opener: more properties than any; the only one with 3 in full and any 2; all four lack 6–8 |
+| Answer SQ1 | yes | ¶2: the order of tactics for each objective is recovered; timing and the response to failure are not; the model rests on our judgement where MTD disrupts it. The "how" is thin ("drawn from"), but it is enough with ch4 behind it. |
+| Answer SQ2 | **mostly** | ¶3: mapped onto six attack actions; comparable and capped. **Gap: the Petri net is gone from §6.3.** Ch1 and ch4 answer SQ2 as "execute each attack profile as a Petri net inside MTDSim", and ¶3's how names only the mapping. |
+| Explain Table 6.1's marks (the source of each) | **all but one reason** | 1 ¶3; 2 ¶2 + ¶3; 4 ¶3; 5 ¶3. **Mark 3's "in full" lacks its reason:** "that order gives it choice of attack strategy in full", but the baseline attacker has an order too. The full mark is for drawing the next tactic during the run (Appendix B row 3), which the Petri net does. The §43 draft had it; the §45 rewrite dropped it. 6–8: the opener states the gap for the field; the model's own reason (not modelled) is in ch4 and Appendix B, which is enough. |
+| Agree with §6.1 | yes | the objective shows only in actions on objectives; detection avoidance only through the tactic durations. Same sources, no contradiction. |
+| Link to SQ3 | cut by ruling (§56) | §6.2 owns it |
+
+**One fix closes both gaps:** name the Petri net and its run-time draw in ¶3's S1, the SQ2 how. For example:
+
+> "… executes the order of its tactics inside an existing simulator, MTDSim, as a Petri net that draws its next tactic during the run, mapping eight of the 15 tactics onto MTDSim's six attack actions."
+
+- ¶2's "That order gives it choice of attack strategy in full" then has its reason one paragraph later.
+- Alternatively, ¶2's S2 gets the clause ("…in full, drawn by its Petri net during the run").
+- **Recommended: ¶3**, because the draw is execution (SQ2), and ¶2 stays as approved.
+- Proposed, not applied (paragraph gate).
