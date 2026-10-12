@@ -1218,3 +1218,35 @@ The fix: name the property first; give the reason (MTDSim's six attack actions o
 - (k) Numbers without the frame that makes them the test read as hand-picked. Name the pattern the figure shows instead.
 - (l) Tight is not clear. Each abstract noun ("shares", "objective", "sets") must have its referent in the paragraph or in the reader's scaffold.
 - (m) Give the reason behind a negative claim in one clause, here what MTDSim's attack actions do.
+
+### 24.6 ¶1's c4 bound tested against the random partitions (Marc 2026-10-12)
+
+**Ruled and applied:** "and the failure matrix's reweighting does not erase it" cut (Marc: "cut the clause … beautiful"). The ablations already show the failure matrix changes NCR negligibly (§5.4).
+
+**Marc's reading of the c4 sentence:** the differences outside actions on objectives "may not come from the objective, might just be the partitioning", and ten random partitions were run. Until now the random partitions had been read on ASP and NCR only.
+
+**Test** (`data/results/ch6_further_analyses/partition_step_divergence.py` → `partition_step_divergence_numbers.json`). It reads the partition-control runs: no MTD, 1 000 seeds, the same pins as the reported corpus (v2_partial, failure-only overlay, retrace on, targeted, 15 000 s, memory rate 2). The five partitions replaced on 2026-10-07 come from the redraw stream: 20 000 + 20 000 runs. For each group, relative tactic occurrence (§4.5.1) is pooled over its runs. Between two groups the measure is the share of steps lying in different tactics (total variation distance). It covers the six pairs of each partition's four groups, against the attack profiles' six pairs from `runs_reported.jsonl`.
+
+| | Attack profiles, mean of 6 pairs | Ten random partitions, mean per partition | At or above the attack profiles |
+|---|---|---|---|
+| Outside actions on objectives | 0.25 | 0.25 to 0.42 | 9 of 10 |
+| All tactics | 0.30 | 0.27 to 0.45 | 8 of 10 |
+
+- **Marc's reading holds.** Outside actions on objectives, any grouping of the 38 attack flows into groups of 19, 7, 7 and 5 differs as much as the attack profiles do. c4 is not the evidence; the random partitions are.
+- **Over all tactics the magnitude is not objective-specific either.** What follows the objective is *which* actions on objectives occur:
+  - The attack profiles lack Exfiltration (c2, c4) or Impact (c1 0.17 %, c4) exactly as their objectives say: three of four groups.
+  - Random groups also lack one by chance (Exfiltration below 0.5 % in 8 of 40, Impact in 11 of 40, both in 3), one or two groups per partition, with no pattern.
+  - The pattern holds by construction (§4.2 split the attack flows by what the attacker did). The run test is that MTDSim keeps it, which is §4.5.1's question.
+- **How it fits §5.4 / Table F.4 / G.7 (outcome; not overstated).** With no MTD the attack profiles compromise more than all ten random partitions (NCR 0.171 against 0.097–0.157; d 0.25 to 1.47, all not negligible). That claim is about outcome and stands.
+  - Combined with today's result: the attack profiles differ from each other *less* than most random groups yet compromise *more*.
+  - This fits G.7's mechanism: small random groups lose chains of tactics to a target host, while grouping by objective keeps them. The structure shows as kept chains, not as distinct attack profiles. It remains a hypothesis.
+- **A step division has no negligible band.** Total variation distance is descriptive, not an effect size, so don't say "negligible" for it (Marc asked whether it "lives within a negligible range"). Say "within the range random grouping produces".
+
+**Proposed, awaiting Marc:**
+1. ¶1 last sentence (replaces the c4 argument): "Random groups of the same sizes divide their steps as differently (Appendix G.7), so only which actions on objectives each attack profile takes is shown to follow its objective."
+2. G.7: one paragraph with the two rows above and the absence counts.
+3. §6.5 (when reached): "likely because attack flows with one objective share more of their moves than a random group does" reads as a behaviour claim that today's measure bears on. Bound it to G.7's mechanism (keeping the chains that lead to a compromise).
+
+**Advice:**
+- (n) Before a sentence explains a difference by a grouping, check the difference against random groupings of the same sizes. A single odd group (c4) is not a control.
+- (o) Keep outcome claims (NCR, with effect sizes and a negligible band) apart from behaviour-divergence claims (descriptive, compared to a chance range). One does not license the other.
