@@ -2877,3 +2877,22 @@ So: the threat reports give the full mark (3) and the behaviour of 2 (SQ1); ever
 > The APT attacker model has more of the eight properties than any of the three MTD attacker models (Table 6.1). It alone has two in full, and it alone has objective-specific behaviour. All four attacker models lack cost–benefit reasoning, learning and deployment-strategy awareness.
 
 Build clean, 118 pages, 0 undefined.
+
+## §39. §6.3 opener applied (Marc 2026-10-12)
+
+**Marc on the §38 proposal:**
+- "which three": name the section the three come from;
+- "it alone… it alone" is a rhetorical mirror;
+- objective-specific behaviour is only in part;
+- in sentence two, the reader has to infer which two properties are "in full".
+
+**Fix.** Sentence two now names the two marks no other attacker model has:
+- choice of attack strategy in full (the baseline attacker has it in part);
+- any objective-specific behaviour.
+
+Campaign persistence in full is shared with the baseline attacker, so counting "two in full" did not mark a difference. A third sentence giving the shared marks (persistence, adaptivity, detection avoidance) was proposed. Marc cut it, because the table shows those marks and the opener points only to what matters.
+
+**Applied (46 words, from 99):**
+> The APT attacker model has more of the eight properties than any of the three MTD attacker models of Section 3.x (Table 6.1). It is the only attacker model with choice of attack strategy in full or with any objective-specific behaviour, which it has in part. All four attacker models lack cost–benefit reasoning, learning and deployment-strategy awareness.
+
+§6.3 now totals about 459 words. Build clean, 118 pages.

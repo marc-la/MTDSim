@@ -8843,16 +8843,15 @@ against 0.95 for the baseline attacker (Figure~\ref{fig:aio-adaptivity}(a)).
 %  simulator (SQ2). The opener is the comparison with the field and drops the
 %  Chapter 4 recap. The first redraft is at bb214d7b, the overdraft at
 %  2b6ddfc1. Session-written; ratify paragraph by paragraph.
-Scored by the same predicates as the three MTD attacker models of
-Chapter~\ref{ch:litreview} (Appendix~\ref{app:clause-tests}), the APT
-attacker model has two of the eight properties in full and three in part,
-and none of the three has more than one in full, or any objective-specific
-behaviour (Table~\ref{tab:fidelity-verdict}). Over the baseline attacker, it
-gains choice of attack strategy in full, and objective-specific behaviour and
-detection avoidance in part. Like the other three, it lacks cost--benefit
-reasoning, learning and deployment-strategy awareness: no part of it chooses
-a technique by its cost, keeps the patterns of MTD deployments or predicts
-the deployment strategy.
+% [2026-10-12, Marc: opener clarity pass, handoff §38--§39. The comparison
+%  only: what only it has, then what all four lack; the rest is read from the
+%  table. The appendix pointer moved to the caption.]
+The APT attacker model has more of the eight properties than any of the three
+MTD attacker models of Section~\ref{subsec:recent-threat-models}
+(Table~\ref{tab:fidelity-verdict}). It is the only attacker model with choice
+of attack strategy in full or with any objective-specific behaviour, which it
+has in part. All four attacker models lack cost--benefit reasoning, learning
+and deployment-strategy awareness.
 
 In answer to \ref{sq:capture}, threat reports give the APT attacker model
 the order of an APT attacker's tactics by objective, and our judgement fills
