@@ -8873,20 +8873,29 @@ matrix sets which tactic it takes after an attack action fails
 grounded in threat reports for the order of its tactics, and rests on our
 judgement where MTD disrupts it.
 
-In answer to \ref{sq:model}, an existing simulator gives the APT attacker
-model campaign persistence and caps two of its marks. It keeps the baseline
-attacker's loop, so it carries on toward its objective through every MTD
-deployment (Section~\ref{subsec:attacker-model}). MTDSim's six attack actions
-only find and compromise hosts, so Collection, Exfiltration and Impact are
-unmapped, and the techniques that differ by objective are assumed, which
-leaves objective-specific behaviour in part
-(Section~\ref{subsec:tactic-verb-mapping}). MTDSim has no IDS, so the APT
-attacker model chooses no technique to avoid one, which leaves detection
-avoidance in part. The Petri net could carry the AND joins and the conditions
-the model drops: a transition is enabled only when each of its input places
-holds a token, which is an AND, and an attack flow's conditions could be
-places of their own (Section~\ref{sec:petri-formalism}). Built with one token
-and a place for each tactic, it uses neither.
+% [2026-10-12, Marc: ¶3 (SQ2) redraft, handoff §48--§54. Base §49 plus the
+%  flagged edits only (§52--§53): what existing buys (comparable with the
+%  baseline attacker) and costs (seven unmapped tactics); marks 1, 4, 5 and
+%  2's cap. AND joins and conditions cut. Last sentence: Marc's wording plus
+%  'with no actions on objectives'.]
+In answer to \ref{sq:model}, the APT attacker model executes the order of its
+tactics inside an existing simulator, MTDSim, by mapping eight of the 15
+tactics onto MTDSim's six attack actions
+(Section~\ref{subsec:tactic-verb-mapping}). It shares the baseline attacker's
+attack actions and MTD deployments, so it keeps the baseline attacker's
+campaign persistence. Any difference between the two attackers comes from
+what the APT attacker model adds: the order of its tactics and four parts we
+declared (Section~\ref{sec:execution}). Two of those parts, the tactic
+durations and the failure matrix, fill what the threat reports do not record.
+The failure matrix makes the APT attacker model's response to failure a fixed rule of ours, so
+adaptivity is in part (Table~\ref{tab:fidelity-verdict}). The same attack
+actions cap the APT attacker model, because the other seven tactics are
+unmapped. Three of them are Collection, Exfiltration and Impact, the tactics
+of actions on objectives, so objective-specific behaviour is in part. MTDSim
+has no IDS, so the APT attacker model avoids detection only by proxy, through
+its tactic durations, and detection avoidance is in part. The APT attacker model is therefore comparable with the baseline
+attacker, and limited to what MTDSim's attack actions do: find and compromise
+hosts, with no actions on objectives.
 
 Two of the marks likely reach the answer to \ref{sq:evaluate}: choice of
 attack strategy, through the order of the APT attacker model's tactics, and

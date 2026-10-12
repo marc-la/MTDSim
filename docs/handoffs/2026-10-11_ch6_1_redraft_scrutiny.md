@@ -3451,3 +3451,27 @@ its tactic durations, and detection avoidance is in part. The APT attacker model
 attacker, and limited to what MTDSim's attack actions do: find and compromise
 hosts.
 ```
+
+## §54. §6.3 ¶3 applied; final clarity pass (Marc 2026-10-12, "apply that … final clarity pass over the full draft")
+
+- **Applied:** §53's text. The last sentence is §53's, plus "with no actions on objectives" (Marc's missing nugget, in ch4's stage term). It took four rounds on that sentence:
+  - "steals no data", "says nothing about", "only for" and "only as" were each heard as rhetorical or off-term;
+  - the base sentence with the nugget added was the tightest.
+- About 199 words, from 148. §6.3 is about 480 words.
+- Build clean, 118 pages, 0 undefined.
+
+**Final clarity pass (flags only; the lesson of §52):**
+
+| Sentence | Verdict |
+|---|---|
+| S1 the how | clear; "eight of the 15" sets up S6's "the other seven" |
+| S2 shares attack actions and MTD deployments → persistence | **one flag:** persistence follows from the attack actions alone; "and MTD deployments" rides along under "so". Optional fix: "It shares the baseline attacker's attack actions, so it keeps the baseline attacker's campaign persistence, and faces the same MTD deployments." |
+| S3 what it adds | clear; "declared" is ch4's verb |
+| S4 two of those parts | clear; picks up ¶2 |
+| S5 failure matrix → adaptivity | clear |
+| S6 the same attack actions cap it | clear; "the same" resolves to S2 |
+| S7 C/E/I, the tactics of actions on objectives | clear; §6.1 verbatim |
+| S8 no IDS → by proxy | clear; two consequences under one "so", acceptable at this length |
+| S9 punch | clear; "actions on objectives" repeats S7's term (one term, deliberate) |
+
+**Close (¶4) checked against ¶3:** it ties the failure matrix to adaptivity and the attack profiles to objective-specific behaviour, the same sources ¶3 gives. No knock-on.
