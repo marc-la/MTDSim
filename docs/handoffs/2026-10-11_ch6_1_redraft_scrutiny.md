@@ -1597,3 +1597,80 @@ The close answers SQ3 through the same two causes.
 5. ¶1 is the longest paragraph (258 words), with blocks, host layer, restart and service diversity. It is the candidate to split or weed first.
 
 Build clean, 120 pages.
+
+
+## 27. §6.2 opener: scrutiny (Marc 2026-10-12, "don't redraft yet"; nothing applied to the tex)
+
+Marc's read: the opener leads with the SQ3 question, not the finding; "the host layers … the service layers the baseline" is unclear; "MTDSim writes … where it sends the attacker against the baseline procedure" is rhetorical flourish; the last line quotes §6.1. He asked what the opener is for, which nuance it needs, which the reader already holds, and whether §6.1's opener lessons (§9, §24.1, §24.4) carry over.
+
+### 27.1 What the opener is for (one line)
+
+**Answer SQ3 with the section's finding (the host layer reduces the APT attacker model's NCR more than the service layer, and the service layer the baseline attacker's, at every deployment interval), and name §6.1's two causes as its likely explanation.** Everything else is a paragraph's job or lives elsewhere.
+
+### 27.2 What the reader already holds when they reach it
+
+| Fact | Already given |
+|---|---|
+| SQ3's question | Ch1 (l.374); §4.5's opener, **word for word the same sentence** (l.5290); ch5's opener; the ch6 preamble ("§6.2 … answers SQ3") |
+| Every claim is about MTDSim | ch6 preamble ("Every claim is about MTDSim") |
+| §6.2 explains why a different MTD layer reduces each attacker's NCR most | ch6 preamble |
+| What a deployment disrupts and where it sends the attacker; "loses only its place" | §2.2.3, Figure 2.2's dashed arrows |
+| The APT attacker model shares the attack actions; the Petri net picks the next tactic | ch4 opener; §6.1 ¶2 ("whereas the baseline attacker's procedure fixes the order of its attack actions") |
+| A deployment during an unmapped tactic cuts its duration short and costs the penalty, but blocks no attack action and never changes the next tactic | §4.4.1 (l.4877); §4.4.2 ("the longer a tactic runs, the more likely an MTD deployment disrupts it") |
+| The two causes, by name | §6.1's opener and its close, the paragraph just read |
+| No MTD mechanism or deployment strategy ranks first against both; ρ | §5.3.2's lead; and again in §6.4's opener (l.9050), with ρ |
+
+So the opener needs none of S1, S3 or the first half of S4. The only new things it can give are the finding at the level of the MTD layer and the claim that the two causes explain it.
+
+### 27.3 Sentence by sentence
+
+- **S1, "SQ3 asks how MTD performs …".** Not needed in this form. It is the fourth telling of the question and a verbatim repeat of §4.5's opening sentence. It puts the question before the finding (important point first fails). The section must still tie to SQ3 (Marc), but by *answering* it, not by asking it again (27.5 Q1).
+- **S2, "In MTDSim, the host-layer mechanisms reduce … most, and the service-layer mechanisms the baseline attacker's; no MTD mechanism or deployment strategy ranks first against both (Section 5.3.2)."** This is the finding, and it should lead, but:
+  - "In MTDSim": the preamble covers it, and §6.1's opener does not say it.
+  - "the host-layer mechanisms … the service-layer mechanisms": true only as **layer means** (the line Figure 5.3 plots). Per mechanism it fails for the baseline attacker: OS diversity ties IP shuffle at rank 2 at 200 s (0.68 each), and from 500 s IP shuffle beats it (0.39 against 0.04, Table F.0a). Use "the host layer" and "the service layer", Figure 5.3's terms.
+  - "most" has no frame (at what interval, against what?). The data support "more than the service layer, at every deployment interval" for the APT attacker model, and the reverse for the baseline attacker (Table F.0a, layer means at all six intervals).
+  - Gapping ("and the service-layer mechanisms the baseline attacker's") leaves the reader to supply the verb and the noun. This is the "not clear" Marc heard.
+  - "no MTD mechanism or deployment strategy ranks first against both": for mechanisms, it follows from the layer clause; it is §5.3.2's lead, and §6.4 opens on it with ρ as the point that transfers. One fact, one home: §6.4. (Inbound: Chapter 7's draftnotes cite §6.2 for it; repoint to §6.4 when Chapter 7 is reached, gated.)
+  - The pointer is a Section, not the float that shows the layer lines (lesson 8): Figure 5.3.
+- **S3, "MTDSim writes what a deployment disrupts, and where it sends the attacker, against the baseline attacker's procedure (Section 2.2.3)."** Not needed here.
+  - "writes … against" is a stand-in verb (flourish), and the key phrase comes last after two embedded clauses (sentence weights 2 and 3).
+  - Content: the rules are §2.2.3's. ¶1 shows how each cause meets them and cites §2.2.3. The point that the answer rests on those rules is a bound, already in §6.4 (l.9060, "the ranking moves because MTDSim writes what each deployment takes against the baseline attacker's procedure", same flourish), in §6.5, and in §6.2's own close. Four homes.
+- **S4, "The APT attacker model runs the same attack actions without that procedure, so these rules act on it through its tactic durations and the order of its tactics (Section 6.1)."**
+  - First half: already given (ch4, §6.1 ¶2).
+  - "act on it through": abstract verb chain; it says the causes matter without saying how (¶1's job).
+  - **No hedge on an inferred claim.** The Appendix G.3 run has no MTD (the baseline attacker's times were tested only with no MTD), so no run under MTD removes either cause. That the causes explain the ranking is inference and takes one "likely" (lesson 7; Chapter 7's draftnotes already say "which no run separates").
+  - The handback is right (the throughline Marc approved); the gloss around it is what quotes §6.1. Name the two causes verbatim, as §6.1's opener does, and stop.
+
+### 27.4 §6.1's lessons, checked against this opener
+
+| Lesson | Here |
+|---|---|
+| §9.2 one message in the first sentence | **fails**: S1 is the question |
+| §9.3 open on the reader's term | partly: "host-layer mechanisms" for Figure 5.3's "host layer" |
+| §9.4 sort every sentence | S1, S3 and half of S4 live elsewhere (27.2) |
+| §9.5 bounds once, in §6.5 | **fails**: S3 is the rules bound, also in §6.4, §6.5 and the close |
+| §9.6 no stand-in words | **fails**: "writes … against", "act on it through" |
+| §9.7 hedge inside the inferred claim | **fails**: S4 |
+| §9.8 floats next to the claim | **fails**: points to a Section, not Figure 5.3 |
+| (e) opener names each cause once; mechanism goes in the paragraph that uses it | **fails**: S3–S4 carry mechanism that ¶1 repeats |
+| §24.4 the run's setup in the appendix; result and share in the body | n/a (no run under MTD) |
+| (aa) the close says the joint | **fails, as a knock-on**: the close opens "To SQ3, then: … MTD performs differently … the difference follows the MTD layer, because … tactic durations and the order of its tactics": S2 and S4 again. Marc's overdraft critique ("a closer almost as big as the opener") still holds after stage 1 |
+
+§6.1's opener worked because it was finding (with its float) → causes named → evidence share. §6.2's has the question first, then the finding, then two sentences of mechanism that ¶1 gives again.
+
+### 27.5 The fix, as structure (no prose yet)
+
+Two slots, about 45 words in place of 95:
+
+1. **Answer (SQ3, tagged once).** Job: answer SQ3 with the finding. Facts: the host layer reduces the APT attacker model's NCR more than the service layer, and the service layer the baseline attacker's more than the host layer, at every deployment interval. Float: Figure 5.3. Ceiling: one sentence, no numbers (¶2 has them), no gapping, no "In MTDSim".
+2. **Cause.** Job: hand §6.1's two causes back. Facts: its tactic durations and the order of its tactics, verbatim, with one "likely". Ceiling: one short sentence; no rules, no procedure, no pointer back to §6.1.
+
+**Questions (recommendation first):**
+- **Q1, the SQ3 tie.** (Recommended) **Answer first, tagged.** The first sentence is the answer and names SQ3 as what it answers. Then the close drops its restatement and keeps only what the paragraphs do not say together: Chapter 1's advantage of time and the interval ratio. Otherwise, (b) keep the question as S1 (the fourth telling, and §4.5's sentence verbatim), or (c) no tag in the opener, leaving the close as the answer (the opener–close repeat stays). Whatever is ruled applies to §6.3's opener too, which also opens on the question (gate: downstream, so it changes after this ruling).
+- **Q2, "no MTD mechanism or deployment strategy ranks first against both".** (Recommended) Cut from the opener. It lives in §5.3.2, and §6.4 opens on it as the point that transfers.
+- **Q3, the rules nuance.** (Recommended) It lives in ¶1 (per cause, citing §2.2.3) and §6.5 (bound). The close's last sentence and §6.4's "writes … against" are reviewed when those are reached.
+
+**Knock-ons once ruled (downstream, automatic):**
+- ¶2's first sentence restates the layer claim; ¶2 opens on its numbers instead.
+- Appendix F (fa-foothold) says "§6.2 explains why the host layer disrupts the APT attacker model most"; keep, or align with the opener's NCR wording.
+- §6.3's opener, under Q1.
