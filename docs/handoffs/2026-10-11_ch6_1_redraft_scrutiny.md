@@ -2913,3 +2913,54 @@ Campaign persistence in full is shared with the baseline attacker, so counting "
 **Note:** the clause-tests appendix is Appendix B. Appendix A is the original proposal. §38–§39 and chat said "Appendix A"; the LaTeX uses `\ref` throughout and was always right.
 
 Build clean, 118 pages, 0 undefined.
+
+## §41. §6.3 ¶2 (SQ1): scrutiny of the text on disk (Marc 2026-10-12; nothing applied)
+
+Marc: "does it directly answer the question, engage all the clauses … threat reports give the model … but there are still limitations … criticise what's on disk, no redraft." ¶2 is 176 words, eight sentences.
+
+**One-liner it should carry:** the attack flows drawn from threat reports give the model which tactic follows which, and which actions on objectives go with each objective; we set the timing and the response to failure ourselves.
+**Purpose:** the source of marks 3, 2, 4 and 5 along SQ1 (§36): what recovery from threat reports carried, dropped and never had.
+
+### 41.1 SQ1's clauses ("How can the behaviour of APT attackers be recovered from published threat reports?")
+
+| Clause | Engaged? | Note |
+|---|---|---|
+| "How can … be recovered" | **No** | ¶2 says what the reports give, not how. One clause would answer it: through hand-drawn attack flows, the only source tried that records which step came first (ch4 §4.1: automatic mining recovered 10 % and 14 % of tactic edges, the attack flows 50 %). That is the evidence that recovery works at all. |
+| "the behaviour of APT attackers" | **Overclaimed** | "the order of an APT attacker's tactics": ch4 l.~4027 and §6.5 say the attack graph records attackers reported in CTI, not APT attackers alone. Fix in the wording, no hedge; the bound stays in §6.5. |
+| "recovered" | Yes, its strongest part | Kept / dropped / never recorded. "Order" is per edge (a run chains edges from different attack flows, §6.5 "a campaign no attacker ran"); the ch6 term stays, flag only. |
+| "from published threat reports" | Yes, rightly partial | The source's own limits (detected, succeeded, stop short of the objective) are §6.5's. Only the two absences that set marks (timing, response to failure) belong here. |
+
+### 41.2 Structure
+
+Marc's reading (gives / drops / never records → judgement) is the right spine. Problems:
+1. **Said twice:** S1 "our judgement fills what they do not record" and S6 "we set … by judgement". The topic sentence pre-states the end.
+2. **The drops change no mark.** S4–S5 (66 words, 38 %) end on nothing; every other sentence ends on a mark, so these read as a list. Their real job is ¶3's antecedent ("the AND joins and the conditions the model drops"), and ¶2 never says "AND join".
+3. **"To run" gives the wrong reason.** ch4 §4.1 drops these when building the attack graph (tactics as nodes, for edges that recur and a smaller mapping): recovery (SQ1), not execution (SQ2). "Most of what else" is unquantified.
+4. **Objective-specific behaviour overclaims.** "Enter different tactics after the foothold" contradicts ch4 §4.2 (same common tactics before actions on objectives; they differ in actions on objectives) and §6.1 ¶2 (no more differently than random groups before actions on objectives; 755f5534, 9 of 10 random partitions at or above). It also reads as a full mark; "in part" arrives only in ¶3.
+5. **Last sentence:** "them" (pronoun); "a fixed rule of ours" fits the failure matrix only (the tactic durations are values); the order flips against S6; "so each is in part" leaps (why does judgement make it in part? Appendix B's cell: our fixed rule, not the attacker's choice).
+6. **Detection avoidance "in part" twice** (¶2 judgement, ¶3 no IDS). §6.1 ¶3 already gives both causes together.
+
+### 41.3 Terms
+
+- The source is named two ways: "threat reports" (S1) and "the attack flows" (S2, S4, S6). Both are right (ch1: attack flows drawn from CTI reports), but the subject shifts unannounced. Name the chain once, then "attack flows".
+- "Procedures" collides with "the baseline attacker's procedure" (ch2; §6.1 ¶2, two paragraphs earlier). Use §33.2's plain words: the tools and malware used.
+- "How often the attack flows take each edge": Eq. base-weight is the share of the attack profile's attack flows leaving a tactic that draw the edge. "How often" suggests occurrences; use ch4's words or point to the equation, as §6.1 does.
+- "Steps an attack flow requires together become separate edges, each enough on its own": hard to parse. "AND join" has no antecedent in ch1–5 prose (Figure 2.x only), yet ¶3 uses it.
+- "Conditions between steps": ch2 defines only the condition a flow starts and ends in.
+
+### 41.4 Verified
+
+- Edge weights: Eq. base-weight, l.~4343.
+- Techniques → tactics: ch4 §4.1.
+- Timing almost never recorded: ch2 l.~1883.
+- Only completed steps drawn: ch4 l.~5060.
+- Actions on objectives as the only objective signal: ch4 §4.2, §6.1 ¶2, App fa-group-size, 755f5534.
+- The §6.5 overlap (CTI records no tactic durations or failure-matrix values, l.~9148) is acceptable: ¶2 needs it for the mark.
+
+### 41.5 Questions (recommendation first)
+
+1. Add the "how" in one clause (hand-drawn attack flows record the order), with no numbers. **Recommended: yes.**
+2. Drop "APT attacker's" from the order claim. **Recommended: yes.**
+3. The drops: one sentence, its reason fixed to building the attack graph, naming the AND joins and conditions that ¶3 picks up. Procedures and vulnerabilities go in as plain words, or are cut. **Recommended:** keep all, one sentence.
+4. Objective-specific: "the attack profiles differ in actions on objectives". **Recommended: yes**, with the mark left to ¶3.
+5. Detection avoidance's mark: given in ¶2 by its source, with ¶3 "a second reason". Alternatively, ¶2 names the source only. **Recommended:** the first.
