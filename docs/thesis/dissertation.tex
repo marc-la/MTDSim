@@ -9013,8 +9013,8 @@ or the attack profiles. The tactic durations are our judgement
 The attack graph compromises more by pooling the objectives that attack
 profiling keeps apart (Section~\ref{sec:attack-profiles}), and the attack
 profiles compromise more than random partitions of the same sizes, likely
-because attack flows with one objective share more of their moves than a
-random group does. The Petri net's choice has no ablation of its own; the
+because a small random group can lose the chains of tactics that lead to a
+compromise (Appendix~\ref{app:fa-group-size}). The Petri net's choice has no ablation of its own; the
 nearest comparison is the baseline attacker, which runs the same attack
 actions in a fixed order (Section~\ref{sec:disc-behaviour}).
 
@@ -9031,9 +9031,9 @@ from threat reports as attack flows, aggregated into an attack graph of how
 often each tactic led to the next and split by objective into attack
 profiles (Chapter~\ref{ch:attacker-model}). With no MTD, the attack profiles
 compromise more than random partitions of the same sizes, so grouping by
-objective carries structure (Appendix~\ref{app:fa-group-size}). They differ most in actions on objectives,
-which are unmapped, so in MTDSim an objective shows only in how an attack
-profile spends its steps (Section~\ref{sec:disc-behaviour}), and three of
+objective carries structure (Appendix~\ref{app:fa-group-size}). In behaviour they differ only in which
+actions on objectives they take, which are unmapped
+(Section~\ref{sec:disc-behaviour}), and three of
 the four rest on 5 to 7 attack flows (Section~\ref{sec:threats}). The
 recovered behaviour can be executed in an existing MTD simulator as a Petri
 net over the simulator's own attack actions, joined to them by a
@@ -11068,6 +11068,21 @@ beat random partitions through their small groups. Each attack profile's ASP is
 also above the median of its random groups, most clearly $c_2$'s, 0.14 against
 0.03. The reading is a hypothesis on four attack profiles and says nothing of
 fidelity, so it is not part of the main argument.
+
+% 2026-10-12 (Marc: c4's differences "might just be the partitioning"; handoff
+%  section 24.6): partition_step_divergence.py -> partition_step_divergence_numbers.json.
+The same runs give how differently the groups divide their steps among the
+tactics (relative tactic occurrence, Section~\ref{subsec:metrics-behaviour}),
+measured between two groups as the share of steps that lie in different
+tactics. Outside actions on objectives, the attack profiles' six pairs average
+0.25 and the ten random partitions' 0.25 to 0.42, nine of the ten at or above
+the attack profiles; over all tactics, 0.30 against 0.27 to 0.45, eight of the
+ten. Random groups also lack Exfiltration or Impact, 16 of the 40, but by
+chance, not as their attack flows' objectives say: $c_1$ has almost no Impact,
+$c_2$ no Exfiltration and $c_4$ neither. Grouping by objective therefore shows
+in outcome, and in behaviour only in which actions on objectives occur. The
+chains a small random group can lose are an order of tactics, which a share of
+steps does not measure.
 
 \input{tables/tab_FA-5_group_size}
 

@@ -1247,6 +1247,21 @@ The fix: name the property first; give the reason (MTDSim's six attack actions o
 2. G.7: one paragraph with the two rows above and the absence counts.
 3. §6.5 (when reached): "likely because attack flows with one objective share more of their moves than a random group does" reads as a behaviour claim that today's measure bears on. Bound it to G.7's mechanism (keeping the chains that lead to a compromise).
 
+**Marc's takeaway, checked** ("objective-filtered behaviour … shares the same chains … less variance across profiles than random partitioning").
+- *Supported:* grouping by objective compromises more than random grouping (outcome).
+- *Not supported:* "less variance". The attack profiles are second-lowest of 11 groupings, which chance gives about one time in five. Nor "share the same chains": a share of steps does not see order, and attack flows that were more alike would make the groups *more* distinct than random ones, not less.
+- *The two-part takeaway:* outcome, grouping by objective compromises more; behaviour, outside actions on objectives grouping by objective divides steps like random grouping.
+
+**New gate rule** (Marc 2026-10-12): text downstream of the paragraph being redrafted changes automatically; text upstream, and the paragraph itself, is presented first.
+
+**Applied downstream:**
+- §6.2 fidelity paragraph: "likely because attack flows with one objective share more of their moves than a random group does" → "likely because a small random group can lose the chains of tactics that lead to a compromise (Appendix G.7)".
+- §6.2 SQ1/SQ2 answer: "They differ most in actions on objectives, which are unmapped, so in MTDSim an objective shows only in how an attack profile spends its steps" → "In behaviour they differ only in which actions on objectives they take, which are unmapped".
+- G.7: a second paragraph with the step-division result, the absence counts, and the bound (the chains are an order of tactics, which a share of steps does not measure).
+- Build clean, 121 pages.
+
+**¶1, presented:** only the last sentence changes; see the reply of 2026-10-12. Outcome stays out of ¶1.
+
 **Advice:**
 - (n) Before a sentence explains a difference by a grouping, check the difference against random groupings of the same sizes. A single odd group (c4) is not a control.
 - (o) Keep outcome claims (NCR, with effect sizes and a negligible band) apart from behaviour-divergence claims (descriptive, compared to a chance range). One does not license the other.
