@@ -1340,3 +1340,12 @@ The fix: name the property first; give the reason (MTDSim's six attack actions o
 **Advice:**
 - (w) A nuance that qualifies a term can live in the term's choice ("weight" rather than "base weight") and its citation, not in a clause.
 
+### 24.11 ¶2, round 4 (Marc 2026-10-12)
+
+- "in proportion to the weight of the edge to it" → "in proportion to the edge weights". Marc: too many filler words.
+- "can dispatch an attack action whose preconditions are missing" → "can run an attack action before its preconditions are met". Marc: "I don't like the word dispatch … remove it", so ¶2 now uses an order's verb.
+- **"Dispatch" elsewhere.** It is ch4's verb for what a tactic does with its attack action (ll. 4397, 4877, 5374), and ch6 uses it at 8634, 9269 and 9333 plus in Appendix G. It was not touched beyond ¶2; asked Marc whether to retire it wider (ch4 would be a proposal).
+
+**¶2 as applied:**
+> On choice of attack strategy, the attack profiles' 1 000 runs have 179 to 947 distinct openings over eight steps, and the baseline attacker's 3 (Figure 5.1(b)). In each run, the Petri net picks the next tactic at random, in proportion to the edge weights (Equations 4.2 and 4.4), whereas the baseline attacker's procedure fixes the order of its attack actions (Figure 4.1). Through the tactic-to-action mapping, the order of the APT attacker model's tactics can run an attack action before its preconditions are met (Section 4.3), and 15 to 30 % of the attack profiles' attack actions fail this way (Appendix G.3).
+
