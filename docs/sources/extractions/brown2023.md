@@ -190,3 +190,36 @@ and game models with an executing procedure derived from the Kill Chain and ATT&
 That procedure orders exploits by RoA, responds differently to each kind of MTD
 disruption, and drops the assumption that a compromised host stays compromised
 (Brown l.113, l.119–135, l.192).
+
+## Attacker model, extracted for the predicate tests (2026-10-12)
+
+Source: the published PDF (EnCyCriS 2023, pp. 1–8). Pages are as printed. The baseline attacker is scored from Brown 2023 and Zhang 2023 together; the predicate table is in `zhang2023.md`'s companion section and below.
+
+### A. What the attacker is
+- A1 "The Attacker is modeled as a theoretically intelligent adversary, which will follow a logical flowchart inspired by the Cyber Kill Chain [17] and MITRE ATT&CK Framework [18]." (§III, p. 2)
+- A2 "two attack scenarios with the same capabilities but with different goals in identical networks" (§III-C, p. 4)
+- A3 Scenario 1, General: "looking to obtain the most amount of control by attempting to compromise the whole network. The attacker prioritizes the weakest host to compromise hosts as quickly and easily as possible to increase the chance of reusing previous credentials in password reuse or exploiting known vulnerabilities." (p. 4)
+- A4 Scenario 2, Target, "like APT-style attacks": the attacker wants "a specific 'target' host (e.g., a credential database)" and "will use a different strategy compared to Scenario 1". If the target is found, it attacks only the target. Otherwise it prioritises hosts on the target's level, "else attack hosts that seem to be of a different type … in an effort to get closer to the target host level". (p. 4)
+
+### B. The attack procedure (Fig. 3, p. 5; text p. 4)
+- B1 Host discovery: "a scan on the network to discover all exposed hosts". Internal hosts appear through compromised or exposed hosts.
+- B2 Pick a target host from a priority stack. The Fig. 3 box reads "Prioritises internal hosts that minimise the time it takes for the adversary to move to a compromised host to target it."
+- B3 Port scan, then "first attempt to perform a credential-stuffing attack using user account information from previously compromised hosts".
+- B4 "The vulnerabilities from all the services scanned will be put into a priority stack based on their return on attack (RoA) [13]."
+- B5 On success: "assume command and control functionality", which reveals the services and hosts connected to the compromised host (Fig. 3: scan for neighbours).
+- B6 "If the attack fails, they will then commence a brute force attack. If all attack options fail, they will then choose another host to exploit."
+- B7 "All attacker agents in the simulation will always follow the attack procedure (as shown in Figure 3) to decide their next move." (§V-A, p. 7)
+
+### C. Response to MTD (§III-D, pp. 4–5)
+- C1 Host lost (IP shuffle, host topology shuffle): "forced to re-perform the host discovery phase".
+- C2 Service lost (service and OS diversity, port shuffle): "force them to re-perform a port scan".
+- C3 User shuffle: blocks credential stuffing only, "forcing them to look for vulnerabilities on the host".
+- C4 "giving a time penalty whenever the attacker is blocked due to an MTD and forces them to re-scan the network to decide their next decision" (§V-A, p. 7)
+
+### D. Persistence and memory
+- D1 "the attacker agent will move on after trying to exploit for 10 times without being able to compromise the host currently selected. However, when the attacker is conducting a targeted attack (i.e., scenario 2), the attacker is set to never give up on the target node." (§V-C, p. 7); Table I: "No. of attack attempts before giving up 10" (p. 5)
+- D2 Hosts lost to MTD return instantly if the attacker regains a path: "the attacker will instantly recognize that it has been previously compromised and regains control of the host" (§V-B, p. 7)
+
+### E. Described, with no step in the model
+- E1 Static defences let attackers exploit "if they remain undetected" (§I, p. 1). This is the motivation for MTD, not a step of the attacker.
+- E2 "the capabilities of the attackers are profiled in MTDSim, so the exploitation skills are not configured to distinguish the different skills of adversaries" (§V-C, p. 7)
