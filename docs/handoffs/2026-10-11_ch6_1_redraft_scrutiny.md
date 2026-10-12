@@ -2565,3 +2565,124 @@ The contrast with "back to back" now comes first. Applied. §6.2 is 327 words. B
   - Its first sentence ("the host layer disrupts the APT attacker model more, and the service layer less") is not §6.2's answer: it is in "disrupts", not NCR reduction, and it omits the baseline attacker's half.
 - **Proposed:**
   > MTD performs differently against the APT attacker model than against the baseline attacker, and the difference runs by MTD layer: the host layer reduces the APT attacker model's NCR more than the service layer does, and the service layer the baseline attacker's (Section 6.2). No MTD mechanism ranks first against both attackers at any deployment interval (Section 5.3.2).
+
+## 32. §6.3 (Properties of the APT attacker model): heavy scrutiny of the overdraft (Marc 2026-10-12; nothing applied)
+
+Marc: "no rhyme or reason … reads like a concatenation of dot points … what is 6.3 doing that 6.1, 6.2 and chapter 3's marks can't? What is relevant for discussion, what floats to the appendix? Is the title right? Is Table 6.1 presented properly?" No redraft.
+
+### 32.1 Measured
+
+§6.3 is 1 235 words in four paragraphs (271 / 350 / 322 / 292) plus Table 6.1, against §6.1 492 and §6.2 327. Unchanged since the overdraft.
+
+### 32.2 Diagnosis: why it reads as a list
+
+1. **No question owns it.** It names SQ1 and SQ2 twice (¶1 "In answer to", ¶4 "To … then") and answers neither in its own terms. SQ1 and SQ2 ask *how*; Chapter 4 is the how. The discussion's job is how well: what recovering from threat reports carried and lost (SQ1), and what executing in an existing simulator capped (SQ2). ¶1 answers "how many marks", and ¶4 re-describes Chapter 4's pipeline.
+2. **Four paragraphs, four jobs, none building on the last:**
+   - ¶1 is the scoring procedure (method and validity);
+   - ¶2 is a ch3-style per-mark walk (Chapter 4's claims, in Table 3.3's paragraph format);
+   - ¶3 attributes the SQ3 result to components (§6.2's and §6.5's job);
+   - ¶4 recaps all three and gives a CTI verdict.
+3. **Most sentences live elsewhere already** (§32.3). What is left that only §6.3 can say is about four sentences.
+
+### 32.3 Sort test (cut = lives elsewhere or nowhere)
+
+| Content | Already in | Verdict |
+|---|---|---|
+| ¶1 S1: 2 full, 3 in part, field ≤1 full | only here | **Keep**: Table 6.1's headline, the SQ1/SQ2 evidence |
+| ¶1 S2: gains over the baseline attacker (3, 2, 5) | §6.1 opener (the same three properties); ¶4 repeats it; ch7 draftnote | Keep once (it is said twice in §6.3) |
+| ¶1 S3–S8: rule fixed first, tightened, each model from its source, runs lower never raise, "we first marked what it implements", four LMs plus a fifth | ch3 §3.x; App clause-tests; §6.5 construct (l.9356); AI Use Declaration | **Cut**: method and validity, not discussion. "We first marked…" is process history. |
+| ¶2 S1: every mark short of full stops at the attack actions or a decision no part makes | only here | **Keep**: the SQ2 answer |
+| ¶2 persistence keeps the baseline attacker's loop | ch4 opener l.3891 | Cut |
+| ¶2 choice: the Petri net draws, the run joins flows | §6.1 ¶2 | Cut |
+| ¶2 emulation vs simulation | ch3 §evaluation-methods | Cut |
+| ¶2 one token = the same draw as a stochastic finite state machine; the source, not the formalism | only here | **Keep**: an SQ2 point, honest about what the Petri net buys |
+| ¶2 objective-specific: AoO unmapped, same six attack actions | §6.1 ¶1 | Cut |
+| ¶2 the baseline attacker has none | ch3 baseline paragraph | Cut |
+| ¶2 failure matrix reads only the verdict | ch4 l.5150 | Cut |
+| ¶2 detection avoidance: durations, proxy, no IDS | §6.1 ¶3, near verbatim | Cut |
+| ¶2 three it lacks: RoA, memory keeps vulnerabilities, no schedule | ch3 baseline paragraph word for word; ch4 l.5233 | Cut |
+| ¶2 last: persistence by construction; adaptivity's metric does not resolve the component | measurement validity | §6.5 construct, or cut |
+| ¶3 §5.4 results: failure matrix and time lost, same three mechanisms, d −0.76 vs −0.28 | §5.4 verbatim | Cut (rehash of ch5) |
+| ¶3 "reversal rests on durations and order, not FM / memory / profiles" | §6.1 opener, §6.3 ¶4, §6.4 ¶3, §6.5 ¶1 and ¶2: **six statements in ch6** | One home (Q3) |
+| ¶3 "NCR reduction, not NCR … stronger, not closer" | nowhere | Cut (not-X-but-Y twice); the idea is §6.4's if anywhere |
+| ¶3 "a negative only a model with the mechanism can report" | nowhere | Cut (rhetorical) |
+| ¶3 attack graph pools objectives; profiles beat random partitions | §6.1 ¶1, §5.4, ¶4: three times in ch6 | Keep once, in the SQ1 answer |
+| ¶3 the Petri net has no ablation | §6.5 ("Order has no test of its own") | Cut |
+| ¶4 S1 "To SQ1 and SQ2, then." | n/a | Cut (rhetorical) |
+| ¶4 the pipeline recap | ch4 opener; ch7 Contribution 1 | One clause at most |
+| ¶4 "differ only in which AoO they take" | §6.1 ¶1 says "no more differently than random groups" | **Stale and an overclaim**: they do differ before AoO (TV 0.17–0.37), only not more than random groups |
+| ¶4 "three of four rest on 5 to 7 flows" | §6.5 | Cut (bounds once, in §6.5) |
+| ¶4 "a mark in full means every predicate … upgrades within in part don't show" | only here | Keep, one clause: the honest reading of Table 6.1 |
+| ¶4 "what reorders the MTD mechanisms is order … and the tactic durations" | §6.2 opener, which hedges it "likely" | Unhedged here: inconsistent |
+| ¶4 "Grounding in CTI therefore changes what an MTD evaluation finds" | §6.4 says the results do *not* show "that the grounding in CTI caused the reversal"; §6.5 says order has no test with MTD | **Contradiction** (§32.4) |
+
+### 32.4 Substantive problems (beyond length)
+
+1. **The CTI verdict contradicts §6.4 and §6.5, and its own logic.** Of the two causes it names:
+   - the tactic durations are our judgement, not CTI (§6.5);
+   - the order of its tactics, the CTI part, has no run with MTD that separates it (§6.5).
+
+   So "therefore changes what an MTD evaluation finds" does not follow. At most: likely, through the order of its tactics, which is untested under MTD. Ch7's Contribution 1 "Bound" draftnote carries the same claim (gated).
+2. **Inconsistent scorer account.** ¶1 says four language models scored, plus a fifth. §6.5 l.9356 says "one scorer … with a language model's blind re-score as the check". One of them is stale.
+3. **Not-X-but-Y count: about 7.** "not the patterns", "not from the formalism", "not which technique", "NCR reduction, not NCR", "stronger, not closer", "not which component pays it", "not from the reweighting".
+4. **The ablation-negligible claim** is stated six times across ch6 (§32.3). §6.4 ¶3's "(Section 6.3)" pointer depends on where it lands.
+
+### 32.5 Title
+
+"Properties of the APT attacker model" names the yardstick, not a comparison. It reads as a ch4 heading, and it breaks the §6.1 / §6.2 pattern ("X versus Y"). The one thing only this section has is Table 6.1: the APT attacker model against the field of Chapter 3.
+
+- **Recommend:** "APT attacker model versus MTD attacker models". It mirrors §6.1 and §6.2, uses ch3's term, and names the float.
+- **Alternative:** keep it, if the section's spine becomes SQ1/SQ2 rather than the table.
+
+### 32.6 Table 6.1
+
+- Its placement (head of section) and its sync with Table 3.3 are right.
+- **Problems:**
+  - The abbreviated column heads ("Pers.", "Strat.", …) are decoded nowhere in the caption. Table 3.3 has the same issue (results presentation standard: the caption must decode).
+  - "from Chapter 4" in the caption is ambiguous: it means scored from Chapter 4's description.
+  - The prose never tells the reader where to look in the table (the APT row against the column maxima, rows 1 and 4).
+- **Option:** ¶2's 350 words exist mainly to annotate cells. A one-line note under the table could carry "stopped by: the attack actions (2, 4, 5) / no decision (6, 7, 8)" and free the prose. This is a presentation choice for Marc.
+
+### 32.7 What only §6.3 can do (the motivated structure)
+
+- **6.1** explains the three measured properties against the baseline attacker.
+- **6.2** explains SQ3.
+- **Ch3** owns the rule; **ch4** owns why each component gives its property.
+- **Only 6.3** can (a) set the model against the field, (b) say what recovery from threat reports carried and lost (SQ1), (c) say what execution in an existing simulator capped (SQ2), and (d) say which marks reach SQ3's result.
+
+Proposed (no prose; job and takeaway; about 350–450 words in all):
+
+- **Opener: the answer, from Table 6.1.**
+  - Job: answer SQ1 and SQ2 in their own terms with the table as evidence: recovered as attack flows → attack graph → attack profiles; executed as a Petri net over MTDSim's six attack actions; 2 full, 3 in part, the field ≤1 full.
+  - Takeaway: *the recovered behaviour runs, and it closes more of the gap than the field.*
+- **¶2, SQ1: what threat reports carry, and what they don't.**
+  - They carry the order of tactics (choice of attack strategy, the full mark), and grouping by objective carries structure (beats random partitions; said once).
+  - They carry no tactic durations, failure response or memory (judgement).
+  - They record actions on objectives that MTDSim cannot run.
+  - Takeaway: *threat reports give the order of an APT's tactics, not their timing.*
+- **¶3, SQ2: what an existing simulator caps.**
+  - Every mark short of full stops at the attack actions or at a decision no part makes.
+  - With one token, the Petri net draws what a stochastic finite state machine would: the source, not the formalism, gives the choice.
+  - Takeaway: *executed in an existing simulator, the model is capped by its attack actions.*
+- **Close: which marks reach the result.**
+  - The components that bought in-part marks (failure matrix, vulnerability memory, attack profiles) leave the ranking unchanged. What reaches SQ3 is the order of its tactics (CTI, choice of attack strategy) and the tactic durations (judgement, detection avoidance in part).
+  - Hedged to agree with §6.4/§6.5: likely, through the order of its tactics, untested under MTD.
+  - Takeaway: *of what CTI adds, likely only the order of its tactics reaches the result.*
+
+**Moves out:**
+- scoring procedure → App clause-tests, §6.5 construct (reconciled), AI Use Declaration;
+- per-mark justifications → already in ch4;
+- §5.4 numbers → §5.4;
+- the bounds (5–7 flows, judgement values) → §6.5.
+
+### 32.8 Questions (recommendation first)
+
+1. **Title:** "APT attacker model versus MTD attacker models" (recommended), or keep it.
+2. **The scoring procedure leaves §6.3** for the appendix and §6.5, keeping only "by Chapter 3's rule" (recommended). Also: which scorer account is current, ¶1's or §6.5 l.9356's?
+3. **One home for "the failure matrix and vulnerability memory move NCR negligibly":**
+   - recommended: §6.5 internal validity owns the attribution;
+   - §6.3 says it once in mark terms;
+   - §6.1's opener (no MTD) stays;
+   - §6.4 ¶3's pointer is repointed to §6.5.
+4. **The CTI verdict is softened** to agree with §6.4 and §6.5 (recommended). The ch7 Contribution 1 "Bound" follows; ch7 is gated.
+5. **Table 6.1:** decode the column abbreviations in the caption (and Table 3.3's, which is gated). Optionally add a "stopped by" note in place of ¶2.
