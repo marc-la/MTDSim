@@ -2764,3 +2764,20 @@ Marc's gain: plausible objective-driven sequences of attack behaviour, reusable,
 - **S1:** the components behind the in-part marks leave the result unchanged: the failure matrix and the vulnerability memory move NCR negligibly; without the attack profiles the same three MTD mechanisms reduce NCR the most (§5.4). *Ceiling:* no d values.
 - **S2:** what likely reaches SQ3's result is the order of its tactics (from the attack flows; choice of attack strategy) and the tactic durations (our judgement; detection avoidance in part), as §6.2.
 - **S3, the CTI verdict:** grounding in CTI likely reaches the result only through the order of its tactics, which no run with MTD tests alone (§6.5). This agrees with §6.4's "nor that the grounding in CTI caused the reversal".
+
+## 34. §6.3 first redraft on the board (Marc 2026-10-12, "first draft on the board … then I can work through each paragraph")
+
+- **Applied** from the §33.3 slot sheet. The overdraft is at 2b6ddfc1.
+- **Size:** 1 235 → 520 words (−58 %). Paragraphs: opener 104, SQ1 170, SQ2 147, close 99.
+- **Rulings used:**
+  - ¶2 keeps the preconditions point, hedged once.
+  - Plain words, no ch4 clause: "steps an attack flow requires together"; "conditions" is given in ch2's attack-flow definition.
+  - Chapter 3 is left alone.
+- **New in ¶3, from ch4 §4.3:** "a transition is enabled only when each of its input places holds a token", which is an AND. So the Petri net could carry the AND joins and the conditions. Built with one token and a place per tactic, it uses neither, so the choice comes from the attack flows. This replaces the stochastic finite state machine sentence, which had no antecedent in ch1–5. Appendix clause-tests still says it, pointing here.
+- **ch7 Contribution 1 "Bound"** is in step with the close (Q4, approved).
+- **Flagged for Marc's paragraph rounds:**
+  - Is adaptivity really stopped "at MTDSim's attack actions"? (The failure matrix reads the attack action's verdict, which cannot tell an MTD-caused failure.)
+  - "Three of the components … barely move the result": the vulnerability memory adds no mark.
+  - The close's two hedges, one claim leaning on the other.
+  - Marc: some of the discussion he gave earlier may not have reached §6.3; to be found after this read.
+- Build clean, 118 pages, 0 undefined.

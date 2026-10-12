@@ -8834,184 +8834,68 @@ against 0.95 for the baseline attacker (Figure~\ref{fig:aio-adaptivity}(a)).
   \end{tabular}
 \end{table}
 
-% 2026-10-08 POINT SET CONDENSED to three paragraphs (Marc: "more well
-% integrated logical paragraphs"; the ceiling and what the marks mean are
-% secondary). The ceiling is now paragraph 2's logic: each in-part mark stops
-% where the ceiling is. The six-point set is in handoff 12c. Rule ratified in
-% handoff 12; Table 6.1 updated to it.
-% DRAFT STATE 2026-10-08 --- paragraph 1 drafted from point P1 on Marc's
-%  request ("draft paragraph 1 ... be transparent about our rules"); P1 retired
-%  to the ch6 handoff section 12d. Session-written; ratify on read.
-%  Order: verdict against the field; the gain on the baseline attacker; the rule
-%  (fixed first, one source each, runs lower never raise); the transparency
-%  sentence; the check; the frame. No new numbers.
-%  THE CHECK SENTENCE: the reader named in the earlier points as "blind" saw
-%  Table 6.1's marks (the cold examiner's packet), so the session re-ran a truly
-%  blind scorer 2026-10-08: chapters 3 and 4 only, the property claims of
-%  chapter 4's opener, 4.4.3 and 4.4.4 redacted. It gave the same eight marks
-%  (handoff 12d). OWED: the AI Use Declaration (empty) must name this use.
-In answer to \ref{sq:capture} and~\ref{sq:model}, scored by the rule of
-Chapter~\ref{ch:litreview}, the APT attacker model has
-two of the eight properties in full, three in part, and lacks three; none of the
-three MTD attacker models scored there has more than one in full
-(Table~\ref{tab:fidelity-verdict}). Against the baseline attacker, it gains
-choice of attack strategy in full, and objective-specific behaviour and
-detection avoidance in part. The eight properties were fixed before any
-attacker model was scored (Section~\ref{subsec:attacker-criterion}); their
-wording and the rule were later tightened so that each mark can be tested,
-which lowered marks and raised none (Appendix~\ref{app:clause-tests}). Each mark scores what an attacker
-model does as its source describes it: the three from their papers
-(Section~\ref{subsec:recent-threat-models}), the APT attacker model from
-Chapter~\ref{ch:attacker-model}. The runs of Chapter~\ref{ch:experiments}
-could lower one of its marks, if a component failed to produce its behaviour,
-but never raise one, because the other three had no runs to be checked
-against. We first marked what the model implements, which put
-objective-specific behaviour and adaptivity in full; scored by the rule, both
-are in part. Four language models scored all four attacker models by an
-earlier form of the rule, which counted clauses, each given only that rule,
-Table~\ref{tab:attacker-properties} and one attacker model's sources, with
-our claims of which properties the APT attacker model has removed. They gave
-every mark of Table~\ref{tab:fidelity-verdict} but six, which
-Appendix~\ref{app:clause-tests} accounts for: one reconciled, three of Masud
-et al.'s that the predicates lowered, and cost--benefit reasoning for the
-baseline attacker and the APT attacker model, lowered after a fifth language
-model, given Chapter~\ref{ch:attacker-model} alone, marked it none (AI Use
-Declaration).
+% DRAFT STATE 2026-10-12 --- §6.3 first redraft (Marc: "first draft on the
+%  board"), from the slot sheet of handoff §33.3. The overdraft's four
+%  paragraphs (1 235 words; scoring procedure, per-mark walk, ablations,
+%  recap) are at commit 2b6ddfc1; scrutiny in handoff §32. Structure: opener
+%  (SQ1 and SQ2 answered, Table 6.1); SQ1, what the attack flows carry and
+%  lose; SQ2, what an existing simulator caps; close, which marks reach the
+%  result. Corpus facts checked against the 38 STIX bundles (handoff §33.2):
+%  AND joins, conditions with no false branch, timing almost never recorded.
+%  Session-written; ratify paragraph by paragraph.
+In answer to \ref{sq:capture} and~\ref{sq:model}, the behaviour of APT
+attackers can be recovered from threat reports as 38 attack flows,
+aggregated into an attack graph and split by objective into four attack
+profiles, and executed in MTDSim as a Petri net over its six attack actions
+(Chapter~\ref{ch:attacker-model}). Scored by the rule of
+Chapter~\ref{ch:litreview}, the APT attacker model has two of the eight
+properties in full and three in part, and none of the three MTD attacker
+models has more than one in full (Table~\ref{tab:fidelity-verdict}). Over
+the baseline attacker, it gains choice of attack strategy in full, and
+objective-specific behaviour and detection avoidance in part.
 
-% DRAFT STATE 2026-10-08 --- paragraph 2 drafted from point P2 on Marc's
-%  request ("draft paragraph two now"); P2 retired to the ch6 handoff section
-%  12e. Session-written; ratify on read.
-%  Order: the claim (two ceilings); the two in full (persistence kept; choice:
-%  the draw, simulation against emulation, bounded by the reports, the
-%  formalism not the source); three stopped by the attack actions; three by
-%  no decision; how four are seen; the so-what. Explain-once: plurality's cost
-%  and the detection proxy are Section 6.1's, pointed back to. Registry A3
-%  ("counted by attack action, still hundreds") left to 6.1 paragraph 3, not
-%  repeated here. No new numbers.
-What stops each mark short of in full is either the attack actions, the
-ceiling of Section~\ref{subsec:tactic-verb-mapping}, or a decision no part of
-the model makes. Campaign persistence is in full because the APT attacker
-model keeps the baseline attacker's loop: it carries on through every
-disruption until the run ends. Choice of attack strategy is in full because
-the Petri net draws each run's sequence from the attack flows with the
-objective, and one run may join several of them. An emulation replays one
-incident; a simulation can draw from all of them
-(Section~\ref{subsec:evaluation-methods}), so no attack strategy is written
-into an attack scenario. The choice stays within what the reports document
-(Section~\ref{sec:disc-behaviour}), and it comes from the attack flows'
-branching, not from the formalism: with one token, a stochastic finite state
-machine built from the same attack flows would make the same draw. Three marks
-stop at the attack actions. Exfiltration and Impact are unmapped, so the
-attack profiles take the same six attack actions at different rates
-(Figure~\ref{fig:aio-coverage}(a)) and none exfiltrates or impedes; the
-baseline attacker, whose attack scenarios change only the host it attacks
-next, has no objective-specific behaviour at all. A failed attack action leaves its precondition unmet,
-so the APT attacker model must rebuild it; the failure matrix reweights the
-next tactic on the verdict, by rules set by our judgement, whether or not MTD
-caused the failure. Its declared tactic durations make it slower
-(Section~\ref{sec:disc-behaviour}), a rule, measured by proxy
-(Section~\ref{subsec:metrics-behaviour}), but no IDS exists to choose
-against. Three it lacks, because no
-part of the model makes the decision. It chooses each next tactic by how often
-the attack flows take each edge, and the exploit's RoA order, kept from the
-baseline attacker, chooses which vulnerability to try, not which technique.
-The vulnerability memory keeps vulnerabilities, not the patterns of MTD
-deployments, and changes no choice, and the attacker cannot see the MTD
-schedule. Campaign persistence shows by construction, with no metric of its
-own; adaptivity's metric, time lost per MTD deployment, shows what a
-disruption costs, not which component pays it.
+The attack flows give the APT attacker model the order of an APT attacker's
+tactics, by objective: sequences of attack behaviour that plausibly
+represent a campaign toward each objective. The grouping carries structure:
+with no MTD, the attack profiles compromise more than random partitions of
+the same sizes (Section~\ref{sec:ablation}). To run, the model drops most of
+what else the attack flows record. Each technique stands for its tactic,
+without its procedures or the vulnerabilities it exploited; steps an attack
+flow requires together become separate edges, each enough on its own; the
+conditions between steps are dropped; and the tactics of actions on
+objectives are unmapped (Section~\ref{sec:disc-behaviour}). The attack flows
+almost never record how long a step took, and never what the attacker did
+after a failure, so the tactic durations and the failure matrix are our
+judgement. Without the conditions, the Petri net can reach a tactic before
+the preconditions of its attack action hold, which likely explains why 15 to
+30\,\% of the attack profiles' attack actions fail
+(Section~\ref{sec:disc-behaviour}).
 
-% DRAFT STATE 2026-10-08 --- paragraph 3 drafted from point P3 on Marc's
-%  request ("P3"); P3 retired to the ch6 handoff section 12f, so 6.3 is prose
-%  only. Session-written; ratify on read.
-%  Homes given first (no new results in chapter 6): B15 as a 5.4.1 sentence
-%  (the same three MTD mechanisms reduce NCR the most with and without the
-%  attack profiles, at every interval; the set, not an order, as it is
-%  untested), B16 as a 5.4.2 sentence (time lost unchanged without the failure
-%  matrix). B14 and B17 are NOT used: their numbers have no home; the random
-%  partitions are read as a HYP with no number.
-%  Order: the claim; the behaviour check; adaptivity (the measured support for
-%  in part); the memory (a negative); the measure (NCR reduction, not NCR); the
-%  consequence and so-what; the attack-profile pair; the Petri net's missing
-%  ablation. One "likely" per explanation (two explanations).
-%  REVISED 2026-10-08 after the six cold examiners (handoff 13, 13a): "read on
-%  NCR reduction" was wrong (5.4 reads d on NCR; only the top-three set is on
-%  NCR reduction), now the measure argument plus the inference; "not on the
-%  components set by our judgement" was wrong (the tactic durations and the
-%  mapping are judgement), now names the three components and points the
-%  durations to 6.5 (the duration-band ranking run, RUNNING, answers it).
-%  P2's "no metric of their own" reconciled with ch4 (time lost is
-%  adaptivity's metric; it does not resolve the component). 6.1 P1: detection
-%  avoidance "in part" (Table 6.1), plus the refused-actions cause of quiet.
-%  6.2: MTDShield "consistent with ... cannot tell" (App D's inputs).
-%  OVERTURNED on merit: the point "its without is the baseline attacker" ---
-%  the baseline attacker also differs in timing and failure response (6.5,
-%  internal), so it is only the nearest comparison.
-Each component does what it was built to do. Removing each changes the behaviour it was
-built for (Section~\ref{sec:ablation}), so no mark falls. The failure matrix
-changes where the APT attacker model goes after a failure, but not the time
-each MTD deployment costs it
-(Section~\ref{subsec:ablation-failure-matrix}): the cost likely comes from
-the failure itself, which the attack actions force, not from the reweighting,
-as adaptivity in part implies. The vulnerability memory raises the share of
-exploits that succeed and changes no outcome, a negative only a model with
-the mechanism can report. What an MTD evaluation reports is NCR reduction,
-not NCR: an attacker that compromises more is stronger, not closer to an APT
-attacker. The failure matrix and the vulnerability memory move NCR negligibly
-both with no MTD and under the two MTD mechanisms each was run against
-(Table~\ref{tab:ablation}), so neither is likely to move NCR reduction much,
-and the same three MTD mechanisms reduce NCR the most with and without the
-attack profiles (Section~\ref{subsec:ablation-attack-profiles}), although
-the attack profiles' effect on NCR is largest under the host layer, a $d$ of
-up to $-0.76$ under IP shuffle against $-0.28$ with no MTD
-(Table~\ref{tab:ablation-attack-profiles}). The reversal
-therefore rests on the tactic durations and the order of its tactics
-(Section~\ref{sec:disc-behaviour}), where the APT attacker model meets
-MTDSim's attack actions, not on the failure matrix, the vulnerability memory
-or the attack profiles. The tactic durations are our judgement
-(Section~\ref{sec:threats}). The attack profiles' own result is no measure of fidelity either.
-The attack graph compromises more by pooling the objectives that attack
-profiling keeps apart (Section~\ref{sec:attack-profiles}), and the attack
-profiles compromise more than random partitions of the same sizes, likely
-because a small random group can lose the chains of tactics that lead to a
-compromise (Appendix~\ref{app:fa-group-size}). The Petri net's choice has no ablation of its own; the
-nearest comparison is the baseline attacker, which runs the same attack
-actions in a fixed order (Section~\ref{sec:disc-behaviour}).
+Executed in an existing simulator, the model is capped by the simulator's
+attack actions. Each mark short of full stops either at MTDSim's attack
+actions, for objective-specific behaviour, adaptivity and detection
+avoidance, or at a decision no part of the model makes, for cost--benefit
+reasoning, learning and deployment-strategy awareness
+(Section~\ref{subsec:tactic-verb-mapping}). The Petri net could carry two of
+the losses: a transition is enabled only when each of its input places holds
+a token, which is an AND, and an attack flow's conditions could be places of
+their own (Section~\ref{sec:petri-formalism}). Built with one token and a
+place for each tactic, it uses neither, so its choice of attack strategy
+comes from the attack flows alone. A mark in full needs every predicate of a
+property's definition (Appendix~\ref{app:clause-tests}), so
+Table~\ref{tab:fidelity-verdict} does not show what is added within a mark
+in part, such as the failure matrix's response to failure.
 
-% DRAFT STATE 2026-10-09 --- SQ1 and SQ2 answer (Marc 2026-10-09: sub-questions
-%  answered here, complete). The honest frame is Marc's: a full mark meets
-%  every clause of the definition, so upgrades within a mark in part do not
-%  show; the gains over the baseline are 3 and 5 (Table 6.1 row against
-%  row); the ablations show the in-part upgrades barely move the result; CTI
-%  grounding "is an approach but it's not sufficient". Replaces 6.5's "first
-%  step" sentence. Random partitions: 6.5 paragraph 5 (beat all ten with no
-%  MTD); actions on objectives: ch4 l.4193. Session-written; ratify on read.
-To \ref{sq:capture} and~\ref{sq:model}, then. APT behaviour can be recovered
-from threat reports as attack flows, aggregated into an attack graph of how
-often each tactic led to the next and split by objective into attack
-profiles (Chapter~\ref{ch:attacker-model}). With no MTD, the attack profiles
-compromise more than random partitions of the same sizes, so grouping by
-objective carries structure (Appendix~\ref{app:fa-group-size}). In behaviour they differ only in which
-actions on objectives they take, which are unmapped
-(Section~\ref{sec:disc-behaviour}), and three of
-the four rest on 5 to 7 attack flows (Section~\ref{sec:threats}). The
-recovered behaviour can be executed in an existing MTD simulator as a Petri
-net over the simulator's own attack actions, joined to them by a
-tactic-to-action mapping, tactic durations, a failure matrix and a
-vulnerability memory. Executed so, the APT attacker model gains three
-properties over the baseline attacker: choice of attack strategy in full, and
-objective-specific behaviour and detection avoidance in part. A mark in full
-means the model meets every predicate of a property's definition, so the marks
-do not show the upgrades made within a mark in part or short of one, such as
-a response to failure and a memory of vulnerabilities. The ablations show that
-the failure matrix and the vulnerability memory move NCR negligibly, and
-that the attack profiles move it without changing which MTD mechanisms
-reduce it the most. What reorders the MTD mechanisms is order, the substance
-of choice of attack strategy, and the tactic durations, which give it the
-part of detection avoidance it has. Grounding an attacker model in CTI
-therefore changes what an MTD evaluation finds, but it is not sufficient on
-its own: what it adds reaches the result only as far as the simulator's
-attack actions and rules allow (Section~\ref{sec:threats}).
+Three of the components Chapter~\ref{ch:attacker-model} adds barely move the
+result. Removing the failure matrix or the vulnerability memory moves NCR
+negligibly where each was run, and without the attack profiles the same
+three MTD mechanisms reduce NCR the most (Section~\ref{sec:ablation}). What
+likely reaches the answer to \ref{sq:evaluate} is the order of the APT
+attacker model's tactics, which gives it choice of attack strategy, and its
+tactic durations, which give it detection avoidance in part
+(Section~\ref{sec:disc-mtd-performance}). Of what CTI adds, then, only the
+order of its tactics reaches that answer, and no run with MTD tests the
+order alone (Section~\ref{sec:threats}).
 
 
 % =====================================================================
@@ -9762,10 +9646,10 @@ avoidance in part.
 APT attacker model beside the baseline attacker. Another simulator needs the
 interface: the tactic-to-action mapping, the tactic durations and the failure
 handling (Section~\ref{sec:evaluation-implications}).
-\item \textbf{Bound.} Grounding in CTI changes what the evaluation finds but is
-not sufficient on its own: what it adds reaches the result only as far as the
-attack actions allow. The failure matrix and the vulnerability memory move NCR
-negligibly.
+\item \textbf{Bound.} Of what CTI adds, only the order of its tactics likely
+reaches the result, and no run with MTD tests the order alone; what it adds is
+capped by the attack actions. The failure matrix and the vulnerability memory
+move NCR negligibly. % [2026-10-12, Marc: in step with §6.3's close.]
 \end{draftnotes}
 
 \begin{draftnotes}{Contribution 2: the finding (answers \ref{sq:evaluate}; Sections~\ref{sec:disc-mtd-performance} and~\ref{sec:evaluation-implications})}
