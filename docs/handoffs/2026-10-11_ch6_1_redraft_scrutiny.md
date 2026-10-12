@@ -2228,3 +2228,21 @@ About 90–110 words, from 183.
 - **Q1. Do the matched-control numbers stay here?** Recommend yes. They are the sharpest evidence for S1, and §6.4 ¶2 cites §6.2 for "beats random over the same four … against the baseline attacker alone". Alternative: move them to §6.4 and repoint to Table F.1. §6.2 is then three sentences, and §6.4 grows.
 - **Q2. Does "trained against the baseline attacker" stay off this paragraph?** Recommend yes. It is the reason the reader cares *why* MTDShield chose service diversity, which is §6.4's question ("The dependence reaches deployment strategies").
 - **Q3. S3's "nothing at most of the rest" needs the 23 % / 29 % to be specific.** Recommend giving them in the parenthesis cite only to Appendix D.5 and keeping "nothing at most of the rest" in the prose. Alternative: one number pair in the prose.
+
+### 30.6 Marc: "is this a paragraph worth keeping, or do the points live elsewhere?" Cut (Marc 2026-10-12, "easy done … let's cut that")
+
+**Takeaway proposed:** the deployment strategy that reduces the baseline attacker's NCR most, MTDShield, reduces the APT attacker model's least, likely because it deploys almost only service diversity. Checked at every deployment interval in Table F.1: top against the baseline attacker and bottom against the APT attacker model.
+
+**Verdict: cut, like ¶3.**
+- Random and alternative need no explanation: they draw from all seven, so they deploy both layers, and the opener covers them.
+- MTDShield's point is §6.4's argument. §6.4 ¶1 has chapter 3's "the attacker model decides which deployment strategy is optimal" and no deployment strategy first against both. §6.4 ¶2 has "The dependence reaches deployment strategies".
+- The preamble promises §6.2 only the layer explanation.
+
+**Applied:**
+- **§6.2:** the paragraph is replaced by a comment block.
+- **§6.4 ¶2:** "MTDShield was trained against the baseline attacker and chooses service diversity at 70 % or more of its decisions (Appendix D.5), the only MTD mechanism the baseline attacker loses time to (Section 6.2). At 200 s it beats random over the same four MTD mechanisms against the baseline attacker, 0.68 against 0.56, and loses to it against the APT attacker model, 0.28 against 0.80 (Table F.1)."
+- **No other inbound reference** depended on the paragraph. Ch7's draftnotes cite §6.2 for "no rank first"; that repoint is already gated.
+
+**§6.2 now:** opener, adaptivity, by attack profile, close. The §5.3 mirror holds at the mechanism level; the deployment strategies sit in §6.4.
+
+Build clean, 119 pages, 0 undefined.

@@ -8727,23 +8727,14 @@ on to the tactic its Petri net picks, which likely explains its 60\,s.
 %  Appendix F.3's (6.4 repointed there). Its one explanation, the deployment
 %  interval, is now the close.
 
-Of the deployment strategies, random and alternative reduce the APT attacker
-model's NCR more than the baseline attacker's at every deployment interval, and
-MTDShield, trained against the baseline attacker, reduces the baseline
-attacker's more up to 1\,000\,s (Figure~\ref{fig:eff-cross-arm}). Against
-random over the same four MTD mechanisms, MTDShield's NCR reduction at 200\,s
-is 0.68 against 0.56 for the baseline attacker, and 0.28 against 0.80 for the
-APT attacker model (Table~\ref{tab:eff-interval-values}). At 200\,s it chooses
-service diversity at 76\,\% of its decisions against the baseline attacker and
-70\,\% against the APT attacker model, and IP shuffle, complete topology
-shuffle and OS diversity together at under 1\,\%
-(Appendix~\ref{app:mtdshield-observed}). Service diversity shares rank 1
-against the baseline attacker, and IP shuffle and complete topology shuffle
-against the APT attacker model, so MTDShield's choices are consistent with a
-policy fitted to the baseline attacker. As released, though, four of its inputs that
-count the attacker's progress are zero at every decision
-(Appendix~\ref{app:mtdshield-limitations}), so this run cannot tell a fitted
-policy from a fixed preference.
+% DEPLOYMENT STRATEGIES PARAGRAPH CUT, 2026-10-12 (Marc, "easy done"; handoff
+%  section 30): it had no claim of its own. S1 was 5.3.2's; "consistent with a
+%  policy fitted to the baseline attacker" and "cannot tell" are 6.4's question;
+%  random and alternative need no explanation (they deploy both layers, so the
+%  opener covers them). Its one point (MTDShield reduces the baseline
+%  attacker's NCR most and the APT attacker model's least, likely because it
+%  deploys almost only service diversity) moved to 6.4 paragraph 2 with the
+%  matched-control numbers; 6.4 already asks the deployment-strategy question.
 
 By attack profile, at 50 to 200\,s, the deployment intervals of the earlier
 MTDSim studies, the four attack profiles' NCR reductions differ from one
@@ -9082,9 +9073,12 @@ network, nor that the grounding in CTI caused the reversal
 %  zero (Appendix D, limitations). Marc's training-set analogy carries the
 %  test sentence.
 The dependence reaches deployment strategies. MTDShield was trained against
-the baseline attacker, chooses service diversity at 70\,\% or more of its
-decisions, and beats random over the same four MTD mechanisms against the
-baseline attacker alone (Section~\ref{sec:disc-mtd-performance}). The
+the baseline attacker and chooses service diversity at 70\,\% or more of its
+decisions (Appendix~\ref{app:mtdshield-observed}), the only MTD mechanism the
+baseline attacker loses time to (Section~\ref{sec:disc-mtd-performance}). At
+200\,s it beats random over the same four MTD mechanisms against the baseline
+attacker, 0.68 against 0.56, and loses to it against the APT attacker model,
+0.28 against 0.80 (Table~\ref{tab:eff-interval-values}). The
 attacker model also sits beneath its inputs: the detection input codes the
 attacker's current attack action, so an unmapped tactic of the APT attacker
 model reads as nothing detected (Appendix~\ref{app:mtdshield-limitations}).
