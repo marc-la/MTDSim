@@ -2114,3 +2114,27 @@ Estimated 50–70 words, from 178.
 - **Q1, the takeaway.** (Recommended) ¶3 is the deployment interval: the host layer halves the APT attacker model's NCR to intervals ten times longer, and fits ¶2. ρ and "rankings carry their model's assumptions" stay in §6.4, which owns them. Otherwise, ¶3 restates ρ as its lead (a third telling).
 - **Q2, user shuffle.** (Recommended) Move it to Appendix F.3, and repoint §6.4 l.9125 there (downstream, automatic). Otherwise keep one sentence here.
 - **Q3, where the Chapter 1 tie lives.** (Recommended) **In ¶3, as its last sentence**, which leaves the close with only the bound sentence. That sentence is also §6.5's, so the close then goes, and the section ends on the attack profiles. Settle at the close round. Otherwise the tie stays in the close and ¶3 stops at slot 2.
+
+### 29.7 Marc: "what explanation does the reader take from ¶3? Does it live elsewhere, or is it in the wrong spot?"
+
+**Answer: in the wrong spot. ¶3 has no explanation of its own.**
+- Once the other sections' points leave (ρ and "rankings carry their model's assumptions" to §6.4; user shuffle to Appendix F.3) and the unverified recovery-time rule goes, one explanation is left. It is ¶2's mechanism carried from one deployment to NCR across deployment intervals: **because each host-layer deployment costs the APT attacker model 242–324 s, the host layer still halves its NCR when it is deployed only every 1 000 s, ten times the interval at which it still halves the baseline attacker's.**
+- That is the fact behind the close's Chapter 1 tie (MTD's aim of shifting the advantage of time to the defender), and the close already states it ("up to ten times longer"). ¶3 and the close are therefore one point told twice.
+
+**Recommendation: dissolve ¶3; its explanation becomes the close.** The close is the joint (lesson (aa)): it ties the opener's answer and ¶2's mechanism to Chapter 1's aim, which the paragraphs do not say together.
+- **Close, slot 1:** the interval fact, with ¶2's 242–324 s as its likely reason (one hedge).
+- **Close, slot 2:** what it means against Chapter 1's aim (advantage of time).
+- **Close, cut:** its last sentence ("Each part of this answer rests on MTDSim's rules …"), which is §6.5's bound.
+
+About 60 words in place of ¶3's 178 and the close's 75.
+
+**The section then runs:**
+1. opener (the layer answer, both causes);
+2. ¶2, adaptivity (the mechanism at one deployment);
+3. deployment strategies (MTDShield);
+4. by attack profile;
+5. close (the deployment interval and Chapter 1's advantage of time).
+
+The mirror of §5.3 holds: §5.3.2's ranking is the opener (mechanisms) and the MTDShield paragraph (deployment strategies).
+
+**Alternative:** the interval sentence as ¶2's last sentence (mechanism, then its consequence), with the close keeping only the Chapter 1 tie. It reads in the order of the logic, but makes ¶2, already the densest paragraph, longer.
