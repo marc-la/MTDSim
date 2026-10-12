@@ -3106,3 +3106,38 @@ Marc: the §43 draft answers the question with the right structure, but it reads
 4. **(Optional, one hedge):** any attacker model recovered from threat reports likely shares this gap.
 
 **¶3 then opens:** to run, we set the tactic durations and the failure matrix by judgement (marks 4 and 5). It also takes over the AND joins and the conditions.
+
+## §45. §6.3 ¶2 second draft, on the §44 spine (Marc 2026-10-12, "let's have a look at this"; proposed, not applied)
+
+**Rulings asked, with recommendations taken:**
+- The tools, malware and vulnerabilities are cut outright. They are not a threat to validity: no result rests on them, and MTDSim uses its own vulnerabilities.
+- The AND joins and the conditions go to ¶3.
+- Sentence 4 (other attacker models likely share the gap) is left out of ¶2. The punch already rests on a general fact (reports time only whole intrusions and describe successes). It can be offered to §6.4 if wanted.
+- "Route" is not used. The thesis term is "the order of its tactics" (§6.1, §6.2, the close); one term per thing.
+
+**Draft: 145 words** (176 on disk).
+
+```latex
+In answer to \ref{sq:capture}, the attack flows drawn from threat reports
+give the APT attacker model the order of its tactics for each objective. That
+order gives it choice of attack strategy in full and objective-specific
+behaviour in part (Table~\ref{tab:fidelity-verdict}). Threat reports time only
+whole intrusions, so the attack flows almost never record how long a step took
+(Section~\ref{subsec:dwell-times}). Drawn from attacks that succeeded, they
+never record what the attacker did after a step failed
+(Section~\ref{subsec:failure-matrix}). In MTDSim, timing and the response to
+failure are where MTD disrupts the attacker: the tactic durations set how
+likely a deployment is to land during an attack action and fail it, and the
+response to failure sets where the attacker goes next
+(Section~\ref{subsec:runtime-mechanics}). The APT attacker model is therefore
+grounded in threat reports for the order of its tactics, and rests on our
+judgement where MTD disrupts it.
+```
+
+**Facts:**
+- "Threat reports time only whole intrusions": ch4 l.~4954.
+- "Attacks that succeeded … only completed steps": ch4 l.~5060.
+- "A deployment that lands during an attack action fails it": ch4 l.~4400 and ch2.
+- "MTD disrupts": ch2's verb.
+
+**Knock-on for ¶3:** it opens on the fill (the tactic durations: six from MTDSim's times, nine by judgement; the failure matrix), which gives marks 4 and 5. It takes over the AND joins and the conditions.
