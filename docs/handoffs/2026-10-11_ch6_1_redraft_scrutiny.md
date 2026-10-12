@@ -2840,3 +2840,18 @@ So: the threat reports give the full mark (3) and the behaviour of 2 (SQ1); ever
 - **Why the overdraft's ¶2 was cut (§32.3):** it walked property by property, and each justification already lived in ch4, §6.1 or ch3 (rows "Cut: lives elsewhere"). Space was not the reason. The walk never sorted marks by source, which is what is missing; the sort adds no new evidence.
 - **Order:** §6.2 (SQ3) comes before §6.3 (SQ1, SQ2) because §6.3's marks rest on §6.1's evidence and its close reads which marks reach SQ3's answer. Keep it; the ch6 opener already states the order. Within §6.3, SQ1 comes before SQ2.
 - **§6.1/§6.2:** no update needed; their sources (tactic durations, attack profiles) agree.
+
+## 37. §6.3 second redraft on the board (Marc 2026-10-12, "I approve this, let's do this")
+
+- **Applied:** the plan of §35–§36. Each mark is sorted by its source, along the sub-questions.
+  - **Opener:** the comparison with the field. The Chapter 4 recap is gone. The opener now carries 6, 7 and 8 ("no part of it chooses a technique by its cost, keeps the patterns of MTD deployments or predicts the deployment strategy"). This is a field-level point (none of the four has them), so it sits in the opener, not in the SQ2 paragraph.
+  - **¶2 (SQ1):** the order of tactics by objective gives 3 in full and 2. The losses are listed. Timing and the response to failure are set by judgement, so 4 and 5 are in part.
+  - **¶3 (SQ2):** the simulator gives 1 and caps 2 (actions on objectives unmapped) and 5 (no IDS). The Petri net could carry the AND joins and the conditions but uses neither.
+  - **Close:** two marks likely reach SQ3. Each ablation is now tied to its mark: the failure matrix behind adaptivity, the attack profiles behind objective-specific behaviour. The vulnerability memory is dropped (it backs no mark), and the last sentence carries its own "likely".
+- **Cut:**
+  - the 15–30 % sentence (§6.1 ¶3 has it as measured);
+  - the random-partition sentence;
+  - "a mark in full needs every predicate…".
+- **Appendix counterpoints, row "APT attacker model, 3":** the stochastic-finite-state-machine pointer to §6.3 now reads "fixed weights, set before the run from the attack flows (Section petri-formalism)". One comment-only mention is left at l.~9549.
+- **Size:** 520 → 512 words (opener 99, SQ1 176, SQ2 148, close 89). The ~380 estimate of §35.3 did not hold: the source sentences replaced the cuts word for word.
+- Build clean, 118 pages, 0 undefined.
