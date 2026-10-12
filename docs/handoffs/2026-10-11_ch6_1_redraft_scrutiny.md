@@ -3415,3 +3415,39 @@ Mostly not the cause. His voice reviews mix agreement ("yep"), questions and fix
   - no IDS, by proxy;
   - rephrase the punch.
 - **Kept:** rows 1, 2 and 5.
+
+## §53. §6.3 ¶3: §49 plus the flagged edits only (Marc 2026-10-12, "start from 49"; proposed, not applied)
+
+| §49 sentence | Flag | Edit |
+|---|---|---|
+| 1, 2 | none / yep | unchanged |
+| 3. what it adds | vague | "the order of its tactics and four parts we declared (Section 4.4)" |
+| 4. two by judgement | count, term | "Two of those parts, the tactic durations and the failure matrix, fill what the threat reports do not record" (ch4's "declare"; it links to ¶2) |
+| 5. failure matrix → adaptivity | question (answered) | unchanged except "its" → "the APT attacker model's": after row 4, "its" read as the failure matrix's (pronoun rule) |
+| 6. the other seven have none to run | true | "are unmapped" |
+| 7. nothing to act on | unmapped? | "Three of them are Collection, Exfiltration and Impact, the tactics of actions on objectives" (§6.1 ¶2 verbatim) |
+| 8. nothing watches | no IDS, by proxy | "MTDSim has no IDS, so the APT attacker model avoids detection only by proxy, through its tactic durations" |
+| 9. punch | cliché | "The APT attacker model is therefore comparable with the baseline attacker, and limited to what MTDSim's attack actions do: find and compromise hosts" |
+
+**Draft: 196 words** (148 on disk; §49 was 170).
+
+```latex
+In answer to \ref{sq:model}, the APT attacker model executes the order of its
+tactics inside an existing simulator, MTDSim, by mapping eight of the 15
+tactics onto MTDSim's six attack actions
+(Section~\ref{subsec:tactic-verb-mapping}). It shares the baseline attacker's
+attack actions and MTD deployments, so it keeps the baseline attacker's
+campaign persistence. Any difference between the two attackers comes from
+what the APT attacker model adds: the order of its tactics and four parts we
+declared (Section~\ref{sec:execution}). Two of those parts, the tactic
+durations and the failure matrix, fill what the threat reports do not record.
+The failure matrix makes the APT attacker model's response to failure a fixed rule of ours, so
+adaptivity is in part (Table~\ref{tab:fidelity-verdict}). The same attack
+actions cap the APT attacker model, because the other seven tactics are
+unmapped. Three of them are Collection, Exfiltration and Impact, the tactics
+of actions on objectives, so objective-specific behaviour is in part. MTDSim
+has no IDS, so the APT attacker model avoids detection only by proxy, through
+its tactic durations, and detection avoidance is in part. The APT attacker model is therefore comparable with the baseline
+attacker, and limited to what MTDSim's attack actions do: find and compromise
+hosts.
+```
