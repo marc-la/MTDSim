@@ -791,3 +791,86 @@ The scorer was a general-purpose agent, told to use those files only.
 - ch4 opener: drop "and, in part, its cost–benefit reasoning"; "four in part" → "three in part".
 - ch7 Evidence: "four in part" → "three in part".
 
+
+## 21. Critique of §6.1 v3 after the mark changes (2026-10-12; no redraft, Marc's read to follow)
+
+Marc: v3 reads better, but it still reads as a list ("number, number, point, point"), with rhetoric, re-explanation and a vestigial last paragraph; and has the re-scoring made it stale? Read against the current tex (§6.1 untouched since 7ccac64b, checked), Table 3.2's current wording, Appendix B, §6.3, and the ch5 redraft pipeline (`2026-10-06_ch5_results_prose_redraft.md` §0, §1, §4, §5).
+
+### 21.1 Stale or not
+
+- **Marks: not stale.** No §6.1 sentence states a mark, and no marking commit touched it.
+- **What changed for the APT attacker model:** learning and cost–benefit reasoning fell to none (✓ P ✓ P P ✗ ✗ ✗). Against the baseline attacker (✓ ✗ P P ✗ ✗ ✗ ✗) it now differs on exactly three properties: objective-specific behaviour (new, since the baseline fell to none), choice of attack strategy and detection avoidance. **These are the three §6.1 discusses.** The opener can use that (21.3, point 4).
+- **Stale from the wording changes, not the marks:**
+  1. Table 3.2 rows 2–7 now say *technique*. §6.1 tests rows 2 and 5 in *attack actions* and never says once how the two relate (¶3's close: "chooses no attack action against an IDS"; the definition: "chooses techniques an IDS does not flag"). One bridge, once, or the clause tests read off-unit.
+  2. Row 5 now opens on *moves low and slow*, the definition's own first predicate (test: slower than the baseline attacker). ¶3 still cites §3.1.1 for it. Point at the definition.
+  3. The IDS sweep: ¶3 says "MTDSim has no IDS", then "The IDS flags the APT attacker model less", then "MTDSim has none to choose against". §4.5.1's stand-in needs naming as the stand-in here.
+- **Downstream, not §6.1's text:** §6.3 cites §6.1 for "the pace is assumed to hide the attacker", while Appendix B types row 5's first predicate *rule*, not *assumed*. §6.3 still names the causes "the tactic durations and order" (twice), §6.1 "the unmapped tactics and the order of its tactics" (known, §12.1).
+
+### 21.2 Measured
+
+About 1 000 words against the ~600 guide; 39 cross-references (20 to sections), one per 25 words. *Take* 8 times in three senses (takes time, takes 26–47 % of steps, takes openings / attack actions); *differ* 11; *so* 9; *therefore* 3.
+
+### 21.3 Structure: why it reads as a list
+
+1. **The opener names two causes; the paragraphs never hand them back.** ¶1 explains through each attack profile's own base weights (the order of its tactics, unnamed) and the unmapped objective tactics (unnamed); ¶2 names neither term; ¶3 names *unmapped tactics*; ¶4 uses both plus a third cause (Command and Control's 45 s) and a fourth fact (same networks, F.1). The reader holds two labels and never meets them again verbatim. The throughline is the one-term rule applied to the causes: each paragraph's claim sentence names its cause in the opener's words.
+2. **The opener states causes of "each difference" without stating the differences.** A discussion opens on its principal finding (Hopkins and Dudley-Evans; Docherty and Smith). The ch5 spine (§1, A4) made outcome §5.2's **headline** and "the reference for every effect in §5.3"; §6.1 demotes it to "what these differences cost". One opening sentence carrying the whole finding (more distinct openings, lower attack rate, lower ASP and NCR) makes the last paragraph the payoff of that sentence, not a pivot.
+3. **The last paragraph has nine jobs in 278 words:** finding and cause; F.3 evidence; why attack actions fail (duplicates ¶2's last sentence); a third cause (C2 45 s); same networks (F.1); the MTTC bound; the longer-run rival; "the baseline attacker is the reference …" (says nothing); the §6.2 pointer. Its earned so-what is the *reason* for the pointer: the APT attacker model compromises less with no MTD, so raw NCR under MTD would credit MTD with the attacker's weakness; §6.2 therefore compares NCR reduction against each attacker's own NCR. The text writes "therefore" after a sentence that does not supply that reason.
+4. **The opener's middle (S5–S7) is a roadmap.** "Adaptivity needs MTD and is read in §6.2, and §6.3 scores all eight" is chapter allocation (the preamble does it). "Each paragraph below tests …" is meta. Overturns §13.1's "kept as drafted" on merit: Marc's own question ("where do the other five live?") is answered by the preamble. Candidate replacement, one sentence with argument in it: these are the three properties Chapter 5 measures with no MTD, and the three on which Table 6.1 marks the two attackers differently. Tension with Q7 (no marks in §6.1): it points at Table 6.1 without scoring. Marc's call.
+5. **Paragraph leads.** ¶1 opens on construction (§4.2 restated); its claim is in S2 and its baseline contrast is the last sentence, an afterthought in a "versus baseline" section. ¶2 opens on the finding (good). ¶3 opens on a limitation ("MTDSim has no IDS"); its best sentence (lower attack rate, mostly the unmapped tactics) is second. ¶4 opens on a rhetorical line.
+6. **Implications are signposts.** Three "Section 6.x reads …" pointers stand where each paragraph's so-what should be. The so-whats already earned: ¶1, in MTDSim an objective shows only in how often each of the six attack actions runs (§6.3's contract); ¶2, an MTD tested against the baseline attacker meets one opening (v1 had it; v3 lost it); ¶3, in MTDSim hiding is time without an attack action (present, mid-paragraph); ¶4, the NCR-reduction reason above.
+
+### 21.4 The sort test, sentence by sentence (cut = lives elsewhere or nowhere)
+
+| Where | Sentence (abridged) | Verdict | Why |
+|---|---|---|---|
+| Opener S1 | "Two things … adds to MTDSim explain most of each difference …: [the two]" | R | Subject is a count ("two things"); the content is after the colon. Name the two as subject. "Most of each difference" → "most of the differences". |
+| Opener S2 | unmapped tactics "take time but dispatch no attack action (§4.4.1), and they take 26 to 47 % of … steps" | C/R | Re-defines a ch4 term (ruled against, §11.2 point 6); 26–47 % replays §5.2. The fact the argument turns on is run time (a third to over half, F.3), and ¶3/¶4 carry it. |
+| Opener S3 | order follows the base weights …, "where the baseline attacker's procedure fixes the order" | C here | Said again in ¶2 (S3, S5). One home: ¶2. Cite Figure 2.x once, not §2.2.3. |
+| Opener S4 | failure matrix, vulnerability memory move NCR negligibly | K | The rival ruled out; licenses "most". Move up, next to S1. Note §6.3 says it twice already. |
+| Opener S5–S7 | roadmap | C | 21.3 point 4. |
+| ¶1 S1 | profiles built from one objective's flows (§4.2), own edges and base weights, divide steps differently | R | Construction first, finding last. Lead with the finding and its cause in the opener's words. |
+| ¶1 S2 | Credential Access, 10 % of c1, 1 % of c3, holds after the foothold (F.2) | K | The best evidence, and the definition's "after the foothold". Say what it tests. c1 and c3 are codes; c4 is glossed in S6, these are not. |
+| ¶1 S3 | same six attack actions, at different rates | K/merge | Merge with S2: different/same/different is a U-turn over three sentences. |
+| ¶1 S4 | Collection, Exfiltration and Impact … unmapped, so no attack action steals data … | R | §5.2 says the first half verbatim. Keep the consequence, in the definition's terms (the techniques of those tactics are assumed for their duration, Appendix B's word). |
+| ¶1 S5 | "built to differ, so the runs show that the difference survives in MTDSim" | R | "Survives" is a riddle. Plainly: the runs show the built difference reaches MTDSim's attack actions. |
+| ¶1 S6 | "They do not show that the objective causes it: c4 … differs too" | K | Honest bound. Pronouns: they = the runs, it = the difference. |
+| ¶1 S7 | baseline follows one procedure in either scenario … | M → lead | The contrast the section is named for. |
+| ¶2 S1 | hundreds of openings over eight steps against one over four and three over eight | K | Finding first. The "and so of one objective" interjection breaks subject from verb. |
+| ¶2 S2 | counted in attack actions, 190–844 against 3 (F.2) | C | §6.5 carries the unit concession and the recount (§8 Q2, explain once). |
+| ¶2 S3 | decision place, immediate transition, probability proportional, share of flows (§4.3) | R | 40 words of §4.3. The discussion needs the cause only: the next tactic is picked at random in proportion to how often the attack flows took each edge. |
+| ¶2 S4 | every opening made of edges the flows took | K | §6.3's contract. |
+| ¶2 S5 | baseline's procedure fixes the order of credentials, exploits, brute force | K (one home) | Keep here, cut from opener. |
+| ¶2 S6 | weights change only after a failure, so blind to the network; exploit before its scan | M → ¶4 | ¶4 S4 says the exploit-before-scan again. One home: ¶4, where it causes failures. |
+| ¶2 S7 | "Section 6.2 reads what MTD does against the many openings" | R | Signpost → the so-what (one opening against the baseline attacker). |
+| ¶3 S1 | MTDSim has no IDS, so §4.5 measures it by proxy | C | §4.5.1 and §6.5 say it. Limitation-first lead. |
+| ¶3 S2–S4 | attack rate lower, mostly the unmapped tactics; more steps in them, lower rate; with no time in them, about the baseline's (F.3) | K, lead | The paragraph's claim and its two pieces of evidence. "They" in S4. |
+| ¶3 S5 | Stealth is one of them, so it hides by spending time without an attack action | K | The sharpest sentence; it is the so-what. Move to the close. |
+| ¶3 S6 | failed attack actions not counted, never reach the network | C or R | §4.5.1's rule, with no stated job here. Either one clause as a second, smaller contributor, or cut. |
+| ¶3 S7 | the IDS flags it less: attack confidentiality orders the five as attack rate | K/R | Name the stand-in IDS (21.1). |
+| ¶3 S8 | moves low and slow, "as §3.1.1 describes …", "pace set on purpose", §4.4.2 times Stealth | R | Now the definition's first predicate: say it meets it, by its declared tactic durations (Appendix B: *rule*). "On purpose" is colloquial. Two section refs → one. |
+| ¶3 S9 | chooses no attack action against an IDS; MTDSim has none | K/R | The second predicate. *Technique*, the definition's noun (21.1). |
+| ¶4 S1 | "Attack outcome shows what these differences cost" | C | Rhetorical; S2 is the finding. |
+| ¶4 S2 | fewer runs reach a target, fewer hosts by 15 000 s, likely fewer attack actions | K, lead | Finding + hedged cause. Name the two causes here verbatim. |
+| ¶4 S3 | unmapped a third to over half the run; 15–30 % fail for missing preconditions (F.3) | K | The two causes' evidence. |
+| ¶4 S4 | attack actions written for the procedure …; "the order of its tactics can put an exploit before the scan" | K (one home) | "its" is ambiguous after "MTDSim's attack actions … the baseline attacker's procedure". |
+| ¶4 S5 | Command and Control 45 s against 5 s, likely slows finding hosts | C (recommend) | A third cause in a two-cause frame, on the weakest evidence (Appendix C's 45 s also times Persistence and Stealth, §11.1), and F.3 shows unmapped time alone restores the rate. |
+| ¶4 S6 | success depends mostly on the network: profiles succeed almost only where baseline does (F.1) | R | Leads on a sub-claim about the network. The point for this section: same attack actions, same networks, fewer runs. |
+| ¶4 S7 | MTTC over different runs (42–139 against 656); 600–2 200 s longer | R | Bound before finding. §6.4 cites §6.1 for "MTTC compares different runs", so it stays, finding first. |
+| ¶4 S8 | longer run may narrow the gap; not tested | K | The rival, one clause. |
+| ¶4 S9 | "The baseline attacker is the reference …, and the lower ASP shows how the two differ" | C | Says nothing (21.3 point 3). |
+| ¶4 S10 | "§6.2 therefore reads MTD by NCR reduction" | R | Supply the reason; this is the section's close. |
+
+### 21.5 The takeaway each paragraph owes the reader (one line each; job, not prose)
+
+- **Opener:** with no MTD, the APT attacker model varies its openings more, attacks at a lower rate and succeeds less than the baseline attacker; its unmapped tactics and the order of its tactics explain most of this; removing the failure matrix or the vulnerability memory changes NCR negligibly.
+- **¶1 objective-specific behaviour:** after the foothold the attack profiles use the six attack actions at different rates, through the order of their tactics, where the baseline attacker's are the same in either attack scenario; the objectives' own tactics are unmapped, so in MTDSim an objective shows only in those rates, and c4, with no objective, differs too.
+- **¶2 choice of attack strategy:** the order of its tactics is picked from the attack flows at each decision place, so its runs have hundreds of openings, all made of edges the attack flows took, where the baseline attacker's procedure gives one to three; an MTD evaluated against the baseline attacker meets one opening.
+- **¶3 detection avoidance:** the unmapped tactics lower its attack rate (without their time it would match the baseline attacker's), and attack confidentiality agrees; it moves low and slow by its declared tactic durations and chooses no technique against an IDS; in MTDSim, hiding is time without an attack action.
+- **¶4 attack outcome:** the same two causes leave it fewer attack actions that succeed, so it reaches a target host in fewer runs and compromises fewer hosts, on the same networks as the baseline attacker; a longer run might narrow the gap; because its NCR with no MTD is lower, §6.2 compares NCR reduction.
+
+### 21.6 Applying the ch5 pipeline (§0, §1, §4, §5 of the ch5 redraft)
+
+- ch5's fix was **one chosen finding per paragraph** before any sentence. §6.1 needs the same: one chosen explanation per paragraph (21.5), then sentences.
+- ch5's gate item 8, inverted for a discussion: **could the sentence be true without any explanation, read straight off a ch5 float?** Then it is a replay; cut it or reduce it to the back-reference. Fails: opener S2, ¶1 S4, ¶2 S1's second half, ¶4 S7's counts.
+- ch5's gate items 1, 2, 5, 7 apply unchanged: at most three clauses; the subject leads; every noun has an antecedent in ch2–5; no fact in two sentences (here: the procedure fixes the order ×2, base weights ×2, exploit before scan ×2, proxy ×2 with §4.5.1/§6.5).
+- Words, by sense: *take* → unmapped tactics *last*; runs *have* openings (§5.2's verb); attack profiles *use* attack actions.
