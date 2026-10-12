@@ -2686,3 +2686,81 @@ Proposed (no prose; job and takeaway; about 350–450 words in all):
    - §6.4 ¶3's pointer is repointed to §6.5.
 4. **The CTI verdict is softened** to agree with §6.4 and §6.5 (recommended). The ch7 Contribution 1 "Bound" follows; ch7 is gated.
 5. **Table 6.1:** decode the column abbreviations in the caption (and Table 3.3's, which is gated). Optionally add a "stopped by" note in place of ¶2.
+
+## 33. §6.3 rulings applied; SQ1 losses checked against the corpus; slot sheet (Marc 2026-10-12)
+
+### 33.1 Rulings ("100 % agree"; Q1–Q5 yes)
+
+- **Q1 title:** "APT attacker model versus MTD attacker models". **Applied.**
+  - Marc asked whether §3.3.1 should mirror it. Recommended no: §3.3 is already titled "MTD attacker models", so §6.3's title mirrors ch3 through that term.
+  - Chapter 3 has no APT attacker model to set "versus" against, and it is gated.
+- **Q2:** the scoring procedure leaves §6.3; only "by Chapter 3's rule" stays.
+  - The appendix (l.9913–9926) gives four language models plus a fifth, as §6.3 ¶1 does, so §6.5 was the stale one.
+  - **Applied:** §6.5 now reads "with language models scoring blind as the check (Appendix clause-tests)", pointing at the appendix in place of §6.3.
+- **Q3:** one home for "the failure matrix and vulnerability memory move NCR negligibly". **Applied as repoints:**
+  - §6.4 ¶3 → Section ablation;
+  - §6.5 internal validity → Section ablation;
+  - §6.5 limits ("the reversal rests on the tactic durations and order") → §6.2.
+  - §6.3 will say it once, in mark terms, in its close.
+  - Flag: that §6.5 limits sentence is unhedged against §6.2's "likely". Not touched.
+- **Q4:** the CTI verdict is softened to agree with §6.4 and §6.5. The ch7 Contribution 1 "Bound" follows (approved); it is applied when §6.3's close is drafted.
+- **Q5:** Table 6.1's caption decodes the eight column numbers, and "from Chapter 4" is now "as Chapter 4 describes it". **Applied.** Table 3.3 is unchanged (Marc: clear beside Table 3.2).
+- Build clean, 119 pages, 0 undefined. Other pointers to §6.3 stay valid after the redraft:
+  - ch7 future-work (attack actions);
+  - Appendix clause-tests (the stochastic finite state machine);
+  - Appendix fa-group-size (random partitions).
+
+### 33.2 Marc's SQ1 content, checked (the 38 STIX bundles, data/gap/_corpus_stix; code src/mtdsim/l3_simulation/petri/build.py)
+
+**What the attack flows carry, and the model keeps:**
+- the order of steps (tactic to tactic);
+- through the attack profiles, which order goes with which objective.
+
+Marc's gain: plausible objective-driven sequences of attack behaviour, reusable, plugged into MTDSim.
+
+**What they carry and the model drops:**
+
+| Lost | In the corpus | Where the reader has it |
+|---|---|---|
+| Techniques → tactics | 124 techniques → 15 tactics | ch4 §4.2 |
+| Procedures (the tools and malware used) | tool 119 in 24 flows, malware 91 in 22 | nowhere (new; plain words suffice) |
+| Vulnerabilities | 24 in 16 flows; MTDSim's synthetic vulnerabilities used | nowhere |
+| How steps combine | operators 78 in 30 flows (AND 64, OR 14); conditions 143 in 27 flows | Figure 2.x shows an OR and a condition; no prose anywhere. The GAP keeps the joins as edge metadata, but the attack graph counts each step as its own edge, and build.py reads no operator. ch4's single-token sentence covers parallel branches only |
+| Actions on objectives | recorded; unmapped | §6.1 ¶1 |
+
+**What they almost never carry** (judgement fills it):
+- timing (ch2: "almost never");
+- the response to a failure (attack flows record what happened).
+
+**Correction:** mitigations are not a loss. There is one course-of-action object in one flow, because attack flows record the attack, not the defence.
+
+**Antecedent:** AND/OR and conditions need a home before §6.3 can name them. Either plain words in §6.3, or a gated ch4 §4.2 clause. Proposed, not applied:
+
+> Where an attack flow joins steps with AND or OR, or records the condition a step leaves (Figure 2.x), the attack graph keeps each step as its own edge and drops the join and the condition.
+
+### 33.3 Slot sheet (job · facts · ceiling); about 420 words against 1 235
+
+**Opener (about 70)**
+- **S1, the SQ1 and SQ2 answer in their "how":** recovered from 38 attack flows as an attack graph, split by objective into four attack profiles; executed in MTDSim as a Petri net over its six attack actions. *Ceiling:* nouns only, no ch4 recap.
+- **S2, Table 6.1's evidence:** 2 in full, 3 in part, lacks 3, against at most 1 in full for the three MTD attacker models; over the baseline attacker it gains 3 in full, and 2 and 5 in part. *Ceiling:* "by Chapter 3's rule", no procedure.
+
+**¶2, SQ1: what the threat reports carry and lose (about 150)**
+- **S1, the claim:** the attack flows give the order of an APT's tactics, and grouping them by objective carries structure (beats random partitions with no MTD). *Ceiling:* one hedge on "plausible"; no §6.1 numbers.
+- **S2, what is lost to make it run, in three groups:**
+  - what the attacker used: procedures, vulnerabilities, techniques → tactics;
+  - how steps combine: AND/OR joins, conditions;
+  - what it achieved: actions on objectives.
+  
+  *Ceiling:* one sentence; counts only if Marc wants one.
+- **S3, what the reports never had:** timing and the response to a failure, so tactic durations and the failure matrix are our judgement. *Ceiling:* point to §6.5, no bound restated.
+- **S4 (optional HYP), the so-what:** the attack actions' own preconditions stand in for the conditions the flows record. Likely why 15–30 % of attack actions fail (§6.1 ¶2); keeping the conditions is future work. *Ceiling:* one "likely".
+
+**¶3, SQ2: what an existing simulator caps (about 110)**
+- **S1, the claim:** every mark short of full stops at MTDSim's attack actions (2, 4, 5) or at a decision no part of the model makes (6, 7, 8). *Ceiling:* name, don't explain (ch4, §6.1).
+- **S2, the formalism:** with one token, a stochastic finite state machine built from the same attack flows would make the same draw; the choice comes from the attack flows. *Ceiling:* no not-X-but-Y.
+- **S3 (optional):** a mark in full needs every predicate, so improvements inside a mark in part (the failure matrix, the vulnerability memory) do not show in Table 6.1.
+
+**Close: which marks reach the result (about 90)**
+- **S1:** the components behind the in-part marks leave the result unchanged: the failure matrix and the vulnerability memory move NCR negligibly; without the attack profiles the same three MTD mechanisms reduce NCR the most (§5.4). *Ceiling:* no d values.
+- **S2:** what likely reaches SQ3's result is the order of its tactics (from the attack flows; choice of attack strategy) and the tactic durations (our judgement; detection avoidance in part), as §6.2.
+- **S3, the CTI verdict:** grounding in CTI likely reaches the result only through the order of its tactics, which no run with MTD tests alone (§6.5). This agrees with §6.4's "nor that the grounding in CTI caused the reversal".

@@ -8785,7 +8785,7 @@ against 0.95 for the baseline attacker (Figure~\ref{fig:aio-adaptivity}(a)).
 % new) is in the reported runs but not in Section 4.4.
 
 % =====================================================================
-\section{Properties of the APT attacker model}
+\section{APT attacker model versus MTD attacker models}
 \label{sec:fidelity-verdict}
 
 % SYNC OBLIGATION: Table 6.1's three prior rows are COPIED from Table 3.3;
@@ -8801,10 +8801,16 @@ against 0.95 for the baseline attacker (Figure~\ref{fig:aio-adaptivity}(a)).
   %  attacker model is scored by Table 3.3's rule, from Chapter 4, as the
   %  others are from their papers; the carve-out "a tick marks a property the
   %  model implements" is deleted. DRAFT STATE.]
+  % [2026-10-12, Marc: decode the column heads here; Chapter 6 is far from
+  %  Table 3.2. "from Chapter 4" made explicit. Table 3.3 unchanged.]
   \caption[The APT attacker model scored beside three MTD attacker models]{The
-  APT attacker model scored on the eight properties beside the three MTD
-  attacker models of Table~\ref{tab:attacker-cross-section}, by the same rule,
-  from Chapter~\ref{ch:attacker-model}: \propmet\ has the property,
+  APT attacker model, as Chapter~\ref{ch:attacker-model} describes it, scored
+  beside the three MTD attacker models of Table~\ref{tab:attacker-cross-section}
+  by the same rule, on the eight properties of
+  Table~\ref{tab:attacker-properties}: 1~campaign persistence,
+  2~objective-specific behaviour, 3~choice of attack strategy, 4~adaptivity,
+  5~detection avoidance, 6~cost--benefit reasoning, 7~learning and
+  8~deployment-strategy awareness. \propmet\ has the property,
   \propstandin\ has it in part, \propnone\ does not have it.}
   \label{tab:fidelity-verdict}
   \tablestyle\setlength{\tabcolsep}{3pt}
@@ -9130,7 +9136,7 @@ APT attacker model's NCR at every deployment interval
 (Appendix~\ref{app:fa-accounts}), which says more about the simulator
 than about user shuffle. Without the interface, a reader cannot trace a
 ranking to its assumptions. The failure matrix moves NCR negligibly
-(Section~\ref{sec:fidelity-verdict}), so a builder should ablate a component
+(Section~\ref{sec:ablation}), so a builder should ablate a component
 like it before refining its values.
 
 % DRAFT STATE 2026-10-09 --- paragraph 4 (what the numbers cannot decide)
@@ -9229,7 +9235,7 @@ nothing. A deployment costs no overhead or loss of service, and nothing
 watches the attacker, so the faster attacker and the shorter deployment
 interval gain at no cost. On a real network, speed raises alarms and every
 deployment costs service. The reversal rests on the tactic durations and
-order (Section~\ref{sec:fidelity-verdict}), where the APT attacker model
+order (Section~\ref{sec:disc-mtd-performance}), where the APT attacker model
 meets these choices: in a simulator that prices nothing, its tactic
 durations earn it nothing and cost it outcome, and its order is cut short by
 the attack actions' own. Both attackers share the attack actions, the
@@ -9268,7 +9274,7 @@ change. The APT attacker model differs from the baseline attacker in its tactic
 durations, order and its response to failure at once. Removing the failure
 matrix or the vulnerability memory moves NCR negligibly where each was run,
 and without the attack profiles the same three MTD mechanisms reduce NCR the
-most (Section~\ref{sec:fidelity-verdict}). That leaves the tactic durations
+most (Section~\ref{sec:ablation}). That leaves the tactic durations
 and order, which no run with MTD separates. NCR rests most on the 45\,s mean duration
 (Section~\ref{subsec:dwell-times}); with it at a quarter and at four times its
 value, the APT attacker model's most effective MTD mechanisms still share
@@ -9354,7 +9360,7 @@ holds (Appendix~\ref{app:fa-behaviour-actions}). Last, the eight properties are 
 dissertation's reading of the APT definition and two surveys. They are not a
 complete standard, they are weighed equally though not equally important, and
 one scorer marked the APT attacker model and three recent attacker models on
-them, with a language model's blind re-score as the check (Section~\ref{sec:fidelity-verdict}).
+them, with language models scoring blind as the check (Appendix~\ref{app:clause-tests}).
 
 % Construct points [T2, T13, T14, T7, T5, T8], dictated as paragraph 3 above on
 %  2026-10-08: judgement values (durations, failure matrix, memory factor,
