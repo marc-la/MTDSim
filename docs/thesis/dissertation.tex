@@ -8580,6 +8580,10 @@ tactics of actions on objectives, are unmapped, because MTDSim's six attack
 actions only find and compromise hosts (Section~\ref{subsec:attacker-model}),
 so the APT attacker model steals no data and impedes no system.
 
+% P2 ROUND 2, 2026-10-12 (Marc: "90% of the way"): "took that step" -> the
+%  Petri net's own terms, the edge's base weight (Eq. base-weight), rescaled by the
+%  failure matrix after a failure (Eq. routing; scope: base weights alone hold only
+%  after a success); the catch names the tactic-to-action mapping and resolves "its".
 % P2 ROUND 1, 2026-10-12 (Marc: "boil it down to what the discussion needs";
 %  handoff 24.8): the result in the defined term (distinct openings), the
 %  baseline attacker's 3 on the same eight steps; the cause in plain words (no
@@ -8590,10 +8594,12 @@ so the APT attacker model steals no data and impedes no system.
 On choice of attack strategy, the attack profiles' 1\,000 runs have 179 to
 947 distinct openings over eight steps, and the baseline attacker's 3
 (Figure~\ref{fig:aio-coverage}(b)). In each run, the Petri net picks the next
-tactic at random, in proportion to how often the attack profile's attack flows
-took that step, whereas the baseline attacker's procedure fixes the order of
-its attack actions (Figure~\ref{fig:attacker-model}). The order of its tactics
-can dispatch an attack action whose preconditions are missing
+tactic at random, in proportion to its edge's base weight
+(Equation~\ref{eq:base-weight}), which the failure matrix rescales after a
+failure (Equation~\ref{eq:routing}), whereas the baseline attacker's procedure
+fixes the order of its attack actions (Figure~\ref{fig:attacker-model}).
+Through the tactic-to-action mapping, the order of the APT attacker model's
+tactics can dispatch an attack action whose preconditions are missing
 (Section~\ref{subsec:runtime-mechanics}), and 15 to 30\,\% of the attack
 profiles' attack actions fail this way (Appendix~\ref{app:fa-run-time}).
 

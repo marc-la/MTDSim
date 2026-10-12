@@ -1309,3 +1309,15 @@ The fix: name the property first; give the reason (MTDSim's six attack actions o
 - (t) Plain verbs for a mechanism: "picks at random, in proportion to", not "draws". A verb that personifies a weight ("ignores") or a state ("leaves behind") is rhetoric.
 - (u) A catch is said once. Give its reason by pointing to where ch4 defined it.
 
+### 24.9 ¶2, round 2 (Marc 2026-10-12, "a lot clearer … 90 % of the way")
+
+- **"Step" was the wrong word.** Marc asked whether it should be the Petri net's term. "Step" is §4.5.1's unit of a *run* (an opening is a run's first k steps), so using it for the attack flows overloaded it. The Petri net's terms are now used: the edge's base weight (Equation base-weight, ch4 §4.3: "the share of the attack profile's attack flows leaving p that go to q"). Marc: "that's the equation".
+- **Scope.** The base weights alone hold only after a success. After a failure the failure matrix rescales them (Equation routing), so one clause says so (advice c). Cut it only if Marc rules the nuance off.
+- **The catch names the mapping.** The order of tactics fails attack actions only through the tactic-to-action mapping (Marc: "because of the fact … of this mapping"). "Its" is resolved to "the APT attacker model's" (advice b), since the sentence before has two subjects. The 15–30 % stays: Marc says it "hits harder".
+
+**Applied:**
+> On choice of attack strategy, the attack profiles' 1 000 runs have 179 to 947 distinct openings over eight steps, and the baseline attacker's 3 (Figure 5.1(b)). In each run, the Petri net picks the next tactic at random, in proportion to its edge's base weight (Equation 4.x), which the failure matrix rescales after a failure (Equation 4.y), whereas the baseline attacker's procedure fixes the order of its attack actions (Figure 4.1). Through the tactic-to-action mapping, the order of the APT attacker model's tactics can dispatch an attack action whose preconditions are missing (Section 4.3.x), and 15 to 30 % of the attack profiles' attack actions fail this way (Appendix G.3).
+
+**Advice:**
+- (v) Describe a component in the terms that formalise it (Petri net: edge, base weight, transition, and its equation). Never borrow a word that is already a metric's unit elsewhere ("step").
+
