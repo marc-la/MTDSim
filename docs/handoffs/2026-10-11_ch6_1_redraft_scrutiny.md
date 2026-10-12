@@ -2781,3 +2781,40 @@ Marc's gain: plausible objective-driven sequences of attack behaviour, reusable,
   - The close's two hedges, one claim leaning on the other.
   - Marc: some of the discussion he gave earlier may not have reached §6.3; to be found after this read.
 - Build clean, 118 pages, 0 undefined.
+
+## 35. §6.3 structure, second look: the table's job and one question per paragraph (Marc 2026-10-12; nothing applied)
+
+Marc, on the first draft: the opener has no clear purpose (it recaps ch4, then counts marks); it answers two sub-questions at once; nothing says how the APT attacker model got its marks; Table 6.1 is "answered in 6.1 and 6.2, we don't really use it here". Should the row go into ch3's Table 3.3 instead?
+
+**35.1 Where Table 6.1 lives: keep it in §6.3.**
+- ch3 scores the field to motivate the gap; a row for a model ch4 has not yet defined is a forward reference and a claim before the method. Marc ruled ch3 left alone (§33 Q1).
+- The marks are scored from ch4 (appendix clause-tests), but the counterpoints that make 2, 4 and 5 "in part" cite §6.1's evidence (Appendix fa-run-time, fa-behaviour-actions). The verdict needs the discussion.
+- Fairness: the same predicates, applied to our model from ch4 by its builder. That bias is §6.5's construct threat (blind language-model check), not a reason to move the table.
+- Repeating three rows from Table 3.3 is the cost of setting the columns side by side.
+
+**35.2 The table's job in §6.3: say where each mark comes from.** §6.1 and §6.2 explain the *measured* differences on properties 2, 3, 4 and 5; nothing in ch6 says why each mark is full, in part or none. The appendix predicate cells already give it:
+
+| Property | Mark | Cell | Source of the mark | Why not full |
+|---|---|---|---|---|
+| 1 campaign persistence | full | yes | MTDSim's loop, kept | — |
+| 2 objective-specific | in part | assumed | attack flows: different tactics after the foothold per objective | MTDSim has no attack action for Collection, Exfiltration or Impact |
+| 3 choice of strategy | full | yes | attack flows + Petri net draw at runtime | — |
+| 4 adaptivity | in part | rule | failure matrix, our judgement | the reports never record a response to failure; the attack action's verdict does not say MTD caused it |
+| 5 detection avoidance | in part | rule, no | tactic durations, our judgement | the reports almost never record timing; MTDSim has no IDS |
+| 6, 7, 8 | none | no | no part of the model | left out of scope |
+
+So: the threat reports give the full mark (3) and the behaviour of 2 (SQ1); every in-part mark is in part because our judgement or the simulator fills what the reports do not record (SQ1) or cannot execute (SQ2). This uses the table and answers "how do we get those markings" without rehashing §6.1/§6.2.
+
+**35.3 One question per paragraph.**
+- **Opener (the title's comparison, about 60 words):** the APT attacker model against the field: two in full and three in part against at most one in full, by the same predicates; the only one with objective-specific behaviour; gains over the baseline attacker. Drop the ch4 recap ("recovered… aggregated… executed"), which ch4's opener already claims as its answer to SQ1 and SQ2.
+- **¶2, "In answer to SQ1" (about 130):** threat reports yield the order of an APT attacker's tactics by objective. That gives 3 in full and the behaviour of 2. What else they record is dropped to run (procedures, vulnerabilities, AND joins, conditions). What they almost never record (timing, response to failure) is our judgement, which is why 4 and 5 are in part.
+- **¶3, "In answer to SQ2" (about 110):** an existing simulator keeps campaign persistence and caps 2 (no attack action for actions on objectives) and 5 (no IDS). The Petri net could carry AND joins and conditions but, built with one token, uses neither. 6, 7 and 8: no part of the model.
+- **Close (about 80):** which marks reach SQ3. Keep, but fix "three of the components" (the vulnerability memory backs no mark) and the leaning hedge.
+- Estimated about 380 words, from 520.
+
+**35.4 Cuts and fixes found.**
+- ¶2's "likely explains why 15 to 30 % … fail" duplicates §6.1 ¶3, which states it as measured (Appendix fa-run-time l.~10810). Cut from §6.3; the hedge was wrong too.
+- ¶2's "the attack profiles compromise more than random partitions" pulls against §6.1 ¶2 (steps divided no more differently than random groups). It answers neither sub-question; cut, or Marc places it in §6.1.
+- ¶3's "a mark in full needs every predicate … within a mark in part" becomes redundant once 35.2 names why each mark is in part.
+- **Stale pointer:** the appendix counterpoints row "APT attacker model, 3: yes" cites "a stochastic finite state machine … (Section 6.3)", which §6.3 no longer says. Repoint or reword with the redraft (appendix: auto).
+- Adaptivity flag (§34) resolved by the cell: the mark is "rule" because the failure matrix is our judgement, with the simulator's verdict a second reason. ¶3's "stops at MTDSim's attack actions, for … adaptivity" is wrong as written.
