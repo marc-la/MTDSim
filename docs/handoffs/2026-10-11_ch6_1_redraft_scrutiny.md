@@ -3172,3 +3172,17 @@ matrix sets which tactic it takes after an attack action fails
 grounded in threat reports for the order of its tactics, and rests on our
 judgement where MTD disrupts it.
 ```
+
+## §47. §6.3 ¶2 applied (Marc 2026-10-12, "very clear as is, I'm happy with it")
+
+- **Applied:** the §46 text, 146 words, replacing 176.
+- **Pointer:** S2 keeps Table 6.1 alone; no stacked §6.1/§6.2 pointers.
+  - Table 6.1's caption points to Appendix B, which carries each mark's reasoning.
+  - §6.1 explains the measured differences, not the marks.
+  - §6.2 does not touch marks 2 and 3.
+- **Appendix B row "APT attacker model, 2" (auto, downstream):** "enter different tactics after the foothold for different objectives" → "differ in actions on objectives".
+- **Owed by ¶3's redraft (next):**
+  - marks 4 and 5 (the tactic durations: six from MTDSim's times and nine by judgement; the failure matrix), which have lost their sentence until then;
+  - the AND joins and the conditions: ¶3's "the AND joins and the conditions the model drops" has lost its antecedent in ¶2;
+  - detection avoidance marked once, with both reasons.
+- Build clean, 118 pages, 0 undefined.

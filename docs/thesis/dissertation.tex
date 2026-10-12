@@ -8853,22 +8853,25 @@ of attack strategy in full or with any objective-specific behaviour, which it
 has in part. All four attacker models lack cost--benefit reasoning, learning
 and deployment-strategy awareness.
 
-In answer to \ref{sq:capture}, threat reports give the APT attacker model
-the order of an APT attacker's tactics by objective, and our judgement fills
-what they do not record. The order gives it choice of attack strategy in
-full: its Petri net draws each next tactic during the run, in proportion to
-how often the attack flows take each edge (Section~\ref{sec:petri-formalism}).
-Split by objective, its attack profiles enter different tactics after the
-foothold, which gives it objective-specific behaviour
-(Section~\ref{sec:attack-profiles}). To run, the model drops most of what
-else the attack flows record. Each technique stands for its tactic, without
-its procedures or the vulnerabilities it exploited; steps an attack flow
-requires together become separate edges, each enough on its own; and the
-conditions between steps are dropped. The attack flows almost never record
-how long a step took, and never what the attacker did after a failure, so we
-set the tactic durations and the failure matrix by judgement. Detection
-avoidance and adaptivity rest on them, a fixed rule of ours, so each is in
-part.
+% [2026-10-12, Marc: ¶2 (SQ1) redraft, handoff §41--§47. The punch: threat
+%  reports give the order of its tactics; timing and the response to failure,
+%  where MTD disrupts the model, rest on our judgement. Marks 4 and 5 move to
+%  ¶3 (owed: ¶3 redraft); the AND joins and conditions go to ¶3. Pointer kept
+%  to Table 6.1 alone (its caption points to Appendix B).]
+In answer to \ref{sq:capture}, the attack flows drawn from threat reports
+give the APT attacker model the order of its tactics for each objective. That
+order gives it choice of attack strategy in full and objective-specific
+behaviour in part (Table~\ref{tab:fidelity-verdict}). Threat reports time only
+whole intrusions, so the attack flows almost never record how long a step took
+(Section~\ref{subsec:dwell-times}). Drawn from incidents that succeeded, they
+never record what the attacker did after a step failed
+(Section~\ref{subsec:failure-matrix}). In MTDSim, MTD disrupts the APT
+attacker model at these two points: its tactic durations set how likely a
+deployment is to cut an attack action short and fail it, and its failure
+matrix sets which tactic it takes after an attack action fails
+(Section~\ref{subsec:runtime-mechanics}). The APT attacker model is therefore
+grounded in threat reports for the order of its tactics, and rests on our
+judgement where MTD disrupts it.
 
 In answer to \ref{sq:model}, an existing simulator gives the APT attacker
 model campaign persistence and caps two of its marks. It keeps the baseline
@@ -9905,7 +9908,7 @@ model the only one with it in part.
     Kim et al., 8: no & ``attackers can determine the remaining available time'' before the next MTD deployment \citep[p.~10]{kim2026} & It predicts, but no technique leverages the prediction: the four stages run in the same order whatever the time left \\
     \midrule
     APT attacker model, 1, qualifier: yes & Chapter~\ref{ch:attacker-model} never says when a run ends & A run ends by the simulator's rule, the same for both attackers (Section~\ref{subsec:attacker-model}); nothing in the model ends its campaign, and a failed intrusion goes back to Reconnaissance to try again (Section~\ref{subsec:failure-matrix}) \\
-    APT attacker model, 2: assumed & Its attack profiles take the same six attack actions, at different rates (Appendix~\ref{app:fa-behaviour-actions}) & Its attack profiles enter different tactics after the foothold for different objectives (Section~\ref{sec:attack-profiles}); Collection, Exfiltration and Impact are unmapped (Section~\ref{subsec:tactic-verb-mapping}), so the techniques that differ are assumed for each tactic's duration \\
+    APT attacker model, 2: assumed & Its attack profiles take the same six attack actions, at different rates (Appendix~\ref{app:fa-behaviour-actions}) & Its attack profiles differ in actions on objectives (Section~\ref{sec:attack-profiles}); Collection, Exfiltration and Impact are unmapped (Section~\ref{subsec:tactic-verb-mapping}), so the techniques that differ are assumed for each tactic's duration \\
     APT attacker model, 3: yes & The Petri net draws from fixed weights, set before the run from the attack flows (Section~\ref{sec:petri-formalism}) & The draw happens during the run, from the state reached and the attack flows with its objective (Section~\ref{sec:petri-formalism}); the baseline attacker's order is fixed before the run, a rule \\
     APT attacker model, 4: rule & The failure matrix responds to any failed attack action, whether or not an MTD disruption caused it, and a deployment during an unmapped tactic never changes which tactic comes next (Section~\ref{subsec:tactic-verb-mapping}) & The failure matrix, set by our judgement, reweights its next tactic after a failure (Section~\ref{subsec:failure-matrix}); an MTD disruption is one cause, so a fixed rule of ours sets the response \\
     APT attacker model, 5: rule, no & No IDS exists; it is faster than the baseline attacker at brute force and enumerate host, and its slowness is time in unmapped tactics (Appendix~\ref{app:fa-run-time}) & Its declared tactic durations make it slower than the baseline attacker (Section~\ref{subsec:dwell-times}), a rule; it chooses no technique against an IDS \\
