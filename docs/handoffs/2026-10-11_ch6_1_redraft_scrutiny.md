@@ -1445,3 +1445,109 @@ Only the intended lines changed. Data keys (`dispatched|4`) are left alone. No "
 - (bb) A contrast true by construction ("although it is closer to an APT") is no news. Look for the dependence instead ("for behaving more like an APT").
 - (cc) A close in a section that has fixed its scope does not restate it ("with no MTD"), and uses the metrics' names.
 
+
+## 25. §6.2 (APT attacker model versus MTD): critique of the overdraft, and the plan (2026-10-12; nothing applied to the tex)
+
+Marc: §6.2 reads as "dot points concatenated", with no opener, a closer almost as big as the opener, rhetorical flourish throughout, and "a page of words" after the first sentence. He asked whether §6.1's lessons carry over. He also noted that §6.1 went through two redrafts: first a logical rearrangement with minimal cuts, then the cut-down rounds. He asked whether §6.1 is missing its tie to the sub-questions.
+
+### 25.1 Measured
+
+- §6.2: **1 426 words** in five paragraphs (425 / 367 / 141 / 344 / 148). §6.1 is 521.
+- Chapter 6: 6 321 words against the ~3 300 target (preamble 141, §6.3 1 290, §6.4 1 147, §6.5 1 796).
+- §6.2 holds the main result, so it can be longer than §6.1. **Budget: ~700–750 words.**
+
+### 25.2 Marc's critique, checked: it holds on every count
+
+1. **No opener.** P1 is the opener, the mechanism, the attack profiles, a literature comparison and a bound, fused into 425 words. Its finding (S2–S3) is right but buried.
+2. **The close repeats the opener.** "To SQ3, then" restates P1 S2–S3 with Table E.1's numbers. Only the Chapter 1 tie (the advantage of time) is new. That fails (aa): a close says the one thing the paragraphs do not say together.
+3. **One mechanism, said twice.** "The baseline attacker restarts … the APT attacker model waits for Lateral Movement" is in P1 (S9–S10) and again in P2 (S4–S6). The "why" (P1) also comes before its evidence (P2, disruption per deployment).
+4. **The order breaks the preamble's promise.** The preamble says §6.1 and §6.2 "follow Chapter 5's order". §5.3 runs disruption per MTD deployment → MTD ranking → by attack profile. §6.2 runs ranking + mechanism + attack profiles → disruption → interval → MTDShield.
+5. **The cause is never named, so it is never handed back.** §6.1's lesson (21.3 point 1) applies directly, and here it is the missing throughline. Each mechanism §6.2 gives is one of §6.1's two causes meeting MTDSim's deployment rules, which are written for the baseline attacker's procedure (§2.2.3: what a deployment disrupts, and where it sends the attacker):
+   - "blocked less, because an unmapped tactic runs no attack action" = **its tactic durations**;
+   - "the service layer catches it less: it runs scans, exploits and brute force between unmapped tactics" = **its tactic durations**;
+   - "regains its place only when its Petri net next reaches Lateral Movement" = **the order of its tactics**.
+
+   §6.2 can name the two causes verbatim, as §6.1 does. That is the chapter's coherence.
+6. **Rhetorical and stand-in words** ((f), (l), (t)):
+   - "holds an attacker back" ×6 (Marc's ruling: *disrupts*);
+   - "currency", "they part", "catches", "move together", "separates", "the far end of the same mechanism", "the split runs by layer", "the direction runs the other way";
+   - "takes a different state from each attacker", "pulls the mean below zero", "hand the attacker easier vulnerabilities", "pure loss", "its line … sits below it".
+7. **Replays of Chapter 5** (the 21.6 replay test). Much of P2 is §5.3.1 sentence for sentence: every host-layer deployment blocks it; 204 to 232 s forward. P4 restates §5.3.2's numbers and Appendix D's shares.
+8. **Bounds that belong to §6.5** (memory: bounds once, in §6.5):
+   - P3: "MTDSim charges a deployment nothing" (also in §6.4 l.9225 and §6.5 l.9276);
+   - P4: "run as released, outside its training conditions" (§6.5 l.9450), the no-cost point again, and "a strategy learned against the APT attacker model … not built" (ch7 future work);
+   - P1: "MTDSim's implementation of it, on its default network".
+9. **Hedges stack** ((i)). There are five session hypotheses, each with its own hedge:
+   - "most likely" (failed attack actions);
+   - "likely" (c3 at the far end);
+   - "possibly" (OS diversity);
+   - "likely" (recovery time);
+   - "suggests" (MTDShield fitted).
+
+   Two are untraced: c3 and OS diversity.
+10. **Side topics that are not SQ3:**
+    - port shuffle sharing rank 1 ("does not rank shuffling against diversity");
+    - c3 from 500 s (a per-profile nuance; Marc ruled per-profile nuance out of the §6.1 body);
+    - OS diversity's negative time lost;
+    - the Cho comparison, which is a literature tie and fits §6.4, where §6.4 l.9110–9114 already generalises "optimal for one attacker model".
+
+### 25.3 Marc's side question: is §6.1 missing its tie to the sub-questions?
+
+**No. By design, §6.1 answers no sub-question.**
+- The preamble allocates the answers: §6.1 explains the no-MTD differences, §6.2 answers SQ3, §6.3 answers SQ1 and SQ2. Chapter 7 draws them into the research question.
+- §6.1 is evidence. Pointing from it to an answer reverses the argument, the same fault as pointing to the marks ((a)).
+
+**What does need tying is §6.1 → §6.2, through the causes:**
+- §6.1's close ("ASP and NCR alone rate it the weaker attacker") is why §6.2 reads NCR reduction, which is relative to each attacker's own NCR with no MTD. The §6.2 opener can rest on that rather than re-explain it.
+- §6.2 hands back §6.1's two causes verbatim (25.2 point 5).
+
+The current close's Chapter 1 tie (the advantage of time, \citep{ghosh2009nitrd}) is the ch1–ch6–ch7 link for SQ3. Keep it.
+
+### 25.4 The spine (one takeaway per paragraph, in §5.3's order)
+
+| ¶ | Takeaway | Cause (§6.1's words) | Evidence | Words |
+|---|---|---|---|---|
+| Opener | In MTDSim, the host layer disrupts the APT attacker model most and the service layer the baseline attacker most. No MTD mechanism or deployment strategy ranks first against both. MTDSim writes what a deployment disrupts, and where it sends the attacker, for the baseline attacker's procedure. The APT attacker model meets those rules through its tactic durations and the order of its tactics | both, named once | §5.3.2, §2.2.3 | ~100 |
+| 1 Disruption per MTD deployment (attack actions blocked; time lost, adaptivity) | A deployment blocks the baseline attacker more often under every layer. The APT attacker model loses time to the host layer, the baseline attacker to service diversity | tactic durations: an unmapped tactic runs no attack action, so a deployment then blocks none (by construction, one clause). Order of its tactics: after a host-layer deployment the baseline attacker's procedure restarts by scanning for hosts, while the APT attacker model regains its place only when its Petri net next reaches Lateral Movement | Fig. aio-adaptivity, App. fa-foothold, fa-traced-run | ~170 |
+| 2 MTD ranking (NCR reduction, deployment interval) | The layers rank in opposite order for the two attackers at every deployment interval; ρ −0.24 to 0.25. The host layer keeps half or more of the APT attacker model's NCR off up to 1 000 s; the service layer never does | ¶1 carried to hosts compromised (one sentence); the interval, hedged once (recovery time); user shuffle's rule, one sentence (§6.4 l.9179 cites §6.2 for it) | Fig./Tab. eff-cross-arm, eff-interval-values | ~150 |
+| 3 Deployment strategies (MTDShield) | MTDShield, trained against the baseline attacker, chooses service diversity at 70 % or more against either attacker, and beats random over the same four MTD mechanisms against the baseline attacker alone. Its zero inputs mean this run cannot tell a fitted policy from a fixed preference | the attacker model it was trained against | Fig. eff-cross-arm(e), App. mtdshield-observed, mtdshield-limitations | ~120 |
+| 4 By attack profile | At 50–200 s the four attack profiles' NCR reductions lie close together and apart from the baseline attacker's, so the attacker model matters more than the attack profile. This is consistent with §6.1: an objective shows only in actions on objectives, which are unmapped | — | Fig. eff-suppression-profiles | ~70 |
+| Close (SQ3) | The answer: MTD performs differently against the APT attacker model, by MTD layer, because of how its two causes meet MTDSim's deployment rules. Chapter 1's advantage of time: against the slower APT attacker model, the host layer keeps its effect at deployment intervals ten times longer | — | — | ~90 |
+
+**Inbound contracts to keep** (later text that cites §6.2):
+- §6.4 l.9114: what each deployment takes is written against the baseline attacker's procedure.
+- §6.4 l.9145: MTDShield chooses service diversity at 70 % or more, and beats random against the baseline attacker alone.
+- §6.4 l.9182: user shuffle, the rule MTDSim gives it.
+- §6.4 l.9205: the baseline attacker's mean time lost to the host layer is below zero.
+- §6.4 l.9228: the service layer never halves the APT attacker model's NCR.
+- §6.5 l.9276: Lateral Movement.
+- §6.5 l.9395: the first deployment is where the baseline attacker's time lost falls below zero.
+- §6.5 l.9453: MTDShield runs outside its training conditions.
+- Appendices fa-foothold, fa-accounts, fa-traced-run.
+
+**Cut, and where each lives:**
+- the port-shuffle rank aside (nowhere, or §6.5);
+- the Cho comparison (to §6.4);
+- c3 from 500 s (cut; untraced);
+- the OS-diversity hypothesis (cut; untraced);
+- the two MTDShield bounds and no-cost (§6.5);
+- "a strategy learned against the APT attacker model" (ch7 future work);
+- the SQ answer's Table E.1 numbers (Table E.1).
+
+**One fact to check before drafting:** why service diversity costs the APT attacker model little (60 s against 493 s). "Vulnerabilities are the baseline attacker's currency" is a metaphor with no measurement behind it. Either trace it (lower attack rate, so a redraw rarely lands on an exploit in progress?) or state only the result.
+
+### 25.5 Process: §6.1's two stages, kept
+
+1. **Stage 1, logical redraft.** Rearrange to the spine with minimal rewording. Cut only the items above that live elsewhere. Apply the mechanical voice fixes ("holds back" → "disrupts"). Expected ~850–950 words.
+2. **Stage 2, paragraph rounds.** Marc rules each paragraph in turn: critique, propose, clarity pass, apply, build, log, commit.
+
+**Advice carried from §6.1:**
+- (a) no pointer to the marks;
+- (e) the opener names each cause once;
+- (f)/(l) no stand-in words;
+- (i) one hedge per claim;
+- (j) answer the question §4.5 posed (here SQ3, as §4.5's opener poses it);
+- (k) give numbers with their frame;
+- (aa) the close says the joint;
+- the replay test;
+- one fact, one home.
