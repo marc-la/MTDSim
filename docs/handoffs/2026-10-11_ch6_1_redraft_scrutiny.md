@@ -2061,3 +2061,56 @@ Nothing in the opener needs changing.
 **Remaining "its place":** only ch2 l.957 ("the attacker loses only its place"). The proposal in §28.8 is still open (gated).
 
 Build clean, 120 pages, 0 undefined.
+
+
+## 29. §6.2 ¶3 (MTD ranking against each attacker): scrutiny (Marc 2026-10-12; nothing applied)
+
+Current ¶3: 178 words, 6 sentences. ρ; "NCR reduction falls as the deployment interval grows"; the half-or-more intervals; the recovery-time rule; user shuffle's rule.
+
+### 29.1 Marc's questions
+
+- **"On MTD ranking" is not a property.** True. §6.1's "On X" leads name properties, and ¶2's "On adaptivity" does too. "MTD ranking against each attacker" is §5.3.2's heading, not a property. The reader's term for this paragraph is the **metric and its axis: NCR reduction against the deployment interval** (§4.5.3, §2.2.2, Figure 5.3). Recommend dropping the "On X" formula here and opening on the claim in those terms.
+- **"Rankings are only useful in context; they carry the model's assumptions."** That is an *implication*, and §6.4's first paragraph already owns it: "An optimal MTD mechanism is therefore optimal for one attacker model in one simulator, and an evaluation should report its ranking with the attacker model behind it and the assumptions that model and the simulator make. Neither of the two attacker models is the better one: each ranking is right for its own." §6.5 bounds it (MTDSim's rules). One fact, one home: not in §6.2.
+- **"The point is no correlation between these ten numbers."** That is ρ, −0.24 to 0.25. It is §5.3.2's result, and §6.4 opens on it as the point that transfers. The opener already answers SQ3 with the layer reversal, the specific form of "no correlation". So ρ in ¶3 is a third telling.
+
+### 29.2 What ¶3 can say that nothing else says (the takeaway, one line)
+
+**Against the APT attacker model, the host layer keeps halving NCR at deployment intervals ten times longer than against the baseline attacker (1 000 s against 100 s), and the service layer never halves it. This fits what ¶2 found: each host-layer deployment costs it 242–324 s, about a quarter to a third of a 1 000 s interval.**
+
+This is the deployment-interval half of SQ3's answer. It is also the fact behind the close's Chapter 1 tie (MTD's aim of shifting the advantage of time to the defender), so ¶3 and the close currently say it twice (stage-1 flag 2).
+
+### 29.3 Sentence by sentence
+
+| Sentence | Verdict | Why |
+|---|---|---|
+| S1 "On MTD ranking …, ρ … −0.24 and 0.25 at every deployment interval (Table 5.3)" | cut | §5.3.2 and §6.4's opener; the opener gives the specific form. Also, Table 5.3 is 200 s only, so it cannot show "every deployment interval" |
+| S2 "NCR reduction falls as the deployment interval grows" | cut | §5.3.2 replay; "up to 1 000 s" already implies it |
+| S3 the half-or-more intervals (host: 1 000 s against 100 s; service: 200 s, never) | **keep**, as the lead | the new fact for SQ3; §6.4 l.9228 cites §6.2 for "never" |
+| S4 "MTD likely reduces an attacker's NCR only while the deployment interval is shorter than the time the attacker needs to recover …" | cut as a general rule; keep a narrow, hedged link for the APT attacker model's host layer only | **not verified, with counterexamples** (lesson (ae)): port shuffle still reduces the baseline attacker's NCR by 0.91 at 200 s, though a later deployment costs it about 21 s. The host layer halves the baseline attacker's NCR to 100 s at 19–32 s per later deployment, while the service layer, at +34 to +76 s per later deployment of the APT attacker model, never halves its NCR. As a threshold it also fails for the APT attacker model itself: the host layer still halves its NCR at 1 000 s, beyond its 242–324 s. What holds is narrower: the longer each host-layer deployment costs the APT attacker model, the larger the share of each interval it loses |
+| S5 user shuffle raises the APT attacker model's NCR (redrawn accounts, held accounts stay valid) | move: Appendix F.3 (fa-accounts) explains it in full; §6.4 l.9125 repoints there | an artefact of MTDSim's rule (the appendix says so: "follows from MTDSim's rule for user shuffle, not from user shuffle as an MTD mechanism"); not SQ3's answer |
+
+### 29.4 §6.1's lessons, checked against ¶3
+
+| Lesson | Here |
+|---|---|
+| Replay test | **fails**: S1, S2 |
+| One fact, one home | **fails**: ρ in three places; the interval facts in ¶3 and the close; user shuffle's rule in ¶3, §6.4 and Appendix F.3 |
+| (ae) settle the mechanism, verified, before drafting | **fails**: S4 is a general rule with counterexamples |
+| §9.3 open on the reader's term | **fails**: a §5.3.2 heading, not a property or a metric |
+| §9.8 float next to the claim | **fails**: S1 cites Table 5.3 (200 s) for a claim at every interval; the interval claims belong to Figure 5.3 or Table F.1 |
+| (k) numbers with their frame | ✓ for S3 |
+| Hedge inside the inferred claim | ✓ (one "likely"), but on the wrong claim |
+
+### 29.5 Slots (no prose)
+
+1. **Lead, the fact.** Job: the interval half of the answer. Facts: the host layer halves the APT attacker model's NCR up to 1 000 s, the baseline attacker's only up to 100 s; the service layer halves the baseline attacker's up to 200 s and never the APT attacker model's. Float: Figure 5.3, Table F.1. Ceiling: one sentence, the metric and the deployment interval named, no "On X".
+2. **Why, APT attacker model only, one hedge.** Job: tie to ¶2. Facts: each host-layer deployment costs it 242–324 s, a quarter to a third of a 1 000 s interval. Ceiling: one sentence.
+3. **(Optional) the Chapter 1 tie.** MTD's aim of shifting the advantage of time to the defender: against the APT attacker model, the host layer holds it at intervals ten times longer. If it lives here, the close keeps only its last sentence or goes (Q3).
+
+Estimated 50–70 words, from 178.
+
+### 29.6 Questions (recommendation first)
+
+- **Q1, the takeaway.** (Recommended) ¶3 is the deployment interval: the host layer halves the APT attacker model's NCR to intervals ten times longer, and fits ¶2. ρ and "rankings carry their model's assumptions" stay in §6.4, which owns them. Otherwise, ¶3 restates ρ as its lead (a third telling).
+- **Q2, user shuffle.** (Recommended) Move it to Appendix F.3, and repoint §6.4 l.9125 there (downstream, automatic). Otherwise keep one sentence here.
+- **Q3, where the Chapter 1 tie lives.** (Recommended) **In ¶3, as its last sentence**, which leaves the close with only the bound sentence. That sentence is also §6.5's, so the close then goes, and the section ends on the attack profiles. Settle at the close round. Otherwise the tie stays in the close and ¶3 stops at slot 2.
