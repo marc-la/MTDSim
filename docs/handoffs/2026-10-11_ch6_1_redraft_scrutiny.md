@@ -1032,3 +1032,33 @@ Build clean: 120 pages, 0 undefined, 14 overfull (unchanged).
 ### 23.3 Flagged, not touched
 - §6.2 says "holds an attacker back" (Marc dislikes "held back").
 - §6.4 says "a quiet attacker" ("quiet" is not a ch2–5 term).
+
+## 24. Paragraph-by-paragraph rounds on v4 (Marc 2026-10-12)
+
+Marc rules each paragraph in turn. This section logs each round: what he flagged, what was checked, the edit, and any standing advice for the rest of Chapter 6. Edit only the flagged sentences ([[feedback_redraft_edit_dont_rewrite]]).
+
+### 24.1 Opener, round 1
+
+**What Marc flagged:**
+1. "the three properties on which Table 6.1 marks the two attackers differently". This points forward to the marks. It reads as though the mark came first and the evidence was joined to it afterwards.
+2. The outcome sentence should say plainly that this is attack outcome.
+3. "no run separates the two" is vague. Say what can and cannot be said.
+4. "Most of the time its tactic durations take falls in its unmapped tactics …" repeats what the opener already said. "take" and "falls" are the wrong verbs, since the unmapped tactics *consume* the time.
+5. "so neither explains them". Explains what?
+
+**Checked:**
+- Table 6.1 sits in §6.3, which marks the properties from §6.1's evidence. A pointer from §6.1 to the marks therefore turns the argument around. Q22 is reversed.
+- §4.5.2 is headed "Attack outcome", so the term is ch4's.
+- §6.5 says the comparison "does not show which of the model's parts causes the change". So the true statement is that no run removes either cause.
+- Marc's 26–47 % is the step share of unmapped tactics (Figure 5.1(a), the All unmapped row: 36/37/47/26). The time share is 34–57 % (Appendix G.3). ¶3 already carries the time share ("a third to over half of its run"), so cutting the definition sentence loses nothing.
+- §5.4 measured NCR only (Table 5.4). It also shows that the failure matrix changes where the attacker goes after a failed Initial Access (back to Reconnaissance 0.76–0.83 with the failure matrix, 0.08–0.10 without). That is part of choice of attack strategy. "Neither explains them", read as all the differences, was therefore **false**. The claim is now limited to NCR.
+
+**Edit (applied):**
+> The APT attacker model differs from the baseline attacker with no MTD on objective-specific behaviour, choice of attack strategy and detection avoidance (Section 5.2). In attack outcome, it also reaches a target host in fewer runs and compromises fewer hosts (Table 5.2). Its tactic durations and the order of its tactics likely explain most of these differences, but no run removes either to test this (Section 6.5). Removing the failure matrix or the vulnerability memory changes its NCR negligibly (Section 5.4), so neither explains its lower NCR.
+
+**Advice for the rest of Chapter 6:**
+- (a) §6.1–§6.2 are evidence and §6.3 scores it. Never point from the evidence to the marks.
+- (b) A pronoun at the end of a paragraph ("them") must name its referent when two plural nouns precede it.
+- (c) Scope a negative claim to what was measured.
+- (d) A hedge says what was not done ("no run removes either"), not an abstraction ("separates").
+- (e) An opener names each cause once. The definition and the evidence go in the paragraph that uses them.

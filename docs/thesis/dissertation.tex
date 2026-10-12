@@ -8510,8 +8510,8 @@ sets out the threats to their validity.
 % REDRAFT v4 2026-10-12 (Marc: "put in the hard work ... get it very close").
 %  Plan and rulings: docs/handoffs/2026-10-11_ch6_1_redraft_scrutiny.md
 %  sections 21-23; v3 is in git at bfd22c57.
-%  SPINE: the opener states the finding (the three properties on which Table
-%  6.1 marks the two attackers differently, and the lower outcome) and the two
+%  SPINE: the opener states the finding (the three properties Section 5.2
+%  shows, and the lower attack outcome) and the two
 %  causes, named verbatim and handed back in every paragraph: "its tactic
 %  durations" (most of the time in unmapped tactics) and "the order of its
 %  tactics". One paragraph per property in 5.2's order: claim, mechanism,
@@ -8531,19 +8531,22 @@ sets out the threats to their validity.
 %  it leaves; ASP and NCR alone rate it weaker; MTTC over different runs); 6.5
 %  (42 to 139 runs; attack actions out of order fail); Appendix G.3.
 %  Session-drafted; DRAFT STATE --- Marc rules paragraph by paragraph.
+% P1 ROUND 1, 2026-10-12 (Marc; handoff section 24): the Table 6.1 pointer
+%  cut (6.3 marks from this evidence, so pointing at the marks reads as
+%  justifying them after the fact); outcome named as Section 4.5.2 names it;
+%  "no run separates the two" -> what no run did; the sentence defining the
+%  two causes cut (said again in P2 and P3); "neither explains them" scoped to
+%  what Section 5.4 measured, NCR (the failure matrix does change where the
+%  attacker goes after a failure, so it is part of choice of attack strategy).
 The APT attacker model differs from the baseline attacker with no MTD on
 objective-specific behaviour, choice of attack strategy and detection
-avoidance (Section~\ref{sec:attacker-in-operation}), the three properties on
-which Table~\ref{tab:fidelity-verdict} marks the two attackers differently.
-It also reaches a target host in fewer runs and compromises fewer hosts
+avoidance (Section~\ref{sec:attacker-in-operation}). In attack outcome, it
+also reaches a target host in fewer runs and compromises fewer hosts
 (Table~\ref{tab:unopposed-summary}). Its tactic durations and the order of
-its tactics likely explain most of these differences, although no run
-separates the two (Section~\ref{sec:threats}). Most of the time its tactic
-durations take falls in its unmapped tactics, and its Petri net picks the
-order of its tactics in each run from its attack profile's base weights
-(Section~\ref{sec:petri-formalism}). Removing the failure matrix or the
-vulnerability memory changes NCR negligibly (Section~\ref{sec:ablation}), so
-neither explains them.
+its tactics likely explain most of these differences, but no run removes
+either to test this (Section~\ref{sec:threats}). Removing the failure matrix
+or the vulnerability memory changes its NCR negligibly
+(Section~\ref{sec:ablation}), so neither explains its lower NCR.
 
 Objective-specific behaviour shows in the runs only in how each attack profile
 divides its steps among the tactics. Each attack profile's Petri net is built
