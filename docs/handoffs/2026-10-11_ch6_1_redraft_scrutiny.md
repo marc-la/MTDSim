@@ -2818,3 +2818,25 @@ So: the threat reports give the full mark (3) and the behaviour of 2 (SQ1); ever
 - ¶3's "a mark in full needs every predicate … within a mark in part" becomes redundant once 35.2 names why each mark is in part.
 - **Stale pointer:** the appendix counterpoints row "APT attacker model, 3: yes" cites "a stochastic finite state machine … (Section 6.3)", which §6.3 no longer says. Repoint or reword with the redraft (appendix: auto).
 - Adaptivity flag (§34) resolved by the cell: the mark is "rule" because the failure matrix is our judgement, with the simulator's verdict a second reason. ¶3's "stops at MTDSim's attack actions, for … adaptivity" is wrong as written.
+
+## 36. §6.3: where the source of each mark goes (Marc 2026-10-12; nothing applied)
+
+- **Marc's sort, as given:**
+  - campaign persistence: inherited from MTDSim;
+  - objective-specific behaviour: the attack flows split by objective into attack profiles;
+  - choice of attack strategy: the attack flows;
+  - adaptivity: the failure matrix, set by our judgement;
+  - detection avoidance: the tactic durations;
+  - 6, 7 and 8: not modelled.
+  This agrees with the appendix cells (§35.2).
+- **Prose, no new table.**
+  - Table 6.1 must keep Table 3.3's layout (round 50).
+  - The appendix already scores the APT attacker model predicate by predicate (Table clause-tests, its column, and the counterpoints rows).
+  - A second table would be a third copy of the marks.
+- **The sort falls along the sub-questions:**
+  - ¶2 (SQ1): what the reports give (3 in full, 2's behaviour) and what our judgement fills (4, 5);
+  - ¶3 (SQ2): what the simulator gives (1) and caps (2, 5), and what is not modelled (6–8).
+  - One clause per source, never a sentence per property.
+- **Why the overdraft's ¶2 was cut (§32.3):** it walked property by property, and each justification already lived in ch4, §6.1 or ch3 (rows "Cut: lives elsewhere"). Space was not the reason. The walk never sorted marks by source, which is what is missing; the sort adds no new evidence.
+- **Order:** §6.2 (SQ3) comes before §6.3 (SQ1, SQ2) because §6.3's marks rest on §6.1's evidence and its close reads which marks reach SQ3's answer. Keep it; the ch6 opener already states the order. Within §6.3, SQ1 comes before SQ2.
+- **§6.1/§6.2:** no update needed; their sources (tactic durations, attack profiles) agree.
