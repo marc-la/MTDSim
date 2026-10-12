@@ -1916,3 +1916,55 @@ Attack actions blocked per MTD deployment is the evidence for the second point, 
 **v6 (254 words; longer than v5, because all four numbers and both reroutes are now stated):**
 
 > On adaptivity, the two attackers lose time to different MTD mechanisms (Figure 5.2(b)). After a disruption, MTDSim sends the baseline attacker back to a fixed attack action of its procedure (Section 2.2.3). The APT attacker model is not sent back: its Petri net picks its next tactic, and a failed attack action reroutes it through the failure matrix (Section 4.4.2). A host-layer deployment takes the host either attacker was working on. The baseline attacker is sent back to scanning hosts and enumerates one next; its time lost is at or below zero. The APT attacker model enumerates a host only in Lateral Movement (Section 4.3.2). Until its Petri net next reaches it, the attack actions of its other tactics most likely fail for a missing host, and each failure reroutes it again (Appendices F.2 and F.4). It loses 242 to 324 s per deployment. A service-layer deployment changes services, not hosts, so neither attacker loses its host. The baseline attacker is sent back to scanning that host's ports, and under service diversity, which redraws every service, it starts its exploits on that host again. It loses 493 s per deployment. The APT attacker model keeps the ports it found, so nothing it runs next fails for a missing precondition, and a deployment catches it less often: its tactic durations keep it in unmapped tactics, which run no attack action, so its attack actions blocked per service-layer deployment are 0.15, against 0.95 (Figure 5.2(a)). It loses 60 s per service-diversity deployment, likely for both reasons.
+
+### 28.10 Fresh scrutiny of v5 and v6: why the drafts circle, and the lean argument (Marc 2026-10-12, "why are we circling … what is a discussion point, keep it; what is not, get rid of it"; no drafting)
+
+**Two facts checked first:**
+- **The failure matrix does not explain the host-layer cost.** §5.4 (Table 5.4) removed it under IP shuffle: NCR 0.007 against 0.006 at 200 s, 0.114 against 0.109 at 2 000 s, both negligible. v6's "a failed attack action reroutes it through the failure matrix" is therefore contradicted by our own ablation. Marc's suspicion was right.
+- **Lateral Movement is not rare.** With no MTD it is 9 % of the APT attacker model's steps (5.6–13.8 % by attack profile; Figure 5.1(a)), and 1.4 % of its time (numbers_reported.json, step_share/time_share). After a host-layer deployment, the APT attacker model visits 8–10 tactics before Lateral Movement gives it a host back, 216–304 s (disruption_mechanism.md §C (iv)). That is about one step in eleven, at its tactic durations per step. **The wait is the order of its tactics (how often Lateral Movement comes up) times its tactic durations (how long each step in between takes)**, the opener's two causes. The rerouting is the Petri net moving on, as it always does, not the failure matrix.
+
+**Why the drafts circle:**
+1. **The mechanism was never settled before drafting.** Five drafts gave four explanations:
+   - the procedure restarts;
+   - the attacker loses its place;
+   - a fixed return point;
+   - the failure matrix reroutes it.
+
+   Prose cannot converge on a claim that keeps changing.
+2. **One explanation contradicted our own result** (the failure matrix, §5.4). A cold examiner would catch it.
+3. **Accretion.** Each critique was answered by adding a clause, never by removing an idea. v6 carries two metrics × two layers × two attackers, plus the first deployment, preconditions, the failure matrix and the blocks.
+4. **The throughline was imposed top-down.** "Host layer = the order of its tactics, service layer = tactic durations" does not match the data:
+   - the host-layer wait is *both* causes;
+   - the service-diversity cost is the *baseline attacker's* rule.
+
+   Forcing the split is what made v4 dishonest.
+5. **Bookkeeping drove the prose.** v6 was rearranged to place numbers, and the argument got harder to follow (memory: bookkeeping never drives prose).
+
+**The sort:**
+
+| Point | Verdict | Why |
+|---|---|---|
+| D1. The 2×2: the host layer costs the APT attacker model 242–324 s and the baseline attacker none (at or below zero); service diversity costs the baseline attacker 493 s and the APT attacker model 60 s | **keep**, as the lead | the finding, specific; all four cells (Marc) |
+| D2. Host layer: the deployment takes the host each attacker was working on. The baseline attacker is sent back to scanning hosts and enumerates one next. The APT attacker model enumerates a host only in Lateral Movement, about one step in eleven, so it waits through its other tactics, and their attack actions most likely fail for a missing host | **keep** | the discussion point; it is the opener's two causes, verified |
+| D3. Service diversity: MTDSim sends the baseline attacker back to scanning that host's ports, and with every service redrawn it starts that host's exploits again. The APT attacker model is not sent back; it keeps its host and the ports it found | **keep**, one hedge | the discussion point; MTDSim's rule acts through the baseline attacker's procedure |
+| "The two attackers lose time to different MTD mechanisms" | cut | vague; D1 states it with numbers |
+| "After a disruption, MTDSim sends the baseline attacker back to a fixed attack action of its procedure" | cut | abstract; D2 and D3 each name the attack action |
+| The failure matrix, rerouting | cut | contradicted by §5.4 |
+| "The APT attacker model is not sent back" as its own sentence | fold into D3 | it matters only for the service layer |
+| Attack actions blocked, 0.15 against 0.95, tactic durations | cut | §5.3.1 states it, and it is a secondary cause of the 60 s next to D3 |
+| The first deployment's second attempt; why the value is at or below zero | §6.5 | a property of the metric (counterfactual exact only to the first deployment) |
+| "Neither attacker loses its host" | fold into D3 | "that host's ports" and "keeps its host" carry it |
+| After Lateral Movement it also needs Discovery before it can exploit | off | implicit nuance; the wait to a host already carries the point |
+
+**Split into two paragraphs?** No. D1–D3 come to about 120–150 words in one paragraph: a lead, three sentences on the host layer, two on service diversity. Split by layer only if D2 or D3 cannot be said in that.
+
+**Tie to the opener:**
+- **D2** is both causes, so it matches "its tactic durations and the order of its tactics".
+- **D3** is the baseline attacker's procedure against the APT attacker model's Petri net, which picks its next tactic, so it is the order of its tactics in the broad sense.
+
+Nothing in the opener needs changing.
+
+**Advice for the rest of Chapter 6:**
+- (ae) Settle each mechanism in one line, verified against the code and the ablations (§5.4), *before* drafting. If a critique changes the mechanism, re-settle it; do not redraft around it.
+- (af) When a critique says "unclear", cut an idea before adding a clause.
+- (ag) A throughline is checked against the data per claim. Where the data do not split as the throughline does, the throughline gives way.
