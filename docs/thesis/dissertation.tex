@@ -8879,8 +8879,9 @@ judgement where MTD disrupts it.
 %  2's cap. AND joins and conditions cut. Last sentence: Marc's wording plus
 %  'with no actions on objectives'.]
 In answer to \ref{sq:model}, the APT attacker model executes the order of its
-tactics inside an existing simulator, MTDSim, by mapping eight of the 15
-tactics onto MTDSim's six attack actions
+tactics inside an existing simulator, MTDSim, as a Petri net that draws its
+next tactic during the run, mapping eight of the 15 tactics onto MTDSim's six
+attack actions
 (Section~\ref{subsec:tactic-verb-mapping}). It shares the baseline attacker's
 attack actions and MTD deployments, so it keeps the baseline attacker's
 campaign persistence. Any difference between the two attackers comes from

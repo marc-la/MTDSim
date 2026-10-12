@@ -3544,3 +3544,12 @@ Marc kept ¶3's S2 as it is. On the close he asked: what must it carry, is it ne
 - Alternatively, ¶2's S2 gets the clause ("…in full, drawn by its Petri net during the run").
 - **Recommended: ¶3**, because the draw is execution (SQ2), and ¶2 stays as approved.
 - Proposed, not applied (paragraph gate).
+
+## §58. §6.3 ¶3: the Petri net clause applied (Marc 2026-10-12, "yes that's fine")
+
+- **S1 now reads:** "…executes the order of its tactics inside an existing simulator, MTDSim, as a Petri net that draws its next tactic during the run, mapping eight of the 15 tactics onto MTDSim's six attack actions".
+- **What it closes (both from §57):**
+  - SQ2's how now names the Petri net, as ch1 and ch4 answer it;
+  - mark 3's "in full" has its reason (the draw during the run, Appendix B row 3).
+- **Word counts (prose, by label range):** §6.1 492, §6.2 327, §6.3 about 415.
+- Build clean, 118 pages, 0 undefined.
