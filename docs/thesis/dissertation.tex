@@ -8720,20 +8720,12 @@ to scan port on the same host, so it exploits the host's new vulnerabilities
 from the start. The APT attacker model keeps the ports it had found and goes
 on to the tactic its Petri net picks, which likely explains its 60\,s.
 
-On MTD ranking against each attacker, $\rho$ between the two attackers'
-rankings lies between $-0.24$ and $0.25$ at every deployment interval
-(Table~\ref{tab:eff-cross-arm}). NCR reduction
-falls as the deployment interval grows. The host layer reduces the APT attacker
-model's NCR by half or more up to 1\,000\,s, and the baseline attacker's only
-up to 100\,s; the service layer reduces the baseline attacker's by half or more
-up to 200\,s, and never the APT attacker model's (Table~\ref{tab:eff-interval-values}). MTD
-likely reduces an attacker's NCR only while the deployment interval is shorter
-than the time the attacker needs to recover from a deployment, and that time
-depends on the attacker and the MTD layer. User shuffle raises the APT attacker
-model's NCR at every deployment interval: it redraws every host's accounts and
-leaves valid the accounts the attacker holds, so each deployment gives it a
-fresh chance at the hosts it could not log into
-(Appendix~\ref{app:fa-accounts}).
+% PARAGRAPH 3 DISSOLVED, 2026-10-12 (Marc; handoff section 29): rho and
+%  "rankings carry their model's assumptions" are 6.4's; "NCR reduction falls
+%  as the deployment interval grows" is 5.3.2's; the recovery-time rule had
+%  counterexamples (port shuffle; the layer orderings); user shuffle's rule is
+%  Appendix F.3's (6.4 repointed there). Its one explanation, the deployment
+%  interval, is now the close.
 
 Of the deployment strategies, random and alternative reduce the APT attacker
 model's NCR more than the baseline attacker's at every deployment interval, and
@@ -8762,12 +8754,16 @@ depends more on the attacker model than on the attack profile, which fits
 Section~\ref{sec:disc-behaviour}: an attack profile's objective shows only in
 actions on objectives, whose tactics are unmapped.
 
-Chapter~\ref{ch:intro} set MTD the aim of shifting the advantage of time to the
-defender \citep{ghosh2009nitrd}. Against the slower APT attacker model, the
-host layer reduces NCR by half or more at deployment intervals up to ten times
-longer than against the baseline attacker; the service layer never does. Each part of
-this answer rests on MTDSim's rules for what a deployment disrupts
-(Section~\ref{sec:threats}).
+% CLOSE, 2026-10-12 (Marc; handoff section 29.7): paragraph 3's explanation
+%  joined to Chapter 1's aim; the bound sentence cut (6.5 holds it).
+The host layer reduces the APT attacker model's NCR by half or more at
+deployment intervals up to 1\,000\,s, and the baseline attacker's only up to
+100\,s, likely because each host-layer deployment costs the APT attacker model
+242 to 324\,s; the service layer never halves the APT attacker model's NCR
+(Table~\ref{tab:eff-interval-values}). Chapter~\ref{ch:intro} set MTD the aim
+of shifting the advantage of time to the defender \citep{ghosh2009nitrd}:
+against the APT attacker model, the host layer holds it at deployment
+intervals ten times longer.
 
 % 2026-10-08: all four paragraphs drafted; the point sets are retired to the
 % ch6 handoff, section 10 (Marc: drafted ideas leave the LaTeX). Kept below:
@@ -9125,7 +9121,7 @@ actions without a fixed order. On the defender's side, an evaluation should
 report what each deployment takes from the attacker. User shuffle raises the
 APT attacker model's NCR at every deployment interval
 (Table~\ref{tab:eff-interval-values}) because of the rule MTDSim gives it
-(Section~\ref{sec:disc-mtd-performance}), which says more about the simulator
+(Appendix~\ref{app:fa-accounts}), which says more about the simulator
 than about user shuffle. Without the interface, a reader cannot trace a
 ranking to its assumptions. The failure matrix moves NCR negligibly
 (Section~\ref{sec:fidelity-verdict}), so a builder should ablate a component
@@ -9168,12 +9164,12 @@ two attackers, IP shuffle is highest on NCR reduction at every deployment
 interval, and service diversity on ASP reduction from 100\,s. The deployment
 interval depends on the attacker model too. The earlier MTDSim studies ran
 50 to 200\,s (Table~\ref{tab:lineage-configurations}), where both MTD layers
-hold the baseline attacker back; an interval chosen against the baseline
+reduce the baseline attacker's NCR; an interval chosen against the baseline
 attacker would judge the host layer spent far sooner than it is against the
 APT attacker model, and rely on a service layer that never halves the APT
 attacker model's NCR (Section~\ref{sec:disc-mtd-performance}). An interval
 also needs a price. MTDSim charges a deployment nothing, so a sweep shows
-where MTD stops holding an attacker back but cannot choose an interval; an
+where MTD stops reducing an attacker's NCR but cannot choose an interval; an
 evaluation that sets one should model the overhead and loss of service each
 deployment costs.
 
@@ -10963,9 +10959,8 @@ stands on the results of Chapter~\ref{ch:experiments} without it.
 \label{app:fa-accounts}
 % Registry B10. The 2026-10-07 one-off count (APT 1.30 -> 2.44 at 200 s) is
 % superseded by the script's 1.26 -> 2.37.
-Section~\ref{sec:disc-mtd-performance} explains why user shuffle raises the APT
-attacker model's NCR at every deployment interval
-(Table~\ref{tab:eff-interval-values}): it redraws every host's accounts but
+User shuffle raises the APT attacker model's NCR at every deployment interval
+(Table~\ref{tab:eff-interval-values}) because it redraws every host's accounts but
 leaves valid the accounts the attacker holds, so each deployment gives the
 attacker a fresh chance to log in to hosts it could not. A port scan compromises
 a host when an account the attacker holds is valid on it, and

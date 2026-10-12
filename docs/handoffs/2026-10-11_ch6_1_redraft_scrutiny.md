@@ -2138,3 +2138,22 @@ About 60 words in place of ¶3's 178 and the close's 75.
 The mirror of §5.3 holds: §5.3.2's ranking is the opener (mechanisms) and the MTDShield paragraph (deployment strategies).
 
 **Alternative:** the interval sentence as ¶2's last sentence (mechanism, then its consequence), with the close keeping only the Chapter 1 tie. It reads in the order of the logic, but makes ¶2, already the densest paragraph, longer.
+
+### 29.8 Applied (Marc 2026-10-12, "easy done … downstream automatic")
+
+**¶3 dissolved; the close rewritten:**
+> The host layer reduces the APT attacker model's NCR by half or more at deployment intervals up to 1 000 s, and the baseline attacker's only up to 100 s, likely because each host-layer deployment costs the APT attacker model 242 to 324 s; the service layer never halves the APT attacker model's NCR (Table F.1). Chapter 1 set MTD the aim of shifting the advantage of time to the defender \citep{ghosh2009nitrd}: against the APT attacker model, the host layer holds it at deployment intervals ten times longer.
+
+The bound sentence ("Each part of this answer rests on MTDSim's rules …") is cut; §6.5 holds it.
+
+**Downstream (automatic):**
+- **§6.4:** user shuffle's rule now cites Appendix F.3 (fa-accounts), not §6.2.
+- **Appendix F.3:** the lead stands alone ("User shuffle raises … because it redraws …"), no longer "Section 6.2 explains why".
+- **§6.4, the deployment-interval paragraph:** the last two "hold … back" phrases are replaced:
+  - "where both MTD layers reduce the baseline attacker's NCR" (not "halve": the host layer gives 0.49 at 200 s);
+  - "where MTD stops reducing an attacker's NCR".
+- **§6.4's "a service layer that never halves the APT attacker model's NCR (§6.2)":** the close still states it.
+
+**§6.2 now:** opener, adaptivity, deployment strategies (MTDShield), by attack profile, close. About 560 words, from 1 426.
+
+Build clean, 120 pages, 0 undefined.
