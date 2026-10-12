@@ -2157,3 +2157,74 @@ The bound sentence ("Each part of this answer rests on MTDSim's rules …") is c
 **§6.2 now:** opener, adaptivity, deployment strategies (MTDShield), by attack profile, close. About 560 words, from 1 426.
 
 Build clean, 120 pages, 0 undefined.
+
+## 30. §6.2 deployment strategies (MTDShield) paragraph: scrutiny (Marc 2026-10-12; nothing applied)
+
+Marc: "what is the explanation we're trying to give here … why does this read like a collection of facts rather than an argument … boil it down to the discussion … what's the structure … are the scrutiny's lessons applicable?"
+
+### 30.1 Facts verified before any drafting (lesson (ae))
+- **Random and alternative draw from all seven MTD mechanisms.** `run_corpus._strategies` passes the full pool; `random.choice` / a fixed rotation. So three of every seven deployments are host layer.
+- **MTDShield's four:** complete topology shuffle, IP shuffle, OS diversity, service diversity, or none (§2.2.2).
+- **MTDShield at 200 s (Appendix D.5):**
+  - service diversity at 76 % of decisions (baseline attacker) and 70 % (APT attacker model);
+  - nothing at 23 % and 29 %;
+  - the other three under 1 % together.
+- **Table F.1 at 200 s:**
+
+  | | APT attacker model | Baseline attacker |
+  |---|---|---|
+  | Random | 0.75 | 0.33 |
+  | Alternative | 0.72 | 0.38 |
+  | MTDShield | 0.28 | 0.68 |
+  | Random over MTDShield's four | 0.80 | 0.56 |
+  | Service diversity alone | 0.36 | 0.92 |
+
+- **MTDShield sits just below service diversity alone against both attackers.** That fits "service diversity, deployed less often" (nothing at about a quarter of decisions).
+- **Not additive (nuance, keep off the page).**
+  - At 200 s, random gives 0.75 against the APT attacker model, where the mean of the seven mechanisms is 0.48. Against the baseline attacker it gives 0.33, where the mean is 0.56.
+  - Random over MTDShield's four behaves the same way: 0.80 against a mean of 0.59, and 0.56 against 0.68.
+  - So a deployment strategy follows its mechanisms in **direction**, not in size. Never write "the sum" or "the mean". The likely reason (a host-layer deployment costs the APT attacker model longer than the interval) is untraced.
+
+### 30.2 Why it reads as a collection of facts
+It has no claim of its own. Sentence by sentence:
+1. **S1** (random and alternative more against the APT attacker model; MTDShield more against the baseline attacker up to 1 000 s) is §5.3.2 ¶2 almost word for word. It is a ch5 rehash in the place where the paragraph's claim should be.
+2. **S2** (0.68 vs 0.56; 0.28 vs 0.80) is a number with no reason given for it.
+3. **S3** (76 % / 70 %; the other three under 1 %) is a second fact. It never says what the choice does to NCR reduction, which is the explanation.
+4. **S4** (rank 1, so "consistent with a policy fitted to the baseline attacker") answers *was MTDShield fitted to the baseline attacker?* That is §6.4 ¶2's question, and §6.4 already asks and bounds it.
+5. **S5** ("cannot tell a fitted policy from a fixed preference") is §6.4's "whether MTDShield was fitted to one, this run cannot tell", told twice.
+
+So the paragraph's only explanation is implied between S1 and S3, and never stated: **a deployment strategy reduces an attacker's NCR as the MTD mechanisms it deploys do.** That is ¶2's adaptivity result carried to the deployment strategies. It is the "components → what is measured" reading Marc gave, in direction and not in size.
+
+### 30.3 Lessons checked
+- **(ab) Answer first, in the question's terms.** The answer is the explanation. The ch5 fact follows as evidence and is no longer the lead.
+- **(ac) Layer terms, checked per mechanism.** "Host layer" for random and alternative's three of seven holds (all three host-layer mechanisms halve the APT attacker model's NCR at 200 s). For MTDShield, name service diversity, not "the service layer": it picks one mechanism.
+- **(ad) Name which comparison a cause explains.** The mix explains the *between-attacker* direction for each deployment strategy, and MTDShield against random over the same four. It does not explain MTDShield against service diversity alone, beyond "deployed less often".
+- **(ae) Verified before drafting.** Done (30.1).
+- **(af) Cut an idea before adding a clause.** "Trained against the baseline attacker", "fitted policy" and the four zero inputs are all §6.4's.
+- **(ag) A throughline gives way to the data.** The non-additivity stays off the page, so no size claim.
+- **¶3's lesson: is the argument owned elsewhere?** Partly. §6.4 owns *why MTDShield chose service diversity* (fitted or not) and the test recommendation. §6.2 owns only *what the choice does to each attacker's NCR*.
+- **Property parallel.** Not "On deployment-strategy awareness": neither attacker has it, and the result is adaptivity's (time lost per MTD deployment), carried through the deployment strategy. The deployment strategies are the subject.
+
+### 30.4 Slots (no prose)
+- **S1, the answer.** Each deployment strategy reduces an attacker's NCR as the MTD mechanisms it deploys do (Figure 5.3(d)–(f)). This is directional; one "likely" if Marc reads it as inferred.
+- **S2, random and alternative.**
+  - Job: they draw from all seven, so three of every seven deployments are host layer, and they reduce the APT attacker model's NCR more at every deployment interval.
+  - Numbers: 0.75 and 0.72 against 0.33 and 0.38 at 200 s.
+- **S3, MTDShield.**
+  - Job: it deploys service diversity at 70 % or more of its decisions, nothing at most of the rest, and the host layer at under 1 %, so it reduces the baseline attacker's NCR more, a little below service diversity alone.
+  - Numbers: 0.68 against 0.92; 0.28 against 0.36 (Appendix D.5).
+- **S4, the matched control** (§6.4 points here).
+  - Job: random over the same four deploys IP shuffle or complete topology shuffle at half its deployments. It beats MTDShield against the APT attacker model and loses to it against the baseline attacker.
+  - Numbers: 0.80 against 0.28; 0.56 against 0.68 (Table F.1).
+- **Cut:**
+  - current S1 (§5.3.2);
+  - S4 (rank 1 → "fitted": §6.4);
+  - S5 ("cannot tell": §6.4, Appendix D.4);
+  - the 76/70 split (one form, "70 % or more", as §5.3.2 and §6.4 give it).
+
+About 90–110 words, from 183.
+
+### 30.5 Questions (recommendation first)
+- **Q1. Do the matched-control numbers stay here?** Recommend yes. They are the sharpest evidence for S1, and §6.4 ¶2 cites §6.2 for "beats random over the same four … against the baseline attacker alone". Alternative: move them to §6.4 and repoint to Table F.1. §6.2 is then three sentences, and §6.4 grows.
+- **Q2. Does "trained against the baseline attacker" stay off this paragraph?** Recommend yes. It is the reason the reader cares *why* MTDShield chose service diversity, which is §6.4's question ("The dependence reaches deployment strategies").
+- **Q3. S3's "nothing at most of the rest" needs the 23 % / 29 % to be specific.** Recommend giving them in the parenthesis cite only to Appendix D.5 and keeping "nothing at most of the rest" in the prose. Alternative: one number pair in the prose.
