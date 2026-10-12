@@ -3629,3 +3629,32 @@ Marc kept ¶3's S2 as it is. On the close he asked: what must it carry, is it ne
 - simulator-side recommendations: in the close, or a paragraph of their own;
 - a closing table, or prose;
 - the rewording of "neither is the better one".
+
+## §61. §6.4 spine, second proposal (Marc 2026-10-12; nothing applied)
+
+**Marc's reply to §60**
+- The "three decisions" structure is "OK" but he is not enthused by it. It sorts the content without arguing anything.
+- "Neither is the better one" was meant as: with two attacker models, does an evaluator trust the better one or take the minimum of both? That points to a range of models.
+- His ramblings need judging on merit, with the overreach stripped.
+
+**Proposed purpose.** §6.4 turns SQ3's answer into what the next person evaluating MTD should do differently. Marc's question is the through-line.
+
+**Proposed chain**
+1. **Problem.** A ranking belongs to its attacker model: ρ, no shared first; Hong; Cho; Jalowski.
+2. **Consequence.** A deployment strategy learned against one attacker model inherits its ranking (MTDShield).
+3. **Answer.** Rank across several attacker models and report each MTD mechanism's lowest reduction.
+   - Hinge: §6.3 ¶2. The APT attacker model has more of the eight properties but rests on judgement where MTD disrupts it, so trusting the better one is not safe.
+   - Hedge: the minimum is a bound over the attacker models run only.
+4. **The minimum turns on the metric and the deployment interval.**
+5. **What a range needs.** The four declared parts and the simulator's rules for what each deployment takes.
+
+**Verified: the minimum over the two attackers (numbers_reported.json)**
+- **NCR reduction.** IP shuffle is first at all six deployment intervals: 0.88, 0.70, 0.68, 0.39, 0.30, 0.19. That is the APT attacker model's first choice at every interval. Random over MTDShield's four is second at 50 to 200 s.
+- **ASP reduction.** Service diversity is first from 100 s: 0.93, 0.83, 0.62, 0.38, 0.25. That is the baseline attacker's first choice (it ties with port shuffle at 100 s). IP shuffle is first at 50 s (0.97).
+
+**Dropped on merit**
+- CTI cuts what an attacker model must assume.
+- Write attack actions without a fixed order. At most a hedged line in ¶5, or ch7.
+- Ablate before refining (ch7).
+- The detection-input detail (Appendix D).
+- "Neither is the better one" as worded. Its intent becomes ¶3's hinge.
