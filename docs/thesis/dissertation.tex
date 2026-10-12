@@ -8609,27 +8609,27 @@ tactics can run an attack action before its preconditions are met
 (Section~\ref{subsec:runtime-mechanics}), and 15 to 30\,\% of the attack
 profiles' attack actions fail this way (Appendix~\ref{app:fa-run-time}).
 
-The APT attacker model moves low and slow, the first half of the definition
-of detection avoidance (Table~\ref{tab:attacker-properties}), in the only sense
-MTDSim can test: more slowly than the baseline attacker
-(Appendix~\ref{app:clause-tests}). Its tactic durations make it slower
-(Section~\ref{subsec:dwell-times}). It runs its attack actions between
-unmapped tactics, which hold it for a third to over half of its run with no
-attack action (Appendix~\ref{app:fa-run-time}), and its attack rate is lower
-than the baseline attacker's (Table~\ref{tab:unopposed-summary}). The attack
-profile with the most steps in unmapped tactics has the lowest attack rate,
-and the one with the fewest the highest (Figure~\ref{fig:aio-coverage}(a),
-All unmapped). Attack confidentiality orders the attack profiles and the
-baseline attacker as attack rate does (Table~\ref{tab:unopposed-summary}).
-With the baseline attacker's times, its attack rate rises above the baseline
-attacker's, and its attack confidentiality falls below it
-(Appendix~\ref{app:fa-run-time}). The APT attacker model does not meet the
-second half of the definition, which asks it to choose techniques an IDS does
-not flag: the IDS of
-Section~\ref{subsec:metrics-behaviour} is applied to the recorded runs, and
-nothing in a run reacts to it. Stealth and Defense Impairment are themselves
-unmapped tactics, so in MTDSim its detection avoidance is time spent without
-an attack action.
+% P3 ROUND 1, 2026-10-12 (Marc: v3 approved after a clarity pass; handoff 24.13):
+%  the result in the two metrics' names with Table 5.2's numbers; the cause in the
+%  defined term, with the APT attacker model as its owner; the run with the
+%  baseline attacker's times, numbers carrying both directions; the second half
+%  of the definition in one clause (MTDSim has no IDS); the close in the defined
+%  term (not "time spent without an attack action": the mapped tactics' durations
+%  slow it too). Cut: the "only sense MTDSim can test" bridge (4.5.1 has it), the
+%  unmapped share of run time (G.3), the four-profile correlation (superseded by
+%  the run), the confidentiality ordering (implied by 4.5.1).
+On detection avoidance, the attack profiles have a lower attack rate than the
+baseline attacker, 0.68 to 1.23 attack actions per minute against 1.71, and a
+higher attack confidentiality, 89 to 98\,\% against 82\,\%
+(Table~\ref{tab:unopposed-summary}). The APT attacker model's tactic durations
+make it slower. With the baseline attacker's times in place of its tactic
+durations, it takes 2.18 to 4.59 attack actions per minute, more than the
+baseline attacker, and its attack confidentiality falls to 32 to 56\,\%,
+below the baseline attacker's (Appendix~\ref{app:fa-run-time}). MTDSim has no
+IDS, so the APT attacker model cannot choose techniques an IDS does not flag.
+Stealth and Defense Impairment, the tactics for avoiding detection, are
+unmapped, so in MTDSim its detection avoidance comes only from its tactic
+durations.
 
 The APT attacker model's tactic durations lower its ASP and NCR by lowering
 its attack rate, and the order of its tactics most likely lowers them by

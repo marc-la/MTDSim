@@ -1365,3 +1365,42 @@ The generator `tools/further_analyses_tables.py` is fixed and regenerated:
 
 Only the intended lines changed. Data keys (`dispatched|4`) are left alone. No "dispatch" is left in the prose.
 
+### 24.13 ¶3 (detection avoidance), rounds 1–3 (Marc 2026-10-12, v3 "yes")
+
+**Critique of the on-disk ¶3 (8 sentences):**
+- It rebuilt §4.5.1's proxy bridge and pointed to the marking appendix (a, j).
+- The result had no numbers and came late.
+- A four-profile correlation was superseded by the run.
+- The confidentiality ordering was implied by the scaffold.
+- The close was too narrow: "time spent without an attack action" leaves out the mapped tactics. Their durations slow it too, and c3 stays below the baseline attacker's attack rate at arm A.
+
+**Marc on v1:**
+- "Their tactic durations make them slower": whose? Now the APT attacker model, the opener's owner.
+- "With the baseline attacker's times, their attack rate rises above the baseline attacker's" read as the baseline against the baseline. Now "in place of its tactic durations", with numbers on both sides.
+- Marc was unsure which way confidentiality moves. Acting faster puts more attack actions five or more within 60 s, so more are flagged and confidentiality falls. The numbers now carry the direction.
+- The IDS rule is tautological: a slower attacker passes it. §4.5.1 already says both metrics measure "how often the attacker acts", so ¶3 does not repeat it.
+
+**Marc on v2:**
+- The IDS sentence was clause on clause. Now one clause in a CS student's terms: "MTDSim has no IDS, so the APT attacker model cannot choose techniques an IDS does not flag."
+- Order kept: result → cause → test → the half not met → summary.
+
+**Final clarity pass:**
+- **Numbers checked** against Table 5.2 and `duration_ablation_numbers.json`: 0.680–1.228 / 1.709; 89.4–98.1 / 82.2; 2.18–4.59; 32.1–56.0.
+- **Every term is defined:**
+  - detection avoidance (Table 6.1);
+  - attack rate and its unit, and attack confidentiality (§4.5.1);
+  - tactic durations, and "the baseline attacker's times" (opener, G.3);
+  - unmapped (§4.4.1);
+  - Stealth and Defense Impairment (ch4 spelling).
+- **Pronouns:** "it" and "its" all point to the APT attacker model.
+- **One fix:** "the tactics *of* avoiding detection" → "*for* avoiding detection".
+- **No rhetorical words.** "Slower" is the definition's own word.
+
+**Applied:**
+> On detection avoidance, the attack profiles have a lower attack rate than the baseline attacker, 0.68 to 1.23 attack actions per minute against 1.71, and a higher attack confidentiality, 89 to 98 % against 82 % (Table 5.2). The APT attacker model's tactic durations make it slower. With the baseline attacker's times in place of its tactic durations, it takes 2.18 to 4.59 attack actions per minute, more than the baseline attacker, and its attack confidentiality falls to 32 to 56 %, below the baseline attacker's (Appendix G.3). MTDSim has no IDS, so the APT attacker model cannot choose techniques an IDS does not flag. Stealth and Defense Impairment, the tactics for avoiding detection, are unmapped, so in MTDSim its detection avoidance comes only from its tactic durations.
+
+**Advice:**
+- (x) In a comparison against a run that borrows the comparator's values, name what was replaced ("in place of its tactic durations") and give both sides' numbers. Otherwise it reads as the comparator against itself.
+- (y) Use the reader's plainest fact ("MTDSim has no IDS") rather than the procedure that follows from it ("applied to its runs after they end").
+- (z) A close that names a mechanism must cover all of it. Use the defined term for the cause, not one part of it.
+
