@@ -1700,3 +1700,114 @@ Two slots, about 45 words in place of 95:
 - (ac) A layer claim uses the figure's layer term ("the host layer", the mean the figure plots). Check per-mechanism truth before writing "the host-layer mechanisms".
 
 Build clean, 120 pages, 0 undefined.
+
+### 27.7 Opener round 2, the clarity pass (Marc 2026-10-12, "apply that")
+
+**Applied:**
+- "at every deployment interval" moved to the front of the sentence, so it covers both clauses.
+- "the difference" became "the difference between the two attackers". S1 holds two gaps, the host layer against the service layer within each attacker, and the layer order between the two attackers. The causes explain the second.
+
+**Checked:**
+- "Host layer" and "service layer" are defined in emphasis in §2.2.1.
+- "Deployment interval" is defined in emphasis in §2.2.2.
+- Figure 5.3's caption calls each layer line the mean over its mechanisms.
+
+**Advice:**
+- (ad) When a cause sentence follows a sentence holding two comparisons, name which one the cause explains.
+
+## 28. §6.2 ¶2 (disruption per MTD deployment): scrutiny (Marc 2026-10-12, "look at paragraph two"; nothing applied)
+
+Paragraph two counts the opener as paragraph one: "On disruption per MTD deployment …", 258 words, 13 sentences.
+
+### 28.1 What it is for (one line)
+
+**Show how each of the two causes meets MTDSim's deployment rules, at the level of one deployment.**
+- **Tactic durations** lower attack actions blocked per MTD deployment.
+- **The order of its tactics** makes the APT attacker model lose time to the host layer, where the baseline attacker loses none.
+
+The ranking in ¶3 then follows. Two further facts are kept only because they are needed:
+- the baseline attacker's time lost below zero (§6.5 cites §6.2 for it);
+- service diversity, where the baseline attacker loses most.
+
+### 28.2 What the reader already holds (§5.3.1 states most of this paragraph, nearly verbatim)
+
+| ¶2 says | Already given |
+|---|---|
+| A deployment blocks the baseline attacker more often | §5.3.1's first sentence |
+| "The APT attacker model runs no attack action while in an unmapped tactic, so a deployment then blocks none" | §5.3.1, **word for word** (with a §4.3.x pointer); §4.4.1 ("cuts its duration short … never changes which tactic comes next") |
+| The two attackers lose time to different MTD mechanisms | §5.3.1's adaptivity lead |
+| 242 to 324 s; 493 against 60 s; below zero under every mechanism but service diversity; 204 to 232 s forward | §5.3.1, every number |
+| A deployment costs the attacker only its place | §2.2.3 |
+| Host layer: back to scanning hosts; service layer: back to scanning ports | §2.2.3, Figure 2.2's dashed arrows |
+| Lateral Movement runs enumerate host, the attack action that moves the attacker to its next host | §4.3.x (tactic-to-action mapping, l.4843) |
+| A failure caused by MTD routes like any other | §4.4.2 (failure matrix) |
+
+What is **new** in ¶2:
+- the attribution of blocks to tactic durations;
+- the host-layer recovery contrast (the baseline attacker is sent back to scanning hosts, while the APT attacker model waits for Lateral Movement);
+- why the baseline attacker's time lost is below zero (the second attempt);
+- why service diversity costs the baseline attacker (erased exploit progress).
+
+The rest is replay.
+
+### 28.3 Sentence by sentence
+
+1. **"On disruption per MTD deployment, a deployment blocks … more often … and the two attackers lose time to different MTD mechanisms (Figure 5.2)."** The scaffold lead is right (§5.3.1's heading). It restates with a back-reference and no numbers, which the rules allow. "Blocks … more often" paraphrases the metric; the defined name is *attack actions blocked per MTD deployment*. **Keep, in the metric's name.**
+2. **"The APT attacker model runs no attack action while in an unmapped tactic, so a deployment then blocks none: its tactic durations lower how often MTD blocks it."** The first two clauses are §5.3.1 verbatim. Only the attribution after the colon is new. "Lower how often MTD blocks it" paraphrases the metric again, and "MTD" stands in for "a deployment". **Keep the attribution only, in the metric's name; the mechanism is a pointer.**
+3. **"A block ends the attack action as a failure, so what a deployment costs an attacker is what it does next."** The "so" clause is abstract (a flourish). The first half is §4.4.2 (a failure routes like any other); the second restates §4.5's definition of time lost. **Cut.**
+4. **"A host-layer deployment costs either attacker its place (Section 2.2.3)."** This is §2.2.3, but it is the premise for the contrast that follows. **Keep as a clause** that opens the contrast.
+5. **"The baseline attacker restarts its procedure after a block, whatever its progress \citep{brown2023}, so it scans for hosts again and finds its place at once."**
+   - "Restarts its procedure after a block" is **false for the service layer**: there it is sent back to scanning the same host's ports (§2.2.3). The 204–232 s finding below covers both layers, so the wrong verb carries into the second attempt.
+   - "whatever its progress" is a clause no later sentence uses.
+   - "at once" is vague. §5.3.1 has the number: each later host-layer or port-shuffle deployment costs it 19 to 32 s, the contrast pair to 242–324 s.
+   - **Fix:** use §2.2.3's verbs ("sent back to scanning hosts") and give the measured cost.
+6. **"The APT attacker model regains its place only when its Petri net next reaches Lateral Movement, which the order of its tactics decides, and until then its attack actions most likely fail for missing preconditions (Appendices F.x, F.y)."** This is the core, and it is new. Two gaps:
+   - **why Lateral Movement**: it is the one tactic mapped to enumerate host, the attack action that moves the attacker to a host. The reader holds this from §4.3, but not here, so a pointer to Section 4.3.x is needed, not a sentence;
+   - the hedge is right (one traced run, 255 of 363 refused; no aggregate under MTD).
+
+   The strongest measured support is in Appendix F.2, not in the text: under the host layer at 50 to 200 s, 70–89 % of the APT attacker model's runs compromise no host, against 3–20 % of the baseline attacker's. Whether that number belongs in the body is Q3.
+7. **"It loses 242 to 324 s per host-layer deployment."** This is a §5.3.1 number. It is the payoff of S6 and the pair to S5's 19–32 s. **Keep only if S5 gets its number.** Otherwise it is a one-sided replay.
+8. **"The restart can also help the baseline attacker."** A transition with no content of its own. **Fold into S9.**
+9. **"The first deployment lands while it exploits its first host, so the restart gives it a second attempt there and brings its first compromise 204 to 232 s forward (§5.3.1); its time lost is therefore below zero under every MTD mechanism but service diversity."**
+   - The mechanism is new, and §6.5 (l.9395) cites §6.2 for it.
+   - **"therefore" overclaims for user shuffle.** The 204–232 s is for the host-layer and service-layer mechanisms (§5.3.1). User shuffle disrupts only brute force, so it cannot block the first exploit, yet the baseline attacker's time lost under it is also below zero (−23 s, Table 5.x). **Fix:** scope it to the host and service layers.
+   - **A check on the inherited claim:** under complete topology shuffle (−14 s, [−29, 2]) and host topology shuffle (−15 s, [−30, 0]), the confidence interval reaches zero. "Below zero under every MTD mechanism but service diversity" is §5.3.1's sentence (ch5, gated). Flagged, not ours to fix here.
+10. **"The APT attacker model gets no second attempt."** A compressed phrase. The reason is ch4's: a block is a failure that its Petri net routes like any other (§4.4.2). **Keep, with the reason in ch4's words or as a pointer.**
+11. **"Service diversity costs the baseline attacker 493 s per deployment and the APT attacker model 60 s: it redraws every service, so the baseline attacker loses the vulnerabilities it was exploiting."**
+    - The baseline attacker's side is supported by disruption_mechanism.md §1: its exploit progress on the host is erased, and its next compromise comes 2.6× later.
+    - The APT attacker model's 60 s is **not explained**. The same audit says the service layer leaves it its position, "it pays only through later exploit outcomes". The cause is untraced (flag 4 from §26).
+
+### 28.4 §6.1's lessons, checked against ¶2
+
+| Lesson | Here |
+|---|---|
+| Replay test (§21.6) | **fails**: S1, S2 (first half), S7 and S9's numbers are §5.3.1's sentences |
+| §9.3 open on the reader's term, metric names verbatim | **partly**: lead ✓; "blocks … more often", "how often MTD blocks it" paraphrase the metric |
+| §9.6 no stand-in words | **fails**: "restarts its procedure" (wrong for the service layer), "finds its place at once", "gets no second attempt", "what a deployment costs is what it does next" |
+| §9.7 one hedge per inferred claim | ✓ (one "most likely") |
+| (c) scope a claim to what was measured | **fails**: "therefore … every MTD mechanism but service diversity" covers user shuffle, which the mechanism does not |
+| (k) numbers with their frame | **partly**: 242–324 s has no contrast number for the baseline attacker |
+| (e) mechanism in the paragraph that uses it | ✓ (this is that paragraph) |
+| §9.4 sort every sentence | S3 nowhere; S8 folds into S9 |
+
+### 28.5 The structure (slots; no prose yet)
+
+Four moves, about 150–170 words:
+
+1. **Lead.** Attack actions blocked per MTD deployment is higher for the baseline attacker under every MTD mechanism, and the two attackers lose time to different MTD mechanisms (Figure 5.2). No numbers.
+2. **Tactic durations, blocks.** The attribution only: tactic durations lower the APT attacker model's attack actions blocked per MTD deployment. The mechanism is a pointer to §4.3.x or §5.3.1, not re-said.
+3. **The order of its tactics, host-layer time lost.**
+   - A host-layer deployment costs either attacker its place (§2.2.3).
+   - The baseline attacker is sent back to scanning hosts, and a later deployment costs it 19–32 s.
+   - The APT attacker model regains its place only when its Petri net next reaches Lateral Movement, the tactic mapped to enumerate host (§4.3.x), which the order of its tactics decides. Until then its attack actions most likely fail for missing preconditions, and it loses 242–324 s (Appendices F.2, F.4).
+4. **Two consequences for the baseline attacker.**
+   - The first deployment gives it a second attempt at its first host: 204–232 s forward, so its time lost under the host and service layers is below zero. A block costs the APT attacker model no attempt; its Petri net routes it like any failure (§4.4.2).
+   - Service diversity erases its exploit progress: 493 s against 60 s.
+
+**Questions (recommendation first):**
+- **Q1, the replay.** (Recommended) Keep only one contrast pair of numbers (19–32 s against 242–324 s). The rest of §5.3.1's numbers (204–232 s, 493/60 s) stay only where a mechanism sentence needs them as its frame. Otherwise, keep every number as now.
+- **Q2, split or not.** (Recommended) **Do not split.** After the cuts the paragraph has one job, the two causes at one deployment, at about 160 words. A split would give the blocks a two-sentence paragraph.
+- **Q3, the no-foothold share.** (Recommended) **Leave it in Appendix F.2.** The hedge and the appendix pointer carry it; the body has 242–324 s. Otherwise, bring "70–89 % of its runs compromise no host, against 3–20 %" into the body as the measured support for "most likely".
+- **Q4, service diversity's 60 s.** (Recommended) **State the baseline attacker's cause only, and keep the APT attacker model's 60 s as the contrast.** Tracing the 60 s is cheap with the movement tracer if Marc wants it explained; the explanation would be a hypothesis until traced. Otherwise, run the trace first, or cut the 60 s.
+
+**Gated (ch5), proposed:** §5.3.1's "below zero under every MTD mechanism but service diversity". The complete topology shuffle and host topology shuffle intervals reach zero, so "at or below zero" is the reading the table licenses.
