@@ -8580,23 +8580,22 @@ tactics of actions on objectives, are unmapped, because MTDSim's six attack
 actions only find and compromise hosts (Section~\ref{subsec:attacker-model}),
 so the APT attacker model steals no data and impedes no system.
 
-Choice of attack strategy comes from the order of its tactics, picked in each
-run, whereas the baseline attacker's procedure fixes the order of its attack
-actions (Figure~\ref{fig:attacker-model}). At each decision place of its Petri
-net, each edge leaving it is taken with probability proportional to its base
-weight, the share of the attack profile's attack flows that took that edge,
-and after a failure the failure matrix reweights the edges
-(Section~\ref{subsec:failure-matrix}). Its runs therefore have hundreds of
-distinct openings over eight steps, against the baseline attacker's one over
-its first four (Figure~\ref{fig:aio-coverage}(b)). Every opening follows edges
-the attack flows drew, apart from the pre-intrusion overlay that $c_3$ and
-$c_4$ need to leave Reconnaissance (Section~\ref{sec:petri-formalism}). The
-base weights ignore what MTDSim's attack actions need. Each attack action
-needs the state that the attack action before it leaves behind, so an exploit
-picked before the scan it needs fails. Of the attack actions the attack
-profiles dispatch, 15 to 30\,\% fail because their preconditions are missing
-(Appendix~\ref{app:fa-run-time}). An MTD evaluated against the baseline
-attacker meets the same first four steps in every run.
+% P2 ROUND 1, 2026-10-12 (Marc: "boil it down to what the discussion needs";
+%  handoff 24.8): the result in the defined term (distinct openings), the
+%  baseline attacker's 3 on the same eight steps; the cause in plain words (no
+%  "draws"); the catch once (no "ignores", no "leaves behind"), in the defined
+%  term the opener uses (the order of its tactics). Cut: the Petri net's
+%  mechanics and the failure matrix (4.4), the overlay exception, the G.2
+%  recount, the implication sentence (it repeated the result).
+On choice of attack strategy, the attack profiles' 1\,000 runs have 179 to
+947 distinct openings over eight steps, and the baseline attacker's 3
+(Figure~\ref{fig:aio-coverage}(b)). In each run, the Petri net picks the next
+tactic at random, in proportion to how often the attack profile's attack flows
+took that step, whereas the baseline attacker's procedure fixes the order of
+its attack actions (Figure~\ref{fig:attacker-model}). The order of its tactics
+can dispatch an attack action whose preconditions are missing
+(Section~\ref{subsec:runtime-mechanics}), and 15 to 30\,\% of the attack
+profiles' attack actions fail this way (Appendix~\ref{app:fa-run-time}).
 
 The APT attacker model moves low and slow, the first half of the definition
 of detection avoidance (Table~\ref{tab:attacker-properties}), in the only sense

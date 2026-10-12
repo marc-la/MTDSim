@@ -1283,3 +1283,29 @@ The fix: name the property first; give the reason (MTDSim's six attack actions o
 - (q) Name the measure in a comparison whose appendix holds more than one measure. "Differ" alone lets outcome and behaviour blur.
 - (r) A stage (actions on objectives) is not a set of tactics. Name the tactics when the claim is about tactics.
 
+### 24.8 ¶2 (choice of attack strategy), round 1 (Marc 2026-10-12)
+
+**Critique of the on-disk ¶2 (8 sentences):**
+- It opened on the mechanism, not on §4.5.1's answer.
+- It rebuilt §4.4: decision places, base weights, the failure matrix. §6.2 credits choice to the Petri net drawing from the attack flows, and the failure matrix belongs to adaptivity.
+- It compared unlike lengths ("hundreds over eight" against "one over its first four").
+- The overlay exception and the implication sentence repeated or over-qualified.
+
+**My first redraft; Marc's response:**
+- "does not take the same first steps in every run" restated a defined term. Use distinct openings itself.
+- The G.2 attack-action recount is a nuance the discussion does not need, and it hid the baseline attacker's 3.
+- "Draws", "ignores" and "leaves behind" are rhetorical or unclear.
+- The catch was said twice.
+- "Boil it down to what the discussion needs", then Marc left the call to me.
+
+**Applied** (4 → 3 sentences; the overlay, G.2, the mechanics and the implication cut):
+> On choice of attack strategy, the attack profiles' 1 000 runs have 179 to 947 distinct openings over eight steps, and the baseline attacker's 3 (Figure 5.1(b)). In each run, the Petri net picks the next tactic at random, in proportion to how often the attack profile's attack flows took that step, whereas the baseline attacker's procedure fixes the order of its attack actions (Figure 4.1). The order of its tactics can dispatch an attack action whose preconditions are missing (Section 4.3.x, runtime mechanics; ch4 gives the example, an exploit of a vulnerability not yet scanned for), and 15 to 30 % of the attack profiles' attack actions fail this way (Appendix G.3).
+
+- **Numbers:** `numbers_reported.json` core.table distinct_openings "8": c1 947, c2 748, c3 179, c4 662; baseline 3.
+- **Precondition example:** ch4 gives it already, so ¶2 cites ch4 rather than repeating it.
+
+**Advice:**
+- (s) Never paraphrase a defined metric ("does not take the same first steps"). Say the metric's name and its number.
+- (t) Plain verbs for a mechanism: "picks at random, in proportion to", not "draws". A verb that personifies a weight ("ignores") or a state ("leaves behind") is rhetoric.
+- (u) A catch is said once. Give its reason by pointing to where ch4 defined it.
+
