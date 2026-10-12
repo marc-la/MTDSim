@@ -2023,3 +2023,25 @@ Nothing in the opener needs changing.
 > On adaptivity, the APT attacker model loses time mainly to the host layer, 242 to 324 s per deployment, where the baseline attacker's time lost is at or below zero; the baseline attacker loses time only to service diversity, 493 s per deployment, where the APT attacker model loses 60 s (Figure 5.2(b)). After a host-layer deployment, neither attacker has a host to act on, because the host it was on may have moved (Section 2.2.3). MTDSim sends the baseline attacker back to scan host, and its procedure runs enumerate host next. For the APT attacker model, only Lateral Movement runs enumerate host (Section 4.3.2), and the order of its tactics gives Lateral Movement a relative tactic occurrence of 6 to 14 % with no MTD (Figure 5.1(a)). Until it next runs, the attack actions of its other tactics most likely fail because their preconditions are missing, and its tactic durations set how long that lasts (Appendices F.2 and F.4). A service-diversity deployment redraws every service on every host, and MTDSim sends the baseline attacker back to scan port on the same host, so it exploits the host's new vulnerabilities from the start. The APT attacker model is not sent back: its Petri net picks its next tactic, and it keeps the ports it had found, which likely explains its 60 s.
 
 **Still flagged:** "the ports it had found" and its effect on the 60 s come from the code audit (disruption_mechanism.md §C (iv)–(v)), not from a thesis section. They carry the paragraph's one "likely".
+
+### 28.13 v8 nuance pass; v9 (Marc 2026-10-12, "95 % of the way … what nuance is needed, what can live in the hedge"; proposed, not applied)
+
+| v8 detail | Verdict | Why |
+|---|---|---|
+| The four numbers, "mainly", "only" | keep | the finding, and why these two cells |
+| "because the host it was on may have moved" | cut | §2.2.3 gives the reason, and the pointer stays |
+| "sends … back to scan host … runs enumerate host next" | keep | the contrast the paragraph turns on |
+| "only Lateral Movement runs enumerate host" | keep | the mechanism |
+| "the order of its tactics gives Lateral Movement a relative tactic occurrence of 6 to 14 % with no MTD (Figure 5.1(a))" | cut the share; keep the order as the clause "until the order of its tactics next brings it there" | 242–324 s already measures the wait, so the share is a second number for the same point |
+| "and its tactic durations set how long that lasts" | cut (Marc's example) | the length of the wait is implicit in "until"; the measured result is 242–324 s |
+| "(Appendices F.2 and F.4)" | F.4 only | F.4 (the traced run, 255 of 363 attack actions refused for missing preconditions) is the evidence for "most likely fail"; F.2 (no foothold) supports no sentence here, and F.2 already points to §6.2 |
+| "redraws every service on every host" | "redraws every service" | Table 2.3 gives "on every internal host" |
+| "so it exploits the host's new vulnerabilities from the start" | keep | the cost to the baseline attacker |
+| "is not sent back:" | cut (a rhetorical lead) | replaced by what it does: "keeps the ports it had found and goes on to the tactic its Petri net picks" |
+| Two hedges ("most likely", "likely") | keep | one per inferred claim; everything else is by construction or measured |
+
+**Note:** with "its tactic durations" cut, ¶2 hands back only the order of its tactics by name. If the throughline should name both causes here, the smallest fold is "until the order of its tactics, at its tactic durations, next brings it there" (four words).
+
+**v9 (185 words):**
+
+> On adaptivity, the APT attacker model loses time mainly to the host layer, 242 to 324 s per deployment, where the baseline attacker's time lost is at or below zero; the baseline attacker loses time only to service diversity, 493 s per deployment, where the APT attacker model loses 60 s (Figure 5.2(b)). After a host-layer deployment, neither attacker has a host to act on (Section 2.2.3). MTDSim sends the baseline attacker back to scan host, and its procedure runs enumerate host next. For the APT attacker model, only Lateral Movement runs enumerate host (Section 4.3.2), so it has no host until the order of its tactics next brings it there, and meanwhile the attack actions of its other tactics most likely fail because their preconditions are missing (Appendix F.4). Service diversity redraws every service, and MTDSim sends the baseline attacker back to scan port on the same host, so it exploits the host's new vulnerabilities from the start. The APT attacker model keeps the ports it had found and goes on to the tactic its Petri net picks, which likely explains its 60 s.
