@@ -7565,7 +7565,9 @@ the APT attacker model loses \prelim{26}\,s or less.
 % ROUND 3 2026-10-06 (Marc: the below-zero sentence 'long and hard to follow'): split in two and put last, after
 %  every value; the first deployment's scope named by layer (host and service layers, every mechanism but user
 %  shuffle), so neither sentence carries a 'but' exception inside another.
-The baseline attacker's time lost is below zero under every MTD mechanism but
+% 2026-10-12 (Marc, handoff section 28): 'at or below zero', since the
+%  intervals of complete and host topology shuffle reach zero (Table 5.x).
+The baseline attacker's time lost is at or below zero under every MTD mechanism but
 service diversity. Under every host-layer and service-layer mechanism, the
 first deployment of each run brings the baseline attacker's first compromise
 \prelim{204} to \prelim{232}\,s forward. After the first MTD deployment, each
@@ -9145,7 +9147,7 @@ and NCR call a quiet attacker weak (Section~\ref{sec:disc-behaviour}), so an
 evaluation should report what the attacker does
 (Section~\ref{subsec:metrics-behaviour}) beside what it achieves. Counting the
 attack actions MTD blocks would rank the host layer the most disruptive
-against the baseline attacker, whose mean time lost to it is below zero
+against the baseline attacker, whose mean time lost to it is at or below zero
 (Section~\ref{sec:disc-mtd-performance}), so an evaluation should report the
 time lost per MTD deployment beside it. Of the outcome metrics, NCR reduction
 counts hosts in every run, while ASP reduction rests on the few runs that

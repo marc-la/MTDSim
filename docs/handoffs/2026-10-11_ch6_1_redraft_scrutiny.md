@@ -1811,3 +1811,33 @@ Four moves, about 150–170 words:
 - **Q4, service diversity's 60 s.** (Recommended) **State the baseline attacker's cause only, and keep the APT attacker model's 60 s as the contrast.** Tracing the 60 s is cheap with the movement tracer if Marc wants it explained; the explanation would be a hypothesis until traced. Otherwise, run the trace first, or cut the 60 s.
 
 **Gated (ch5), proposed:** §5.3.1's "below zero under every MTD mechanism but service diversity". The complete topology shuffle and host topology shuffle intervals reach zero, so "at or below zero" is the reading the table licenses.
+
+### 28.6 Rulings, and the ¶2 draft proposed (Marc 2026-10-12, "proposed draft of paragraph two … put in the hard work")
+
+**Rulings:**
+- **Bare bones.** No rehash of the evaluation. Repeat a number only if it is a headline number or it advances the point.
+- **No split.**
+- **The 60 s explained and qualified.** No new runs.
+- **"At or below zero" approved for ch5.** Applied to §5.3.1. The same claim in §6.4 ("whose mean time lost to it is at or below zero") was changed downstream, automatically.
+
+**Marc's question: is this adaptivity?** Yes. Time lost per MTD deployment is the adaptivity metric (§4.5), and §5.3.1's second lead reads "On adaptivity". The paragraph's story is adaptivity:
+- the APT attacker model loses more time to the host layer (the order of its tactics);
+- it loses less to service diversity (its tactic durations, through the blocks).
+
+Attack actions blocked per MTD deployment is the evidence for the second point, not a topic of its own. The lead therefore mirrors §6.1's leads, which open on the property.
+
+**The contrast pair is corrected on merit.** This overturns my own Q1 recommendation:
+- 242–324 s is the mean over **all** deployments.
+- 19–32 s is the baseline attacker's cost for deployments **after the first** only. As a pair, the two are not like for like.
+- The like-for-like contrast is §5.3.1's own: 242–324 s against at or below zero. So 19–32 s is dropped, and the second attempt explains why the baseline attacker's figure is at or below zero.
+
+**Sources for the facts:**
+- **Later host-layer deployments, 19–32 s:** the B20 note gives 18.5–32.4 s.
+- **The first user-shuffle deployment:** +6.5 s (B20). This confirms that "therefore … every MTD mechanism but service diversity" overclaimed.
+- **Every host-layer deployment catches the APT attacker model in something** ("nothing caught" is 0 %). The place is cleared as it is for the baseline attacker, and only Lateral Movement (enumerate host) restores it (disruption_mechanism.md §C (iv)).
+
+**Draft (197 words, from 258; not applied):**
+
+> On adaptivity, the APT attacker model loses more time per MTD deployment than the baseline attacker under the host layer, and less under service diversity (Figure 5.2(b)). A host-layer deployment costs either attacker its place (Section 2.2.3). The baseline attacker is sent back to scanning hosts, and the first deployment even gives it a second attempt at its first host, so its time lost is at or below zero. The APT attacker model regains its place only when its Petri net next reaches Lateral Movement, the tactic mapped to enumerate host (Section 4.3.2); the order of its tactics decides when. Until then its attack actions most likely fail for missing preconditions (Appendices F.2 and F.4), and it loses 242 to 324 s per host-layer deployment. An unmapped tactic runs no attack action, so its tactic durations lower its attack actions blocked per MTD deployment under every MTD mechanism (Figure 5.2(a)): under the service layer, 0.15 against the baseline attacker's 0.95. Service diversity redraws every service, so a block costs an attacker the vulnerabilities it was exploiting: the baseline attacker loses 493 s per deployment, and the APT attacker model, blocked less often, likely loses less, 60 s.
+
+**Cut candidate:** the second-attempt clause (about 25 words). If it goes, §6.5's "that first deployment is where the baseline attacker's time lost falls below zero (Section 6.2)" is repointed to §5.3.1, and the figure's negative bars go unexplained here.
