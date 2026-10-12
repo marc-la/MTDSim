@@ -3416,10 +3416,10 @@ system'' \citep[p.~7]{kim2026}, but the testbed runs no IDS, so the
 evasion is assumed. It has no objective-specific behaviour: after the
 foothold it keeps its shell and installs tools, but it has one objective, so
 no technique differs by objective, and none exfiltrates or impedes. It has
-no deployment-strategy awareness: its success probability at each stage
-depends on the time left before the next MTD deployment
-\citep[p.~10]{kim2026}, but that is the authors' model of the attack, not a
-prediction the attacker makes, and no technique uses it. It has no choice of attack strategy: every attack
+no deployment-strategy awareness: the attacker ``can determine the remaining
+available time'' before the next MTD deployment \citep[p.~10]{kim2026}, when
+every mechanism deploys at once, so it predicts which mechanism deploys next
+and when, but no technique leverages the prediction. It has no choice of attack strategy: every attack
 follows one attack scenario, in the same four stages. It has no
 adaptivity: the script does not observe the MTD, and an attack that a
 deployment disrupts fails. It has no cost--benefit reasoning: no technique's cost is weighed against its benefit. It has no learning:
@@ -9936,8 +9936,8 @@ attacker model has removed (AI Use Declaration). They disagreed with us on
 one mark: the baseline attacker's campaign persistence, in part on the
 reading that its papers never call a run an extended period. The APT attacker
 model keeps the baseline attacker's loop, and its scorer gave the same
-evidence a full mark. We mark both in full: a campaign that spans the whole
-run and many MTD deployments is extended. Counting clauses let a mark rest on
+evidence a full mark. We mark both in full: each carries on toward its
+objective through every MTD deployment, until it reaches it or the run ends. Counting clauses let a mark rest on
 a condition met without its behaviour, so the predicates replaced the
 clauses, tested on the same evidence; they lowered three of Masud et al.'s
 marks, where its attacker model has the attack paths, their recomputation and
@@ -9960,7 +9960,7 @@ model the only one with it in part.
     \midrule
     \multicolumn{5}{@{}l}{\emph{1 Campaign persistence}} \\
     \quad behaviour: pursues one multi-stage campaign toward its objective & yes & yes & yes & yes \\
-    \quad qualifier: over an extended period, across MTD deployments & yes & no & no & yes \\
+    \quad qualifier: over an extended period, until it reaches its objective, however many MTD deployments that takes & yes & no & no & yes \\
     \quad mark & \propmet & \propstandin & \propstandin & \propmet \\
     \midrule
     \multicolumn{5}{@{}l}{\emph{2 Objective-specific behaviour}} \\
