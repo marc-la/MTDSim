@@ -8547,12 +8547,10 @@ objective-specific behaviour, choice of attack strategy and detection
 avoidance (Section~\ref{sec:attacker-in-operation}). In attack outcome, it
 also reaches a target host in fewer runs and compromises fewer hosts
 (Table~\ref{tab:unopposed-summary}). Its tactic durations and the order of
-its tactics explain these differences. Appendix~\ref{app:fa-run-time} runs
-the APT attacker model with the baseline attacker's times: its unmapped
-tactics take no time, and each mapped tactic takes the baseline attacker's
-mean time for the attack action it dispatches. It then closes about two
-thirds of its gap in ASP to the baseline attacker. No run removes the order
-of its tactics, which most likely accounts for the rest. Removing the
+its tactics explain these differences. With the baseline attacker's times in
+place of its tactic durations, it closes about two thirds of its gap in ASP
+(Appendix~\ref{app:fa-run-time}), and the order of its tactics most likely
+accounts for the rest. Removing the
 failure matrix or the vulnerability memory changes its NCR negligibly
 (Section~\ref{sec:ablation}), so neither explains its lower NCR.
 

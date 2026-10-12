@@ -1160,3 +1160,20 @@ Marc rules each paragraph in turn. This section logs each round: what he flagged
 - (g) When one cause is tested and another is not, name both in the same terms and say which was run.
 
 **Applied after Marc's "all good" (2026-10-12):** the four ch4 and ch7 proposals above. One differs from the proposal. In §4.4.2, "how long the APT attacker model takes between attack actions" became "how often the APT attacker model acts". A mapped tactic's duration is its attack action's own time, not time between attack actions, so the proposed wording was inaccurate. The new wording also matches §4.5.1's "how often the attacker acts". "Pace" no longer appears anywhere in the thesis prose.
+
+### 24.4 Opener, round 2: the run's setup moved to G.3 (Marc 2026-10-12)
+
+**What Marc said:**
+- The run's detail dominated the opener. Is it argument, or can it live in the appendix?
+- "which no run removes" is redundant with "most likely". You cannot remove the order: the APT attacker model with its Petri net disconnected is no model at all, and the baseline attacker is already the run without it.
+- Marc's framing: the timeline the APT attacker model produces at runtime answers three questions. *What*: the tactics, in their order. *How*: the tactic-to-action mapping to the attack actions. *When*: the tactic durations. The two causes are the *what* and the *when*. The *how* is shared with the baseline attacker.
+
+**Applied:**
+> Its tactic durations and the order of its tactics explain these differences. With the baseline attacker's times in place of its tactic durations, it closes about two thirds of its gap in ASP (Appendix G.3), and the order of its tactics most likely accounts for the rest.
+
+- The definition of the baseline attacker's times now lives only in G.3, which already carried it. The name describes itself.
+- "most likely" covers the order of its tactics, which can only be read by subtraction. It also covers the failure matrix and the vulnerability memory, which §5.4 measured on NCR only, and which the next sentence handles.
+
+**Advice for the rest of Chapter 6:**
+- (h) In the body, give an analysis's result and its share. The setup goes in the appendix entry the body cites.
+- (i) One hedge per claim. A "which no run removes" clause beside "most likely" says the same thing twice.
