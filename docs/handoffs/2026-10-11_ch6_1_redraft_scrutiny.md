@@ -1116,3 +1116,45 @@ Marc rules each paragraph in turn. This section logs each round: what he flagged
 - **§6.5:** the comparison with MTD still does not separate the parts. This run is no MTD only.
 - **Appendix:** a new further-analyses section beside G.3 (one table), or G.3 extended.
 - **Registry F13:** marked partly run in the tex comment block.
+
+### 24.3 The run integrated; "pace" retired (Marc 2026-10-12)
+
+**What Marc said:**
+- Keep the per-profile nuance out of the body: "that's not the focus of this. This is the APT attacker model versus the baseline". The appendix entry carries it, and the body cites it.
+- "I hate the word pace … reads as rhetorical … be more specific". The term is *tactic durations*.
+- Once "pace" was gone, the body was inconsistent. It said one cause was tested and the other untested, but named the tested one differently. Say plainly which cause was removed in a run and which was not.
+
+**Applied (ch6 and the appendix, under the standing permission):**
+- **Opener.** It names both causes, then says which was run.
+  - "Appendix G.3 runs the APT attacker model with the baseline attacker's times: its unmapped tactics take no time, and each mapped tactic takes the baseline attacker's mean time for the attack action it dispatches. It then closes about two thirds of its gap in ASP to the baseline attacker. No run removes the order of its tactics, which most likely accounts for the rest."
+  - "The baseline attacker's times" is defined there once and repeated verbatim in ¶3, §6.5 and G.3.
+- **Two thirds:** the four attack profiles pooled, each weighted equally and paired by seed. ASP goes from 0.090 to 0.447 against the baseline attacker's 0.656, which is 0.63 [0.61, 0.65] of the gap. The JSON stores it as `pooled.baseline_pace`.
+- **¶3.**
+  - "Its pace is set by its tactic durations" became "Its tactic durations make it slower".
+  - The records-recomputation sentence became the run: "With the baseline attacker's times, its attack rate rises above the baseline attacker's, and its attack confidentiality falls below it". It now comes after the ordering sentence.
+- **Close.** The first two sentences ("most likely also explain … lower its attack rate … makes some fail") became one sentence: "The APT attacker model's tactic durations lower its ASP and NCR by lowering its attack rate, and the order of its tactics most likely lowers them by making some of its attack actions fail (Appendix G.3)." The 45 s sentence and the rest are kept, since Marc has not yet read this paragraph.
+- **§6.3.**
+  - "The pace is set by its declared tactic durations" became "Its declared tactic durations make it slower".
+  - "which set the pace behind detection avoidance in part" became "which give it the part of detection avoidance it has".
+- **§6.4:** "differ in pace and success" became "differ in attack rate and ASP".
+- **§6.5.**
+  - "through pace and a declared IDS rule" became "through how often an attacker acts and a declared IDS rule".
+  - "which no run separates" became "which no run with MTD separates".
+  - The future-work sentence now reports the run with no MTD and leaves the run with MTD as future work.
+- **Appendix G.3.**
+  - Heading: "The APT attacker model's tactic durations".
+  - Paragraph 1: the record shares, with the failed attack actions counted.
+  - Paragraphs 2 and 3: the runs, pooled first and then per attack profile, with c3's stall and NCR stopping short.
+  - Table G.5 lost the two recomputed columns that the runs replace.
+  - Table G.6 is new and generated (tools/further_analyses_tables.py, `t_durations`). Its rows with the tactic durations as declared reproduce Table 5.2 exactly.
+- **Reader:** the successful seeds nest in every attack profile (as declared ⊂ unmapped tactics take no time ⊂ the baseline attacker's times). The appendix says so.
+
+**Proposed, not applied (ch3, ch4, ch7 need Marc):**
+- ch4 opener (l.3895): "Detection avoidance rests on a pace assumed to hide the attacker" becomes "Detection avoidance rests on tactic durations that make it slower than the baseline attacker". This also drops "hide", which contradicts §4.4.1.
+- §4.4.2 (l.4903): "They set the APT attacker model's pace, and the longer a tactic runs …" becomes "They set how long the APT attacker model takes between attack actions, and the longer a tactic runs …".
+- §4.5.1 (l.5422): "measure it by proxy, through the attacker's pace" becomes "measure it by proxy, through how often the attacker acts".
+- §7.2 (l.9840): "The baseline attacker given the APT attacker model's tactic durations, and a Petri net with uniform weights, to separate pace, order and the weights from CTI" becomes "The APT attacker model with the baseline attacker's times under MTD (Appendix G.3 runs it with no MTD), and a Petri net with uniform weights, to separate the tactic durations, the order of its tactics and the weights from CTI".
+
+**Advice for the rest of Chapter 6:**
+- (f) No word stands in for a defined term. "Pace" was a session coinage for the tactic durations, and it made one cause read as two.
+- (g) When one cause is tested and another is not, name both in the same terms and say which was run.

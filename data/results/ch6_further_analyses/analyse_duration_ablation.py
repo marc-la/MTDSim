@@ -99,6 +99,12 @@ def summarise(rows: list[dict], rng) -> dict:
         "blocked_share": _boot([p["blocked_share"] for p in per], idx),
         "distinct_openings_8": table["distinct_openings"]["8"],
         "max_events_hit": sum(1 for r in runs if A.M.terminal_mode(r) == "max_events"),
+        # the stall reading (c3): when the run's last successful exploit falls,
+        # and which seeds reach a target host
+        "last_exploit_success_median_s": float(np.median([
+            max((x[8] for x in r["records"] if x[1] == "EXPLOIT_VULN" and x[3] == "success"), default=0.0)
+            for r in rows])),
+        "success_seeds": [r["seed"] for r in rows if r["reached_objective"] and r["database_hosts_reached"] > 0],
         "_asp": [p["asp"] for p in per], "_ncr": [p["ncr"] for p in per],
     }
 
@@ -156,6 +162,7 @@ def main() -> int:
 
     base = summarise_baseline(base_rows, rng)
     out: dict = {"baseline": {k: v for k, v in base.items() if not k.startswith("_")}}
+    keep: dict = {}
     for profile, code in CODE.items():
         out[code] = {}
         rep = None
@@ -167,9 +174,27 @@ def main() -> int:
                 s["gap_closed"] = {m: gap_closed(s[f"_{m}"], rep[f"_{m}"], base[f"_{m}"], rng)
                                    for m in ("asp", "ncr")}
             out[code][variant] = s
-        for s in out[code].values():
-            s.pop("_asp", None)
-            s.pop("_ncr", None)
+        keep[code] = {v: (s.pop("_asp"), s.pop("_ncr")) for v, s in out[code].items()}
+    # The four attack profiles pooled, each weighted equally (1 000 runs each),
+    # seed-paired: the APT attacker model as a whole, the unit Section 6.1 reads.
+    for code in CODE.values():
+        sa, sb, sr = (set(out[code][v]["success_seeds"]) for v in ("unmapped_zero", "baseline_pace", "reported"))
+        out[code]["success_seeds_overlap"] = {"unmapped_zero_and_baseline_pace": len(sa & sb),
+                                              "unmapped_zero": len(sa), "baseline_pace": len(sb),
+                                              "reported_within_both": len(sr & sa & sb), "reported": len(sr)}
+    out["pooled"] = {}
+    for variant in ("unmapped_zero", "baseline_pace"):
+        rep_asp = [x for c in CODE.values() for x in keep[c]["reported"][0]]
+        rep_ncr = [x for c in CODE.values() for x in keep[c]["reported"][1]]
+        arm_asp = [x for c in CODE.values() for x in keep[c][variant][0]]
+        arm_ncr = [x for c in CODE.values() for x in keep[c][variant][1]]
+        b_asp, b_ncr = base["_asp"] * 4, base["_ncr"] * 4
+        out["pooled"][variant] = {
+            "asp_reported": float(np.mean(rep_asp)), "asp": float(np.mean(arm_asp)),
+            "ncr_reported": float(np.mean(rep_ncr)), "ncr": float(np.mean(arm_ncr)),
+            "gap_closed": {"asp": gap_closed(arm_asp, rep_asp, b_asp, rng),
+                           "ncr": gap_closed(arm_ncr, rep_ncr, b_ncr, rng)},
+        }
     OUT.write_text(json.dumps(out, indent=1, default=float), encoding="utf-8")
     print(f"wrote {OUT}")
 
@@ -191,6 +216,10 @@ def main() -> int:
                   f"MTTC {(round(m['mean']) if m else None)} n={(m['n'] if m else 0)}  "
                   f"unmapped {s['unmapped_time_share']['mean']:.2f}  blocked {s['blocked_share']['mean']:.2f}  "
                   f"open8 {s['distinct_openings_8']}  cap {s['max_events_hit']}{gs}")
+    for v, g in out["pooled"].items():
+        print(f"pooled {v:14s} ASP {g['asp_reported']:.3f} -> {g['asp']:.3f}  gap closed "
+              f"{g['gap_closed']['asp']['point']:.2f} [{g['gap_closed']['asp']['lo']:.2f}, {g['gap_closed']['asp']['hi']:.2f}]"
+              f"  NCR {g['ncr_reported']:.3f} -> {g['ncr']:.3f}  gap closed {g['gap_closed']['ncr']['point']:.2f}")
     return 0
 
 

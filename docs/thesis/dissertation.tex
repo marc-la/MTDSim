@@ -8530,6 +8530,10 @@ sets out the threats to their validity.
 %  tactic durations); 6.4 (each attack action needs the state the one before
 %  it leaves; ASP and NCR alone rate it weaker; MTTC over different runs); 6.5
 %  (42 to 139 runs; attack actions out of order fail); Appendix G.3.
+%  2026-10-12 (Marc, handoff section 24.3): the tactic-durations run
+%  (Appendix G.3) replaces the hedge "no run removes either"; "the baseline
+%  attacker's times" defined once in the opener and repeated verbatim; "pace"
+%  retired from chapter 6 (one term: tactic durations).
 %  Session-drafted; DRAFT STATE --- Marc rules paragraph by paragraph.
 % P1 ROUND 1, 2026-10-12 (Marc; handoff section 24): the Table 6.1 pointer
 %  cut (6.3 marks from this evidence, so pointing at the marks reads as
@@ -8543,9 +8547,13 @@ objective-specific behaviour, choice of attack strategy and detection
 avoidance (Section~\ref{sec:attacker-in-operation}). In attack outcome, it
 also reaches a target host in fewer runs and compromises fewer hosts
 (Table~\ref{tab:unopposed-summary}). Its tactic durations and the order of
-its tactics likely explain most of these differences, but no run removes
-either to test this (Section~\ref{sec:threats}). Removing the failure matrix
-or the vulnerability memory changes its NCR negligibly
+its tactics explain these differences. Appendix~\ref{app:fa-run-time} runs
+the APT attacker model with the baseline attacker's times: its unmapped
+tactics take no time, and each mapped tactic takes the baseline attacker's
+mean time for the attack action it dispatches. It then closes about two
+thirds of its gap in ASP to the baseline attacker. No run removes the order
+of its tactics, which most likely accounts for the rest. Removing the
+failure matrix or the vulnerability memory changes its NCR negligibly
 (Section~\ref{sec:ablation}), so neither explains its lower NCR.
 
 Objective-specific behaviour shows in the runs only in how each attack profile
@@ -8589,18 +8597,18 @@ attacker meets the same first four steps in every run.
 The APT attacker model moves low and slow, the first half of the definition
 of detection avoidance (Table~\ref{tab:attacker-properties}), in the only sense
 MTDSim can test: more slowly than the baseline attacker
-(Appendix~\ref{app:clause-tests}). Its pace is set by its tactic durations
+(Appendix~\ref{app:clause-tests}). Its tactic durations make it slower
 (Section~\ref{subsec:dwell-times}). It runs its attack actions between
 unmapped tactics, which hold it for a third to over half of its run with no
 attack action (Appendix~\ref{app:fa-run-time}), and its attack rate is lower
 than the baseline attacker's (Table~\ref{tab:unopposed-summary}). The attack
 profile with the most steps in unmapped tactics has the lowest attack rate,
 and the one with the fewest the highest (Figure~\ref{fig:aio-coverage}(a),
-All unmapped). Recomputed from the recorded runs with no time in unmapped
-tactics, its attack rate rises to about the baseline attacker's
-(Appendix~\ref{app:fa-run-time}). Attack confidentiality orders the attack
-profiles and the baseline attacker as attack rate does
-(Table~\ref{tab:unopposed-summary}). The APT attacker model does not meet the
+All unmapped). Attack confidentiality orders the attack profiles and the
+baseline attacker as attack rate does (Table~\ref{tab:unopposed-summary}).
+With the baseline attacker's times, its attack rate rises above the baseline
+attacker's, and its attack confidentiality falls below it
+(Appendix~\ref{app:fa-run-time}). The APT attacker model does not meet the
 second half of the definition, which asks it to choose techniques an IDS does
 not flag: the IDS of
 Section~\ref{subsec:metrics-behaviour} is applied to the recorded runs, and
@@ -8608,11 +8616,9 @@ nothing in a run reacts to it. Stealth and Defense Impairment are themselves
 unmapped tactics, so in MTDSim its detection avoidance is time spent without
 an attack action.
 
-Its tactic durations and the order of its tactics most likely also explain why
-the APT attacker model reaches a target host in fewer runs and compromises
-fewer hosts (Table~\ref{tab:unopposed-summary}). Its tactic durations lower
-its attack rate, and the order of its tactics makes some of its attack actions
-fail. NCR depends most on one duration, the 45\,s mean, most likely through
+The APT attacker model's tactic durations lower its ASP and NCR by lowering
+its attack rate, and the order of its tactics most likely lowers them by
+making some of its attack actions fail (Appendix~\ref{app:fa-run-time}). NCR depends most on one duration, the 45\,s mean, most likely through
 Command and Control, the only tactic that dispatches scan neighbours, which
 the baseline attacker runs in 5\,s (Section~\ref{subsec:dwell-times}). The APT
 attacker model succeeds almost only on the networks where the baseline
@@ -8944,8 +8950,8 @@ baseline attacker, whose attack scenarios change only the host it attacks
 next, has no objective-specific behaviour at all. A failed attack action leaves its precondition unmet,
 so the APT attacker model must rebuild it; the failure matrix reweights the
 next tactic on the verdict, by rules set by our judgement, whether or not MTD
-caused the failure. The pace is set by its declared tactic durations
-(Section~\ref{sec:disc-behaviour}), a rule, and measured by proxy
+caused the failure. Its declared tactic durations make it slower
+(Section~\ref{sec:disc-behaviour}), a rule, measured by proxy
 (Section~\ref{subsec:metrics-behaviour}), but no IDS exists to choose
 against. Three it lacks, because no
 part of the model makes the decision. It chooses each next tactic by how often
@@ -9043,8 +9049,8 @@ a response to failure and a memory of vulnerabilities. The ablations show that
 the failure matrix and the vulnerability memory move NCR negligibly, and
 that the attack profiles move it without changing which MTD mechanisms
 reduce it the most. What reorders the MTD mechanisms is order, the substance
-of choice of attack strategy, and the tactic durations, which set the pace
-behind detection avoidance in part. Grounding an attacker model in CTI
+of choice of attack strategy, and the tactic durations, which give it the
+part of detection avoidance it has. Grounding an attacker model in CTI
 therefore changes what an MTD evaluation finds, but it is not sufficient on
 its own: what it adds reaches the result only as far as the simulator's
 attack actions and rules allow (Section~\ref{sec:threats}).
@@ -9191,7 +9197,7 @@ reach a target host and reaches its ceiling of 1 against the APT attacker
 model (Table~\ref{tab:eff-interval-values-asp}). An evaluation of an attacker
 that rarely reaches its target should therefore lead with NCR reduction and
 report ASP reduction beside it. MTTC covers only the runs that reach a
-target, so between attackers that differ in pace and success it compares
+target, so between attackers that differ in attack rate and ASP it compares
 different runs (Section~\ref{sec:disc-behaviour}); it should be reported with
 the share of runs it covers. NCR reduction and ASP reduction agree on the
 reversal, but not always in sign: from 500\,s, IP shuffle reduces the
@@ -9302,13 +9308,15 @@ durations, order and its response to failure at once. Removing the failure
 matrix or the vulnerability memory moves NCR negligibly where each was run,
 and without the attack profiles the same three MTD mechanisms reduce NCR the
 most (Section~\ref{sec:fidelity-verdict}). That leaves the tactic durations
-and order, which no run separates. NCR rests most on the 45\,s mean duration
+and order, which no run with MTD separates. NCR rests most on the 45\,s mean duration
 (Section~\ref{subsec:dwell-times}); with it at a quarter and at four times its
 value, the APT attacker model's most effective MTD mechanisms still share
 none with the baseline attacker's, and the host layer still ranks above the
 service layer (Appendix~\ref{app:dwell-robustness}). Order has no test of
-its own. The baseline attacker given the APT attacker model's tactic durations
-would separate the two, and is future work (Section~\ref{sec:future-work}).
+its own. With no MTD, the APT attacker model with the baseline attacker's
+times closes about two thirds of its gap in ASP
+(Appendix~\ref{app:fa-run-time}); the same run with MTD would separate the
+two, and is future work (Section~\ref{sec:future-work}).
 The two attackers also do not run under identical conditions. An attack
 action takes the mean duration of the tactic that dispatches it, not MTDSim's
 time: scan neighbours takes 45\,s for Command and Control, and 5\,s for the
@@ -9373,8 +9381,8 @@ with the wait from the same moment on the run with no MTD. The two runs are
 identical only up to the first MTD deployment, and that first deployment is
 where the baseline attacker's time lost falls below zero
 (Section~\ref{sec:disc-mtd-performance}). Attack rate and attack
-confidentiality measure detection avoidance by proxy, through pace and a
-declared IDS rule (Section~\ref{subsec:metrics-behaviour},
+confidentiality measure detection avoidance by proxy, through how often an
+attacker acts and a declared IDS rule (Section~\ref{subsec:metrics-behaviour},
 Appendix~\ref{app:detector-memory}). Distinct openings counts any variety, so
 it shows that the APT attacker model chooses among attack strategies; whether
 it chooses well is not measured. It also counts an attack profile's steps as
@@ -10932,25 +10940,47 @@ in attack actions.
 
 \input{tables/tab_FA-6b_after_foothold}
 
-\section{Where the APT attacker model's run time goes}
+\section{The APT attacker model's tactic durations}
 \label{app:fa-run-time}
-Section~\ref{sec:disc-behaviour} explains the APT attacker model's lower
-attack rate (Table~\ref{tab:unopposed-summary}) mostly by its unmapped
-tactics, which take time and dispatch no attack action.
-Table~\ref{tab:fa-run-time} checks this on the recorded runs. The unmapped
-tactics take 34 to 57\,\% of an attack profile's run, and 15 to 30\,\% of the
-attack actions its tactics dispatch fail because their preconditions are
-missing, which attack rate does not count. The attack rate is then recomputed
-from the same records with one thing changed. With no time in unmapped
-tactics, it rises to 1.60 to 2.16 per minute, about the baseline attacker's
-1.71. With the failed attack actions counted, it rises to 0.97 to 1.71, and
-with each attack action taking the baseline attacker's mean time for it, to
-0.84 to 1.80. The unmapped tactics therefore account for most of the gap in
-attack rate. Each change is to the records, not to the run: an attacker whose
-unmapped tactics took no time would also reach later tactics sooner, which
-the recomputation does not model.
+% 2026-10-12 (Marc; handoff 2026-10-11_ch6_1_redraft_scrutiny.md section 24.2):
+%  the records' what-ifs for no time in unmapped tactics and for the baseline
+%  attacker's times are now runs (Table G.6, run_duration_ablation.py); the
+%  heading now names what the section tests. DRAFT STATE --- ratify on read.
+Section~\ref{sec:disc-behaviour} explains the APT attacker model's
+differences from the baseline attacker with no MTD by its tactic durations
+and the order of its tactics. Table~\ref{tab:fa-run-time} shows where its run
+time goes. The unmapped tactics take 34 to 57\,\% of an attack profile's run,
+and 15 to 30\,\% of the attack actions its tactics dispatch fail because
+their preconditions are missing, which attack rate does not count. Counted,
+the failed attack actions raise its attack rate to 0.97 to 1.71 per minute,
+against the baseline attacker's 1.71.
 
 \input{tables/tab_FA-7_run_time}
+
+Table~\ref{tab:fa-tactic-durations} runs the APT attacker model again with no
+MTD and the same 1\,000 seeds, with only its tactic durations changed. First
+its unmapped tactics take no time. Then, in addition, each mapped tactic takes
+the baseline attacker's mean time for the attack action it dispatches:
+Command and Control takes 5\,s for scan neighbours, not 45\,s, and Credential
+Access 20\,s for brute force, not 4.5\,s. Together these are the baseline
+attacker's times. The order of its tactics is unchanged, and so are its
+distinct openings. With the baseline attacker's times, the APT attacker
+model's ASP, averaged over the four attack profiles, rises from 0.09 to 0.45,
+against the baseline attacker's 0.66: 0.63 [0.61, 0.65] of the gap. Its
+attack rate rises above the baseline attacker's, and its attack
+confidentiality falls below it. Every run that reaches a target host with its
+tactic durations as declared also reaches one with either change.
+
+The attack profiles differ. $c_1$ and $c_2$ reach a target host as often as
+the baseline attacker or more often, and $c_4$ closes about half of its gap. $c_3$ closes
+almost none: the same 78 runs reach a target host with either change. With
+the baseline attacker's times, its last successful exploit falls at a median
+of 2\,069\,s, after which its attack actions fail for missing preconditions
+or scan neighbours finds no new host, and the share of its attack actions
+that fail rises from 30 to 53\,\%. NCR closes less of its gap than ASP,
+because a run that reaches a target host sooner ends sooner.
+
+\input{tables/tab_FA-8_tactic_durations}
 
 \section{Runs with no foothold under the host layer}
 \label{app:fa-foothold}
