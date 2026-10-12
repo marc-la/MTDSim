@@ -3560,3 +3560,72 @@ Marc kept ¶3's S2 as it is. On the close he asked: what must it carry, is it ne
 - "Draws" is Appendix B's word; "during the run" appears only in an Appendix B cell.
 - "Chooses" also matches the property name, choice of attack strategy.
 - Build clean, 118 pages.
+
+## §60. §6.4 scrutiny (Marc 2026-10-12: "heavily scrutinised … no redraft yet"; nothing applied)
+
+**Rating.** Evidence strong (specific, verified); structure weak; fit with the ch6 rules weak. The material for the section is on the page. It needs a re-sort, not new content.
+
+**Why it reads as a concatenation**
+1. No spine. The opener spends three sentences on the section's job and a bound before its claim ("what transfers is that a ranking can depend on the attacker model", S3). The 2026-10-09 plan (dependence → where it travels → what to report → what the numbers cannot decide) mixes axes: P1 is a finding, P2 a case, P3 a reporting duty, P4 the metric plus the deployment interval.
+2. Twelve "should"s to four readers: anyone who evaluates MTD, a simulator builder, "a builder", designers of learned deployment strategies. Each gets one sentence of evidence before the next starts.
+3. Several implications per paragraph. P1 has three: the ranking belongs to the attacker model; comparability needs shared attacker models; the lowest NCR reduction across attacker models gives a lower bound. It also carries a mechanism, CTI and the bounds. P4 (~380 words) has two: the metric; the interval and its price.
+4. About 200 words restate §6.5 or §6.2:
+   - the dwell robustness;
+   - "the ranking moves because MTDSim writes … against the baseline attacker's procedure" (§6.5's second design choice);
+   - the closing bounds of P1;
+   - "the attack actions carry an order" (§6.1, §6.5);
+   - "MTDSim charges a deployment nothing" (§6.5's third design choice).
+
+**Argument faults**
+- a. "Neither of the two attacker models is the better one: each ranking is right for its own." This gives away the contribution. §6.3 scores the APT attacker model with more of the eight properties, and §6.1 closes on it behaving more like an APT. Defensible version: each ranking is correct for its attacker model, and the one to use depends on the attacker the evaluation expects.
+- b. The reversal gets two causes on adjacent pages: §6.2 gives the tactic durations and the order of its tactics; P1 gives MTDSim's rules. They read as rival explanations. §6.5 owns the rules bound.
+- c. The lowest NCR reduction across the attacker models run is a lower bound over those models only, not against the unknown attacker. Its payoff sits in P4 ("Even the lower bound turns on the metric"), so one argument is split across two paragraphs.
+- d. "CTI is one way to cut what an attacker model must assume" overreaches. §6.3 has just said the tactic durations and failure matrix rest on judgement. It is true for the order of its tactics only.
+- e. The recommendations generalise from one simulator with no hedge. One scoping sentence in the opener would let every "should" inherit it.
+- f. P3 "write attack actions without a fixed order" is an unhedged design prescription, and "without a fixed order" is vague. The meaning is preconditions that do not presume the baseline attacker's procedure.
+- g. P3's last sentence (ablate the failure matrix before refining it) is a method lesson for a different reader, tacked on. It belongs in ch7 or is cut.
+- h. P2 is the strongest paragraph, and its bound is honest. Two problems:
+  - "sits beneath its inputs" is figurative, and the detection-input point is Appendix D detail;
+  - S5 and S6 say the same thing (trained-in assumptions; a same-simulator test shares them).
+
+**Terms and back-references**
+- "\ref{sq:evaluate} was answered": past tense and passive, read two minutes earlier.
+- "the concern of the research question": vague.
+- "a quiet attacker" (carried flag): not a ch2–5 term. §6.1 now says "ASP and NCR alone … rate it the weaker attacker".
+- **Broken pointer.** P4 cites §6.1 for "MTTC … compares different runs", but §6.1 no longer mentions MTTC.
+- "refused" (P3 ×2; also §6.5): not a ch1–5 term. Ch4 l.4606 says an attack action "fails if its preconditions were missing".
+- "three choices join the APT attacker model to MTDSim" against §6.3's "four parts we declared". §4.3 has four subsections: the mapping, the tactic durations, the failure matrix and the vulnerability memory.
+- "integration work": not a term. Ch4's verb is "integrates" (the loop).
+- "has refused what arrives out of it": tense.
+- "spent beyond 100 s": undefined. The baseline attacker's host layer is at 0.52 at 100 s, 0.50 at 200 s and 0.17 at 500 s.
+- "builder" (P3 end): which builder?
+- "says more about the simulator than about user shuffle": rhetorical.
+- The Cho sentence nests "the reverse of the case … cited, in which …". It is the section's only disagreement with prior work, it is buried mid-paragraph, and it needs its hedge (a different MTD mechanism and simulator).
+
+**Verified (data/results/ch5_defended/numbers_reported.json)**
+- MTDShield against random over its four, at 200 s: 0.68 against 0.56 (baseline attacker); 0.28 against 0.80 (APT attacker model).
+- IP shuffle on the baseline attacker at 500 s: NCR reduction 0.39, ASP reduction −0.09. ASP reduction stays negative to 2 000 s.
+- User shuffle raises the APT attacker model's NCR at all six deployment intervals (−0.04 to −0.13).
+- The host layer halves the APT attacker model's NCR up to 1 000 s (0.52).
+- The service layer's peak against the APT attacker model is 0.35. Service diversity alone reaches 0.50 at 50 and 100 s, so "never halves" holds for the layer, not for every MTD mechanism in it.
+- ASP reduction of IP shuffle against the APT attacker model at 200 s is 1.0.
+
+**Structure (proposed, not ruled)**
+- Conventional shapes are by audience (research or practice) or by finding.
+  - By audience does not fit: the audience is one, people who evaluate MTD in simulation.
+  - By finding re-walks §6.1–§6.2.
+- Proposed: by the decision an evaluator makes. In MTDSim, three decisions each change which MTD mechanism ranks first: the attacker model, the metric and the deployment interval.
+- Skeleton (~850 words, against 1 192):
+  - opener: the claim and the three decisions, with the one scoping hedge;
+  - ¶ the attacker model: ρ and rank-first; ch2 argued it and we measure it; Cho; comparability (Jalowski); report the attacker model with its four declared parts;
+  - ¶ learned deployment strategies inherit it (MTDShield);
+  - ¶ the metric: blocked against time lost; NCR reduction against ASP reduction; MTTC;
+  - ¶ the deployment interval and its price;
+  - close, when the attacker is unknown: the lowest reduction across attacker models, which turns on the metric, plus what each deployment takes (the simulator's rules, user shuffle).
+- Prose rather than bullets. Optionally, one closing table of what to report, each row tied to its evidence.
+
+**Open for Marc**
+- the spine;
+- simulator-side recommendations: in the close, or a paragraph of their own;
+- a closing table, or prose;
+- the rewording of "neither is the better one".
