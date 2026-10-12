@@ -8696,29 +8696,29 @@ the service layer reduces the baseline attacker's NCR more than the host layer
 does (Figure~\ref{fig:eff-cross-arm}). The APT attacker model's tactic
 durations and the order of its tactics likely explain the difference between the two attackers.
 
-On disruption per MTD deployment, a deployment blocks the baseline attacker's
-attack actions more often than the APT attacker model's under every MTD
-mechanism, and the two attackers lose time to different MTD mechanisms
-(Figure~\ref{fig:aio-adaptivity}). The APT attacker model runs no attack action
-while in an unmapped tactic, so a deployment then blocks none: its tactic
-durations lower how often MTD blocks it. A block ends the attack action as a
-failure, so what a deployment costs an attacker is what it does next. A
-host-layer deployment costs either attacker its place
-(Section~\ref{subsec:attacker-model}). The baseline attacker restarts its
-procedure after a block, whatever its progress \citep{brown2023}, so it scans
-for hosts again and finds its place at once. The APT attacker model regains its
-place only when its Petri net next reaches Lateral Movement, which the order of
-its tactics decides, and until then its attack actions most likely fail for
-missing preconditions (Appendices~\ref{app:fa-foothold}
-and~\ref{app:fa-traced-run}). It loses 242 to 324\,s per host-layer
-deployment. The restart can also help the baseline attacker. The first deployment lands while it
-exploits its first host, so the restart gives it a second attempt there and
-brings its first compromise 204 to 232\,s forward
-(Section~\ref{subsec:aio-disruption}); its time lost is therefore below zero
-under every MTD mechanism but service diversity. The APT attacker model gets no
-second attempt. Service diversity costs the baseline attacker 493\,s per
-deployment and the APT attacker model 60\,s: it redraws every service, so the
-baseline attacker loses the vulnerabilities it was exploiting.
+% PARAGRAPH 2 ROUNDS 1-9, 2026-10-12 (Marc; handoff sections 28-28.13): the
+%  mechanism settled before drafting (host layer: only Lateral Movement runs
+%  enumerate host; not the failure matrix, which Section 5.4 shows negligible
+%  under IP shuffle); D1-D3 only (the four numbers; host layer; service
+%  diversity); every term from 2.2.3, 4.3.2, 4.4 or 4.5; "place" dropped (a Petri
+%  net term); blocks left to 5.3.1; the first deployment's second attempt moved
+%  to 6.5; one hedge per inferred claim.
+On adaptivity, the APT attacker model loses time mainly to the host layer, 242
+to 324\,s per deployment, where the baseline attacker's time lost is at or
+below zero; the baseline attacker loses time only to service diversity,
+493\,s per deployment, where the APT attacker model loses 60\,s
+(Figure~\ref{fig:aio-adaptivity}(b)). After a host-layer deployment, neither
+attacker has a host to act on (Section~\ref{subsec:attacker-model}). MTDSim
+sends the baseline attacker back to scan host, and its procedure runs
+enumerate host next. For the APT attacker model, only Lateral Movement runs
+enumerate host (Section~\ref{subsec:tactic-verb-mapping}), so it has no host
+until the order of its tactics next brings it to Lateral Movement, and
+meanwhile the attack actions of its other tactics most likely fail because
+their preconditions are missing (Appendix~\ref{app:fa-traced-run}). Service
+diversity redraws every service, and MTDSim sends the baseline attacker back
+to scan port on the same host, so it exploits the host's new vulnerabilities
+from the start. The APT attacker model keeps the ports it had found and goes
+on to the tactic its Petri net picks, which likely explains its 60\,s.
 
 On MTD ranking against each attacker, $\rho$ between the two attackers'
 rankings lies between $-0.24$ and $0.25$ at every deployment interval
@@ -9217,10 +9217,10 @@ attack action to run, the tactic-to-action mapping is an input we chose
 an attack action that arrives out of it is refused
 (Section~\ref{sec:disc-behaviour}). The second is MTDSim's rules for what
 each deployment takes, written against the baseline attacker's procedure
-(Section~\ref{subsec:attacker-model}). A host-layer deployment costs the APT
-attacker model its place until its Petri net next reaches Lateral Movement
-(Section~\ref{sec:disc-mtd-performance}); an APT that holds hosts through
-Command and Control might keep its place, and the host layer's rank against
+(Section~\ref{subsec:attacker-model}). After a host-layer deployment, the APT
+attacker model has no host to act on until its Petri net next reaches Lateral
+Movement (Section~\ref{sec:disc-mtd-performance}); an APT that holds hosts
+through Command and Control might keep one, and the host layer's rank against
 the APT attacker model rests on this rule. The third is that MTDSim prices
 nothing. A deployment costs no overhead or loss of service, and nothing
 watches the attacker, so the faster attacker and the shorter deployment
@@ -9337,8 +9337,9 @@ descriptions and their sources, three of them by our own decision
 properties in part. Time lost per MTD deployment compares the wait under MTD
 with the wait from the same moment on the run with no MTD. The two runs are
 identical only up to the first MTD deployment, and that first deployment is
-where the baseline attacker's time lost falls below zero
-(Section~\ref{sec:disc-mtd-performance}). Attack rate and attack
+where the baseline attacker's time lost falls below zero: sent back to scan
+host, it gets a second attempt at its first host, as MTDSim's rule intends
+\citep{brown2023} (Section~\ref{subsec:aio-disruption}). Attack rate and attack
 confidentiality measure detection avoidance by proxy, through how often an
 attacker acts and a declared IDS rule (Section~\ref{subsec:metrics-behaviour},
 Appendix~\ref{app:detector-memory}). Distinct openings counts any variety, so
@@ -10945,9 +10946,9 @@ because a run that reaches a target host sooner ends sooner.
 \label{app:fa-foothold}
 % Registry B9.
 Section~\ref{sec:disc-mtd-performance} explains why the host layer disrupts the
-APT attacker model most: a host-layer deployment costs either attacker its
-place, and the APT attacker model regains it only when its Petri net next
-reaches Lateral Movement. Table~\ref{tab:fa-foothold} gives the share of runs in
+APT attacker model most: after a host-layer deployment neither attacker has a
+host to act on, and the APT attacker model gets one back only when its Petri
+net next reaches Lateral Movement. Table~\ref{tab:fa-foothold} gives the share of runs in
 which the attacker compromises no host. Under the three host-layer MTD
 mechanisms at 50 to 200\,s, 70 to 89\,\% of the APT attacker model's runs
 compromise no host, against 3 to 20\,\% of the baseline attacker's; with no MTD,
@@ -10990,7 +10991,7 @@ runs draw from the same seed, so they are the same run until 267\,s, when an
 IP shuffle deployment interrupts scan neighbours. With no MTD, the same step
 finds a neighbour, and the Petri net's next exploit compromises the first host
 at 584\,s; the run compromises 11 hosts and reaches a target host at
-14\,926\,s. Under IP shuffle the attacker has lost its place, and the attack
+14\,926\,s. Under IP shuffle the attacker has no host to act on, and the attack
 actions that follow are refused for a missing precondition: 255 of its 363
 attack actions over the run, against 42 of 317 with no MTD. It compromises one
 host, at 2\,650\,s, and never a target host. The figure illustrates one run of

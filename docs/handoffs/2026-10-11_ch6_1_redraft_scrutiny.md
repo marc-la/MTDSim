@@ -2045,3 +2045,19 @@ Nothing in the opener needs changing.
 **v9 (185 words):**
 
 > On adaptivity, the APT attacker model loses time mainly to the host layer, 242 to 324 s per deployment, where the baseline attacker's time lost is at or below zero; the baseline attacker loses time only to service diversity, 493 s per deployment, where the APT attacker model loses 60 s (Figure 5.2(b)). After a host-layer deployment, neither attacker has a host to act on (Section 2.2.3). MTDSim sends the baseline attacker back to scan host, and its procedure runs enumerate host next. For the APT attacker model, only Lateral Movement runs enumerate host (Section 4.3.2), so it has no host until the order of its tactics next brings it there, and meanwhile the attack actions of its other tactics most likely fail because their preconditions are missing (Appendix F.4). Service diversity redraws every service, and MTDSim sends the baseline attacker back to scan port on the same host, so it exploits the host's new vulnerabilities from the start. The APT attacker model keeps the ports it had found and goes on to the tactic its Petri net picks, which likely explains its 60 s.
+
+### 28.14 v9 applied after a final clarity pass (Marc 2026-10-12, "happy with that")
+
+**Clarity pass:** one fix. "Until the order of its tactics next brings it *there*" could be read as "to a host", so it now reads "brings it to Lateral Movement" (a repeated name is clearer than a vague pointer). Everything else held: the terms are from ch2, ch4 and §4.5, and there is one hedge per inferred claim.
+
+**Applied:** v9 in place of the stage-1 paragraph, at 186 words (from 258).
+
+**Downstream (automatic):**
+- **§6.5, the bound on time lost:** the first-deployment sentence now gives the reason and repoints to §5.3.1: "falls below zero: sent back to scan host, it gets a second attempt at its first host, as MTDSim's rule intends \citep{brown2023} (Section 5.3.1)".
+- **§6.5, threats:** "costs the APT attacker model its place … might keep its place" became "has no host to act on until its Petri net next reaches Lateral Movement … might keep one".
+- **Appendix F.2:** "costs either attacker its place … regains it" became "neither attacker has a host to act on … gets one back".
+- **Appendix F.4:** "has lost its place" became "has no host to act on".
+
+**Remaining "its place":** only ch2 l.957 ("the attacker loses only its place"). The proposal in §28.8 is still open (gated).
+
+Build clean, 120 pages, 0 undefined.
