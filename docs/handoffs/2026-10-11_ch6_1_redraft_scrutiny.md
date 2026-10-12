@@ -1841,3 +1841,28 @@ Attack actions blocked per MTD deployment is the evidence for the second point, 
 > On adaptivity, the APT attacker model loses more time per MTD deployment than the baseline attacker under the host layer, and less under service diversity (Figure 5.2(b)). A host-layer deployment costs either attacker its place (Section 2.2.3). The baseline attacker is sent back to scanning hosts, and the first deployment even gives it a second attempt at its first host, so its time lost is at or below zero. The APT attacker model regains its place only when its Petri net next reaches Lateral Movement, the tactic mapped to enumerate host (Section 4.3.2); the order of its tactics decides when. Until then its attack actions most likely fail for missing preconditions (Appendices F.2 and F.4), and it loses 242 to 324 s per host-layer deployment. An unmapped tactic runs no attack action, so its tactic durations lower its attack actions blocked per MTD deployment under every MTD mechanism (Figure 5.2(a)): under the service layer, 0.15 against the baseline attacker's 0.95. Service diversity redraws every service, so a block costs an attacker the vulnerabilities it was exploiting: the baseline attacker loses 493 s per deployment, and the APT attacker model, blocked less often, likely loses less, 60 s.
 
 **Cut candidate:** the second-attempt clause (about 25 words). If it goes, §6.5's "that first deployment is where the baseline attacker's time lost falls below zero (Section 6.2)" is repointed to §5.3.1, and the figure's negative bars go unexplained here.
+
+### 28.7 ¶2 v3 critiqued (Marc 2026-10-12), and v4 (proposed, not applied)
+
+**What Marc flagged in v3, checked:**
+1. **"More time under the host layer, and less under service diversity" sets a layer against one mechanism.** That holds: across the rest of the service layer the APT attacker model loses *more* than the baseline attacker (port shuffle 26 against −24 s, OS diversity −8 against −58 s). The specific, true lead is §5.3.1's own: the APT attacker model loses time mainly to the host layer (242–324 s), and the baseline attacker only to service diversity (493 s; every other mechanism is at or below zero). With both headline numbers in the lead, nothing is conflated.
+2. **"Sent back to scanning hosts" is §2.2.3's own wording.** ✓
+3. **The second attempt: on purpose or a bug?** On purpose. Brown's rule restarts the attacker from scanning hosts "regardless of prior progress" (IS-INT-01, -05, -07), and the second attempt follows from that rule. It is classified as conforming (disruption_mechanism.md §F.3), and the APT attacker model does not get it. **Home:** §6.5, which already says the first deployment is where the baseline attacker's time lost falls below zero. That sentence gains the reason in one clause and repoints from §6.2 to §5.3.1 when ¶2 is applied (downstream, automatic). With the new lead ("only to service diversity"), ¶2 makes no claim about the sign, so it needs no second attempt.
+4. **The blocks sentence restates by-construction facts.** Kept only as the cause of the 60 s, and limited to the service layer. "Under every MTD mechanism" is cut (§5.3.1 states it).
+5. **"A block costs an attacker the vulnerabilities it was exploiting" is a flourish.** Replaced by what happens: the baseline attacker is sent back to scanning the host's ports and starts its exploits on that host again (disruption_mechanism.md §1: its exploit progress on the host is erased).
+
+**Kept or dropped:**
+
+| Detail | Verdict |
+|---|---|
+| Headline numbers 242–324 s and 493 s | kept, in the lead (they make it specific) |
+| Either attacker loses its place | kept (the joint for the host-layer contrast; §2.2.3) |
+| Why Lateral Movement (enumerate host) | kept, as a clause with a pointer |
+| Missing preconditions, one hedge | kept |
+| The second attempt, and the sign of the baseline attacker's time lost | moved to §6.5 |
+| 19–32 s, 204–232 s, "under every MTD mechanism" | dropped (§5.3.1) |
+| The 60 s cause, one hedge | kept, with 0.15 against 0.95 as its frame |
+
+**v4 (170 words, from 258):**
+
+> On adaptivity, the APT attacker model loses time mainly to the host layer, 242 to 324 s per deployment, and the baseline attacker only to service diversity, 493 s (Figure 5.2(b)). A host-layer deployment costs either attacker its place (Section 2.2.3). The baseline attacker is sent back to scanning hosts and continues its procedure from there. The APT attacker model regains its place only when its Petri net next reaches Lateral Movement, the tactic mapped to enumerate host (Section 4.3.2), and the order of its tactics decides when. Until then its attack actions most likely fail for missing preconditions (Appendices F.2 and F.4). Service diversity redraws every service, so the baseline attacker, sent back to scanning a host's ports, starts its exploits on that host again. The APT attacker model's tactic durations keep it in unmapped tactics, which run no attack action, so its attack actions blocked per service-layer deployment are 0.15, against the baseline attacker's 0.95 (Figure 5.2(a)). Service diversity therefore likely costs it only 60 s.
