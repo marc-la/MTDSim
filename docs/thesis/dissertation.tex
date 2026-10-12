@@ -8580,6 +8580,9 @@ tactics of actions on objectives, are unmapped, because MTDSim's six attack
 actions only find and compromise hosts (Section~\ref{subsec:attacker-model}),
 so the APT attacker model steals no data and impedes no system.
 
+% P2 ROUND 3, 2026-10-12 (Marc: the failure-matrix clause "breaks up the
+%  clarity", hide it in the hedging): "the weight of the edge to it" holds both
+%  before and after a failure, and the two equations carry the difference.
 % P2 ROUND 2, 2026-10-12 (Marc: "90% of the way"): "took that step" -> the
 %  Petri net's own terms, the edge's base weight (Eq. base-weight), rescaled by the
 %  failure matrix after a failure (Eq. routing; scope: base weights alone hold only
@@ -8594,10 +8597,10 @@ so the APT attacker model steals no data and impedes no system.
 On choice of attack strategy, the attack profiles' 1\,000 runs have 179 to
 947 distinct openings over eight steps, and the baseline attacker's 3
 (Figure~\ref{fig:aio-coverage}(b)). In each run, the Petri net picks the next
-tactic at random, in proportion to its edge's base weight
-(Equation~\ref{eq:base-weight}), which the failure matrix rescales after a
-failure (Equation~\ref{eq:routing}), whereas the baseline attacker's procedure
-fixes the order of its attack actions (Figure~\ref{fig:attacker-model}).
+tactic at random, in proportion to the weight of the edge to it
+(Equations~\ref{eq:base-weight} and~\ref{eq:routing}), whereas the baseline
+attacker's procedure fixes the order of its attack actions
+(Figure~\ref{fig:attacker-model}).
 Through the tactic-to-action mapping, the order of the APT attacker model's
 tactics can dispatch an attack action whose preconditions are missing
 (Section~\ref{subsec:runtime-mechanics}), and 15 to 30\,\% of the attack

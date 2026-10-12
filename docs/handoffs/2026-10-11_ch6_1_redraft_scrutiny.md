@@ -1321,3 +1321,22 @@ The fix: name the property first; give the reason (MTDSim's six attack actions o
 **Advice:**
 - (v) Describe a component in the terms that formalise it (Petri net: edge, base weight, transition, and its equation). Never borrow a word that is already a metric's unit elsewhere ("step").
 
+### 24.10 ¶2, round 3, and its clarity check (Marc 2026-10-12)
+
+- **The failure-matrix clause moves into the citation.** Marc: it "breaks up the clarity", so "hide it in the hedging". "In proportion to its edge's base weight (Eq. 4.2), which the failure matrix rescales after a failure (Eq. 4.4)" becomes "in proportion to the weight of the edge to it (Equations 4.2 and 4.4)". "Weight", not "base weight", is true before and after a failure, and the two equations carry the difference. "The edge to it" also gives "its" a referent.
+
+**Clarity check (terms, noun clusters, nuance, hedging, relevance):**
+- **S1, result.** Every term is defined: choice of attack strategy (Table 6.1), distinct openings (§4.5.1), a step (a run's unit), the attack profiles, the baseline attacker. One comparison, on one length. Nothing missing, nothing extra.
+- **S2, cause.** In ch4's terms: the Petri net, edge, weight, and the equations; the baseline attacker's procedure (ch2/ch4). The contrast says what differs: picked at random against fixed. Hedging: none needed, because it describes the model.
+- **S3, catch.**
+  - The defined term from the opener: "the order of its tactics", here naming the APT attacker model. It names the mapping, which is the route of the failure.
+  - "Can" scopes it.
+  - "This way" points to "preconditions are missing".
+  - The number is Appendix G.3's.
+  - One open point: "the order … can dispatch" gives a dispatching verb to an order. Proposed: "can put an attack action before its preconditions are met" (the verb of an order). Awaiting Marc.
+- **Cut, and staying cut:** the decision-place mechanics, the failure matrix by name, the overlay, the G.2 recount, the implication sentence.
+- **Relevance:** S3 is the mechanism the opener names for "the order of its tactics most likely lowers [ASP and NCR] by making some of its attack actions fail".
+
+**Advice:**
+- (w) A nuance that qualifies a term can live in the term's choice ("weight" rather than "base weight") and its citation, not in a clause.
+
