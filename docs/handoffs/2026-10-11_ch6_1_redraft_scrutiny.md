@@ -2428,3 +2428,34 @@ About 90 words.
 > The APT attacker model's tactic durations likely explain why the service layer reduces its NCR less than the host layer. Its unmapped tactics, which run no attack action, take 34 to 57 % of its run (Appendix G.3), and an MTD deployment blocks only an attack action in progress (Section 4.5). Attack actions blocked per service-layer deployment is 0.15 for the APT attacker model, against 0.95 for the baseline attacker (Figure 5.2(a)). A host-layer deployment takes its host whether or not it is running an attack action.
 
 **The so-what is S1:** ¶3 explains half of the opener's ordering for the APT attacker model; ¶2 explains the host layer's time lost. The last sentence answers "why the service layer". "At most", "has no … in progress" and "dwell" are gone; the subject is specific (its unmapped tactics). There is one hedge, and "therefore" is avoided because 34–57 % does not account for all of 85 % (the service layer also cannot block the three host-discovery attack actions; that nuance stays off the page).
+
+### 31.9 ¶3 v2 critiqued; v3 from the reader's terms (Marc 2026-10-12, "check all the language … every noun class given in ch1–5 … do we need the appendix, or can 5.2/5.3 supply it?"; proposed, not applied)
+
+**Marc's reading of the argument:**
+- the service layer disrupts only an attack action in progress;
+- the host layer disrupts indiscriminately;
+- the slower APT attacker model, between attack actions in unmapped tactics, is not disrupted by the service layer, while the baseline attacker, always mid-action, is.
+
+**The appendix.** Ch5 cannot supply the time share.
+- §5.2 gives the **step** share in unmapped tactics (26–47 %), which is the wrong measure for a deployment that lands at a moment in time.
+- Only Appendix G.3 gives the **time** share (34–57 %).
+- **Recommendation: drop the number.** The size is carried by Figure 5.2(a)'s 0.95 against 0.15. The rule is the reader's (§2.2.3, §5.3.1). The attribution to tactic durations is the one hedge.
+
+**Term audit (lesson 6: each noun is the reader's own):**
+
+| v2 | Reader's term | Where given |
+|---|---|---|
+| "an MTD deployment blocks only an attack action in progress" | "A service-layer deployment disrupts it only while it scans ports, exploits or brute-forces" | §2.2.3, near verbatim |
+| "takes its host" | "has no host to act on" | ¶2, Appendix F.2 |
+| "Its unmapped tactics … take 34 to 57 % of its run" | "runs no attack action while in an unmapped tactic" | §5.3.1 |
+| "attack actions blocked per service-layer deployment" | "Under every service-layer mechanism, attack actions blocked per MTD deployment is …" | §4.5 metric name, §5.3.1's form |
+
+**v3 (≈95 words):**
+> The APT attacker model's tactic durations likely explain why the service layer reduces its NCR less than the host layer does. A service-layer deployment disrupts an attacker only while it scans ports, exploits or brute-forces (Section 2.2.3). The baseline attacker runs its attack actions back to back, and the APT attacker model's tactic durations keep it in unmapped tactics between them, where it runs no attack action (Section 5.3.1): under every service-layer mechanism, attack actions blocked per MTD deployment is 0.95 for the baseline attacker and 0.15 for the APT attacker model (Figure 5.2(a)). A host-layer deployment leaves the APT attacker model no host to act on whether or not it is running an attack action.
+
+**Checks:**
+- **"Back to back":** verified (disruption_mechanism.md, "the baseline is always running an action"); it is plain language, not a coined term.
+- **The 0.15 has a second cause:** the APT attacker model's own scan neighbours and enumerate host, which the service layer cannot disrupt. It stays off the page, inside the hedge.
+- **The last sentence rests on code** (`_serve_time` → `apply_mtd_interrupt_cost` clears the host). Ch4 l.4877 omits it; the clause proposed in 31.8 is still gated.
+- **Hedges:** one "likely" (S1); the rest are measured or true by construction.
+- **Not used:** "dwell", "in flight", "hides" and "indiscriminate" (Marc's own words, kept off the page as stand-ins or figurative).
