@@ -3475,3 +3475,33 @@ hosts.
 | S9 punch | clear; "actions on objectives" repeats S7's term (one term, deliberate) |
 
 **Close (¶4) checked against ¶3:** it ties the failure matrix to adaptivity and the attack profiles to objective-specific behaviour, the same sources ¶3 gives. No knock-on.
+
+## §55. §6.3 close: does it earn its place, and what is its one-liner? (Marc 2026-10-12; nothing applied)
+
+Marc kept ¶3's S2 as it is. On the close he asked: what must it carry, is it needed, what is the one-liner? The close is 89 words in three sentences.
+
+### 55.1 Sort test
+
+| Sentence | Already in | Verdict |
+|---|---|---|
+| S1: two marks likely reach SQ3 (choice of attack strategy via the order; detection avoidance via the tactic durations) | §6.2 opener ("tactic durations and the order of its tactics likely explain the difference"); §6.1 close | the same claim in mark terms; the only new part is the translation into marks |
+| S2: the failure matrix (adaptivity) moves NCR negligibly; without the attack profiles (objective-specific) the same three MTD mechanisms lead | §5.4; §6.1 opener; §6.5 internal validity | rehash (the claim counted six times in §32.3) |
+| S3: of what the threat reports give, only the order likely reaches the answer; no run with MTD tests the order alone | §6.5 ("order and durations, which no run with MTD separates … Order has no test of its own"); §6.4 ("nor that the grounding in CTI caused the reversal") | the bound is §6.5's (bounds once); the CTI verdict is half-said by ¶2's ending |
+
+### 55.2 What only the close can do
+
+- ¶2 ends: grounded in threat reports for the order; rests on our judgement where MTD disrupts it.
+- ¶3 ends: comparable, and limited to finding and compromising hosts.
+- §6.2 says the order and the tactic durations likely explain SQ3's answer.
+- **Nobody joins them.** The two marks that likely reach SQ3 come one from each source of ¶2: choice of attack strategy from the threat reports, detection avoidance from our judgement.
+- That is the payoff of §6.3 for the research question: what the answers to SQ1/SQ2 mean for SQ3.
+
+**One-liner:** *SQ3's answer likely rests on one mark from the threat reports and one from our judgement.*
+
+### 55.3 Recommendation
+
+- **Keep the close as one sentence:** the join, hedged once ("likely"), pointing to §6.2.
+- **Cut S2:** a rehash, with its homes in §5.4, §6.1 and §6.5.
+- **Cut S3's bound to §6.5,** where bounds live once.
+- **Alternative:** cut the close. §6.3 then ends on ¶3, and the reader joins ¶2 to §6.2 alone. The cost: §6.3 never says why its marks matter for the result.
+- **Gated knock-on:** ch7 Contribution 1 "Bound" is written "in step with §6.3's close" (the CTI verdict, untested alone, the negligible ablations). If the close drops them, the Bound points to §6.5 and §5.4 instead. That is a ch7 edit, to be proposed.
