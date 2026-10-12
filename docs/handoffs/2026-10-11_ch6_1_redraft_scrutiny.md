@@ -874,3 +874,111 @@ About 1 000 words against the ~600 guide; 39 cross-references (20 to sections), 
 - ch5's gate item 8, inverted for a discussion: **could the sentence be true without any explanation, read straight off a ch5 float?** Then it is a replay; cut it or reduce it to the back-reference. Fails: opener S2, ¶1 S4, ¶2 S1's second half, ¶4 S7's counts.
 - ch5's gate items 1, 2, 5, 7 apply unchanged: at most three clauses; the subject leads; every noun has an antecedent in ch2–5; no fact in two sentences (here: the procedure fixes the order ×2, base weights ×2, exploit before scan ×2, proxy ×2 with §4.5.1/§6.5).
 - Words, by sense: *take* → unmapped tactics *last*; runs *have* openings (§5.2's verb); attack profiles *use* attack actions.
+
+## 22. From critique to redraft: the plan (2026-10-12; proposal, nothing applied to the tex)
+
+Marc accepted §21 ("beautiful test … I agree on your sentence-level stuff") and asked how it becomes a redraft that is methodical and does not go backwards on purpose, context and audience. His proposed shape: the opener as a mini-introduction (what differs, on which three properties; the two causes; everything else negligible), one paragraph per property (the takeaway, this model against that, the cause, hedged), then outcome. His question: is outcome a vestigial fourth paragraph, or does it support each property?
+
+### 22.1 The frame every sentence is checked against (written once, before any slot)
+
+- **Purpose.** Explain why, with no MTD, the APT attacker model differs from the baseline attacker on the three properties where Table 6.1 marks them differently, and what those differences change in the attack outcome.
+- **Context.** §5.2's results, explained by Chapter 4's mechanisms. No marks (§6.3 scores); no bounds that §4.5 or §6.5 state; no new numbers beyond the Appendix G (formerly F) reads already ratified.
+- **Audience.** A fourth-year CS student who has read Chapters 1–5 and holds only their terms, and an examiner who checks each claim against a float.
+- **Nouns the section may use** (all defined in ch2–5): attack action, tactic, technique, unmapped tactic, tactic duration, Petri net, decision place, base weight, attack flow, attack profile, objective, foothold, attack scenario, the baseline attacker's procedure, step, opening, relative tactic occurrence, distinct openings, attack rate, attack confidentiality, IDS (the stand-in of §4.5.1), ASP, NCR, MTTC, time limit, failure matrix, vulnerability memory, precondition. **Not:** stealthier, quieter, spread, survive, draw, cost (as a metaphor), "two things".
+
+### 22.2 Marc's shape, tested
+
+**Agreed:** the opener is a mini-introduction that says what differs before saying why; one paragraph per property, in §5.2's order; each paragraph = takeaway, this model against the baseline attacker, the cause (hedged where inferred).
+
+**Two corrections on merit:**
+1. **"We ablated everything else and it was negligible" overclaims.** §5.4 ablated three components. The failure matrix and the vulnerability memory are negligible. The attack profiles are not: with no MTD, NCR is 0.171 with them and 0.189 on the attack graph ($d = -0.28$), and they beat every random partition of the same sizes ($d$ 0.25 to 1.47). The two causes themselves have no ablation (§6.3: "the Petri net's choice has no ablation of its own"). What supports them is Appendix G.3 for the unmapped tactics (attack rate with no time in them, 1.60–2.16 against 1.71) and the baseline attacker for the order. The opener may say only: removing the failure matrix or the vulnerability memory changes NCR negligibly.
+2. **Attack outcome does not show a property emerging.** A lower ASP is no evidence of being more APT-like: §6.3 says "an attacker that compromises more is stronger, not closer to an APT attacker". What outcome does show is that the mechanisms behind the three properties change what MTDSim measures. That is its motivation, and it is why §6.2 cannot compare raw NCR.
+
+### 22.3 Structure: outcome split by cause, plus a short close (recommended)
+
+Each mechanism's effect on outcome goes into its own property paragraph as one sentence, where the evidence exists:
+- **¶1:** grouping the attack flows by objective changes NCR against random groups of the same sizes (§5.4). This also answers ¶1's own bound (is it the objective, or the group size?).
+- **¶2:** the order ignores preconditions, so 15–30 % of the attack actions it dispatches fail (G.3).
+- **¶3:** the time in unmapped tactics leaves it fewer attack actions by the time limit.
+
+The close then **sums, it does not add**. It introduces no new cause:
+- the two causes together: fewer runs reach a target host, fewer hosts compromised;
+- on the same networks as the baseline attacker (G.1), so MTTC is over different runs;
+- a longer run might narrow the gap (untested);
+- the implication: a lower NCR with no MTD is how the APT attacker model behaves in MTDSim, so §6.2 compares each attacker's NCR reduction against its own NCR with no MTD.
+
+This keeps the homes that §6.4 cites in §6.1 ("ASP and NCR call a quiet attacker weak"; "MTTC compares different runs"). Command and Control's 45 s is cut (§21.4).
+
+Alternative: no close, with the implication moved to the opening of §6.2. Rejected: §6.4's two back-references would lose their home, and the headline that §5.2 founds would never be summed.
+
+### 22.4 The chosen explanation per paragraph (the spine)
+
+| ¶ | Takeaway (the one thing the reader leaves with) | Cause, in the opener's words | Against the baseline attacker | Outcome sentence | Hedge / bound (one) | Float |
+|---|---|---|---|---|---|---|
+| 0 | With no MTD, the APT attacker model differs from the baseline attacker on objective-specific behaviour, choice of attack strategy and detection avoidance (the three that Chapter 5 measures and on which Table 6.1 marks them differently), and it compromises less | the unmapped tactics; the order of its tactics | — | stated in the finding | failure matrix and vulnerability memory negligible | Table 5.2, §5.4 |
+| 1 | After the foothold, the attack profiles use the six attack actions at different rates, but no attack action carries out an objective: the property shows in the order, not in the acts | order (each attack profile's own base weights); unmapped (Collection, Exfiltration, Impact) | the same attack actions in either attack scenario | the attack profiles compromise more than random groups of the same sizes | c4, with no objective, differs too | Fig. 5.1(a), G.2 |
+| 2 | Its runs open in hundreds of ways because the order of its tactics is picked from the attack flows; the baseline attacker's procedure gives one to three | order | its procedure fixes the order | the pick ignores preconditions: 15–30 % of dispatched attack actions fail | every opening is made of edges the attack flows took (§6.3's contract) | Fig. 5.1(b), G.3 |
+| 3 | It moves low and slow because its unmapped tactics hold it a third to over half its run with no attack action; it chooses no technique against an IDS | unmapped (Stealth and Defense Impairment among them) | higher attack rate, lower attack confidentiality | fewer attack actions by the time limit | with no time in unmapped tactics, its attack rate would be about the baseline attacker's | Table 5.2, Fig. 5.1(a) All unmapped, G.3 |
+| 4 | The two causes leave it fewer attack actions that succeed, so it compromises less, on the same networks; MTD is therefore compared by NCR reduction | both, named again | lower ASP and NCR | — (this *is* outcome) | a longer run might narrow the gap | Table 5.2, G.1 |
+
+### 22.5 Slot sheets (job · facts · ceiling); about 570 words in all
+
+**¶0, ~90 words, 3–4 sentences.**
+- O1 *finding.* The three properties by name; the two attackers differ on them with no MTD; the APT attacker model compromises less (Table 5.2). *Ceiling:* no metric values (§5.2 has them); a pointer to Table 6.1 only for "where they are marked differently" (Q22).
+- O2 *causes.* The unmapped tactics; the order of its tactics. Name them as the subject. *Ceiling:* "most of", not "each".
+- O3 *rival.* Removing the failure matrix or the vulnerability memory changes NCR negligibly (§5.4). *Ceiling:* not "everything else" (22.2).
+- O4 *bridge (once, for ¶1 and ¶3).* Table 3.2 defines the properties in techniques; in MTDSim an attack action carries out one of a tactic's techniques (§4.4.1's words), so the runs test them through attack actions. *Ceiling:* no "proxy" or "operationalisation" (new words for an existing sentence).
+
+**¶1, ~130 words.**
+- 1a *claim + baseline.* After the foothold the attack profiles use the attack actions at different rates; the baseline attacker uses the same ones in either attack scenario. Facts: Credential Access, the only tactic that dispatches brute force, 10 % against 1 % (Fig. 5.1(a)), holding after the foothold (G.2). *Ceiling:* name what c1 and c3 are, or say "between attack profiles".
+- 1b *cause.* Each attack profile has its own base weights, so the order of its tactics differs.
+- 1c *limit.* Collection, Exfiltration and Impact are unmapped tactics, so no attack action carries out an objective. *Ceiling:* no re-gloss of "actions on objectives"; no not-X-but-Y.
+- 1d *outcome (Q23).* The attack profiles compromise more than random groups of the same sizes (§5.4).
+- 1e *bound.* c4, whose attack flows reached no objective, differs as much, so the difference comes from the attack flows grouped together more than from the objective itself. Hedged.
+
+**¶2, ~120 words.**
+- 2a *claim + baseline.* Hundreds of distinct openings against one over four steps and three over eight (Fig. 5.1(b)).
+- 2b *cause.* At each decision place the next tactic is picked in proportion to how often the attack flows took each edge (§4.3); the baseline attacker's procedure fixes its order (Figure 2.x). *Ceiling:* one sentence, plain words, no symbols.
+- 2c *contract.* Every opening is made of edges the attack flows took.
+- 2d *outcome.* The pick ignores the preconditions of MTDSim's attack actions, so it can exploit before the scan the exploit needs; 15–30 % of dispatched attack actions fail (G.3).
+- 2e *so-what.* An MTD evaluated against the baseline attacker meets one opening.
+
+**¶3, ~130 words.**
+- 3a *claim + baseline.* A lower attack rate and a higher attack confidentiality than the baseline attacker (Table 5.2).
+- 3b *cause.* Its unmapped tactics hold it a third to over half its run with no attack action (G.3); the more steps an attack profile spends in them, the lower its attack rate (Fig. 5.1(a), All unmapped).
+- 3c *evidence.* With no time in unmapped tactics, its attack rate would be about the baseline attacker's (G.3).
+- 3d *the definition's first predicate.* It moves low and slow (Table 3.2) by its declared tactic durations (§4.4.2). *Ceiling:* no "on purpose"; no §3.1.1.
+- 3e *the second predicate.* It chooses no technique against an IDS: the IDS of §4.5.1 only counts. *Ceiling:* never "MTDSim has no IDS" next to "the IDS flags".
+- 3f *so-what.* Stealth and Defense Impairment are themselves unmapped, so in MTDSim, hiding is time without an attack action. The fewer attack actions by the time limit feed ¶4. *Ceiling:* the outcome sentence may merge here.
+
+**¶4, ~100 words, 4 sentences.**
+- 4a *finding + causes.* Fewer runs reach a target host, and it compromises fewer hosts by the time limit (Table 5.2), likely because the unmapped tactics and the order of its tactics leave it fewer attack actions that succeed (¶2, ¶3; no new numbers).
+- 4b *same networks.* It succeeds almost only where the baseline attacker does (G.1), likely because both compromise through the same attack actions; so its MTTC is over fewer, different runs.
+- 4c *rival.* A longer run might narrow the gap; not tested.
+- 4d *implication.* A lower NCR with no MTD is how the APT attacker model behaves in MTDSim, so §6.2 compares each attacker's NCR reduction against its own NCR with no MTD.
+
+### 22.6 Process (the ch5 pipeline, adapted)
+
+1. **Rule** Q21–Q25 below, and ratify the spine (22.4). Nothing is drafted before the spine is agreed: ch5's lesson.
+2. **Draft one paragraph at a time against its slots**, in the mode Marc picks (Q25). Each paragraph passes the gate before Marc sees it.
+3. **Gate** on every sentence:
+   - ch5 §5 items 1, 2, 5 and 7 (at most three clauses; the subject leads; nouns from 22.1 only; no fact twice);
+   - the replay test (if a sentence reads straight off a ch5 float with no explanation, cut it to the back-reference);
+   - the reference rule (a float reference where a number is read; a section reference only for a term the reader may not hold; never one after a re-explanation, so cut the re-explanation);
+   - voice.md §(f).
+4. **Cold readers on the PDF**, run together: a CS student (could they say each paragraph's takeaway in one line?) and an examiner (does each claim stand on a float?). Verify the findings, triage them, and hand them to Marc.
+5. **Knock-ons** in the same commit as the redraft:
+   - §6.3's two "tactic durations" causes become the unmapped tactics;
+   - §6.3's "assumed" for pace is checked against Appendix B's *rule*;
+   - §6.3's random-partition sentence points back to §6.1, if Q23 is yes;
+   - the preamble's §6.1 sentence;
+   - §6.4's two back-references are re-checked.
+   - Build clean.
+
+### 22.7 Questions (recommendation first)
+
+- **Q21.** Structure 22.3: outcome split into ¶1–¶3 by cause, with a four-sentence close that sums and implies. *Recommend yes.*
+- **Q22.** The opener names the three properties as those on which Table 6.1 marks the two attackers differently. It points at the table and scores nothing, so Q7 holds. *Recommend yes:* it is the section's reason to exist, stated once.
+- **Q23.** The random-partition result (§5.4) goes into ¶1 as its outcome sentence and answers ¶1's bound; §6.3 points back. This crosses the "ablations are §6.3's evidence" rule. *Recommend yes,* because the job differs: §6.1 uses it to explain a §5.2 difference, while §6.3 uses it to answer the sub-questions.
+- **Q24.** IDS is first expanded inside Table 3.2. Expand it at the first prose use instead: the §3.3.1 Jalowski sentence ("… to stay hidden from an intrusion detection system (IDS)"). This is a ch3 change. *Recommend yes.*
+- **Q25.** Drafting mode. (a) Marc dictates each slot, as in ch5; or (b) the session drafts one paragraph against its slots, gated, and Marc edits only the flagged sentences. *Recommend (b) for the opener and the close,* where connective prose is green-lit, *and (a) for ¶1–¶3,* where the argument is his.
