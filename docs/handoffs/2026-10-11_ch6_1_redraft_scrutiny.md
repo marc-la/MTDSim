@@ -1158,3 +1158,5 @@ Marc rules each paragraph in turn. This section logs each round: what he flagged
 **Advice for the rest of Chapter 6:**
 - (f) No word stands in for a defined term. "Pace" was a session coinage for the tactic durations, and it made one cause read as two.
 - (g) When one cause is tested and another is not, name both in the same terms and say which was run.
+
+**Applied after Marc's "all good" (2026-10-12):** the four ch4 and ch7 proposals above. One differs from the proposal. In §4.4.2, "how long the APT attacker model takes between attack actions" became "how often the APT attacker model acts". A mapped tactic's duration is its attack action's own time, not time between attack actions, so the proposed wording was inaccurate. The new wording also matches §4.5.1's "how often the attacker acts". "Pace" no longer appears anywhere in the thesis prose.

@@ -3892,8 +3892,8 @@ attacker's campaign persistence;
 they also cap what it gains, so it has two properties in full and three in part
 (Section~\ref{sec:fidelity-verdict}). It is a
 proof of concept: it tests whether an attacker that behaves like an APT changes
-what an MTD evaluation measures. Detection avoidance rests on a pace assumed to
-hide the attacker, and deployment-strategy awareness is left to future work.
+what an MTD evaluation measures. Detection avoidance rests on tactic durations
+that make it slower than the baseline attacker, and deployment-strategy awareness is left to future work.
 Figure~\ref{fig:pipeline} shows the pipeline that builds the model from 38
 attack flows and runs it in MTDSim. Sections~\ref{sec:technique-graph}
 and~\ref{sec:attack-profiles} answer \ref{sq:capture}: they recover the
@@ -4899,8 +4899,8 @@ confusion penalty, but never changes which tactic comes next.
 %  joins the robustness paragraph. Five paragraphs. Round 5 in git 7c3b9598.
 %  DRAFT STATE.]
 The \emph{tactic durations} set how long each tactic takes, at
-step~3 of Figure~\ref{fig:runtime-loop}. They set the APT attacker model's
-pace, and the longer a tactic runs, the more likely an MTD deployment
+step~3 of Figure~\ref{fig:runtime-loop}. They set how often the APT attacker
+model acts, and the longer a tactic runs, the more likely an MTD deployment
 disrupts it. A tactic's duration is random each time it runs, an
 exponential delay, because the timed transitions of a GSPN fire after
 exponential delays (Section~\ref{sec:petri-formalism}) and attack behaviour
@@ -5419,7 +5419,7 @@ Distinct openings measures how much one attacker's openings vary across its
 runs.
 
 \paragraph{Attack rate.}
-An attacker with detection avoidance moves low and slow and chooses techniques an IDS does not flag. MTDSim detects no attacker, so the two metrics for detection avoidance measure it by proxy, through the attacker's pace.
+An attacker with detection avoidance moves low and slow and chooses techniques an IDS does not flag. MTDSim detects no attacker, so the two metrics for detection avoidance measure it by proxy, through how often the attacker acts.
 Attack rate is the number of attack actions an attacker takes per minute
 \citep{zhan2013}, averaged over its runs:
 \begin{equation}
@@ -9839,9 +9839,10 @@ because detection avoidance also needs an IDS.
 depends on the attacker and drives MTD; the overhead and loss of service of each
 deployment beside NCR reduction, so that a sweep can choose a deployment
 interval.
-\item \textbf{Which part causes the reversal} (F13, F1). The baseline attacker
-given the APT attacker model's tactic durations, and a Petri net with uniform
-weights, to separate pace, order and the weights from CTI; then removing the
+\item \textbf{Which part causes the reversal} (F13, F1). The APT attacker model
+with the baseline attacker's times under MTD (Appendix~\ref{app:fa-run-time}
+runs it with no MTD), and a Petri net with uniform weights, to separate the
+tactic durations, the order of its tactics and the weights from CTI; then removing the
 attack profiles' edges one at a time, to find the transition a mitigation should
 break.
 \item \textbf{The corpus} (F10, F12, F2). Attack flows drafted by language
