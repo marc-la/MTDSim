@@ -2279,3 +2279,38 @@ Marc: "what are their purposes, their one-liners, are they cuttable … what exp
 The opener (the answer to SQ3, both causes) and ¶2 (adaptivity: why, per deployment), about 250 words.
 - It ends on ¶2's service-diversity sentence ("which likely explains its 60 s"). That is a weak last line, but it stops at the peak and adds nothing.
 - **Alternative:** keep one closing sentence that gives the interval gap and its ¶2 reason for the APT attacker model only, with no ch1 tie. That costs about 35 words and re-states a Table F.1 fact. Not recommended.
+
+### 31.4 Marc: "is the lean §6.2 satisfactory? What does the close look like? Draft it" (proposed, not applied)
+
+**Marc is happy with the cuts in 31.1 and 31.2.** They will be applied together with the close.
+
+**What the close must do.** The opener names two causes. ¶2 cashes only the order of its tactics (time lost under the host layer). It leaves two things open:
+- why the host layer reduces the baseline attacker's NCR at all, when its time lost is at or below zero;
+- where the tactic durations come in.
+
+Both are answered by attack actions blocked per MTD deployment:
+- **Baseline attacker:** 0.95 to 1 under every host-layer and service-layer mechanism (§5.3.1).
+- **APT attacker model:** 0.15 to 0.39.
+- **The tactic durations put 34 to 57 % of an attack profile's run in unmapped tactics** (Appendix G.3, fa-run-time). Ch4 §4.3.2 and §5.3.1 say an MTD deployment there blocks no attack action.
+
+This is the parallel of §6.1's close: both causes joined, each to the comparison it explains (lesson (ad)).
+
+**Not the dishonest throughline.** Durations explain blocks under *every* mechanism, not "the service layer". The 60 s stays ¶2's (ports kept).
+
+**A separate paragraph, not the end of ¶2.** ¶2 is time lost (adaptivity) and already 186 words; this is blocks, the other half of Figure 5.2.
+
+**Draft (≈110 words):**
+> Attack actions blocked per MTD deployment is 0.95 to 1 for the baseline attacker under every host-layer and service-layer mechanism (Figure 5.2(a)), which likely explains why the host layer reduces its NCR although its time lost is at or below zero. For the APT attacker model it is 0.15 to 0.39, likely because its tactic durations put 34 to 57 % of its run in unmapped tactics, where an MTD deployment blocks no attack action (Appendix G.3). Against the APT attacker model, the service layer therefore blocks few attack actions and costs it 60 s or less per deployment, and the host layer likely reduces its NCR through the time it costs.
+
+**Checks:**
+- **Facts:**
+  - 60 s or less: port shuffle 26, OS diversity −8, service diversity 60.
+  - Blocks are from §5.3.1.
+  - 34–57 % is from Appendix G.3.
+- **The mapped-time share (43–66 %) exceeds 0.35–0.39.** Durations are not the whole cause, hence "likely".
+- **Three hedges for three inferred claims.**
+- **Terms:**
+  - "attack actions blocked per MTD deployment" (§4.5);
+  - "unmapped tactics" (§4.3.2);
+  - "tactic durations" (§4.4);
+  - "time lost".
