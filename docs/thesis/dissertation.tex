@@ -8554,6 +8554,11 @@ accounts for the rest. Removing the
 failure matrix or the vulnerability memory changes its NCR negligibly
 (Section~\ref{sec:ablation}), so neither explains its lower NCR.
 
+% P1 ROUND 4, 2026-10-12 (Marc: "approved"; handoff 24.6-24.7): the c4 bound
+%  replaced by the random partitions' (partition_step_divergence.py, Appendix G.7),
+%  measured in 4.5.1's words ("divide their steps among the tactics"); the
+%  unmapped sentence names the three tactics and moves last; "the baseline
+%  attacker's procedure" cut.
 % P1 ROUND 3, 2026-10-12 (Marc: "a lot stronger ... 90% of the way";
 %  handoff section 24.5): answers the question Section 4.5.1 poses (do the
 %  attack profiles' runs still differ in MTDSim, most of all in actions on
@@ -8566,13 +8571,14 @@ On objective-specific behaviour, the attack profiles' runs still differ in
 MTDSim, most of all in actions on objectives (Figure~\ref{fig:aio-coverage}(a)):
 Exfiltration occurs only in $c_1$ and $c_3$, Impact almost only in $c_2$ and
 $c_3$, and neither in $c_4$. Each attack profile follows the order of tactics
-of its own attack flows (Section~\ref{sec:attack-profiles}). Actions on objectives are unmapped
-tactics, because MTDSim's six attack actions, the baseline attacker's
-procedure, only find and compromise hosts (Section~\ref{subsec:attacker-model}),
-so the APT attacker model steals no data and impedes no system. Outside
-actions on objectives, $c_4$, whose attack flows share no objective, also
-divides its steps differently from the others, so there the differences are
-not shown to come from the objective.
+of its own attack flows (Section~\ref{sec:attack-profiles}). Before actions
+on objectives, the attack profiles divide their steps among the tactics no
+more differently than groups of the same sizes drawn at random from the attack
+flows (Appendix~\ref{app:fa-group-size}), so an attack profile's objective
+shows only in actions on objectives. Collection, Exfiltration and Impact, the
+tactics of actions on objectives, are unmapped, because MTDSim's six attack
+actions only find and compromise hosts (Section~\ref{subsec:attacker-model}),
+so the APT attacker model steals no data and impedes no system.
 
 Choice of attack strategy comes from the order of its tactics, picked in each
 run, whereas the baseline attacker's procedure fixes the order of its attack

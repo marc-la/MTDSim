@@ -1265,3 +1265,21 @@ The fix: name the property first; give the reason (MTDSim's six attack actions o
 **Advice:**
 - (n) Before a sentence explains a difference by a grouping, check the difference against random groupings of the same sizes. A single odd group (c4) is not a control.
 - (o) Keep outcome claims (NCR, with effect sizes and a negligible band) apart from behaviour-divergence claims (descriptive, compared to a chance range). One does not license the other.
+
+### 24.7 ¶1, round 4: the bound against random groups, and a clarity pass (Marc 2026-10-12, "approved")
+
+- **S2 stays as it was.** Marc: a proposed rewording ("the pattern is the one their attack flows show, because…") made the same point twice. "By construction" is already in the scaffold: §4.5.1 says "The attack profiles were built to differ, so the metric tests whether their runs still differ in MTDSim".
+- **S4 is the bound against random groups.** It names the measure in §4.5.1's words and gives "the objective" its referent: "an attack profile's objective".
+- **S3 is fixed and moved last.**
+  - Actions on objectives is a stage, not tactics, so the sentence names Collection, Exfiltration and Impact (§5.3's phrase).
+  - "The baseline attacker's procedure" is cut.
+  - The paragraph now ends on what the objective-specific tactics do in MTDSim: nothing.
+
+**Applied:**
+> On objective-specific behaviour, the attack profiles' runs still differ in MTDSim, most of all in actions on objectives (Figure 5.1(a)): Exfiltration occurs only in c1 and c3, Impact almost only in c2 and c3, and neither in c4. Each attack profile follows the order of tactics of its own attack flows (Section 4.2). Before actions on objectives, the attack profiles divide their steps among the tactics no more differently than groups of the same sizes drawn at random from the attack flows (Appendix G.7), so an attack profile's objective shows only in actions on objectives. Collection, Exfiltration and Impact, the tactics of actions on objectives, are unmapped, because MTDSim's six attack actions only find and compromise hosts (Section 2.2.3), so the APT attacker model steals no data and impedes no system.
+
+**Advice:**
+- (p) Before proposing a sentence that states a cause or a construction, check whether the scaffold (§4.5's paragraph for the metric) already says it. If it does, the sentence repeats it.
+- (q) Name the measure in a comparison whose appendix holds more than one measure. "Differ" alone lets outcome and behaviour blur.
+- (r) A stage (actions on objectives) is not a set of tactics. Name the tactics when the claim is about tactics.
+
