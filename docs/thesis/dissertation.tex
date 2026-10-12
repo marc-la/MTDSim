@@ -4394,7 +4394,7 @@ the immediate transitions out of $\hat{p}$:
   \frac{W(t_{pq})\, F(p, q)}{\sum_{q'} W(t_{pq'})\, F(p, q')}.
   \label{eq:routing}
 \end{equation}
-After a success, or at a tactic that dispatches no attack action, the
+After a success, or at a tactic that runs no attack action, the
 immediate transitions keep their base weights. A factor of zero disables a
 transition for that firing only; places, transitions and arcs never change.
 An MTD deployment can also cut a timed transition short; if an attack action
@@ -4874,7 +4874,7 @@ APT attacker model can only be as good as the attack actions it adopts.
 %  base-weights sentence cut (Section 4.3 and step 5 say it), "still takes its
 %  duration" left to 4.4.2; the ceiling moved to close the paragraph on the
 %  gaps, its restatement of that paragraph's opener cut. DRAFT STATE.]
-An unmapped tactic dispatches no attack action, so it cannot fail: an MTD
+An unmapped tactic runs no attack action, so it cannot fail: an MTD
 deployment during it cuts its duration short and costs the attacker the
 confusion penalty, but never changes which tactic comes next.
 
@@ -5371,7 +5371,7 @@ The four attacker behaviour metrics count steps or attack actions. A \emph{step}
 the token of the Petri net enters (Section~\ref{sec:petri-formalism}). The
 baseline attacker has no tactics, so its step is one attack action, and
 consecutive repeats of an attack action are one step. A step in an unmapped
-tactic dispatches no attack action (Section~\ref{subsec:tactic-verb-mapping}).
+tactic runs no attack action (Section~\ref{subsec:tactic-verb-mapping}).
 Every attack action counts except one that fails because its preconditions
 are missing (Section~\ref{subsec:runtime-mechanics}), which never reaches the
 network. The baseline attacker's exploit attack action counts once, however
@@ -6579,7 +6579,7 @@ This section compares the two attackers with no MTD running.
   % 2026-10-08 (Marc: fix the "0" against "<1" flagged by a cold examiner): "0" is a true zero, a tactic in the attack flows that no run can enter (c1: resource development has no incoming arc; c2: its one incoming arc has weight 0; data/ogasp/petri/*_structural.json); keyed in the caption, the cell left as generated.
   % 2026-10-06 (Marc, section 5.2): caption decodes only; the definitions of step, the metric and opening cut (Section 4.5), the baseline attacker's 1 to 3 carried by (b)'s log axis.
   % 2026-10-06 round 2 (Marc): the attackers, the runs and the decodes chapter 4 gives cut; blank tied to Figure 4.3.
-  \caption[How each attacker acts with no MTD running]{How each attacker acts with no MTD running (Section~\ref{subsec:metrics-behaviour}). (a)~Left: the attack action each tactic dispatches (Section~\ref{subsec:tactic-verb-mapping}); the baseline attacker's column is by attack action. Blank: a tactic the attack profile's attack flows do not reach (Figure~\ref{fig:attack-profiles}); 0: a tactic they reach that no run takes. (b)~1: every run takes the same opening; 1\,000: every run takes its own.}
+  \caption[How each attacker acts with no MTD running]{How each attacker acts with no MTD running (Section~\ref{subsec:metrics-behaviour}). (a)~Left: the attack action each tactic runs (Section~\ref{subsec:tactic-verb-mapping}); the baseline attacker's column is by attack action. Blank: a tactic the attack profile's attack flows do not reach (Figure~\ref{fig:attack-profiles}); 0: a tactic they reach that no run takes. (b)~1: every run takes the same opening; 1\,000: every run takes its own.}
   \label{fig:aio-coverage}
 \end{figure}
 % LAYOUT 2026-10-06: Table 5.2's input straight after Figure 5.1, so the two are queued together and share
@@ -6734,7 +6734,7 @@ This section compares the two attackers with no MTD running.
 On objective-specific behaviour, the baseline attacker takes only its six
 attack actions (Figure~\ref{fig:aio-coverage}(a)). Every attack profile also
 spends \prelim{26} to \prelim{47}\,\% of its steps in unmapped tactics, which
-dispatch no attack action (Section~\ref{subsec:tactic-verb-mapping}). The
+run no attack action (Section~\ref{subsec:tactic-verb-mapping}). The
 unmapped tactics include Collection, Exfiltration and Impact, the tactics of
 actions on objectives. The attack profiles divide their
 steps among the tactics differently, each over the tactics its attack flows
@@ -8634,7 +8634,7 @@ an attack action.
 The APT attacker model's tactic durations lower its ASP and NCR by lowering
 its attack rate, and the order of its tactics most likely lowers them by
 making some of its attack actions fail (Appendix~\ref{app:fa-run-time}). NCR depends most on one duration, the 45\,s mean, most likely through
-Command and Control, the only tactic that dispatches scan neighbours, which
+Command and Control, the only tactic that runs scan neighbours, which
 the baseline attacker runs in 5\,s (Section~\ref{subsec:dwell-times}). The APT
 attacker model succeeds almost only on the networks where the baseline
 attacker also succeeds (Appendix~\ref{app:fa-success}), likely because both
@@ -9269,7 +9269,7 @@ validity. Every result is a result in MTDSim, and three of its design choices
 bound them all. The first is its attack actions. The APT attacker model runs
 the six that MTDSim adopted \citep{brown2023}, so that both attackers act
 through the same attack actions on the same networks. Seven tactics have no
-attack action to dispatch, the tactic-to-action mapping is an input we chose
+attack action to run, the tactic-to-action mapping is an input we chose
 (Section~\ref{subsec:tactic-verb-mapping}), and the six encode one order, so
 an attack action that arrives out of it is refused
 (Section~\ref{sec:disc-behaviour}). The second is MTDSim's rules for what
@@ -9333,7 +9333,7 @@ times closes about two thirds of its gap in ASP
 (Appendix~\ref{app:fa-run-time}); the same run with MTD would separate the
 two, and is future work (Section~\ref{sec:future-work}).
 The two attackers also do not run under identical conditions. An attack
-action takes the mean duration of the tactic that dispatches it, not MTDSim's
+action takes the mean duration of the tactic that runs it, not MTDSim's
 time: scan neighbours takes 45\,s for Command and Control, and 5\,s for the
 baseline attacker (Table~\ref{tab:attack-action-times}). Six tactics take the
 time of one of MTDSim's attack actions, and nine take our judgement, all set
@@ -10739,7 +10739,7 @@ any would make the agent this dissertation's rather than Tay's.
   \item Doing nothing was never a learning target: no transition for it was
   stored in training.
   \item The detection input codes the attacker's current attack action. An unmapped
-  tactic of the APT attacker model dispatches no attack action, so it reads as nothing detected, the same
+  tactic of the APT attacker model runs no attack action, so it reads as nothing detected, the same
   value as a missed detection.
   \item The agent was trained at one deployment interval, against the baseline
   attacker, on 100-host networks (Table~\ref{tab:mtdshield-configuration}).
@@ -10966,7 +10966,7 @@ Section~\ref{sec:disc-behaviour} explains the APT attacker model's
 differences from the baseline attacker with no MTD by its tactic durations
 and the order of its tactics. Table~\ref{tab:fa-run-time} shows where its run
 time goes. The unmapped tactics take 34 to 57\,\% of an attack profile's run,
-and 15 to 30\,\% of the attack actions its tactics dispatch fail because
+and 15 to 30\,\% of the attack actions its tactics run fail because
 their preconditions are missing, which attack rate does not count. Counted,
 the failed attack actions raise its attack rate to 0.97 to 1.71 per minute,
 against the baseline attacker's 1.71.
@@ -10976,7 +10976,7 @@ against the baseline attacker's 1.71.
 Table~\ref{tab:fa-tactic-durations} runs the APT attacker model again with no
 MTD and the same 1\,000 seeds, with only its tactic durations changed. First
 its unmapped tactics take no time. Then, in addition, each mapped tactic takes
-the baseline attacker's mean time for the attack action it dispatches:
+the baseline attacker's mean time for the attack action it runs:
 Command and Control takes 5\,s for scan neighbours, not 45\,s, and Credential
 Access 20\,s for brute force, not 4.5\,s. Together these are the baseline
 attacker's times. The order of its tactics is unchanged, and so are its
@@ -11062,7 +11062,7 @@ the mechanism in Section~\ref{sec:disc-mtd-performance}; it is not a result.
   on seed~7, (a, c)~with no MTD and (b, d)~under IP shuffle every 200\,s:
   (a, b)~the whole run, (c, d)~its first 1\,000\,s. Each lane is one of the
   baseline attacker's attack actions (Figure~\ref{fig:attacker-model}), and the
-  last holds the tactics that dispatch none. Each bar is one step of the Petri
+  last holds the tactics that run none. Each bar is one step of the Petri
   net, from its start to its end.}
   \label{fig:fa-traced-run}
 \end{figure}

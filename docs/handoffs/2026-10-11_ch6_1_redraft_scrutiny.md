@@ -1349,3 +1349,19 @@ The fix: name the property first; give the reason (MTDSim's six attack actions o
 **¶2 as applied:**
 > On choice of attack strategy, the attack profiles' 1 000 runs have 179 to 947 distinct openings over eight steps, and the baseline attacker's 3 (Figure 5.1(b)). In each run, the Petri net picks the next tactic at random, in proportion to the edge weights (Equations 4.2 and 4.4), whereas the baseline attacker's procedure fixes the order of its attack actions (Figure 4.1). Through the tactic-to-action mapping, the order of the APT attacker model's tactics can run an attack action before its preconditions are met (Section 4.3), and 15 to 30 % of the attack profiles' attack actions fail this way (Appendix G.3).
 
+### 24.12 "Dispatch" retired dissertation-wide (Marc 2026-10-12, "please fix ch4 verb thanks")
+
+"Dispatch" (a tactic dispatches its attack action) → "run". The change covers:
+- ch4 (ll. 4397, 4877);
+- §4.5.1 (5374);
+- Figure 5.1's caption;
+- §5.3;
+- ch6 (8637, 9272, 9336);
+- Appendix B and the Appendix G entries (G.3 twice, Figure G.x's caption).
+
+The generator `tools/further_analyses_tables.py` is fixed and regenerated:
+- Table G.4's column "Dispatched" → "All";
+- Table G.5's caption.
+
+Only the intended lines changed. Data keys (`dispatched|4`) are left alone. No "dispatch" is left in the prose.
+
