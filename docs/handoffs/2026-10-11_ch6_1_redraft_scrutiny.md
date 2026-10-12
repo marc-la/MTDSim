@@ -2459,3 +2459,34 @@ About 90 words.
 - **The last sentence rests on code** (`_serve_time` → `apply_mtd_interrupt_cost` clears the host). Ch4 l.4877 omits it; the clause proposed in 31.8 is still gated.
 - **Hedges:** one "likely" (S1); the rest are measured or true by construction.
 - **Not used:** "dwell", "in flight", "hides" and "indiscriminate" (Marc's own words, kept off the page as stand-ins or figurative).
+
+### 31.10 ¶3 v4 (Marc 2026-10-12: "why end on the host layer? reads vestigial … clarity, argument, importance, important part first, plain language, what goes in the hedge, what the reader is given"; proposed, not applied)
+
+**Cut: v3's last sentence** ("A host-layer deployment leaves the APT attacker model no host to act on …").
+- The host layer's side of the comparison is ¶2's, so a closing "whereas" re-tells it and reads as vestigial.
+- That a host-layer deployment also takes the host during an unmapped tactic stays off the page (code fact). Ch4 l.4877's clause stays gated.
+
+**v3's long third sentence split** into the cause (S3) and the measure (S4). Each sentence leads with its subject:
+- the cause;
+- the rule;
+- the two attackers;
+- the measure, the APT attacker model first.
+
+**v4 (≈85 words):**
+> The APT attacker model's tactic durations likely explain why the service layer reduces its NCR less than the host layer does. A service-layer deployment disrupts an attacker only while it scans ports, exploits or brute-forces (Section 2.2.3). The baseline attacker runs its attack actions back to back, but the APT attacker model's tactic durations keep it in unmapped tactics between them, where it runs no attack action (Section 5.3.1). Under every service-layer mechanism, attack actions blocked per MTD deployment is 0.15 for the APT attacker model, against 0.95 for the baseline attacker (Figure 5.2(a)).
+
+**Given to the reader:**
+- the cause and the comparison (the opener's);
+- §2.2.3's rule, near verbatim;
+- §5.3.1's unmapped-tactic rule;
+- the metric by its §4.5 name, with both numbers.
+
+**Inside the hedge ("likely"), off the page:**
+- the APT attacker model's own scan neighbours and enumerate host, which the service layer cannot disrupt (a second cause of the 0.15);
+- the 34–57 % time share (Appendix G.3);
+- blocks are measured at 2 000 s;
+- the host layer takes the host even during an unmapped tactic.
+
+**Checks:**
+- "Less than the host layer does" holds per mechanism at every interval: each host-layer mechanism exceeds each service-layer mechanism against the APT attacker model (Table F.1), so it is not only a layer mean (lesson (ac)).
+- There is no "therefore" before the numbers, because the second cause exists.
