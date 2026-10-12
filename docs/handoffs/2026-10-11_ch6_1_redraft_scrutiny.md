@@ -1062,3 +1062,57 @@ Marc rules each paragraph in turn. This section logs each round: what he flagged
 - (c) Scope a negative claim to what was measured.
 - (d) A hedge says what was not done ("no run removes either"), not an abstraction ("separates").
 - (e) An opener names each cause once. The definition and the evidence go in the paragraph that uses them.
+
+### 24.2 The tactic-durations ablation, run (Marc 2026-10-12)
+
+**Why.** The opener said the tactic durations and the order of its tactics "likely explain most of these differences, but no run removes either". Marc: "why do we not run these?" The order of its tactics is the Petri net, so removing it leaves the baseline attacker, which is already run. The tactic durations can be removed through the `dwell_catalogue` override, with no new code. Marc approved both arms. This is registry F13, the control all six cold examiners asked for, run the other way round and with no MTD only.
+
+**Design.** `data/results/ch6_further_analyses/run_duration_ablation.py` and `analyse_duration_ablation.py` → `duration_ablation_numbers.json`.
+- **Pins** are the reported corpus's: v2_partial, v4_failure_only, retrace on, targeted, 15 000 s, no MTD, vulnerability memory rate 2, seeds 0–999, c1–c4.
+- **Arm A:** the seven unmapped tactics take no time (mean 0, an immediate transition).
+- **Arm B:** Arm A, plus each mapped tactic's mean set to the baseline attacker's mean time for the attack action it dispatches. Each mapped tactic dispatches exactly one attack action under v2_partial. The times, taken from f7 of the baseline's own records:
+  - SCAN_HOST, ENUM_HOST and SCAN_NEIGHBOR: 5 s;
+  - SCAN_PORT: 25 s;
+  - EXPLOIT_VULN: 7.47 s;
+  - BRUTE_FORCE: 20 s (the APT attacker model's Credential Access is 4.5 s, so this one is slower).
+- **Checked:**
+  - On the movement arm, the tactic's draw *is* the attack action's time. The attacker.py docstring (S3-R) says so, and every reported action-bearing record has end − start − dwell = 0.
+  - The centre (the declared catalogue, passed explicitly) is bit-identical to runs_reported.jsonl on 80 runs.
+  - 8 000 runs, 0 errors, 0 event-cap hits, 932 s.
+- The baseline attacker is not re-run, because it consumes no tactic duration.
+
+**Results.** Means; intervals are 95 % paired bootstrap over seeds. "Gap closed" = (arm − reported) / (baseline − reported). The baseline attacker: ASP 0.656, NCR 0.497, attack rate 1.71, attack confidentiality 0.822, MTTC 9 098 s (656 runs).
+
+| | ASP reported / A / B | ASP gap closed A; B | NCR reported / A / B | NCR gap closed A; B | attack rate reported / A / B | blocked share reported / A / B |
+|---|---|---|---|---|---|---|
+| c1 | 0.124 / 0.403 / 0.630 | 0.52 [0.48, 0.57]; 0.95 [0.90, 1.01] | 0.149 / 0.261 / 0.348 | 0.32; 0.57 | 1.09 / 2.15 / 4.59 | 0.14 / 0.15 / 0.19 |
+| c2 | 0.139 / 0.440 / 0.706 | 0.58 [0.53, 0.63]; 1.10 [1.05, 1.14] | 0.209 / 0.354 / 0.447 | 0.50; 0.83 | 0.89 / 1.81 / 4.05 | 0.27 / 0.27 / 0.28 |
+| c3 | 0.056 / 0.078 / 0.078 | 0.04 [0.02, 0.05]; 0.04 [0.02, 0.05] | 0.172 / 0.202 / 0.202 | 0.09; 0.09 | 0.68 / 1.26 / 2.18 | 0.30 / 0.45 / 0.53 |
+| c4 | 0.042 / 0.100 / 0.374 | 0.09 [0.07, 0.12]; 0.54 [0.50, 0.58] | 0.154 / 0.220 / 0.384 | 0.19; 0.67 | 1.23 / 1.83 / 4.06 | 0.28 / 0.29 / 0.31 |
+
+- MTTC at B: 5 910 (c1), 6 185 (c2), 2 476 (c3), 8 992 (c4), against the baseline attacker's 9 098.
+- Attack confidentiality at B: 0.32–0.56, against the baseline attacker's 0.82.
+- Distinct openings over eight steps are unchanged in every arm. A zero-time draw consumes no random number, and the routing stream is separate.
+
+**What it shows.**
+1. **c1 and c2 (26 of 38 attack flows).** The tactic durations explain the whole gap in ASP. At the baseline attacker's pace they reach a target host as often as it does (c1) or more often (c2). The time in unmapped tactics alone closes about half.
+2. **c4.** Pace closes about half of the gap in ASP. The other half comes from something else.
+3. **c3.** Pace closes almost none of the gap, and its runs stall rather than run out of time:
+   - the same 78 seeds succeed in A and B, and they include all 56 reported successes;
+   - at B, the last successful exploit falls at a median of 2 069 s, and the run goes on to 15 000 s;
+   - the second half of a run at B is mostly unmapped tactics, attack actions blocked for missing preconditions (Discovery, Lateral Movement, Privilege Escalation, Execution), and scans of neighbours that find none fresh;
+   - its blocked share rises with pace (0.30, then 0.45, then 0.53).
+
+   The order of its tactics stalls c3.
+4. **NCR closes less than ASP** in every arm. A faster run reaches a target host sooner and stops there, so NCR stops short. The baseline attacker's NCR also stops short in its 656 runs. NCR's gap closed is therefore a lower bound on what pace explains.
+5. **At the baseline attacker's pace, the APT attacker model acts faster than it** (attack rate 4.1–4.6 against 1.71), and is flagged more (attack confidentiality 0.32–0.38 against 0.82). The baseline attacker's EXPLOIT_VULN rows on one host count as one action, and its procedure spends time between actions. So per-action times alone do not set its attack rate.
+6. **Appendix G.3's recomputation is now a run.** G.3 recomputed attack rate with no time in unmapped tactics as 1.60–2.16. Arm A measures 1.26–2.15. c3 comes out lower than its recomputation, because its blocked share rises once its unmapped tactics take no time.
+
+**Consequences for the prose (proposals; nothing applied yet, Marc to see the numbers first):**
+- **Opener:** "likely explain most …, but no run removes either" becomes the measured statement. Removing the tactic durations brings c1 and c2 to the baseline attacker's ASP, c4 halfway, and c3 not at all, because the order of its tactics stalls it.
+- **¶3:** the sentence recomputing attack rate from the records becomes the run.
+- **Close (¶4):** the attribution becomes the measurement, and the "most likely through Command and Control (45 s)" sentence may be superseded.
+- **§6.3:** the examiner's question ("the baseline attacker made slower plus a precondition penalty?"), answered for no MTD. For c1 and c2, its lower ASP is pace. For c3 and c4, the order of its tactics adds a stall.
+- **§6.5:** the comparison with MTD still does not separate the parts. This run is no MTD only.
+- **Appendix:** a new further-analyses section beside G.3 (one table), or G.3 extended.
+- **Registry F13:** marked partly run in the tex comment block.
