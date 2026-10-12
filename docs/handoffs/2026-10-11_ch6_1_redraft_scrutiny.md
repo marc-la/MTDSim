@@ -2896,3 +2896,20 @@ Campaign persistence in full is shared with the baseline attacker, so counting "
 > The APT attacker model has more of the eight properties than any of the three MTD attacker models of Section 3.x (Table 6.1). It is the only attacker model with choice of attack strategy in full or with any objective-specific behaviour, which it has in part. All four attacker models lack cost–benefit reasoning, learning and deployment-strategy awareness.
 
 §6.3 now totals about 459 words. Build clean, 118 pages.
+
+## §40. Table 6.1 caption trimmed (Marc 2026-10-12, approved)
+
+**Cut:**
+- "as Chapter 4 describes it": by §6.3 the reader knows where the model comes from;
+- "scored … by the same rule": Table 3.3's caption names no rule, so the phrase pointed at nothing.
+
+**Pointer made plain:** "Appendix B gives the reasoning behind each mark". This replaces "tests each mark predicate by predicate"; the predicates are Appendix B's business.
+
+**Kept:**
+- the rows (copied from Table 3.3);
+- the properties of Table 3.2, with the 1–8 decode (the length that cannot be cut);
+- the mark legend.
+
+**Note:** the clause-tests appendix is Appendix B. Appendix A is the original proposal. §38–§39 and chat said "Appendix A"; the LaTeX uses `\ref` throughout and was always right.
+
+Build clean, 118 pages, 0 undefined.
