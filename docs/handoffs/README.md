@@ -49,12 +49,25 @@ The §4.5 drafting records stay tracked in
   ch5 wording items, ch5 S20, flagged content, re-check the ch1 overview when
   ch6–8 are drafted; blocks nothing.
 - [`2026-09-25_ch4_mark_risk_ledger.md`](2026-09-25_ch4_mark_risk_ledger.md)
-  — chapter 4's minor (M) entries beyond C1, for a later pass.
+  — chapter 4's minor (M) entries beyond C1, for a later pass; the open ones are
+  absorbed by the ch4 scrutiny below and retire with it.
+- [`2026-10-02_ch4_attacker_model_scrutiny.md`](2026-10-02_ch4_attacker_model_scrutiny.md)
+  — FULL chapter 4 scrutiny ledger (≈5 490 prose words against a stale 1 750
+  budget): five places the chapter describes a model other than the one that
+  ran (X1–X5b), three appendix pointers to reasons Appendix B lacks (X6), ≈350
+  words re-telling chapters 2–3, the budget re-rule (G1), ≈850 words of
+  proposed cuts, F and T entries. ROUND 1 APPLIED 2026-10-02 on Marc's accept-all (4 769 prose words); his section-by-section acceptance pass next; §10 out-of-chapter flags open.
 - [`2026-09-25_ch5_setup_defence_and_prose_slots.md`](2026-09-25_ch5_setup_defence_and_prose_slots.md)
   — §5.1 / Table 5.1 defended row by row (17 rows; four facts wrong, three
   stale against §4.5, one variation and one control never reported, one
   scheme dropped unexplained) and the slot plan for every owed chapter 5
-  paragraph; §5.1 fixes and all six prose elements LANDED (DRAFT STATE); seven \owed marks and the agents' flags open (Part G).
+  paragraph; §5.1 fixes and all six prose elements LANDED (DRAFT STATE); seven \owed marks and the agents' flags open (Part G). Parts C–D superseded 2026-10-06 by the next entry.
+- [`2026-10-06_ch5_results_prose_redraft.md`](2026-10-06_ch5_results_prose_redraft.md)
+  — §5.2–§5.4 rebuilt from the findings: the spine (A1–E5, headlines marked,
+  each mapped to its float and chapter 6 point), the floats re-read (L1–L5,
+  incl. the memory floats still at 100 seeds), the move list (M1–M15), the slot
+  sheets, and the post-draft gate; awaiting Marc's Q1–Q14; then a no-number
+  draft, then the numbers.
 - [`2026-09-05_generated_tables_house_style.md`](2026-09-05_generated_tables_house_style.md)
   — typography only (the appendix generators onto `\tablestyle`); blocks
   nothing; last-week polish, or drop.

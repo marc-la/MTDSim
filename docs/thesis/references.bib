@@ -1293,6 +1293,33 @@
   doi     = {10.18564/jasss.2857}
 }
 
+%% Section 4.4.2 round 6 (2026-10-05): bands as a measure of sensitivity, not
+%% of uncertainty (best practice VI-6). Gathered by the 2026-10-05 web sweep
+%% (docs/implementation/pipeline/ogasp/judgement_parameter_presentation_guidance.md).
+%% VERIFY the author list and pages against the published version before submission.
+@article{briggs2012,
+  author  = {Briggs, Andrew H. and Weinstein, Milton C. and Fenwick, Elisabeth A. L. and Karnon, Jonathan and Sculpher, Mark J. and Paltiel, A. David},
+  title   = {Model Parameter Estimation and Uncertainty Analysis: A Report of the {ISPOR-SMDM} Modeling Good Research Practices Task Force Working Group--6},
+  journal = {Medical Decision Making},
+  volume  = {32},
+  number  = {5},
+  pages   = {722--732},
+  year    = {2012},
+  doi     = {10.1177/0272989X12458348}
+}
+
+%% Section 4.4.2 round 6 (2026-10-05): a one-at-a-time design leaves
+%% interactions untested. VERIFY the author list before submission.
+@article{saltelli2019,
+  author  = {Saltelli, Andrea and Aleksankina, Ksenia and Becker, William and Fennell, Pamela and Ferretti, Federico and Holst, Niels and Li, Sushan and Wu, Qiongli},
+  title   = {Why So Many Published Sensitivity Analyses Are False: A Systematic Review of Sensitivity Analysis Practices},
+  journal = {Environmental Modelling \& Software},
+  volume  = {114},
+  pages   = {29--39},
+  year    = {2019},
+  doi     = {10.1016/j.envsoft.2019.01.012}
+}
+
 % 2026-09-25 (results context §8j-4): the ranking method for §5.3.2's table,
 % declared in §4.5. Metadata checked against Crossref (DOIs below).
 @article{scott1974cluster,
@@ -1399,52 +1426,67 @@
   year      = {2016}
 }
 
-% Added 2026-09-29 (§4.5 detector; record docs/sources/extractions/s45_metric_definitions/14_detector_conventions.md)
+%% Jung, Paxson, Berger, Balakrishnan 2004 --- IEEE S&P. Open access:
+%% https://www.icir.org/vern/papers/portscan-oak04.pdf (read 2026-09-29; §2 PDF
+%% p.3 "N events within a time interval of T seconds"; §6 PDF p.11 Snort's
+%% default, 5 addresses within 60 s). Pages and DOI not verified: add on read.
 @inproceedings{jung2004,
   author    = {Jung, Jaeyeon and Paxson, Vern and Berger, Arthur W. and Balakrishnan, Hari},
   title     = {Fast Portscan Detection Using Sequential Hypothesis Testing},
-  booktitle = {Proceedings of the 2004 IEEE Symposium on Security and Privacy},
-  pages     = {211--225},
-  year      = {2004},
-  publisher = {IEEE}
+  booktitle = {Proceedings of the IEEE Symposium on Security and Privacy},
+  year      = {2004}
 }
 
-@misc{snortsfportscan,
-  author       = {{Cisco Talos}},
-  title        = {Snort {sfPortscan} Preprocessor: {README.sfportscan}},
-  howpublished = {Snort 2 documentation},
-  year         = {2026},
-  note         = {[Online]. Available: \url{https://www.snort.org/faq/readme-sfportscan}. Accessed 29~September 2026}
+% Added 2026-09-30 (time lost per MTD deployment: the restricted mean and the area
+% between two survival curves; read in full from Europe PMC PMC3922847)
+@article{royston2013,
+  author  = {Royston, Patrick and Parmar, Mahesh K. B.},
+  title   = {Restricted mean survival time: an alternative to the hazard ratio for the design and analysis of randomized trials with a time-to-event outcome},
+  journal = {BMC Medical Research Methodology},
+  volume  = {13},
+  pages   = {152},
+  year    = {2013},
+  doi     = {10.1186/1471-2288-13-152}
 }
 
-@misc{snortdetectionfilter,
-  author       = {{Cisco Talos}},
-  title        = {Snort 3 Rule Writing Guide: detection\_filter},
-  howpublished = {Snort 3 documentation},
-  year         = {2026},
-  note         = {[Online]. Available: \url{https://docs.snort.org/rules/options/post/detection_filter}. Accessed 29~September 2026}
+@techreport{kochanek2024nchs,
+  author      = {Kochanek, Kenneth D. and Murphy, Sherry L. and Xu, Jiaquan and Arias, Elizabeth},
+  title       = {Implementation of New Data Presentation Standards for Rates and Counts for Mortality},
+  institution = {National Center for Health Statistics},
+  address     = {Hyattsville, MD, USA},
+  year        = {2024},
+  type        = {Technical Report},
+  url         = {https://ftp.cdc.gov/pub/Health_Statistics/NCHS/Dataset_Documentation/DVS/mortality/presentation-standards-mortality-2024.pdf}
 }
 
-@misc{suricatathresholding,
-  author       = {{Open Information Security Foundation}},
-  title        = {Suricata User Guide: Thresholding Keywords},
-  howpublished = {Suricata documentation, section 8.49},
-  year         = {2026},
-  note         = {[Online]. Available: \url{https://docs.suricata.io/en/latest/rules/thresholding.html}. Accessed 29~September 2026}
+@article{spearman1904proof,
+  author  = {Spearman, Charles},
+  title   = {The Proof and Measurement of Association between Two Things},
+  journal = {The American Journal of Psychology},
+  volume  = {15},
+  number  = {1},
+  pages   = {72--101},
+  year    = {1904}
 }
 
-@misc{snort3defaults,
-  author       = {{Cisco Talos}},
-  title        = {Snort 3 default configuration: \texttt{snort\_defaults.lua}, port-scan sense levels},
-  howpublished = {Snort 3 source repository},
-  year         = {2026},
-  note         = {[Online]. Available: \url{https://github.com/snort3/snort3/blob/master/lua/snort_defaults.lua}. Accessed 29~September 2026}
+@article{lakens2018equivalence,
+  author  = {Lakens, Dani{\"e}l and Scheel, Anne M. and Isager, Peder M.},
+  title   = {Equivalence Testing for Psychological Research: A Tutorial},
+  journal = {Advances in Methods and Practices in Psychological Science},
+  volume  = {1},
+  number  = {2},
+  pages   = {259--269},
+  year    = {2018},
+  doi     = {10.1177/2515245918770963}
 }
 
-@misc{zeekscan,
-  author       = {{The Zeek Project}},
-  title        = {Zeek scan detection policy: \texttt{policy/misc/scan.zeek}},
-  howpublished = {Zeek source repository, version 5.0.0},
-  year         = {2022},
-  note         = {[Online]. Available: \url{https://github.com/zeek/zeek/blob/v5.0.0/scripts/policy/misc/scan.zeek}. Accessed 29~September 2026}
+@article{clopper1934use,
+  author  = {Clopper, C. J. and Pearson, E. S.},
+  title   = {The Use of Confidence or Fiducial Limits Illustrated in the Case of the Binomial},
+  journal = {Biometrika},
+  volume  = {26},
+  number  = {4},
+  pages   = {404--413},
+  year    = {1934},
+  doi     = {10.1093/biomet/26.4.404}
 }

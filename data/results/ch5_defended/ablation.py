@@ -31,7 +31,8 @@ READS.
     hosts   mean hosts compromised per run, read as NCR (hosts / N, N = 50)
     NCR reduction  1 - mean(hosts | defence) / mean(hosts | none), each arm
             against its own no-defence runs (section 4.5)
-    time lost per MTD deployment, disruption.py's estimator unchanged, 2 000 s
+    time lost per MTD deployment, time_lost.py's definition (2026-09-30: the extra
+            time to the next compromise against the same moment with no MTD), 2 000 s
             only; kept in the JSON, not in the table (its interval has no
             declared bound, so it cannot show an absence of effect)
   per profile: the host difference and its interval, so a pooled null cannot
@@ -48,24 +49,32 @@ differences) is kept in the JSON; it grows with the correlation between arms
 on a shared seed and is not comparable with the 0.2 threshold.
 
 Usage: python data/results/ch5_defended/ablation.py
-Output: ablation_numbers.json beside the corpus, and the section 5.4 table,
-docs/thesis/tables/tab_5-4a_ablation.tex (generated; never hand-edit). The
-figure is drawn from the JSON by tools/ch5_ablation_figure.py.
+Output: ablation_numbers.json beside the corpus. Table 5.6 (both ablations)
+is written from it and memory_ablation_numbers.json by ablation_table.py
+(Marc 2026-10-01). The figure tools/ch5_ablation_figure.py drew from this JSON
+was cut the same day; the behaviour reads stay here for the body sentence.
 """
 from __future__ import annotations
 
 import json
+import os
 from collections import Counter, defaultdict
 from pathlib import Path
 
 import numpy as np
 
-import disruption as D
+import time_lost as TL
 
 HERE = Path(__file__).resolve().parent
 OUT = HERE / "ablation_numbers.json"
 EXTRA = HERE / "runs_ablation.jsonl"
-TABLE = HERE.parents[2] / "docs" / "thesis" / "tables" / "tab_5-4a_ablation.tex"
+# MEMORY=1 (2026-10-02, Marc): both arms with the vulnerability memory on, from
+# runs_ablation_memory.jsonl alone (run_corpus.py ABLATION=1 MEMORY=1), seeds
+# below SEEDS (default every seed written), to ablation_numbers_memory.json.
+MEMORY_ON = os.environ.get("MEMORY") == "1"
+MAX_SEED = int(os.environ.get("SEEDS", 10**9))
+if MEMORY_ON:
+    OUT = HERE / "ablation_numbers_memory.json"
 N_HOSTS = 50
 LABEL = {"none": "no defence", "ip_shuffle": "IP shuffle", "os_diversity": "OS diversity"}
 FOUR = ("objective_exfiltration", "objective_impact", "objective_exfiltration_impact", "objective_none_c2")
@@ -101,7 +110,7 @@ def _behaviour(records: list) -> tuple[Counter, Counter]:
             after_ia["fails"] += 1
             if y[2] == "PRECONDITION_UNMET":
                 after_ia["fails_unmet"] += 1  # a subset of fails: it fails before it runs
-        elif (y[1], y[2]) in D.COMPROMISE:
+        elif (y[1], y[2]) in TL.COMPROMISE:
             after_ia["compromises"] += 1
         else:
             after_ia["succeeds"] += 1  # a scan or enumeration: runs, compromises no host
@@ -110,17 +119,22 @@ def _behaviour(records: list) -> tuple[Counter, Counter]:
 
 def load() -> list[dict]:
     out, errors = [], 0
-    for path in (D.RUNS, EXTRA):
+    paths = (HERE / "runs_ablation_memory.jsonl",) if MEMORY_ON else (TL.RUNS, EXTRA)
+    for path in paths:
         if not path.exists():
             continue
         with path.open() as f:
             for line in f:
+                if not line.endswith("\n"):  # the row a running writer has not finished
+                    continue
                 head = line[:400]
                 if not ('"group": "core"' in head or '"group": "blind"' in head):
                     continue
                 if '"regime": "shifted"' not in head or '"objective": "targeted"' not in head:
                     continue
                 r = json.loads(line)
+                if r["seed"] >= MAX_SEED:
+                    continue
                 if r["arm"] != "movement" or r["profile"] not in FOUR or r["condition"] not in CONDS:
                     continue
                 if r["condition"] != "none" and r["interval"] not in INTERVALS:
@@ -131,13 +145,13 @@ def load() -> list[dict]:
                     errors += 1
                     continue
                 T = r["termination_time"]
-                comp = [x[8] for x in r["records"] if (x[1], x[2]) in D.COMPROMISE]
+                comp = [x[8] for x in r["records"] if (x[1], x[2]) in TL.COMPROMISE]
                 after_ia, route = _behaviour(r["records"]) if r["condition"] == "none" else (Counter(), Counter())
                 out.append({
                     "group": r["group"], "arm": "movement", "profile": r["profile"], "seed": r["seed"],
                     "cond": r["condition"], "interval": r["interval"], "T": T, "hosts": r["compromised"],
                     "comp": np.sort(np.minimum(np.array(comp, float), T)),
-                    "landings": [e[2] for e in r["mtd_executions"] if -D.EDGES[0] <= e[2] < T],
+                    "landings": sorted(float(e[2]) for e in r["mtd_executions"]),
                     "durations": [e[3] for e in r["mtd_executions"]],
                     "after_ia": after_ia, "route": route,
                 })
@@ -264,21 +278,24 @@ def main() -> None:
             if iv == 2_000:
                 runs_w = [w[k] for k in u]
                 runs_b = [wo[k] for k in u]
-                plac_w = {("movement", k[0], k[1]): none["core"][k] for k in u}
-                plac_b = {("movement", k[0], k[1]): none["blind"][k] for k in u}
-                nw, dw = D._stack(runs_w, None)
-                pnw, pdw = D._stack(runs_w, plac_w)
-                nb, db = D._stack(runs_b, None)
-                pnb, pdb = D._stack(runs_b, plac_b)
+                def pr(runs_, plac_):
+                    return [TL.pairs({"end": r["T"], "comp": r["comp"], "landings": r["landings"]},
+                                     {"end": q["T"], "comp": q["comp"]}, 2_000.0)[0]
+                            for r, q in zip(runs_, plac_)]
 
-                def tl(ix, num, den, pnum, pden):
-                    return D._time_lost(num[ix].sum(0), den[ix].sum(0)) - D._time_lost(pnum[ix].sum(0), pden[ix].sum(0))
+                ps_w = pr(runs_w, [none["core"][k] for k in u])
+                ps_b = pr(runs_b, [none["blind"][k] for k in u])
+                sw = np.array([sum(x - y for x, y, _ in q) for q in ps_w]); cw = np.array([len(q) for q in ps_w])
+                sb = np.array([sum(x - y for x, y, _ in q) for q in ps_b]); cb = np.array([len(q) for q in ps_b])
+
+                def tl(ix, s_, c_):
+                    return float(s_[ix].sum() / max(c_[ix].sum(), 1))
 
                 allix = np.arange(len(u))
-                tw, tb = tl(allix, nw, dw, pnw, pdw), tl(allix, nb, db, pnb, pdb)
-                bt = np.array([tl(ix, nw, dw, pnw, pdw) - tl(ix, nb, db, pnb, pdb) for ix in idx])
-                bw = np.array([tl(ix, nw, dw, pnw, pdw) for ix in idx])
-                bb = np.array([tl(ix, nb, db, pnb, pdb) for ix in idx])
+                tw, tb = tl(allix, sw, cw), tl(allix, sb, cb)
+                bw = np.array([tl(ix, sw, cw) for ix in idx])
+                bb = np.array([tl(ix, sb, cb) for ix in idx])
+                bt = bw - bb
                 row.update({"time_lost_with": tw, "time_lost_with_ci95": [float(np.percentile(bw, 2.5)), float(np.percentile(bw, 97.5))],
                             "time_lost_without": tb, "time_lost_without_ci95": [float(np.percentile(bb, 2.5)), float(np.percentile(bb, 97.5))],
                             "time_lost_diff": tw - tb,
@@ -286,7 +303,6 @@ def main() -> None:
         rows[label] = row
     out["reads"] = rows
     OUT.write_text(json.dumps(out, indent=1))
-    write_table(rows)
     print(f"wrote {OUT.relative_to(HERE.parents[2])}  ({out['scope']})")
     print("\nBEHAVIOUR (no defence): next action after a failed initial access")
     for p, b in out["behaviour"].items():
@@ -309,72 +325,6 @@ def main() -> None:
         if "time_lost_with" in r:
             print(f"   time lost {r['time_lost_with']:.0f} s vs {r['time_lost_without']:.0f} s  diff {r['time_lost_diff']:+.0f} "
                   f"[{r['time_lost_diff_ci95'][0]:+.0f}, {r['time_lost_diff_ci95'][1]:+.0f}]")
-
-
-def _sg(x: float, nd: int) -> str:
-    """A signed value; one that rounds to zero carries no sign."""
-    v = f"{x:+.{nd}f}"
-    return v[1:] if float(v) == 0 else v
-
-
-def _s(x: float, nd: int) -> str:
-    return "$" + _sg(x, nd) + "$"
-
-
-def _n(x: float, nd: int) -> str:
-    return f"${x:.{nd}f}$"
-
-
-def _iv(lo: float, hi: float, nd: int) -> str:
-    return f"[${_sg(lo, nd)}$, ${_sg(hi, nd)}$]"
-
-
-def write_table(rows: dict) -> None:
-    """Table 5.5: the outcome read of Figure 5.x(b) with its differences. Two
-    groups, each the same three columns: what the attacker achieves (NCR) and
-    what the defence achieves against it (NCR reduction)."""
-    order = [("none", "no defence"), ("ip_shuffle|200", "IP shuffle, 200\\,s"), ("ip_shuffle|2000", "IP shuffle, 2\\,000\\,s"),
-             ("os_diversity|200", "OS diversity, 200\\,s"), ("os_diversity|2000", "OS diversity, 2\\,000\\,s")]
-    body = []
-    for key, label in order:
-        r = rows[key]
-        dlo, dhi = (v / N_HOSTS for v in r["hosts_diff_ci95"])
-        clo, chi = r["cohen_d_ci95"]
-        cells = [label, f"{r['hosts_with'] / N_HOSTS:.3f}", f"{r['hosts_without'] / N_HOSTS:.3f}",
-                 _s(r["hosts_diff"] / N_HOSTS, 3) + r"\newline " + _iv(dlo, dhi, 3),
-                 _s(r["cohen_d_per_seed"], 2) + r"\newline " + _iv(clo, chi, 2)]
-        if "ncr_reduction_diff" in r:
-            lo, hi = r["ncr_reduction_diff_ci95"]
-            cells += [_n(r["ncr_reduction_with"], 3), _n(r["ncr_reduction_without"], 3),
-                      _s(r["ncr_reduction_diff"], 3) + r"\newline " + _iv(lo, hi, 3)]
-        else:
-            cells += ["---", "---", "---"]
-        body.append("    " + " & ".join(cells) + r" \\")
-    seeds = rows["none"]["seeds"]
-    tex = [
-        "% GENERATED by data/results/ch5_defended/ablation.py from ablation_numbers.json;",
-        "% never hand-edit. Section 5.4; the outcome read of fig:ablation(b).",
-        r"\begin{table}[htbp]",
-        r"  \centering",
-        (r"  \caption[The APT attacker model with and without the failure matrix]{The APT attacker model on $c_1$ to $c_4$ pooled, "
-         r"with the failure matrix and without it, on the same %s seeds: NCR, Cohen's $d$ on hosts compromised per seed, and "
-         r"NCR reduction (Section~\ref{sec:evaluation-metrics}). Each difference is with minus without, with its 95\,\%% "
-         r"bootstrap interval over runs paired by seed (Section~\ref{subsec:metrics-statistics}).}") % fmt_seeds(seeds),
-        r"  \label{tab:ablation}",
-        r"  \tablestyle\scriptsize\setlength{\tabcolsep}{3pt}",
-        r"  \begin{tabular}{@{}P{2.4cm}cc>{\centering\arraybackslash}p{2.4cm}>{\centering\arraybackslash}p{2.2cm}cc>{\centering\arraybackslash}p{2.4cm}@{}}",
-        r"    \toprule",
-        r"    & \multicolumn{4}{c}{NCR} & \multicolumn{3}{c}{NCR reduction} \\",
-        r"    \cmidrule(lr){2-5}\cmidrule(lr){6-8}",
-        r"    Condition & with & without & difference & $d$ & with & without & difference \\",
-        r"    \midrule",
-    ] + body + [r"    \bottomrule", r"  \end{tabular}", r"\end{table}", ""]
-    TABLE.write_text("\n".join(tex))
-    print(f"wrote {TABLE.relative_to(HERE.parents[2])}")
-
-
-def fmt_seeds(n: int) -> str:
-    return f"{n:,}".replace(",", r"\,")
 
 
 if __name__ == "__main__":

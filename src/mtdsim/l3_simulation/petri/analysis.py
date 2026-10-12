@@ -111,9 +111,19 @@ class StructuralReport:
 
 
 def analyse(
-    snet: StructuralNet, view: SubgraphView, gap: GapIndex
+    snet: StructuralNet,
+    view: SubgraphView,
+    gap: GapIndex,
+    objective_tactics: tuple[str, ...] | None = None,
 ) -> StructuralReport:
-    """Compute the full structural report for one built class net."""
+    """Compute the full structural report for one built class net.
+
+    ``objective_tactics`` overrides the class-semantic lookup
+    ``OBJECTIVE_TACTICS[snet.class_name]``. Left ``None`` (every existing call)
+    the report is unchanged; the label-blind partition control
+    (``partition_control.py``) passes the objective tactics its group actually
+    holds, because a random group's slot name carries no objective.
+    """
     tactics = snet.tactics
     tactic_set = set(tactics)
     adj = _place_adjacency(snet)
@@ -127,7 +137,8 @@ def analyse(
             }
         )
     )
-    objective_tactics = OBJECTIVE_TACTICS[snet.class_name]
+    if objective_tactics is None:
+        objective_tactics = OBJECTIVE_TACTICS[snet.class_name]
     missing = [o for o in objective_tactics if o not in tactic_set]
     if missing:
         raise ValueError(

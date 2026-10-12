@@ -232,3 +232,53 @@ Executed attacker: Brown's MTDSim attacker refactored onto SimPy with only the c
 | 8 | Scheme awareness | NONE — inherited | silent; "recognised by the adversary immediately upon regaining access, regardless of any network changes made by MTD" (l.368) is retained access, not scheme knowledge | no model of which MTD runs or its interval |
 
 Framing vs execution: §3.3 (l.240) describes Brown's attacker as "adaptively changing actions based on simulation time and specific events" — the executed reactions are scripted; §6.3 (l.517–519) admits "a fixed list of actions" and names a "more intelligent attack profile" as future work. No numeric attacker-phase durations are given anywhere (Table 3 is MTD execution times). Locators: l.392/Eq. 2 printed p.30; l.368 p.28; l.382 p.29; l.364 p.27; l.519 p.42.
+
+## Attacker model, extracted for the predicate tests (2026-10-12)
+
+Source: the UWA master's report (21 May 2023). Pages are as printed. With `brown2023.md` (same date), it is the source of the baseline attacker's row.
+
+### A. Adversary profile (§4.4.1, pp. 27–28)
+- A1 Objectives: two scenarios exist, but "only the first attack scenario is selected to be refactored and simulated in MTDSimTime", whose aim is "to compromise as many hosts as possible giving a certain time period". (p. 27)
+- A2 "The adversary model in the simulation always follows a sequence of attack actions to identify and compromise hosts". (p. 27)
+- A3 Command and control: it pivots on compromised hosts; "compromised hosts will always stay compromised and can be recognised by the adversary immediately upon regaining access, regardless of any network changes made by MTD". (p. 28)
+- A4 Credentials: after compromising a host it gains its users and uses them for credential stuffing elsewhere. (p. 28)
+
+### B. Attack event (§4.4.2, pp. 28–29; Fig. 7)
+- B1 The attack follows "the action flow of the Cyber Kill Chain". Its steps are Scan Host and Enum Host, then Phase 1 "Scan Port & Exploit User Credential", Phase 2 "Exploit Vulnerabilities" and Phase 3 "Brute Force", tried in that order, then Scan Neighbour after a compromise.
+- B2 Network-layer MTD: "the attack event will fail immediately upon the adversary's discovery of a host". Application-layer MTD: "the adversary must restart the attack action from Phase 1". "If the number of interruptions … reaches a certain threshold, the attack event will fail and the adversary will shift their focus to other hosts". (p. 29)
+
+### C. Time (§4.4.3, pp. 29–30)
+- C1 "In terms of the learning capabilities, the attack model is designed to halve the exploitation time spent on the vulnerabilities that were exploited in the previous attack operations conducted on previous hosts." (p. 30)
+- C2 "The adversary in the simulator is designed to take a time penalty to simulate the confusion caused by MTD." (p. 30)
+- C3 Phase 2 time (Eq. 2) depends on attack complexity, with exploited vulnerabilities at half weight. (p. 30)
+
+### D. Evaluation
+- D1 A run terminates when NCR reaches 0.8; 100 runs per setting; MTD interval 50–200 s. (p. 32)
+
+### E. The authors on their own attacker
+- E1 MTDSim "comprehensively designed the attacker's movements, with adaptively changing actions based on simulation time and specific events". (§3.3, p. 15)
+- E2 "The current attack operation in this work consists of a fixed list of actions … in the target selection phase, the adversary's current decision is based on the distance to each discovered host". (§6.3, pp. 41–42)
+- E3 Future work: "A more intelligent attack profile". (§7, p. 43)
+
+### Predicate tests for the baseline attacker (Brown 2023 + Zhang 2023, Appendix B rule)
+
+| # | Predicate | Cell | Evidence | Strongest counterpoint, answered | Call |
+|---|---|---|---|---|---|
+| 1 | B: one multi-stage campaign toward its objective | yes | Brown B1–B7; Zhang B1 | — | strong |
+| 1 | Q: until it reaches its objective, however many MTD deployments that takes | yes | Brown D1, D2; Zhang A3, D1: it keeps hosts and credentials through every MTD deployment until the run ends | It gives up on a host after 10 attempts (Brown D1). That moves it to another host; it does not end the campaign, and Scenario 2 never gives up on the target | strong |
+| 2 | B: after the foothold, different techniques for different objectives | no | Brown B7: the same procedure in both scenarios | **Brown A2, A4**: "different goals", "like APT-style attacks", "a different strategy". The strategy decides which host comes next and that it never gives up on the target (D1); the techniques do not differ | **contested; holds** |
+| 3 | B: chooses among several sequences of techniques toward the same objective | rule | Brown B3, B4, B6: credential stuffing, then exploit, then brute force, in a fixed order; the route that enters a host is whichever succeeds | Zhang E2 "a fixed list of actions" argues no. But the route varies with what succeeds, and its authors fix the order of trying: a rule | contested; holds |
+| 4 | B: chooses its next technique in response to an MTD disruption | rule | Brown C1–C3; Zhang B2: each kind of disruption sets the step it restarts from | Zhang E1 "adaptively changing actions" argues yes. The response is a fixed mapping its authors set | contested; holds |
+| 5 | B1: low and slow, slower than the baseline attacker | no | Brown B1: it scans the network for all exposed hosts | **This predicate compares the baseline attacker with itself**, so it is no by construction. It is also no on its own evidence: no step paces it | **contested; holds** |
+| 5 | B2: chooses techniques an IDS does not flag | no | No IDS in either source | Brown E1 "remain undetected" is the motivation for MTD | strong |
+| 6 | B: weighs cost against benefit | yes | Brown B4: exploits are ordered by RoA | — | strong |
+| 6 | Q: for each technique | no | Brown B6: credentials, exploit and brute force in a fixed order; Zhang E2: host by distance | Brown A3: "prioritizes the weakest host … as quickly and easily as possible". That chooses a host, not a technique, and Fig. 3 and Zhang E2 implement it as distance | contested; holds |
+| 7 | B: keeps patterns of past MTD deployments, uses them | no | Zhang C1: it keeps vulnerabilities | **Zhang C1 calls it "learning capabilities"**. It keeps vulnerabilities, not MTD patterns, and it shortens an exploit without choosing a technique | **contested; holds** |
+| 8 | B: predicts and leverages the next deployment | no | Nothing models the MTD schedule | Zhang E1 "based on simulation time": time sets exploit durations, not a prediction | strong |
+
+Mark: ✓ ✗ P P ✗ P ✗ ✗, unchanged.
+
+### Findings for the thesis
+1. **§3.3.2 baseline sentence.** "which changes only the host it attacks next" understates Scenario 2, which also never gives up on the target host (Brown D1). Proposed: "which changes only the host it attacks next and whether it gives up on it". No mark moves.
+2. **Appendix B, Table B.2** gains the baseline attacker's seven contested cells: 1Q, 2, 3, 4, 5, 6Q and 7.
+3. **Every other claim in the §3.3.2 baseline paragraph checks out:** the six attack actions host by host, carrying on through every disruption, three entry routes in a fixed order, re-scanning after a host-layer disruption, exploits ordered by RoA, half-time re-exploits (Zhang C1), active scanning, and nothing about the MTD schedule.

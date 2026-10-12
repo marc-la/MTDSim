@@ -10,10 +10,17 @@ Writes ``numbers.json``, ``preview_tab54.md``, ``preview_fig52.png`` and
 not the house style; the TikZ generators follow acceptance.
 
     PYTHONPATH=src python data/results/ch5_s531_unopposed/analyse.py
+
+CORPUS=reported reads the reported corpus (runs_reported.jsonl: 1 000 seeds, the
+vulnerability memory on, the core cells only; run_corpus.py REPORTED=1) and
+writes numbers_reported.json with sanity and core, the sections §5.2's floats
+read, without the previews. RUNS=path and OUT=path override
+the two files (a pilot).
 """
 from __future__ import annotations
 
 import json
+import os
 from collections import Counter
 from pathlib import Path
 from statistics import median
@@ -25,7 +32,9 @@ from mtdsim.l3_simulation.movement import measures as M
 from mtdsim.l3_simulation.movement.statistics import MovementRunResult
 
 HERE = Path(__file__).resolve().parent
-RUNS = HERE / "runs.jsonl"
+REPORTED = os.environ.get("CORPUS") == "reported"
+RUNS = Path(os.environ["RUNS"]) if os.environ.get("RUNS") else HERE / ("runs_reported.jsonl" if REPORTED else "runs.jsonl")
+NUMBERS = Path(os.environ["OUT"]) if os.environ.get("OUT") else HERE / ("numbers_reported.json" if REPORTED else "numbers.json")
 
 PROFILES = (
     "objective_exfiltration",
@@ -171,6 +180,10 @@ def _iv(values) -> dict:
     return {"n": iv.n, "mean": iv.mean, "ci95": iv.ci95}
 
 
+def _iv_or_none(values: list) -> dict | None:
+    return _iv(values) if values else None
+
+
 def delay_summary(first_times: list) -> dict:
     """Delay to first compromise, Table 5.2's estimator and the defended
     corpus's (ch5_defended/analyse.py): the mean over the runs that compromise
@@ -258,6 +271,13 @@ def movement_row(runs: list[MovementRunResult], stage_of: dict) -> dict:
             1 for r in runs if r.reached_objective and r.database_hosts_reached > 0
         ) / len(runs),
         "time_to_target_median": (median(reach_times) if reach_times else None),
+        # MTTC (section 4.5.2, Marc 2026-09-30, ruling H1): the time a target host
+        # falls, over the runs that take one (the target_reach rule above)
+        "mttc_target": _iv_or_none([
+            r.first_database_reach_time for r in runs
+            if r.reached_objective and r.database_hosts_reached > 0
+            and r.first_database_reach_time is not None
+        ]),
         "database_hosts_reached": _iv(r.database_hosts_reached for r in runs),
         "retrace_count": _iv(r.retrace_count for r in runs),
         "records_per_run": _iv(len(r.records) for r in runs),
@@ -317,6 +337,7 @@ def baseline_row(rows: list[dict]) -> dict:
         },
         "target_reach": n_target / len(rows),
         "time_to_target_median": (median(ttts) if ttts else None),
+        "mttc_target": _iv_or_none(ttts),
         "ended_on_compromise_ratio": n_ratio,
         "database_hosts_reached": _iv(row["database_hosts_reached"] for row in rows),
         "records_per_run": _iv(len(row["records"]) for row in rows),
@@ -335,16 +356,8 @@ def baseline_row(rows: list[dict]) -> dict:
 # ACTIVE TIME runs from the start of the run to the end of its last record: in the
 # targeted attack scenario the baseline attacker stops when it takes the target.
 
-# THE DETECTOR (ruling C, 2026-09-29, handoff 2026-09-29_s45_equation_clarity.md):
-# the count-in-a-window alarm of Snort and Suricata --- an action is flagged when
-# the attacker has taken at least THETA actions in the WINDOW seconds up to and
-# including it. 60 s is those detectors' common default (record 14). It replaced
-# an exponentially fading count with a 60 s memory, whose alarm could be set to
-# flag exactly half of the baseline attacker's actions; a whole count cannot, so
-# the rule is now the baseline attacker's median count. Ties in start time count
-# in record order (the first does not count the second), as before.
-WINDOW = 60.0                                # the detector's window (s); swept in app:detector-memory
-THETA = list(range(1, 11))                   # alarm counts 1 .. 10
+TAU = 60.0                                   # the detector's memory (s); swept in app:detector-memory
+THETA = [round(1.0 + 0.1 * i, 1) for i in range(51)]   # alarm levels 1.0 .. 6.0
 NET_HOSTS = 50
 
 
@@ -371,18 +384,22 @@ def _actions_baseline(row: dict) -> tuple[list, float]:
 
 
 def _rate(starts: list, end: float) -> float | None:
-    """Actions per minute of active time (ruling B, 2026-09-29: a minute, the
-    detector's own window, in place of the 1 000 s scale)."""
+    # actions per minute (Marc, 2026-09-29: a minute is a standard unit, 1 000 s a scale)
     return 60.0 * len(starts) / end if end > 0 else None
 
 
 def _confidentiality_curve(starts: list) -> list | None:
-    """Share of actions taken with the detector's count below each alarm count:
-    an action is exposed when the actions in the WINDOW up to and including it
-    reach the count."""
+    """Share of actions taken with the detector below each alarm level: the
+    detector is D(t) = sum_i exp(-(t - t_i)/TAU) over past actions, each counting
+    one; an action is exposed when D, counting it, reaches the level."""
     if not starts:
         return None
-    lv = np.asarray([d for _, d in _detector_levels(starts)])
+    d, last, level = 0.0, None, []
+    for t in starts:
+        d = (d * float(np.exp(-(t - last) / TAU)) if last is not None else 0.0) + 1.0
+        level.append(d)
+        last = t
+    lv = np.asarray(level)
     return [float((lv < th).mean()) for th in THETA]
 
 
@@ -393,18 +410,16 @@ def _curve_summary(curves: list) -> dict:
             "n": int(arr.shape[0])}
 
 
-BIN = 1000.0                                  # the over-the-run slices (s): the one 1 000 s grain of every reading over time (2026-09-29)
+BIN = 1500.0                                  # the over-the-run reading's time bins (s)
 
 
-def _detector_levels(starts: list, window: float = WINDOW) -> list:
-    """(t, D) at each action: D is the number of actions in the ``window``
-    seconds up to and including this one (the detector above). ``starts`` is in
-    record order, which is start-time order."""
-    out, i = [], 0
-    for j, t in enumerate(starts):
-        while starts[i] < t - window:
-            i += 1
-        out.append((t, j - i + 1))
+def _detector_levels(starts: list) -> list:
+    """(t, D) at each action, D counting the action itself (the detector above)."""
+    d, last, out = 0.0, None, []
+    for t in starts:
+        d = (d * float(np.exp(-(t - last) / TAU)) if last is not None else 0.0) + 1.0
+        out.append((t, d))
+        last = t
     return out
 
 
@@ -421,6 +436,41 @@ def confidentiality_over_run(action_lists: list, theta: float) -> dict:
         share.append(float(np.mean(below)) if below else None)
         active.append(sum(1 for lv in levels if any(lo <= t < hi for t, _ in lv)))
     return {"bin_start": edges[:-1].tolist(), "bin": BIN, "share": share, "runs_active": active}
+
+
+# Attack confidentiality (section 4.5.1, ruling C, 2026-09-29): an action is flagged
+# when it is at least the attacker's COUNT-th action within WINDOW seconds (the
+# Snort default of Jung et al. 2004, Sec. 5.2, counted over any action); the metric
+# is the share of actions not flagged, counting over every run.
+COUNT, WINDOW = 5, 60.0
+
+
+def _flags(starts: list, count: int = COUNT, window: float = WINDOW) -> list[bool]:
+    """Per action: at least the count-th action within the window ending at it."""
+    out, lo = [], 0
+    for i, t in enumerate(starts):
+        while t - starts[lo] >= window:
+            lo += 1
+        out.append(i - lo + 1 >= count)
+    return out
+
+
+# Appendix C.4: the count and the window moved around the Snort default
+DETECTOR_GRID = [(c, w) for c in (3, 5, 10) for w in (30.0, 60.0, 120.0)]
+
+
+def confidentiality(action_lists: list, rng: np.random.Generator, n_boot: int = 2_000,
+                    count: int = COUNT, window: float = WINDOW) -> dict:
+    """Actions not flagged over actions, pooled over runs, with a 95 % percentile
+    bootstrap interval over runs."""
+    per = np.array([(len(a) - sum(_flags(sorted(a), count, window)), len(a)) for a in action_lists if a],
+                   dtype=float)
+    point = float(per[:, 0].sum() / per[:, 1].sum())
+    idx = rng.integers(0, len(per), (n_boot, len(per)))
+    boots = per[idx, 0].sum(1) / per[idx, 1].sum(1)
+    lo, hi = np.quantile(boots, [0.025, 0.975])
+    return {"point": point, "lo": float(lo), "hi": float(hi), "runs": int(len(per)),
+            "actions": int(per[:, 1].sum()), "count": count, "window": window}
 
 
 def stealth_movement(runs: list[MovementRunResult]) -> dict:
@@ -494,7 +544,8 @@ def outcome(row: dict) -> dict:
     return {
         "asp": row["target_reach"],
         "ncr": {k: (v / NET_HOSTS if k in ("mean", "ci95") else v) for k, v in row["hosts"].items()},
-        "mttc": row["delay"],
+        "mttc": row["mttc_target"],             # section 4.5.2: a target host (ruling H1)
+        "first_compromise": row["delay"],       # the retired first-host reading, kept for the record
         "no_compromise_share": row["zero_host_runs"] / row["n"],
     }
 
@@ -756,10 +807,13 @@ def main() -> int:
     # sanity block
     counts = {f"{k[0]}/{k[1]}/{k[2]}": len(v) for k, v in sorted(movement.items())}
     counts.update({f"targeted/{h}/baseline": len(v) for h, v in sorted(baseline.items())})
+    n_seeds = len({r.seed for runs in movement.values() for r in runs} | {r["seed"] for rows in baseline.values() for r in rows})
     out["sanity"] = {
         "error_rows": len(errors),
         "runs_per_cell": counts,
         "all_cells_100": all(v == 100 for v in counts.values()),
+        "seeds": n_seeds,
+        "all_cells_full": all(v == n_seeds for v in counts.values()),
         "max_events_hit": sum(
             1 for runs in movement.values() for r in runs if M.terminal_mode(r) == "max_events"
         ),
@@ -785,14 +839,15 @@ def main() -> int:
         "step_share": rows[p]["tactic_visit_share"],
         **stealth_movement(movement[("targeted", CORE, p)]),
     } for p in PROFILES}
-    # The alarm for the over-the-run reading is set by one rule, not chosen: the
-    # baseline attacker's median count (ruling C, 2026-09-29), a detector tuned on
-    # the attacker the defences were built against. With whole counts it flags
-    # more than half of that attacker's actions; the share is recorded.
+    # The alarm for the over-the-run reading is set by one rule, not chosen: it
+    # flags half of the baseline attacker's actions (the median of D over them),
+    # a detector tuned on the attacker the defences were built against.
     base_levels = [d for row in baseline[CORE] for _, d in _detector_levels(_actions_baseline(row)[0])]
     theta_b = float(np.median(base_levels))
-    base_flagged = float(np.mean(np.asarray(base_levels) >= theta_b))
+    rng_c = np.random.default_rng(20260930)
     for p in PROFILES:
+        metrics[p]["attack_confidentiality"] = confidentiality(
+            [_actions_movement(r)[0] for r in movement[("targeted", CORE, p)]], rng_c)
         metrics[p]["confidentiality_over_run"] = confidentiality_over_run(
             [_actions_movement(r)[0] for r in movement[("targeted", CORE, p)]], theta_b)
     metrics["baseline"] = {
@@ -803,13 +858,20 @@ def main() -> int:
         **stealth_baseline(baseline[CORE]),
         "confidentiality_over_run": confidentiality_over_run(
             [_actions_baseline(row)[0] for row in baseline[CORE]], theta_b),
+        "attack_confidentiality": confidentiality(
+            [_actions_baseline(row)[0] for row in baseline[CORE]], rng_c),
     }
+    grid_lists = {p: [_actions_movement(r)[0] for r in movement[("targeted", CORE, p)]] for p in FOUR}
+    grid_lists["baseline"] = [_actions_baseline(row)[0] for row in baseline[CORE]]
+    detector_grid = [{"count": c, "window": wd,
+                      "confidentiality": {p: confidentiality(a, rng_c, count=c, window=wd) for p, a in grid_lists.items()}}
+                     for c, wd in DETECTOR_GRID]
     out["core"] = {
+        "detector_grid": detector_grid,
         "horizon": CORE,
         "metrics": metrics,
-        "detector": {"window": WINDOW, "theta": THETA, "net_hosts": NET_HOSTS,
-                     "alarm_tuned_to_baseline": theta_b, "baseline_flagged_share": base_flagged,
-                     "rule": "the baseline attacker's median count of actions in the window"},
+        "detector": {"tau": TAU, "theta": THETA, "net_hosts": NET_HOSTS,
+                     "alarm_tuned_to_baseline": theta_b, "rule": "flags half the baseline attacker's actions"},
         "coverage": cov,
         "table": rows,
         "divergence": div,
@@ -818,6 +880,11 @@ def main() -> int:
         "tactics_ordering_supported": tactics_report.ordering_supported,
         "tactics_unseparated_adjacent": tactics_report.unseparated_adjacent_pairs,
     }
+
+    if REPORTED:
+        NUMBERS.write_text(json.dumps(out, indent=1, default=float), encoding="utf-8")
+        print(f"wrote {NUMBERS}")
+        return 0
 
     # extension: same table at 60 000 s, plus the coverage grid at that horizon
     rows_ext = {p: movement_row(movement[("targeted", EXT, p)], stage_of) for p in PROFILES}
@@ -843,7 +910,10 @@ def main() -> int:
     out["diagnostic"] = {"objective": "general", "horizon": CORE, "table": rows_gen,
                          "divergence": div_gen, "targeted_minus_general": deltas}
 
-    (HERE / "numbers.json").write_text(json.dumps(out, indent=1, default=float), encoding="utf-8")
+    NUMBERS.write_text(json.dumps(out, indent=1, default=float), encoding="utf-8")
+    if NUMBERS != HERE / "numbers.json":  # the previews belong to the 100-seed read
+        print(f"wrote {NUMBERS}")
+        return 0
 
     md = ["# §5.3.1 preliminary read — behaviour without defence", "",
           f"Sanity: error rows {out['sanity']['error_rows']}; all cells at 100 runs: {out['sanity']['all_cells_100']}; "

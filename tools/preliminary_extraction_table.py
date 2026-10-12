@@ -191,33 +191,19 @@ def render(m: dict) -> str:
             f"{tex_escape(mode['why_not'])} \\\\"
         )
 
-    untried = "; ".join(tex_escape(x) for x in m["not_attempted"]["modes"])
-    disp = m["display"]
-    caption_short = "Modes of obtaining tactic dependency that were tried"
+    # Appendix pass 2026-10-04 (Marc: "is it relevant ... are we answering that
+    # question"): section 4.1 cites this table for 10 %, 14 % and 50 %. The
+    # caption says what makes those comparable (one build) and what the count
+    # is; cut as nuance the reader does not need: the shipped graph's 62 % over
+    # a folded axis, the threshold note, the modes never attempted, the build's
+    # technique count.
+    caption_short = "Edges between tactics found by mining and by attack flows"
     caption = (
-        f"The modes of obtaining dependency between tactics that were attempted, and "
-        f"what each returned. \\emph{{Direction from}} is the column the entry turns on: "
-        f"a mode that takes its direction from an assumed tactic ordering cannot learn an "
-        f"ordering, and can express no loop at all, since a total order admits no backward "
-        f"edge --- where the graph that ships preserves loops deliberately. "
-        f"\\emph{{Tactic transitions}} counts distinct ordered transitions between two "
-        f"different tactics, of the {possible} that {m['tactic_count']} tactics admit, with "
-        f"techniques collapsed onto their primary tactic --- the granularity the model "
-        f"works at. All three rows are measured on a single build, the superseded v0.4 "
-        f"profile of {v4['build_date']} ({disp['v0_4_attack_source']}, "
-        f"{v4['total_techniques']} parent techniques): it is the only artefact in which the "
-        f"two abandoned modes were ever merged, and the shared build is what makes the "
-        f"final column a comparison between modes rather than between corpus vintages. "
-        f"Carried forward alone, Attack Flow reaches {ship['tactic_transitions']} of the "
-        f"{possible} transitions ({pct(ship['tactic_transitions'], possible)}) in the graph "
-        f"this dissertation uses --- {ship['technique_edges']} technique edges over "
-        f"{ship['flows']} incidents ({disp['v0_5_corpus']}, {disp['v0_5_attack_source']}) "
-        f"--- quoted over the same {possible} transitions, with the split that model makes "
-        f"within defence evasion folded back so the two figures share an axis. "
-        f"No threshold is reported anywhere in the table: the mining parameters were varied "
-        f"throughout the exploratory period, and the table is built on what does not move "
-        f"with them. Not attempted, and so absent here: {untried} --- "
-        f"{tex_escape(m['not_attempted']['note'])}"
+        f"Three ways of finding the edges between tactics (Section~\\ref{{sec:technique-graph}}), "
+        f"run in one earlier build of the attack graph ({v4['build_date']}) over the same "
+        f"ATT\\&CK techniques. \\emph{{Edges between tactics}} counts the ordered "
+        f"pairs of different tactics each found, of the {possible} that ATT\\&CK's "
+        f"{m['tactic_count']} tactics then allowed."
     )
 
     body = "\n".join(rows)
@@ -225,18 +211,17 @@ def render(m: dict) -> str:
 % Numbers: data/gap/archive/v0_4_extraction_run.json (computed from the v0.4 GAP
 %   on {V04_BRANCH} and from data/gap/gap_v0.5.json).
 % Wording: data/gap/archive/preliminary_extraction_labels.json.
-% Caption SESSION-DRAFTED --- flagged for the voice pass.
+% DRAFT STATE (2026-10-04 appendix pass): caption session-drafted, ratify on read.
 % Requires booktabs (already in the preamble).
 
 \\begin{{table}}[htbp]
 \\centering
-\\footnotesize
-\\setlength{{\\tabcolsep}}{{4pt}}
 \\caption[{caption_short}]{{{caption}}}
 \\label{{tab:preliminary-extraction}}
-\\begin{{tabular}}{{@{{}}l >{{\\raggedright\\arraybackslash}}p{{0.18\\textwidth}} >{{\\raggedright\\arraybackslash}}p{{0.12\\textwidth}} r >{{\\raggedright\\arraybackslash}}p{{0.29\\textwidth}}@{{}}}}
+\\tablestyle
+\\begin{{tabular}}{{@{{}}P{{0.13\\textwidth}} P{{0.20\\textwidth}} P{{0.14\\textwidth}} r P{{0.26\\textwidth}}@{{}}}}
 \\toprule
-Mode & A dependency rests on & Direction from & \\shortstack[r]{{Tactic\\\\transitions}} & Why it was not used \\\\
+Way & An edge rests on & Direction from & \\shortstack[r]{{Edges between\\\\tactics}} & Why it was not used \\\\
 \\midrule
 {body}
 \\bottomrule

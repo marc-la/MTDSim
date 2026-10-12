@@ -8,8 +8,9 @@ bundle under `data/gap/` rather than restating it:
 * **order** — the Enterprise matrix's own `tactic_refs` sequence, which is the
   reading order the appendix attack graphs use (it agrees row-for-row with the
   GAP's `tactic_layer`, checked at build time by `check_against`);
-* **labels** — the bundle's tactic names, down-cased to the sentence case the
-  figure family sets. US spelling inside an ATT&CK proper name is therefore
+* **labels** — the bundle's tactic names, in the bundle's own Title Case: a
+  tactic name is a proper name (Marc 2026-10-11, literature_conventions §a4;
+  the earlier fold to sentence case is retired). US spelling inside an ATT&CK proper name is therefore
   *looked up, not translated* — the 2026-08-20 Australianisation ruling
   (`figure_table_conventions.md` §i);
 * **version** — the collection object's `x_mitre_version`, for the §b5 pin
@@ -109,7 +110,7 @@ def load_axis(bundle: Path = BUNDLE) -> TacticAxis:
         tactic = by_id[ref]
         shortname = tactic["x_mitre_shortname"]
         order.append(shortname)
-        label[shortname] = _sentence_case(tactic["name"])
+        label[shortname] = tactic["name"]  # Title Case, as ATT&CK names it (Marc 2026-10-11)
 
     collections = [o for o in objects if o.get("type") == "x-mitre-collection"]
     if not collections:
@@ -117,16 +118,18 @@ def load_axis(bundle: Path = BUNDLE) -> TacticAxis:
     return TacticAxis(order, label, str(collections[0]["x_mitre_version"]))
 
 
-def load_stages(path: Path = LIFECYCLE) -> tuple[dict[str, int], dict[int, str]]:
+def load_stages(path: Path = LIFECYCLE, short: bool = True) -> tuple[dict[str, int], dict[int, str]]:
     """The lifecycle-consensus staging: `tactic -> stage`, and `stage -> name`.
 
     Stage names are shortened to the form the figure family prints — the
     consensus spells stage 2 "post-intrusion operations", which is a caption
-    phrase, not a band label.
+    phrase, not a band label. `short=False` keeps the names of section 3.1.1,
+    for tables, which have the room.
     """
     doc = json.loads(path.read_text())
     stage_of = dict(doc["stage_of"])
     stage_name = {int(k): v.split(" (")[0] for k, v in doc["stages"].items()}
-    stage_name = {k: ("post-intrusion" if v.startswith("post-intrusion") else v)
-                  for k, v in stage_name.items()}
+    if short:
+        stage_name = {k: ("post-intrusion" if v.startswith("post-intrusion") else v)
+                      for k, v in stage_name.items()}
     return stage_of, stage_name

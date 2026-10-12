@@ -5,28 +5,19 @@
 
 \begin{table}[htbp]
 \centering
-\footnotesize
-\caption[Declared per-tactic dwell times]{The dwell times declared for each tactic: the mean dwell $\mu_p$ of Equation~\ref{eq:gspn}, the \emph{mean} of an exponential draw. Values are emitted from the declared catalogue (v0-uncalibrated); tactic names follow ATT\&CK~v19.1. How each value was arrived at is Appendix~\ref{app:dwell-derivation}.}
+\caption[The tactic durations]{The mean duration of each tactic, and its source. Appendix~\ref{app:dwell-derivation} gives each tactic's reason.}
 \label{tab:dwell-catalogue}
-\begin{tabular}{@{}l r@{}}
+\tablestyle
+\begin{tabular}{@{}P{0.42\textwidth} P{0.32\textwidth} >{\raggedleft\arraybackslash}p{0.16\textwidth}@{}}
 \toprule
-Tactic & Mean dwell $\mu_p$ (s) \\
+Tactics & Source & Mean duration $\mu_p$ (s) \\
 \midrule
-Reconnaissance & 35.0 \\
-Resource development & 0.0 \\
-Initial access & 4.5 \\
-Execution & 22.5 \\
-Persistence & 45.0 \\
-Privilege escalation & 4.5 \\
-Stealth & 45.0 \\
-Defense impairment & 22.5 \\
-Credential access & 4.5 \\
-Discovery & 35.0 \\
-Lateral movement & 4.5 \\
-Collection & 36.0 \\
-Command and control & 45.0 \\
-Exfiltration & 36.0 \\
-Impact & 36.0 \\
+Initial Access, Privilege Escalation, Credential Access, Lateral Movement & Mean time of MTDSim's exploit attack action & 4.5 \\
+Reconnaissance, Discovery & Total time of MTDSim's scans for hosts, ports and neighbours ($5 + 25 + 5$\,s) & 35.0 \\
+Persistence, Stealth, Command and Control & Judgement & 45.0 \\
+Execution, Defense Impairment & Judgement & 22.5 \\
+Collection, Exfiltration, Impact & Judgement & 36.0 \\
+Resource Development & Judgement & 0.0 \\
 \bottomrule
 \end{tabular}
 \end{table}

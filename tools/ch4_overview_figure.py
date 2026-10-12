@@ -55,9 +55,10 @@ FLOOR_PT = 7.95
 INK, INK2, FAINT, CHROME, ACCENT = "#333", "#6e6e6e", "#b0b0b0", "#e6e6e6", "#1f548c"
 
 ICONS = """
-  <g id="hacker"><path class="icon f" d="M-10,13 C-10,4 -5,-1 0,-1 C5,-1 10,4 10,13 Z"/><path class="icon f" d="M-7,-3 C-7,-12 -4,-15 0,-15 C4,-15 7,-12 7,-3 C5,-4 3,-5 0,-5 C-3,-5 -5,-4 -7,-3 Z"/><path d="M-4,-3 C-2,-1 2,-1 4,-3 C3,0 -3,0 -4,-3 Z" fill="#fff"/></g>
-  <g id="netic"><circle class="icon" cx="-9" cy="-6" r="3.6"/><circle class="icon" cx="9" cy="-6" r="3.6"/><circle class="icon" cx="0" cy="9" r="3.6"/><path class="icon" d="M-6,-4.5 L-2.4,7 M6,-4.5 L2.4,7 M-5.4,-6 H5.4"/></g>
-  <g id="shieldic"><path class="icon" d="M0,-14 L11,-9 V0 C11,7 6,12 0,14 C-6,12 -11,7 -11,0 V-9 Z"/><path class="icon" d="M-4.5,0 L-1,3.5 L5,-3.5"/></g>"""
+  <!-- icons: hooded attacker, wired network, moving target (the attack lands on the target's stale position, dotted; the target has moved, solid); each centred on the origin, ~28 px -->
+  <g id="hacker"><g transform="scale(0.062) translate(-256,-256)" fill="#333"><path d="M475.3571,413.24a69.9,69.9,0,0,0-39.8845-57.4407l-39.9287-18.7987,21.5791-44.5621a89.4527,89.4527,0,0,0,.0025-77.9684L359.7988,96.0682C317.7933,9.3105,194.2088,9.31,152.2019,96.0666L94.87,214.4745a89.445,89.445,0,0,0,.0049,77.9692l21.581,44.5569L76.5256,355.8a69.898,69.898,0,0,0-39.8831,57.439l-3.612,43.3773a22.5157,22.5157,0,0,0,22.4381,24.3842H456.5337A22.5134,22.5134,0,0,0,478.97,456.6187ZM364,260.1205a107.9746,107.9746,0,0,1-98.1035,107.5V341.1249a9.8965,9.8965,0,0,0-19.793,0v26.4957A107.9746,107.9746,0,0,1,148,260.1205V203.44a28.8192,28.8192,0,0,1,28.8193-28.8193H335.1806A28.8193,28.8193,0,0,1,364,203.44Z"/><path d="M321.8213,275.9979a9.91,9.91,0,0,0-12.3135,6.6709,13.5776,13.5776,0,0,1-26.0156,0,9.9026,9.9026,0,1,0-18.9844,5.6426,33.3877,33.3877,0,0,0,63.9844,0A9.9125,9.9125,0,0,0,321.8213,275.9979Z"/><path d="M240.8213,275.9979a9.8908,9.8908,0,0,0-12.3135,6.6709,13.5776,13.5776,0,0,1-26.0156,0,9.9026,9.9026,0,1,0-18.9844,5.6426,33.3877,33.3877,0,0,0,63.9844,0A9.9125,9.9125,0,0,0,240.8213,275.9979Z"/><path d="M319,227.4384H283a9.8965,9.8965,0,1,0,0,19.7929h36a9.8965,9.8965,0,1,0,0-19.7929Z"/><path d="M193,247.2313h36a9.8965,9.8965,0,1,0,0-19.7929H193a9.8965,9.8965,0,1,0,0,19.7929Z"/></g></g>
+  <g id="netic"><g transform="scale(1.35) translate(-12,-12)" fill="none" stroke="#333" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12H21M12 8V12M6.5 12V16M17.5 12V16M10.1 8H13.9C14.4601 8 14.7401 8 14.954 7.89101C15.1422 7.79513 15.2951 7.64215 15.391 7.45399C15.5 7.24008 15.5 6.96005 15.5 6.4V4.6C15.5 4.03995 15.5 3.75992 15.391 3.54601C15.2951 3.35785 15.1422 3.20487 14.954 3.10899C14.7401 3 14.4601 3 13.9 3H10.1C9.53995 3 9.25992 3 9.04601 3.10899C8.85785 3.20487 8.70487 3.35785 8.60899 3.54601C8.5 3.75992 8.5 4.03995 8.5 4.6V6.4C8.5 6.96005 8.5 7.24008 8.60899 7.45399C8.70487 7.64215 8.85785 7.79513 9.04601 7.89101C9.25992 8 9.53995 8 10.1 8ZM15.6 21H19.4C19.9601 21 20.2401 21 20.454 20.891C20.6422 20.7951 20.7951 20.6422 20.891 20.454C21 20.2401 21 19.9601 21 19.4V17.6C21 17.0399 21 16.7599 20.891 16.546C20.7951 16.3578 20.6422 16.2049 20.454 16.109C20.2401 16 19.9601 16 19.4 16H15.6C15.0399 16 14.7599 16 14.546 16.109C14.3578 16.2049 14.2049 16.3578 14.109 16.546C14 16.7599 14 17.0399 14 17.6V19.4C14 19.9601 14 20.2401 14.109 20.454C14.2049 20.6422 14.3578 20.7951 14.546 20.891C14.7599 21 15.0399 21 15.6 21ZM4.6 21H8.4C8.96005 21 9.24008 21 9.45399 20.891C9.64215 20.7951 9.79513 20.6422 9.89101 20.454C10 20.2401 10 19.9601 10 19.4V17.6C10 17.0399 10 16.7599 9.89101 16.546C9.79513 16.3578 9.64215 16.2049 9.45399 16.109C9.24008 16 8.96005 16 8.4 16H4.6C4.03995 16 3.75992 16 3.54601 16.109C3.35785 16.2049 3.20487 16.3578 3.10899 16.546C3 16.7599 3 17.0399 3 17.6V19.4C3 19.9601 3 20.2401 3.10899 20.454C3.20487 20.6422 3.35785 20.7951 3.54601 20.891C3.75992 21 4.03995 21 4.6 21Z"/></g></g>
+  <g id="mtdic"><g transform="scale(1.35) translate(-11.75,-12)" fill="none" stroke="#333" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="16.5" cy="7.5" r="4.5"/><circle cx="16.5" cy="7.5" r="1"/><circle cx="10" cy="16.5" r="4.5" stroke-width="2.2" stroke-dasharray="0.01 3.5343" transform="rotate(22.5 10 16.5)"/><path d="M2.5 9L10 16.5M7 16.5H10V13.5"/></g></g>"""
 
 STYLE = f"""
   html, body {{ margin:0; background:#fff; }}
@@ -70,6 +71,7 @@ STYLE = f"""
   .verb  {{ font-size:17px; }}
   .acc   {{ fill:{ACCENT}; }}
   .node  {{ fill:#fff; stroke:{INK}; stroke-width:1.6; }}
+  .nodeA {{ fill:#fff; stroke:{ACCENT}; stroke-width:1.6; }}
   .inner {{ fill:#fff; stroke:{INK2}; stroke-width:1.6; }}
   .card  {{ fill:#fff; stroke:{FAINT}; stroke-width:1.3; }}
   .built {{ fill:none; stroke:{ACCENT}; stroke-width:1.8; }}
@@ -111,16 +113,16 @@ class SVG:
 def process_label(svg, x, y_top, lines, section, below_y):
     """A process: its verb (one or two lines) above the arrow, its section below."""
     for k, ln in enumerate(lines):
-        svg.text(x, y_top + k * 19, ln, "verb halo", extra=f' style="fill:{ACCENT}"')
+        svg.text(x, y_top + k * 19, ln, "verb halo")
     svg.text(x, below_y, section, "xref")
 
 
-def stack(svg, x0, y0, x1, y1, depth=2):
+def stack(svg, x0, y0, x1, y1, depth=2, cls="node"):
     """A box with cards behind it: 'several of these' (the flows, the profiles,
     the nets). The one way a count is drawn on this figure."""
     for k in range(depth, 0, -1):
         svg.rect(x0 + 6 * k, y0 - 6 * k, x1 + 6 * k, y1 - 6 * k, "card")
-    svg.rect(x0, y0, x1, y1, "node")
+    svg.rect(x0, y0, x1, y1, cls)
 
 
 def emit(n_flows: int) -> tuple[str, float, float]:
@@ -130,29 +132,29 @@ def emit(n_flows: int) -> tuple[str, float, float]:
     nyc = (ny0 + ny1) / 2
     # the input, outside the built frame: the attack flows were drawn by
     # CTID's analysts, not by this dissertation
-    inp = (12, 168)
+    inp = (8, 162)
     stack(svg, inp[0], ny0, inp[1], ny1)
     svg.text(sum(inp) / 2, nyc - 8, f"{n_flows} attack flows", "title")
     svg.text(sum(inp) / 2, nyc + 16, "cyber threat", "sm")
     svg.text(sum(inp) / 2, nyc + 34, "intelligence", "sm")
 
     # the built frame: the APT attacker model, this dissertation's part
-    fx0, fx1, fy0, fy1 = 250, 894, 8, 166
+    fx0, fx1, fy0, fy1 = 270, 894, 8, 166   # room for 'aggregate' between the flows' cards and the frame
     svg.rect(fx0, fy0, fx1, fy1, "built", rx=7)
-    svg.text(fx0 + 16, fy0 + 26, "Building the APT attacker model", "title acc", anchor="start")
+    svg.text(fx0 + 16, fy0 + 26, "Building the APT attacker model", "title", anchor="start")
 
-    g = (268, 398)          # attack graph
-    p = (492, 652)          # attack profiles
-    n = (756, 872)          # profile nets
-    svg.rect(g[0], ny0, g[1], ny1, "node")
+    g = (286, 418)          # attack graph
+    p = (502, 658)          # attack profiles
+    n = (762, 872)          # Petri nets
+    svg.rect(g[0], ny0, g[1], ny1, "nodeA")
     svg.text(sum(g) / 2, nyc + 6, "Attack graph", "title")
-    stack(svg, p[0], ny0, p[1], ny1)
+    stack(svg, p[0], ny0, p[1], ny1, cls="nodeA")
     svg.text(sum(p) / 2, nyc + 6, "Attack profiles", "title")
-    stack(svg, n[0], ny0, n[1], ny1)
+    stack(svg, n[0], ny0, n[1], ny1, cls="nodeA")
     svg.text(sum(n) / 2, nyc + 6, "Petri nets", "title")   # Marc 2026-09-25: one term, the Petri net (was "profile net")
 
     # the three processes inside row 1 (BECOMES)
-    for (x0, x1), lines, sec in (((inp[1], g[0]), ["combine"], "§4.1"),
+    for (x0, x1), lines, sec in (((inp[1], g[0]), ["aggregate"], "§4.1"),   # Marc 2026-10-03: aggregate, one verb dissertation-wide
                                  ((g[1], p[0]), ["split by", "objective"], "§4.2"),
                                  ((p[1], n[0]), ["make", "executable"], "§4.3")):
         svg.path(f"M{x0 + 4},{nyc} H{x1 - 4}", "becomes acc", marker="mA")
@@ -167,23 +169,20 @@ def emit(n_flows: int) -> tuple[str, float, float]:
     my0 = fy1 + 62
     iy0 = my0 + 40
     iy1 = iy0 + 140
-    my1 = iy1 + 36
+    my1 = iy1 + 16                           # disrupts runs inside the row now: no band below it
     mx0, mx1 = 12, 894
     svg.rect(mx0, my0, mx1, my1, "used", rx=7)
     svg.text(mx0 + 16, my0 + 26, "MTDSim", "title", anchor="start")
-    svg.text(mx0 + 16 + 84, my0 + 26, "the simulator of Chapter 2", "xref", anchor="start")
-    d = (26, 186)                            # Defence
-    nw = (266, 426)                          # Network
+    d = (26, 170)                            # MTD (narrowed 2026-10-02 so the
+    nw = (270, 426)                          # Network  "reconfigures" label fits)
     at = (536, 882)                          # Attacker
-    for (x0, x1), icon, title, sub in ((d, "shieldic", "Defence", "defence mechanisms"),
-                                       (nw, "netic", "Network", "hosts and services")):
-        svg.rect(x0, iy0, x1, iy1, "module")
-        cx = (x0 + x1) / 2
-        svg.add(f'<g transform="translate({cx - 44:.1f},{iy0 + 30})"><use href="#{icon}"/></g>')
-        svg.text(cx - 26, iy0 + 37, title, "title", anchor="start")
-        first, rest_ = sub.split(" ", 1)
-        svg.text(cx, iy0 + 84, first, "lbl")
-        svg.text(cx, iy0 + 104, rest_, "lbl")
+    ym = (iy0 + iy1) / 2                     # the row's one centre line: every coupling runs on it
+    sy0, sy1 = ym - 36, ym + 36              # MTD and Network hold a title only: sized to it, on the centre line
+    for (x0, x1), icon, title, w in ((d, "mtdic", "MTD", 44), (nw, "netic", "Network", 76)):
+        svg.rect(x0, sy0, x1, sy1, "module")
+        cx = (x0 + x1) / 2 - w / 2 + 6
+        svg.add(f'<g transform="translate({cx - 22:.1f},{ym})"><use href="#{icon}"/></g>')
+        svg.text(cx, ym + 7, title, "title", anchor="start")
     svg.rect(at[0], iy0, at[1], iy1, "module")
     svg.add(f'<g transform="translate({at[0] + 26},{iy0 + 30})"><use href="#hacker"/></g>')
     svg.text(at[0] + 46, iy0 + 37, "Attacker", "title", anchor="start")
@@ -193,54 +192,52 @@ def emit(n_flows: int) -> tuple[str, float, float]:
     # both drive the same actions. The APT attacker model sits under the join.
     ac = sum(n) / 2
     drv = (ac - 58, ac + 58)
-    apt = (iy0 + 10, iy0 + 56)
-    bas = (iy0 + 86, iy0 + 132)
+    apt = (ym - 60, ym - 14)                 # the two attackers, symmetric about the centre line
+    bas = (ym + 14, ym + 60)
     svg.rect(drv[0], apt[0], drv[1], apt[1], "peer", rx=4)
-    svg.text(ac, apt[0] + 20, "APT attacker", "lbl", extra=f' style="fill:{ACCENT};font-weight:bold"')
-    svg.text(ac, apt[0] + 39, "model", "lbl", extra=f' style="fill:{ACCENT};font-weight:bold"')
-    svg.text(ac, (apt[1] + bas[0]) / 2 + 6, "or", "lbl", extra=' font-style="italic"')
+    svg.text(ac, apt[0] + 20, "APT attacker", "lbl", extra=' font-weight="bold"')
+    svg.text(ac, apt[0] + 39, "model", "lbl", extra=' font-weight="bold"')
+    svg.text(ac, ym + 6, "or", "lbl", extra=' font-style="italic"')
     svg.rect(drv[0], bas[0], drv[1], bas[1], "inner", rx=4)
     svg.text(ac, bas[0] + 20, "baseline", "lbl", extra=' font-weight="bold"')
     svg.text(ac, bas[0] + 39, "attacker", "lbl", extra=' font-weight="bold"')
-    act = (at[0] + 16, at[0] + 106)
-    ay = (iy0 + 56, iy0 + 96)
+    act = (at[0] + 16, at[0] + 146)   # wide enough for "attack actions", with margin
+    ay = (ym - 20, ym + 20)
     ayc = (ay[0] + ay[1]) / 2
     svg.rect(act[0], ay[0], act[1], ay[1], "inner", rx=4)
-    svg.text(sum(act) / 2, ayc + 6, "actions", "lbl")
+    svg.text(sum(act) / 2, ayc + 6, "attack actions", "lbl")
     for y in ((apt[0] + apt[1]) / 2, (bas[0] + bas[1]) / 2):
         x0_, y0_, x1_, y1_ = drv[0] - 3, y, act[1] + 5, ayc + (8 if y > ayc else -8)
         L = ((x1_ - x0_) ** 2 + (y1_ - y0_) ** 2) ** 0.5
         k = (L - 13) / L                      # the head (13 px) hangs past the line's end
         svg.path(f"M{x0_},{y0_} L{x0_ + (x1_ - x0_) * k:.1f},{y0_ + (y1_ - y0_) * k:.1f}", "drives", marker="mD")
     # (drive is run-time, drawn in the grey of the other in-simulator relations)
-    svg.text((drv[0] + act[1]) / 2 + 6, ayc + 6, "drive", "sm halo")
+    svg.text((drv[0] + act[1]) / 2 + 4, ayc + 6, "choose", "sm halo")
 
     # the join: a step of this dissertation (thin, the accent), into the APT attacker model
     svg.path(f"M{ac},{ny1 + 3} V{apt[0] - 4}", "becomes acc", marker="mA")
-    svg.text(ac - 14, fy1 + 30, "join to MTDSim", "verb halo", anchor="end", extra=f' style="fill:{ACCENT}"')
-    svg.text(ac - 14, fy1 + 48, "one Petri net per run", "sm halo", anchor="end")
-    svg.text(ac + 14, fy1 + 30, "§4.4", "xref halo", anchor="start")
+    svg.text(ac - 14, fy1 + 36, "integrate with MTDSim", "verb halo", anchor="end")
+    svg.text(ac + 14, fy1 + 36, "§4.4", "xref halo", anchor="start")
 
-    # Figure 2.1's couplings, grey: the defence rewrites the network, the actions compromise it
-    cy2 = (iy0 + iy1) / 2 + 10
+    # Figure 2.1's couplings, grey: MTD reconfigures the network, the actions compromise it
+    cy2 = ym
     svg.path(f"M{d[1] + 3},{cy2} H{nw[0] - 4}", "couples", marker="mG")
-    svg.text((d[1] + nw[0]) / 2, cy2 - 10, "rewrites", "sm halo")
-    svg.path(f"M{act[0] - 3},{ayc + 8} L{nw[1] + 4},{cy2}", "couples", marker="mG")
-    svg.text((nw[1] + at[0]) / 2, cy2 + 26, "compromises", "sm halo")
+    svg.text((d[1] + nw[0]) / 2, cy2 - 10, "reconfigures", "sm halo")  # registry row 64 (2026-09-30), as Figure 2.1
+    svg.path(f"M{act[0] - 3},{cy2} H{nw[1] + 4}", "couples", marker="mG")
+    svg.text((nw[1] + at[0]) / 2, cy2 - 10, "compromises", "sm halo")
 
     # Figure 2.1's fourth coupling: each rewrite interrupts the attacker mid-action
     # (the way MTD holds an attacker back), routed under the modules as there
-    ly = iy1 + 22
-    svg.path(f"M{sum(d) / 2},{iy1 + 2} V{ly} H{(at[0] + act[1]) / 2} V{iy1 + 5}", "couples", marker="mG")
-    svg.text((d[1] + at[0]) / 2 + 40, ly - 6, "interrupts", "sm halo")
+    ly = sy1 + 22                            # one bend: down from MTD, across into the Attacker's side
+    svg.path(f"M{sum(d) / 2},{sy1 + 2} V{ly} H{at[0] - 4}", "couples", marker="mG")
+    svg.text((sum(d) / 2 + at[0]) / 2, ly + 5, "disrupts", "sm halo")   # on the line, as Figure 2.1
 
     # ---------------------------------------------------------------- output
     xm = (at[0] + at[1]) / 2
     oy0, oy1 = my1 + 52, my1 + 52 + 56
     ox0, ox1 = xm - 120, xm + 120
     svg.rect(ox0, oy0, ox1, oy1, "node")
-    svg.text(xm, (oy0 + oy1) / 2 - 3, "Evaluation metrics", "title")
-    svg.text(xm, (oy0 + oy1) / 2 + 19, "per attacker", "sm")
+    svg.text(xm, (oy0 + oy1) / 2 + 7, "Evaluation metrics", "title")
     svg.path(f"M{xm},{my1 + 3} V{oy0 - 4}", "becomes")
     svg.text(xm + 14, my1 + 22, "measure", "verb halo", anchor="start")
     svg.text(xm + 14, my1 + 41, "§4.5", "xref", anchor="start")

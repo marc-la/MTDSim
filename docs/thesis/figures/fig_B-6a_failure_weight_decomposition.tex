@@ -5,7 +5,7 @@
 \usetikzlibrary{calc}
 \begin{document}
 \begin{tikzpicture}[x=1cm,y=1cm,every node/.style={inner sep=1pt}]
-\node[anchor=south west,font=\scriptsize,align=left,text width=15.4cm] at (0.00,0.06) {(a)\; failure kernel: the value of the first-matching declared rule (rule key A--I, below)};
+\node[anchor=south west,font=\scriptsize,align=left,text width=15.4cm] at (0.00,0.06) {(a)\; the value of the first rule that matches each move, with its letter};
 \node[anchor=west,rotate=55,font=\tiny] at (4.650,-0.920) {Recon.};
 \node[anchor=west,rotate=55,font=\tiny] at (5.430,-0.920) {Res. dev.};
 \node[anchor=west,rotate=55,font=\tiny] at (6.210,-0.920) {Init. access};
@@ -490,17 +490,17 @@
 \draw[black!18,line width=0.2pt] (16.020,-1.000) -- (16.020,-5.050);
 \draw[black!60,line width=0.4pt] (4.320,-1.000) rectangle (16.020,-5.050);
 \node[anchor=east,font=\tiny] at (4.20,-1.135) {Reconnaissance};
-\node[anchor=east,font=\tiny] at (4.20,-1.405) {Resource development};
-\node[anchor=east,font=\tiny] at (4.20,-1.675) {Initial access};
+\node[anchor=east,font=\tiny] at (4.20,-1.405) {Resource Development};
+\node[anchor=east,font=\tiny] at (4.20,-1.675) {Initial Access};
 \node[anchor=east,font=\tiny] at (4.20,-1.945) {Execution};
 \node[anchor=east,font=\tiny] at (4.20,-2.215) {Persistence};
-\node[anchor=east,font=\tiny] at (4.20,-2.485) {Privilege escalation};
+\node[anchor=east,font=\tiny] at (4.20,-2.485) {Privilege Escalation};
 \node[anchor=east,font=\tiny] at (4.20,-2.755) {Stealth};
-\node[anchor=east,font=\tiny] at (4.20,-3.025) {Defense impairment};
-\node[anchor=east,font=\tiny] at (4.20,-3.295) {Credential access};
+\node[anchor=east,font=\tiny] at (4.20,-3.025) {Defense Impairment};
+\node[anchor=east,font=\tiny] at (4.20,-3.295) {Credential Access};
 \node[anchor=east,font=\tiny] at (4.20,-3.565) {Discovery};
-\node[anchor=east,font=\tiny] at (4.20,-3.835) {Lateral movement};
-\node[anchor=east,font=\tiny] at (4.20,-4.105) {Command and control};
+\node[anchor=east,font=\tiny] at (4.20,-3.835) {Lateral Movement};
+\node[anchor=east,font=\tiny] at (4.20,-4.105) {Command and Control};
 \node[anchor=east,font=\tiny] at (4.20,-4.375) {Collection};
 \node[anchor=east,font=\tiny] at (4.20,-4.645) {Exfiltration};
 \node[anchor=east,font=\tiny] at (4.20,-4.915) {Impact};
@@ -511,8 +511,8 @@
 \draw[black!55,line width=0.4pt] (1.48,-2.100) -- (1.48,-4.220);
 \node[font=\tiny,text=black!60,anchor=east] at (1.40,-3.160) {post-intrusion};
 \draw[black!55,line width=0.4pt] (1.48,-4.260) -- (1.48,-5.030);
-\node[font=\tiny,text=black!60,anchor=east] at (1.40,-4.645) {objective};
-\node[anchor=south west,font=\scriptsize,align=left,text width=15.4cm] at (0.00,-5.74) {(b)\; lifecycle-distance kernel $d(a,b)$ over the four consensus stages, the signed stage offset $\Delta=s(b)-s(a)$ as subscript: $d=1$ for $|\Delta|\le 1$, $\gamma^{\Delta-1}$ forward, $\delta^{|\Delta|-1}$ backward, $d<z$ reads as 0 ($\gamma=0.25$, $\delta=0.25$, $z=0.1$)};
+\node[font=\tiny,text=black!60,anchor=east] at (1.40,-4.645) {actions on objectives};
+\node[anchor=south west,font=\scriptsize,align=left,text width=15.4cm] at (0.00,-5.74) {(b)\; the distance factor, with the stages the move crosses as subscript ($\gamma=0.25$, $\delta=0.25$, $z=0.1$)};
 \node[anchor=west,rotate=55,font=\tiny] at (4.650,-6.720) {Recon.};
 \node[anchor=west,rotate=55,font=\tiny] at (5.430,-6.720) {Res. dev.};
 \node[anchor=west,rotate=55,font=\tiny] at (6.210,-6.720) {Init. access};
@@ -997,17 +997,17 @@
 \draw[black!18,line width=0.2pt] (16.020,-6.800) -- (16.020,-10.850);
 \draw[black!60,line width=0.4pt] (4.320,-6.800) rectangle (16.020,-10.850);
 \node[anchor=east,font=\tiny] at (4.20,-6.935) {Reconnaissance};
-\node[anchor=east,font=\tiny] at (4.20,-7.205) {Resource development};
-\node[anchor=east,font=\tiny] at (4.20,-7.475) {Initial access};
+\node[anchor=east,font=\tiny] at (4.20,-7.205) {Resource Development};
+\node[anchor=east,font=\tiny] at (4.20,-7.475) {Initial Access};
 \node[anchor=east,font=\tiny] at (4.20,-7.745) {Execution};
 \node[anchor=east,font=\tiny] at (4.20,-8.015) {Persistence};
-\node[anchor=east,font=\tiny] at (4.20,-8.285) {Privilege escalation};
+\node[anchor=east,font=\tiny] at (4.20,-8.285) {Privilege Escalation};
 \node[anchor=east,font=\tiny] at (4.20,-8.555) {Stealth};
-\node[anchor=east,font=\tiny] at (4.20,-8.825) {Defense impairment};
-\node[anchor=east,font=\tiny] at (4.20,-9.095) {Credential access};
+\node[anchor=east,font=\tiny] at (4.20,-8.825) {Defense Impairment};
+\node[anchor=east,font=\tiny] at (4.20,-9.095) {Credential Access};
 \node[anchor=east,font=\tiny] at (4.20,-9.365) {Discovery};
-\node[anchor=east,font=\tiny] at (4.20,-9.635) {Lateral movement};
-\node[anchor=east,font=\tiny] at (4.20,-9.905) {Command and control};
+\node[anchor=east,font=\tiny] at (4.20,-9.635) {Lateral Movement};
+\node[anchor=east,font=\tiny] at (4.20,-9.905) {Command and Control};
 \node[anchor=east,font=\tiny] at (4.20,-10.175) {Collection};
 \node[anchor=east,font=\tiny] at (4.20,-10.445) {Exfiltration};
 \node[anchor=east,font=\tiny] at (4.20,-10.715) {Impact};
@@ -1018,8 +1018,8 @@
 \draw[black!55,line width=0.4pt] (1.48,-7.900) -- (1.48,-10.020);
 \node[font=\tiny,text=black!60,anchor=east] at (1.40,-8.960) {post-intrusion};
 \draw[black!55,line width=0.4pt] (1.48,-10.060) -- (1.48,-10.830);
-\node[font=\tiny,text=black!60,anchor=east] at (1.40,-10.445) {objective};
-\node[anchor=south west,font=\scriptsize,align=left,text width=15.4cm] at (0.00,-11.54) {(c)\; the failure weight set $=$ (a)\,$\times$\,(b), as committed (\texttt{v4\_failure\_only})};
+\node[font=\tiny,text=black!60,anchor=east] at (1.40,-10.445) {actions on objectives};
+\node[anchor=south west,font=\scriptsize,align=left,text width=15.4cm] at (0.00,-11.54) {(c)\; the failure matrix $=$ (a)\,$\times$\,(b)};
 \node[anchor=west,rotate=55,font=\tiny] at (4.650,-12.520) {Recon.};
 \node[anchor=west,rotate=55,font=\tiny] at (5.430,-12.520) {Res. dev.};
 \node[anchor=west,rotate=55,font=\tiny] at (6.210,-12.520) {Init. access};
@@ -1504,17 +1504,17 @@
 \draw[black!18,line width=0.2pt] (16.020,-12.600) -- (16.020,-16.650);
 \draw[black!60,line width=0.4pt] (4.320,-12.600) rectangle (16.020,-16.650);
 \node[anchor=east,font=\tiny] at (4.20,-12.735) {Reconnaissance};
-\node[anchor=east,font=\tiny] at (4.20,-13.005) {Resource development};
-\node[anchor=east,font=\tiny] at (4.20,-13.275) {Initial access};
+\node[anchor=east,font=\tiny] at (4.20,-13.005) {Resource Development};
+\node[anchor=east,font=\tiny] at (4.20,-13.275) {Initial Access};
 \node[anchor=east,font=\tiny] at (4.20,-13.545) {Execution};
 \node[anchor=east,font=\tiny] at (4.20,-13.815) {Persistence};
-\node[anchor=east,font=\tiny] at (4.20,-14.085) {Privilege escalation};
+\node[anchor=east,font=\tiny] at (4.20,-14.085) {Privilege Escalation};
 \node[anchor=east,font=\tiny] at (4.20,-14.355) {Stealth};
-\node[anchor=east,font=\tiny] at (4.20,-14.625) {Defense impairment};
-\node[anchor=east,font=\tiny] at (4.20,-14.895) {Credential access};
+\node[anchor=east,font=\tiny] at (4.20,-14.625) {Defense Impairment};
+\node[anchor=east,font=\tiny] at (4.20,-14.895) {Credential Access};
 \node[anchor=east,font=\tiny] at (4.20,-15.165) {Discovery};
-\node[anchor=east,font=\tiny] at (4.20,-15.435) {Lateral movement};
-\node[anchor=east,font=\tiny] at (4.20,-15.705) {Command and control};
+\node[anchor=east,font=\tiny] at (4.20,-15.435) {Lateral Movement};
+\node[anchor=east,font=\tiny] at (4.20,-15.705) {Command and Control};
 \node[anchor=east,font=\tiny] at (4.20,-15.975) {Collection};
 \node[anchor=east,font=\tiny] at (4.20,-16.245) {Exfiltration};
 \node[anchor=east,font=\tiny] at (4.20,-16.515) {Impact};
@@ -1525,16 +1525,6 @@
 \draw[black!55,line width=0.4pt] (1.48,-13.700) -- (1.48,-15.820);
 \node[font=\tiny,text=black!60,anchor=east] at (1.40,-14.760) {post-intrusion};
 \draw[black!55,line width=0.4pt] (1.48,-15.860) -- (1.48,-16.630);
-\node[font=\tiny,text=black!60,anchor=east] at (1.40,-16.245) {objective};
-\node[anchor=north west,font=\tiny,text=black!60] at (0.00,-16.71) {rule key (match order; value $\times$ $d$ gives the cell in (c)):};
-\node[anchor=north west,font=\tiny] at (0.00,-16.97) {\textbf{A}\; \texttt{ia\_gate\_foothold} $=$ 0.02};
-\node[anchor=north west,font=\tiny] at (0.00,-17.24) {\textbf{B}\; \texttt{recon\_gate\_initial\_access} $=$ 0.4};
-\node[anchor=north west,font=\tiny] at (0.00,-17.51) {\textbf{C}\; \texttt{recon\_gate\_deep} $=$ 0.05};
-\node[anchor=north west,font=\tiny] at (0.00,-17.78) {\textbf{D}\; \texttt{preintrusion\_damper} $=$ 0.25};
-\node[anchor=north west,font=\tiny] at (0.00,-18.05) {\textbf{E}\; \texttt{execution\_damper} $=$ 0.35};
-\node[anchor=north west,font=\tiny] at (8.20,-16.97) {\textbf{F}\; \texttt{backward} $=$ 0.9};
-\node[anchor=north west,font=\tiny] at (8.20,-17.24) {\textbf{G}\; \texttt{lateral} $=$ 0.7};
-\node[anchor=north west,font=\tiny] at (8.20,-17.51) {\textbf{H}\; \texttt{forward\_from\_foothold} $=$ 0.35};
-\node[anchor=north west,font=\tiny] at (8.20,-17.78) {\textbf{I}\; \texttt{forward\_from\_prep} $=$ 0.3};
+\node[font=\tiny,text=black!60,anchor=east] at (1.40,-16.245) {actions on objectives};
 \end{tikzpicture}
 \end{document}

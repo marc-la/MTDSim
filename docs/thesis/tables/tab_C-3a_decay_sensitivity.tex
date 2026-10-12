@@ -6,36 +6,39 @@
 \begin{table}[htbp]
 \centering\footnotesize
 % CAPTION DRAFT STATE 2026-09-17 --- voice pass owed.
-\caption[Hosts reached across the failure matrix's distance parameters]{Distinct hosts reached at each distance parameter's band ends against its declared value, one at a time with the others held, and then at the four corners of the two rates with the floor declared, under no defence and under the random scheme at each interval. Pooled over the four profiles, 400 runs per cell; intervals are 95\,\%. The floor's rows are bit-identical to the declared point: no Petri net carries a jump of three stages, so its sensitivity is zero by structure rather than by measurement.}
+\caption[NCR across the parameters of the failure matrix's distance factor]{NCR (Section~\ref{sec:evaluation-metrics}) at the band ends of each parameter of the failure matrix's distance factor (Table~\ref{tab:overlay-distance-kernel}) against its declared value, one at a time with the others held, and then at the four corners of $\gamma$ and $\delta$ with the floor $z$ declared, under no MTD and under the random deployment strategy at 200\,s and 2\,000\,s. Averaged over $c_1$ to $c_4$, 400 runs per cell; $\pm$: a 95\,\% interval on the mean (normal approximation). A corner has no band: its NCR is under Band high, and Band low is blank. The floor's rows are identical, run for run, to the declared value's: no Petri net carries a move across three stages, so its sensitivity is zero by structure rather than by measurement.}
 \label{tab:decay-sensitivity}
 \tablestyle\setlength{\tabcolsep}{4pt}
-\begin{tabular}{@{}cP{3.4cm}>{\centering\arraybackslash}p{2.1cm}>{\centering\arraybackslash}p{2.1cm}>{\centering\arraybackslash}p{2.1cm}P{2.6cm}@{}}
+\begin{tabular}{@{}P{4.4cm}>{\centering\arraybackslash}p{2.2cm}>{\centering\arraybackslash}p{2.2cm}>{\centering\arraybackslash}p{2.2cm}P{2.8cm}@{}}
 \toprule
-& Parameter & Band low & Declared & Band high & Verdict \\
+Parameter & Band low & Declared & Band high & Verdict \\
 \midrule
- & forward rate $\gamma$ (0.1, 0.5) & $8.2 \pm 0.4$ & $8.1 \pm 0.4$ & $8.2 \pm 0.4$ & inert \\
- & backward rate $\delta$ (0.1, 0.5) & $8.1 \pm 0.4$ & $8.1 \pm 0.4$ & $8.2 \pm 0.4$ & inert \\
- & floor $z$ (0, 0.05) & $8.1 \pm 0.4$ & $8.1 \pm 0.4$ & $8.1 \pm 0.4$ & zero by structure \\
- & corner $\gamma=0.1$, $\delta=0.1$ & --- & $8.1 \pm 0.4$ & $8.2 \pm 0.4$ & inert \\
- & corner $\gamma=0.1$, $\delta=0.5$ & --- & $8.1 \pm 0.4$ & $8.2 \pm 0.4$ & inert \\
- & corner $\gamma=0.5$, $\delta=0.1$ & --- & $8.1 \pm 0.4$ & $8.1 \pm 0.4$ & inert \\
-\rowgroup{7}{no defence} & corner $\gamma=0.5$, $\delta=0.5$ & --- & $8.1 \pm 0.4$ & $8.2 \pm 0.4$ & inert \\
-\midrule
- & forward rate $\gamma$ (0.1, 0.5) & $2.2 \pm 0.2$ & $2.1 \pm 0.2$ & $2.1 \pm 0.2$ & inert \\
- & backward rate $\delta$ (0.1, 0.5) & $2.1 \pm 0.2$ & $2.1 \pm 0.2$ & $2.1 \pm 0.2$ & inert \\
- & floor $z$ (0, 0.05) & $2.1 \pm 0.2$ & $2.1 \pm 0.2$ & $2.1 \pm 0.2$ & zero by structure \\
- & corner $\gamma=0.1$, $\delta=0.1$ & --- & $2.1 \pm 0.2$ & $2.2 \pm 0.2$ & inert \\
- & corner $\gamma=0.1$, $\delta=0.5$ & --- & $2.1 \pm 0.2$ & $2.2 \pm 0.2$ & inert \\
- & corner $\gamma=0.5$, $\delta=0.1$ & --- & $2.1 \pm 0.2$ & $2.1 \pm 0.2$ & inert \\
-\rowgroup{7}{defended, 200\,s} & corner $\gamma=0.5$, $\delta=0.5$ & --- & $2.1 \pm 0.2$ & $2.2 \pm 0.2$ & inert \\
-\midrule
- & forward rate $\gamma$ (0.1, 0.5) & $7.5 \pm 0.4$ & $7.4 \pm 0.4$ & $7.3 \pm 0.4$ & inert \\
- & backward rate $\delta$ (0.1, 0.5) & $7.5 \pm 0.4$ & $7.4 \pm 0.4$ & $7.5 \pm 0.4$ & inert \\
- & floor $z$ (0, 0.05) & $7.4 \pm 0.4$ & $7.4 \pm 0.4$ & $7.4 \pm 0.4$ & zero by structure \\
- & corner $\gamma=0.1$, $\delta=0.1$ & --- & $7.4 \pm 0.4$ & $7.5 \pm 0.4$ & inert \\
- & corner $\gamma=0.1$, $\delta=0.5$ & --- & $7.4 \pm 0.4$ & $7.6 \pm 0.4$ & inert \\
- & corner $\gamma=0.5$, $\delta=0.1$ & --- & $7.4 \pm 0.4$ & $7.3 \pm 0.4$ & inert \\
-\rowgroup{7}{defended, 2\,000\,s} & corner $\gamma=0.5$, $\delta=0.5$ & --- & $7.4 \pm 0.4$ & $7.5 \pm 0.4$ & inert \\
+\grouprow{5}{no MTD} \\
+$\gamma$, forward (0.1, 0.5) & $0.165 \pm 0.009$ & $0.163 \pm 0.008$ & $0.164 \pm 0.008$ & inert \\
+$\delta$, back (0.1, 0.5) & $0.162 \pm 0.008$ & $0.163 \pm 0.008$ & $0.163 \pm 0.008$ & inert \\
+$z$, floor (0, 0.05) & $0.163 \pm 0.008$ & $0.163 \pm 0.008$ & $0.163 \pm 0.008$ & zero by structure \\
+corner $\gamma=0.1$, $\delta=0.1$ &  & $0.163 \pm 0.008$ & $0.165 \pm 0.009$ & inert \\
+corner $\gamma=0.1$, $\delta=0.5$ &  & $0.163 \pm 0.008$ & $0.165 \pm 0.009$ & inert \\
+corner $\gamma=0.5$, $\delta=0.1$ &  & $0.163 \pm 0.008$ & $0.163 \pm 0.008$ & inert \\
+corner $\gamma=0.5$, $\delta=0.5$ &  & $0.163 \pm 0.008$ & $0.164 \pm 0.008$ & inert \\
+\addlinespace
+\grouprow{5}{random, 200\,s} \\
+$\gamma$, forward (0.1, 0.5) & $0.044 \pm 0.004$ & $0.041 \pm 0.004$ & $0.042 \pm 0.004$ & inert \\
+$\delta$, back (0.1, 0.5) & $0.043 \pm 0.004$ & $0.041 \pm 0.004$ & $0.042 \pm 0.004$ & inert \\
+$z$, floor (0, 0.05) & $0.041 \pm 0.004$ & $0.041 \pm 0.004$ & $0.041 \pm 0.004$ & zero by structure \\
+corner $\gamma=0.1$, $\delta=0.1$ &  & $0.041 \pm 0.004$ & $0.045 \pm 0.004$ & inert \\
+corner $\gamma=0.1$, $\delta=0.5$ &  & $0.041 \pm 0.004$ & $0.044 \pm 0.004$ & inert \\
+corner $\gamma=0.5$, $\delta=0.1$ &  & $0.041 \pm 0.004$ & $0.042 \pm 0.003$ & inert \\
+corner $\gamma=0.5$, $\delta=0.5$ &  & $0.041 \pm 0.004$ & $0.044 \pm 0.004$ & inert \\
+\addlinespace
+\grouprow{5}{random, 2\,000\,s} \\
+$\gamma$, forward (0.1, 0.5) & $0.150 \pm 0.008$ & $0.148 \pm 0.008$ & $0.147 \pm 0.008$ & inert \\
+$\delta$, back (0.1, 0.5) & $0.150 \pm 0.008$ & $0.148 \pm 0.008$ & $0.151 \pm 0.008$ & inert \\
+$z$, floor (0, 0.05) & $0.148 \pm 0.008$ & $0.148 \pm 0.008$ & $0.148 \pm 0.008$ & zero by structure \\
+corner $\gamma=0.1$, $\delta=0.1$ &  & $0.148 \pm 0.008$ & $0.149 \pm 0.008$ & inert \\
+corner $\gamma=0.1$, $\delta=0.5$ &  & $0.148 \pm 0.008$ & $0.152 \pm 0.008$ & inert \\
+corner $\gamma=0.5$, $\delta=0.1$ &  & $0.148 \pm 0.008$ & $0.146 \pm 0.008$ & inert \\
+corner $\gamma=0.5$, $\delta=0.5$ &  & $0.148 \pm 0.008$ & $0.149 \pm 0.008$ & inert \\
 \bottomrule
 \end{tabular}
 \end{table}

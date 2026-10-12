@@ -1,0 +1,25 @@
+  draw 13: rejected {'objective_exfiltration_impact': 'token starts at initial-access (no reconnaissance place)'}  screen hosts {'objective_exfiltration': 836, 'objective_impact': 765, 'objective_none_c2': 197}
+  draw 14: rejected {'objective_exfiltration_impact': 'token starts at initial-access (no reconnaissance place)'}  screen hosts {'objective_exfiltration': 829, 'objective_impact': 847, 'objective_none_c2': 115}
+  draw 15: rejected {'objective_none_c2': 'token starts at initial-access (no reconnaissance place)'}  screen hosts {'objective_exfiltration': 769, 'objective_impact': 327, 'objective_exfiltration_impact': 352}
+  draw 16: rejected {'objective_exfiltration_impact': 'token starts at initial-access (no reconnaissance place)', 'objective_none_c2': 'compromises nothing in 100 screening runs'}  screen hosts {'objective_exfiltration': 815, 'objective_impact': 161, 'objective_none_c2': 0}
+  draw 17: rejected {'objective_impact': 'token starts at initial-access (no reconnaissance place)'}  screen hosts {'objective_exfiltration': 985, 'objective_exfiltration_impact': 630, 'objective_none_c2': 2}
+  draw 18: rejected {'objective_none_c2': 'token starts at initial-access (no reconnaissance place)'}  screen hosts {'objective_exfiltration': 775, 'objective_impact': 732, 'objective_exfiltration_impact': 741}
+  draw 19: rejected {'objective_none_c2': 'token cannot reach initial-access'}  screen hosts {'objective_exfiltration': 793, 'objective_impact': 535, 'objective_exfiltration_impact': 688}
+  draw 20: rejected {'objective_impact': 'token cannot reach initial-access'}  screen hosts {'objective_exfiltration': 1029, 'objective_exfiltration_impact': 627, 'objective_none_c2': 635}
+  draw 21: rejected {'objective_none_c2': 'token cannot reach initial-access'}  screen hosts {'objective_exfiltration': 795, 'objective_impact': 1041, 'objective_exfiltration_impact': 649}
+  draw 22: rejected {'objective_none_c2': 'token starts at initial-access (no reconnaissance place)'}  screen hosts {'objective_exfiltration': 844, 'objective_impact': 965, 'objective_exfiltration_impact': 468}
+  draw 23: kept  screen hosts {'objective_exfiltration': 884, 'objective_impact': 340, 'objective_exfiltration_impact': 855, 'objective_none_c2': 294}
+  draw 24: kept  screen hosts {'objective_exfiltration': 1002, 'objective_impact': 409, 'objective_exfiltration_impact': 587, 'objective_none_c2': 360}
+  draw 25: rejected {'objective_none_c2': 'token cannot reach initial-access'}  screen hosts {'objective_exfiltration': 830, 'objective_impact': 997, 'objective_exfiltration_impact': 579}
+  draw 26: rejected {'objective_none_c2': 'token cannot reach initial-access'}  screen hosts {'objective_exfiltration': 706, 'objective_impact': 908, 'objective_exfiltration_impact': 953}
+  draw 27: kept  screen hosts {'objective_exfiltration': 787, 'objective_impact': 329, 'objective_exfiltration_impact': 584, 'objective_none_c2': 109}
+  draw 28: kept  screen hosts {'objective_exfiltration': 832, 'objective_impact': 668, 'objective_exfiltration_impact': 631, 'objective_none_c2': 778}
+  draw 29: rejected {'objective_impact': 'token starts at initial-access (no reconnaissance place)', 'objective_none_c2': 'token cannot reach initial-access'}  screen hosts {'objective_exfiltration': 715, 'objective_exfiltration_impact': 165}
+  draw 30: rejected {'objective_none_c2': 'token cannot reach initial-access'}  screen hosts {'objective_exfiltration': 890, 'objective_impact': 469, 'objective_exfiltration_impact': 670}
+  draw 31: kept  screen hosts {'objective_exfiltration': 813, 'objective_impact': 792, 'objective_exfiltration_impact': 622, 'objective_none_c2': 640}
+  p00 <- draw 23
+  p01 <- draw 24
+  p03 <- draw 27
+  p07 <- draw 28
+  p09 <- draw 31
+  manifest -> data/ogasp/partition_control/partitions.json

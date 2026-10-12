@@ -65,7 +65,7 @@ REPO = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(REPO / "tools"))
 from _tactic_axis import load_axis  # noqa: E402
 from pipeline_ladder_figure import (  # noqa: E402  the artefact readers
-    OBJECTIVE_TACTICS, PETRI_DIR, PROFILE_CODE, PROFILE_LABEL, PROFILE_ORDER, SUB,
+    OBJECTIVE_TACTICS, PETRI_DIR, PROFILE_CODE, PROFILE_ORDER, SUB,
     load_classes, load_gap, load_net,
 )
 
@@ -303,8 +303,9 @@ def emit(prof, axis) -> tuple[str, float, float]:
                                 outline=OBJ_COLUMNS[p])
         svg.add(frag)
         svg.sizes += sizes
-        svg.text(x0, ym - 9, f'{code(p)}<tspan font-weight="bold">{PROFILE_LABEL[p]}</tspan> ({len(flows)} flows)',
-                 "lbl", raw=True)
+        # the code only: Table 4.1 gives each profile's two answers (2026-10-04,
+        # the stand-alone labels collided across the c3 and c4 panels)
+        svg.text(x0, ym - 9, f'{code(p)} ({len(flows)} attack flows)', "lbl", raw=True)
     # the column names, once, in the band both grid rows touch
     yc = y_band + BAND / 2
     for x0 in COLS:
@@ -329,7 +330,10 @@ def emit(prof, axis) -> tuple[str, float, float]:
         svg.text(kx + sw + 8, yy + 13.5, lab, "tick")
     yy = ky + 26 + 4 * 25 + 14
     svg.add(f'<rect class="obj" x="{kx + 4:.1f}" y="{yy:.1f}" width="{sw * 0.6:.1f}" height="{sw + 8}"/>')
-    svg.text(kx + sw + 8, yy + 18, "objective", "tick")
+    # appendix pass 2026-10-04: "objective" cut (the word is the attacker's
+    # objective); the outline is the profile's yes in Table 4.1
+    svg.text(kx + sw + 8, yy + 10, "stole data or", "tick")
+    svg.text(kx + sw + 8, yy + 26, "impeded systems", "tick")
 
     html = f"""<!doctype html>
 <html lang="en"><head><meta charset="utf-8">

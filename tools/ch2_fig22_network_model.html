@@ -2,45 +2,41 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<title>fig:network-model — the network at three magnifications</title>
+<title>fig:network-model — the host layer, and one host</title>
 <style>
   :root {
     --ink:#333; --ink2:#6e6e6e; --faint:#b0b0b0; --faintline:#d2d2d2;
-    --chrome:#ececec; --panel:#f7f7f7;
+    --chrome:#ececec;
     --accent:#1f548c;                 /* attacker action and path */
     --red:#b3261e; --redfill:#f3d6d3;  /* compromised */
-    --tint:#eaeef3;                   /* inside the attacker's view */
   }
   html, body { margin:0; background:#fff; }
   body { width: 900px; }
-  @media print { @page { size: 16.058cm 16.33cm; margin:0; } body { width:16.058cm; } }
+  @media print { @page { margin:0; } body { width:16.058cm; } }
   svg { display:block; font-family: "Nimbus Sans", "TeX Gyre Heros", Helvetica, Arial, sans-serif; }
   text { fill: var(--ink); }
   .ptitle { font-size: 19px; font-weight: bold; }
   .lbl    { font-size: 17px; }
-  .sm     { font-size: 15.5px; fill: var(--ink2); }
-  .panel  { fill: var(--panel); stroke: none; }
+  .sm, .sm text { font-size: 15.5px; fill: var(--ink2); }
   .icon   { fill:none; stroke: var(--ink); stroke-width:1.7; stroke-linecap:round; stroke-linejoin:round; }
-  .icon.f { fill: var(--ink); stroke:none; }
   .host   { fill:#fff; stroke: var(--ink); stroke-width:1.7; }
-  .host.gone   { stroke: var(--faint); }          /* flat faint, never opacity */
+  .target { fill:#fff; stroke: var(--ink); stroke-width:1.6; }  /* inside a scale(1.5): 2.4 px effective */
   .comp   { fill: var(--redfill); stroke: var(--red); stroke-width:2.4; }
-  .cable  { stroke:#8a8a8a; stroke-width:1.9; fill:none; }
-  .cable.gone { stroke: var(--faintline); }
-  .path   { stroke: var(--accent); stroke-width:3.2; fill:none; }
-  .tint   { fill: var(--tint); stroke:none; }
+  .cable  { stroke:#8a8a8a; stroke-width:1.7; fill:none; }
+  .path   { stroke: var(--red); stroke-width:3.2; fill:none; }   /* the attacker's route: compromise red, one colour for one story */
+  .group  { fill: var(--chrome); stroke:none; }
+  .goal   { fill: var(--chrome); stroke:none; }   /* target hosts: marked by size and the bold label, not a hue */
   .lead   { stroke: var(--ink2); stroke-width:1.3; fill:none; }
-  .wedge  { fill: var(--chrome); stroke:none; }
-  .bar    { stroke:none; }
-  .thresh { stroke: var(--ink); stroke-width:1.8; fill:none; stroke-dasharray:5 4; }
-  .halo   { paint-order: stroke; stroke: var(--panel); stroke-width:6px; stroke-linejoin:round; }
+  .enter  { stroke: var(--red); stroke-width:2.2; fill:none; }
+  .rowbox { fill:#fff; stroke: var(--ink); stroke-width:1.7; }
+  .rule   { stroke: var(--faintline); stroke-width:1.3; }
 </style></head>
 <body>
-<svg id="fig" viewBox="0 0 900 915" width="900" height="915" xmlns="http://www.w3.org/2000/svg">
+<svg id="fig" viewBox="0 0 900 492" width="900" height="492" xmlns="http://www.w3.org/2000/svg">
 <defs>
-  <marker id="mI" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#333"/></marker>
-  <marker id="mA" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#1f548c"/></marker>
-  <marker id="mR" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#b3261e"/></marker>
+  <marker id="mI" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#6e6e6e"/></marker>
+  <marker id="mA" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#b3261e"/></marker>
+  <g id="hacker"><g transform="scale(0.062) translate(-256,-256)" fill="#333"><path d="M475.3571,413.24a69.9,69.9,0,0,0-39.8845-57.4407l-39.9287-18.7987,21.5791-44.5621a89.4527,89.4527,0,0,0,.0025-77.9684L359.7988,96.0682C317.7933,9.3105,194.2088,9.31,152.2019,96.0666L94.87,214.4745a89.445,89.445,0,0,0,.0049,77.9692l21.581,44.5569L76.5256,355.8a69.898,69.898,0,0,0-39.8831,57.439l-3.612,43.3773a22.5157,22.5157,0,0,0,22.4381,24.3842H456.5337A22.5134,22.5134,0,0,0,478.97,456.6187ZM364,260.1205a107.9746,107.9746,0,0,1-98.1035,107.5V341.1249a9.8965,9.8965,0,0,0-19.793,0v26.4957A107.9746,107.9746,0,0,1,148,260.1205V203.44a28.8192,28.8192,0,0,1,28.8193-28.8193H335.1806A28.8193,28.8193,0,0,1,364,203.44Z"/><path d="M321.8213,275.9979a9.91,9.91,0,0,0-12.3135,6.6709,13.5776,13.5776,0,0,1-26.0156,0,9.9026,9.9026,0,1,0-18.9844,5.6426,33.3877,33.3877,0,0,0,63.9844,0A9.9125,9.9125,0,0,0,321.8213,275.9979Z"/><path d="M240.8213,275.9979a9.8908,9.8908,0,0,0-12.3135,6.6709,13.5776,13.5776,0,0,1-26.0156,0,9.9026,9.9026,0,1,0-18.9844,5.6426,33.3877,33.3877,0,0,0,63.9844,0A9.9125,9.9125,0,0,0,240.8213,275.9979Z"/><path d="M319,227.4384H283a9.8965,9.8965,0,1,0,0,19.7929h36a9.8965,9.8965,0,1,0,0-19.7929Z"/><path d="M193,247.2313h36a9.8965,9.8965,0,1,0,0-19.7929H193a9.8965,9.8965,0,1,0,0,19.7929Z"/></g></g>
   <g id="pc"><rect x="-15" y="-12" width="30" height="20" rx="2.5" fill="inherit" stroke="inherit"/><path d="M-7,14 H7 M0,8 V14" fill="none" stroke="inherit" stroke-linecap="round"/></g>
   <g id="gear"><path d="M0,-13 L3.6,-12.3 L5,-8.7 L9.4,-9.4 L11.6,-5.8 L8.7,-2.9 L8.7,2.9 L11.6,5.8 L9.4,9.4 L5,8.7 L3.6,12.3 L0,13 L-3.6,12.3 L-5,8.7 L-9.4,9.4 L-11.6,5.8 L-8.7,2.9 L-8.7,-2.9 L-11.6,-5.8 L-9.4,-9.4 L-5,-8.7 L-3.6,-12.3 Z" fill="inherit" stroke="inherit"/><circle r="4.4" fill="#fff" stroke="inherit"/></g>
   <g id="db"><ellipse cx="0" cy="-10" rx="12" ry="4.6" fill="inherit" stroke="inherit"/><path d="M-12,-10 V10 C-12,12.6 -6.6,14.6 0,14.6 C6.6,14.6 12,12.6 12,10 V-10" fill="inherit" stroke="inherit"/><path d="M-12,0 C-12,2.6 -6.6,4.6 0,4.6 C6.6,4.6 12,2.6 12,0" fill="none" stroke="inherit"/></g>
@@ -49,127 +45,101 @@
   <g id="key"><circle cx="-7" cy="0" r="6" fill="none" stroke="inherit"/><path d="M-1,0 H13 M8.5,0 V5 M12,0 V3.6" fill="none" stroke="inherit"/></g>
 </defs>
 
-<!-- ==================== HOST LAYER ==================== -->
-<rect class="panel" x="14" y="14" width="872" height="326" rx="6"/>
-<text class="ptitle" x="34" y="46">Host layer</text>
-<text class="sm" x="150" y="46">hosts, and which hosts can reach which</text>
+<!-- ==================== (a) HOST LAYER ==================== -->
+<text class="ptitle" x="14" y="28">(a) Host layer</text>
+<text class="sm" x="535" y="42" text-anchor="middle">deeper into the network</text>
+<path class="lead" marker-end="url(#mI)" d="M190,52 H880"/>
+<g class="lbl" text-anchor="middle">
+  <text x="230" y="78">level 1</text>
+  <text x="410" y="78">level 2</text>
+  <text x="600" y="78">level 3</text>
+  <text x="800" y="78">level 4</text>
+</g>
 
-<!-- the attacker's view: a region, not a dashed boundary -->
-<rect class="tint" x="72" y="72" width="342" height="248" rx="26"/>
+<!-- groups: the exposed endpoints, then subnets; the target hosts' subnet outlined -->
+<rect class="group" x="190" y="96"  width="80"  height="184" rx="10"/>
+<rect class="group" x="350" y="96"  width="120" height="96"  rx="10"/>
+<rect class="group" x="350" y="214" width="120" height="66"  rx="10"/>
+<rect class="group" x="540" y="102" width="120" height="62"  rx="10"/>
+<rect class="group" x="540" y="214" width="120" height="66"  rx="10"/>
+<rect class="goal"  x="724" y="150" width="152" height="130" rx="10"/>
 
+<!-- links: within a group, and only between adjacent levels -->
 <g class="cable">
-  <path d="M120,140 L240,105"/><path d="M120,140 L240,190"/>
-  <path d="M120,250 L240,190"/><path d="M120,250 L240,285"/>
-  <path d="M240,105 L360,145"/><path d="M240,190 L360,145"/>
-  <path d="M240,190 L360,255"/><path d="M240,285 L360,255"/>
+  <path d="M230,142 V176 M230,202 V236"/>
+  <path d="M230,248 L380,245"/>
+  <path d="M380,124 H440 M380,124 L410,166 M440,124 L410,166 M380,245 H440"/>
+  <path d="M440,124 L570,132 M440,245 L570,245"/>
+  <path d="M570,132 H630 M570,245 H630"/>
+  <path d="M630,132 L770,212 M630,245 L770,212 M770,212 H830"/>
 </g>
-<g class="cable gone">
-  <path d="M360,145 L480,120"/><path d="M360,145 L480,235"/><path d="M360,255 L480,235"/>
-  <path d="M480,120 L600,180"/><path d="M480,235 L600,180"/>
+<!-- the attacker's route: endpoint to level-2 host -->
+<path class="path" d="M230,188 L380,124"/>
+
+<g class="host">
+  <g transform="translate(230,128)"><use href="#pc"/></g>
+  <g transform="translate(230,248)"><use href="#pc"/></g>
+  <g transform="translate(440,124)"><use href="#pc"/></g>
+  <g transform="translate(410,166)"><use href="#pc"/></g>
+  <g transform="translate(380,245)"><use href="#pc"/></g>
+  <g transform="translate(440,245)"><use href="#pc"/></g>
+  <g transform="translate(570,132)"><use href="#pc"/></g>
+  <g transform="translate(630,132)"><use href="#pc"/></g>
+  <g transform="translate(570,245)"><use href="#pc"/></g>
+  <g transform="translate(630,245)"><use href="#pc"/></g>
 </g>
-<!-- the attacker's route through the hosts it has taken -->
-<path class="path" d="M120,140 L240,190"/>
-
-<g class="host"><g transform="translate(240,105)"><use href="#pc"/></g><g transform="translate(240,285)"><use href="#pc"/></g><g transform="translate(360,145)"><use href="#pc"/></g><g transform="translate(360,255)"><use href="#pc"/></g><g transform="translate(120,250)"><use href="#pc"/></g></g>
-<g class="host gone"><g transform="translate(480,120)"><use href="#pc"/></g><g transform="translate(480,235)"><use href="#pc"/></g></g>
-<g class="comp"><g transform="translate(120,140)"><use href="#pc"/></g><g transform="translate(240,190)"><use href="#pc"/></g></g>
-<!-- the objective: unseen, but known -->
-<g class="host gone"><g transform="translate(600,180)"><use href="#db"/></g></g>
-<circle cx="600" cy="180" r="27" fill="none" stroke="#333" stroke-width="1.7"/>
-
-<!-- the exposed column, and what "fixed" actually means -->
-<path class="lead" d="M92,108 H84 V292 H92"/>
-<text class="sm" x="140" y="322" text-anchor="middle">exposed, depth 0</text>
-<text class="sm" x="440" y="60">deeper into the network</text>
-<path class="lead" marker-end="url(#mI)" d="M440,72 H600"/>
-
-<!-- the key: the four host states, keyed once for the whole figure -->
-<g transform="translate(660,84)">
-  <g class="comp"><g transform="translate(22,0) scale(0.8)"><use href="#pc"/></g></g>
-  <text class="lbl" x="52" y="6">compromised</text>
-  <rect class="tint" x="2" y="42" width="40" height="40" rx="10"/>
-  <g class="host"><g transform="translate(22,62) scale(0.8)"><use href="#pc"/></g></g>
-  <text class="lbl" x="52" y="68">in the attacker's view</text>
-  <g class="host gone"><g transform="translate(22,124) scale(0.8)"><use href="#pc"/></g></g>
-  <text class="lbl" x="52" y="130">outside it</text>
-  <g class="host gone"><g transform="translate(22,186) scale(0.7)"><use href="#db"/></g></g>
-  <circle cx="22" cy="186" r="19" fill="none" stroke="#333" stroke-width="1.5"/>
-  <text class="lbl" x="52" y="192">the objective</text>
-  <path class="path" d="M8,238 H36"/>
-  <text class="lbl" x="52" y="244">its route so far</text>
+<g class="comp">
+  <g transform="translate(230,188)"><use href="#pc"/></g>
+  <g transform="translate(380,124)"><use href="#pc"/></g>
+</g>
+<!-- the target hosts: what the attacker is after -->
+<g class="target">
+  <g transform="translate(770,212) scale(1.5)"><use href="#db"/></g>
+  <g transform="translate(830,212) scale(1.5)"><use href="#db"/></g>
 </g>
 
-<!-- ==================== magnification 1 ==================== -->
-<path class="wedge" d="M300,340 H620 L520,368 H400 Z"/>
-<text class="sm" x="34" y="360">one compromised host, opened</text>
+<!-- the attacker, outside the network -->
+<g transform="translate(62,184) scale(1.4)"><use href="#hacker"/></g>
+<text class="lbl" x="62" y="230" text-anchor="middle">attacker</text>
+<path class="enter" marker-end="url(#mA)" d="M92,188 H212"/>
 
-<!-- ==================== SERVICE LAYER ==================== -->
-<rect class="panel" x="14" y="368" width="872" height="270" rx="6"/>
-<text class="ptitle" x="34" y="400">Service layer</text>
-<text class="sm" x="168" y="400">what one host is made of</text>
-
-<g class="comp"><g transform="translate(78,500) scale(1.25)"><use href="#pc"/></g></g>
-<path class="lead" d="M104,478 L166,438 M104,522 L166,592"/>
-
-<!-- the operating system, holding the address and the users' credentials -->
-<rect x="166" y="428" width="212" height="176" rx="4" fill="#fff" stroke="#333" stroke-width="1.7"/>
-<text class="lbl" x="182" y="454">operating system</text>
-<rect x="182" y="470" width="180" height="42" rx="3" fill="#fff" stroke="#8a8a8a" stroke-width="1.4"/>
-<text class="lbl" x="272" y="497" text-anchor="middle">IP address</text>
-<rect x="182" y="524" width="180" height="62" rx="3" fill="#fff" stroke="#8a8a8a" stroke-width="1.4"/>
-<g class="icon"><g transform="translate(212,555)"><use href="#user"/></g><g transform="translate(262,555)"><use href="#key"/></g></g>
-<text class="sm" x="292" y="561">credentials</text>
-
-<text class="sm" x="428" y="504" text-anchor="middle">runs</text>
-<path class="lead" marker-end="url(#mI)" d="M386,516 H470"/>
-
-<!-- every service attaches to the internal target node: a hub, not a ring -->
-<g class="cable"><path d="M630,506 L520,440"/><path d="M630,506 L500,592"/><path d="M630,506 L630,420"/><path d="M630,506 L740,440"/><path d="M630,506 L760,592"/></g>
-<g class="icon"><g transform="translate(520,440)"><use href="#gear"/></g><g transform="translate(500,592)"><use href="#gear"/></g><g transform="translate(630,420)"><use href="#gear"/></g><g transform="translate(740,440)"><use href="#gear"/></g><g transform="translate(760,592)"><use href="#gear"/></g></g>
-<rect x="618" y="494" width="24" height="24" rx="3" fill="#fff" stroke="#333" stroke-width="2"/>
-<text class="lbl halo" x="496" y="446" text-anchor="end">services</text>
-<text class="lbl halo" x="630" y="558" text-anchor="middle">internal target node</text>
-<text class="sm halo" x="630" y="578" text-anchor="middle">no service of its own</text>
-
-<!-- ==================== magnification 2 ==================== -->
-<path class="wedge" d="M520,638 H740 L680,666 H580 Z"/>
-<text class="sm" x="34" y="658">one service, opened</text>
-
-<!-- ==================== VULNERABILITY LAYER ==================== -->
-<rect class="panel" x="14" y="666" width="872" height="235" rx="6"/>
-<text class="ptitle" x="34" y="698">Vulnerability layer</text>
-<text class="sm" x="216" y="698">and the two conditions under which a host falls</text>
-
-<g class="icon"><g transform="translate(72,790)"><use href="#gear"/></g></g>
-<text class="sm" x="72" y="824" text-anchor="middle">one service</text>
-<path class="lead" marker-end="url(#mI)" d="M92,790 H126"/>
-
-<g class="icon" stroke="#333"><g transform="translate(160,762) scale(0.8)"><use href="#bug"/></g><g transform="translate(160,812) scale(0.8)"><use href="#bug"/></g><g transform="translate(212,762) scale(0.8)"><use href="#bug"/></g><g transform="translate(212,812) scale(0.8)"><use href="#bug"/></g></g>
-<text class="sm" x="186" y="852" text-anchor="middle">its vulnerabilities</text>
-<text class="sm" x="186" y="872" text-anchor="middle">tried by return on attack</text>
-
-<path class="lead" marker-end="url(#mI)" d="M244,790 H282"/>
-
-<!-- gate one: impact accumulates, and the service falls when it passes the threshold -->
-<text class="lbl" x="290" y="752">impact accumulates</text>
-<rect x="290" y="766" width="250" height="30" rx="2" fill="#fff" stroke="#8a8a8a" stroke-width="1.4"/>
-<g class="bar">
-  <rect x="290" y="766" width="72" height="30" fill="#c9d3de"/>
-  <rect x="362" y="766" width="55" height="30" fill="#8ea6bf"/>
-  <rect x="417" y="766" width="98" height="30" fill="var(--accent)"/>
+<!-- names in place -->
+<g class="lbl" text-anchor="middle">
+  <text x="230" y="304">exposed endpoints</text>
+  <text x="410" y="304">subnet</text>
+  <text x="800" y="304" font-weight="bold">target hosts</text>
 </g>
-<path class="thresh" d="M484,756 V812"/>
-<text class="sm" x="484" y="828" text-anchor="middle">threshold</text>
 
-<path class="lead" marker-end="url(#mI)" d="M554,790 H592"/>
 
-<!-- gate two: the host falls only if that service is adjacent to the internal target node -->
-<g class="icon" stroke="#b3261e"><g transform="translate(622,790)"><use href="#gear"/></g></g>
-<text class="sm" x="622" y="828" text-anchor="middle">the service falls</text>
-<text class="sm" x="734" y="756" text-anchor="middle">and if adjacent to the</text>
-<text class="sm" x="734" y="774" text-anchor="middle">internal target node</text>
-<path class="lead" marker-end="url(#mR)" stroke="#b3261e" d="M644,790 H802"/>
-<g class="comp"><g transform="translate(840,790)"><use href="#pc"/></g></g>
-<text class="sm" x="840" y="828" text-anchor="middle">the host falls</text>
+<!-- ==================== (b) ONE HOST ==================== -->
+<text class="ptitle" x="14" y="346">(b) One host</text>
+<g class="host"><g transform="translate(76,414) scale(1.3)"><use href="#pc"/></g></g>
+<path class="lead" d="M98,398 L150,332 M98,428 L150,480"/>
+<g transform="translate(0,330)">
+<rect class="rowbox" x="150" y="0" width="730" height="152" rx="4"/>
+<path class="rule" d="M151,38 H879 M151,76 H879 M151,114 H879"/>
+<text class="lbl" x="168" y="25">IP address</text>
+<text class="lbl" x="168" y="63">operating system</text>
+<text class="lbl" x="168" y="101">services</text>
+<text class="lbl" x="168" y="139">user accounts</text>
+
+<g class="icon">
+  <g transform="translate(300,95)"><use href="#gear"/></g>
+  <g transform="translate(370,95)"><use href="#gear"/></g>
+  <g transform="translate(331,95) scale(0.75)"><use href="#bug"/></g>
+  <g transform="translate(401,95) scale(0.75)"><use href="#bug"/></g>
+  <g transform="translate(300,133)"><use href="#user"/></g>
+  <g transform="translate(336,133)"><use href="#key"/></g>
+</g>
+<text class="lbl" x="426" y="101">vulnerabilities</text>
+
+<!-- the MTD mechanisms that reconfigure each row -->
+<g class="sm" text-anchor="end">
+  <text x="864" y="25">IP shuffle</text>
+  <text x="864" y="63">OS diversity</text>
+  <text x="864" y="101">service diversity, port shuffle</text>
+  <text x="864" y="139">user shuffle</text>
+</g>
+</g>
 </svg>
 </body></html>

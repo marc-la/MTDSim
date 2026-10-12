@@ -152,6 +152,14 @@ from the Table 4 prose; carries no per-tactic cells.
 
 ## 4. The consensus ordering — four super-stages, with a weakly-ordered middle
 
+> **Stage 3 renamed, 2026-10-04 (Marc):** "objective" → **actions on
+> objectives**, the Cyber Kill Chain's phase name, because "objective" is the
+> attacker's objective (the attack profiles' classification key, thesis §4.2).
+> Display only: no `stage_of` seat or distance value changes. The thesis now
+> states the four stages as its own grouping of the published models in §3.1.1
+> (no source has these four; Che Mat's review is the precedent for the
+> merge), and the tactic seating below stays in chapter 4.
+
 Where the models agree on relative order, the agreement is strong and
 consistent; where they disagree, the disagreement is confined to the
 post-intrusion middle. The consensus is therefore a **banded partial order**
@@ -162,7 +170,7 @@ over four super-stages:
 | 0 | **preparation** | reconnaissance, resource-development | prep precedes intrusion in every model that reaches it (L1 phases 1–2; L2 stage 1; L5 part 1; L3's Figure 14 prefixes Initial Recon before Initial Compromise); L4 starts later, consistently |
 | 1 | **intrusion** | initial-access, execution | unanimous: L1 3–4, L2 stage 2, L3 stage 1, L4 stage 1 |
 | 2 | **post-intrusion operations** | persistence, privilege-escalation, stealth, defense-impairment, credential-access, discovery, lateral-movement, command-and-control | **explicitly weakly ordered**: L3's primary states the stages between Establish Foothold and Complete Mission "do not have to occur in this order every time" and that the group "continually repeat[s] the cycle" until evicted (Appendix B, p. 63) — the middle is not merely permutable but *cyclic*; L2 holds them in a single stage; L1 compresses them into phases 5–7 and is structurally silent on their internal sequence |
-| 3 | **objective** | collection, exfiltration, impact | unanimous terminal: L1 AoO, L2 stage 4, L3 stage 7 (*after* the any-order block), L5 "final two phases" |
+| 3 | **actions on objectives** | collection, exfiltration, impact | unanimous terminal: L1 AoO, L2 stage 4, L3 stage 7 (*after* the any-order block), L5 "final two phases" |
 
 Two corollaries the models state directly: the **invariant prefix** —
 Alshamrani's structural claim that stages 1–2 are invariant across APT

@@ -2,7 +2,7 @@
   "meta": {
     "artefact": "APT-lifecycle consensus ordering + declared tactic-to-tactic distance model (S1, literature half)",
     "created": "2026-07-27",
-    "updated": "2026-07-28: worked_pairs backward examples recomputed under delta_ratio=0.25 (they had lagged the 0.5 -> 0.25 ruling); examples only, nothing compiled reads them",
+    "updated": "2026-10-04: stage 3 renamed objective -> actions on objectives (Marc: objective is the attacker's objective, the attack profiles' key; the Cyber Kill Chain's phase name); display only, no stage_of or distance value changes. 2026-07-28: worked_pairs backward examples recomputed under delta_ratio=0.25 (they had lagged the 0.5 -> 0.25 ruling); examples only, nothing compiled reads them",
     "record": "docs/implementation/pipeline/ogasp/lifecycle_consensus.md",
     "provenance_row": "docs/implementation/provenance.md",
     "assumption": "ATT&CK imposes no tactic ordering (register M3); every ordering here is imported from the lifecycle literature as an assumption of this work",
@@ -21,7 +21,7 @@
     "0": "preparation",
     "1": "intrusion",
     "2": "post-intrusion operations (weakly ordered internally, by consensus)",
-    "3": "objective"
+    "3": "actions on objectives"
   },
   "stage_of": {
     "reconnaissance": 0,

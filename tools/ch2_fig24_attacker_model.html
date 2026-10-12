@@ -2,115 +2,113 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<title>fig:attacker-model — what the attacker holds, and how it proceeds</title>
+<title>fig:attacker-model — the attacker's procedure</title>
 <style>
-  :root { --ink:#333; --ink2:#6e6e6e; --faint:#b0b0b0; --panel:#f7f7f7;
-          --accent:#1f548c; --red:#b3261e; --redfill:#f3d6d3; }
+  :root { --ink:#333; --ink2:#6e6e6e; }
   html, body { margin:0; background:#fff; }
   body { width: 900px; }
-  @media print { @page { size: 16.058cm 10.42cm; margin:0; } body { width:16.058cm; } }
+  @media print { @page { margin:0; } body { width:16.058cm; } }
   svg { display:block; font-family: "Nimbus Sans", "TeX Gyre Heros", Helvetica, Arial, sans-serif; }
   text { fill: var(--ink); }
-  .ptitle { font-size: 19px; font-weight: bold; }
   .lbl    { font-size: 17px; }
-  .code   { font-size: 15.5px; fill: var(--ink2);
-            font-family: "Nimbus Mono PS", "TeX Gyre Cursor", "Courier New", Courier, monospace; }
-  .sm     { font-size: 15.5px; fill: var(--ink2); }
-  .panel  { fill: var(--panel); stroke:none; }
-  .icon   { fill:none; stroke: var(--ink); stroke-width:1.8; stroke-linecap:round; stroke-linejoin:round; }
-  .icon.f { fill: var(--ink); stroke:none; }
-  .comp   { fill: var(--redfill); stroke: var(--red); stroke-width:2.4; }
+  .nm     { font-size: 17px; font-weight: bold; }
+  .sm, .sm text { font-size: 15.5px; fill: var(--ink2); }
   .state  { fill:#fff; stroke: var(--ink); stroke-width:1.8; }
   .step   { stroke: var(--ink2); stroke-width:1.7; fill:none; }
-  .win    { stroke: var(--accent); stroke-width:2.6; fill:none; }
   .cut    { stroke: var(--ink); stroke-width:1.7; fill:none; stroke-dasharray:6 5; }
 </style></head>
 <body>
-<svg id="fig" viewBox="0 0 900 584" width="900" height="584" xmlns="http://www.w3.org/2000/svg">
+<svg id="fig" viewBox="0 0 900 376" width="900" height="376" xmlns="http://www.w3.org/2000/svg">
 <defs>
   <marker id="mS" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#6e6e6e"/></marker>
-  <marker id="mW" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#1f548c"/></marker>
   <marker id="mC" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#333"/></marker>
-  <g id="cross"><circle class="icon" r="11"/><path class="icon" d="M0,-16 V-6 M0,6 V16 M-16,0 H-6 M6,0 H16"/><circle class="icon f" r="3"/></g>
-  <g id="eye"><path class="icon" d="M-14,0 C-7,-9 7,-9 14,0 C7,9 -7,9 -14,0 Z"/><circle class="icon f" r="3.4"/></g>
-  <g id="pc"><rect x="-14" y="-11" width="28" height="19" rx="2.5" fill="inherit" stroke="inherit"/><path d="M-6,13 H6 M0,8 V13" fill="none" stroke="inherit" stroke-linecap="round"/></g>
-  <g id="key"><circle class="icon" cx="-7" cy="0" r="6"/><path class="icon" d="M-1,0 H13 M8.5,0 V5 M12,0 V3.6"/></g>
 </defs>
 
-<!-- ==================== WHAT IT HOLDS ==================== -->
-<rect class="panel" x="14" y="14" width="872" height="156" rx="6"/>
-<text class="ptitle" x="34" y="46">What it holds</text>
-
-<g transform="translate(58,88)"><use href="#cross"/></g>
-<text class="lbl" x="82" y="94">its attack scenario</text>
-<g transform="translate(468,88)"><use href="#eye"/></g>
-<text class="lbl" x="492" y="94">visibility on the network</text>
-
-<g class="comp"><g transform="translate(58,134)"><use href="#pc"/></g></g>
-<text class="lbl" x="82" y="140">compromised hosts</text>
-<g transform="translate(468,134)"><use href="#key"/></g>
-<text class="lbl" x="492" y="140">credentials stolen</text>
-
-<!-- ==================== PROCEDURE ==================== -->
-<rect class="panel" x="14" y="200" width="872" height="370" rx="6"/>
-<text class="ptitle" x="34" y="232">Procedure</text>
-
-<!-- where a rewrite sends it back to -->
-<text class="sm" x="92"  y="272" text-anchor="middle">host-layer rewrite</text>
-<text class="sm" x="448" y="272" text-anchor="middle">service-layer rewrite</text>
-<text class="sm" x="626" y="272" text-anchor="middle">credentials rewrite</text>
+<!-- where an MTD deployment sends the attacker back to (dash = MTD interrupt, nothing else) -->
+<g class="sm" text-anchor="middle">
+  <text x="80"  y="22">after a host-layer</text>
+  <text x="80"  y="40">deployment</text>
+  <text x="450" y="22">after a service-layer</text>
+  <text x="450" y="40">deployment</text>
+  <text x="635" y="40">after a user shuffle</text>
+</g>
 <g class="cut">
-  <path marker-end="url(#mC)" d="M92,282 V314"/>
-  <path marker-end="url(#mC)" d="M448,282 V314"/>
-  <path marker-end="url(#mC)" d="M626,282 V314"/>
+  <path marker-end="url(#mC)" d="M80,48 V78"/>
+  <path marker-end="url(#mC)" d="M450,48 V78"/>
+  <path marker-end="url(#mC)" d="M635,48 V78"/>
 </g>
 
-<!-- the ordinary advance, and the two returns -->
+<!-- the ordinary advance -->
 <g class="step">
-  <path marker-end="url(#mS)" d="M163,326 H197"/>
-  <path marker-end="url(#mS)" d="M199,350 H165"/>
-  <path marker-end="url(#mS)" d="M341,338 H375"/>
-  <path marker-end="url(#mS)" d="M519,338 H553"/>
-  <path marker-end="url(#mS)" d="M697,338 H731"/>
-  <path marker-end="url(#mS)" d="M555,476 H300 V362"/>
-  <path marker-end="url(#mS)" d="M850,362 V536 H244 V362"/>
+  <path marker-end="url(#mS)" d="M150,130 H193"/>   <!-- scan host -> enumerate host -->
+  <path marker-end="url(#mS)" d="M335,130 H378"/>   <!-- enumerate host -> scan port -->
+  <path marker-end="url(#mS)" d="M520,130 H563"/>   <!-- scan port -> exploit (no credential works) -->
+  <path marker-end="url(#mS)" d="M705,130 H748"/>   <!-- exploit -> brute force -->
+</g>
+<g class="sm" text-anchor="middle">
+  <text x="542" y="121">fails</text>
+  <text x="727" y="121">fails</text>
 </g>
 
-<!-- the three moves that take a host -->
-<g class="win">
-  <path marker-end="url(#mW)" d="M448,362 V428 H586 V452"/>
-  <path marker-end="url(#mW)" d="M626,362 V452"/>
-  <path marker-end="url(#mW)" d="M804,362 V428 H666 V452"/>
+<!-- the returns to enumerate host / scan host -->
+<g class="step">
+  <path marker-end="url(#mS)" d="M215,180 V208 H80 V182"/>          <!-- enumerate host -> scan host -->
+  <path marker-end="url(#mS)" d="M545,300 H320 V182"/>              <!-- scan neighbours -> enumerate host -->
+  <path marker-end="url(#mS)" d="M870,180 V366 H265 V182"/>         <!-- brute force -> enumerate host -->
+</g>
+<text class="sm" x="147" y="226" text-anchor="middle">no host left</text>
+<text class="sm" x="862" y="290" text-anchor="end">fails</text>
+
+<!-- the three moves that compromise a host, into scan neighbours -->
+<g class="step">
+  <path marker-end="url(#mS)" d="M450,180 V216 H595 V248"/>   <!-- scan port -> scan neighbours -->
+  <path marker-end="url(#mS)" d="M635,180 V248"/>             <!-- exploit -> scan neighbours -->
+  <path marker-end="url(#mS)" d="M820,180 V216 H675 V248"/>   <!-- brute force -> scan neighbours -->
+</g>
+<g class="sm">
+  <text x="442" y="204" text-anchor="end">succeeds</text>
+  <text x="643" y="204">succeeds</text>
+  <text x="812" y="204" text-anchor="end">succeeds</text>
 </g>
 
-<!-- the six states, named as the code names them -->
+<!-- the six phases: name in bold, then what the phase does (attack_operation.py
+     _do_scan_host, _do_enum_host, _do_scan_port, _do_exploit_vuln,
+     _do_brute_force, _do_scan_neighbors; verified 2026-09-30) -->
 <g>
-  <rect class="state" x="21"  y="314" width="142" height="48" rx="4"/>
-  <text class="lbl"  x="92"  y="334" text-anchor="middle">scan hosts</text>
-  <text class="code" x="92"  y="354" text-anchor="middle">SCAN_HOST</text>
+  <rect class="state" x="10"  y="80" width="140" height="100" rx="4"/>
+  <text class="nm" x="80"  y="105" text-anchor="middle">scan host</text>
+  <text class="sm" x="80"  y="127" text-anchor="middle">lists the visible</text>
+  <text class="sm" x="80"  y="145" text-anchor="middle">hosts it has not</text>
+  <text class="sm" x="80"  y="163" text-anchor="middle">compromised</text>
 
-  <rect class="state" x="199" y="314" width="142" height="48" rx="4"/>
-  <text class="lbl"  x="270" y="334" text-anchor="middle">enumerate</text>
-  <text class="code" x="270" y="354" text-anchor="middle">ENUM_HOST</text>
+  <rect class="state" x="195" y="80" width="140" height="100" rx="4"/>
+  <text class="nm" x="265" y="105" text-anchor="middle">enumerate host</text>
+  <text class="sm" x="265" y="127" text-anchor="middle">takes the next</text>
+  <text class="sm" x="265" y="145" text-anchor="middle">host in the list</text>
 
-  <rect class="state" x="377" y="314" width="142" height="48" rx="4"/>
-  <text class="lbl"  x="448" y="334" text-anchor="middle">scan ports</text>
-  <text class="code" x="448" y="354" text-anchor="middle">SCAN_PORT</text>
+  <rect class="state" x="380" y="80" width="140" height="100" rx="4"/>
+  <text class="nm" x="450" y="105" text-anchor="middle">scan port</text>
+  <text class="sm" x="450" y="127" text-anchor="middle">scans the host's</text>
+  <text class="sm" x="450" y="145" text-anchor="middle">ports, then tries</text>
+  <text class="sm" x="450" y="163" text-anchor="middle">stolen credentials</text>
 
-  <rect class="state" x="555" y="314" width="142" height="48" rx="4"/>
-  <text class="lbl"  x="626" y="334" text-anchor="middle">exploit</text>
-  <text class="code" x="626" y="354" text-anchor="middle">EXPLOIT_VULN</text>
+  <rect class="state" x="565" y="80" width="140" height="100" rx="4"/>
+  <text class="nm" x="635" y="105" text-anchor="middle">exploit</text>
+  <text class="sm" x="635" y="127" text-anchor="middle">exploits the</text>
+  <text class="sm" x="635" y="145" text-anchor="middle">vulnerabilities by</text>
+  <text class="sm" x="635" y="163" text-anchor="middle">return on attack</text>
 
-  <rect class="state" x="733" y="314" width="142" height="48" rx="4"/>
-  <text class="lbl"  x="804" y="334" text-anchor="middle">brute-force</text>
-  <text class="code" x="804" y="354" text-anchor="middle">BRUTE_FORCE</text>
+  <rect class="state" x="750" y="80" width="140" height="100" rx="4"/>
+  <text class="nm" x="820" y="105" text-anchor="middle">brute force</text>
+  <text class="sm" x="820" y="127" text-anchor="middle">guesses a login</text>
+  <text class="sm" x="820" y="145" text-anchor="middle">with stolen</text>
+  <text class="sm" x="820" y="163" text-anchor="middle">passwords</text>
 
-  <rect class="state" x="555" y="452" width="142" height="48" rx="4"/>
-  <text class="lbl"  x="626" y="472" text-anchor="middle">neighbours</text>
-  <text class="code" x="626" y="492" text-anchor="middle">SCAN_NEIGHBOR</text>
+  <rect class="state" x="545" y="250" width="180" height="100" rx="4"/>
+  <text class="nm" x="635" y="275" text-anchor="middle">scan neighbours</text>
+  <text class="sm" x="635" y="297" text-anchor="middle">puts the new host's</text>
+  <text class="sm" x="635" y="315" text-anchor="middle">neighbours at the</text>
+  <text class="sm" x="635" y="333" text-anchor="middle">front of the list</text>
 </g>
-
-<path class="win" d="M40,500 H76"/>
-<text class="sm" x="86" y="506">takes the host</text>
 </svg>
 </body></html>

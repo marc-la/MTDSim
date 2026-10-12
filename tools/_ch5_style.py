@@ -4,7 +4,7 @@ Everything here is the contract tools/ch5_unopposed_figures.py set on
 2026-09-15 and the later generators reuse rather than re-pick: the TikZ
 standalone preamble (12 pt, helvet 0.92, 2 pt border), the series encoding
 (one hue and one marker per attack profile; the baseline attacker a dashed
-grey line, or a hatched bar where the series is an arm), the presentation
+grey line, or a solid grey bar where the series is an arm), the presentation
 names, the mechanism short names, the axis helper and the compile-and-measure
 step that prints the fits / TOO WIDE verdict against \\textwidth.
 
@@ -22,12 +22,14 @@ TEXTWIDTH_CM = 455.24 / 28.45  # 16.0 cm, measured
 PACK_CM = 15.7                 # natural width a full-width figure packs to
 FONT = r"\footnotesize"
 
+# The attack graph before partition (corpus profile "aggregate", once c_agg)
+# left every chapter 5 float on 2026-10-02 (Marc): it is Section 5.4.1's
+# ablation arm, read there by data/results/ch5_defended/partition_ablation.py.
 PROFILES = (
     "objective_exfiltration",
     "objective_impact",
     "objective_exfiltration_impact",
     "objective_none_c2",
-    "aggregate",
 )
 FOUR = PROFILES[:4]
 LABEL = {
@@ -88,7 +90,7 @@ SHORT = {
     "alternative": "alternative", "random_four": "random (four)", "mtdshield": "MTDShield",
 }
 LONG = {
-    "none": "no defence", "ip_shuffle": "IP shuffle", "complete_topology": "complete topology shuffle",
+    "none": "no MTD", "ip_shuffle": "IP shuffle", "complete_topology": "complete topology shuffle",
     "host_topology": "host topology shuffle", "port_shuffle": "port shuffle", "user_shuffle": "user shuffle",
     "os_diversity": "OS diversity", "service_diversity": "service diversity",
     "random": "random", "alternative": "alternative",
@@ -124,6 +126,11 @@ def marker(w, kind: str, col: str, x: float, y: float, r: float = 0.075) -> None
         w(r"\fill[%s] (%.3f,%.3f) -- (%.3f,%.3f) -- (%.3f,%.3f) -- cycle;" % (col, x - r * 1.1, y - r * 0.9, x + r * 1.1, y - r * 0.9, x, y + r * 1.2))
     elif kind == "downtriangle":
         w(r"\fill[%s] (%.3f,%.3f) -- (%.3f,%.3f) -- (%.3f,%.3f) -- cycle;" % (col, x - r * 1.1, y + r * 0.9, x + r * 1.1, y + r * 0.9, x, y - r * 1.2))
+    elif kind == "cross":  # a bound, never an attacker (§5.4.2: every exploit succeeding)
+        w(r"\draw[%s,line width=0.6pt] (%.3f,%.3f) -- ++(%.3f,%.3f) (%.3f,%.3f) -- ++(%.3f,%.3f);"
+          % (col, x - r, y - r, 2 * r, 2 * r, x - r, y + r, 2 * r, -2 * r))
+    elif kind == "ocircle":  # open circle: a series that must not read as filled (§5.4.2, memory off)
+        w(r"\filldraw[fill=white,draw=%s,line width=0.6pt] (%.3f,%.3f) circle (%.3fcm);" % (col, x, y, r * 0.9))
     elif kind == "diamond":
         w(r"\fill[%s] (%.3f,%.3f) -- (%.3f,%.3f) -- (%.3f,%.3f) -- (%.3f,%.3f) -- cycle;" % (col, x, y + r * 1.25, x + r * 1.1, y, x, y - r * 1.25, x - r * 1.1, y))
 
@@ -153,6 +160,72 @@ def axes(w, X0, X1, Y0, Y1, *, xticks, yticks, xlabel, ylabel, ylabels=True,
 
 def panel_letter(w, x: float, y: float, letter: str) -> None:
     w(r"\node[anchor=south west,font=\footnotesize\bfseries] at (%.3f,%.3f) {(%s)};" % (x, y, letter))
+
+
+# --- the results-figure layout (figure_table_conventions.md §o, 2026-09-30) -----
+# Every panel's title and every key sit in the same place in every results
+# figure, so these helpers are the only way a generator draws them:
+#   panel title -- above its plot, left edge on that panel's y-axis
+#   key         -- one per figure, at the bottom, under the x-axis title, left
+#                  edge on the first y-axis (key_below; Marc 2026-10-05, after the
+#                  supervisor: "have all your keys in the same place")
+TITLE_GAP = 0.08   # plot top to the title's baseline box
+TITLE_H = 0.42     # a title line's height, for stacking a key under it
+KEY_H = 0.42       # a key row's height
+BASE_DASH = "dash pattern=on 2.4pt off 1.4pt"  # the baseline attacker's line, every figure
+DOT = "dash pattern=on 0.9pt off 1.3pt"  # a bound, never an attacker (§5.4.2: every exploit succeeds)
+
+
+def panel_title(w, x: float, ytop: float, title: str, letter: str | None = None) -> float:
+    """``(a)  Title`` above a plot whose y-axis is at ``x`` and top at ``ytop``;
+    a single-panel figure passes no letter. Returns the y above the title."""
+    head = (r"\textbf{(%s)}\enspace " % letter if letter else "") + title
+    w(r"\node[anchor=south west,inner sep=0pt] at (%.3f,%.3f) {%s};" % (x, ytop + TITLE_GAP, head))
+    return ytop + TITLE_GAP + TITLE_H
+
+
+def key_row(w, x: float, y: float, entries, *, xmax: float | None = None, gap: float = 0.6) -> float:
+    """One key row, left edge at ``x``, centred on ``y``; wraps at ``xmax``.
+    ``entries``: (label, kind, colour, marker) where kind is ``line``,
+    ``dashed`` (line + marker), ``dotted`` (a bound), ``bar`` (solid swatch), ``hatch`` (a
+    hatched swatch; no results figure uses it since 2026-10-05) or ``band`` (a shaded region), or two joined by
+    ``+`` where one series is drawn both ways (``bar+line``). Returns the last
+    row's y."""
+    glyph_w = {"line": 0.68, "dashed": 0.68, "dotted": 0.68, "bar": 0.36, "hatch": 0.36, "band": 0.36}
+    x0 = x
+    for label, kind, col, mark in entries:
+        parts = kind.split("+")
+        plain = label.replace("$", "").replace(r"\mathrm", "").replace("{", "").replace("}", "")
+        width = sum(glyph_w[k] for k in parts) + 0.155 * len(plain) + gap
+        if xmax is not None and x > x0 and x + width > xmax:
+            x, y = x0, y - KEY_H
+        tx = x
+        for k in parts:
+            if k in ("line", "dashed", "dotted"):
+                style = "%s,line width=0.8pt%s" % (col, {"dashed": "," + BASE_DASH, "dotted": "," + DOT}.get(k, ""))
+                w(r"\draw[%s] (%.3f,%.3f) -- (%.3f,%.3f);" % (style, tx, y, tx + 0.6, y))
+                if mark:
+                    marker(w, mark, col, tx + 0.3, y, r=0.065)
+            elif k == "hatch":
+                w(r"\fill[pattern=north east lines,pattern color=%s] (%.3f,%.3f) rectangle ++(0.30,0.22);" % (col, tx, y - 0.11))
+                w(r"\draw[%s,line width=0.3pt] (%.3f,%.3f) rectangle ++(0.30,0.22);" % (col, tx, y - 0.11))
+            else:  # bar, band
+                w(r"\fill[%s] (%.3f,%.3f) rectangle ++(0.30,0.22);" % (col, tx, y - 0.11))
+            tx += glyph_w[k]
+        w(r"\node[anchor=west] at (%.3f,%.3f) {%s};" % (tx, y, label))
+        x += width
+    return y
+
+
+KEY_SEP = 0.2      # the lowest drawn element's bottom edge to the key row's top
+XTITLE_H = 0.40    # an x-axis title's height, for a generator that passes its north anchor
+
+
+def key_below(w, x: float, ylow: float, entries, *, xmax: float | None = None) -> float:
+    """The figure's one key, at the bottom: its first row's top ``KEY_SEP`` under
+    ``ylow`` (the bottom edge of the lowest thing drawn, usually the x-axis
+    title), left edge at ``x`` (the first y-axis). Returns the last row's y."""
+    return key_row(w, x, ylow - KEY_SEP - KEY_H / 2, entries, xmax=xmax)
 
 
 def errorbar(w, x: float, lo: float, hi: float, col: str = "black!70", cap: float = 0.05) -> None:
@@ -194,3 +267,62 @@ def pm(iv: dict, nd: int = 1) -> str:
 
 def interval_str(point: float, lo: float, hi: float, nd: int = 2) -> str:
     return "$%.*f$ [%.*f, %.*f]" % (nd, point, nd, lo, nd, hi)
+
+
+# --- reporting thresholds shared by every chapter 5 table -----------------------
+# An MTTC is reported only over enough runs (docs/workflows/results_presentation_
+# standard.md N1, Marc 2026-10-02), after the NCHS standard for rates from 2023
+# data (Kochanek et al. 2024, s. 3, p. 18): at least 10 events, and a 95 %
+# interval no wider than 160 % of the estimate. MTTC is a mean over the runs
+# that compromise a target host, not a rate, so the threshold is borrowed by
+# declared analogy.
+MTTC_MIN_RUNS = 10
+MTTC_MAX_REL_WIDTH = 1.6
+
+
+def mttc_unreported(iv: dict | None) -> str | None:
+    """Why an MTTC (``{"n", "mean", "ci95"}``) is not reported, or None when it is."""
+    if not iv or iv["n"] < MTTC_MIN_RUNS:
+        return "runs"
+    if 2 * iv["ci95"] / iv["mean"] > MTTC_MAX_REL_WIDTH:
+        return "width"
+    return None
+
+
+def mttc_dash_decode(reasons: set) -> str:
+    """The caption's decode of the MTTC dash, naming only the reasons that fired."""
+    why = []
+    if "runs" in reasons:
+        why.append("fewer than %d runs compromise a target host" % MTTC_MIN_RUNS)
+    if "width" in reasons:
+        why.append(r"its 95\,\%% interval is wider than %d\,\%% of its value" % round(100 * MTTC_MAX_REL_WIDTH))
+    return (" A dash marks an MTTC not reported: %s." % " or ".join(why)) if why else ""
+
+
+def bounded(v: float, nd: int = 2, lo: float | None = None, hi: float | None = None) -> str:
+    """A value at ``nd`` decimals that never prints a bound of its scale it does
+    not reach (results presentation standard P2, Marc 2026-10-02): a reduction
+    of 0.997 is "> 0.99", not 1.00; an ASP of 0.0003 is "< 0.01", not 0.00.
+    A value that rounds to zero prints no sign."""
+    step = 10.0 ** -nd
+    if hi is not None and v < hi and round(v, nd) >= hi:
+        return r"${>}%.*f$" % (nd, hi - step)  # braced: no relation spacing
+    if lo is not None and v > lo and round(v, nd) <= lo:
+        return r"${<}%.*f$" % (nd, lo + step)
+    t = "%.*f" % (nd, v)
+    return "$%s$" % ("0." + "0" * nd if t == "-0." + "0" * nd else t)
+
+
+# --- interval names: one name per method in every caption (standard I1, I2) ------
+IV_BOOT = r"95\,\% percentile bootstrap interval over runs"
+IV_MEAN = r"95\,\% interval on the mean (normal approximation)"
+IV_PROP = r"95\,\% Clopper--Pearson interval"
+
+
+def clopper_pearson(k: int, n: int) -> tuple[float, float]:
+    """The exact 95 % interval on a proportion k/n (standard N4: the NCHS
+    proportions standard, Vital Health Stat 2(175), uses it, not Wald)."""
+    from scipy.stats import beta
+    lo = 0.0 if k == 0 else float(beta.ppf(0.025, k, n - k + 1))
+    hi = 1.0 if k == n else float(beta.ppf(0.975, k + 1, n - k))
+    return lo, hi

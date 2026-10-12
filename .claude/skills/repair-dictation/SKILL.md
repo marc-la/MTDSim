@@ -147,6 +147,13 @@ here** rather than leaving the knowledge in chat.
 | STR operation | SDR operation |
 | Wanna tackle | one attacker (in the triad "one network, one defence, one attacker") |
 | (high level of) obstruction | abstraction |
+| AP2 techers | APT attackers |
+| learning capital attackers | learning-capable attackers |
+| exploit vulner(UMM) | the exploit action (EXPLOIT_VULN; no code identifiers in prose) |
+| enumerative (vulnerability) | enumerated |
+| increase to erase the odds | increase to raise the odds |
+| CSVB | CVSS |
+| has a stepping stone | as a stepping stone |
 
 ### Danger minimal pairs — a mishear flips a claim, always verify-list these
 

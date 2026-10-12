@@ -1,5 +1,35 @@
-% 2026-09-29 (ruling B/C, handoff 2026-09-29_s45_equation_clarity.md): attack rate per
-% minute; attack confidentiality's gloss names the detector's kind.
+% ROUND 6, 2026-10-05 (Marc: the Property column "reads as a bit sparse",
+% properties in two groups unexplained; "it's actually worse having it there";
+% the gaps between the groups and the stripes read as inconsistent). The
+% Property column is DROPPED (round 5 overturned; the property each metric
+% records is in the 4.5 preamble and the 4.5.1 and 4.5.3 openers); caption back
+% to the metrics and their sources; the \addlinespace gaps are gone, so the
+% group rows alone mark the groups (stripes kept by the 2026-10-01 house
+% ruling until Marc rules on them thesis-wide). DRAFT STATE --- ratify on read.
+% ROUND 5, 2026-10-05 (Marc accepted the section 4.5 frame): a Property column,
+% the property of an APT attacker (Table 3.2) each metric records, so the table
+% shows the preamble's argument: the adopted metrics record none, the added ones
+% do. A blank cell is not applicable (results presentation standard). Attack
+% actions blocked is blank: it depends on pace, not response (section 4.5.3).
+% DRAFT STATE --- ratify on read.
+% 2026-09-30 (source verification, three independent reviewers against the source text):
+% distinct attack paths is this dissertation's, after Hong (Hong's APV/APN measure change
+% between network states, not a count); NCR cites Zhang only (Ho's HCR is an input feature
+% under another name); MTTC credits McQueen as the origin.
+% 2026-09-30: the compromise rate after an MTD deployment replaced by time lost per MTD
+% deployment (the extra time to the next compromise; handoff 2026-09-30_disruption_metrics.md).
+% ROUND 3, 2026-09-29 (Marc: the Measures column was vague, and a one-line gloss
+% cannot be specific without defeating its purpose; the side-label grouping read
+% poorly; "adapted" is implicit, since metrics do not port between papers). Now two
+% columns, the metric and its source, as Marc asked, with each group a full-width
+% heading row that names its section, so a reader looking up a metric from a
+% chapter 5 float goes straight to its definition. The dagger is gone. "this
+% thesis" -> "this dissertation" (the ratified row). Earlier rounds below.
+% DRAFT STATE --- ratify on read.
+% ROUND 4, 2026-09-29 (Marc: "careful the formatting of 4.3, can you fix that
+% up"): the zebra rows are off here, since alternating shading ran across the
+% group heading rows and read as noise; the groups carry the structure. Rows
+% renamed on rulings F and the APV replacement.
 % ROUND 2, 2026-09-25 (Marc: "is it conventional to have description, source and
 % equation as a table ... a big table, hard to follow ... what is needed for a
 % headline table of evaluation metrics"). The EQUATION column is CUT: only one
@@ -36,7 +66,7 @@
 %     455.2 pt. DRAFT STATE --- ratify on read.
 % CUT 2026-09-25 (Marc: "all the metrics need to be there for a purpose ... if they're not,
 % we have to cut it"): ATTACK ACTIONS BLOCKED. It served one float (Table 5.3) for one
-% attacker (structurally zero on the baseline), read 0.24 with no defence (a failed
+% attacker (structurally zero on the baseline), read 0.24 with no MTD (a failed
 % precondition, not an MTD block), and its Brown attribution was already disputed
 % (Brown's metric is our interrupt). Ten metrics remain.
 % 2026-09-24 (Figure 5.3 rebuild, results context §8g-5): recovery time -> TIME LOST (the
@@ -97,7 +127,7 @@
 %     on the self-scoring question: calling them validation is a claim of proof a
 %     self-chosen instrument set cannot carry ("you can be selective about it ---
 %     that's the whole issue"). Evaluation conventions §f has the honest word:
-%     attacker-property claims are taken from the no-defence arm and reported as
+%     attacker-property claims are taken from the no-MTD arm and reported as
 %     OBSERVATIONS, and the verdict they add up to belongs in the discussion. They
 %     are therefore declared in §5.3, where they are first used (conventions §a),
 %     and this table holds only what evaluates a defence. Twelve rows became eight.
@@ -126,7 +156,7 @@
 %   (evaluation.py:126, compromised_num / host_num), and Zhang's NCR is the
 %   checkpoint metric that ends the run and fixes where MTTC is read; ours is the
 %   distinct hosts reached across a whole run, and the number actually REPORTED
-%   is its suppression against the no-defence arm (analyse.py:227). On a fixed
+%   is its suppression against the no-MTD arm (analyse.py:227). On a fixed
 %   50-host network a count and a ratio differ by a constant, but a difference
 %   from a control is neither. (ii) NEITHER PAPER REPORTS IT AS A RESULT: Ho
 %   declares eleven selector FEATURES and four EVALUATION metrics (ASR, RoA, APE,
@@ -162,7 +192,7 @@
 % (4) ADAPTED FROM answers adopted-against-new in the float.
 % (5) DEPLOYMENT TEMPO is out: it reads one over the declared interval on every
 %     defended condition at both intervals (numbers.json, s55/by_interval), so it
-%     checks the manipulation and judges no defence. The caption's declared
+%     checks the manipulation and judges no MTD. The caption's declared
 %     divergence from Table 3.1 existed only for that row and leaves with it.
 % (6) ONE QUANTITY PER ROW; two reported quantities that had no row are declared.
 % (7) DEFINITIONS USE ONLY WORDS THE READER HAS MET: objective (Table 2.5),
@@ -196,25 +226,26 @@
 % which §4.4.1 says have no action in flight (metrics_semantics.md §d2).
 \begin{table}[htbp]
   \centering
-  \caption[The evaluation metrics]{The evaluation metrics and their sources, each defined in Section~\ref{sec:evaluation-metrics}. $^{\dagger}$Adapted from the source; Section~\ref{sec:evaluation-metrics} states the change.}
+  \caption[The evaluation metrics]{The evaluation metrics and their sources.}
   \label{tab:metrics}
-  \tablestyle\setlength{\tabcolsep}{4pt}
-  \begin{tabular}{@{}P{1.9cm}P{5.5cm}P{5.8cm}P{1.9cm}@{}}
+  \tablestyle
+  \begin{tabular}{@{}lP{6.0cm}@{}}
     \toprule
-    & Metric & Measures & Source \\
+    Metric & Source \\
     \midrule
-    & Relative tactic occurrence & share of steps in each tactic & \citep{rodriguez2024}$^{\dagger}$ \\
-     & Attack path variation (APV) & share of runs that open differently & \citep{hong2018}$^{\dagger}$ \\
-     & Attack rate & actions per minute of active time & \citep{zhan2013}$^{\dagger}$ \\
-    \multirow{-4}{1.9cm}{Attacker behaviour} & Attack confidentiality & share of actions a rate alarm does not flag & \citep{zaffarano2015}$^{\dagger}$ \\
-    \midrule
-    & Attack success probability (ASP) & share of runs that take a target & \citep{cho2020} \\
-     & Network compromise ratio (NCR) & share of hosts compromised & \citep{zhang2023, ho2024} \\
-    \multirow{-3}{1.9cm}{Attack outcome} & Mean time to compromise (MTTC) & mean time to the first compromise & \citep{zhang2023}$^{\dagger}$ \\
-    \midrule
-    & NCR reduction & share of no-defence NCR removed & \citep{alavizadeh2022}$^{\dagger}$ \\
-     & NCR growth rate & pace of compromise after deployment & this thesis \\
-    \multirow{-3}{1.9cm}{MTD effectiveness} & Time lost per MTD deployment & progress lost to one deployment & this thesis \\
+    \rowcolor{white}\multicolumn{2}{@{}l}{\grouplabel{Attacker behaviour} (Section~\ref{subsec:metrics-behaviour})} \\
+    \quad Relative tactic occurrence & \citep{rodriguez2024} \\
+    \quad Distinct openings & this dissertation, after \citep{hong2018} \\
+    \quad Attack rate & \citep{zhan2013} \\
+    \quad Attack confidentiality & \citep{zaffarano2015} \\
+    \rowcolor{white}\multicolumn{2}{@{}l}{\grouplabel{Attack outcome} (Section~\ref{subsec:metrics-outcome})} \\
+    \quad Attack success probability (ASP) & \citep{cho2020} \\
+    \quad Network compromise ratio (NCR) & \citep{zhang2023} \\
+    \quad Mean time to compromise (MTTC) & \citep{mcqueen2006, zhang2023} \\
+    \rowcolor{white}\multicolumn{2}{@{}l}{\grouplabel{MTD effectiveness} (Section~\ref{subsec:metrics-effectiveness})} \\
+    \quad NCR reduction & \citep{alavizadeh2022} \\
+    \quad Attack actions blocked per MTD deployment & \citep{brown2023} \\
+    \quad Time lost per MTD deployment & this dissertation, after \citep{royston2013} \\
     \bottomrule
   \end{tabular}
 \end{table}

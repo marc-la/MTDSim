@@ -9,11 +9,16 @@ Pipeline (option B, ch3 §3.1.2 exemplar):
 
 What it does, and why (see docs/workflows/figure_table_conventions.md):
   - Recolours to greys + one accent. Recognisability lives in the *grammar*
-    (condition boxes with True/False tabs, the OR operator node, effect-edge
-    routing), not the palette, so neutralising the Builder's blue/green/red to
+    (condition boxes, the OR operator node, effect-edge routing), not the
+    palette, so neutralising the Builder's blue/green/red to
     greys + the thesis accent (RGB 31,84,140) keeps it obviously Attack Flow
     while bringing it into the house palette. The OR operator is the one node
     class that carries the accent ("the one thing the figure is about").
+  - Drops the True/False outcome tabs on the condition nodes (Marc,
+    2026-10-01: the reader does not need Attack Flow's condition-outcome
+    notation). An effect edge that left from a tab is re-anchored on the
+    box's edge, straightened when its target row lies within the box, so no
+    connector stub is left floating where a tab was.
   - Injects the ATT&CK technique id above each action box (Presentation mode
     drops it; the §3.1.2 prose cites the ids).
   - Leaves the Builder's native 14u label size untouched (bumping it overflows
@@ -83,6 +88,12 @@ NAME_TO_TID = {
 
 GROUP_RE = re.compile(r"<g\b[^>]*>.*?</g>", re.DOTALL)
 VIEWBOX_RE = re.compile(r'viewBox="0 0 ([0-9.]+) [0-9.]+"')
+TRANSLATE_RE = re.compile(r'transform="translate\(([-0-9.]+),\s*([-0-9.]+)\)"')
+RECT_RE = re.compile(r'<rect\b[^>]*\bwidth="([0-9.]+)"[^>]*\bheight="([0-9.]+)"')
+CIRCLE_RE = re.compile(r'<circle\b[^>]*/>')
+CIRCLE_GEOM_RE = re.compile(r'\bcx="([-0-9.]+)"[^>]*\bcy="([-0-9.]+)"[^>]*\br="([0-9.]+)"')
+TAB_TEXT_RE = re.compile(r'<text\b[^>]*>\s*[TF]\s*</text>')
+PATH_D_RE = re.compile(r'(<path\b[^>]*\bd=")([^"]*)(")')
 TSPAN_RE = re.compile(r"<tspan[^>]*>(.*?)</tspan>", re.DOTALL)
 RECTW_RE = re.compile(r'<rect[^>]*\bwidth="([0-9.]+)"')
 
@@ -121,10 +132,10 @@ def restyle_group(block: str) -> str:
     elif cls == "condition":
         block = block.replace(f'fill="{B_COND_FILL}"', f'fill="{ACCENTLIGHT}"')
         block = block.replace(f'stroke="{B_COND_LINE}"', f'stroke="{ACCENT}"')
-        block = block.replace(f'fill="{B_COND_LINE}"', f'fill="{ACCENT}"')  # T/F letters
-        block = block.replace(f'fill="{WHITE}"', f'fill="{INK}"')           # label; circle fills restored below
-        # the True/False tab circles were white-filled -> keep them white (not ink).
-        block = block.replace(f'fill="{INK}" stroke="{ACCENT}"', f'fill="{WHITE}" stroke="{ACCENT}"')
+        block = block.replace(f'fill="{WHITE}"', f'fill="{INK}"')           # label text
+        # the True/False outcome tabs: circles and their T/F letters go.
+        block = CIRCLE_RE.sub("", block)
+        block = TAB_TEXT_RE.sub("", block)
     elif cls == "operator":
         block = block.replace(f'fill="{B_OP_FILL}"', f'fill="{ACCENT}"')
         block = block.replace(f'stroke="{B_OP_LINE}"', f'stroke="{ACCENT_DK}"')
@@ -132,8 +143,57 @@ def restyle_group(block: str) -> str:
     return block
 
 
+def condition_tabs(svg: str) -> list[tuple[float, float, float, float, float, float, float]]:
+    """Absolute geometry of every condition node's outcome tabs, read before
+    they are dropped: (tab cx, cy, r, box x0, y0, x1, y1)."""
+    tabs = []
+    for m in GROUP_RE.finditer(svg):
+        block = m.group(0)
+        if node_class(block) != "condition":
+            continue
+        tr, rect = TRANSLATE_RE.search(block), RECT_RE.search(block)
+        tx, ty = float(tr.group(1)), float(tr.group(2))
+        bw, bh = float(rect.group(1)), float(rect.group(2))
+        for c in CIRCLE_RE.findall(block):
+            cx, cy, r = (float(v) for v in CIRCLE_GEOM_RE.search(c).groups())
+            tabs.append((tx + cx, ty + cy, r, tx, ty, tx + bw, ty + bh))
+    return tabs
+
+
+def reanchor_edges(svg: str, tabs) -> tuple[str, int]:
+    """Move every edge end that sat on a dropped tab onto the box's edge.
+
+    An edge leaving a right-hand tab starts at (cx + r, cy). It is re-started
+    on the box's right edge; if its final row lies within the box, the elbow
+    the tab forced is straightened to one horizontal run at that row."""
+    moved = 0
+
+    def fix(m: re.Match) -> str:
+        nonlocal moved
+        pts = [tuple(float(v) for v in xy) for xy in
+               re.findall(r"[ML]\s*([-0-9.]+)\s+([-0-9.]+)", m.group(2))]
+        for cx, cy, r, x0, y0, x1, y1 in tabs:
+            for end in (0, -1):
+                px, py = pts[end]
+                if abs(abs(px - cx) - r) < 0.5 and abs(py - cy) < 0.5:
+                    edge_x = x1 if px > cx else x0
+                    other = pts[-1] if end == 0 else pts[0]
+                    if y0 < other[1] < y1:            # straight run at the far row
+                        pts = [(edge_x, other[1]), other] if end == 0 else [other, (edge_x, other[1])]
+                    else:
+                        pts[end] = (edge_x, py)
+                    moved += 1
+        d = " ".join(("M" if i == 0 else "L") + f" {x:g} {y:g}" for i, (x, y) in enumerate(pts))
+        return m.group(1) + d + m.group(3)
+
+    return PATH_D_RE.sub(fix, svg), moved
+
+
 def main() -> None:
     svg = SRC.read_text()
+    # 0) the condition tabs' geometry, then re-anchor any edge that used one.
+    tabs = condition_tabs(svg)
+    svg, n_moved = reanchor_edges(svg, tabs)
     # 1) node groups.
     svg = GROUP_RE.sub(lambda m: restyle_group(m.group(0)), svg)
     # 1b) font stack. The Builder sized every box to *Inter* metrics, but on a box
@@ -181,6 +241,7 @@ def main() -> None:
     print(f"wrote {OUT.relative_to(ROOT)}")
     print(f"wrote {pdf_note}")
     print(f"technique-id tags injected: {n_tid}/10")
+    print(f"condition outcome tabs dropped: {len(tabs)}; edges re-anchored: {n_moved}")
     print(f"viewBox width {vb_width:.0f}u; native 14u labels -> "
           f"~{printed:.1f}pt at portrait \\textwidth ({PORTRAIT_PT:.0f}pt)")
 

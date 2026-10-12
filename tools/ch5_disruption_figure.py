@@ -1,172 +1,125 @@
 #!/usr/bin/env python3
-"""Chapter 5 §5.3.1's one float, Figure 5.3: what an MTD deployment does to each
-attacker, and what it costs each.
+"""Chapter 5 §5.3.1's floats: Figure 5.3, what an MTD deployment costs each
+attacker, and Table 5.x beside it.
 
-REBUILT 2026-09-24 on Marc's ruling and two review rounds (results context
-handoff §8g-5). The takeaways it is built to carry, and nothing else:
-  R1  a deployment knocks each attacker down: its compromise rate drops when
-      the deployment completes;
-  R2  the mechanism that knocks an attacker down hardest also keeps it down
-      longest (recovery follows the mechanism, not the attacker: pooled over
-      mechanisms the baseline attacker looked quick to recover, which review
-      round 1 showed was the mix of mechanisms, not the attacker);
-  R3  the mechanism that costs one attacker most is not the one that costs the
-      other most.
+REBUILT 2026-09-30 on the metrics Section 4.5.3 now defines (Marc's rulings;
+record docs/implementation/disruption_mechanism.md; handoff
+docs/handoffs/2026-09-30_disruption_metrics.md). The compromise rate after an MTD
+deployment is retired with its reader, disruption.py; time_lost.py is the reader.
 
-  (a), (b) NCR growth rate around a deployment of the mechanism that costs
-      each attacker most (chosen by rule from (c), never typed): hosts
-      compromised per unit of live time, 1 000 s before to 1 000 s after the
-      deployment completes (half the interval each side, ruling A 2026-09-29), as a percentage of the attacker's own rate before;
-      both attackers in each panel; the shaded band is the deployment running
-      (its median duration), 0 is when it completes.
-  (c) Time lost per MTD deployment (the name ruled 2026-09-24), per mechanism, both attackers, with seeded
-      bootstrap intervals (the window after times the share of pace lost over
-      it --- the area of the dip in one slice --- as seconds at the attacker's
-      own pace, less the same read at the same moments with no defence).
+  (a) attack actions blocked per run and (b) time lost per MTD deployment, for
+      each MTD mechanism deployed alone, both attackers, on one mechanism axis
+      (2026-09-30, Marc: the former (a), (b), the share of deployments followed by
+      a compromise within t, is no metric of Table 4.3, so it went).
+  Table: attack actions blocked per run and time lost per MTD deployment, per MTD
+      mechanism, both attackers.
 
-Both at the 2 000 s deployment interval (at 200 s the next deployment lands
-inside the window; that interval is a body sentence, printed below).
-
-Data: data/results/ch5_defended/disruption_numbers.json (disruption.py beside
-the corpus). Nothing is typed. Earlier forms are in git history.
+At the 2 000 s deployment interval. Nothing is typed.
 
 Usage:
   python tools/ch5_disruption_figure.py [--numbers PATH] [--no-compile]
 
-Writes docs/thesis/figures/fig_5-2-2a_disruption_response.{tex,pdf}
+Writes docs/thesis/figures/fig_5-2-2a_disruption_response.{tex,pdf} and
+docs/thesis/tables/tab_5-3-1b_disruption.tex
 """
 from __future__ import annotations
 
 import argparse
+import math
 import json
 import sys
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from _ch5_style import (FONT, LABEL, LONG, PREAMBLE, REPO, axes, compile_fig, errorbar,  # noqa: E402
-                        fmt_thousands, marker, panel_letter, write_fig)
+from _ch5_style import (BASE_DASH, IV_BOOT, bounded, FONT, LABEL, LONG, PREAMBLE, REPO, axes, compile_fig,  # noqa: E402
+                        errorbar, fmt_thousands, key_below, marker, panel_title, write_fig)
 from ch5_effectiveness_figures import LAYER, PANEL_SINGLES, TICK  # noqa: E402
 
-NUMBERS = REPO / "data" / "results" / "ch5_defended" / "disruption_numbers.json"
+# the reported corpus (1 000 seeds, the vulnerability memory on; 2026-10-02)
+NUMBERS = REPO / "data" / "results" / "ch5_defended" / "time_lost_numbers_reported.json"
+TABLE = REPO / "docs" / "thesis" / "tables" / "tab_5-3-1b_disruption.tex"
 STEM = "fig_5-2-2a_disruption_response"
 INTERVAL = 2000
-ARMS = (("movement", "cmov", "circle"), ("baseline", "cbase", "square"))
+# the series contract (conventions §o rule 5; Marc 2026-10-05): the APT attacker
+# model pooled is black, the baseline attacker a solid grey bar, as every figure
+ARMS = (("movement", "black", "circle"), ("baseline", "cbase", "square"))
 
 
 def signed(v: float) -> str:
     return (r"$-$" + fmt_thousands(-v)) if v < 0 else fmt_thousands(v)
 
 
+def _bars(w, tl, X0, X1, BY0, BH, key: str, lohi, *, step: float, fmt, ylabel: str, facts: list[str], tag: str) -> None:
+    """One panel of paired bars per mechanism (the APT attacker model black, the
+    baseline attacker grey), 95 % whiskers, zero line; ``key`` reads the value
+    and ``lohi`` its interval from a cell."""
+    by1 = BY0 + BH
+    lo_v = min(lohi(v)[0] for v in tl.values())
+    hi_v = max(lohi(v)[1] for v in tl.values())
+    Y0 = -step * (int(-lo_v // step) + 1) if lo_v < 0 else 0.0
+    Y1 = step * math.ceil(round(hi_v / step, 6))  # no empty tick above the data (a count per deployment tops at 1)
+
+    def yb(v):
+        return BY0 + (max(Y0, min(Y1, v)) - Y0) / (Y1 - Y0) * BH
+
+    slot = (X1 - X0) / len(PANEL_SINGLES)
+    bw = 0.34
+    xt = [(m, X0 + (i + 0.5) * slot) for i, m in enumerate(PANEL_SINGLES)]
+    n = int(round((Y1 - Y0) / step))
+    axes(w, X0, X1, BY0, by1,
+         xticks=[("", x) for _, x in xt],
+         yticks=[(Y0 + k * step, yb(Y0 + k * step)) for k in range(n + 1)],
+         xlabel="", ylabel="", xfmt=lambda v: v, yfmt=fmt)
+    w(r"\node[rotate=90,anchor=south,align=center] at (%.3f,%.3f) {%s};" % (X0 - 0.85, (BY0 + by1) / 2, ylabel))
+    if Y0 < 0:
+        w(r"\draw[black!60,line width=0.4pt] (%.3f,%.3f) -- (%.3f,%.3f);" % (X0, yb(0), X1, yb(0)))
+    for m, x in xt:
+        for j, (arm, col, _) in enumerate(ARMS):
+            v = tl[(arm, m)]
+            s_, (lo, hi) = key(v), lohi(v)
+            xl = x - bw + j * bw
+            top, bot = yb(max(s_, 0)), yb(min(s_, 0))
+            w(r"\fill[%s] (%.3f,%.3f) rectangle (%.3f,%.3f);" % (col, xl, bot, xl + bw - 0.03, top))
+            if top - bot < 0.03:  # a value near zero: a stub at it, so it does not read as missing
+                w(r"\draw[%s,line width=0.8pt] (%.3f,%.3f) -- (%.3f,%.3f);" % (col, xl, yb(s_), xl + bw - 0.03, yb(s_)))
+            errorbar(w, xl + (bw - 0.03) / 2, yb(lo), yb(hi), col="black!70", cap=0.035)
+            facts.append(f"({tag}) {arm:9s} {m:18s} {s_:8.2f} [{lo:8.2f}, {hi:8.2f}]")
+
+
 def emit(d: dict) -> tuple[str, list[str]]:
-    edges = d["edges"]
-    mids = [(a + b) / 2 for a, b in zip(edges[:-1], edges[1:])]
-    R = d["reads"]
-    tl = {(a, m): R[f"{a}|{m}|{INTERVAL}"]["time_lost"] for a, _, _ in ARMS for m in PANEL_SINGLES}
-    worst = {a: max(PANEL_SINGLES, key=lambda m: tl[(a, m)]["seconds"]) for a, _, _ in ARMS}
-    X0, X1 = 1.45, 15.2
+    """Figure 5.3 (rebuilt 2026-09-30 on Marc's read: the share of deployments
+    followed by a compromise is no metric of Table 4.3, so its two panels go):
+    (a) attack actions blocked and (b) time lost per MTD deployment, each for
+    every MTD mechanism deployed alone, both attackers, on one mechanism axis."""
+    C = d["cells"]
+    tl = {(a, m): C[f"{a}|{m}|{INTERVAL}"] for a, _, _ in ARMS for m in PANEL_SINGLES}
+    X0, X1 = 1.45, 16.0   # packs to the chapter's 15.7 cm (conventions §h)
     L: list[str] = []
     w = L.append
     L += PREAMBLE
     w(r"\begin{tikzpicture}[x=1cm,y=1cm,every node/.style={inner sep=1pt,font=%s}]" % FONT)
     facts: list[str] = []
 
-    # ---- (a), (b): the curve around a deployment of each attacker's worst mechanism
-    AY0, AH, YMAX = 6.55, 3.7, 125.0
-    ay1 = AY0 + AH
-    GAP = 0.9
-    PW = (X1 - X0 - GAP) / 2
-    tmin, tmax = edges[0], edges[-1]
-    for k, (arm_worst, letter) in enumerate((("movement", "a"), ("baseline", "b"))):
-        m = worst[arm_worst]
-        x0 = X0 + k * (PW + GAP)
-        x1 = x0 + PW
-
-        def xa(t, x0=x0, x1=x1):
-            return x0 + (t - tmin) / (tmax - tmin) * (x1 - x0)
-
-        def ya(v):
-            return AY0 + max(0.0, min(v, YMAX)) / YMAX * AH
-
-        axes(w, x0, x1, AY0, ay1,
-             xticks=[(t, xa(t)) for t in range(int(tmin) + 500, int(tmax), 500)],  # inner ticks only: the panels' end labels collided at the join (2026-09-29)
-             yticks=[(v, ya(v)) for v in (0, 25, 50, 75, 100, 125)],
-             xlabel="", ylabel="", ylabels=(k == 0), xfmt=signed)
-        dur = R[f"movement|{m}|{INTERVAL}"]["deployment_seconds_median"]
-        w(r"\fill[black!10] (%.3f,%.3f) rectangle (%.3f,%.3f);" % (xa(-dur), AY0, xa(0), ay1))
-        # the band is named from above, over the band itself (Marc 2026-09-24: a label
-        # to its left read as "the deployment happens before the band")
-        w(r"\node[anchor=south,text=black!60] at (%.3f,%.3f) {MTD deployment};" % (xa(-dur / 2), ay1 + 0.04))
-        w(r"\draw[black!55,line width=0.4pt,dash pattern=on 1pt off 1.5pt] (%.3f,%.3f) -- (%.3f,%.3f);" % (x0, ya(100), x1, ya(100)))
-        panel_letter(w, x0 - (1.35 if k == 0 else 0.5), ay1 + 0.44, letter)
-        # the mechanism's name is the panel's title, a row above the band label:
-        # on the half-interval window the band sits mid-panel and no alignment
-        # kept the two apart on one row (2026-09-29)
-        w(r"\node[anchor=south west] at (%.3f,%.3f) {%s};" % (x0, ay1 + 0.46, LONG[m]))
-        # the dip, shaded under the 100 % line from the moment the deployment
-        # completes: (c)'s bar is this area (Marc 2026-09-24: read as a point on the
-        # time axis, the seconds in (c) did not match anything in (a)/(b)). Drawn
-        # before the lines so they sit on top; clipped to below the line.
-        for arm, col, _ in ARMS:
-            c = R[f"{arm}|{m}|{INTERVAL}"]
-            tv = list(zip(mids, c["relative_pct"]))
-            i0 = next(i for i, (t, _) in enumerate(tv) if t > 0)
-            (ta, va), (tb, vb) = tv[i0 - 1], tv[i0]
-            v0 = va + (vb - va) * (0 - ta) / (tb - ta)  # the curve at t = 0
-            poly = [(xa(0), ya(100)), (xa(0), ya(v0))] + [(xa(t), ya(v)) for t, v in tv[i0:]] + [(xa(tv[-1][0]), ya(100))]
-            w(r"\begin{scope}\clip (%.3f,%.3f) rectangle (%.3f,%.3f);" % (x0, AY0, x1, ya(100)))
-            w(r"\fill[%s,opacity=%s] %s -- cycle;" % (col, "0.16" if arm == "movement" else "0.22",
-                                                    " -- ".join("(%.3f,%.3f)" % p for p in poly)))
-            w(r"\end{scope}")
-        for arm, col, mk in ARMS:
-            c = R[f"{arm}|{m}|{INTERVAL}"]
-            pts = [(xa(t), ya(v)) for t, v in zip(mids, c["relative_pct"])]
-            dash = ",dash pattern=on 3pt off 1.8pt" if arm == "baseline" else ""  # the chapter's contract: the baseline is dashed grey
-            w(r"\draw[%s,line width=0.8pt%s] %s;" % (col, dash, " -- ".join("(%.3f,%.3f)" % p for p in pts)))
-            for x, y in pts:
-                marker(w, mk, col, x, y, r=0.06)
-            after = [v for t, v in zip(mids, c["relative_pct"]) if t > 0]
-            facts.append(f"({letter}) {LONG[m]:18s} {arm:9s} deployments {c['deployments']:5d}  first 125 s {after[0]:.0f} %  "
-                         f"in the last 125 s {after[-1]:.0f} %  rate before {c['pre_rate_per_ksec']:.2f} per 1 000 s  "
-                         f"(deployment runs {dur:.0f} s)")
-    w(r"\node[anchor=north] at (%.3f,%.3f) {time since the MTD deployment completed (s)};" % ((X0 + X1) / 2, AY0 - 0.42))
-    w(r"\node[rotate=90,anchor=south,align=center] at (%.3f,%.3f) {NCR growth rate (\%% of\\pre-deployment rate)};" % (X0 - 0.85, (AY0 + ay1) / 2))
-
-    # ---- (c) time lost per deployment, per mechanism ------------------------
-    BY0, BH = 1.55, 2.9
-    by1 = BY0 + BH
-    lo_v = min(v["lo"] for v in tl.values())
-    hi_v = max(v["hi"] for v in tl.values())
-    YB0 = -200.0 * (int(-lo_v // 200) + 1) if lo_v < 0 else 0.0
-    YB1 = 200.0 * (int(hi_v // 200) + 1)
-
-    def yb(v):
-        return BY0 + (max(YB0, min(YB1, v)) - YB0) / (YB1 - YB0) * BH
-
+    # ---- (a) attack actions blocked (top), (b) time lost (bottom) ----
+    # (a) attack actions blocked per MTD deployment, the metric as section 4.5.3
+    # defines it (Marc 2026-09-30: "we define these metrics ... then we present
+    # something that doesn't even exist"); the same unit as (b)
+    BY0, BH = 1.55, 3.0
+    AY0 = BY0 + BH + 0.95
+    _bars(w, tl, X0, X1, AY0, BH,
+          key=lambda v: v["blocked_per_deployment"]["point"],
+          lohi=lambda v: (v["blocked_per_deployment"]["lo"], v["blocked_per_deployment"]["hi"]),
+          step=0.25, fmt=lambda v: ("%.2f" % v).rstrip("0").rstrip("."), ylabel=r"Attack actions blocked",
+          facts=facts, tag="a")
+    panel_title(w, X0, AY0 + BH, "Attack actions blocked per MTD deployment", "a")
+    _bars(w, tl, X0, X1, BY0, BH,
+          key=lambda v: v["time_lost"], lohi=lambda v: tuple(v["time_lost_ci95"]),
+          step=200.0, fmt=signed, ylabel=r"Time lost (s)", facts=facts, tag="b")
+    panel_title(w, X0, BY0 + BH, "Time lost per MTD deployment", "b")
+    # the mechanism names once, under (b), with the layer brackets
     slot = (X1 - X0) / len(PANEL_SINGLES)
-    bw = 0.34
-    xt = [(m, X0 + (i + 0.5) * slot) for i, m in enumerate(PANEL_SINGLES)]
-    axes(w, X0, X1, BY0, by1,
-         xticks=[(TICK[m], x) for m, x in xt],
-         yticks=[(v, yb(v)) for v in range(int(YB0), int(YB1) + 1, 200)],
-         xlabel="", ylabel="", xfmt=lambda v: v, yfmt=signed)
-    w(r"\node[rotate=90,anchor=south,align=center] at (%.3f,%.3f) {time lost per\\MTD deployment (s)};" % (X0 - 0.85, (BY0 + by1) / 2))
-    w(r"\draw[black!60,line width=0.4pt] (%.3f,%.3f) -- (%.3f,%.3f);" % (X0, yb(0), X1, yb(0)))
-    panel_letter(w, X0 - 1.35, by1 + 0.02, "c")
-    for m, x in xt:
-        for j, (arm, col, _) in enumerate(ARMS):
-            v = tl[(arm, m)]
-            xl = x - bw + j * bw
-            top, bot = yb(max(v["seconds"], 0)), yb(min(v["seconds"], 0))
-            if arm == "movement":
-                w(r"\fill[%s] (%.3f,%.3f) rectangle (%.3f,%.3f);" % (col, xl, bot, xl + bw - 0.03, top))
-            else:
-                w(r"\fill[pattern=north east lines,pattern color=%s] (%.3f,%.3f) rectangle (%.3f,%.3f);" % (col, xl, bot, xl + bw - 0.03, top))
-                w(r"\draw[%s,line width=0.3pt] (%.3f,%.3f) rectangle (%.3f,%.3f);" % (col, xl, bot, xl + bw - 0.03, top))
-            if top - bot < 0.03:  # a value near zero: a stub at it, so it does not read as missing
-                w(r"\draw[%s,line width=0.8pt] (%.3f,%.3f) -- (%.3f,%.3f);" % (col, xl, yb(v["seconds"]), xl + bw - 0.03, yb(v["seconds"])))
-            errorbar(w, xl + (bw - 0.03) / 2, yb(v["lo"]), yb(v["hi"]), col="black!70", cap=0.035)
-            facts.append(f"(c) {arm:9s} {m:18s} time lost {v['seconds']:5.0f} s [{v['lo']:5.0f}, {v['hi']:5.0f}]  "
-                         f"({v['hosts_per_deployment']:.3f} hosts; uncorrected {v['uncorrected_seconds']:.0f}, placebo {v['placebo_seconds']:.0f})")
+    for i, m in enumerate(PANEL_SINGLES):
+        w(r"\node[anchor=north] at (%.3f,%.3f) {%s};" % (X0 + (i + 0.5) * slot, BY0 - 0.1, TICK[m]))
     ybk = BY0 - 1.35   # under three-line ticks
     i = 0
     while i < len(PANEL_SINGLES):
@@ -179,23 +132,119 @@ def emit(d: dict) -> tuple[str, list[str]]:
         w(r"\node[anchor=north,text=black!60] at (%.3f,%.3f) {%s};" % ((xa_ + xb_) / 2, ybk - 0.03, LAYER[PANEL_SINGLES[i]]))
         i = j + 1
 
-    # ---- key, once, between the rows (both rows share the encoding) --------
-    ky = AY0 - 1.05
-    xx = X0
-    for arm, col, mk in ARMS:
-        if arm == "movement":
-            w(r"\fill[%s] (%.3f,%.3f) rectangle ++(0.3,0.22);" % (col, xx, ky - 0.11))
-        else:
-            w(r"\fill[pattern=north east lines,pattern color=%s] (%.3f,%.3f) rectangle ++(0.3,0.22);" % (col, xx, ky - 0.11))
-            w(r"\draw[%s,line width=0.3pt] (%.3f,%.3f) rectangle ++(0.3,0.22);" % (col, xx, ky - 0.11))
-        w(r"\draw[%s,line width=0.8pt%s] (%.3f,%.3f) -- ++(0.5,0);" % (col, ",dash pattern=on 3pt off 1.8pt" if arm == "baseline" else "", xx + 0.42, ky))
-        marker(w, mk, col, xx + 0.67, ky, r=0.06)
-        w(r"\node[anchor=west] at (%.3f,%.3f) {%s};" % (xx + 1.0, ky, LABEL[arm]))
-        xx += 4.4
+    # ---- the figure's one key, at its foot, under the layer brackets (conventions §o)
+    key_below(w, X0, ybk - 0.03 - 0.40,
+              [(LABEL["movement"], "bar", "black", None),
+               (LABEL["baseline"], "bar", "cbase", None)], xmax=X1)
     w(r"\end{tikzpicture}")
     w(r"\end{document}")
-    facts.insert(0, "worst mechanism by rule (largest time lost): " + ", ".join(f"{a} -> {m}" for a, m in worst.items()))
+    for m in PANEL_SINGLES:
+        for a, _, _ in ARMS:
+            v = tl[(a, m)]
+            facts.append(f"    {a:9s} {m:18s} wait {v['wait_with_mtd']:.0f} vs {v['wait_no_mtd']:.0f} s  dropped {v['dropped']}")
     return "\n".join(L) + "\n", facts
+
+
+def _r10(x: float) -> str:
+    """Whole tens of seconds: the precision rule (a value to the place of its
+    interval's first significant figure; time lost's half-widths are 30-70 s)."""
+    v = "%d" % (10 * round(x / 10))
+    return ("$-$" + v[1:]) if v.startswith("-") else v
+
+
+# Table E.1's caption decodes only (Marc 2026-10-06, the Section 5.2 lesson): the metrics and their
+# readings are Section 4.5.3's, which attack actions a layer disrupts is Section 2.2.3's, the interval
+# method and the runs are Section 5.1's. What stays is what a reader needs to use the numbers: the
+# condition, the deployments time lost is taken over, and that a printed 1.000 is exact.
+def decode_time_lost(C: dict) -> str:
+    """The deployments time lost is taken over, with the smallest share kept (N3)."""
+    kept = min(c["deployments"] / (c["deployments"] + c["dropped"])
+               for k, c in C.items() if k.endswith("|%s" % INTERVAL) and "deployments" in c)
+    return (r"Time lost is over the MTD deployments made while the same seed's run with no MTD is still "
+            r"going, at least %d\,\%% of each cell's." % int(100 * kept))
+
+
+def _place(hw: float) -> int:
+    """The precision rule (Marc 2026-09-30): the place of a half-width's first
+    significant figure (the second when that figure is a 1)."""
+    import math
+    place = math.floor(math.log10(hw)) if hw > 0 else 0
+    if hw > 0 and int(round(hw / 10.0 ** place, 6)) == 1:
+        place -= 1
+    return place
+
+
+def emit_table(d: dict) -> str:
+    """Table 5.3: the two metrics of Figure 5.2 with their intervals, rows in the
+    figure's order and grouped by layer as its brackets are (2026-09-30)."""
+    C = d["cells"]
+
+    # the precision rule (standard P1), per column: each value to the place of its
+    # column's widest interval's half-width (Cole 2015); a true minus in math mode
+    cells = {arm: [C[f"{arm}|{m}|{INTERVAL}"] for m in PANEL_SINGLES] for arm in ("movement", "baseline")}
+    tl_place = {arm: _place(max((c["time_lost_ci95"][1] - c["time_lost_ci95"][0]) / 2 for c in cs))
+                for arm, cs in cells.items()}
+    # a bound that rounds to 0 without being 0 hides whether the interval includes
+    # zero; such a column goes one place finer (standard P2)
+    for arm, cs in cells.items():
+        q = 10.0 ** tl_place[arm]
+        if any(b != 0 and round(b / q) == 0 for c in cs for b in c["time_lost_ci95"]):
+            tl_place[arm] -= 1
+    bl_place = {arm: _place(max((c["blocked_per_deployment"]["hi"] - c["blocked_per_deployment"]["lo"]) / 2 for c in cs))
+                for arm, cs in cells.items()}
+
+    def num(v, place):
+        nd = max(0, -place)
+        t = "%.*f" % (nd, round(v / 10.0 ** place) * 10.0 ** place)
+        return "$0$" if float(t) == 0 else "$%s$" % t
+
+    def tl(c, arm):
+        lo, hi = c["time_lost_ci95"]
+        pl = tl_place[arm]
+        return r"%s [%s, %s]" % (num(c["time_lost"], pl), num(lo, pl), num(hi, pl))
+
+    def bl(c, arm):
+        b = c["blocked_per_deployment"]
+        # a share of deployments, bounded by 0 and 1, never prints a bound it does not reach (P2)
+        nd = max(0, -bl_place[arm])
+        f = lambda v: bounded(v, nd, lo=0.0, hi=1.0)
+        return r"%s [%s, %s]" % (f(b["point"]), f(b["lo"]), f(b["hi"]))
+
+    # a printed 1.00 is said to be exact, when the table has one (P2)
+    EXACT = (" A printed %s is exact." % ("1." + "0" * max(0, -min(bl_place.values())))) if any(c["blocked_per_deployment"]["point"] == 1.0
+                                              for cs in cells.values() for c in cs) else ""
+    L = [
+        "% GENERATED by tools/ch5_disruption_figure.py from " + str(NUMBERS.relative_to(REPO)),
+        "% (time_lost.py). Do not hand-edit; regenerate. 2026-09-30, the disruption metrics of Section 4.5.3;",
+        "% headers are the metrics' names as Table 4.3 gives them; rows as Figure 5.2 orders them.",
+        "% DRAFT STATE --- ratify on read.",
+        r"\begin{table}[tp]",
+        r"  \centering",
+        (r"  \caption[Attack actions blocked and time lost per MTD deployment]{Attack actions blocked and time "
+         r"lost per MTD deployment for each MTD mechanism, at a deployment interval of 2\,000\,s; "
+         r"the APT attacker model "
+         r"averaged over $c_1$ to $c_4$ (Figure~\ref{fig:aio-adaptivity}). " + decode_time_lost(C) + EXACT + "}"),
+        r"  \label{tab:disruption}",
+        # scriptsize, 3 pt gaps: at footnotesize the 3-decimal brackets exceed the text width (conventions, "Table size")
+        r"  \tablestyle\scriptsize\setlength{\tabcolsep}{3pt}",  # group rows keep the stripes (Marc, 2026-10-01)
+        r"  \begin{tabular}{@{}P{3.8cm}*{2}{>{\centering\arraybackslash}p{3.0cm}>{\centering\arraybackslash}p{2.4cm}}@{}}",
+        r"    \toprule",
+        r"    & \multicolumn{2}{c}{APT attacker model} & \multicolumn{2}{c}{Baseline attacker} \\",
+        r"    \cmidrule(lr){2-3}\cmidrule(lr){4-5}",
+        # the metrics' names, verbatim from Table 4.3 (Marc 2026-09-30: "blocked per run ... I don't recognise")
+        r"    \rowcolor{white}MTD mechanism & Attack actions blocked per MTD deployment & Time lost per MTD deployment (s) & Attack actions blocked per MTD deployment & Time lost per MTD deployment (s) \\",
+    ]
+    layer = None
+    for m in PANEL_SINGLES:
+        if LAYER[m] != layer:
+            layer = LAYER[m]
+            L.append(r"    \midrule")
+            L.append(r"    \grouprow{5}{%s} \\" % layer)
+        a, b = C[f"movement|{m}|{INTERVAL}"], C[f"baseline|{m}|{INTERVAL}"]
+        L.append(r"    \quad %s & %s & %s & %s & %s \\" % (LONG[m], bl(a, "movement"), tl(a, "movement"),
+                                                     bl(b, "baseline"), tl(b, "baseline")))
+    L += [r"    \bottomrule", r"  \end{tabular}", r"\end{table}", ""]
+    return "\n".join(L)
 
 
 def main() -> None:
@@ -206,23 +255,18 @@ def main() -> None:
     d = json.loads(args.numbers.read_text(encoding="utf-8"))
     tex, facts = emit(d)
     write_fig(STEM, tex.splitlines())
+    TABLE.write_text(emit_table(d))
+    print(f"wrote {TABLE.relative_to(REPO)}")
     print(f"caption and body facts, Fig. 5.3 (§5.3.1), drawn at {INTERVAL} s:")
     for f in facts:
         print("  " + f)
-    R = d["reads"]
-    n_before = len([e for e in d["edges"][:-1] if e < 0])
-    for key in ("all", "host", "service"):
-        for a, _, _ in ARMS:
-            c = R[f"{a}|{key}|{INTERVAL}"]
-            print(f"  body: {a:9s} {key:8s} first 125 s {c['relative_pct'][n_before]:.0f} %")
-    print("  no-defence compromise rate per 1 000 s: " + ", ".join(f"{a} {v:.2f}" for a, v in d["none_rate_per_ksec"].items()))
-    if "movement|host|200" in R:
-        print("  at 200 s (body sentence: the rate before each deployment, against no defence):")
-        for a, _, _ in ARMS:
-            for key in ("host", "service"):
-                c = R[f"{a}|{key}|200"]
-                print(f"    {a:9s} {key:8s} {c['pre_rate_per_ksec']:.2f} per 1 000 s "
-                      f"({100 * c['pre_rate_per_ksec'] / d['none_rate_per_ksec'][a]:.0f} % of no defence)")
+    for a, _, _ in ARMS:
+        print(f"  body: {a:9s} no MTD, attack actions blocked per run 0 (structural); runs {d['cells'][a + '|none']['runs']}")
+    print("  at 200 s (body sentence): time lost is capped at the 200 s to the next deployment:")
+    for a, _, _ in ARMS:
+        for m in ("ip_shuffle", "service_diversity"):
+            c = d["cells"][f"{a}|{m}|200"]
+            print(f"    {a:9s} {m:18s} time lost {c['time_lost']:.0f} s, wait {c['wait_with_mtd']:.0f} vs {c['wait_no_mtd']:.0f} s")
     if not args.no_compile:
         compile_fig(STEM)
 

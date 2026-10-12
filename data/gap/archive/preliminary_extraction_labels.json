@@ -1,13 +1,14 @@
 {
   "_comment": [
-    "Editorial text for tab:preliminary-extraction (app:cooccurrence). Text lives",
+    "Editorial text for tab:preliminary-extraction (Appendix B, the mining section). Text lives",
     "here, never in the generator: tools carry no corpus facts, and this file is",
     "what a voice pass edits. Every NUMBER in the table is computed by",
     "tools/preliminary_extraction_table.py from the built artefacts --- none is",
     "recorded here.",
     "",
-    "SESSION-DRAFTED (2026-08-20). Flagged for Marc's voice pass; the appendix's",
-    "framing paragraph is Marc's and is not drafted anywhere in this repo."
+    "Reworded 2026-10-04 (appendix pass) in section 4.1's terms: co-occurrence",
+    "mining, keyword mining, attack flows, edges between tactics. DRAFT STATE,",
+    "ratify on read."
   ],
   "question": "How is dependency between tactics obtained?",
   "modes": [
@@ -16,26 +17,26 @@
       "name": "Co-occurrence mining",
       "evidence_source": "co_occurrence",
       "artefact": "v0_4",
-      "rests_on": "two techniques being used by the same actor or tool",
-      "direction_from": "assumed tactic ordering",
-      "why_not": "Association is symmetric, so the ordering had to be assumed rather than learned; and because a total order admits no backward edge, no loop could be expressed."
+      "rests_on": "the same APT group or tool uses both techniques",
+      "direction_from": "an assumed order of the tactics",
+      "why_not": "Using two techniques together says nothing about which came first, and an assumed order allows no edge back."
     },
     {
       "key": "keyword",
-      "name": "Keyword extraction",
+      "name": "Keyword mining",
       "evidence_source": "ontology",
       "artefact": "v0_4",
-      "rests_on": "precondition wording in a technique's own description",
-      "direction_from": "assumed tactic ordering",
-      "why_not": "A description that names another technique is cross-referencing it, not asserting a dependency on it; direction again came from the assumption."
+      "rests_on": "one technique's ATT&CK description names the other",
+      "direction_from": "an assumed order of the tactics",
+      "why_not": "A description that names another technique refers to it; it does not say the attacker needs it first."
     },
     {
       "key": "attack_flow",
-      "name": "Attack Flow",
+      "name": "Attack flows",
       "evidence_source": "attack_flow",
       "artefact": "v0_4",
       "adopted": true,
-      "rests_on": "a dependency an analyst drew in one incident",
+      "rests_on": "an analyst drew one step after the other",
       "direction_from": "the analyst's drawing",
       "why_not": "Adopted."
     }
@@ -59,7 +60,7 @@
     "defense-impairment": "defense-evasion"
   },
   "display": {
-    "_why": "Presentation names for artefact pins (conventions \u00a7g: never a raw identifier in a float).",
+    "_why": "Presentation names for artefact pins (conventions §g: never a raw identifier in a float).",
     "v0_4_attack_source": "ATT\\&CK Enterprise",
     "v0_5_corpus": "Attack Flow corpus v3.1.1",
     "v0_5_attack_source": "ATT\\&CK Enterprise v19.1"
