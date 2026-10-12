@@ -2353,3 +2353,31 @@ This is the parallel of §6.1's close: both causes joined, each to the compariso
 - **No S4.** The consequence for the service layer is the opener's and ¶2's.
 
 About 90 words.
+
+### 31.6 Marc: "blocks says nothing on which attack actions get blocked: the critical ones, the longest? Knock-on for 6.2's structure?" (no drafting)
+
+**Which attack actions are blocked.** Whichever one is in progress when the deployment completes (disruption_mechanism.md §1). So the longer an attack action runs, the likelier it is blocked; ch4 §4.4 says this ("the longer a tactic runs, the more likely an MTD deployment disrupts it").
+- The count says nothing about which attack action or what the block costs.
+- No per-attack-action breakdown is in the thesis. It could be computed from the run records, but the argument does not need it.
+- Marc's interval reasoning holds: the sweep runs 50–2 000 s, so no lucky alignment explains a result. Blocks and time lost are both measured at 2 000 s.
+
+**What this overturns in 31.5.** Blocks are a count, not a cost. What a block costs (the block, the 20 s penalty and the lost position) is already in time lost. The baseline attacker resumes a blocked attack action in 45–55 s, sooner than its usual gap of 93 s (disruption_mechanism.md table). So:
+- **31.5's one-liner is withdrawn:** "the baseline attacker loses mostly attack actions, the APT attacker model mostly time" is a category error. The two metrics are not parallel ways to disrupt; time lost is the cost, and a block is one of its causes.
+- **31.5's S2 is withdrawn:** "the host layer reduces the baseline attacker's NCR through blocks alone" has no support. A candidate is §5.3.1's 19–32 s per later deployment (the mean at or below zero is pulled down by the first deployment's second attempt), but it is untested. Keep it off the page; §6.5 holds the first deployment.
+
+**What survives, and the one-liner it gives:**
+- The host layer takes the attacker's host at every deployment, whether or not an attack action is in progress (disruption_mechanism.md §1, item 3; ¶2).
+- The service layer interrupts an attacker through the attack action in progress (the block), plus, under service diversity, the redrawn vulnerabilities (¶2).
+- The baseline attacker always has an attack action in progress (0.95–1). The APT attacker model's tactic durations put 34–57 % of its run in unmapped tactics, so a service-layer deployment blocks one of its attack actions at 15–16 % of deployments.
+
+> **One-liner:** An MTD deployment blocks an attack action only if one is in progress; the baseline attacker always has one, but the APT attacker model's tactic durations keep it out of one at most deployments, so the service layer rarely blocks it, while the host layer takes its host either way.
+
+- **Which comparison it explains (lesson (ad)):** the service layer's weakness against the APT attacker model is now the tactic durations (exposure) plus ¶2's kept ports (60 s). The host layer's strength does not depend on exposure.
+- **Not the dishonest throughline.** The service layer gets both causes.
+
+**Structure.** No knock-on.
+- The opener names both causes.
+- ¶2 is the order of its tactics (what each layer takes and how each attacker gets it back: time lost, adaptivity).
+- ¶3 is the tactic durations (whether a deployment catches an attack action in progress: blocks).
+- ¶3 does not open "On adaptivity": §4.5 makes time lost adaptivity's metric, and blocks carry no property. The subject (the block) leads.
+- Marc: "the structure looks about right".
