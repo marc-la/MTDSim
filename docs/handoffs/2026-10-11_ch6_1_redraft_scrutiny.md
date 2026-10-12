@@ -1968,3 +1968,36 @@ Nothing in the opener needs changing.
 - (ae) Settle each mechanism in one line, verified against the code and the ablations (§5.4), *before* drafting. If a critique changes the mechanism, re-settle it; do not redraft around it.
 - (af) When a critique says "unclear", cut an idea before adding a clause.
 - (ag) A throughline is checked against the data per claim. Where the data do not split as the throughline does, the throughline gives way.
+
+### 28.11 v7, from the sort (Marc 2026-10-12, "translate this … abide by your own scrutiny"; proposed, not applied)
+
+**Mechanisms settled first (one line each, verified):**
+- **Host layer.**
+  - The deployment costs each attacker the host it was working on (§2.2.3; code: the cursor is cleared).
+  - The baseline attacker is sent back to scanning hosts and enumerates one next (§2.2.3, its procedure).
+  - The APT attacker model enumerates a host only in Lateral Movement (§4.3.2): 6–14 % of its steps with no MTD (Figure 5.1(a); numbers_reported.json step_share 0.056–0.138). After a deployment, it visits 8–10 tactics before Lateral Movement, 216–304 s (disruption_mechanism.md §C (iv)). How often Lateral Movement comes up is the order of its tactics; how long each step in between takes is its tactic durations.
+  - Not the failure matrix (§5.4).
+- **Service diversity.**
+  - MTDSim sends the baseline attacker back to scanning the same host's ports (§2.2.3), and with every service redrawn it starts that host's exploits again (disruption_mechanism.md §1: its exploit progress is erased).
+  - The APT attacker model is not sent back. It keeps its host and the ports it found (§C (iv)), which likely explains 60 s. One hedge, since the cause of 60 s is untraced.
+
+**v7 (173 words):**
+
+> On adaptivity, the APT attacker model's time lost per host-layer deployment is 242 to 324 s, against at or below zero for the baseline attacker; per service-diversity deployment, the baseline attacker's is 493 s, against 60 s (Figure 5.2(b)). A host-layer deployment costs each attacker the host it was working on (Section 2.2.3). The baseline attacker is sent back to scanning hosts and enumerates one next. The APT attacker model enumerates a host only in Lateral Movement (Section 4.3.2), which the order of its tactics reaches in 6 to 14 % of its steps with no MTD (Figure 5.1(a)). Until then, the attack actions of its other tactics most likely fail for a missing host, and its tactic durations set how long that lasts (Appendices F.2 and F.4). Service diversity redraws every service, and MTDSim sends the baseline attacker back to scanning the same host's ports, so it starts that host's exploits again. The APT attacker model is not sent back and keeps the ports it found, which likely explains its 60 s.
+
+**Checked against the scrutiny:**
+- **D1–D3 only.** Every cut item from §28.10 is absent.
+- **All four numbers,** given once in the lead under the metric's name.
+- **Both causes handed back in D2,** verbatim.
+- **One hedge per inferred claim** ("most likely" on the missing-host failures, "likely" on the 60 s). The facts that hold by construction carry no hedge.
+- **Every term is a ch2 or ch4 term:**
+  - "sent back to scanning hosts", "the same host's ports" (§2.2.3);
+  - "enumerates", "Lateral Movement" (§4.3.2);
+  - "tactic durations", "the order of its tactics" (§6.1).
+- **"Place" is gone.**
+- **No pronoun has two candidate referents.** Each "it" in the last two sentences has one possible antecedent.
+
+**On apply (downstream, automatic):**
+- §6.5's first-deployment sentence repoints from §6.2 to §5.3.1 and takes the reason in one clause.
+- §6.4 l.9221–9223 ("its place … Lateral Movement") is aligned when §6.4 is reached.
+- The §5.3.1 sentence "The APT attacker model runs no attack action while in an unmapped tactic, so an MTD deployment then blocks none" stays: v7 no longer repeats it, so the ch5 cut proposed in §28.6 is withdrawn.
