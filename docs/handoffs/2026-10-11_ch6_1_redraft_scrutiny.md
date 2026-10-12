@@ -3186,3 +3186,74 @@ judgement where MTD disrupts it.
   - the AND joins and the conditions: ¶3's "the AND joins and the conditions the model drops" has lost its antecedent in ¶2;
   - detection avoidance marked once, with both reasons.
 - Build clean, 118 pages, 0 undefined.
+
+## §48. §6.3 ¶3 (SQ2): scrutiny of the text on disk, with ¶2's lessons (Marc 2026-10-12; nothing applied)
+
+¶3 is 148 words in six sentences. ¶2's lessons, applied here:
+- answer plainly, with a so-what;
+- sort test: does the sentence live elsewhere?;
+- translate the question's terms;
+- the structure follows from all three.
+
+### 48.1 SQ2's clauses ("How can the recovered behaviour be executed as an APT attacker model inside an existing MTD simulator?")
+
+| Clause | Engaged? | Note |
+|---|---|---|
+| "How can … be executed" | **No** | One clause: the tactic its token reaches runs as one of MTDSim's six attack actions, through the tactic-to-action mapping (ch4 §4.4, the loop). |
+| "the recovered behaviour" | **No** | ¶3 never names what is executed. The bridge from ¶2 is the order of its tactics. |
+| "as an APT attacker model" | Yes | The marks; cite them, don't re-argue. |
+| "inside an existing MTD simulator" | Half | It gives what MTDSim gives (persistence) and caps (2, 5). It misses why "existing" matters: the model runs the baseline attacker's six attack actions under the same deployments, which is the comparison SQ3 asks for. |
+
+### 48.2 Sort test
+
+| Sentence | Already in | Verdict |
+|---|---|---|
+| S1: gives persistence, caps two marks | ch4 opener l.~3888 ("keeps the baseline attacker's campaign persistence; they also cap what it gains") | Rehash of ch4's own answer to SQ2 |
+| S2: keeps the baseline attacker's loop → persistence | ch4 opener; App B l.~9809 | Clause. **Term clash:** ch4 §4.4's "loop" is the APT attacker model's own Petri net–MTDSim loop. "It" is ambiguous (simulator or model). |
+| S3: AoO unmapped → 2 in part | ch4 §4.4.1 ("nothing to act on"); §6.1 ¶2 near verbatim | Clause. "The techniques that differ by objective are assumed" is Appendix B jargon; unclear. |
+| S4: no IDS → 5 in part | ch4 §4.4.1 ("nothing in MTDSim watches the attacker"); §6.1 ¶3 near verbatim | Clause. It misses the judgement half (owed from ¶2). |
+| S5–S6: the Petri net could carry the AND joins and conditions; with one token it uses neither | nowhere; ch7 future work has "more than one token" | Antecedent lost with ¶2. Same test as the tools cut (nothing follows): **cut**. |
+| Owed from ¶2: the fill (tactic durations: six from MTDSim, nine by judgement; failure matrix) → 4, 5 | ch4 §4.4 ("the attack flows cannot supply three inputs of the loop … we declare each") | Clause, pointing to ¶2's "our judgement" |
+
+**Diagnosis:** the same as ¶2's first draft. Every sentence re-argues a mark that ch4 or §6.1 already argues, and the one new point (the AND joins) leads nowhere. There is no so-what.
+
+### 48.3 The punch: what "existing" buys and costs
+
+- **Buys:** the APT attacker model runs MTDSim's six attack actions, the baseline attacker's own, under the same MTD deployments. So the two attackers differ only in what the model adds (the order of its tactics, the tactic durations, the failure matrix, the vulnerability memory). That is the comparison SQ3 asks for ("compared with the simulator's baseline attacker"), and §6.1/§6.2's explanations rest on it.
+- **Costs:** the same attack actions set the ceiling (ch4: "only as good as the attack actions it adopts"). Seven tactics are unmapped. The two marks MTDSim caps are both caps through unmapped tactics:
+  - actions on objectives have nothing to act on (2);
+  - Stealth has nothing to hide from (5).
+- **One causal chain for 5,** which settles the double reason: nothing watches the attacker, so its detection avoidance comes only from the tactic durations, which we set (§6.1 ¶3's own conclusion).
+- **Not yet in ch6 as SQ2's answer:**
+  - ch4 states the ceiling;
+  - ch4 §4.4.2 uses "the same MTD deployments" only to justify the scale of the durations;
+  - no paragraph puts the two together as the trade.
+
+### 48.4 Terms
+
+| Question's term | Instance | Note |
+|---|---|---|
+| the recovered behaviour | the order of its tactics | ¶2's term, verbatim |
+| executed | the tactic its token reaches runs as an attack action | ch4 §4.4 |
+| an existing MTD simulator | MTDSim | bridge once, as ¶2 does |
+| (what it runs) | MTDSim's six attack actions, via the tactic-to-action mapping | seven tactics unmapped (ch4 §4.4.1) |
+| persistence source | ch4 opener's "keeps … with those attack actions" | not "loop" (ch4's loop is the model's) |
+| detection | "nothing in MTDSim watches the attacker" (ch4) / "no IDS" (§6.1) | pick one; §6.1 uses IDS |
+| "caps" | ch4 opener's own verb | keep |
+
+### 48.5 Structure that follows (slots, about 110–130 words)
+
+1. **The answer, with the how:** the order of its tactics runs inside MTDSim, the tactic its token reaches becoming one of MTDSim's six attack actions.
+2. **What running needs that the reports lack:** the tactic durations and the failure matrix, set by us (¶2's "our judgement"), which leave adaptivity and detection avoidance in part. Clause-level; cite Table 6.1.
+3. **What "existing" buys:** the baseline attacker's attack actions and loop of play under the same deployments, so persistence is kept, and the two attackers differ only in what the model adds.
+4. **What it costs:** seven tactics are unmapped. Actions on objectives have nothing to act on (2 in part), and nothing watches the attacker, so its detection avoidance is only its tactic durations (5, one chain).
+5. **The punch:** executing in an existing simulator makes the comparison with its baseline attacker fair and sets the ceiling of the model at that attacker's attack actions.
+   - S3 and S5 may merge.
+   - No hedge needed: by construction.
+
+### 48.6 Questions (recommendation first)
+
+1. **The punch** is the trade (comparison bought, ceiling set). **Recommended.** Alternative: only the ceiling, which is ch4's.
+2. **Cut the AND-joins/conditions sentences.** **Recommended:** the same test as the tools cut; ch7 future work already carries the one-token point.
+3. **One chain for detection avoidance:** nothing watches → only tactic durations → ours. **Recommended.**
+4. **Persistence wording:** use ch4's ("keeps it with those attack actions") and drop "loop". **Recommended.**
