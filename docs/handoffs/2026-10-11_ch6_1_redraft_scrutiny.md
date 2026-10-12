@@ -1551,3 +1551,49 @@ The current close's Chapter 1 tie (the advantage of time, \citep{ghosh2009nitrd}
 - (aa) the close says the joint;
 - the replay test;
 - one fact, one home.
+
+
+## 26. §6.2 stage 1: the logical redraft, applied (Marc 2026-10-12, "happy with that … put in the hard work")
+
+**Applied to the tex** (spine 25.4, cuts 25.4, mechanical fixes 25.2 point 6). 1 426 → ~900 words:
+
+| Paragraph | Words |
+|---|---|
+| opener | 95 |
+| disruption per MTD deployment | 258 |
+| MTD ranking | 178 |
+| deployment strategies (MTDShield) | 183 |
+| by attack profile | 80 |
+| SQ3 answer | 109 |
+
+The overdraft is in git at 7fd1b08f.
+
+**The throughline.** The opener names §6.1's two causes verbatim, and ¶1 hands each back:
+- **tactic durations:** an unmapped tactic runs no attack action, so a deployment then blocks none;
+- **the order of its tactics:** it decides when the Petri net next reaches Lateral Movement.
+
+The close answers SQ3 through the same two causes.
+
+**Checks made while drafting:**
+- **"Disrupts most" was false for the baseline attacker** if read as attack actions blocked: the host layer blocks it 1.0 per deployment, against 0.95 for the service layer. The opener and close therefore say NCR reduction, the ranking's metric. "Disrupts" keeps ch2's sense (interrupting an attack action).
+- **Time lost under the host layer is not attributed to the order alone.** The order decides *when* the Petri net reaches Lateral Movement, and the 242–324 s is stated as a result. The time between is tactic durations too (memory: measurement vs attribution).
+- **Service diversity ranks 4th against the APT attacker model at 200 s** (Table 5.3), so the Cho sentence moved to §6.4 says "at 200 s".
+- **Inbound contracts** (25.4) all still hold in the new text, apart from §6.5 l.9453 (below).
+
+**Downstream (auto):**
+- **§6.4 P1:** the Cho comparison, one sentence, after the dwell-robustness sentence: "At 200 s, service diversity ranks first against the faster baseline attacker and fourth against the APT attacker model, the reverse of the case Section 3.2.1 cited …".
+- **§6.5:** "MTDShield runs as released, outside its training conditions" now cites Appendix D.4, which lists the training conditions, instead of §6.2, which no longer states them.
+
+**Small cuts beyond 25.4** (listed in the tex comment):
+- the within-layer match of the blocked bars (MTDSim's rule, §2.2.3);
+- MTDShield's "does nothing at most of the rest" and its line below service diversity's (Figure 5.3 detail);
+- "under MTDShield all four attack profiles sit below the baseline attacker".
+
+**Flags for Marc's weeding:**
+1. The SQ3 sentence opens the section, as §6.3's does. Keep it, or open on the finding.
+2. The layer ranking is in the opener and again as ¶2's first sentence, and the interval facts are in ¶2 and again as a ratio in the close.
+3. ¶4's "which fits Section 6.1" is the session's inference.
+4. Service diversity's 60 s against 493 s is stated, not explained (no traced cause).
+5. ¶1 is the longest paragraph (258 words), with blocks, host layer, restart and service diversity. It is the candidate to split or weed first.
+
+Build clean, 120 pages.
