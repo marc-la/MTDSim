@@ -8857,12 +8857,12 @@ takes from an attacker at each deployment (Section~\ref{sec:threats}).
     \toprule
     Attacker model & Year & 1\newline Pers. & 2\newline Obj. & 3\newline Strat. & 4\newline Adapt. & 5\newline Detect. & 6\newline Cost & 7\newline Learn. & 8\newline Deploy. \\
     \midrule
-    Baseline attacker~\citep{brown2023, zhang2023} & 2023 & \propmet & \propnone & \propstandin & \propstandin & \propnone & \propstandin & \propnone & \propnone \\
+    Baseline attacker~\citep{brown2023, zhang2023} & 2023 & \propmet & \propnone & \propstandin & \propstandin & \propnone & \propnone & \propnone & \propnone \\
     Masud et al.~\citep{masud2025} & 2025 & \propstandin & \propnone & \propnone & \propnone & \propnone & \propnone & \propnone & \propnone \\
     Kim et al.~\citep{kim2026} & 2026 & \propstandin & \propnone & \propnone & \propnone & \propstandin & \propnone & \propnone & \propnone \\
     \midrule
     % [CH3 REDRAFT ROUND 52, 2026-10-02] Marc: the dissertation's own row named as such, at the bottom, 2026.
-    \begin{tabular}[c]{@{}l@{}}APT attacker model,\\ this dissertation\end{tabular} & 2026 & \propmet & \propstandin & \propmet & \propstandin & \propstandin & \propstandin & \propnone & \propnone \\
+    \begin{tabular}[c]{@{}l@{}}APT attacker model,\\ this dissertation\end{tabular} & 2026 & \propmet & \propstandin & \propmet & \propstandin & \propstandin & \propnone & \propnone & \propnone \\
     % [2026-10-08 regrade, Marc: 2 and 4 tick -> in part (exfiltration and
     %  impact unmapped; the failure matrix a fixed rule that reads the verdict);
     %  5 cross -> in part (stealth by proxy, Kim's precedent). DRAFT STATE.]
@@ -8893,7 +8893,7 @@ takes from an attacker at each deployment (Section~\ref{sec:threats}).
 from threat reports and executed in an existing MTD simulator; the eight
 properties score the answer. Scored by the rule of
 Chapter~\ref{ch:litreview}, the APT attacker model has
-two of the eight properties in full, four in part, and lacks two; none of the
+two of the eight properties in full, three in part, and lacks three; none of the
 three MTD attacker models scored there has more than one in full
 (Table~\ref{tab:fidelity-verdict}). Against the baseline attacker, it gains
 choice of attack strategy in full, and objective-specific behaviour and
@@ -8912,9 +8912,12 @@ are in part. Four language models scored all four attacker models by an
 earlier form of the rule, which counted clauses, each given only that rule,
 Table~\ref{tab:attacker-properties} and one attacker model's sources, with
 our claims of which properties the APT attacker model has removed. They gave
-every mark of Table~\ref{tab:fidelity-verdict} but four: one that
-Appendix~\ref{app:clause-tests} reconciles, and three of Masud et al.'s that
-the predicates lowered (AI Use Declaration).
+every mark of Table~\ref{tab:fidelity-verdict} but six, which
+Appendix~\ref{app:clause-tests} accounts for: one reconciled, three of Masud
+et al.'s that the predicates lowered, and cost--benefit reasoning for the
+baseline attacker and the APT attacker model, lowered after a fifth language
+model, given Chapter~\ref{ch:attacker-model} alone, marked it none (AI Use
+Declaration).
 
 % DRAFT STATE 2026-10-08 --- paragraph 2 drafted from point P2 on Marc's
 %  request ("draft paragraph two now"); P2 retired to the ch6 handoff section
@@ -8948,13 +8951,14 @@ so the APT attacker model must rebuild it; the failure matrix reweights the
 next tactic on the verdict, by rules set by our judgement, whether or not MTD
 caused the failure. The pace is assumed to hide the attacker and is measured
 by proxy (Section~\ref{sec:disc-behaviour}), as Kim et al.'s evasion is
-assumed, but no IDS exists to choose against. Cost--benefit
-reasoning stops at the exploit's RoA order, the only cost it weighs. Two it
-lacks, because no part of the model makes the decision: the vulnerability
-memory keeps vulnerabilities, not the patterns of MTD deployments, and
-changes no choice, and the attacker cannot see the MTD schedule. Campaign
-persistence and cost--benefit reasoning show by construction, with no metric of
-their own; adaptivity's metric, time lost per MTD deployment, shows what a
+assumed, but no IDS exists to choose against. Three it lacks, because no
+part of the model makes the decision. It chooses each next tactic by how often
+the attack flows take each edge, and the exploit's RoA order, kept from the
+baseline attacker, chooses which vulnerability to try, not which technique.
+The vulnerability memory keeps vulnerabilities, not the patterns of MTD
+deployments, and changes no choice, and the attacker cannot see the MTD
+schedule. Campaign persistence shows by construction, with no metric of its
+own; adaptivity's metric, time lost per MTD deployment, shows what a
 disruption costs, not which component pays it.
 
 % DRAFT STATE 2026-10-08 --- paragraph 3 drafted from point P3 on Marc's
@@ -9940,10 +9944,17 @@ objective through every MTD deployment, until it reaches it or the run ends. Cou
 a condition met without its behaviour, so the predicates replaced the
 clauses, tested on the same evidence; they lowered three of Masud et al.'s
 marks, where its attacker model has the attack paths, their recomputation and
-their cost, but chooses nothing from them. Against the first scoring, the
-rewording and the predicates lowered nine marks and raised none: one of the
-APT attacker model's, learning, and eight of the other three's, among them
-objective-specific behaviour for all three, which leaves the APT attacker
+their cost, but chooses nothing from them. A fifth language model,
+given only the rule, Table~\ref{tab:attacker-properties} and
+Chapter~\ref{ch:attacker-model} with our claims removed, then scored the APT
+attacker model by the predicates (AI Use Declaration). It differed on one
+mark, cost--benefit reasoning, which it marked none: the exploit's RoA order
+chooses which vulnerability to try, within one technique, not among
+techniques. We agree, and lower the mark for the baseline attacker too, whose
+order it is. Against the first scoring, the rewording, the predicates and this
+reading lowered eleven marks and raised none: two of the APT attacker model's,
+learning and cost--benefit reasoning, and nine of the other three's, among
+them objective-specific behaviour for all three, which leaves the APT attacker
 model the only one with it in part.
 
 \begin{table}[htbp]
@@ -9980,9 +9991,9 @@ model the only one with it in part.
     \quad mark & \propnone & \propnone & \propstandin & \propstandin \\
     \midrule
     \multicolumn{5}{@{}l}{\emph{6 Cost--benefit reasoning}} \\
-    \quad behaviour: chooses techniques by weighing their cost against their benefit & yes & no & no & yes \\
+    \quad behaviour: chooses techniques by weighing their cost against their benefit & no & no & no & no \\
     \quad qualifier: for each technique & no & no & no & no \\
-    \quad mark & \propstandin & \propnone & \propnone & \propstandin \\
+    \quad mark & \propnone & \propnone & \propnone & \propnone \\
     \midrule
     \multicolumn{5}{@{}l}{\emph{7 Learning}} \\
     \quad behaviour: keeps the patterns it observes in past MTD deployments, and uses them to choose later techniques & no & no & no & no \\
@@ -10017,7 +10028,7 @@ model the only one with it in part.
     Baseline attacker, 3: rule & ``The current attack operation in this work consists of a fixed list of actions'' \citep[p.~41]{zhang2023} & It can enter a host with stolen credentials, an exploit or brute force, and whichever succeeds enters it; its authors fix the order it tries them in \citep[p.~4]{brown2023}, a rule \\
     Baseline attacker, 4: rule & MTDSim designed ``the attacker's movements, with adaptively changing actions based on simulation time and specific events'' \citep[p.~15]{zhang2023} & Each kind of disruption sets the step it restarts from, host discovery after a lost host and a port scan after a lost service \citep[p.~4]{brown2023}: a response its authors fix, a rule \\
     Baseline attacker, 5: no, no & Its first predicate tests it against itself, so that cell is no by construction & It is no on its own evidence: its first step scans the network ``to discover all exposed hosts'' \citep[p.~4]{brown2023}, no step paces it, and no IDS exists for it to choose against \\
-    Baseline attacker, 6, qualifier: no & It ``prioritizes the weakest host to compromise hosts as quickly and easily as possible'' \citep[p.~4]{brown2023} & That chooses a host, not a technique, and the host is chosen by distance \citep[p.~42]{zhang2023}; it weighs RoA only to order the exploits on a host, and tries credentials, exploits and brute force in a fixed order \\
+    Baseline attacker, 6: no & It orders the vulnerabilities it exploits by RoA \citep[p.~4]{brown2023}, and ``prioritizes the weakest host to compromise hosts as quickly and easily as possible'' \citep[p.~4]{brown2023} & The RoA order chooses which vulnerability the exploit attack action tries, within one technique; it tries credentials, exploits and brute force in a fixed order, and the host is chosen by distance \citep[p.~42]{zhang2023}, so no technique is chosen by cost against benefit \\
     Baseline attacker, 7: no & Its authors call it learning: it halves ``the exploitation time spent on the vulnerabilities that were exploited in the previous attack operations'' \citep[p.~30]{zhang2023} & It keeps vulnerabilities, not the patterns of MTD deployments, and the memory shortens an exploit without changing which technique comes next \\
     \midrule
     Masud et al., 2: no & Their tests include ``widespread and focused attacks aiming to breach many or specific high-value hosts'' \citep[p.~7]{masud2025} & Every attack path ends at one target, the database; no technique differs between the two, and no step of the analytical model takes either \\
@@ -10028,10 +10039,12 @@ model the only one with it in part.
     Kim et al., 2: no & The shell gives ``a set of commands that an attacker can move to the next stage based on the objectives of the attacks'' \citep[p.~7]{kim2026} & The attacker model has one objective, a shell, and one stage after the foothold; the sentence says what a shell allows, and no step of the script differs by objective \\
     Kim et al., 8: no & ``attackers can determine the remaining available time'' before the next MTD deployment \citep[p.~10]{kim2026} & It predicts, but no technique leverages the prediction: the four stages run in the same order whatever the time left \\
     \midrule
+    APT attacker model, 1, qualifier: yes & Chapter~\ref{ch:attacker-model} never says when a run ends & A run ends by the simulator's rule, the same for both attackers (Section~\ref{subsec:attacker-model}); nothing in the model ends its campaign, and a failed intrusion goes back to Reconnaissance to try again (Section~\ref{subsec:failure-matrix}) \\
     APT attacker model, 2: assumed & Its attack profiles take the same six attack actions, at different rates (Section~\ref{sec:disc-behaviour}) & Its attack profiles enter different tactics after the foothold for different objectives (Section~\ref{sec:attack-profiles}); Collection, Exfiltration and Impact are unmapped (Section~\ref{subsec:tactic-verb-mapping}), so the techniques that differ are assumed for each tactic's duration \\
     APT attacker model, 3: yes & The Petri net draws from fixed weights, and a stochastic finite state machine built from the same attack flows would make the same draw (Section~\ref{sec:fidelity-verdict}) & The draw happens during the run, from the state reached and the attack flows with its objective (Section~\ref{sec:petri-formalism}); the baseline attacker's order is fixed before the run, a rule \\
-    APT attacker model, 4: rule & The failure matrix responds to any failed attack action, whether or not an MTD disruption caused it & The failure matrix, set by our judgement, reweights its next tactic after a failure (Section~\ref{subsec:failure-matrix}); an MTD disruption is one cause, so a fixed rule of ours sets the response \\
-    APT attacker model, 5: rule, no & No IDS exists, and its slowness is time in unmapped tactics (Appendix~\ref{app:fa-run-time}) & Its declared tactic durations make it slower than the baseline attacker (Section~\ref{subsec:dwell-times}), a rule; it chooses no technique against an IDS \\
+    APT attacker model, 4: rule & The failure matrix responds to any failed attack action, whether or not an MTD disruption caused it, and a deployment during an unmapped tactic never changes which tactic comes next (Section~\ref{subsec:tactic-verb-mapping}) & The failure matrix, set by our judgement, reweights its next tactic after a failure (Section~\ref{subsec:failure-matrix}); an MTD disruption is one cause, so a fixed rule of ours sets the response \\
+    APT attacker model, 5: rule, no & No IDS exists; it is faster than the baseline attacker at brute force and enumerate host, and its slowness is time in unmapped tactics (Appendix~\ref{app:fa-run-time}) & Its declared tactic durations make it slower than the baseline attacker (Section~\ref{subsec:dwell-times}), a rule; it chooses no technique against an IDS \\
+    APT attacker model, 6: no & It keeps the baseline attacker's order of exploits by RoA & As for the baseline attacker, the order chooses which vulnerability to try, within one technique; it chooses each next tactic by how often the attack flows take each edge (Section~\ref{sec:petri-formalism}), not by cost against benefit \\
 \end{longtable}}
 
 

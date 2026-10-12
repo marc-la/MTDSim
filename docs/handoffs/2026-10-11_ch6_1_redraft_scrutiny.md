@@ -766,3 +766,28 @@ The scorer was a general-purpose agent, told to use those files only.
 
 **Applied the same day:** the §3.3.2 baseline sentence now reads "which changes only the host it attacks next and whether it gives up on it".
 
+## 20. Row 6 ruled strict (Marc 2026-10-12)
+
+**Ruling.** Cost–benefit reasoning is none for the baseline attacker and the APT attacker model alike. The RoA order chooses a vulnerability within one technique, not among techniques. Marc's standing instruction: discussion and appendix entries may be updated automatically; ch1–ch5 (and ch7) changes go past him first.
+
+**Applied:**
+- Table 6.1: baseline attacker and APT attacker model, column 6 → ✗.
+- §6.3 ¶1: "two in full, three in part, and lacks three". The blind-scorer sentence now gives six differences, which Appendix B accounts for.
+- §6.3 ¶2: "Three it lacks", with the RoA reason; "Campaign persistence shows by construction".
+- Appendix B, Table B.1: row 6 all no.
+- Appendix B, history: the fifth scorer (Chapter 4 alone) is declared; eleven marks lowered against the first scoring, none raised.
+- Appendix B, Table B.2:
+  - baseline row 6 now argues the behaviour predicate;
+  - APT rows added for 1Q and 6;
+  - APT rows 4 and 5 strengthened with the blind scorer's points.
+- `apt_model_criterion.md`: axis 6 ruling note.
+- Build clean, 120 pages.
+
+**Proposed, awaiting Marc** (ch1, ch3, ch4, ch7):
+- ch1 contributions: "four in part" → "three in part".
+- ch3, Table 3.3: baseline attacker column 6 → ✗. Until this lands, Table 3.3 and Table 6.1 differ.
+- ch3 baseline paragraph: the cost–benefit sentence becomes none.
+- ch3 Finding: add cost–benefit reasoning to the list of properties none of the three has.
+- ch4 opener: drop "and, in part, its cost–benefit reasoning"; "four in part" → "three in part".
+- ch7 Evidence: "four in part" → "three in part".
+

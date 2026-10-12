@@ -134,6 +134,8 @@ under this constraint.
 | 7 | Learning capability | Cho §V-D (dim. 1); Jalowski §4.3 | partial: Zhang's exploit-time halving (learns the network, not the MTD); Masud, Kim none | **DESIGNED** |
 | 8 | Deployment-strategy awareness (three Jalowski primitives) | Jalowski §4.1, §4.3 | partial: Kim's success probability computed from the time left before the next MTD deployment (T_k, p. 10), used by no attack action; lineage, Masud none | **NOT ADDRESSED** |
 
+> **Axis 6 re-ruled 2026-10-12 (Marc, strict reading):** the RoA ordering of exploits chooses *which vulnerability* the exploit attack action tries, within one ATT&CK technique, not *among* techniques. So the thesis marks cost–benefit reasoning **none** for the baseline attacker and the APT attacker model alike. A blind scorer, given Chapter 4 alone, raised it; see handoff `2026-10-11_ch6_1_redraft_scrutiny.md` §19–§20. The 'partial' in the row above is history.
+
 > **Prior-work column RE-SCORED 2026-10-02 (Marc: "the rescored table looks
 > right").** Every row was re-read blind under one model-agnostic rule: an attacker
 > model, executed or computed, is scored on what enters it, and framing is reported
