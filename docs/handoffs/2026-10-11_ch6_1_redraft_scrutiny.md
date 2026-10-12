@@ -744,3 +744,25 @@ Marc's ruling: point 1 was warranted, since the old marks could not be argued in
 - **Owed:** the baseline attacker's rows, after Brown 2023 and Zhang 2023 are extracted the same way.
 - **Checks:** build clean, 119 pages.
 
+## 19. The APT attacker model scored blind from its own chapter (2026-10-12)
+
+**Packet** (session scratchpad `blind_apt/`):
+- Chapter 4 §§4.1–4.4 as rendered text, with the authors' property claims redacted;
+- §2.2 (MTDSim and the baseline attacker);
+- the Appendix B rule and predicates.
+
+The scorer was a general-purpose agent, told to use those files only.
+
+**Blind marks:** ✓ P ✓ P P **✗** ✗ ✗. Ours are ✓ P ✓ P P **P** ✗ ✗. Every other cell agrees: row 2 assumed, row 3 yes, row 4 rule, row 5 rule/no.
+
+**Row 6, cost–benefit reasoning: the one disagreement.**
+- *Finding 1, verified in code:* the APT attacker model drives the shared exploit core (`attack_operation._do_exploit_vuln`, `driven=True`). That core takes each service's vulnerabilities sorted by RoA (`mtdnetwork/component/services.py:257`, `:278-287`). So our P is true of the model, but **Chapter 4 never says so**; only §2.2.3 states it, for the baseline attacker.
+- *Finding 2, on merit:* the RoA order chooses *which vulnerability* the exploit attack action tries, which is a choice within one ATT&CK technique, not among techniques. Under the strict reading (technique = ATT&CK technique, as ruled), row 6's behaviour predicate is no for **both** the baseline attacker and the APT attacker model. That gives P → ✗ for both and leaves the gains over the baseline unchanged. The counts would become: APT attacker model 2 full, 3 in part, 3 none; baseline attacker 1 full, 2 in part. **Proposed to Marc; not applied.**
+
+**Other contested cells, with counterpoints to add to Table B.2:**
+- APT row 1Q: Chapter 4 never states when a run ends. The run ends by the simulator's rule (objective at NCR > 0.8, or the time horizon, `movement/run.py:528`), the same for both attackers; nothing in the model ends its campaign.
+- APT row 4: a deployment during an unmapped tactic "never changes which tactic comes next" (§4.4.1).
+- APT row 5 B1: it is faster than the baseline attacker on brute force (4.5 s against 20 s) and enumerate host. It is slower overall through the declared durations, mostly time in unmapped tactics.
+
+**Applied the same day:** the §3.3.2 baseline sentence now reads "which changes only the host it attacks next and whether it gives up on it".
+

@@ -3354,7 +3354,7 @@ rule sets its response to each kind of disruption, such as always
 re-scanning after a host-layer disruption \citep{brown2023}. It has cost--benefit reasoning in part: it orders the exploits on a host by
 return on attack (RoA), but weighs the cost of no other attack action. It has no objective-specific behaviour: after a foothold it takes the same
 six attack actions in either attack scenario, which changes only the host it
-attacks next, and none of them exfiltrates or impedes. It has no learning: an
+attacks next and whether it gives up on it, and none of them exfiltrates or impedes. It has no learning: an
 exploit of a vulnerability it has exploited before takes half the time
 \citep{zhang2023}, but it keeps vulnerabilities, not the patterns of MTD
 deployments, and the memory changes no choice. It has no detection avoidance: it scans actively and does nothing to avoid an IDS. It has no deployment-strategy awareness: nothing in it uses which mechanism deploys next or when
