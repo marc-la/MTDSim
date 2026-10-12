@@ -3032,3 +3032,40 @@ Marc's questions:
 5. The Petri net could carry the AND joins and the conditions; built with one token, it uses neither.
 
 **Close:** unchanged.
+
+## §43. §6.3 ¶2 (SQ1) redraft proposed (Marc 2026-10-12, "translate all of this scrutiny into paragraph two"; not applied)
+
+From the §42.4 slots and the §41 fixes. 176 → 156 words.
+
+```latex
+In answer to \ref{sq:capture}, the attack flows that analysts drew step by
+step from threat reports give the APT attacker model the order of its
+tactics, by objective. The order gives it choice of attack strategy in full,
+because its Petri net draws each next tactic during the run, among the edges
+out of the tactic it is on (Equation~\ref{eq:base-weight}). Its objective-specific
+behaviour comes from the attack profiles, which differ in actions on
+objectives (Section~\ref{sec:attack-profiles}). Building the attack graph
+keeps which tactic follows which and drops the rest of each step: its
+technique, and the tools, malware and vulnerabilities it used
+(Section~\ref{sec:technique-graph}). It also drops how the steps combine: the
+AND joins, which require several steps done before the next, and the
+conditions between steps. The attack flows almost never record how long a
+step took. They never record what the attacker did after a failure, because
+each draws only the steps its attacker completed
+(Section~\ref{subsec:failure-matrix}).
+```
+
+**What each §41 point became:**
+- The "how": "drew step by step" (manual attack profiling records the order).
+- "APT attacker's" is dropped; the bound stays in §6.5.
+- The drops are given the reason "building the attack graph", not "to run".
+- "Procedures" became the tools and malware.
+- The AND join is glossed for ¶3.
+- Objective-specific: "differ in actions on objectives"; the mark is left to ¶3.
+- Judgement, marks 4 and 5, and "them" all moved to ¶3.
+- "Threat reports" appears once, then "attack flows" throughout.
+- Edge weights: "among the edges out of the tactic it is on" (Appendix B row 3's reason, run time and current state).
+
+**Knock-ons:**
+- ¶2 and ¶3 must land together. Otherwise adaptivity and detection avoidance lose the sentence that gave their marks.
+- Appendix B row "APT attacker model, 2" still says "enter different tactics after the foothold for different objectives". It changes to "differ in actions on objectives" when ¶2 lands (auto, downstream).
