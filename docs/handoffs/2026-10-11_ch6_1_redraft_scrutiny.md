@@ -3257,3 +3257,42 @@ judgement where MTD disrupts it.
 2. **Cut the AND-joins/conditions sentences.** **Recommended:** the same test as the tools cut; ch7 future work already carries the one-token point.
 3. **One chain for detection avoidance:** nothing watches → only tactic durations → ours. **Recommended.**
 4. **Persistence wording:** use ch4's ("keeps it with those attack actions") and drop "loop". **Recommended.**
+
+## §49. §6.3 ¶3 (SQ2) redraft proposed, on the §48 slots (Marc 2026-10-12, "translate … into a clear, concise argument"; not applied)
+
+All four §48.6 recommendations are taken as approved with the structure:
+- the punch is the trade;
+- the AND joins are cut;
+- detection avoidance gets one chain;
+- persistence is worded as ch4 does, and "loop" is dropped.
+
+148 → 169 words. It now carries marks 4 and 5, owed from ¶2. §6.3 is about 450 words in all.
+
+```latex
+In answer to \ref{sq:model}, the APT attacker model executes the order of its
+tactics inside an existing simulator, MTDSim, by mapping eight of the 15
+tactics onto MTDSim's six attack actions
+(Section~\ref{subsec:tactic-verb-mapping}). It shares the baseline attacker's
+attack actions and MTD deployments, so it keeps the baseline attacker's
+campaign persistence. Any difference between the two attackers comes from what
+the APT attacker model adds. We set two of those additions by judgement: the
+tactic durations and the failure matrix. The failure matrix makes its response
+to failure a fixed rule of ours, so adaptivity is in part
+(Table~\ref{tab:fidelity-verdict}). The same attack actions cap the APT attacker
+model, because
+the other seven tactics have none to run. Collection, Exfiltration and Impact
+have nothing to act on, which leaves objective-specific behaviour in part.
+Nothing in MTDSim watches the attacker, so its detection avoidance comes only
+from the tactic durations we set, and is in part. The attack actions that make
+the two attackers comparable therefore also set the APT attacker model's
+ceiling.
+```
+
+**Facts:**
+- 8 of 15 tactics mapped (7 unmapped, ch4 §4.4.1).
+- The same MTD deployments (ch4 §4.4.2; ch5).
+- Persistence kept with the attack actions (ch4 opener).
+- The failure matrix is a fixed rule (App B row 4).
+- "Nothing in MTDSim watches the attacker" and "nothing to act on" (ch4 §4.4.1).
+- Detection avoidance only from the tactic durations (§6.1 ¶3).
+- The ceiling (ch4 §4.4.1).
