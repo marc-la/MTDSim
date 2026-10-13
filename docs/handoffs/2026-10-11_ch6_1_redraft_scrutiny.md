@@ -5353,3 +5353,9 @@ Marc asked for a quick check of T1 for clauses that detract. Three cuts applied:
 ## §134 T1 last sentence (Marc 2026-10-13)
 
 "and the host layer's explanation rests on both" judged rhetorically inflated; replaced with the conventional threats wording: "so we cannot rule out either as a cause of the host layer's result." Build clean, 118 pages.
+
+## §135 Threats terminology guide (Marc 2026-10-13)
+
+Marc asked for the field's conventional threats-to-validity wording, kept retrievable for every T1–T12 round, applied to nothing yet. A literature sweep (Shadish et al. 2002; Wohlin et al. 2012; Runeson & Höst 2009; de França & Travassos 2015; Sargent 2011; Verdecchia et al. 2023; Verdecchia & Bogner 2025; Lago et al. 2024; Wyrich & Apel 2024; Sjøberg & Bergersen 2023) is distilled into docs/workflows/threats_terminology.md, each item marked verified or from memory (Shadish and Wohlin books not opened: check before quoting). Indexed in docs_map.md and in memory.
+
+Flagged for the T-rounds, not applied: T1 S1 "likely explain" is a causal attribution; the conventional forms are "a plausible explanation is" / "is consistent with" (guide §b). The other T-items should be checked for the same.
