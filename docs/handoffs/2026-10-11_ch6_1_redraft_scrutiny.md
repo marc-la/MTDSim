@@ -3985,3 +3985,7 @@ Two rounds after §66. Round 1 (critique): the opener abstracted ("one attacker 
 **Out.** Blocks against time lost (§6.2); MTTC coverage (definition); the worst case by metric (parked, §66); the threshold illustration's service-layer-never clause (§5.3.2 carries the numbers).
 
 **To verify before drafting.** "Evaluations run one attacker model" (Marc): check §3.3's surveyed evaluations (Table 3.3 rows) before any sentence claims it; otherwise scope it to the evaluations surveyed or drop it.
+
+## §70 — §6.4 ¶3: cost and threshold sentences cut (Marc 2026-10-13, "apply those cuts to paragraph three")
+
+99 words removed ("MTDSim also charges an MTD deployment nothing ... (Table E.1)"); the efficiency point moves to ¶2 (draft pending, §69). Until ¶2 is applied the PDF carries no efficiency point. Build clean.
