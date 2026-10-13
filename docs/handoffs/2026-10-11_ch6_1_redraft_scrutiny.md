@@ -5363,3 +5363,16 @@ Flagged for the T-rounds, not applied: T1 S1 "likely explain" is a causal attrib
 ## §136 T1 run through the terminology guide (Marc 2026-10-13)
 
 Only S1 changed: "likely explain" (a causal attribution) -> "are a plausible explanation of why" (Shadish's term; pairs with S5's "cannot rule out"). S2–S5 already follow threat -> mitigation -> what remains. Build clean, 118 pages.
+
+## §137 T2 (thr:conditions) scrutiny, no redraft (Marc 2026-10-13: "what's the threat, what's the mitigation, what's the hedge ... in one sentence ... scrutinise this as it stands")
+
+**One-liner as it stands.** Threat: the baseline attacker's NCR with no MTD is 0.50 against the APT attacker model's 0.15-0.21, and a run ending at the first target host cuts the baseline attacker's NCR short in 656 of 1,000 runs. Mitigation: each ranking compares MTD mechanisms within one attacker, and the layer order also holds on ASP reduction. What remains: not stated.
+
+**Findings.**
+1. S1-S2 state no threat. Action times and the vulnerability memory are parts of the APT attacker model, i.e. the treatment; T1 already covers which part causes the result. Same as §114 ("dissolve").
+2. Two threats of two types in one item: different NCR with no MTD (conclusion: what the cross-attacker rank-1 comparison can bear) and run-end truncation (construct: NCR counts hosts only until the run ends). Mislabelled under internal (guide §e).
+3. "likely do not decide": causal hedge (guide §b; §135 flag). Ranks within one attacker are scale-free, so the mitigation needs no hedge, or the threat is too small to keep.
+4. No residual for either threat. Missing nuance for truncation: its direction. A run whose target host MTD protects runs on to 15,000 s and can compromise more hosts, so truncation may understate the baseline attacker's NCR reduction. To verify from the code and runs before stating.
+5. Terms: "do not run under identical conditions" (vague); "MTDSim's time" (ch4 term: the baseline attacker's times); "starting points" (coined; NCR with no MTD); "stops short" (figurative); "not MTDSim's time" (not-X-but-Y); "A run also ends" ("also" as glue).
+
+**Recommendation (not applied).** Dissolve as §114 sorted: cut S1-S2; the NCR-with-no-MTD point becomes one clause in T8 (or is cut); run-end truncation becomes a construct item on NCR (threat, the ASP-reduction check as mitigation, the direction of bias as what remains, once verified).
