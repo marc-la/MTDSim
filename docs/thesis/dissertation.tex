@@ -9027,27 +9027,27 @@ attack actions.
 \label{sec:threats}
 % REDRAFTED 2026-10-13 (Marc: "ranked T1-Tn ... first draft mechanical structure"):
 %  v1, applied for reading, NOT ratified. Scrutiny, convention sources and evidence
-%  checks: handoff 2026-10-11_ch6_1_redraft_scrutiny.md sections 109-110. Limitations
-%  (chosen scope) first, then threats T1-T11 grouped by type (Wohlin et al.) and
-%  ranked within type by leverage on SQ2. The 2026-10-08 point sets and DRAFT STATE
-%  comments it replaces are in git history. wohlin2012 added 2026-10-13 (Crossref).
-%  About 1,470 words against a target of about 1,000-1,100: cut pass owed.
-
-Every result is a result in MTDSim, within limitations we chose. The APT attacker
-model runs MTDSim's six attack actions, which carry out eight of its 15
-tactics and stop at compromising hosts (Section~\ref{subsec:tactic-verb-mapping}).
-One token pursues one line of a campaign at a time
-(Section~\ref{sec:petri-formalism}). MTDSim measures no efficiency metric, and
-nothing in MTDSim watches the attacker. Each run uses MTDSim's default network
-of 50 hosts and lasts at most 15\,000\,s, about four hours, against campaigns of
-months (Table~\ref{tab:experiment}). The evaluation is simulation only
-(Section~\ref{subsec:evaluation-methods}), with existing MTD mechanisms, each
-deployed at a deployment interval (Section~\ref{subsec:defence-mechanisms}).
-Each limitation is a direction of future work (Section~\ref{sec:future-work}).
-
-The threats to validity below are risks we did not choose. They are grouped
-into the four types of Wohlin et al.\ \citep{wohlin2012} and ranked within each type by how
-far each could change the answer to \ref{sq:evaluate}.
+%  checks: handoff 2026-10-11_ch6_1_redraft_scrutiny.md sections 109-115. Threats
+%  T1-T12 grouped by type (Wohlin et al.) and ranked within type. wohlin2012 added
+%  2026-10-13 (Crossref). Cut pass owed (handoff section 114 sort).
+% OPENER 2026-10-13 (Marc: "why do we have two paragraphs ... what is the point
+%  of the opener"; "easy do that"), handoff section 115: one paragraph that
+%  orients, no verdict and no list of the largest threats (the ranking shows
+%  them). Limitations folded in as one list; the four types as four questions.
+This section sets out the threats to the validity of this chapter's claims,
+the risks we did not choose. The limitations are the scope we chose: MTDSim's
+six attack actions, with no actions on objectives; one line of a campaign at a
+time (Section~\ref{sec:petri-formalism}); MTDSim's default network of 50
+hosts; runs of at most 15\,000\,s, about four hours; simulation only; existing
+MTD mechanisms, each deployed at a deployment interval; no efficiency metric;
+and no IDS. Each is a direction of future work (Section~\ref{sec:future-work}).
+Wohlin et al.\ \citep{wohlin2012} group threats into four types, each a
+question about a claim: whether it has the cause we give (internal validity),
+whether the metrics and the parts we declared represent what we say they do
+(construct validity), whether the statistics support it (conclusion validity),
+and whether it reaches APT attackers beyond MTDSim and the 38 attack flows
+(external validity). Within each type, the threats are ranked by how far each
+could change a claim.
 
 \paragraph{Internal validity.}
 \begin{enumerate}[label=T\arabic*, ref=T\arabic*, series=threats, align=left]

@@ -4956,3 +4956,12 @@ Gaps, in proposed order of weight:
 - S2: the limitations are the scope we chose, named in one sentence (one token, the default network, 15 000 s, simulation only, existing MTD mechanisms, no efficiency metric, no IDS), each a direction of §7.2.
 - S3: the four types as the four questions, citing Wohlin et al.
 - S4: the ranking rule. Within each type, by how far the threat could change an answer, so the first item of each type is its largest.
+
+
+## §116 — §6.5 opener applied from the §115 slots (Marc 2026-10-13: "easy do that")
+
+- The two paragraphs (limitations; threats lead-in) are now one, about 160 words: S1 threats are risks not chosen; S2 limitations as one list plus a §7.2 pointer; S3 the four types as four questions (Wohlin et al.); S4 the ranking rule.
+- Over the 70-90 slot estimate, because the limitations list carries eight items. Still about the same as the two paragraphs it replaces (about 145). Net §6.5 about 1,600.
+- Choices: "one line of a campaign at a time" glosses one token (as v1 did). "With no actions on objectives" is §6.3 ¶3's phrase. "The parts we declared" is §6.3's term, covering the tactic durations, the failure matrix and the mapping. The ranking rule says "a claim", not SQ3, since construct threats bound §6.1 and §6.3.
+- Dropped from v1: the per-item pointers except one token (the reader can find each in ch4-5), "against campaigns of months", and "Every result is a result in MTDSim" (the ch6 opener says it).
+- Build 118 pages, 0 undefined.
