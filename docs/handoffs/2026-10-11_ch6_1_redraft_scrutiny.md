@@ -4531,3 +4531,9 @@ actions.
 - One hedge ("likely") for the step from one simulator to others; S5 keeps its own "likely" on the cause.
 - "Which MTD layer reduces NCR most" is the SQ2 answer's wording (§6.2) and the result an MTD evaluation reports.
 - The implicit so-what is that varying the attacker model is worth doing even inside one simulator. It is not stated as a should: ¶1 and ¶2a already carry the shoulds to test against more than one attacker model.
+
+## §102 — Where the three findings live; the "within the limit" framing parked for ch7 (Marc 2026-10-13: "I really liked that ... is that my contribution or an introduction point")
+
+Marc likes v6's ending. The three findings named in chat (the MTD layer flips with the attacker; MTDShield reduces the APT attacker model's NCR less than random does; rankings on NCR reduction uncorrelated) are Contribution 2 (SQ2), already claimed in the abstract (most effective MTD mechanism differs at every interval; 92 vs 36 %), ch1's second contribution bullet, and ch7 Contribution 2 (claim; MTDShield under Impact). The correlation is in §5.3.2 and §6.4 ¶2a. Not new contributions, and not intro points beyond ch1's bullet.
+
+**New, and parked for the ch7 pass (gated, propose first).** The framing that strengthens Contribution 2: the two attackers share MTDSim's attack actions, networks, MTD mechanisms and seeds, yet the most effective MTD layer differs. Candidate for ch7 Contribution 2's Claim or Not claimed: "even though the two attackers share MTDSim's attack actions". Frankness bound: that they share the attack actions is measured design; that order and timing caused the flip is hedged ("likely"; no run separates them, ch7 Not claimed; future work F13).
