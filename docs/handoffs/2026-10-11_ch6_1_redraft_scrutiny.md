@@ -4175,3 +4175,12 @@ A mechanism's overhead and loss of service per deployment are properties of the 
 **Spine B (fold into ¶2a).** Slots 1 and 3 as two sentences before ¶2a's should, which then reads "its effectiveness and efficiency metrics". ¶2a's opener would go back to "On metrics". Saves about 50 words. The cost is that it undoes the Cho split and the paragraph just applied.
 
 **Recommendation.** A. It keeps Cho's split visible, and its so-what (efficiency metrics are no way out of the attacker model) is its own point, not a second should. Dropped from §83: slot 5's "more than one attacker model" should, which repeated ¶2a.
+
+
+## §85 — §6.4 ¶2b v3 drafted from spine A, proposed, not applied (Marc 2026-10-13: "a hypothesis ... risk of not moving is the mechanism ... no should, because we don't have any leg to stand on")
+
+Scratchpad p2b_v3.tex, about 120 words, six sentences, one hedge ("likely", S1). The claim leads with Marc's point: adding efficiency metrics (the other half of Cho's classification) would not free an evaluation from its attacker model. S2 uses Table 3.1's terms (system performance overhead, quality of service) and states the weighing (Marc's mechanism). S3 is the route: cost grows with how often MTD deploys, and the deployments needed depend on the attacker model. S4-S5 give the evidence at tested intervals. S6 is the so-what, with no should.
+
+**Precision note.** An efficiency metric itself (overhead per deployment) does not depend on the attacker. What depends on the attacker is the choice it informs, through the deployments a given NCR reduction needs. S2-S3 say this, so S1 claims dependence for the evaluation, not for the metric.
+
+**Checks (numbers_reported.json, service diversity NCR reduction).** APT attacker model: 0.502 [0.49, 0.51] at 50 s, 0.503 at 100 s, 0.364 at 200 s; never above about half, hence "only at 100 s or shorter". Baseline attacker: 0.536 [0.52, 0.55] at 1,000 s. Host layer mean (printed): baseline 0.49 at 200 s, APT 0.52 at 1,000 s.
