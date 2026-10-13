@@ -4184,3 +4184,12 @@ Scratchpad p2b_v3.tex, about 120 words, six sentences, one hedge ("likely", S1).
 **Precision note.** An efficiency metric itself (overhead per deployment) does not depend on the attacker. What depends on the attacker is the choice it informs, through the deployments a given NCR reduction needs. S2-S3 say this, so S1 claims dependence for the evaluation, not for the metric.
 
 **Checks (numbers_reported.json, service diversity NCR reduction).** APT attacker model: 0.502 [0.49, 0.51] at 50 s, 0.503 at 100 s, 0.364 at 200 s; never above about half, hence "only at 100 s or shorter". Baseline attacker: 0.536 [0.52, 0.55] at 1,000 s. Host layer mean (printed): baseline 0.49 at 200 s, APT 0.52 at 1,000 s.
+
+
+## §86 — §6.4 ¶2b v4 clarity pass, proposed (Marc 2026-10-13: "very well thought through ... I'm happy with it"; four refinements)
+
+Scratchpad p2b_v4.tex.
+- S2: "Efficiency metrics measure the cost of MTD" restated ch3's definition. Now "An evaluation weighs the cost of MTD, such as system performance overhead and quality of service (Table 3.1), against the effectiveness of MTD": the terms are used, not redefined.
+- S3: "For a given MTD mechanism, the cost grows with how often it deploys" (Marc: cost also depends on the mechanism and how it is modelled). This also sets up the same-mechanism evidence.
+- S4-S5 reframed so that deploying less often reads as the good outcome (Marc: the numbers read as "bigger is bad"). "Reduces NCR by about half when it deploys every 1,000 s against the baseline attacker, but only when it deploys every 100 s or more often against the APT attacker model"; the host layer is parallel (200 s, 1,000 s).
+- S6: "worth its cost" (rhetorically inflated) becomes "can therefore be efficient against one attacker model and not against another".
