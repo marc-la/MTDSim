@@ -3658,3 +3658,70 @@ Marc kept ¶3's S2 as it is. On the close he asked: what must it carry, is it ne
 - Ablate before refining (ch7).
 - The detection-input detail (Appendix D).
 - "Neither is the better one" as worded. Its intent becomes ¶3's hinge.
+
+## §62. §6.4 structure from first principles (Marc 2026-10-13: "not sold … vague … what are all the takeaways … what is conventional"; nothing applied)
+
+**Sources read**
+- the assembly handoff, §4 (6.4-I1–I6), §14 (six examiners) and §14a (Marc's twelve answers);
+- harvest C, M01–M96, held outside the repo;
+- harvest D (the UWA rubric, B1–B14, the implications skeleton);
+- ch1 (the gap, contribution 2) and ch3 §3.2;
+- Table 5.1.
+
+**Where the structure comes from.** Ch3 §3.2 opens: "This section surveys the three parts of an MTD evaluation that use the attacker model \citep{cho2020}": the MTD modelling approaches, the metrics and the evaluation methods. Each subsection ends on a claim about the attacker model that ch5 now tests:
+- **Modelling approaches:** "The attacker model therefore decides which deployment strategy is optimal", with Cho's diversity example.
+- **Metrics:** ASP, MTTC and NCR depend on how the attacker is implemented (Hong); MTD mechanisms cannot be compared across evaluations (Jalowski).
+- **Evaluation methods:** simulation dominates because it models attack behaviours flexibly; simulation results do not transfer.
+
+§6.4 is named after §3.2, so it answers §3.2 part by part. This meets B1 (tie back to ch3) and B6 (engage the literature critically).
+
+**Alternatives set aside**
+- **Table 5.1 (varied and held settings).** It is shaped like the experiment, so it replays ch5. It has no home for the metrics. Its held settings (network, target hosts, diversity pool, scenario) are §6.5's external validity.
+- **By audience.** There is one audience.
+- **"Three decisions" (§60).** Our own sort.
+- **Problem → consequence → answer (§61).** Its paragraph jobs were vague.
+
+**Proposed, about 840 words against 1 192**
+- **Opener (~60).** The three parts of §3.2 that use the attacker model, and that the results bear on each in MTDSim. One scoping hedge. No "\ref{sq:evaluate} was answered".
+- **¶ MTD modelling approaches (~280).** A deployment strategy is optimal only for the attacker model it was found against.
+  - ρ −0.24 to 0.25; no shared first rank at any deployment interval. Ch3 argued it; ch5 measures it.
+  - Cho's example runs the other way in MTDSim: service diversity ranks first against the baseline attacker and fourth against the APT attacker model at 200 s (Scott–Knott, checked). Hedged: a different MTD mechanism and simulator.
+  - MTDShield (machine learning, trained against the baseline attacker): 0.68 against 0.56 and 0.28 against 0.80, beside random over its four.
+  - So: test against an attacker model the strategy was not found against.
+  - Where the attacker is unknown, rank by the worst case over several attacker models (Marc's "trust the better one or take the minimum"). On NCR reduction that is IP shuffle at every deployment interval. It is a bound over the attacker models run only.
+- **¶ Metrics (~250).** A shared metric is not enough to compare MTD mechanisms: the attacker model alone reorders them, so comparison also needs shared attacker models (extending Jalowski). The metrics also read the two attackers differently:
+  - ASP and NCR alone rate the APT attacker model weaker (§6.1);
+  - attack actions blocked flatter the host layer against the baseline attacker, whose time lost is at or below zero;
+  - ASP reduction reaches 1, and splits sign from 500 s;
+  - MTTC covers only the runs that reach a target host.
+
+  So: report behaviour beside outcome and time lost beside blocks, and lead with NCR reduction. The worst case turns on the metric (service diversity on ASP reduction from 100 s).
+- **¶ Evaluation methods (~250).**
+  - Simulation's flexibility makes the attacker model a variable that can be swapped with the networks, MTD mechanisms and seeds held.
+  - But the simulator's rules were written for its own attacker: what each deployment takes, the preconditions, and user shuffle. So: report the interface on both sides, the four declared parts and the rules they meet.
+  - MTDSim charges nothing for a deployment, so a sweep cannot choose a deployment interval. A defender who sets a threshold of acceptable disruption and a cost could (Marc, M74).
+    - Illustration, layer NCR reduction ≥ 0.5: against the baseline attacker, host layer to 100 s and service layer to 200 s; against the APT attacker model, host layer to 1 000 s and service layer at no interval.
+  - Transfer to a real network is §6.5's.
+
+**Marc's ideas, triaged on merit**
+- **Kept, as above:**
+  - M01, M03–M07, M11, M12;
+  - M31 and M74, as the threshold illustration;
+  - §14a Q2 (optimal is like a model on its training set), Q4, Q6 and Q8 (take the bottom of each).
+- **To §6.5:** M08 (no transfer); the held settings; "nothing watches the attacker"; the time limit.
+- **To §7.2:**
+  - IDS-paired risk-based MTD (Q8);
+  - post-intrusion MTD (Q9);
+  - technique-level graph ablation (Q1);
+  - learned strategies recommending a fixed set (Q6);
+  - retraining MTDShield (M72);
+  - extending the attack actions (M73);
+  - MTD cost and QoS (Q7).
+- **Dropped:**
+  - "neither attacker model is better" as worded (its intent is the worst case);
+  - "CTI cuts the assumptions" (§6.3 owns what CTI gives);
+  - "write attack actions without a fixed order" (as a prescription; future work at most);
+  - "ablate before refining" (§5.4 and ch7);
+  - random as not its members' mean;
+  - the detection-input detail (Appendix D);
+  - "the rankings invalidate the field" (M07, overreach).
