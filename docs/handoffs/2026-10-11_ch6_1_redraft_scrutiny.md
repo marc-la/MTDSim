@@ -4230,3 +4230,23 @@ Rejected: (B) "simulation lets an evaluation change the attacker model and hold 
 **Cut, and where each idea lives.** Controlled comparison: §6.5. The four declared parts: ch4 sec:execution, and §6.3 for their effect. Transfer to real networks: §6.5. The attacker that analytical models import: ch3 §3.2.1, untested here.
 
 **Dependencies.** (a) The §6.4 opener's list: ¶3's item becomes "report the simulator's rule for each MTD deployment". (b) Gated ch7: Contribution 1's Impact points to §6.4 for "the interface: tactic-to-action mapping, tactic durations, failure handling", which goes stale if the list is cut; propose a repoint. (c) App fa-accounts points to §6.4 for "follows from MTDSim's rule", so ¶3 must keep user shuffle, or that pointer needs a new home.
+
+## §90 — §6.4 ¶3 thread revised, proposed, no draft (Marc 2026-10-13: "the thread hasn't really sold me yet because it's a bit vague ... the attack actions are the drivers ... you can only do six things ... further back on the timeline")
+
+**Why §89 was vague.** "MTDSim's rules for MTD deployments" names nothing a reader can picture. It could mean MTDShield, the random deployment strategy, the deployment intervals or the network, but all of those are inputs the evaluation chose, and none of them assumes an attacker. What §89 meant is narrower: where each deployment sends the attacker back to (Figure 2.x's dashed arrows). That is itself defined over the attack actions. So the attack actions are the thread, and the deployment rule is one of them.
+
+**One-liner (revised).** "On evaluation methods, a simulator's attack actions limit how far a new attacker model can differ from the simulator's own attacker." Ch3 credits simulation with modelling specific attack behaviours flexibly (Cho) and closes on "This dissertation uses MTDSim's flexibility to run an APT attacker model through its existing attack actions". ¶3 says what that bought.
+
+**Distinct from ¶1.** ¶1 is the MTD modelling approach: the deployment strategy carries an attacker (MTDShield learned the baseline attacker). ¶3 is the evaluation method: the simulator carries an attacker (its six attack actions, their order and where each deployment sends the attacker back to). ¶1 is about the defence; ¶3 is about the test bench. Nothing needs to come out of ¶1.
+
+**Evidence (all printed).**
+- (a) Timing: with the baseline attacker's times in place of its tactic durations, the APT attacker model closes about two thirds of its gap in ASP (§6.1, App run-time). Its outcomes differ mostly in when, not in what.
+- (b) Order: 15 to 30 % of the attack profiles' attack actions fail on preconditions, because the six attack actions encode the baseline attacker's order (§6.1; §6.5 "the six encode one order").
+- (c) Deployment rule: the host layer's lead against the APT attacker model turns on where MTDSim sends each attacker after a host-layer deployment (§6.2).
+- (d) Cap: 8 of 15 tactics mapped; no actions on objectives (§6.3).
+
+**Spine.** S1 the claim. S2 ch3 (Cho's flexibility; the dissertation's use of it). S3 in MTDSim, the APT attacker model differs from the baseline attacker in the order and timing of the same six attack actions: (a) and (b). S4 against MTD, its results turn on the simulator's rule for each deployment: (c), as a pointer to §6.2. S5 one hedge on the general claim. S6 the should, or none.
+
+**Should, two options.** (i) "An MTD evaluation that runs a new attacker model in a simulator should therefore report which of its tactics the simulator's attack actions cannot run." The leg: the seven unmapped tactics, including actions on objectives, are why ASP and NCR rate the APT attacker model weaker (§6.1 close). (ii) No should, ¶2b style: the so-what is that changing the attacker model in a simulator changes the order and timing of its attack actions, and an attacker that differs in what it can do needs new attack actions. Lean: (i), because it is actionable and has a leg.
+
+**Knock-on.** If user shuffle leaves ¶3, App fa-accounts' pointer ("follows from MTDSim's rule ... Section evaluation-implications") needs a new home (§6.5 or §6.2). Ch7 Contribution 1's "interface" pointer still needs repointing (gated).
