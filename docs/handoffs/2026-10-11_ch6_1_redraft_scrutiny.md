@@ -4154,3 +4154,24 @@ A mechanism's overhead and loss of service per deployment are properties of the 
 **Cut.** The longest-interval recommendation; the cross-layer comparison (§5.3.2 has it); S4's restatement.
 
 **Open for Marc.** (a) Keep slot 5, or end on slot 4 and let ¶2a's should ("report its metrics against ...") cover efficiency too. Recommendation: keep slot 5; "more than one" follows from "both directions", which is ¶2b's own evidence. (b) Use the host-layer mean, or a single mechanism for both cases (IP shuffle: 0.68 vs baseline at 200 s, 0.58 vs the APT attacker model at 1,000 s, which does not sit at half). Recommendation: the layer mean for the host layer, as Figure 5.3 plots it.
+
+
+## §84 — §6.4 ¶2b: what to present (Marc 2026-10-13: "the one-liner is too confused ... efficiency metrics are not the silver lining ... they will still be implicit to the attacker model ... we can only hypothesise")
+
+**Marc's argument, restated.** Efficiency metrics (defence cost, system performance overhead, quality of service; Table 3.1) let an evaluation weigh the cost of moving against the risk of not moving. That weighing takes its effectiveness side from the attacker model, so efficiency metrics do not escape the attacker model; they inherit it. MTDSim measures none, so this is a hypothesis (one hedge). Service diversity looks efficient against the baseline attacker and would likely not be against the APT attacker model.
+
+**One-liner (replaces §83's).** *An efficiency metric weighs the cost of MTD against its effectiveness, so it inherits the attacker model through the effectiveness.*
+
+**Terms check (Table 3.1).** Defender-side efficiency: defence cost and system performance overhead; quality of service. Risk is listed as a defender-side *effectiveness* metric (Alavizadeh, Ho). So "the risk of not moving against the cost of moving" pairs an effectiveness metric with an efficiency metric. That pairing is the mechanism: the effectiveness side carries the attacker model.
+
+**What it presents.** A hypothesis, with ¶2a as its premise. Effectiveness depends on the attacker model (¶2a, measured). Efficiency is cost weighed against effectiveness, so it likely does too (inferred, one hedge). The same-mechanism rows (§83) show how: cost per deployment belongs to the mechanism, and the deployments a given NCR reduction needs belong to the attacker model. Service diversity continues ¶2a's example: about half at 1,000 s against the baseline attacker and at 100 s against the APT attacker model. The host layer runs the other way (200 s vs 1,000 s).
+
+**Spine A (standalone ¶2b, ~100 words, no new should).**
+1. Claim, hedged: on efficiency metrics, which MTDSim does not measure (§6.5 pointer), the attacker model likely matters as it does for effectiveness, because an efficiency metric weighs the cost of MTD against its effectiveness.
+2. Ch3's terms: defence cost, system performance overhead, quality of service (Table 3.1). These are paid per deployment.
+3. Evidence: the deployments a given NCR reduction needs depend on the attacker model. Service diversity reaches about half at 1,000 s vs the baseline attacker and at 100 s vs the APT attacker model; the host layer is the reverse (Table eff-interval-values).
+4. So what: adding efficiency metrics would not free an evaluation from its attacker model. Service diversity, efficient against the baseline attacker, would likely not be against the APT attacker model. ¶2a's should covers it ("its metrics").
+
+**Spine B (fold into ¶2a).** Slots 1 and 3 as two sentences before ¶2a's should, which then reads "its effectiveness and efficiency metrics". ¶2a's opener would go back to "On metrics". Saves about 50 words. The cost is that it undoes the Cho split and the paragraph just applied.
+
+**Recommendation.** A. It keeps Cho's split visible, and its so-what (efficiency metrics are no way out of the attacker model) is its own point, not a second should. Dropped from §83: slot 5's "more than one attacker model" should, which repeated ¶2a.
