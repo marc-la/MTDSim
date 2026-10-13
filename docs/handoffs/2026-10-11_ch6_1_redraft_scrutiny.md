@@ -5071,3 +5071,23 @@ Nothing applied.
 ## §121 — T1 v2 and the T5 cut applied for reading (Marc 2026-10-13: "push it and recompile a PDF so that I can judge it")
 
 Applied as drafted in §120. Build 118 pages, 0 undefined. Not ratified.
+
+
+## §122 — T1 v2 read; wrong direction (Marc 2026-10-13: "a lot of context ... did you need all that lead-in ... not frank and honest ... obfuscating ... we didn't test them for a reason ... re-explaining, reinventing the wheel")
+
+Nothing applied; v2 stays in the tex until Marc rules.
+
+**Diagnosis of v2.**
+1. S1-S2 recap §6.2 and restate internal validity, which the opener already defines. One pointer does that job.
+2. S3-S4 re-narrate §5.4 and App C.1 (the three mechanisms, a quarter and four times, 200 s). The mitigation should name what was tested and where it is, without reporting it again.
+3. S5 states the untested parts with no reason, so it reads as evasive. The frank reason: the ablations removed what the model adds on top of its base. The weights (from CTI) and the mapping (our judgement, T6) are the base, and we took them as given.
+
+**Frank structure, three moves.** What we tested and found; what we did not test and why; what rests on the untested parts.
+
+**Candidate v3 (about 85 words):**
+- The causes §6.2 gives for the rankings were tested for some parts of the APT attacker model only.
+- Under MTD, removing the failure matrix or the vulnerability memory changes NCR negligibly, and removing the attack profiles or scaling the 45 s mean duration leaves the host layer first (§5.4; Table C.1b).
+- We did not vary the attack graph's weights or the tactic-to-action mapping. The weights are what CTI records and the mapping is our judgement (T6), so we took both as given.
+- The host layer's explanation rests on both.
+
+**Verified.** Table 5.4a: the failure matrix is negligible under IP shuffle and OS diversity, and the vulnerability memory under service diversity and OS diversity. Without the attack profiles, the same three host-layer mechanisms are first at every interval. Table C.1b: the host layer is above the service layer at both ends of the band.
