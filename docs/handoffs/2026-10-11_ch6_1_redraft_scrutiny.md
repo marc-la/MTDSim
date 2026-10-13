@@ -4666,3 +4666,196 @@ Text as §107. It replaces the placeholder and the stale DRAFT STATE / PLACEHOLD
   - Candidate rank: T1 cause not isolated (durations and order; B19; with-MTD run is future work); T2 judgement values (one threat; band test); T3 the mapping (input; total mapping 0.15 vs 8.13); T4 unequal conditions and the end of a run; T5 statistics for the layer claim and rank 1; T6 metrics by proxy and time lost; T7 the corpus; T8 no observed APT campaign against MTD (Sargent).
 - Target about 1,000–1,100 words, which saves about 700 and puts ch6 near 3,300.
 - Not recommended: a threat table in place of prose. It could read as a way round the word band, and as boilerplate (French's examiner feedback).
+
+
+## §110 — §6.5 v1 drafted, not applied (Marc 2026-10-13: "ranked T1-Tn ... don't move anything above 6.5 yet ... check whatever you need ... first draft mechanical structure ... float vestigial points")
+
+**Evidence checked before drafting (numbers_reported.json, ch5_defended).**
+- Layer means (Figure 5.3): the 95 % CIs of host and service layer separate at all six intervals, for both attackers. They also separate on ASP reduction (sweep_asp).
+- Per mechanism: against the APT attacker model, every host-layer mechanism is above every service-layer mechanism at every interval. Against the baseline attacker this holds only at 50 and 100 s. At 200 s IP shuffle = OS diversity (0.68). From 500 s IP shuffle is above port shuffle and OS diversity, so the service layer's lead is service diversity's alone.
+- Scott-Knott rank 1 (sk_esd groups) shares no mechanism at any interval: all host layer (APT attacker model) against all service layer (baseline attacker). But only 200 s is PRINTED (Table 5.3; Table C.1b at 200 s only).
+- B19 band test: 200 s only. Host layer above service layer at both ends (Table C.1b).
+- Re-verified against floats: 42-139, 656, 0.15-0.21 vs 0.50 (Table 5.2); 0.15 vs 8.13 (App B); 24 of 60 (sec:ablation); 18 of 38; one token (sec:petri-formalism).
+
+**Structure.** Opener (45 words); limitations, one paragraph (105); T1-T11 as an enumitem series (label T\arabic*, \label{thr:*}, as ch1's SQ list), under four run-in heads: internal T1-T4, construct T5-T8, conclusion T9, external T10-T11. Each item: the threat on a named claim, mitigation with pointer, residual. Compiled in a scratch copy: T1-T11 resolve; only wohlin2012 is undefined (not in bib); 118 pages.
+
+**Words:** about 1,470 against about 1,770 (the target is about 1,000-1,100; cut pass owed).
+
+**Vestigial / floated to Marc (nothing applied):**
+- Cut: the "prices nothing" causal paragraph and "speed raises alarms" (unsourced); §6.4 ¶2b and the limitations sentence carry it.
+- Cut: "refused" and the one-order sentence (§6.1/§6.3 carry it); "ten options, three deploy the other seven"; "near zero, small spread, large d"; random partitions "one time in eleven" (ch6 does not lean on it; it bounds §5.4).
+- Corrected: "a difference ... comes from the attackers, not ..." becomes T2, where part can come from MTDSim's rules.
+- Downstream (auto after ruling): App F.3 pointer to \ref{thr:rules}; ch4 l.4027 could point to \ref{thr:corpus} (ch4, propose); "refused" in App experiment-one.
+- Upstream (propose): print Scott-Knott rank 1 at every interval (§6.4 opener says "at every deployment interval"; T9's "200 s only" sentence then goes); wohlin2012 bib entry; ch7 §7.2 notes say "in that section's order" (order now limitations, then T1-T11); ch7 l.9572 "one clause per root" refers to the retired two-roots spine.
+- Limitations stay in §6.5: each is already declared upstream (one token sec:petri-formalism; network and run length Table 5.1; simulation only §3.2.3; nothing watches the attacker §4.4 mapping), so the paragraph names them as limits with pointers. §6.4 ¶2b and §7.2 point here.
+
+```
+\section{Threats to validity}
+\label{sec:threats}
+
+This section bounds the answers to the three sub-questions. Limitations are
+scope we chose; threats to validity are risks we did not choose. The threats
+are grouped by type \citep{wohlin2012} and ranked within each type by how far
+each could change the answer to \ref{sq:evaluate}.
+
+Every result is a result in MTDSim, within six limitations. The APT attacker
+model runs MTDSim's six attack actions, which carry out eight of its 15
+tactics and stop at compromising hosts (Section~\ref{subsec:tactic-verb-mapping}).
+One token pursues one line of a campaign at a time
+(Section~\ref{sec:petri-formalism}). MTDSim measures no efficiency metric, and
+nothing in MTDSim watches the attacker. Each run uses MTDSim's default network
+of 50 hosts and lasts at most 15\,000\,s, about four hours, against campaigns of
+months (Table~\ref{tab:experiment}). The evaluation is simulation only
+(Section~\ref{subsec:evaluation-methods}), with existing MTD mechanisms, each
+deployed at a deployment interval (Section~\ref{subsec:defence-mechanisms}).
+Each limitation is a direction of future work (Section~\ref{sec:future-work}).
+
+\paragraph{Internal validity.}
+\begin{enumerate}[label=T\arabic*, ref=T\arabic*, series=threats, align=left]
+\item\label{thr:cause} Which part of the APT attacker model makes the most
+effective MTD mechanism differ is not isolated. The APT attacker model differs
+from the baseline attacker in its tactic durations, the order of its tactics and
+its response to failure at once. Removing the failure matrix or the
+vulnerability memory changes NCR negligibly where each was run, and without the
+attack profiles the same three MTD mechanisms reduce NCR the most
+(Section~\ref{sec:ablation}). That leaves the tactic durations and the order of
+its tactics, which no run with MTD separates. The causes
+Section~\ref{sec:disc-mtd-performance} gives for each MTD layer are therefore
+likely, not shown. The APT attacker model with the baseline attacker's times
+was run with no MTD only (Appendix~\ref{app:fa-run-time}).
+
+\item\label{thr:rules} Part of the difference between the two attackers can
+come from MTDSim's MTD mechanisms, which were written against the baseline
+attacker's procedure (Section~\ref{subsec:attacker-model}). After a host-layer
+deployment, the APT attacker model has no host until the order of its tactics
+reaches Lateral Movement (Section~\ref{sec:disc-mtd-performance}). An APT that
+holds hosts through Command and Control might keep one, so the host layer's
+rank against the APT attacker model rests on MTDSim's rule. User shuffle leaves
+valid the accounts the attacker holds, so each deployment gives both attackers
+a fresh chance to log in (Appendix~\ref{app:fa-accounts}). Both attackers face
+the same MTD mechanisms, networks and seeds, and no MTD mechanism was changed
+for the APT attacker model, so the rules are shared but untested.
+
+\item\label{thr:conditions} The two attackers do not run under identical
+conditions. An attack action takes the mean duration of the tactic that runs
+it, not MTDSim's time (Table~\ref{tab:attack-action-times}), and the
+vulnerability memory acts on an exploit's chance of success, where the baseline
+attacker's acts on its time. With no MTD, the APT attacker model's NCR is 0.15
+to 0.21 against the baseline attacker's 0.50 (Table~\ref{tab:unopposed-summary}).
+Each ranking compares MTD mechanisms against one attacker, over that attacker's
+own NCR with no MTD, so the different starting points likely do not decide
+which MTD mechanism ranks first. A run also ends at the first target host
+compromised or at 15\,000\,s, so the baseline attacker's NCR stops short in 656
+of its 1\,000 runs with no MTD. The layer order also holds on ASP reduction,
+which does not depend on when a run ends
+(Table~\ref{tab:eff-interval-values-asp}).
+
+\item\label{thr:code} The code may not do what this dissertation says it does.
+It was checked by an event tracer that replays a run step by step, an audit of
+MTDSim's code against what its papers describe, unit tests of the Petri net and
+the simulator, and fixed seeds that reproduce every run exactly. Defects found
+in MTDSim were repaired before the evaluation, so the results are not compared
+numerically with earlier MTDSim studies.
+\end{enumerate}
+
+\paragraph{Construct validity.}
+\begin{enumerate}[resume*=threats]
+\item\label{thr:values} CTI records no tactic durations, failure-matrix values
+or factor for the vulnerability memory, so we declared them by judgement
+rather than fitting them (Table~\ref{tab:value-bases}). Each was varied,
+substituted or removed one at a time, which leaves their interactions untested,
+and three were not tested: the per-tactic duration multipliers, the share of
+weight given to the pre-intrusion overlay and the choice of one attack flow per
+APT group. Only the 45\,s mean duration changes NCR much
+(Table~\ref{tab:anchor-sensitivity}). At a quarter and at four times its value,
+the APT attacker model's rank~1 still shares no MTD mechanism with the baseline
+attacker's, and the host layer still ranks above the service layer
+(Table~\ref{tab:duration-ranking}). That test ran at 200\,s only.
+
+\item\label{thr:mapping} The tactic-to-action mapping is our input
+(Section~\ref{subsec:tactic-verb-mapping}). Command and Control is the only
+tactic that maps to scan neighbours, the attack action that finds new hosts, so
+it sets how fast the APT attacker model spreads. A total mapping gives every
+tactic an attack action, and most then fail on their preconditions: the APT
+attacker model compromises 0.15 hosts with no MTD, against 8.13 under the
+partial mapping (Table~\ref{tab:experiment-one}). No other partial mapping was
+tested.
+
+\item\label{thr:metrics} Three metrics measure their property only in part.
+Time lost per MTD deployment compares the wait under MTD with the wait from the
+same moment in the run with no MTD, and the two runs are identical only up to
+the first MTD deployment. At that deployment the baseline attacker's time lost
+falls below zero: sent back to scan host, it gets a second attempt at its first
+host, as MTDSim intends \citep{brown2023} (Section~\ref{subsec:aio-disruption}).
+Attack rate and attack confidentiality measure detection avoidance by proxy,
+through how often an attacker acts and a declared IDS rule
+(Appendix~\ref{app:detector-memory}). Distinct openings counts any variety, so
+it shows that the APT attacker model chooses among attack strategies, not that
+it chooses well. It counts an attack profile's steps as tactics and the
+baseline attacker's as attack actions; recounted in attack actions, the gap
+holds (Appendix~\ref{app:fa-behaviour-actions}).
+
+\item\label{thr:yardstick} The eight properties are this dissertation's reading
+of the APT definition and two surveys. They are not a complete standard, they
+are weighed equally though not equally important, and one scorer marked the APT
+attacker model and three MTD attacker models on them, with language models
+scoring blind as the check (Appendix~\ref{app:clause-tests}). The attack
+profiles rest on two yes-or-no questions asked of each attack flow, answered by
+one coder from the CTID descriptions and their sources, three of them by our
+own decision (Appendix~\ref{app:classification-audit}).
+\end{enumerate}
+
+\paragraph{Conclusion validity.}
+\begin{enumerate}[resume*=threats]
+\item\label{thr:statistics} The statistics support the layer order and the
+comparison of the two attackers' rank~1, and little beyond them. Against the
+APT attacker model, every host-layer mechanism reduces NCR more than every
+service-layer mechanism at every deployment interval. Against the baseline
+attacker, this holds up to 100\,s; from 500\,s, IP shuffle reduces NCR more
+than port shuffle and OS diversity, and the service layer's lead rests on
+service diversity alone (Table~\ref{tab:eff-interval-values}). The Scott--Knott
+ESD test ranks the MTD mechanisms at 200\,s only (Table~\ref{tab:eff-cross-arm});
+at the other deployment intervals, rank~1 is read from the values and their
+confidence intervals. $\rho$ between $-0.24$ and $0.25$ means that the two
+attackers' orders do not agree, which is weaker than one inverting the other.
+The APT attacker model reaches a target host in only 42 to 139 of each attack
+profile's 1\,000 runs with no MTD (Table~\ref{tab:unopposed-summary}), too few
+to rank on ASP, the dominant effectiveness metric
+(Section~\ref{subsec:mtd-metrics}), so the rankings use NCR reduction. A
+negligible effect is Cohen's default of $\pm 0.2$, not a bound set for hosts
+compromised. The ablations leave 24 of 60 cells inconclusive for the attack
+profiles, with no correction for the number of cells compared
+(Section~\ref{sec:ablation}). The confidence intervals resample runs, not
+seeds, so they treat the four attack profiles' runs on one seed's network as
+independent.
+\end{enumerate}
+
+\paragraph{External validity.}
+\begin{enumerate}[resume*=threats]
+\item\label{thr:corpus} The results reach APT attackers only as far as the 38
+attack flows do. The attack flows record campaigns that were detected and
+reported (Section~\ref{subsec:failure-matrix}), and each draws only the steps
+its threat report describes, which can stop short of the objective
+(Section~\ref{sec:attack-profiles}). Only 18 of the 38 are attributed to a
+group in ATT\&CK, criminal groups among them, so the attack graph records
+attackers reported in CTI, not APT attackers alone
+(Section~\ref{sec:technique-graph}). We chose attack flows because CTI and
+ATT\&CK rarely record the order of an attack's techniques
+(Section~\ref{subsec:profiling}), at the cost of volume: three of the four
+attack profiles rest on 5 to 7 attack flows (Table~\ref{tab:attack-profiles}).
+The APT attacker model is therefore the behaviour a handful of reported
+incidents document, not an optimal adversary. A run is a draw from an attack
+profile, not a replay, and may join parts of several attack flows into a
+campaign no attacker ran.
+
+\item\label{thr:observation} No APT campaign against MTD can be observed, so
+the APT attacker model cannot be checked against one. For a system that cannot
+be observed, Sargent advises exploring the model's behaviour as thoroughly as
+possible and comparing it with other models \citep{sargent2011}.
+Appendix~\ref{app:sensitivity} and the ablations explore it, and the baseline
+attacker is the other model. MTDShield also runs as released, outside its
+training conditions (Appendix~\ref{app:mtdshield-limitations}), so its results
+bound MTDShield as released, not MTDShield retrained against the APT attacker
+model.
+\end{enumerate}
+```
