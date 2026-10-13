@@ -8737,11 +8737,11 @@ on to the tactic its Petri net picks, which likely explains its 60\,s.
 The APT attacker model's tactic durations likely explain why the service layer
 reduces its NCR less than the host layer does. A service-layer deployment
 disrupts an attacker only while it scans ports, exploits or brute-forces
-(Section~\ref{subsec:attacker-model}). The baseline attacker runs its attack
-actions back to back, but the APT attacker model's tactic durations keep it
-between attack actions, in unmapped tactics that run none
-(Section~\ref{subsec:aio-disruption}). Under every service-layer mechanism,
-attack actions blocked per MTD deployment is 0.15 for the APT attacker model,
+(Section~\ref{subsec:attacker-model}), which the baseline attacker does back to
+back. The APT attacker model's tactic durations keep it between attack actions,
+in unmapped tactics that run none (Section~\ref{subsec:aio-disruption}). Under
+every service-layer mechanism, attack actions blocked per MTD deployment is
+therefore 0.15 for the APT attacker model,
 against 0.95 for the baseline attacker (Figure~\ref{fig:aio-adaptivity}(a)).
 
 % PARAGRAPH 3 DISSOLVED, 2026-10-12 (Marc; handoff section 29): rho and

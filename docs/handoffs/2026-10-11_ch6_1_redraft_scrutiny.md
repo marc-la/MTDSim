@@ -4449,3 +4449,7 @@ report the attack actions its evaluation method gives the attacker.
 **The one real duplication is outside ¶3.** The comparator-and-limit point is made in full twice, in §6.3's close and in §6.5's design choice 1 plus its "Both attackers share ..." sentence. That is for the ch6 cut pass (word band about 3,300), not this round: §6.5 keeps the bound, and §6.3 keeps the SQ3 answer. Parked.
 
 **Consolidated in ¶3 this round.** The should's reason clause ("since the same attack actions that let two attacker models be compared also limit how far they can differ", v3) repeated S3, so it is cut to the short should. The balance Marc asked for (comparator and limiter) now lives in S3 alone.
+
+## §98 — §6.2 service-layer paragraph edit applied (Marc 2026-10-13: "happy with the 6.2 change as well")
+
+Text as proposed in §96: "which the baseline attacker does back to back" moved onto the assumption, the "but" U-turn removed, and "therefore" added on the number. Build clean, 117 pages, 0 undefined. ¶3 v4 (§97) is still proposed.
