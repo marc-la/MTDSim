@@ -575,3 +575,5 @@ Build: 99 pages, 0 undefined. B is pp. 58–59, with the lead and the table on s
 - Each predicate cell is set with `\leftskip` 1 em and a 1 em hanging indent, so wrapped lines hang under their predicate.
 - The zebra is replaced by **shading by property**: properties 2, 4, 6 and 8 grey. This is a deliberate exception to the house `\rowcolors` zebra (`figure_table_conventions.md` §k). The house style separates groups with `\midrule`, and those rules were removed to fit the page. Shading by group takes their place at no height.
 - Still one page; build 98 pages, 0 undefined.
+
+**Appendix A without a heading page (Marc, 2026-10-13).** The proposal now starts on p. 51. The chapter counter, contents line and `app:proposal` label are set in `\includepdf`'s `pagecommand` on the proposal's first page. A one-line label ("Appendix A  Original honours proposal, as submitted in March 2026") sits in the top margin above the proposal's own title, and the "with its own reference list" note is dropped: the proposal's References section shows it. Build 97 pages, 0 undefined.

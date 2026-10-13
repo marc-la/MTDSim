@@ -9643,19 +9643,22 @@ model the only one with it in part.
 % =====================================================================
 \appendix
 
-\chapter{Original honours proposal}
-\label{app:proposal}
-
+% [2026-10-13, Marc: no page spent on a heading. The chapter opens on the
+%  proposal's first page: counter, contents line and label are set there, with
+%  a one-line label in the top margin above the proposal's own title. Prior
+%  form (heading page + "reproduced as submitted" sentence) in git.]
 % The proposal is included as submitted (13 March 2026), compiled from
 % the standalone proposal.tex alongside this file --- rebuild it with
 % pdflatex before compiling the dissertation if it changes. It keeps its
 % own bibliography: its citations are deliberately NOT merged into
 % references.bib (unchecked against the vetted list; the cai2016 key
 % would collide).
-The proposal is reproduced on the following pages as submitted in
-March 2026, with its own reference list.
-
-\includepdf[pages=-]{proposal.pdf}
+\includepdf[pages=1,pagecommand={\thispagestyle{empty}\refstepcounter{chapter}%
+  \addcontentsline{toc}{chapter}{\protect\numberline{\thechapter}Original honours proposal}%
+  \label{app:proposal}%
+  \noindent{\small\textsc{Appendix~\thechapter}\quad Original honours proposal,
+  as submitted in March 2026}}]{proposal.pdf}
+\includepdf[pages=2-]{proposal.pdf}
 
 
 % =====================================================================
