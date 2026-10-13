@@ -5251,3 +5251,29 @@ Against a real APT the direction is unknown:
 - S3: No deployment takes back a compromised host.
 - S4: Against a real APT, MTD could disrupt differently: Command and Control might keep contact with a host after an IP shuffle, and a service-layer deployment might take back a host compromised through that service.
 - S5: No observed campaign can tell which (T12).
+
+
+## §128 — T2 one-liner settled in Marc's terms (Marc 2026-10-13: "explicit and implicit disruption ... we just assume it is right ... is this the one where we can compare, but we're limited by it?")
+
+Nothing applied.
+
+**Marc's split, in the reader's terms (§2.2.3):**
+- Explicit: the confusion penalty.
+- Implicit: which attack actions each MTD layer interrupts, and what a deployment takes away (the host it was on) or never takes away (a compromised host, a stolen credential).
+
+The labels "explicit" and "implicit" are not reader terms, so the prose uses §2.2.3's own words.
+
+**One-liner (Marc's reading, confirmed).** The comparison is fair, because both attackers meet the same model of disruption. It is only as good as that model, which we took from MTDSim as given and which no one has checked against an APT.
+
+**Threat, mitigation, residual:**
+- Threat: both §6.2 explanations use the model.
+- Mitigation: the same model for both attackers, so the comparison is fair. It is MTDSim's model as its papers describe it, and the code is audited against them (T4). We took it as given because SQ3 compares the two attackers under MTDSim's MTD.
+- Residual: it was written with the baseline attacker's attack actions and never checked against an APT. Both plausible differences narrow the host layer's lead: Command and Control keeping contact after an IP shuffle, and a service-layer deployment taking back a host compromised through that service. §7.2 takes this on: emulation.
+
+**v4 candidate (about 115 words):**
+- S1: Both explanations in §6.2 rest on MTDSim's model of how an MTD deployment disrupts an attacker (§2.2.3): a service-layer deployment interrupts only scanning ports, exploits and brute force, and a host-layer deployment interrupts any attack action and costs the attacker the host it was on.
+- S2: Both attackers meet the same model, so the comparison is fair, and the code follows MTDSim's papers (T4).
+- S3: We took the model as given because SQ3 compares the two attackers under MTDSim's MTD.
+- S4: It was written with the baseline attacker's attack actions, and no one has checked it against an APT. Command and Control might keep contact with a host after an IP shuffle, and a service-layer deployment might take back a host compromised through that service; either would narrow the host layer's lead.
+
+**Placement.** The recommendation stands: external. The fair comparison is the internal half, and it is mitigated; the open half is reach.
