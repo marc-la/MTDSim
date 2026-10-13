@@ -4327,3 +4327,36 @@ report which of its tactics the simulator's attack actions cannot run.
 | S7 host layer "rests on where MTDSim sends each attacker" | "rests on MTDSim's rule for a host-layer deployment, written for the baseline attacker's procedure" | §6.5's wording; names which rule, and ties the rule back to S1's limit. The one example kept, because it is the one that reaches an MTD result. "Against MTD, ... against" becomes "With MTD". |
 | S8 hedge, "would likely need new attack actions" | cut | Two endings (§91). S1 is structural (an attacker model in a simulator can run only the simulator's attack actions), not inferred, so it needs no hedge. |
 | S9 should | unchanged | Its support is S3's limit (§91 correction). |
+
+## §94 — §6.4 ¶3 v3, proposed, not applied (Marc 2026-10-13: "very, very good"; host-layer sentence unclear, "rests on the assumption ... the baseline attacker was going all in all the time"; "you only need the one example"; the should "is specific but not generalisable"; "allow for comparison, but also a limiting factor ... nuanced, balanced")
+
+S1-S4 as v2. About 170 words.
+
+```
+On evaluation methods, a simulator's attack actions limit how far a new
+attacker model can differ from the attacker the simulator was built with.
+Section~\ref{subsec:evaluation-methods} found that simulation, the dominant
+evaluation method, models specific attack behaviours flexibly but that its
+results do not transfer directly to a real network \citep{cho2020}. The APT
+attacker model shares the baseline attacker's six attack actions, so it is
+comparable with the baseline attacker and limited to what those attack actions
+do: find and compromise hosts, with no actions on objectives
+(Section~\ref{sec:fidelity-verdict}). The two attackers therefore differ mostly
+in the APT attacker model's tactic durations and the order of its tactics
+(Section~\ref{sec:disc-behaviour}). With MTD, a service-layer deployment
+disrupts an attacker only while it runs an attack action, which the baseline
+attacker does back to back (Section~\ref{sec:disc-mtd-performance}). The APT
+attacker model's tactic durations keep it in unmapped tactics, which run none,
+so attack actions blocked per MTD deployment is 0.15 for it, against 0.95 for
+the baseline attacker. An MTD evaluation should therefore report the attack
+actions its evaluation method gives the attacker, since the same attack actions
+that let two attacker models be compared also limit how far they can differ.
+```
+
+| v2 | v3 | Why |
+|---|---|---|
+| Host layer "rests on MTDSim's rule for a host-layer deployment, written for the baseline attacker's procedure" | Service layer: "disrupts an attacker only while it runs an attack action, which the baseline attacker does back to back", then 0.15 against 0.95 attack actions blocked per MTD deployment | "Rule" left the reader to guess the assumption. The service layer states it in one clause (Marc's "going all in all the time"), with §6.2's wording. It ties directly to S3's limit: the unmapped tactics run no attack action, so a service-layer deployment cannot disrupt them. One example only. The host-layer rule stays in §6.2 and §6.5. |
+| Should "a new attacker model in a simulator ... which of its tactics the simulator's attack actions cannot run" | "An MTD evaluation should therefore report the attack actions its evaluation method gives the attacker, since the same attack actions that let two attacker models be compared also limit how far they can differ" | Generalises across ch3's four evaluation methods (an analytical model, emulation and real testbed also give the attacker a set of actions), and to evaluations without a new attacker model or tactics. Comparison and limit are stated as a balanced pair. |
+
+Checks: 0.15 and 0.95 printed in §6.2 (Figure aio-adaptivity(a)); "back to back" and "keep it ... in unmapped tactics that run none" are §6.2's wording; the metric name is ch4 l.1569's.
+Note: the should's balance echoes S3 (comparable and limited). The repeat is deliberate (Marc: balanced). If it reads as a repeat, the short form is "report the attack actions its evaluation method gives the attacker".
