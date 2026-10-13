@@ -5292,3 +5292,27 @@ The labels "explicit" and "implicit" are not reader terms, so the prose uses §2
   - All references are \ref, so nothing breaks. Handoff sections before §129 use the old numbers.
 - App F.3's pointer to thr:rules is still valid (user shuffle's rule is part of MTDSim's model of disruption).
 - Build 118 pages, 0 undefined.
+
+
+## §130 — T10 (thr:rules) clarity check (Marc 2026-10-13: "redundant, duplication, repetition ... nuances we don't need ... nouns and noun clusters we gave them ... rhetorical, unclear or ambiguous")
+
+Nothing applied.
+
+**Findings on the applied v4:**
+1. "Model" is ambiguous. "MTDSim's model of how ... disrupts" and then "the same model" can be read as an *attacker* model, in a dissertation built on the APT attacker model, the baseline attacker and the MTD attacker models. Use "MTDSim's rules for how an MTD deployment disrupts an attacker", then "the rules". App F.3 already uses "MTDSim's rule for user shuffle".
+2. "Interrupts" is a second term for ch2's "disrupts" (one term per thing). The list "scanning ports, exploits and brute force" mixes forms; ch2 and §6.2 ¶3 say "while it scans ports, exploits or brute-forces".
+3. Repetition. The service-layer rule repeats §6.2 ¶3 almost word for word, and nothing later in T10 questions it.
+4. Missing antecedent. The residual's second example ("might take back a host") answers the rule "no deployment takes back a compromised host" (§2.2.3), which v4 dropped (v3 had it). So S1 should name the two rules the residual questions, the host it was on and never taking back a compromised host, in place of the service-layer rule.
+5. "Both explanations" relies on T1, nine items earlier. Say "Section 6.2's explanations".
+6. S2 joins two claims with "and": fairness, and the code following the papers. The papers clause belongs with "kept as given".
+7. "It was written for": "it" sits two sentences from its antecedent.
+8. "No one has checked it against an APT" is a universal we cannot verify. The checkable fact is T12's: no APT campaign against MTD can be observed. So: "cannot be checked against an APT campaign (T12)".
+9. "Command and Control might keep contact with a host" makes the tactic the actor. Say "An APT in contact with a host through Command and Control might keep it", where "it" is the host it was on, which ties back to rule 1.
+10. "The host layer's lead" appears nowhere else, so the reader was never given it. "Narrow" is mildly figurative. Use "reduce the difference between the host layer and the service layer against the APT attacker model" (§6.2's comparison).
+
+**v5 candidate (about 125 words):**
+- S1: §6.2's explanations rest on MTDSim's rules for how an MTD deployment disrupts an attacker (§2.2.3), among them that a host-layer deployment costs the attacker the host it was on and that no deployment takes back a compromised host.
+- S2: The same rules apply to both attackers, so the comparison is fair.
+- S3: We kept them as MTDSim's papers describe them (T3) because SQ3 compares the two attackers under MTDSim's MTD.
+- S4: They were written for the baseline attacker's six attack actions and cannot be checked against an APT campaign (T12).
+- S5: An APT in contact with a host through Command and Control might keep it after an IP shuffle, and a service-layer deployment might take back a host compromised through that service; either would reduce the difference between the host layer and the service layer against the APT attacker model.
