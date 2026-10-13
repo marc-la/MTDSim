@@ -4580,3 +4580,17 @@ Text as §103. The old ¶3 (the controlled comparison, the "rules" thread, user 
 Build clean, 117 pages, 0 undefined.
 
 **Still open in §6.4.** (1) The opener placeholder: its three-should list is stale (¶1 and ¶2a end on a should; ¶2b and ¶3 do not); re-frame on the thread that each part of MTDSim's evaluation was built around the baseline attacker. This is the paragraph's own text, so propose first. (2) Gated ch7: Contribution 1's Impact, "Another simulator needs the interface: ... (Section evaluation-implications)", is stale ("interface" is gone from §6.4); Contribution 2's "within the limit" framing (§102); its Impact list (the lowest-NCR-reduction lower bound is not in §6.4).
+
+## §105 — Endings review, §6.4 (and §6.1-§6.3 closes): honesty, teeth, maturity (Marc 2026-10-13: "trying to land a punchy line is losing us marks ... are we being honest ... do they read as tacky ... have a look through those in 6.4"). Review only; nothing applied.
+
+| Ending | Verdict | Why |
+|---|---|---|
+| §6.4 opener (placeholder) "an MTD evaluation run against the baseline attacker alone picks the MTD layer that reduces the APT attacker model's NCR less" | Overreaches; rewrite (already pending) | It treats the APT attacker model as the yardstick. Ch7 Contribution 2's Not claimed says neither attacker model is the better one. The honest frame: run against one attacker model alone, an evaluation picks the MTD layer that suits that attacker model. Its three-should list is also stale. |
+| ¶1 should (learned deployment strategy vs another attacker model, beside random) | Earns it | The leg is measured: MTDShield is below random against the APT attacker model at every interval. The mechanism is hedged ("most likely"). "Like a test on training data" is the CS reader's own concept, not a flourish. Tay is described, not judged. Optional: the trailing "which shows what the learning adds" stacks a clause. |
+| ¶2a "A shared set of metrics is likely not enough ..." plus should | Earns it | It answers Jalowski with a hedge and one number (rho = 0.01). The should names no attacker model of ours ("one that other evaluations also use"), so it is not self-serving. |
+| ¶2b "can therefore be efficient against one attacker model and not against another" | Right weight | A hypothesis ends on "can", with no should, because there is no leg. |
+| ¶3 "can still change how MTD is measured to perform, even when it differs in little more than ..." | Strongest | It says the limit and the result together. "Likely" and "little more than" keep it to what was measured. |
+
+**§6.1 close: the one punch with less teeth than it shows (upstream, propose).** "ASP and NCR alone therefore rate it the weaker attacker for behaving more like an APT." About two thirds of the ASP gap comes from tactic durations (App run-time), and ch4 sets nine of the 15 mean durations by "our judgement" (subsec:dwell-times). §6.3's own close says the model "rests on our judgement where MTD disrupts it". So "behaving more like an APT" credits our judgement as APT behaviour, and §6.3 contradicts it. Candidate: "ASP and NCR alone therefore rate it the weaker attacker for the same tactic durations and order that give it these properties." The irony stays; the claim drops to what §6.1 shows.
+
+**§6.2 and §6.3 closes.** §6.2 ends on numbers, with no punch. §6.3's "grounded in threat reports for the order of its tactics, and rests on our judgement where MTD disrupts it" and "comparable ... and limited ..." are the frankest lines in ch6, and they set the bar the §6.1 close misses.
