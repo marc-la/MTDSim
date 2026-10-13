@@ -5066,3 +5066,8 @@ Nothing applied.
   - About 150 words.
 - T5: its last three sentences become one, with a pointer to thr:cause, saving about 40 words.
 - T2 against T1 ranking: I now lean towards keeping T1 first, since with this framing it holds the two parts the host-layer explanation rests on. Awaiting Marc.
+
+
+## §121 — T1 v2 and the T5 cut applied for reading (Marc 2026-10-13: "push it and recompile a PDF so that I can judge it")
+
+Applied as drafted in §120. Build 118 pages, 0 undefined. Not ratified.

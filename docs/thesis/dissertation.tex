@@ -9051,17 +9051,26 @@ could change a claim.
 
 \paragraph{Internal validity.}
 \begin{enumerate}[label=T\arabic*, ref=T\arabic*, series=threats, align=left]
-\item\label{thr:cause} Which part of the APT attacker model makes the most
-effective MTD mechanism differ is not isolated. The APT attacker model differs
-from the baseline attacker in its tactic durations, the order of its tactics and
-its response to failure at once. Removing the failure matrix or the
-vulnerability memory changes NCR negligibly where each was run, and without the
-attack profiles the same three MTD mechanisms reduce NCR the most
-(Section~\ref{sec:ablation}). That leaves the tactic durations and the order of
-its tactics, which no run with MTD separates. The causes
-Section~\ref{sec:disc-mtd-performance} gives for each MTD layer are therefore
-likely, not shown. The APT attacker model with the baseline attacker's times
-was run with no MTD only (Appendix~\ref{app:fa-run-time}).
+% T1 v2 2026-10-13 (Marc: "I like yours ... keep to the facts"; handoff
+%  sections 117-120): threat (the explanation, not the finding), mitigation (the
+%  ch4 parts changed under MTD), residual (the two never changed). The 45 s
+%  ranking test moved here from T5. Off the page: the Petri-net formalism (T4's),
+%  single edges and uniform weights (7.2). No new runs.
+\item\label{thr:cause} Section~\ref{sec:disc-mtd-performance} explains each MTD
+layer's effect by one part of the APT attacker model: the host layer's by the
+order of its tactics, and the service layer's by its tactic durations. The
+rankings are measured with the whole APT attacker model, so only this
+explanation is at risk. Under MTD, removing the attack profiles leaves the same
+three MTD mechanisms reducing NCR most at every deployment interval, and
+removing the failure matrix or the vulnerability memory changes NCR negligibly
+(Section~\ref{sec:ablation}). With the 45\,s mean duration at a quarter and at
+four times its value, at 200\,s, the APT attacker model's rank~1 still shares
+no MTD mechanism with the baseline attacker's, and the host layer still ranks
+above the service layer (Table~\ref{tab:duration-ranking}). No run with MTD
+changed the attack graph's weights or the tactic-to-action mapping. The host
+layer's explanation rests on both: the order of its tactics brings the APT
+attacker model to Lateral Movement, and the mapping makes Lateral Movement the
+only tactic that runs enumerate host.
 
 \item\label{thr:rules} Part of the difference between the two attackers can
 come from MTDSim's MTD mechanisms, which were written against the baseline
@@ -9106,10 +9115,8 @@ substituted or removed one at a time, which leaves their interactions untested,
 and three were not tested: the per-tactic duration multipliers, the share of
 weight given to the pre-intrusion overlay and the choice of one attack flow per
 APT group. Only the 45\,s mean duration changes NCR much
-(Table~\ref{tab:anchor-sensitivity}). At a quarter and at four times its value,
-the APT attacker model's rank~1 still shares no MTD mechanism with the baseline
-attacker's, and the host layer still ranks above the service layer
-(Table~\ref{tab:duration-ranking}). That test ran at 200\,s only.
+(Table~\ref{tab:anchor-sensitivity}), and the rankings hold at both ends of its
+band (\ref{thr:cause}).
 
 \item\label{thr:mapping} The tactic-to-action mapping is our input
 (Section~\ref{subsec:tactic-verb-mapping}). Command and Control is the only
