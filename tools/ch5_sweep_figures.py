@@ -504,8 +504,7 @@ def emit_ranking_table(ranking) -> tuple[str, list]:
     L[cap_at] = (r"  \caption[The MTD mechanisms and deployment strategies ranked against each attacker]{The MTD "
                  r"mechanisms and deployment strategies ranked by NCR reduction against each attacker, at a "
                  r"deployment interval of %s\,s; the APT attacker model averaged over $c_1$ to $c_4$. Bold: "
-                 r"rank~1.%s Tables~\ref{tab:full-movement} and~\ref{tab:full-baseline} give each value's "
-                 r"confidence interval, ASP reduction and MTTC.}" % (fmt_thousands(int(iv)), bound))
+                 r"rank~1.%s}" % (fmt_thousands(int(iv)), bound))
     L.insert(cap_at, "%% rho (NCR reduction, the two columns) at %s s: %s [%s, %s]" % (
         iv, *(_num(rho[k]) for k in ("rho", "lo", "hi"))))
     return "\n".join(L) + "\n", facts

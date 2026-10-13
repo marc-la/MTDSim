@@ -525,3 +525,19 @@ Marc (2026-10-13): the appendix is "the biggest risk to my dissertation"; "what 
 - **P-d, ch5 Table `tab:eff-cross-arm` caption** (`tools/ch5_sweep_figures.py` 507): delete "Tables~\ref{tab:full-movement} and~\ref{tab:full-baseline} give each value's confidence interval, ASP reduction and MTTC."
 - **P-e, ch5 `Runs` paragraph (6135), new last sentence:** "Every metric at every configuration, with its interval, is published with the experiment scripts." Verify first that the ch1 footnote's repository serves `data/results/`.
 - **P-f, ch7 9582:** "which features of a network decide success (Appendix~\ref{app:fa-success})" → "which features of a network decide success".
+
+## 12. P-a to P-f applied; pointer sweep (2026-10-13)
+
+Marc: "yes to all six, ensure no dangling pointers".
+
+**Applied.** P-a to P-f as written in §11. P-d is applied in `tools/ch5_sweep_figures.py`, and `--only ranking` was rerun; the diff is the caption only.
+
+**P-e is true once this branch is pushed.** The repository in the ch1 footnote is public (HTTP 200), and `data/results/ch5_defended/numbers_reported.json` (1 000 seeds) is tracked here. But `origin/dev` is 505 commits behind and carries only the 100-seed `numbers.json`. Push before submission, or the sentence overclaims.
+
+**Pointer sweep.**
+- Build: 101 pages; no undefined references or citations, nothing multiply defined. `briggs2012` drops from the bibliography; it was cited only in the cut D.1 sentence.
+- No hard-coded appendix letters in live prose, tables or figure sources.
+- Every remaining appendix float is cited. The uncited labels are chapter and section labels whose floats are cited (`app:movement`, `app:supplementary-results`, `app:sup-ablations`, `app:mtdshield-configuration`, `app:mtdshield-changes`), A (required, not cited), and `eq:asp-reduction`.
+- Two leads were made true again:
+  - D's "The sections that follow read the same perturbations value by value" is deleted, because they no longer do;
+  - G's two sections are swapped to keep "They follow Chapter 6's order". Chapter 6 first cites the tactic durations at 8555 and the behaviour metrics at 9125.
