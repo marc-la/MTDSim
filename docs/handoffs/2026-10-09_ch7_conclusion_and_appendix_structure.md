@@ -583,3 +583,11 @@ Build: 99 pages, 0 undefined. B is pp. 58–59, with the lead and the table on s
 - The technique core is reflowed to portrait: `tools/gap_appendix_figures.py` now packs it into `PORTRAIT_BOX`, at 15.6 × 16.0 cm and 8 pt (the floor, unscaled), still 35 techniques and 55 edges.
 - With no `landscape` environment forcing page breaks, C.2's opening fills p. 58, and the figure takes p. 59. The trailing `\FloatBarrier` is dropped; the one at C.2's end keeps the float inside C.
 - Build: 95 pages, 0 undefined.
+
+**Table C.1 (Marc, 2026-10-13: remove "Step notes" and "Decided by us").**
+- `tools/gasp_structural_baseline.py --tex` now prints attack flow | ATT&CK group | threat report.
+- "Step notes" was CTID's flow narrative (`ctid_flow_narrative`), part of CTID's own material, which ch4's frame (CTID description, then the group page or the threat report) does not name. The caption folds it in: "with the analyst's notes on its steps where needed".
+- "Decided by us" ticked the three flows the C.2 prose names and justifies one by one, so the column repeated the prose.
+- The caption now says what a blank row means (nothing beyond CTID was needed).
+- The prose still does the one job a cell cannot: the reason each of the three open flows was decided as it was.
+- Build: 95 pages, 0 undefined.

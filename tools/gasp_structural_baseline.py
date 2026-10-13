@@ -316,8 +316,9 @@ def write_tex() -> None:
         "%   data/gasp/metadata_audit.csv (classification and sources read) and",
         "%   data/gap/flows/*.yaml (the analyst's own citation list, carried through from",
         "%   the tracked corpus bundles in data/gap/_corpus_stix/).",
-        "% Do not hand-edit; regenerate. DRAFT STATE (2026-10-04 appendix pass): caption",
-        "%   session-drafted, ratify on read.",
+        "% Do not hand-edit; regenerate. 2026-10-13 (Marc): the step-notes and",
+        "%   decided-by-us columns cut; the three decided attack flows are named in",
+        "%   the section's prose. DRAFT STATE: caption session-drafted, ratify on read.",
         f"% At generation: {len(rows)} attack flows, {n_ours} decided by the author.",
         "",
         "\\begin{table}[htbp]",
@@ -325,26 +326,25 @@ def write_tex() -> None:
         "\\caption[The sources behind each attack flow's attack profile]{The sources that answered "
         "the two questions of Section~\\ref{sec:attack-profiles} for each attack flow, "
         "grouped by attack profile (Table~\\ref{tab:attack-profiles}). The CTID description "
-        "of every attack flow was read \\citep{ctid2025attackflow}; the columns give what else "
-        "was. \\emph{Step notes} are the analyst's notes on the steps of the attack flow. "
-        "\\emph{ATT\\&CK group} is the group page read \\citep{mitre2026attackv19}. "
-        "\\emph{Decided by us} marks the attack flows these sources left open.}",
+        "of every attack flow was read \\citep{ctid2025attackflow}, with the analyst's notes "
+        "on its steps where needed; the columns give what else was, and a blank row needed "
+        "nothing else. \\emph{ATT\\&CK group} is the group page read "
+        "\\citep{mitre2026attackv19}, and \\emph{Threat report} the report the attack flow "
+        "cites.}",
         "\\label{tab:profile-sources}",
         "\\tablestyle",
-        "\\begin{tabular}{@{}P{0.38\\textwidth}ccP{0.17\\textwidth}c@{}}",
+        "\\begin{tabular}{@{}P{0.5\\textwidth}cP{0.25\\textwidth}@{}}",
         "\\toprule",
-        "Attack flow & \\shortstack{Step\\\\notes} & \\shortstack{ATT\\&CK\\\\group} & Threat report & "
-        "\\shortstack{Decided\\\\by us} \\\\",
+        "Attack flow & \\shortstack{ATT\\&CK\\\\group} & Threat report \\\\",
         "\\midrule",
     ]
     for k, (csv_label, key) in enumerate(CLASS_ORDER):
         rs = by_class[csv_label]
         if k:
             out.append("\\midrule")
-        out.append(f"\\grouprow{{5}}{{{code(key)} ({len(rs)} attack flows)}} \\\\")
+        out.append(f"\\grouprow{{3}}{{{code(key)} ({len(rs)} attack flows)}} \\\\")
         for r in sorted(rs, key=lambda x: x["flow_name"].lower()):
-            out.append(f"{_tex(r['flow_name'])} & {r['_notes']} & {r['_group']} & "
-                       f"{r['_report']} & {r['_ours']} \\\\")
+            out.append(f"{_tex(r['flow_name'])} & {r['_group']} & {r['_report']} \\\\")
     out += ["\\bottomrule", "\\end{tabular}", "\\end{table}", ""]
 
     TEX_OUT.parent.mkdir(parents=True, exist_ok=True)
