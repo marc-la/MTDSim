@@ -5157,4 +5157,4 @@ Nothing applied; v2 is still in the tex.
 - S2: Under MTD, removing the failure matrix or the vulnerability memory changes NCR negligibly, and without the attack profiles the host layer still reduces NCR most at every deployment interval (§5.4).
 - S3: Scaling the most sensitive tactic durations, those of Persistence, Stealth and Command and Control, to a quarter and to four times their value leaves the host layer ahead of the service layer at a deployment interval of 200 s (Table C.1b).
 - S4: We took two components as given: the base weights, which come from the attack flows and set the order of its tactics, and the tactic-to-action mapping, which we declared (T6).
-- S5: Every run under MTD kept both, and the host layer's explanation rests on both.
+- S5: Every run under MTD drew its base weights from the attack flows and used this mapping, and the host layer's explanation rests on both. (Not "kept both": removing the attack profiles recounts the base weights.)
