@@ -5049,3 +5049,20 @@ Nothing applied.
 **Structure for T1.** Threat: the two claims, and that T1 bounds only the explanation. Mitigation: ch4's parts that were varied, in one or two sentences with pointers. Residual: the two untested parts and what rests on them, plus the formalism as T4's (one clause, or off the page).
 
 **Knock-ons.** The 45 s ranking test moves from T5 to T1, or T5 points to it. The open run, if Marc wants it, is now two runs: uniform weights and one other partial mapping, under MTD at 200 s, with the same deciding test as Table C.1b.
+
+
+## §120 — T1 ruled: framing kept; ranking test moves T5 to T1; no new runs (Marc 2026-10-13: "I like yours ... keep to the facts ... yes you can do that ... I don't think we need to run them, would you?")
+
+- Framing (§119) approved.
+- Marc's aside: we also never ablated single edges. His hunch is that edges entering mapped tactics matter most. Kept off the page because it is speculative. The §7.2 notes already promise "removing the attack profiles' edges one at a time".
+- Runs: none. Neither run can change the finding, only the explanation. A second mapping has no principled choice (any alternative is another judgement; T6 says the mapping is ours). The CTI weights already have evidence: the attack profiles compromise more than all ten random partitions with no MTD, and beat most of them under IP shuffle and OS diversity (§5.4). Uniform weights stay a §7.2 direction (already in the ch7 notes).
+- T1 drafted and shown before applying (the paragraph being drafted):
+  - S1: §6.2's two attributions, one per layer.
+  - S2: the rankings are measured with the whole model, so only the explanation is at risk.
+  - S3: profiles, failure matrix and vulnerability memory removed under MTD.
+  - S4: the 45 s ranking test (moved from T5).
+  - S5: no run with MTD changed the weights or the mapping.
+  - S6: the host-layer explanation rests on both.
+  - About 150 words.
+- T5: its last three sentences become one, with a pointer to thr:cause, saving about 40 words.
+- T2 against T1 ranking: I now lean towards keeping T1 first, since with this framing it holds the two parts the host-layer explanation rests on. Awaiting Marc.
