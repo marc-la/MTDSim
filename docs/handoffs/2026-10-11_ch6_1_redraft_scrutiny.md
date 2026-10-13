@@ -4360,3 +4360,21 @@ that let two attacker models be compared also limit how far they can differ.
 
 Checks: 0.15 and 0.95 printed in §6.2 (Figure aio-adaptivity(a)); "back to back" and "keep it ... in unmapped tactics that run none" are §6.2's wording; the metric name is ch4 l.1569's.
 Note: the should's balance echoes S3 (comparable and limited). The repeat is deliberate (Marc: balanced). If it reads as a repeat, the short form is "report the attack actions its evaluation method gives the attacker".
+
+## §95 — §6.4 ¶3 example settled first, should held (Marc 2026-10-13: "you don't need to say [unmapped tactics which run none] ... attack actions blocked is much lower and as a result the service layer deployments are less effective ... the assumptions of the model emerge this result ... I just want to settle the example")
+
+Example only (S5-S7); S1-S4 as v2/v3; the should is next.
+
+```
+With MTD, a service-layer deployment disrupts an attacker only while it runs an
+attack action, which the baseline attacker does back to back
+(Section~\ref{sec:disc-mtd-performance}). Attack actions blocked per MTD
+deployment is 0.15 for the APT attacker model, against 0.95 for the baseline
+attacker. This difference likely explains why the service layer reduces the APT
+attacker model's NCR less than the host layer does, at every deployment interval.
+```
+
+- S5: unchanged from v3. It states the assumption (disruption only while an attack action runs) and who it suits.
+- S6: "The APT attacker model's tactic durations keep it in unmapped tactics, which run none" is cut (Marc). The number stays as the measured difference.
+- S7 is new: the result the assumption produces (Marc's "emerge"). It uses §6.2's printed claim ("the service layer reduces its NCR less than the host layer does", at every deployment interval, the sq:evaluate answer) and §6.2's hedge ("likely explain"). One hedge in ¶3. "This difference" names its referent; it is not a bare "this".
+- Checked and rejected: "less than the baseline attacker's" does not hold at every interval. Port shuffle at 1,000 s is 0.050 vs 0.041, and OS diversity at 1,000 s is -0.012 vs -0.004, both near zero (numbers_reported ranking.by_interval).
