@@ -4937,3 +4937,22 @@ Gaps, in proposed order of weight:
 **Sentence flags.** Not-X-but-Y / "rather than" run through it: "rather than fitting", "likely, not shown", "describes rather than tests", "explores rather than testing", "not an optimal adversary", "not a replay", "not MTDShield retrained". T1's first sentence buries its subject. "Three metrics measure their property only in part" and "the rules are shared but untested" are vague.
 
 **Size.** The sort removes about 450-500 words, so about 1,100. Nothing applied.
+
+
+## §115 — §6.5 opener: the §114 one-liner withdrawn (Marc 2026-10-13: "reads like a riddle ... what is the point of the opener to threats to validity ... why this structure ... do we need to say what the biggest threats are")
+
+**Why the one-liner failed.** It put a verdict into a section that, by convention, is a catalogue. It also compressed twelve items into labels the reader has not met yet ("the layer claim", "every check", "why it holds"). Pulling the residuals together is ch7's job (the §7.1 bound note), not the opener's.
+
+**The opener's job.** Orient the reader: what is bounded, the difference between limitations and threats, and what the four types ask, said as plain questions for a reader who does not know the terms. It gives no verdict, and it does not list the biggest threats: the ranking shows them, so naming them would repeat T1, T5 and T11.
+
+**Why Wohlin's four types.** Examiners recognise them, and they force coverage (the §111 audit ran against them). Each type is one question about an answer:
+- internal: is the cause the one we claim?
+- construct: do the metrics and values measure what we say?
+- conclusion: do the statistics support the claim?
+- external: does it reach APT attackers beyond MTDSim and the 38 attack flows?
+
+**Slots (no prose; one paragraph, about 70-90 words).**
+- S1: the section sets out the threats to the answers of §6.1-§6.4, the risks we did not choose.
+- S2: the limitations are the scope we chose, named in one sentence (one token, the default network, 15 000 s, simulation only, existing MTD mechanisms, no efficiency metric, no IDS), each a direction of §7.2.
+- S3: the four types as the four questions, citing Wohlin et al.
+- S4: the ranking rule. Within each type, by how far the threat could change an answer, so the first item of each type is its largest.
