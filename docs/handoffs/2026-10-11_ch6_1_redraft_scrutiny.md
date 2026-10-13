@@ -4965,3 +4965,34 @@ Gaps, in proposed order of weight:
 - Choices: "one line of a campaign at a time" glosses one token (as v1 did). "With no actions on objectives" is §6.3 ¶3's phrase. "The parts we declared" is §6.3's term, covering the tactic durations, the failure matrix and the mapping. The ranking rule says "a claim", not SQ3, since construct threats bound §6.1 and §6.3.
 - Dropped from v1: the per-item pointers except one token (the reader can find each in ch4-5), "against campaigns of months", and "Every result is a result in MTDSim" (the ch6 opener says it).
 - Build 118 pages, 0 undefined.
+
+
+## §117 — T1 (thr:cause) scrutiny (Marc 2026-10-13: "isolated ... what does that mean? which part? ... how is this an internal validity issue ... what's the take away ... what's the one-liner ... criticise")
+
+Nothing applied. Checked against §6.1 ¶1, §6.2 ¶1-¶3, §6.4 ¶1, §5.4 (attack profiles, failure matrix), App G.3, and the ch7 notes that cite thr:cause.
+
+**The claim at risk.** §6.2 says the tactic durations and the order of its tactics "likely explain" why a different MTD layer reduces each attacker's NCR most. It gives the host layer's lead to the order of its tactics (¶2: only Lateral Movement runs enumerate host; time lost) and the service layer's smaller reduction to the tactic durations (¶3: attack actions blocked, 0.15 against 0.95). The measured finding (which layer reduces each attacker's NCR most) is not at risk. T1 never says so, so it reads as if the finding were in doubt.
+
+**Why it is internal validity.** Internal validity asks whether the cause is the one we give. The two causes change together in every run with MTD, so the per-layer attribution is inferred from mechanism (time lost, blocks, the traced run) and never tested by changing one cause alone.
+
+**One-liner (for Marc; not prose).** The finding is measured, but the cause §6.2 gives for each layer is inferred, because no run with MTD changes the tactic durations without the order of its tactics.
+
+**Structure the reader needs:** threat (the claim at risk and the confound), then mitigation (what was ruled out), then residual (what stays hedged). v1 has these in the reverse order, as an elimination walked through over four sentences.
+
+**Sentence flags (v1):**
+1. "Which part ... is not isolated." The subject is an indirect question (weight 2). "Part" is vague, since ch4 names the components. "Isolated" is a lab word nobody has given the reader. The sentence names neither the claim at risk nor the fact that the finding itself stands.
+2. "differs ... in its tactic durations, the order of its tactics and its response to failure at once." This is rehash: §6.1's opener and §6.4 ¶1 already state how the two attackers differ. "Its response to failure" is a third cause that is not a ch4 term, and it contradicts the two that §6.1, §6.2 and §6.4 give. "At once" carries the confound without saying it.
+3. Two kinds of evidence are mixed here. The failure matrix and the vulnerability memory are shown negligible on NCR, which §6.1 ¶1 says nearly verbatim. The attack profiles are shown not to change the rank (the same three MTD mechanisms reduce NCR most without them, §5.4), and that is said nowhere else in ch6. The rank evidence bears directly on the claim, so it is the strongest mitigation, and v1 puts it mid-sentence.
+4. "That leaves ... which no run with MTD separates." This is the threat itself, in fourth place. "That leaves" walks an inference chain, which the dense-prose rule forbids.
+5. "The causes Section 6.2 gives for each MTD layer are therefore likely, not shown." Not-X-but-Y. It repeats §6.2's own "likely" hedges, when §6.5's job is to give the reason for them. "For each MTD layer" hides what is untested: order goes to the host layer and durations to the service layer.
+6. "...was run with no MTD only (App G.3)." A dangling fact with no consequence stated. What it means is that the run which would separate the two causes exists only with no MTD. Its no-MTD result (about two thirds of the ASP gap) is §6.1's, and the run under MTD is §7.2's.
+
+**In:** the claim at risk (each layer's attribution in §6.2); the confound (no run with MTD changes the tactic durations alone); the mitigation (failure matrix and vulnerability memory negligible on NCR, in one clause with a pointer; rank 1's top three unchanged without the attack profiles); the residual (the finding stands, and the attribution rests on mechanism); the missing run in one clause.
+
+**Out:** the list of how the attackers differ (§6.1, §6.4); the two-thirds number (§6.1, G.3); the design of the separating run (§7.2 notes: under MTD, uniform weights).
+
+**Nuances.** Off the page: removing the attack profiles keeps the attack graph's order, so it rules out the split by objective and not the order (the ch4 term carries this); Petri net structure against the weights from CTI (§7.2); c_3's differences (G.3).
+
+**Ranking question for Marc.** T1 threatens only the explanation. T2 (the host layer's lead rests on MTDSim's rule that a host comes back only through Lateral Movement) could change the host layer's rank itself. By the opener's rule ("how far each could change a claim"), T2 outranks T1. There is also a boundary to settle: T1 is about our parts and T2 about the simulator's rules, yet T2's second sentence restates the order mechanism from §6.2 ¶2.
+
+**Size.** v1 T1 is about 120 words; the in-list fits in about 60-70.
