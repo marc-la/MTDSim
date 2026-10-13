@@ -577,3 +577,9 @@ Build: 99 pages, 0 undefined. B is pp. 58–59, with the lead and the table on s
 - Still one page; build 98 pages, 0 undefined.
 
 **Appendix A without a heading page (Marc, 2026-10-13).** The proposal now starts on p. 51. The chapter counter, contents line and `app:proposal` label are set in `\includepdf`'s `pagecommand` on the proposal's first page. A one-line label ("Appendix A  Original honours proposal, as submitted in March 2026") sits in the top margin above the proposal's own title, and the "with its own reference list" note is dropped: the proposal's References section shows it. Build 97 pages, 0 undefined.
+
+**C.1 (Marc, 2026-10-13: "let's cut that"; portrait or landscape?).**
+- The tactic graph (`fig_B-1d`) is cut. The tactic edges the model runs on are drawn per attack profile in C.3, and nothing in the body cited the figure.
+- The technique core is reflowed to portrait: `tools/gap_appendix_figures.py` now packs it into `PORTRAIT_BOX`, at 15.6 × 16.0 cm and 8 pt (the floor, unscaled), still 35 techniques and 55 edges.
+- With no `landscape` environment forcing page breaks, C.2's opening fills p. 58, and the figure takes p. 59. The trailing `\FloatBarrier` is dropped; the one at C.2's end keeps the float inside C.
+- Build: 95 pages, 0 undefined.

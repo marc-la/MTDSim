@@ -808,10 +808,12 @@ def main() -> None:
                      ["inline", "id"] if args.full_names else ["id"],
                      LANDSCAPE_BOX), compile_pdf)
     if want("gap_technique_core"):
+        # Portrait since 2026-10-13 (Marc): reflowed into the portrait box it
+        # still prints at the 8pt floor, so the reader need not turn the page.
         write(stem["gap_technique_core"],
               choose(lambda m: build_technique(gap, args.min_obs, m,
-                                               LANDSCAPE_BOX),
-                     ["inline"], LANDSCAPE_BOX), compile_pdf)
+                                               PORTRAIT_BOX),
+                     ["inline"], PORTRAIT_BOX), compile_pdf)
     if want("gap_tactic_graph"):
         write(stem["gap_tactic_graph"],
               choose(lambda pr: build_tactic(gap, args.min_weight, pr),
