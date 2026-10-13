@@ -8912,12 +8912,18 @@ hosts, with no actions on objectives.
 %  evaluation should do; the bounds are §6.5's, scoped once in the opener.
 %  Numbers checked against numbers_reported.json and Tables E.1/E.2
 %  (handoff §60--§62). The overdraft of 2026-10-09 is retired to the handoff.
-Chapter~\ref{ch:litreview} surveyed three parts of an MTD evaluation that use
-the attacker model (Section~\ref{sec:mtd-evaluation-survey}): the MTD
-modelling approach, the metrics and the evaluation method. The results bear
-on each. They come from one simulator on its default network
-(Section~\ref{sec:threats}), so each implication says what an MTD evaluation
-should check, and the numbers hold in MTDSim alone.
+% PLACEHOLDER OPENER 2026-10-13 (Marc: "just put that in ... a placeholder for
+%  now"). Rewrite once the three paragraphs are redrafted: the opener's list
+%  must name the recommendations they end on. Handoff §65.
+In MTDSim, the service layer reduces the baseline attacker's NCR most and the
+host layer the APT attacker model's (Section~\ref{sec:disc-mtd-performance}),
+so an MTD evaluation run against the baseline attacker alone picks the MTD
+layer that reduces the APT attacker model's NCR less. For each of the three
+parts of an MTD evaluation that use the attacker model
+(Section~\ref{sec:mtd-evaluation-survey}), an evaluation should therefore
+change one thing: test a deployment strategy against more than one attacker
+model, report the attacker's behaviour beside the metrics, and report the
+rules that join its attacker model to the simulator.
 
 On MTD modelling approaches, a deployment strategy is optimal for the
 attacker model it was found against. Section~\ref{subsec:defence-modelling-approaches} argued that

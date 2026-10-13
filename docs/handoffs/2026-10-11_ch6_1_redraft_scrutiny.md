@@ -3896,3 +3896,13 @@ deployment costs.
 - The opener still cites §3.2 for the three parts. That covers the bare "On X," openers, which follow the convention of §6.1 and §6.2: a term is defined once and repeated word for word, with no citation on each use.
 - Bold run-in headings were considered and set aside. They would make §6.4 the only ch6 section with them, and the examiner benchmarks call for no headings below the section.
 - Build clean, 118 pages.
+
+## §65 — §6.4 opener: placeholder (Marc 2026-10-13)
+
+Scrutiny of the first-draft opener: it opened on what Chapter 3 did (a roadmap, no claim); "the results bear on each" names nothing; the bound sentence repeats the chapter preamble and §6.5; its "so" did not follow. A first redraft ("the attacker model alone changes which MTD layer reduces NCR most … this section states what that means") was rejected as a flourish plus a signpost.
+
+Placed as a **placeholder** (Marc: "just put that in ... a placeholder for now"):
+
+> In MTDSim, the service layer reduces the baseline attacker's NCR most and the host layer the APT attacker model's (Section 6.2), so an MTD evaluation run against the baseline attacker alone picks the MTD layer that reduces the APT attacker model's NCR less. For each of the three parts of an MTD evaluation that use the attacker model (Section 3.2), an evaluation should therefore change one thing: test a deployment strategy against more than one attacker model, report the attacker's behaviour beside the metrics, and report the rules that join its attacker model to the simulator.
+
+Open (Marc): the three recommendations read as "we already do that". Settle them in the paragraph redrafts, then rewrite the opener's list to match. Build clean, 118 pages, 0 undefined.
