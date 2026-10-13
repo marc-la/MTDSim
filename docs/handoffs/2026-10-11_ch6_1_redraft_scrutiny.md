@@ -5158,3 +5158,8 @@ Nothing applied; v2 is still in the tex.
 - S3: Scaling the most sensitive tactic durations, those of Persistence, Stealth and Command and Control, to a quarter and to four times their value leaves the host layer ahead of the service layer at a deployment interval of 200 s (Table C.1b).
 - S4: We took two components as given: the base weights, which come from the attack flows and set the order of its tactics, and the tactic-to-action mapping, which we declared (T6).
 - S5: Every run under MTD drew its base weights from the attack flows and used this mapping, and the host layer's explanation rests on both. (Not "kept both": removing the attack profiles recounts the base weights.)
+
+
+## §125 — T1 v5 applied (Marc 2026-10-13: "that's fine thanks")
+
+v5 from §124 replaces v2 in the tex (S5 as corrected). T5's pointer ("the rankings hold at both ends of its band (T1)") still matches. Build 118 pages, 0 undefined; T1 on p. 43. Open: the T1-against-T2 order (lean: keep T1 first); the §114 sort for T2-T12; the cut pass.
