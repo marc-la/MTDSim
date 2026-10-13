@@ -3966,3 +3966,22 @@ Two rounds after §66. Round 1 (critique): the opener abstracted ("one attacker 
 7. The worst case moves with the metric (orphaned; parked with §66's ideas 4–5).
 
 **Direction (no text).** One claim across both halves of Cho's taxonomy: what the metrics say depends on the attacker model. Effectiveness (measured): the two attackers order the MTD mechanisms differently (ρ) and ASP disagrees with NCR reduction. Efficiency (inferred, one hedge): not measured, so the shortest deployment interval always wins, and the attacker model sets how often MTD must be deployed. Cut 4–7 or leave each to its home. Move the efficiency material out of ¶3. Marc to rule on the spine and on keeping 3 and 4.
+
+## §69 — §6.4 ¶2 (metrics): the thread and a spine (Marc 2026-10-13: "really think this one through"; no text)
+
+**Method.** §3.2.2 dissected sentence by sentence against the results and Marc's points (ASP is blunt, success is not impact; no behaviour metrics because evaluations run one attacker model; efficiency unmodelled; metrics are ad hoc and so are ours).
+
+**The thread.** Ch4 §4.3.x (tactic-to-action mapping): "MTDSim's attacker stops at compromising hosts, so Collection, Exfiltration and Impact have nothing to act on." Every metric reported stops there too: ASP (the share of runs that reach the goal, a target host compromised; eq:asp), MTTC (time to it), NCR (share of hosts compromised; eq:ncr), attack actions blocked and time lost per MTD deployment (attack actions toward it). So the metrics measure progress toward compromising hosts: the baseline attacker's whole goal, and only part of the APT attacker model's (its attack profiles' objectives, exfiltration and impact, lie past it). Cho's classification has cells for the rest — attack utility (attacker-side effectiveness), attack and defence cost, QoS (efficiency) — and MTDSim fills none.
+
+**Section-wide thread (for the opener, later).** Each part of an MTD evaluation that uses the attacker model was built around the baseline attacker in MTDSim: MTDShield was trained against it (¶1), the metrics stop where it stops (¶2), and MTDSim's rules for what each deployment takes follow its procedure (¶3). Candidate one-liner for the placeholder opener (§65).
+
+**Spine (slots, no text; ~230 words).**
+1. Claim: every metric here counts progress toward compromising hosts, where MTDSim's attacker stops (§4.3 mapping, eq:asp, eq:ncr).
+2. §3.2.2: ASP is the dominant metric; values depend on the attacker (Hong); Cho's classification also has what the attacker gains and what MTD costs (tab:mtd-metrics).
+3. Attacker side: ASP counts a run once it reaches a target host, whatever the attacker does next; it reaches its ceiling of 1 (APT attacker model, host layer, to 200 s) and disagrees in sign with NCR reduction (IP shuffle, baseline attacker, 500 s: 0.39 vs −0.09). Why ch5 leads with NCR reduction. ASP and NCR rate the APT attacker model weaker (pointer to §6.1, no restatement); the behaviour metrics (§4.5.1), a kind the classification lacks, show what the outcome misses.
+4. Defender side: no efficiency metric (MTDSim prices nothing, §6.5); on effectiveness alone the shortest deployment interval always ranks first (Table E.1), and the attacker model moves the interval needed (§5.3.2: host layer above 0.5 to 1 000 s against the APT attacker model; service layer to 200 s against the baseline attacker). Hedge here (the cost side is inferred).
+5. So (ad hoc): §3.2.2 found metrics chosen per evaluation (Jalowski); this dissertation chose its own too; with the metrics shared, the attacker model still reorders the MTD mechanisms (ρ −0.24 to 0.25). One should: comparing MTD across evaluations needs a shared attacker model as well as shared metrics.
+
+**Out.** Blocks against time lost (§6.2); MTTC coverage (definition); the worst case by metric (parked, §66); the threshold illustration's service-layer-never clause (§5.3.2 carries the numbers).
+
+**To verify before drafting.** "Evaluations run one attacker model" (Marc): check §3.3's surveyed evaluations (Table 3.3 rows) before any sentence claims it; otherwise scope it to the evaluations surveyed or drop it.
