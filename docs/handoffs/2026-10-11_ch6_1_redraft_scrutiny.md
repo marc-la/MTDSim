@@ -5020,3 +5020,32 @@ T6 keeps only the construct question: is the mapping an APT's, and is Command an
 **One-liner (concrete).** §6.2 explains the host layer's lead by the order of its tactics and the service layer's smaller reduction by the tactic durations. Under MTD, no run changes either one alone or changes the mapping they act through, so those explanations are inferred from mechanism; the failure matrix, the vulnerability memory and the attack profiles were ruled out.
 
 **The missing ablation.** The APT attacker model under MTD at 200 s with (a) the baseline attacker's times and (b) a different partial mapping. The deciding check is whether rank 1 still shares no MTD mechanism with the baseline attacker's, and whether the host layer still ranks first. Marc decides between running it (the run_duration_ablation.py pattern) and bounding it in T1 and promising it in §7.2.
+
+
+## §119 — How T1 frames "everything we did not try" (Marc 2026-10-13: "maybe it's the Petri net structure ... timed transitions, immediate transitions, decision places ... the weighting ... the construction ... the algorithms ... how do you frame that ... clearly? ... really think about this one")
+
+Nothing applied.
+
+**Two claims at two levels.** (1) Swapping the baseline attacker for the APT attacker model changes which MTD layer reduces NCR most. This is measured for the APT attacker model as a whole, and it is SQ3's answer. It needs no attribution. (2) §6.2's explanation of which part of the model does it. T1 bounds (2) only. That answers "everything we didn't try": an untested part limits the explanation, never the finding.
+
+**The list of rivals is finite: ch4's own sections.** The reader has read exactly these parts, in this order (ch4 §4.2-§4.5): attack graph (weights from CTI), attack profiles, Petri-net formalism, tactic-to-action mapping, tactic durations, failure matrix, vulnerability memory. T1 walks them and gives each one's status under MTD.
+
+| ch4 part | Varied or removed under MTD? | Result |
+|---|---|---|
+| Attack profiles | Removed (§5.4) | Same three MTD mechanisms rank first at every deployment interval |
+| Failure matrix | Removed (§5.4) | NCR negligible; time lost unchanged at 2 000 s |
+| Vulnerability memory | Removed (§5.4) | NCR negligible |
+| Tactic durations | 45 s mean at 1/4 and 4x, 200 s (App C.1, Table C.1b) | Rank 1 shares nothing with the baseline attacker's; host layer above service layer. Sitting in T5 in v1; it is T1's evidence too |
+| Attack graph weights | Random partitions under IP shuffle and OS diversity only (NCR, not rank); uniform weights never run | Untested |
+| Tactic-to-action mapping | Total mapping with no MTD only (App C.4) | Untested |
+| Petri-net formalism | Not a rival | See below |
+
+**The Petri-net formalism and the algorithms are not rival causes.** Timed transitions, immediate transitions, decision places, and the token moving from tactic to tactic are how the order of its tactics and the tactic durations are run. They have no behaviour of their own: the same weights and durations in another formalism give the same runs. Whether the code runs what ch4 specifies is T4's question (the tracer, the unit tests). One token is a limitation (opener). The duration shape (Erlang-4, App C.2) was checked on NCR only.
+
+**Residual.** The two parts never varied under MTD are the attack graph's weights (the order of its tactics from CTI) and the mapping. §6.2's explanation of the host layer rests on exactly these two: Lateral Movement is reached by the order and runs enumerate host by the mapping.
+
+**One-liner (concrete).** The finding holds for the APT attacker model as a whole. Of its parts, the attack profiles, the failure matrix and the vulnerability memory were removed under MTD, and the 45 s mean duration varied, without changing it. The two parts never varied under MTD, the attack graph's weights and the tactic-to-action mapping, are the ones §6.2's explanation of the host layer rests on.
+
+**Structure for T1.** Threat: the two claims, and that T1 bounds only the explanation. Mitigation: ch4's parts that were varied, in one or two sentences with pointers. Residual: the two untested parts and what rests on them, plus the formalism as T4's (one clause, or off the page).
+
+**Knock-ons.** The 45 s ranking test moves from T5 to T1, or T5 points to it. The open run, if Marc wants it, is now two runs: uniform weights and one other partial mapping, under MTD at 200 s, with the same deciding test as Table C.1b.
