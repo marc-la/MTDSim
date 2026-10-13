@@ -4083,3 +4083,16 @@ Build clean, 118 pages, 0 undefined. Pending Marc's evaluation.
 Draft in the session scratchpad (p2a_v6.tex), quoted in the chat return. 150 words (was ~265), seven sentences, one hedge ("likely"). Order: claim, then what §3.2.2 said (Jalowski, Hong), then the metric switch and the attacker switch, the one concrete case (service diversity 92 % vs 36 %), so what, should. Open calls: (a) Jalowski's guidelines left out (no new literature in ch6); (b) ASP's few runs left to Appendix E and §6.5.
 
 **Checks (numbers_reported.json, ranking.by_interval, 10 options).** The within-attacker Spearman between ASP reduction and NCR reduction (computed, unprinted) is 0.94-0.99 for the APT attacker model at every interval. For the baseline attacker it is 0.94, 0.98 and 0.92 at 50-200 s, then 0.50, 0.48 and 0.29 at 500-2,000 s. So "the choice of metric does not change the ranking" holds at 200 s only, and the claim is scoped to 200 s; Appendix E's printed sentence is also scoped to 200 s. Between-attacker ρ at 200 s is 0.006 [−0.19, 0.05] (spearman_ncr_reduction; §5.3.2 prints 0.01). Service diversity NCR reduction at 200 s: baseline attacker 0.918, APT attacker model 0.364. ρ covers ten options (seven MTD mechanisms and three deployment strategies), so S1 names both.
+
+
+## §79 — §6.4 ¶2a v6: what the cuts lose (Marc 2026-10-13: "can you rest assured that cutting these ideas is OK?"; "the redraft is OK")
+
+Each idea cut from ¶2a, checked against the tex for a home:
+- What ASP and NCR count: §4.5 (subsec:metrics-outcome).
+- No attack action for actions on objectives: §6.1 (l.~8575-8583) and §6.3 (l.~8894-8899, "find and compromise hosts, with no actions on objectives").
+- The run ends at the first target host compromised: §6.5 (l.~9141, with the 656-of-1,000 consequence).
+- The APT attacker model scores weaker on ASP and NCR: §6.1's close (l.~8648, "rate it the weaker attacker for behaving more like an APT").
+- ASP's few runs, so rank on NCR reduction: Appendix E and §6.5 (l.~9292, 42 to 139 of 1,000).
+- **Not placed:** "ASP is the dominant effectiveness metric" is stated only in ch3. Ch6 gives ASP's few runs as a method choice, never as an implication for evaluations. Offer: three words in §6.5's sentence at l.~9292, "ASP, the dominant effectiveness metric (Section 3.2.2)". A clause in ¶2a would cut against its claim (ASP reduction ranks as NCR reduction does, with ties at the ceiling).
+
+¶2a/¶2b pairing: Cho's two families, effectiveness (the attacker model changes the ranking) and efficiency (it changes how often MTD must deploy). v6 no longer says "effectiveness"; ¶2b says "efficiency metrics" only in its should.
