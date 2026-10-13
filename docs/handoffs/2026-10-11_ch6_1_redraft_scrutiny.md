@@ -4193,3 +4193,8 @@ Scratchpad p2b_v4.tex.
 - S3: "For a given MTD mechanism, the cost grows with how often it deploys" (Marc: cost also depends on the mechanism and how it is modelled). This also sets up the same-mechanism evidence.
 - S4-S5 reframed so that deploying less often reads as the good outcome (Marc: the numbers read as "bigger is bad"). "Reduces NCR by about half when it deploys every 1,000 s against the baseline attacker, but only when it deploys every 100 s or more often against the APT attacker model"; the host layer is parallel (200 s, 1,000 s).
 - S6: "worth its cost" (rhetorically inflated) becomes "can therefore be efficient against one attacker model and not against another".
+
+
+## §87 — §6.4 ¶2b v5, proposed (Marc 2026-10-13: "very, very close"; "two examples, is that needed?"; specific terms)
+
+Scratchpad p2b_v5.tex. S2 becomes "An MTD evaluation weighs" (specific term). S4 gets "for example". The host-layer sentence is cut. It showed the shift runs both ways, which mattered for §83's "more than one attacker model" should. That should is gone, and ¶2a already shows the two attackers' rankings are uncorrelated (and §6.2 the layer reversal), so the reader will not take "the APT attacker model is harder" from one example. S6 holds on service diversity alone. About 25 words saved. Echo: ¶2a also has "Service diversity, for example,"; it is the same example carried on, so the echo is left in.
