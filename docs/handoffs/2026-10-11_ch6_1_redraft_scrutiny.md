@@ -4120,3 +4120,10 @@ Scratchpad p2a_v8.tex, about 150 words.
 - The 92/36 sentence gets "for example" to tie it to the ρ sentence.
 - S5 "Ranking on ASP reduction instead gives the same order against either attacker": subject first; "instead" refers back to NCR reduction in S3. It sits right before the so-what it supports.
 - S6 subject first ("A shared set of metrics is likely not enough"), with no fronted "With ... alone"; one hedge. S7 keeps the only "therefore".
+
+
+## §82 — §6.4 ¶2a v8 applied; ¶2b efficiency signpost applied (Marc 2026-10-13: "very clear ... I'm happy with it")
+
+One change from v8. Marc: "beside its own" is a pointer to nowhere. The close now reads "report its metrics against its own attacker model and against one that other evaluations also use". ¶2b opener: "On efficiency metrics, the attacker model decides how often MTD must deploy for a given NCR reduction, although in MTDSim a deployment costs no overhead or loss of service (Section threats)." This is a downstream ch6 edit mirroring ¶2a's signpost; it was proposed in §80 and Marc raised no objection. The stale ¶2 and ¶2a comment blocks are replaced by one current comment. Build clean, 118 pages, 0 undefined.
+
+Next: §6.4 opener (placeholder). Its list is stale: item 2 should now be the shared attacker model (¶2a), and the longest deployment interval per attacker model (¶2b) is missing. Then ¶3 scrutiny.

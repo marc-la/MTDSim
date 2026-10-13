@@ -8953,54 +8953,33 @@ deployment strategy against an attacker model other than the one it was
 trained against, beside the random deployment strategy over the same MTD
 mechanisms, which shows what the learning adds.
 
-% REDRAFT 2026-10-13 (Marc: "the structure is right ... a 2a and 2b might make
-%  sense"), handoff §68-§71. Thread: the metrics stop where MTDSim's attacker
-%  stops (subsec:tactic-verb-mapping). 2a, what the metrics count: ASP blunt,
-%  no behaviour metric in Cho's classification, the attacker model reorders
-%  MTD with the metrics held -> report against an existing attacker model.
-%  2b, what they do not count: cost; the shortest interval always wins; five
-%  times as often. Cut: blocks against time lost, MTTC coverage, the worst
-%  case by metric (parked, §66).
-% ¶2a REDRAFT 2026-10-13 (Marc: "apply it"), handoff §72-§74: what ASP and
-%  NCR count; neither measures actions on objectives; ASP's few runs (4-14 %,
-%  none under the host layer to 200 s), so ranking on NCR reduction; outcome
-%  metrics score the APT attacker model weaker despite more properties (§4.5
-%  expected this); shared metrics not enough (service diversity 92 % vs 36 %);
-%  set out the attacker model in its own section. No hedge.
-% ¶2a opener + close REVISED 2026-10-13 (handoff §76): claim first; the section's contents derived from the paragraph's evidence.
-On metrics, the attacker model decides what the effectiveness metrics can show.
-ASP and NCR both count compromised hosts
-(Section~\ref{subsec:metrics-outcome}): ASP is the share of runs in which the
-attacker compromises a target host, and NCR is the share of the hosts in the
-network it compromises. Neither measures actions on objectives: three of the
-APT attacker model's four attack profiles pursue data exfiltration or
-impediment (Table~\ref{tab:attack-profiles}), and MTDSim has no attack action
-for either (Section~\ref{subsec:tactic-verb-mapping}). ASP is the dominant
-effectiveness metric \citep{cho2020}, but with no MTD the APT attacker model
-compromises a target host in 4 to 14\,\% of runs, against 66\,\% for the
-baseline attacker (Table~\ref{tab:unopposed-summary}), and under the host
-layer in no run up to 200\,s (Table~\ref{tab:eff-interval-values-asp}).
-Chapter~\ref{ch:experiments} therefore ranks the MTD mechanisms on NCR
-reduction, which counts hosts in every run (Appendix~\ref{app:sup-mtd-effect}).
-On attack outcome metrics alone, the APT attacker model scores as the weaker
-attacker, although it has more of the eight properties
-(Table~\ref{tab:fidelity-verdict}). Section~\ref{sec:evaluation-metrics}
-expected this when it added attacker behaviour metrics.
+% ¶2a REDRAFT 2026-10-13 (Marc: "a step back ... the structure or the narrative
+%  has been lost"; "I'm happy with it"), handoff §77-§82. One claim on Cho's
+%  effectiveness half: the attacker model changes the ranking at every interval,
+%  the metric (ASP vs NCR reduction, at 200 s) does not, so shared metrics are
+%  not enough. Cut, each said elsewhere: what ASP and NCR count (4.5), no
+%  actions on objectives (6.1, 6.3), ASP's few runs (App E, 6.5), the APT
+%  attacker model rated weaker (6.1). Prior text in git.
+On effectiveness metrics, the attacker model changes how the MTD mechanisms and
+deployment strategies rank, at every deployment interval.
 Section~\ref{subsec:mtd-metrics} found that MTD mechanisms cannot be compared
 across evaluations because each evaluation chooses its own metrics
-\citep{jalowski2026}. A shared set of metrics would not be enough: at
-200\,s, service diversity reduces the baseline attacker's NCR by 92\,\% and
-the APT attacker model's by 36\,\%, on the same networks
-(Table~\ref{tab:eff-cross-arm}). An MTD evaluation should therefore set out its
-attacker model in a section of its own, as it sets out its MTD mechanisms. A
-reader needs three things from that section to read the metrics: the tactics
-the attacker model has attack actions for, its ASP and NCR with no MTD, and its
-assumptions.
+\citep{jalowski2026}, and that metric values depend on how the attacker is
+implemented \citep{hong2018}. At the default deployment interval of 200\,s, the
+two attackers' rankings on NCR reduction are uncorrelated ($\rho = 0.01$;
+Section~\ref{subsec:eff-cross-arm}). Service diversity, for example, reduces
+the baseline attacker's NCR by 92\,\% and the APT attacker model's by 36\,\%,
+on the same networks (Table~\ref{tab:eff-cross-arm}). Ranking on ASP reduction
+instead gives the same order against either attacker
+(Appendix~\ref{app:sup-mtd-effect}). A shared set of metrics is likely not
+enough to compare MTD mechanisms across evaluations whose attacker models
+differ. An MTD evaluation should therefore report its metrics against its own
+attacker model and against one that other evaluations also use.
 
-% ¶2b REDRAFT 2026-10-13 (Marc: 'push both'): claim first; §6.5 bound as pointer; 'five times' dropped (grid artefact); one hedge (likely); should = longest deployment interval per attacker model. Handoff §76.
-In MTDSim, a deployment costs no overhead or loss of service
-(Section~\ref{sec:threats}), but the attacker model still decides how often
-MTD must deploy for a given NCR reduction. Against the APT attacker model, the
+% ¶2b REDRAFT 2026-10-13 (Marc: 'push both'); 'On efficiency metrics' signpost mirrors ¶2a (§82): claim first; §6.5 bound as pointer; 'five times' dropped (grid artefact); one hedge (likely); should = longest deployment interval per attacker model. Handoff §76.
+On efficiency metrics, the attacker model decides how often MTD must deploy
+for a given NCR reduction, although in MTDSim a deployment costs no overhead or
+loss of service (Section~\ref{sec:threats}). Against the APT attacker model, the
 host layer reduces NCR by more than half up to a deployment interval of
 1\,000\,s (Section~\ref{subsec:eff-cross-arm}). Against the baseline attacker,
 the service layer reduces NCR by more than half only up to 200\,s. On a real
