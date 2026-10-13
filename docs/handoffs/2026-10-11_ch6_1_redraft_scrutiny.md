@@ -4076,3 +4076,10 @@ Build clean, 118 pages, 0 undefined. Pending Marc's evaluation.
 - (a) Jalowski's four metric guidelines (§5; source l.209-219) name no attacker model, though the same passage says ASP "can only describe effectiveness against one, often very specific, attack". This would give slot 5 a direct target. It is not in ch3, so citing it in ch6 brings new literature into the discussion; the option is to cite it there or leave it out.
 - (b) Keep the ASP floor as one clause in slot 3, or leave it to Appendix E and §6.5. Recommendation: leave it.
 - (c) The opener's list goes stale again (item 2 becomes the shared attacker model); fix it with the opener rewrite.
+
+
+## §78 — §6.4 ¶2a v6 drafted from §77's spine, proposed, not applied (Marc 2026-10-13: "give it a try do this redrafting")
+
+Draft in the session scratchpad (p2a_v6.tex), quoted in the chat return. 150 words (was ~265), seven sentences, one hedge ("likely"). Order: claim, then what §3.2.2 said (Jalowski, Hong), then the metric switch and the attacker switch, the one concrete case (service diversity 92 % vs 36 %), so what, should. Open calls: (a) Jalowski's guidelines left out (no new literature in ch6); (b) ASP's few runs left to Appendix E and §6.5.
+
+**Checks (numbers_reported.json, ranking.by_interval, 10 options).** The within-attacker Spearman between ASP reduction and NCR reduction (computed, unprinted) is 0.94-0.99 for the APT attacker model at every interval. For the baseline attacker it is 0.94, 0.98 and 0.92 at 50-200 s, then 0.50, 0.48 and 0.29 at 500-2,000 s. So "the choice of metric does not change the ranking" holds at 200 s only, and the claim is scoped to 200 s; Appendix E's printed sentence is also scoped to 200 s. Between-attacker ρ at 200 s is 0.006 [−0.19, 0.05] (spearman_ncr_reduction; §5.3.2 prints 0.01). Service diversity NCR reduction at 200 s: baseline attacker 0.918, APT attacker model 0.364. ρ covers ten options (seven MTD mechanisms and three deployment strategies), so S1 names both.
