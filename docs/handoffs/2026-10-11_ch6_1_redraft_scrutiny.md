@@ -4378,3 +4378,36 @@ attacker model's NCR less than the host layer does, at every deployment interval
 - S6: "The APT attacker model's tactic durations keep it in unmapped tactics, which run none" is cut (Marc). The number stays as the measured difference.
 - S7 is new: the result the assumption produces (Marc's "emerge"). It uses §6.2's printed claim ("the service layer reduces its NCR less than the host layer does", at every deployment interval, the sq:evaluate answer) and §6.2's hedge ("likely explain"). One hedge in ¶3. "This difference" names its referent; it is not a bare "this".
 - Checked and rejected: "less than the baseline attacker's" does not hold at every interval. Port shuffle at 1,000 s is 0.050 vs 0.041, and OS diversity at 1,000 s is -0.012 vs -0.004, both near zero (numbers_reported ranking.by_interval).
+
+## §96 — §6.4 ¶3 example moves to §6.2; ¶3 points to it (Marc 2026-10-13: "isn't this something that we already present in 6.2 ... why do we present it here instead of in 6.2"; "your example is actually cleaner than currently in 6.2")
+
+**Diagnosis.** §95's S5-S7 restate §6.2 ¶3 (service layer) almost word for word: the same assumption, the same 0.15 against 0.95, the same result. That is a rehash in ¶3. What made §95 cleaner: "back to back" is attached to the assumption it suits, and there is no "but" U-turn.
+
+**Proposed §6.2 ¶3 edit (upstream, proposed only).** Two flagged sentences; the claim-first opener and the numbers are kept.
+
+```
+The APT attacker model's tactic durations likely explain why the service layer
+reduces its NCR less than the host layer does. A service-layer deployment
+disrupts an attacker only while it scans ports, exploits or brute-forces
+(Section~\ref{subsec:attacker-model}), which the baseline attacker does back to
+back. The APT attacker model's tactic durations keep it between attack actions,
+in unmapped tactics that run none (Section~\ref{subsec:aio-disruption}). Under
+every service-layer mechanism, attack actions blocked per MTD deployment is
+therefore 0.15 for the APT attacker model, against 0.95 for the baseline
+attacker (Figure~\ref{fig:aio-adaptivity}(a)).
+```
+
+- S2: "which the baseline attacker does back to back" moves onto the assumption.
+- S3: the U-turn "The baseline attacker runs its attack actions back to back, but ..." becomes a plain sentence on the APT attacker model. The unmapped-tactics clause stays here: in §6.2 it is the mechanism (Marc cut it from ¶3 only).
+- S4: "therefore" ties the number to S2-S3.
+
+**¶3 S5-S7 become one pointer (proposed).**
+
+```
+With MTD, these two differences likely decide which MTD layer reduces each
+attacker's NCR most (Section~\ref{sec:disc-mtd-performance}).
+```
+
+"These two differences" names S4's tactic durations and order of its tactics. This is §6.2's own opener claim, with its hedge ("likely explain"). It shows the limit reaching an MTD result without re-explaining it. The should is next.
+
+**Not taken from Marc's musing (answered in chat).** (a) "Service-layer disruption scales with attack rate": the attack rate ratio is 0.68-1.23 vs 1.71 per minute (about 0.4-0.7), but the blocked ratio is 0.15/0.95 (about 0.16), so the two are not proportional. Time in unmapped tactics, not attack rate, carries it. (b) The host layer: §6.2 puts it on the order of its tactics (no host until Lateral Movement runs enumerate host), not on the APT attacker model being slower.
