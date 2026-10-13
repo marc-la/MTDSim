@@ -4907,3 +4907,33 @@ Gaps, in proposed order of weight:
 - **Gap 4.** T9: beating all ten random partitions is what chance alone gives one time in eleven, so the comparison describes rather than tests.
 - **Gap 5.** T8: the three MTD attacker models are our choice (subsec:recent-threat-models), and none is the attacker of a game-theoretic model, the dominant MTD modelling approach (cho2020).
 - §6.5 is now about 1,590 words. Build 118 pages, 0 undefined.
+
+
+## §114 — §6.5 v1 structure scrutiny, no redraft (Marc 2026-10-13: "why do we have two paragraphs ... what does the reader expect ... what is the one-liner ... what can live in the hedging ... criticise, don't redraft")
+
+**Why two openers.** ¶1 (limitations) is a body block dressed as an opener; ¶2 (threats lead-in) is the real opener. ¶1's first sentence repeats the ch6 opener ("Every claim is about MTDSim"). Each limitation is declared upstream, and two are §6.3 ¶3 nearly verbatim (eight of 15 tactics, stops at compromising hosts; no IDS).
+
+**What the reader expects (Verdecchia and Bogner; Empirical Standards).** (1) Up front: which claims are bounded and what survives. (2) The scheme. (3) The threats that could change an answer, first and frankly. (4) Each with mitigation and residual, specific to this study. (5) Residuals that ch7 can carry. v1 gives (2) and part of (3)-(4). It has no (1), and several items end without a residual (T2 "shared but untested", T4, T9, T12).
+
+**One-liner (proposed).** The layer claim is measured, and it holds under every check run (ASP reduction, the band test, separated CIs). What stays open is why it holds (T1, T2, T5) and how far it reaches APT attackers (T11, T12).
+
+**Sort (keep here / elsewhere / cut).**
+- Limitations ¶: one sentence in the opener, with a pointer to §7.2. The rest is upstream.
+- T1 cause: keep, top. The ablation recap shortens to a clause.
+- T2 MTDSim's rules: keep. The Lateral Movement recap is §6.2; keep the pointer. User shuffle becomes a pointer (App F.3 needs the label).
+- T3 conditions: dissolve. "Not identical conditions" is the treatment itself, not a threat. Different starting points becomes a clause in conclusion. End of run (656) with the ASP mitigation moves to construct (NCR truncated).
+- T4 code: keep, last in internal; the verification home (show-verification memory).
+- T5 values: keep, top construct; trim the untested list.
+- T6 mapping: keep, short.
+- T7 metrics: split. Time lost (first deployment; 2,000 s) bounds §6.2. Distinct openings bounds §6.1. The proxy sentence is §6.3 ¶3: cut.
+- T8 yardstick: keep the yardstick and comparators. One coder for the attack profiles moves next to the corpus.
+- T9 statistics: split. (a) The layer claim: per-mechanism scope for the baseline attacker, bootstrap over runs, NCR because ASP is thin. (b) Ablations and partitions: Cohen, 24 of 60, one in eleven. The rho sentence is vestigial (it was written to retire "reversal"; §6.4 ¶2a already says uncorrelated): cut.
+- T10 post-hoc: keep, short.
+- T11 corpus: the 18 of 38 and the reason for attack flows are ch4 l.4018-4027 verbatim; "incidents that succeeded" is §6.3 ¶2. Keep: detected and reported, few flows per profile, not an optimal adversary, a run joins flows.
+- T12: Sargent, keep. MTDShield as released becomes its own short residual on §6.4 ¶1.
+
+**Shape.** Each item opens on the claim at risk (subject first), then threat, mitigation and residual. The ranking rule says "the answers" (or tags the SQ), since construct threats bound SQ1/SQ2 and §6.1, not SQ3.
+
+**Sentence flags.** Not-X-but-Y / "rather than" run through it: "rather than fitting", "likely, not shown", "describes rather than tests", "explores rather than testing", "not an optimal adversary", "not a replay", "not MTDShield retrained". T1's first sentence buries its subject. "Three metrics measure their property only in part" and "the rules are shared but untested" are vague.
+
+**Size.** The sort removes about 450-500 words, so about 1,100. Nothing applied.
