@@ -4411,3 +4411,41 @@ attacker's NCR most (Section~\ref{sec:disc-mtd-performance}).
 "These two differences" names S4's tactic durations and order of its tactics. This is §6.2's own opener claim, with its hedge ("likely explain"). It shows the limit reaching an MTD result without re-explaining it. The should is next.
 
 **Not taken from Marc's musing (answered in chat).** (a) "Service-layer disruption scales with attack rate": the attack rate ratio is 0.68-1.23 vs 1.71 per minute (about 0.4-0.7), but the blocked ratio is 0.15/0.95 (about 0.16), so the two are not proportional. Time in unmapped tactics, not attack rate, carries it. (b) The host layer: §6.2 puts it on the order of its tactics (no host until Lateral Movement runs enumerate host), not on the APT attacker model being slower.
+
+## §97 — §6.4 ¶3 v4 in full, plus a ch6 duplication map (Marc 2026-10-13: "Yep, that's good" on §96; "what does the full thing look like ... some duplication with chapter 6 sections ... how to consolidate")
+
+About 130 words, six sentences, one hedge (S5).
+
+```
+On evaluation methods, a simulator's attack actions limit how far a new
+attacker model can differ from the attacker the simulator was built with.
+Section~\ref{subsec:evaluation-methods} found that simulation, the dominant
+evaluation method, models specific attack behaviours flexibly but that its
+results do not transfer directly to a real network \citep{cho2020}. The APT
+attacker model shares the baseline attacker's six attack actions, so it is
+comparable with the baseline attacker and limited to what those attack actions
+do: find and compromise hosts, with no actions on objectives
+(Section~\ref{sec:fidelity-verdict}). The two attackers therefore differ mostly
+in the APT attacker model's tactic durations and the order of its tactics
+(Section~\ref{sec:disc-behaviour}). With MTD, these two differences likely
+decide which MTD layer reduces each attacker's NCR most
+(Section~\ref{sec:disc-mtd-performance}). An MTD evaluation should therefore
+report the attack actions its evaluation method gives the attacker.
+```
+
+**Duplication map.**
+
+| ¶3 | Also in | Verdict |
+|---|---|---|
+| S1 claim | none | ¶3's own |
+| S2 ch3 | none in ch6 | ¶3's own (answers ch3) |
+| S3 comparable and limited, with no actions on objectives | §6.3 close, word for word; §6.5 design choice 1 ("act through the same attack actions"; "Seven tactics have no attack action to run") and its "Both attackers share the attack actions ... comes from the attackers" | premise, pointed |
+| S4 tactic durations and order | ch6 opener; §6.1 opener and close | premise, pointed |
+| S5 decides the MTD layer | §6.2 opener | premise, pointed |
+| S6 should | none | ¶3's own |
+
+**Reading.** S3-S5 are a chain of premises that each owning section needs for its own question: §6.1 explains, §6.2 answers SQ2, §6.3 answers SQ3, and §6.5 bounds. ¶3 states each premise once, with a pointer, and adds S1, S2 and S6. This is the ¶2a pattern (premises pointed, implication its own), so no section needs to give anything up for ¶3.
+
+**The one real duplication is outside ¶3.** The comparator-and-limit point is made in full twice, in §6.3's close and in §6.5's design choice 1 plus its "Both attackers share ..." sentence. That is for the ch6 cut pass (word band about 3,300), not this round: §6.5 keeps the bound, and §6.3 keeps the SQ3 answer. Parked.
+
+**Consolidated in ¶3 this round.** The should's reason clause ("since the same attack actions that let two attacker models be compared also limit how far they can differ", v3) repeated S3, so it is cut to the short should. The balance Marc asked for (comparator and limiter) now lives in S3 alone.
