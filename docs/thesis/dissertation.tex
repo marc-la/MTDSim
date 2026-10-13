@@ -9674,36 +9674,33 @@ March 2026, with its own reference list.
 % predicates (conditions checkable apart). Table 3.2 unchanged: rows 1 and 6
 % split off one qualifier, row 5 splits at its "and". The mark follows from
 % the cells by rule; it lowered Masud's rows 3, 4 and 6 and nothing else.
-\chapter{The attacker models tested predicate by predicate}
+% [2026-10-13, Marc: title plain, not rhetorical; lead short and sharp; the
+%  cell key moved into the caption so Table B.1 reads alone. The heading reuses
+%  Table 3.3's wording. Prior text in git (ccd2fbdd). DRAFT STATE.]
+\chapter{The attacker models scored on the eight properties}
 \label{app:clause-tests}
 
-Section~\ref{subsec:recent-threat-models} scores each attacker model by
-predicates taken from each definition in Table~\ref{tab:attacker-properties}.
-A behaviour predicate states what the attacker model does, with every
-condition that cannot be met without it; a qualifier predicate states a
-condition that can be checked apart. Table~\ref{tab:clause-tests} gives the
-predicates: rows 1 and 6 each split off one qualifier, row 5 splits at its
-``and'' into two behaviour predicates, and every other definition is one
-behaviour predicate, word for word. Each cell records whether the predicate
-is true of the attacker model's own behaviour (yes), true only because its
-authors set the behaviour by a fixed rule (rule) or assume it (assumed), or
-false (no). An assumption counts only where the attacker model takes the
-behaviour's step and its authors assume what the model cannot show; a
-behaviour its authors describe, but no step of the model takes, is no. The
-mark follows from the cells alone: \propmet\ when every cell
-is yes, \propstandin\ when a behaviour predicate is yes, rule or assumed but
-some cell is not yes, and \propnone\ when every behaviour predicate is no. The
-three MTD attacker models are tested from their papers, as in
-Section~\ref{subsec:recent-threat-models}, and the APT attacker model from
-Chapter~\ref{ch:attacker-model}. An example in a definition, such as passive
-reconnaissance, illustrates a predicate and is not one.
-
+Table~\ref{tab:clause-tests} gives the predicates behind each mark of
+Tables~\ref{tab:attacker-cross-section} and~\ref{tab:fidelity-verdict}. Each
+definition of Table~\ref{tab:attacker-properties} is one behaviour predicate,
+word for word, except that rows 1 and 6 each split off a qualifier and row 5
+splits at its ``and'' into two behaviour predicates.
 
 \begin{table}[htbp]
   \centering
   \caption[Each attacker model tested on each predicate]{Each attacker model
   tested on each predicate of the eight definitions of
-  Table~\ref{tab:attacker-properties}, and the mark that follows.}
+  Table~\ref{tab:attacker-properties}, and the mark that follows: the APT
+  attacker model from Chapter~\ref{ch:attacker-model}, the three MTD attacker
+  models from their papers. A behaviour predicate states what the attacker
+  model does; a qualifier states a condition on it, checked apart. A cell is
+  \emph{yes} when the predicate is true of the attacker model's own behaviour,
+  \emph{rule} when it is true only because its authors set the behaviour by a
+  fixed rule, \emph{assumed} when the attacker model takes the behaviour's step
+  but only its authors' assumption makes the predicate true, and \emph{no}
+  otherwise. The mark is \propmet\ when every cell is yes, \propstandin\ when a
+  behaviour predicate is yes, rule or assumed but some cell is not yes, and
+  \propnone\ when every behaviour predicate is no.}
   \label{tab:clause-tests}
   \tablestyle\setlength{\tabcolsep}{4pt}
   \begin{tabular}{@{}P{7.4cm}*{3}{>{\centering\arraybackslash}p{1.7cm}}>{\centering\arraybackslash}p{2.3cm}@{}}

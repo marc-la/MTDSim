@@ -555,3 +555,11 @@ Build: 99 pages, 0 undefined.
 **Proposed, NOT RULED:** the title, a lead cut to what ch3 does not already say, and the cell decode moved into B.1's caption. See the session record for the before/after.
 
 **Out of scope, flagged:** ch7's slot list (the "Last sentence." and "Promises Chapter 6 makes" items, about 9589) prints in the PDF on p. 49.
+
+**Applied (Marc, 2026-10-13: "short, sharp"; caption reads alone; title not rhetorical):**
+- **Title:** "The attacker models scored on the eight properties". It reuses Table 3.3's caption wording; Marc's "comparative analysis" was weighed and rejected as vaguer than the term the reader already has.
+- **Lead:** two sentences. What Table B.1 backs (Tables 3.3 and 6.1), and how the definitions split into predicates.
+- **Caption:** now carries what the old lead said: the evidence source per attacker model; behaviour vs qualifier; the four cell values (with "assumed" folded into its definition); the mark rule.
+- **Cut, no longer stated:** "an example in a definition is not a predicate", and the repeated ch3 mark definitions.
+
+Build: 99 pages, 0 undefined. B is pp. 58–59, with the lead and the table on separate pages because the table does not fit under the lead.
