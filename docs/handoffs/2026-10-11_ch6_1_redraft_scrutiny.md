@@ -4906,4 +4906,4 @@ Gaps, in proposed order of weight:
 - **Gap 3.** T7: time lost AND attack actions blocked are measured at 2,000 s only (Table 5.x caption; the cap), so §6.2 explains the service layer at every interval from measures at one. This is new on checking: §6.2's 0.15 vs 0.95 is from the 2,000 s figure.
 - **Gap 4.** T9: beating all ten random partitions is what chance alone gives one time in eleven, so the comparison describes rather than tests.
 - **Gap 5.** T8: the three MTD attacker models are our choice (subsec:recent-threat-models), and none is the attacker of a game-theoretic model, the dominant MTD modelling approach (cho2020).
-- §6.5 is now about 1,560 words. Build 118 pages, 0 undefined.
+- §6.5 is now about 1,590 words. Build 118 pages, 0 undefined.
