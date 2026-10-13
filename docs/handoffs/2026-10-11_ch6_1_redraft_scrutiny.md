@@ -4293,3 +4293,37 @@ attack actions cannot run.
 **Proposed S2 edit (only).** "Section 3.2.3 found that simulation, the dominant evaluation method, models specific attack behaviours flexibly but does not transfer directly to a real network \citep{cho2020}." The transfer bound itself stays in §6.5. Here it is only ch3's claim being answered.
 
 **Not added.** Emulation and real testbeds (ch3 P1) would run real attack tools rather than a simulator's attack actions, but nothing was run on either, so there is no leg. Analytical models: the same.
+
+## §93 — §6.4 ¶3 v2 clarity pass, proposed, not applied (Marc 2026-10-13: "strong ... but the language ... specific terms ... already said somewhere else ... so many examples ... more concisely ... language we settled on")
+
+About 150 words (v1: about 190), six sentences, no hedge.
+
+```
+On evaluation methods, a simulator's attack actions limit how far a new
+attacker model can differ from the attacker the simulator was built with.
+Section~\ref{subsec:evaluation-methods} found that simulation, the dominant
+evaluation method, models specific attack behaviours flexibly but that its
+results do not transfer directly to a real network \citep{cho2020}. The APT
+attacker model shares the baseline attacker's six attack actions, so it is
+comparable with the baseline attacker and limited to what those attack actions
+do: find and compromise hosts, with no actions on objectives
+(Section~\ref{sec:fidelity-verdict}). The two attackers therefore differ mostly
+in the APT attacker model's tactic durations and the order of its tactics
+(Section~\ref{sec:disc-behaviour}). With MTD, the host layer's rank against the
+APT attacker model rests on MTDSim's rule for a host-layer deployment, written
+for the baseline attacker's procedure (Section~\ref{sec:disc-mtd-performance}).
+An MTD evaluation that runs a new attacker model in a simulator should therefore
+report which of its tactics the simulator's attack actions cannot run.
+```
+
+| v1 | v2 | Why |
+|---|---|---|
+| S1 "the simulator's own attacker" | "the attacker the simulator was built with" | Ch2's definition of the baseline attacker, word for word; "own" pointed nowhere, like "beside its own" (§82). |
+| S2 the flexibility clause only | adds "but that its results do not transfer directly to a real network" | §92: answers both halves of ch3's claim. |
+| S3 "runs through ... which makes it" | "shares the baseline attacker's six attack actions, so it is comparable ... and limited to ... with no actions on objectives" | §6.3's settled wording; "which" had no clear antecedent; Marc asked for "no actions on objectives". |
+| S4 "order and timing of the same attack actions" | "mostly in the APT attacker model's tactic durations and the order of its tactics" | The ch6 opener's terms, word for word; "timing" was a second term for tactic durations. "Mostly", as the opener says, because §6.3 also names the declared parts. |
+| S5 two thirds of the ASP gap | cut | §6.1 and App run-time; S4 points there. Evidence for the difference, not for the limit. |
+| S6 15-30 % fail on preconditions | cut | §6.1 and App run-time. Second example (Marc: "so many examples"). |
+| S7 host layer "rests on where MTDSim sends each attacker" | "rests on MTDSim's rule for a host-layer deployment, written for the baseline attacker's procedure" | §6.5's wording; names which rule, and ties the rule back to S1's limit. The one example kept, because it is the one that reaches an MTD result. "Against MTD, ... against" becomes "With MTD". |
+| S8 hedge, "would likely need new attack actions" | cut | Two endings (§91). S1 is structural (an attacker model in a simulator can run only the simulator's attack actions), not inferred, so it needs no hedge. |
+| S9 should | unchanged | Its support is S3's limit (§91 correction). |
