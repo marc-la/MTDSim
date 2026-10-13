@@ -3886,3 +3886,13 @@ where MTD stops reducing an attacker's NCR but cannot choose an interval; an
 evaluation that sets one should model the overhead and loss of service each
 deployment costs.
 ```
+
+## §64. §6.4: pointers from each paragraph to its §3.2 subsection (Marc 2026-10-13, "fine with the proposed")
+
+- Each paragraph's second sentence, the one that says what ch3 claimed, now points to its subsection, not to "Chapter 3":
+  - §3.2.1 (subsec:defence-modelling-approaches);
+  - §3.2.2 (subsec:mtd-metrics);
+  - §3.2.3 (subsec:evaluation-methods).
+- The opener still cites §3.2 for the three parts. That covers the bare "On X," openers, which follow the convention of §6.1 and §6.2: a term is defined once and repeated word for word, with no citation on each use.
+- Bold run-in headings were considered and set aside. They would make §6.4 the only ch6 section with them, and the examiner benchmarks call for no headings below the section.
+- Build clean, 118 pages.
