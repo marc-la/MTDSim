@@ -4250,3 +4250,36 @@ Rejected: (B) "simulation lets an evaluation change the attacker model and hold 
 **Should, two options.** (i) "An MTD evaluation that runs a new attacker model in a simulator should therefore report which of its tactics the simulator's attack actions cannot run." The leg: the seven unmapped tactics, including actions on objectives, are why ASP and NCR rate the APT attacker model weaker (§6.1 close). (ii) No should, ¶2b style: the so-what is that changing the attacker model in a simulator changes the order and timing of its attack actions, and an attacker that differs in what it can do needs new attack actions. Lean: (i), because it is actionable and has a leg.
 
 **Knock-on.** If user shuffle leaves ¶3, App fa-accounts' pointer ("follows from MTDSim's rule ... Section evaluation-implications") needs a new home (§6.5 or §6.2). Ch7 Contribution 1's "interface" pointer still needs repointing (gated).
+
+## §91 — §6.4 ¶3 v1 drafted from §90's spine, proposed, not applied (Marc 2026-10-13: "that one liner is spot on ... the common ground, it is the only ground ... beautiful structure ... I think this is good")
+
+Marc's "blessing and a curse" line is §6.3's close ("comparable with the baseline attacker, and limited to what MTDSim's attack actions do"). S3 points to it in plain terms, with no idiom. About 190 words, nine sentences, one hedge (S8 "likely").
+
+```
+On evaluation methods, a simulator's attack actions limit how far a new
+attacker model can differ from the simulator's own attacker.
+Section~\ref{subsec:evaluation-methods} found simulation the dominant evaluation
+method because it models specific attack behaviours flexibly \citep{cho2020}.
+The APT attacker model runs through MTDSim's six attack actions, which makes it
+comparable with the baseline attacker and limits it to what those attack
+actions do: find and compromise hosts (Section~\ref{sec:fidelity-verdict}). The
+two attackers therefore differ in the order and timing of the same attack
+actions. With the baseline attacker's times in place of its tactic durations,
+the APT attacker model closes about two thirds of its gap in ASP
+(Appendix~\ref{app:fa-run-time}). The attack actions' preconditions follow the
+baseline attacker's procedure, so 15 to 30\,\% of the APT attacker model's
+attack actions fail because the order of its tactics runs them too early
+(Section~\ref{sec:disc-behaviour}). Against MTD, the host layer's rank against
+the APT attacker model rests on where MTDSim sends each attacker after a
+host-layer deployment (Section~\ref{sec:disc-mtd-performance}). An attacker
+model that differs in what it can do, such as one that exfiltrates data, would
+likely need new attack actions. An MTD evaluation that runs a new attacker model
+in a simulator should therefore report which of its tactics the simulator's
+attack actions cannot run.
+```
+
+**Correction to §90.** §90 gave should (i)'s support as "the unmapped tactics are why ASP and NCR rate it weaker". That is wrong: §6.1's close puts the lower ASP and NCR down to tactic durations and order. Should (i)'s support is S3's limit instead: find and compromise hosts only, with no actions on objectives (§6.3).
+
+**Checks.** "About two thirds": App run-time, 0.63 [0.61, 0.65] of the ASP gap (§6.1 prints "about two thirds"). 15 to 30 %: App run-time and §6.1. "Rests on where MTDSim sends each attacker": §6.5's wording; mechanism in §6.2. User shuffle is out of ¶3, so App fa-accounts' pointer needs a new home.
+
+**Open for Marc.** (1) S8 (hedge) and S9 (should) are two endings; one could go. (2) Length: about 190 words against the old ¶3's 140 and ¶2a's 150.
