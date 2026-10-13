@@ -3940,3 +3940,29 @@ Open (Marc): the three recommendations read as "we already do that". Settle them
 Two rounds after §66. Round 1 (critique): the opener abstracted ("one attacker / another") where the evidence is named; one vocabulary per job (MTD terms for the subject, MTDSim for the evidence, RL only for learning; no CTI); "trained against the baseline attacker" folded into the §3.2.1 sentence (ch3 says it); "of the four MTD mechanisms" and first/third ranks cut (no scale; the reader met service diversity via §6.2: the only MTD mechanism the baseline attacker loses time to); comparator = the plain random deployment strategy (Figure 5.x(d) vs (e)), which holds at every deployment interval both ways (Table E.1: baseline 0.84/0.67 ... 0.05/-0.01; APT 0.42/0.95 ... 0.04/0.08); the same-four comparator gives the same direction (0.56, 0.80 at 200 s) and stays only in the should; NCR reduction read as a percentage of NCR (eq:ncr-reduction); 76/70 % -> "most of its decisions" (ch5 states the shares); the simile names the training environment; "disrupts" not "reduces NCR most" (the reward is not NCR). Round 2 (clarity, three sentences): "but" in the opener (random is the bar); "reduces ... by 68 %" (the flip 68->28 vs 33->75); "generalises to other attackers" vs "fitted to its training attacker".
 
 218 words (was 353). Build clean, 118 pages, 0 undefined.
+
+## §68 — §6.4 ¶2 (metrics): scrutiny, no redraft (Marc 2026-10-13: "same process ... efficiency ... we don't model")
+
+**Job.** Answer §3.2.2.
+
+| §3.2.2 point | What ¶2 does now |
+|---|---|
+| Cho's taxonomy: effectiveness or efficiency, attacker-side or defender-side (tab:mtd-metrics) | Silent. Every metric here is an effectiveness metric (ASP, MTTC attacker-side; NCR, attack actions blocked defender-side; time lost per MTD deployment, which §4.5 groups with NCR reduction). No efficiency metric: MTDSim prices nothing (§6.5). |
+| ASP is the dominant effectiveness metric | Not used, though it is the hook for ASP reduction's ceiling and sign flip. |
+| No standard set, so MTD mechanisms cannot be compared across evaluations (Jalowski) | Extended: shared attacker models are needed too. Its evidence, ρ, left with ¶1's redraft (§67), so the claim now has none in ¶2. |
+| ASP, MTTC, NCR depend on how the attacker is implemented (Hong) | Confirmed ("read the two attackers differently"). |
+
+**Reading.** 271 words, 10 sentences, five recommendations: report behaviour beside outcome; report blocks with time lost; lead with NCR reduction; ASP reduction and MTTC beside it, MTTC with its share of runs; the worst case moves with the metric. Same shape as the old ¶1: a list of caveats, each with its own "so". Rehash: "ASP and NCR alone rate the APT attacker model the weaker attacker for behaving more like an APT" is §6.1's close word for word; blocks against time lost is §6.2's; MTTC's coverage is eq:mttc's definition. The worst-case tail is orphaned now ideas 4–5 are parked (§66).
+
+**Marc's efficiency point (the gap).** MTDSim charges a deployment nothing, so effectiveness is all it measures. In Table E.1, no MTD mechanism or deployment strategy that reduces NCR reduces it more at a longer deployment interval (beyond 0.01: OS diversity 0.18 -> 0.19, 0.92 -> 0.93), so on effectiveness alone the shortest deployment interval always ranks first, and an interval sweep cannot choose one. The attacker model moves the interval a defender would need: §5.3.2 already states that the host layer's NCR reduction stays above 0.5 up to 1 000 s against the APT attacker model, and the service layer's only up to 200 s against the baseline attacker. This is now in ¶3 (evaluation methods) with the threshold illustration; it belongs to metrics (Cho's efficiency half). §6.5 keeps the bound ("MTDSim prices nothing").
+
+**Points ranked by strength.**
+1. Efficiency: not measured; without it the shortest interval always wins; the attacker model moves the interval needed (Marc; ties to Cho's taxonomy; misfiled in ¶3).
+2. Comparability needs a shared attacker model (Jalowski extended; ρ as evidence).
+3. ASP, the field's dominant metric, reaches its ceiling of 1 (APT attacker model, host layer, to 200 s) and disagrees in sign with NCR reduction (IP shuffle, baseline attacker, 500 s: 0.39 vs −0.09), so lead with NCR reduction.
+4. Behaviour metrics beside outcome (Cho's taxonomy has no behaviour metric; M12) — worded as §6.1's sentence now.
+5. Blocks against time lost (§6.2 made it).
+6. MTTC covers only the runs that reach a target host (definition; MTTC is thin in ch5).
+7. The worst case moves with the metric (orphaned; parked with §66's ideas 4–5).
+
+**Direction (no text).** One claim across both halves of Cho's taxonomy: what the metrics say depends on the attacker model. Effectiveness (measured): the two attackers order the MTD mechanisms differently (ρ) and ASP disagrees with NCR reduction. Efficiency (inferred, one hedge): not measured, so the shortest deployment interval always wins, and the attacker model sets how often MTD must be deployed. Cut 4–7 or leave each to its home. Move the efficiency material out of ¶3. Marc to rule on the spine and on keeping 3 and 4.
