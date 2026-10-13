@@ -4040,3 +4040,39 @@ Rulings on §73: (2) "under the host layer in no run up to 200 s"; (3) the ASP b
 ¶2b redraft (~110 words, was 119): claim first ("the attacker model still decides how often MTD must deploy for a given NCR reduction"); §6.5's no-cost bound as a pointer; host layer vs APT attacker model > half up to 1,000 s, service layer vs baseline attacker only up to 200 s (§5.3.2's phrasing); "five times" and "must" dropped; one hedge ("likely changes what MTD costs"); should: report the longest deployment interval at which each MTD mechanism reaches a stated NCR reduction, against each attacker model, so a reader can apply their own cost per deployment. Deployments per run (15 at 1,000 s, 75 at 200 s in numbers_reported.json) kept out: printed in no float, and counts fall below schedule at 50 and 100 s. Open: "its most effective layer" left implicit (Marc to rule).
 
 Build clean, 118 pages, 0 undefined. Pending Marc's evaluation.
+
+
+## §77 — §6.4 ¶2a structure critique, no drafting (Marc 2026-10-13: "a step back ... run the wringer through paragraph one ... the structure or the narrative has been lost")
+
+**Verdict.** The wording is not the problem. Since §72 the paragraph has drifted from §69's spine ("with the metrics shared, the attacker model still reorders the MTD mechanisms (ρ); comparing MTD across evaluations needs a shared attacker model as well as shared metrics"). ρ left ¶2a when ¶1 was redrafted (§67). ASP-floor and actions-on-objectives material filled the gap, so ¶2a now carries two threads: (A) which metric fits the attacker model (S2-S7) and (B) comparability across evaluations (S8-S9). The should comes from B and the three-item list from A, which is why the close reads disjoint.
+
+**Structural faults.**
+1. The order is inverted against ¶1's pattern (result, then what ch3 said, then numbers, then mechanism, then should). The ch3 anchor arrives at S8 of 11 and the strongest evidence (92 % vs 36 %) at S9. The paragraph leads with its weakest material: definitions and a simulator bound.
+2. It is missing ch3's own prediction. §3.2.2 P2 (Hong: metric values depend on how the attacker is implemented; "MTD that is effective against one attacker may therefore not be effective against an APT attacker") is the claim the results confirm, and the paragraph never closes that loop.
+3. It is missing the strongest evidence. Switching the metric keeps the order: at 200 s, ASP reduction shows the order of NCR reduction (Appendix E; §72: Spearman 0.92, 128/144 same sign, unprinted). Switching the attacker loses it: ρ between the attackers' NCR reductions is 0.01 [−0.19, 0.05] at 200 s and lies between −0.24 and 0.25 at every interval (§5.3.2). So the attacker model moves the conclusion more than the metric choice does. §6.5 (l.~9282) already points to §6.4 for "a ranking carries the assumptions of its attacker model", so §6.4 owes this claim.
+4. The should does not follow from the evidence. A section describing the attacker model makes 92 % vs 36 % explainable, not comparable. The three-item list (tactics with attack actions, ASP and NCR with no MTD, assumptions) is tied to MTDSim's metrics: a game-theoretic evaluation reads payoffs and needs none of it (Marc). "Assumptions" is vague.
+
+**Per sentence.**
+- S1 "decides what the effectiveness metrics can show": names no result; two vague verbs.
+- S2 (what ASP and NCR count): restates §4.5. It is needed only for S3.
+- S3 (actions on objectives): a simulator bound. §6.3 says it (l.~8582, l.~8894), and bounds live in §6.5. If MTDSim cannot run the objectives, no metric could measure them, so this is not a metrics finding.
+- S4 (ASP 4-14 %, none under the host layer to 200 s): a true and sharp point, but it is Appendix E's and §6.5's ("so the ranking uses NCR reduction").
+- S5 (Chapter 5 ranks on NCR reduction): a method justification, the third statement (Appendix E, §6.5).
+- S6-S7 (the APT attacker model scores weaker; §4.5 expected this): a third thread (behaviour metrics), §6.1's close per §68. S7 is self-reference.
+- S8-S9: the paragraph's real claim and evidence, at the end.
+- S10-S11: see fault 4.
+- About 265 words, the longest paragraph in §6.4.
+
+**Spine proposed (slots, no text; ~150 words).**
+1. Claim: on the same networks, the attacker model changes which MTD mechanisms rank first, and the choice of metric does not (ρ, §5.3.2; ASP reduction's order, Appendix E).
+2. §3.2.2: no standard set, so no comparison (Jalowski); values depend on the attacker (Hong). The results show the second is the larger cause.
+3. One concrete case: service diversity, 92 % vs 36 % at 200 s (Table eff-cross-arm). The layer flip itself is §6.2's (pointer).
+4. So what: a standard set of metrics alone would not make MTD mechanisms comparable across evaluations. One hedge, on generalising from two attackers in one simulator.
+5. Should (metric-agnostic, so it holds for game theory too): a standard for comparing MTD evaluations should fix the attacker model beside the metrics. Candidate form: report the metrics against at least one attacker model that other evaluations also use. Distinct from ¶1's should, which is within one evaluation (does a learned strategy generalise); this one is across evaluations (comparability).
+
+**Out.** S2, S3 (to §6.3/§6.5, already said), S4-S5 (Appendix E, §6.5), S6-S7 (§6.1; or Marc keeps one clause), the section-of-its-own close and its list.
+
+**Open for Marc.**
+- (a) Jalowski's four metric guidelines (§5; source l.209-219) name no attacker model, though the same passage says ASP "can only describe effectiveness against one, often very specific, attack". This would give slot 5 a direct target. It is not in ch3, so citing it in ch6 brings new literature into the discussion; the option is to cite it there or leave it out.
+- (b) Keep the ASP floor as one clause in slot 3, or leave it to Appendix E and §6.5. Recommendation: leave it.
+- (c) The opener's list goes stale again (item 2 becomes the shared attacker model); fix it with the opener rewrite.
