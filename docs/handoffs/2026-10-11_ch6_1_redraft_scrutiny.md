@@ -3906,3 +3906,31 @@ Placed as a **placeholder** (Marc: "just put that in ... a placeholder for now")
 > In MTDSim, the service layer reduces the baseline attacker's NCR most and the host layer the APT attacker model's (Section 6.2), so an MTD evaluation run against the baseline attacker alone picks the MTD layer that reduces the APT attacker model's NCR less. For each of the three parts of an MTD evaluation that use the attacker model (Section 3.2), an evaluation should therefore change one thing: test a deployment strategy against more than one attacker model, report the attacker's behaviour beside the metrics, and report the rules that join its attacker model to the simulator.
 
 Open (Marc): the three recommendations read as "we already do that". Settle them in the paragraph redrafts, then rewrite the opener's list to match. Build clean, 118 pages, 0 undefined.
+
+## §66 — §6.4 ¶1 (MTD modelling approaches): scrutiny, no redraft (Marc 2026-10-13)
+
+**Job.** Answer §3.2.1: "the attacker model decides which deployment strategy is optimal … a deployment strategy found against another attacker may not be optimal against [an APT attacker]".
+
+**What §3.2.1 set up, and what the results can test.**
+
+| §3.2.1 point | Tested here? |
+|---|---|
+| Game theory assumes a rational attacker | No: no game-theoretic deployment strategy was run |
+| Genetic algorithms: the attacker is only the fitness function | No |
+| Machine learning: the attacker is the training environment's; MTDShield's is the baseline attacker | Yes: MTDShield, the only deployment strategy here found by an MTD modelling approach |
+| The attacker model decides which deployment strategy is optimal | Yes, but on the proactive schedules (random, alternative, single; Section 2.x "follow a schedule, so they are proactive"), which no MTD modelling approach found |
+| Cho's migration example | Not directly: no MTD mechanism migrates a service |
+| An APT attacker is persistent, so a strategy found against another may not be optimal | Yes: MTDShield |
+
+**Reading.** ~400 words, five ideas, two "should"s, ordered as discovered, not by weight: (1) claim + ρ; (2) Cho inverts (hedged to nothing); (3) MTDShield + the test-set recommendation + its bound; (4) which ranking to trust; (5) rank by the lowest NCR reduction. The strongest evidence, MTDShield, comes third; the weakest, Cho, second. Ideas 4–5 answer a different question (what to do when the attacker is unknown).
+
+**Facts.**
+- X1 "chooses service diversity at 70 % or more of its decisions": true at 200 s (76 %, 70 %), false at 2 000 s (46 %, 65 %) (Appendix C.x, app:mtdshield-observed). Scope it to 200 s.
+- X2 "0.68 against 0.56", "0.28 against 0.80": the metric is unnamed (NCR reduction).
+- X3 "no MTD mechanism or deployment strategy ranks first against both attackers at any deployment interval": holds (mean rank 1: IP shuffle against the APT attacker model, service diversity against the baseline attacker, at all six; ch5_defended/numbers_reported.json sweep.by_interval.*.ranks), but §5.3.2's prose states 200 s only.
+- X4 "the faster baseline attacker": "faster" is not a ch5/ch6 term, and equating it with Cho's "fast" attacks is a stretch.
+- X5 IP shuffle first on the lowest NCR reduction across the two attackers: no float shows it; the reader must compute it from Table E.1.
+
+**Sentences.** "the results measure it" (unresolved "it"); "runs the other way", "inherits", "beats" (figurative); "found against" (vague for schedules); the test-set sentence stacks three clauses; "four of its inputs at zero" duplicates §6.5's "MTDShield runs as released" (keep the one hedge "cannot tell whether MTDShield is fitted to the baseline attacker"); "rests on our judgement where MTD disrupts it" (which judgement?); "a bound over those attacker models only" ("bound" is §6.5's word for limits).
+
+**Direction (no text yet).** One claim: a deployment strategy found by an MTD modelling approach is optimal for its attacker model, and MTDShield shows it. Order: §3.2.1's claim → the choices a modelling approach optimises over rank differently (ρ, one sentence) → MTDShield → so what (test a learned deployment strategy against an attacker model other than its training one, beside random over the same MTD mechanisms) → one hedge. Cho: cut, or one clause. Ideas 4–5: Marc to rule (own short paragraph, §7.2, or cut). Target ~200 words.
