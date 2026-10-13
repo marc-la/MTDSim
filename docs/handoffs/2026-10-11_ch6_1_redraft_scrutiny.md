@@ -4626,3 +4626,43 @@ Text as §107. It replaces the placeholder and the stale DRAFT STATE / PLACEHOLD
 §6.4 is now: opener, ¶1 (MTD modelling approaches), ¶2a (effectiveness metrics), ¶2b (efficiency metrics), ¶3 (evaluation methods), each redrafted and applied this session.
 
 **Carried forward.** Gated ch7 (propose first): Contribution 1's Impact "interface" pointer is stale; Contribution 2 gets the "shared attack actions, yet the layer differs" framing (§102), and its Impact list's lowest-NCR-reduction lower bound is not in §6.4. Also: the ch6 cut pass toward about 3,300 words (the §6.3-close vs §6.5 duplication, §97); a cold-examiner pass on §6.2; and the earlier carried items (dev push and remote branches; gated "pace" lines; "refused" in §6.5).
+
+
+## §109 — §6.5 scrutiny and structure guidance, no redraft (Marc 2026-10-13: "scrutiny only, forward guidance only, no redraft yet")
+
+**Convention (sources checked 2026-10-13).**
+- Verdecchia and Bogner 2025 (arXiv 2506.11002, §3.10): one paragraph per threat category, using a categorisation that fits the study (Wohlin et al.). It covers the most important or most likely threats only. Each threat gives its mitigation, or why none was possible, plus the residual and how likely it is to affect the results, with evidence where possible (Wyrich and Apel 2024). Separate limitations, which are conscious scope decisions and may sit in the study design, from threats, which are not chosen. Length about 1 to 1.5 columns in a 10-page paper.
+- ACM SIGSOFT Empirical Standards, General: disclose all major limitations; describe attempts to mitigate; discuss sensitivity of the results to assumptions. Antipatterns: "acknowledging limitations but then writing implications and conclusions as though the limitations don't exist"; applying a validity type the study has no use for.
+- Verdecchia, Engström, Lago, Runeson and Song 2023 (IST 164:107329), and the ESEM 2024 follow-up: threats are mostly an afterthought and seldom discussed in depth, and categorisations are ignored. Abstracts only; full text not read.
+- de França and Travassos 2015 (CLEI EJ 18(1)): 28 threats for simulation studies, by Cook and Campbell's types. This is the closest fit for MTDSim. Not read.
+- In references.bib, only sargent2011 of these is present. Wohlin et al. is still missing.
+
+**Current state.** About 1,770 words in five paragraphs (371/420/398/304/278), about 45 % of ch6. It is a collection of points: about 25 threats, unranked, at one weight each.
+
+**Structural findings.**
+1. ¶1 mixes limitations by design, a causal claim and a mitigation, and threats. By the convention, the scope limits (one token, the default network, 15 000 s, simulation only, existing MTD mechanisms) are limitations, so they get one sentence with a pointer. Several are external-validity threats and also appear in ¶4.
+2. ¶1 rehashes ch6. Root 1 (shared attack actions as comparator and limit) is now §6.4 ¶3 and §6.3's close. Root 2 (no host until Lateral Movement) is §6.2 ¶2. Only root 3 (no cost of deployment, no detection) is unique to §6.5.
+3. **"The reversal" contradicts ¶5.** ¶1 and ¶2 say "the reversal" three times. ¶5 says rho near zero "is weaker than one inverting the other". The settled terms are §6.2's layer claim and §6.4's "the most effective MTD mechanism differs".
+4. **¶5 bounds a claim ch6 no longer makes alone.** ¶5 says the statistics support "the two attackers' rank 1, and little beyond it". §6.2's answer to SQ2 is a layer claim ("at every deployment interval the host layer reduces the APT attacker model's NCR more than the service layer does ..."), and §6.4 ¶3 leans on it. ¶5 must bound the layer claim, or the claim needs its test. OPEN: what the layer claim rests on (point values per interval on fig:eff-cross-arm, CIs, or Scott-Knott groups). This is the Empirical Standards antipattern in reverse: the bounds and the claims have drifted apart.
+5. Tactic durations are split across ¶2 (six from MTDSim, nine by judgement; B19 band test) and ¶3 (declared by judgement; untested multipliers). It is one threat with one mitigation (B19), and it is the main residual on SQ2.
+6. No ranking. The threat with the most leverage on the answer (cause not isolated: durations and order; the with-MTD run is not done) sits mid-¶2 at the same weight as "distinct openings counts tactics, not attack actions".
+7. Several threats bound SQ1 (the yardstick, behaviour metrics by proxy, one coder), while the opener frames the section around SQ2. They are fair to keep, but they belong in their own construct block, tagged to SQ1.
+8. Endings: ¶1 "Each is future work"; ¶2 "Defects ... repaired"; ¶5 a bootstrap fact with no direction or so-what. None says the residual on the answer.
+
+**Sentence flags (lessons from §6.1–§6.4).**
+- Banned: "refused" twice (¶1, ¶3).
+- Figurative: "prices nothing", "earn it nothing and cost it outcome", "cut short by the attack actions' own", "gain at no cost".
+- Unsourced: "On a real network, speed raises alarms".
+- Vague: "MTDSim's rules for what each deployment takes" (the phrase from the §89 round); "The metrics measure their properties in part".
+- Overclaim: "the different starting points cannot cause the reversal".
+- Stacked opener: "bounds the answers to the three sub-questions, and how far the answer to SQ2 reaches APT attackers".
+- Rehash: ¶2's "two thirds" is §6.1's sentence.
+- The verification sentence is a mitigation with no threat stated.
+
+**Forward guidance (proposed, for Marc's ruling).**
+- S0 opener (about 40 words): what §6.5 bounds; limitations versus threats; cite Wohlin et al.
+- S1 limitations by design (about 80 words, one paragraph): one sentence each on the one token, the default network, 15 000 s, simulation only, existing MTD mechanisms on a schedule, and no cost or detection. Each points to ch4/ch5 and §7.2.
+- S2 threats, numbered T1–Tn and ranked by how far each could change the answer to SQ2. Grouped by type in the order internal, construct, conclusion, external. Each threat gets one shape: the claim at risk, the threat, the mitigation done (with pointer), the residual. The numbers let ch7 and §7.2 cite a threat ("T1").
+  - Candidate rank: T1 cause not isolated (durations and order; B19; with-MTD run is future work); T2 judgement values (one threat; band test); T3 the mapping (input; total mapping 0.15 vs 8.13); T4 unequal conditions and the end of a run; T5 statistics for the layer claim and rank 1; T6 metrics by proxy and time lost; T7 the corpus; T8 no observed APT campaign against MTD (Sargent).
+- Target about 1,000–1,100 words, which saves about 700 and puts ch6 near 3,300.
+- Not recommended: a threat table in place of prose. It could read as a way round the word band, and as boilerplate (French's examiner feedback).
