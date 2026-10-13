@@ -4503,3 +4503,31 @@ order and timing of that simulator's attack actions.
 ```
 
 Not taken: Marc's "the only two things you can change are the order and the timing" as "likely changes only ...". "Only" would contradict S4's "mostly" (the tactic-to-action mapping and the failure matrix also differ; §6.3). The specific ending carries the weight: S1 says the limit, and S6 says what is left inside it.
+
+## §101 — §6.4 ¶3 v6 ending, proposed (Marc 2026-10-13: "it almost reads like a fact ... you spend a year and you figure out you can only change the order and the timing. Oh you suck")
+
+v5's ending stated only what is left inside the limit, so it read as a confession. The result is the other half: the APT attacker model changes little more than order and timing, and that still likely decides which MTD layer reduces each attacker's NCR most (S5). v6 ends on that, so "only two things" becomes "two things were enough". This is the comparator-and-limiter balance (Marc, §94), now aimed at the field rather than at the author.
+
+```
+On evaluation methods, a simulator's attack actions limit how far a new
+attacker model can differ from the attacker the simulator was built with.
+Section~\ref{subsec:evaluation-methods} found that simulation, the dominant
+evaluation method, models specific attack behaviours flexibly but that its
+results do not transfer directly to a real network \citep{cho2020}. The APT
+attacker model shares the baseline attacker's six attack actions, so it is
+comparable with the baseline attacker and limited to what those attack actions
+do: find and compromise hosts, with no actions on objectives
+(Section~\ref{sec:fidelity-verdict}). The two attackers therefore differ mostly
+in the APT attacker model's tactic durations and the order of its tactics
+(Section~\ref{sec:disc-behaviour}). With MTD, these two differences likely
+decide which MTD layer reduces each attacker's NCR most
+(Section~\ref{sec:disc-mtd-performance}). A new attacker model in an existing
+simulator can therefore likely change which MTD layer reduces NCR most, even when
+it changes little more than the order and timing of the simulator's attack
+actions.
+```
+
+- "Little more than" agrees with S4's "mostly"; "only" would not (§100).
+- One hedge ("likely") for the step from one simulator to others; S5 keeps its own "likely" on the cause.
+- "Which MTD layer reduces NCR most" is the SQ2 answer's wording (§6.2) and the result an MTD evaluation reports.
+- The implicit so-what is that varying the attacker model is worth doing even inside one simulator. It is not stated as a should: ¶1 and ¶2a already carry the shoulds to test against more than one attacker model.
