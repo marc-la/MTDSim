@@ -5163,3 +5163,57 @@ Nothing applied; v2 is still in the tex.
 ## §125 — T1 v5 applied (Marc 2026-10-13: "that's fine thanks")
 
 v5 from §124 replaces v2 in the tex (S5 as corrected). T5's pointer ("the rankings hold at both ends of its band (T1)") still matches. Build 118 pages, 0 undefined; T1 on p. 43. Open: the T1-against-T2 order (lean: keep T1 first); the §114 sort for T2-T12; the cut pass.
+
+
+## §126 — T2 (thr:rules) scrutiny and v2 candidate, using the T1 lessons (Marc 2026-10-13: "same process ... what's the one-liner, what's the structure, what's missing ... get to the final draft quicker")
+
+Nothing applied.
+
+**T1 lessons applied:**
+- the claim at risk in the reader's terms;
+- point to mechanisms, don't re-explain them;
+- what is taken as given, and the frank reason;
+- what rests on it;
+- terms already given;
+- one hedge;
+- the scope stated.
+
+**Sources checked:**
+- §2.2.3 (ch2 l.~930): a host-layer deployment disrupts any attack action and sends the baseline attacker back to scanning hosts; a service-layer deployment sends it back to the same host's ports; user shuffle sends it to exploit. There is a confusion penalty. A deployment never takes back a compromised host or a stolen credential. "The baseline attacker is the attacker MTDSim was built with."
+- ch4: a disrupted attack action fails and routes by the failure matrix. A host-layer deployment "costs it the host it was on". "No deployment changes which tactic comes next."
+- App F.3 (user shuffle's rule; points to thr:rules).
+- User shuffle appears nowhere in the ch6 body.
+
+**What T2 does (internal validity).** It names the rival cause outside the APT attacker model: MTDSim's rules for what a deployment does to an attacker, which were written with the baseline attacker. T1 covers our components taken as given; T2 covers MTDSim's rules taken as given. The two run in parallel.
+
+**One-liner.** Part of the difference between the two attackers can come from MTDSim's rules for what a deployment does, which were written with the baseline attacker and which we kept as written. The host layer's lead against the APT attacker model rests on one of them: a deployment costs the attacker the host it was on.
+
+**v1 sentence flags:**
+1. "Part of the difference ... can come from MTDSim's MTD mechanisms, which were written against the baseline attacker's procedure."
+   - It names the threat, which is right.
+   - "MTD mechanisms" is the wrong object: the threat is their rules for what a deployment does to an attacker.
+   - "Written against" is figurative; ch2 says "built with".
+2. "After a host-layer deployment, the APT attacker model has no host until the order of its tactics reaches Lateral Movement." This re-explains §6.2 ¶2 and T1's residual.
+3. "An APT that holds hosts through Command and Control might keep one, so the host layer's rank ... rests on MTDSim's rule."
+   - This is the core of T2, and it sits third.
+   - "Rank" should be the lead, in §6.2's terms.
+   - "Holds hosts" is loose.
+4. User shuffle. This is App F.3's own bound, on a mechanism that is not in the ch6 argument. Cut it; F.3's pointer to thr:rules stays valid.
+5. "Both attackers face the same MTD mechanisms, networks and seeds ... shared but untested."
+   - "Same networks and seeds" is design (§5.1) and does not mitigate this threat.
+   - "Shared but untested" is vague.
+   - The frank reason is missing: SQ3 compares the two attackers under MTDSim's MTD, so the rules stay as MTDSim wrote them.
+
+**Missing from v1:**
+- the asymmetry the rules create: MTDSim sends the baseline attacker back to an earlier step of its procedure, and the APT attacker model goes on to the tactic its Petri net picks;
+- the reason the rules were kept.
+
+**v2 candidate (about 110 words):**
+- S1: MTDSim's rules for what an MTD deployment does to an attacker were written with the baseline attacker (§2.2.3), so part of the difference between the two attackers can come from them.
+- S2: After a deployment, MTDSim sends the baseline attacker back to an earlier step of its procedure, and the APT attacker model goes on to the tactic its Petri net picks.
+- S3: The host layer's lead against the APT attacker model also rests on MTDSim's rule that a host-layer deployment costs the attacker the host it was on; an APT whose Command and Control keeps contact with the host might keep it.
+- S4: We kept MTDSim's MTD mechanisms as written, the same for both attackers, because SQ3 compares the two attackers under MTDSim's MTD.
+
+**Ranking resolved.** T2, like T1, bounds the explanation. The finding in MTDSim is measured either way, and whether an APT with Command and Control keeps its host is a question of reach. Keep T1 first: it bounds the cause §6.2 gives, and T2 bounds the setting that cause acts in.
+
+**For T7's round.** T7's "sent back to scan host, it gets a second attempt at its first host, as MTDSim intends" is the same send-back rule. Decide there whether it stays as a metric bound or folds into T2.
