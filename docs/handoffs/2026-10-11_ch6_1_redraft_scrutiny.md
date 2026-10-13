@@ -4537,3 +4537,34 @@ actions.
 Marc likes v6's ending. The three findings named in chat (the MTD layer flips with the attacker; MTDShield reduces the APT attacker model's NCR less than random does; rankings on NCR reduction uncorrelated) are Contribution 2 (SQ2), already claimed in the abstract (most effective MTD mechanism differs at every interval; 92 vs 36 %), ch1's second contribution bullet, and ch7 Contribution 2 (claim; MTDShield under Impact). The correlation is in §5.3.2 and §6.4 ¶2a. Not new contributions, and not intro points beyond ch1's bullet.
 
 **New, and parked for the ch7 pass (gated, propose first).** The framing that strengthens Contribution 2: the two attackers share MTDSim's attack actions, networks, MTD mechanisms and seeds, yet the most effective MTD layer differs. Candidate for ch7 Contribution 2's Claim or Not claimed: "even though the two attackers share MTDSim's attack actions". Frankness bound: that they share the attack actions is measured design; that order and timing caused the flip is hedged ("likely"; no run separates them, ch7 Not claimed; future work F13).
+
+## §103 — §6.4 ¶3 v7 clarity pass, proposed (Marc 2026-10-13: "happy with your drafting ... v6 is pretty good, just do a clarity check ... can therefore change how MTD is measured to perform")
+
+Only S6 changes; S1-S5 pass.
+
+```
+On evaluation methods, a simulator's attack actions limit how far a new
+attacker model can differ from the attacker the simulator was built with.
+Section~\ref{subsec:evaluation-methods} found that simulation, the dominant
+evaluation method, models specific attack behaviours flexibly but that its
+results do not transfer directly to a real network \citep{cho2020}. The APT
+attacker model shares the baseline attacker's six attack actions, so it is
+comparable with the baseline attacker and limited to what those attack actions
+do: find and compromise hosts, with no actions on objectives
+(Section~\ref{sec:fidelity-verdict}). The two attackers therefore differ mostly
+in the APT attacker model's tactic durations and the order of its tactics
+(Section~\ref{sec:disc-behaviour}). With MTD, these two differences likely
+decide which MTD layer reduces each attacker's NCR most
+(Section~\ref{sec:disc-mtd-performance}). A new attacker model in an existing
+simulator can therefore likely change how MTD is measured to perform, even when
+it differs in little more than when and in what order it runs the simulator's
+attack actions.
+```
+
+| v6 S6 | v7 | Why |
+|---|---|---|
+| "change which MTD layer reduces NCR most" | "change how MTD is measured to perform" | Marc. "Perform" is the RQ's and SQ2's word ("How does MTD perform against ..."), so the term is not vague. "Measured" keeps it to the evaluation's result, not MTD itself (ch3's point). It also reaches evaluations that do not use NCR or MTD layers. |
+| "can change ... even when it changes little more than" | "even when it differs in little more than" | "Change ... changes" echoed; "differs" echoes S1's "differ from", so the paragraph closes on its claim. |
+| "the order and timing of the simulator's attack actions" | "when and in what order it runs the simulator's attack actions" | "Timing" was a second term beside S4's "tactic durations" (§93). A general attacker model may have no tactic durations, so the plain words replace both terms. |
+
+Checked, unchanged: S2's appositive (one clause, ch3's own pair); S3 "baseline attacker" twice (repetition beats "it", which would be ambiguous); "therefore" in S4 and S6 (not adjacent; each marks a step that follows); one hedge per inferred claim (S5 cause, S6 generalisation).
