@@ -5125,3 +5125,36 @@ Nothing applied; v2 is still in the tex.
   - the formalism (T4);
   - that the service layer's cause (durations) was varied while the host layer's (order, mapping) was not.
 - No hedge in S6: it states what §6.2 ¶2's mechanism uses, which is a fact.
+
+
+## §124 — Fresh clarity check of T1 v4, clause by clause (Marc 2026-10-13: "careful with rhetorical ... 'leaves it first at 200 s', I don't know what that says ... base weights ... what clauses do we need ... clarity check")
+
+Nothing applied; v2 is still in the tex.
+
+**Factual error in v4.** "We did not vary the base weights" is false. Removing the attack profiles runs on the attack graph, so the base weights are recounted over all the attack flows. The random partitions recount them over random groups. What no run under MTD did is draw base weights from anywhere other than the attack flows. So the order of its tactics was varied within the CTI, and never replaced.
+
+**Clause verdicts (three weights: 1 term, 2 subject first, 3 fluff):**
+- S1 "§6.2 gives two causes for the rankings, ... and under MTD we changed only some ...":
+  - two claims with two subjects, so it splits;
+  - "for the rankings" is vague (weight 1); §6.2's claim is that the host layer reduces the APT attacker model's NCR more than the service layer does;
+  - "its" comes before the APT attacker model is named (weight 1);
+  - §6.2 says "likely explain", and T1 should report it as §6.2 states it.
+  - Keep: the claim at risk, in §6.2's own words. Cut: "we changed only some", because the "took as given" sentence carries the frankness.
+- S2 "changes NCR negligibly": clear. Keep, and merge with the attack-profiles clause (same §5.4 pointer).
+- S3 "leaves the host layer first at every deployment interval":
+  - "first" has to be decoded; say what §6.2 says: "the host layer still reduces NCR most".
+- S3b "scaling the mean duration that moves NCR most leaves it first at 200 s":
+  - the subject is a relative clause, and "it" is ambiguous;
+  - "200 s" is not glossed as a deployment interval;
+  - "scaling" gives no range.
+  - Fix: "the most sensitive tactic durations" (Marc), named as Persistence, Stealth and Command and Control; "to a quarter and to four times their value"; "ahead of the service layer", which is the actual test; "at a deployment interval of 200 s".
+- S4 "We did not vary the base weights, which set the order ..., or the mapping": false (see above), and the relative clause interrupts the list (weight 3).
+- S5 reason: keep as "we took two components as given".
+- S6 "rests on both": keep. The reader can only see why it rests on the base weights if they are tied to the order, and §6.2 ¶2 already gives the mechanism, so the tie belongs in the given-components sentence.
+
+**v5 candidate (about 120 words):**
+- S1: In §6.2, the APT attacker model's tactic durations and the order of its tactics likely explain why the host layer reduces its NCR more than the service layer does.
+- S2: Under MTD, removing the failure matrix or the vulnerability memory changes NCR negligibly, and without the attack profiles the host layer still reduces NCR most at every deployment interval (§5.4).
+- S3: Scaling the most sensitive tactic durations, those of Persistence, Stealth and Command and Control, to a quarter and to four times their value leaves the host layer ahead of the service layer at a deployment interval of 200 s (Table C.1b).
+- S4: We took two components as given: the base weights, which come from the attack flows and set the order of its tactics, and the tactic-to-action mapping, which we declared (T6).
+- S5: Every run under MTD kept both, and the host layer's explanation rests on both.
