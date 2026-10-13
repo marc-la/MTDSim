@@ -4109,3 +4109,14 @@ Each idea cut from ¶2a, checked against the tex for a home:
 - S6: "should also" becomes "should therefore" (the connective moved from S5). "Also" now marks the shared attacker model ("that other evaluations also use").
 
 **¶2b signpost (proposed, not applied).** S1 claim first: "On efficiency metrics, the attacker model decides how often MTD must deploy for a given NCR reduction, although in MTDSim a deployment costs no overhead or loss of service (Section threats)."
+
+
+## §81 — §6.4 ¶2a v8 sentence pass, proposed (Marc 2026-10-13: "do we need ... at 200 seconds?"; S1 "compress[es] two [claims] into one"; "do not agree" reads rhetorical, say uncorrelated; "clear for the reader")
+
+Scratchpad p2a_v8.tex, about 150 words.
+- S1 is split. The claim holds at every deployment interval (ρ between −0.24 and 0.25, §5.3.2), so "at 200 s" leaves it; "at every deployment interval" mirrors ¶1's S1. The metric switch becomes its own sentence (S5).
+- "200 s" is stated once, as the frame for the numbers (ρ = 0.01, 92 % vs 36 %, ASP order), in ¶1's words ("the default deployment interval of 200 s"). The ASP agreement needs it: for the baseline attacker the ASP-NCR Spearman falls to 0.50, 0.48 and 0.29 at 500-2,000 s (§78).
+- "so their rankings do not agree" becomes "the two attackers' rankings on NCR reduction are uncorrelated (ρ = 0.01; §5.3.2)": the subject leads, and ρ moves into the parenthesis.
+- The 92/36 sentence gets "for example" to tie it to the ρ sentence.
+- S5 "Ranking on ASP reduction instead gives the same order against either attacker": subject first; "instead" refers back to NCR reduction in S3. It sits right before the so-what it supports.
+- S6 subject first ("A shared set of metrics is likely not enough"), with no fronted "With ... alone"; one hedge. S7 keeps the only "therefore".
