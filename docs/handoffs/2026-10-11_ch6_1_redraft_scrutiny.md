@@ -4618,3 +4618,11 @@ evaluation methods.
 - S3 uses ch3 §3.2's frame word for word; each paragraph's "On ..." opener then does the signposting.
 - No list of shoulds: ¶1 and ¶2a end on one, ¶2b and ¶3 do not, so a list would misstate two paragraphs.
 - No "even with the same attack actions" (Marc's "in the face of adversity"). That is ¶3's ending, and the opener would spend it before ¶3 lands. It also goes to ch7 Contribution 2 (§102).
+
+## §108 — §6.4 opener v1 applied; §6.4 redraft complete (Marc 2026-10-13: "yeah, that's fine. beautiful")
+
+Text as §107. It replaces the placeholder and the stale DRAFT STATE / PLACEHOLDER comments with one current comment. Build clean, 117 pages, 0 undefined.
+
+§6.4 is now: opener, ¶1 (MTD modelling approaches), ¶2a (effectiveness metrics), ¶2b (efficiency metrics), ¶3 (evaluation methods), each redrafted and applied this session.
+
+**Carried forward.** Gated ch7 (propose first): Contribution 1's Impact "interface" pointer is stale; Contribution 2 gets the "shared attack actions, yet the layer differs" framing (§102), and its Impact list's lowest-NCR-reduction lower bound is not in §6.4. Also: the ch6 cut pass toward about 3,300 words (the §6.3-close vs §6.5 duplication, §97); a cold-examiner pass on §6.2; and the earlier carried items (dev push and remote branches; gated "pace" lines; "refused" in §6.5).

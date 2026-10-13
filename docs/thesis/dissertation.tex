@@ -8909,26 +8909,18 @@ hosts, with no actions on objectives.
 \section{Implications for MTD evaluation}
 \label{sec:evaluation-implications}
 
-% DRAFT STATE 2026-10-13 --- first draft from the structure of handoff §62
-%  (Marc: "a very strong structure ... structure to first draft"). §6.4
-%  answers ch3 §3.2 part by part: the three parts of an MTD evaluation that
-%  use the attacker model (MTD modelling approaches, metrics, evaluation
-%  methods). Each paragraph: what §3.2 said, what the results show, what an
-%  evaluation should do; the bounds are §6.5's, scoped once in the opener.
-%  Numbers checked against numbers_reported.json and Tables E.1/E.2
-%  (handoff §60--§62). The overdraft of 2026-10-09 is retired to the handoff.
-% PLACEHOLDER OPENER 2026-10-13 (Marc: "just put that in ... a placeholder for
-%  now"). Rewrite once the three paragraphs are redrafted: the opener's list
-%  must name the recommendations they end on. Handoff §65.
-In MTDSim, the service layer reduces the baseline attacker's NCR most and the
-host layer the APT attacker model's (Section~\ref{sec:disc-mtd-performance}),
-so an MTD evaluation run against the baseline attacker alone picks the MTD
-layer that reduces the APT attacker model's NCR less. For each of the three
-parts of an MTD evaluation that use the attacker model
-(Section~\ref{sec:mtd-evaluation-survey}), an evaluation should therefore
-change one thing: test a deployment strategy against more than one attacker
-model, report the attacker's behaviour beside the metrics, and report the
-rules that join its attacker model to the simulator.
+% REDRAFTED 2026-10-13 (Marc: "beautiful"), handoff §62-§107. §6.4 answers
+%  ch3 §3.2 part by part: the three parts of an MTD evaluation that use the
+%  attacker model. Opener: the abstract's result in MTDSim, ch7's "can depend",
+%  ch3's frame; no list of shoulds (only ¶1 and ¶2a end on one), and ¶3's
+%  ending (the shared attack actions) left to ¶3. Bounds are §6.5's.
+In MTDSim, at every deployment interval, the most effective MTD mechanism
+differs between the two attackers (Section~\ref{subsec:eff-cross-arm}). Which
+MTD mechanism an MTD evaluation finds most effective can therefore depend on its
+attacker model. This section says what that means for each of the three parts of
+an MTD evaluation that use the attacker model
+(Section~\ref{sec:mtd-evaluation-survey}): MTD modelling approaches, metrics and
+evaluation methods.
 
 % REDRAFT 2026-10-13 (Marc: "our strongest argument ... 90% the way there"),
 %  handoff §66-§67. One claim (MTDShield against random, both attackers), the
