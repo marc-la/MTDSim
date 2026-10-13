@@ -371,7 +371,7 @@ def frag_body(out: dict) -> str:
         s_lo, s_hi = band_s(f)
         return (f"moved: NCR {_r(e_lo['point']['mean']):.3f} / {_r(e_lo['centre']['mean']):.3f} / "
                 f"{_r(e_hi['point']['mean']):.3f} at {s_lo} / {FAMILY_VALUE[f]:g} / {s_hi}\\,s under no MTD, "
-                f"{_r(slope):.3f} lower per doubling (Appendix~\\ref{{app:dwell-robustness}})")
+                f"{_r(slope):.3f} lower per doubling")
 
     def shape_effect() -> str:
         # Every paired difference, at the declared duration and at the corner, under
@@ -384,17 +384,17 @@ def frag_body(out: dict) -> str:
         defended = [d for (lab, k), d in diffs.items() if k != "none@0"]
         sep = [d for d in defended if abs(d["mean"]) > d["ci95"]]
         if none_ok and not sep:
-            return "inert (Appendix~\\ref{app:exponential-shape})"
+            return "inert"
         if none_ok and all(d["mean"] < 0 for d in sep):
             worst = min(d["mean"] for d in sep)
             return (f"inert under no MTD; under MTD the Erlang-4 delay gives a lower NCR, "
-                    f"by {_r(abs(worst)):.3f} at most (Appendix~\\ref{{app:exponential-shape}})")
-        return "moved; see Appendix~\\ref{app:exponential-shape}"
+                    f"by {_r(abs(worst)):.3f} at most")
+        return "moved"
 
     def mapping_effect() -> str:
         m = out["mapping"]["none@0"]
         return (f"the alternative gives NCR {_r(m['forced_total']['hosts']['mean']):.3f} against "
-                f"{_r(m['partial']['hosts']['mean']):.3f}, no MTD (Appendix~\\ref{{app:experiment-one}})")
+                f"{_r(m['partial']['hosts']['mean']):.3f}, no MTD")
 
     def decay_effect(param: str, lo_name: str, hi_name: str) -> str:
         st = {k: v["status"] for n in (lo_name, hi_name) for k, v in four[n].items()}
@@ -405,8 +405,7 @@ def frag_body(out: dict) -> str:
         moved = sorted({k for k, s in st.items() if s == "moved"})
         lo_v, hi_v = four[lo_name]["none@0"], four[hi_name]["none@0"]
         return (f"moved under {', '.join(COND_LABEL[(k.split('@')[0], int(k.split('@')[1]))] for k in moved)}: "
-                f"NCR {_r(lo_v['point']['mean']):.3f} / {_r(lo_v['centre']['mean']):.3f} / {_r(hi_v['point']['mean']):.3f}, no MTD "
-                f"(Appendix~\\ref{{app:decay-robustness}})")
+                f"NCR {_r(lo_v['point']['mean']):.3f} / {_r(lo_v['centre']['mean']):.3f} / {_r(hi_v['point']['mean']):.3f}, no MTD")
 
     rows = [
         ("Tactic durations", [

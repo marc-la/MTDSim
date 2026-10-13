@@ -83,7 +83,7 @@ def main() -> None:
         "\\begin{table}[htbp]\n\\centering\n"
         "\\caption[Each attack action's time in MTDSim and in the APT attacker model]"
         "{Each attack action's time in MTDSim beside the tactics mapped to it "
-        "(Table~\\ref{tab:controller-mapping}) and their mean durations "
+        "(Figure~\\ref{fig:controller-mapping}) and their mean durations "
         "(Table~\\ref{tab:dwell-derivation}), in seconds. The exploit's time in MTDSim "
         "depends on the vulnerability.}\n"
         "\\label{tab:attack-action-times}\n\\tablestyle\n"

@@ -5,7 +5,7 @@
 
 \begin{table}[htbp]
 \centering
-\caption[The rules of the failure matrix]{The rules that set the failure matrix (Section~\ref{subsec:failure-matrix}). After a failure at one tactic, the first rule that matches the move to the next tactic gives its value, which the distance factor of Table~\ref{tab:overlay-distance-kernel} then scales. Back, within and forward are by lifecycle stage. The letters are those of Figure~\ref{fig:failure-weight-decomposition}(a).}
+\caption[The rules of the failure matrix]{The rules that set the failure matrix (Section~\ref{subsec:failure-matrix}). After a failure at one tactic, the first rule that matches the move to the next tactic gives its value, which the distance factor of Table~\ref{tab:overlay-distance-kernel} then scales. Back, within and forward are by lifecycle stage.}
 \label{tab:overlay-failure-rules}
 \tablestyle
 \begin{tabular}{@{}c P{0.40\textwidth} r P{0.40\textwidth}@{}}
@@ -33,7 +33,7 @@ I & A move forward, without a foothold & 0.3 & The step the next one depends on 
 
 \begin{table}[htbp]
 \centering
-\caption[The distance factor of the failure matrix]{The distance factor that scales each rule value by the lifecycle stages a move crosses. A move within a stage or to the next keeps its rule value; each further stage forward multiplies it by $\gamma$, and each further stage back by $\delta$. A factor below $z$ is zero. Appendix~\ref{app:decay-robustness} moves each parameter across its band.}
+\caption[The distance factor of the failure matrix]{The distance factor that scales each rule value by the lifecycle stages a move crosses. A move within a stage or to the next keeps its rule value; each further stage forward multiplies it by $\gamma$, and each further stage back by $\delta$. A factor below $z$ is zero. Table~\ref{tab:parameter-register} gives the effect of moving each parameter across its band.}
 \label{tab:overlay-distance-kernel}
 \tablestyle
 \begin{tabular}{@{}l r l@{}}

@@ -579,8 +579,7 @@ def _rules_table(rs: RuleSet, verdict: str, label: str) -> list[str]:
              r"matrix (Section~\ref{subsec:failure-matrix}). After a failure at one tactic, "
              r"the first rule that matches the move to the next tactic gives its value, which "
              r"the distance factor of Table~\ref{tab:overlay-distance-kernel} then scales. "
-             r"Back, within and forward are by lifecycle stage. The letters are those of "
-             r"Figure~\ref{fig:failure-weight-decomposition}(a).}")
+             r"Back, within and forward are by lifecycle stage.}")
     L.append(r"\label{%s}" % label)
     L.append(r"\tablestyle")
     L.append(r"\begin{tabular}{@{}c P{0.40\textwidth} r P{0.40\textwidth}@{}}")
@@ -609,7 +608,8 @@ def _kernel_table(rs: RuleSet, spec: RuleSpec, label: str) -> list[str]:
              r"scales each rule value by the lifecycle stages a move crosses. A move within a "
              r"stage or to the next keeps its rule value; each further stage forward multiplies "
              r"it by $\gamma$, and each further stage back by $\delta$. A factor below $z$ is "
-             r"zero. Appendix~\ref{app:decay-robustness} moves each parameter across its band.}")
+             r"zero. Table~\ref{tab:parameter-register} gives the effect of moving each "
+             r"parameter across its band.}")
     L.append(r"\label{%s}" % label)
     L.append(r"\tablestyle")
     L.append(r"\begin{tabular}{@{}l r l@{}}")

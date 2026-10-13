@@ -5590,7 +5590,6 @@ A deployment at 6\,000\,s, with the next compromise at 6\,900\,s under MTD and a
 deployment brings the next compromise forward.
 
 
-
 \chapter{Evaluation}
 \label{ch:experiments}
 
@@ -6762,8 +6761,6 @@ profiles part ways from the \prelim{second} step ($c_1$) to the
 openings over eight steps.
 
 
-
-
 % FIGURE 5.2 (fig:aio-divergence, the 4 x 4 pairwise-divergence matrix) DEMOTED
 % TO BODY TEXT 2026-09-21 (Marc's ruling after the scrutinise-figure pass; record:
 % results context §8d). Three independent reviewers converged: the figure
@@ -6949,7 +6946,6 @@ openings over eight steps.
 %  numbers filled 2026-10-06 from the 1 000-seed JSON named in the NUMBERS line (each \prelim{n}
 %  is the grep target; Marc approved the draft's form before the fill). Replaces the 2026-09-26 text (git history). DRAFT STATE.
 % NUMBERS: ? ? = baseline ASP over each profile's, lowest and highest ratio; ? ? = the same for NCR (Table 5.2).
-
 
 
 % SPLIT 2026-09-24 from Figure 5.1 (Marc: "attack confidentiality is a bit constrained
@@ -8578,11 +8574,7 @@ On objective-specific behaviour, the attack profiles' runs still differ in
 MTDSim, most of all in actions on objectives (Figure~\ref{fig:aio-coverage}(a)):
 Exfiltration occurs only in $c_1$ and $c_3$, Impact almost only in $c_2$ and
 $c_3$, and neither in $c_4$. Each attack profile follows the order of tactics
-of its own attack flows (Section~\ref{sec:attack-profiles}). Before actions
-on objectives, the attack profiles divide their steps among the tactics no
-more differently than groups of the same sizes drawn at random from the attack
-flows (Appendix~\ref{app:fa-group-size}), so an attack profile's objective
-shows only in actions on objectives. Collection, Exfiltration and Impact, the
+of its own attack flows (Section~\ref{sec:attack-profiles}). Collection, Exfiltration and Impact, the
 tactics of actions on objectives, are unmapped, because MTDSim's six attack
 actions only find and compromise hosts (Section~\ref{subsec:attacker-model}),
 so the APT attacker model steals no data and impedes no system.
@@ -8724,7 +8716,7 @@ enumerate host next. For the APT attacker model, only Lateral Movement runs
 enumerate host (Section~\ref{subsec:tactic-verb-mapping}), so it has no host
 until the order of its tactics next brings it to Lateral Movement, and
 meanwhile the attack actions of its other tactics most likely fail because
-their preconditions are missing (Appendix~\ref{app:fa-traced-run}). Service
+their preconditions are missing. Service
 diversity redraws every service, and MTDSim sends the baseline attacker back
 to scan port on the same host, so it exploits the host's new vulnerabilities
 from the start. The APT attacker model keeps the ports it had found and goes
@@ -9102,7 +9094,7 @@ substituted or removed one at a time, which leaves their interactions untested,
 and three were not tested: the per-tactic duration multipliers, the share of
 weight given to the pre-intrusion overlay and the choice of one attack flow per
 APT group. Only the 45\,s mean duration changes NCR much
-(Table~\ref{tab:anchor-sensitivity}), and the rankings hold at both ends of its
+(Table~\ref{tab:parameter-register}), and the rankings hold at both ends of its
 band (\ref{thr:cause}).
 
 \item\label{thr:mapping} The tactic-to-action mapping is our input
@@ -9110,8 +9102,8 @@ band (\ref{thr:cause}).
 tactic that maps to scan neighbours, the attack action that finds new hosts, so
 it sets how fast the APT attacker model spreads. A total mapping gives every
 tactic an attack action, and most then fail on their preconditions: the APT
-attacker model compromises 0.15 hosts with no MTD, against 8.13 under the
-partial mapping (Table~\ref{tab:experiment-one}). No other partial mapping was
+attacker model's NCR with no MTD is 0.003, against 0.163 under the partial
+mapping (Table~\ref{tab:parameter-register}). No other partial mapping was
 tested.
 
 \item\label{thr:metrics} Three metrics measure their property only in part.
@@ -9609,12 +9601,44 @@ directions.
 \end{draftnotes}
 
 
-
 % ---------------------------------------------------------------------
 % AI Use Declaration (as included in recent UWA honours theses); after the
 % Conclusion, before the appendices (Marc, 2026-09-24)
 \chapter*{AI Use Declaration}
 \addcontentsline{toc}{chapter}{AI Use Declaration}
+
+% [2026-10-13, appendix cut audit (handoff 2026-10-09 §10, Marc: "apply as a
+%  whole"): moved verbatim from Appendix B, where it was the history of the
+%  scoring, with its two "(AI Use Declaration)" self-references dropped. Held
+%  here until the Declaration is drafted. DRAFT STATE.]
+Table~\ref{tab:attacker-properties} was reworded after the attacker models
+were first scored: its rows name techniques, ATT\&CK's term, where they had
+named MTDSim's attack actions, and learning names the patterns of MTD
+deployments. Four language models then scored all four attacker models by an
+earlier form of the rule, which counted the clauses each attacker model met,
+each given only that rule, Table~\ref{tab:attacker-properties} and one
+attacker model's sources, with our claims of which properties the APT
+attacker model has removed. They disagreed with us on
+one mark: the baseline attacker's campaign persistence, in part on the
+reading that its papers never call a run an extended period. The APT attacker
+model keeps the baseline attacker's loop, and its scorer gave the same
+evidence a full mark. We mark both in full: each carries on toward its
+objective through every MTD deployment, until it reaches it or the run ends. Counting clauses let a mark rest on
+a condition met without its behaviour, so the predicates replaced the
+clauses, tested on the same evidence; they lowered three of Masud et al.'s
+marks, where its attacker model has the attack paths, their recomputation and
+their cost, but chooses nothing from them. A fifth language model,
+given only the rule, Table~\ref{tab:attacker-properties} and
+Chapter~\ref{ch:attacker-model} with our claims removed, then scored the APT
+attacker model by the predicates. It differed on one
+mark, cost--benefit reasoning, which it marked none: the exploit's RoA order
+chooses which vulnerability to try, within one technique, not among
+techniques. We agree, and lower the mark for the baseline attacker too, whose
+order it is. Against the first scoring, the rewording, the predicates and this
+reading lowered eleven marks and raised none: two of the APT attacker model's,
+learning and cost--benefit reasoning, and nine of the other three's, among
+them objective-specific behaviour for all three, which leaves the APT attacker
+model the only one with it in part.
 
 
 % =====================================================================
@@ -9684,34 +9708,6 @@ reconnaissance, illustrates a predicate and is not one.
 Table~\ref{tab:counterpoints} gives, for each cell its source could be read
 against, the strongest counterpoint found there and why the cell stands.
 
-Table~\ref{tab:attacker-properties} was reworded after the attacker models
-were first scored: its rows name techniques, ATT\&CK's term, where they had
-named MTDSim's attack actions, and learning names the patterns of MTD
-deployments. Four language models then scored all four attacker models by an
-earlier form of the rule, which counted the clauses each attacker model met,
-each given only that rule, Table~\ref{tab:attacker-properties} and one
-attacker model's sources, with our claims of which properties the APT
-attacker model has removed (AI Use Declaration). They disagreed with us on
-one mark: the baseline attacker's campaign persistence, in part on the
-reading that its papers never call a run an extended period. The APT attacker
-model keeps the baseline attacker's loop, and its scorer gave the same
-evidence a full mark. We mark both in full: each carries on toward its
-objective through every MTD deployment, until it reaches it or the run ends. Counting clauses let a mark rest on
-a condition met without its behaviour, so the predicates replaced the
-clauses, tested on the same evidence; they lowered three of Masud et al.'s
-marks, where its attacker model has the attack paths, their recomputation and
-their cost, but chooses nothing from them. A fifth language model,
-given only the rule, Table~\ref{tab:attacker-properties} and
-Chapter~\ref{ch:attacker-model} with our claims removed, then scored the APT
-attacker model by the predicates (AI Use Declaration). It differed on one
-mark, cost--benefit reasoning, which it marked none: the exploit's RoA order
-chooses which vulnerability to try, within one technique, not among
-techniques. We agree, and lower the mark for the baseline attacker too, whose
-order it is. Against the first scoring, the rewording, the predicates and this
-reading lowered eleven marks and raised none: two of the APT attacker model's,
-learning and cost--benefit reasoning, and nine of the other three's, among
-them objective-specific behaviour for all three, which leaves the APT attacker
-model the only one with it in part.
 
 \begin{table}[htbp]
   \centering
@@ -9827,23 +9823,6 @@ model the only one with it in part.
 Each section of this appendix backs one claim of
 Chapter~\ref{ch:attacker-model}, in the chapter's order.
 
-% Mining: was Appendix D (label kept, cited from 4.1). Two failures worth a
-% clause if the opener ever needs an example, both off the run log and
-% neither threshold-sensitive: keyword mining read T1110's cross-reference to
-% Valid Accounts as a precondition, direction inverted; T1059 was the source
-% of 24 of the 42 co-occurrence edges because it is the most used technique,
-% not because anything depends on it. No mining threshold is printed: the
-% April parameters cannot be sourced (gap_schema.md Decision 1).
-\section{Edges from co-occurrence and keyword mining}
-\label{app:cooccurrence}
-
-Table~\ref{tab:preliminary-extraction} gives the edges between tactics that
-co-occurrence mining, keyword mining and the attack flows found
-(Section~\ref{sec:technique-graph}), and why the two mining methods were not
-used.
-
-\input{tables/tab_D-0a_preliminary_extraction}
-\FloatBarrier
 
 % Figures generated by tools/gap_appendix_figures.py from data/gap/gap_v0.5.json
 % and data/gap/flows/; regenerate, never hand-edit. 419/478 and 47/122 recomputed
@@ -9855,47 +9834,25 @@ used.
 Section~\ref{sec:technique-graph} chose tactics as the nodes of the attack
 graph because most edges between techniques come from one attack flow: 419
 of the 478 (88\,\%), against 47 of the 122 edges between tactics (39\,\%).
-Figure~\ref{fig:app-flow-exemplar} shows one attack flow;
-Figures~\ref{fig:app-technique-graph} to~\ref{fig:app-tactic-graph}
-aggregate all 38, with techniques as nodes and then tactics.
+Figure~\ref{fig:app-technique-core} draws the edges between techniques that
+two or more attack flows draw, and Figure~\ref{fig:app-tactic-graph} the
+attack graph with tactics as nodes.
 
-\begin{figure}[p]
-  \centering
-  \includegraphics{fig_B-1a_gap_flow_exemplar}
-  \caption[One attack flow as its analyst drew it]{One attack flow as its
-  analyst drew it: CISA AA22-138B, VMware Workspace ONE (TA1), from the
-  Attack Flow corpus. Each box gives a technique's identifier and name and,
-  in grey, its tactic; the filled box is the first step. Both steps into the
-  diamond (an AND) come before the step after it.}
-  \label{fig:app-flow-exemplar}
-\end{figure}
-
-\begin{landscape}
-\begin{figure}[p]
-  \centering
-  \includegraphics{fig_B-1b_gap_technique_graph}
-  \caption[The attack graph with techniques as nodes]{The attack graph with
-  techniques as nodes: 124 techniques and 478 edges from the 38 attack flows.
-  Techniques are grouped by tactic, in ATT\&CK matrix order, and labelled by
-  identifier; each group gives its tactic and, in italic, how many of its
-  techniques the attack flows use. Darker, thicker edges are drawn by more
-  attack flows, up to four; blue edges run back to an earlier tactic. A
-  filled box is a technique some attack flow starts at, and a blue-outlined
-  box one some attack flow ends at.}
-  \label{fig:app-technique-graph}
-\end{figure}
-\end{landscape}
 
 \begin{landscape}
 \begin{figure}[p]
   \centering
   \includegraphics{fig_B-1c_gap_technique_core}
   \caption[The attack graph with techniques as nodes, edges from two or more
-  attack flows]{The attack graph of Figure~\ref{fig:app-technique-graph}
-  with only the edges drawn by two or more attack flows, and without the
-  pieces of fewer than three techniques this leaves: 35 techniques and 55
-  edges. A number on an edge counts the attack flows that drew it, where more
-  than two did.}
+  attack flows]{The attack graph with techniques as nodes, with only the
+  edges drawn by two or more of the 38 attack flows, and without the pieces
+  of fewer than three techniques this leaves: 35 of its 124 techniques and 55
+  of its 478 edges. Techniques are grouped by tactic, in ATT\&CK matrix order,
+  and labelled by identifier; each group gives its tactic and, in italic, how
+  many of its techniques are drawn. Darker, thicker edges are drawn by more
+  attack flows, and a number on an edge counts them where more than two did;
+  blue edges run back to an earlier tactic. A filled box is a technique some
+  attack flow starts at.}
   \label{fig:app-technique-core}
 \end{figure}
 \end{landscape}
@@ -9956,41 +9913,6 @@ gives them.
 \end{figure}
 \FloatBarrier
 
-% Table generated by tools/controller_mapping_figure.py, the generator of
-% Figure 4.6, so the two cannot disagree. Record:
-% docs/implementation/pipeline/ogasp/controller_mapping_v2.md.
-\section{Reasons for the tactic-to-action mapping}
-\label{app:controller-mapping}
-
-Table~\ref{tab:controller-mapping} gives the reason for each row of the
-tactic-to-action mapping of Section~\ref{subsec:tactic-verb-mapping}. A
-tactic is unmapped where the simulator has nothing for it to act on.
-
-\input{tables/tab_B-5a_controller_mapping_reasons}
-\FloatBarrier
-
-% Table generated by tools/total_mapping_table.py from
-% data/results/ch5_s51_sensitivity/numbers.json (the run Table C.1 cites;
-% record: ch5_s51_sensitivity_findings.md section 5). The numbers in the
-% opener are that table's no-MTD row.
-\section{Mapping every tactic to an attack action}
-% [heading renamed 2026-10-09 for the contents (Marc approved; handoff 9a)]
-\label{app:experiment-one}
-% [2026-10-05, Section 4.4.1 round 3: no longer cited from Section 4.4.1
-%  (Marc: the mapping is argued from what the attack actions carry out).
-%  Kept because Appendix C's Tables C.0a and C.0b cite it as the mapping's
-%  alternative; whether to cut it there is Marc's ruling.]
-
-A total mapping gives every tactic an attack action, so the APT attacker
-model takes the baseline attacker's attack actions in a stochastic order.
-The baseline attacker runs them in a fixed order, each meeting the
-precondition of the next; out of that order most fail on their preconditions, and the
-attacker reaches 0.15 hosts without MTD, against 8.13 under the partial
-mapping of Figure~\ref{fig:controller-mapping}
-(Table~\ref{tab:experiment-one}).
-
-\input{tables/tab_B-7a_total_mapping}
-\FloatBarrier
 
 % [2026-10-09, Marc approved P17: moved after the mapping, in chapter 4's order.]
 % Table generated by tools/dwell_catalogue_tables.py from
@@ -10023,29 +9945,11 @@ mapped to it, which the APT attacker model takes instead.
 
 Each value of the failure matrix of Section~\ref{subsec:failure-matrix} is
 a rule value times a distance factor. Table~\ref{tab:overlay-failure-rules}
-gives the rules, Table~\ref{tab:overlay-distance-kernel} the distance factor,
-and Figure~\ref{fig:failure-weight-decomposition} draws both and their
-product.
+gives the rules and Table~\ref{tab:overlay-distance-kernel} the distance
+factor.
 
 \input{tables/tab_B-6a_outcome_overlay_weights}
 
-\begin{figure}[p]
-  \centering
-  % scoped to this float: the full-page box lands 2--3pt over \textheight at
-  % the class default skip; the panels are NOT scaled down to make room.
-  \setlength{\abovecaptionskip}{6pt}
-  \includegraphics[width=\textwidth]{fig_B-6a_failure_weight_decomposition}
-  \caption[The failure matrix as rule value times distance factor]{The
-  failure matrix~(c) as the product of the rule value~(a) and the distance
-  factor~(b). Rows are the tactic whose attack action failed and columns the
-  candidate next tactic, grouped by lifecycle stage; one grey scale from 0
-  to~1 serves all three panels. (a)~The value of the first rule that matches
-  each move, with its letter (Table~\ref{tab:overlay-failure-rules}).
-  (b)~The distance factor (Table~\ref{tab:overlay-distance-kernel}), with the
-  number of stages the move crosses as subscript, negative for a move back.
-  (c)~The failure matrix.}
-  \label{fig:failure-weight-decomposition}
-\end{figure}
 \FloatBarrier
 
 
@@ -10129,57 +10033,10 @@ read the same perturbations value by value.
 %  docs/implementation/pipeline/ogasp/judgement_parameter_presentation_guidance.md).]
 Each of the four mean durations that several tactics share
 (Section~\ref{subsec:dwell-times}) was moved to both ends of a band, one at
-a time, with the other three held at their declared values. The tactics set
-from a value moved with it, so Execution and Defense Impairment stayed at
-half of 45\,s. Each band runs from half to twice its value, and the band of
-the 45\,s from a quarter to four times, 11.25 to 180\,s, so that it reaches
-up to the deployment interval. Bands of fixed multiples measure how much the
-results respond to a value, and do not estimate how far the value might be
-wrong~\citep{briggs2012}.
-
-% [2026-10-05, with Section 4.4.2 round 9 (Marc: "switch it to NCR"): the
-%  test's output is named as Section 4.4.2 and Chapter 5 name it, NCR, in this
-%  prose and in every Appendix C float (regenerated by analyse.py and
-%  ch5_sensitivity_figure.py; the verdicts are unchanged, NCR being hosts
-%  compromised over 50). DRAFT STATE.]
-At each band end, the test measures the APT attacker model's NCR
-(Section~\ref{sec:evaluation-metrics}) with no MTD and under the random
-deployment strategy at 200 and 2\,000\,s. A mean duration is inert when NCR
-at both band ends stays inside the 95\,\% interval on the mean (normal approximation) at its declared value, and
-moved otherwise. The
-bands and this criterion were fixed before the run, and no value was changed
-after it. Moving one value at a time leaves interactions between the values
-untested~\citep{saltelli2019}. The comparison with the baseline attacker was
-repeated at both ends of the 45\,s band only (Table~\ref{tab:duration-ranking}).
-Table~\ref{tab:anchor-sensitivity} gives
-NCR, and Figure~\ref{fig:sens-dwell-anchor} draws the 45\,s of
-Persistence, Stealth and Command and Control, which moves NCR most.
-
-\input{tables/tab_C-1a_family_sensitivity}
-
-\begin{figure}[tp]
-  \centering
-  % GENERATED by tools/ch5_sensitivity_figure.py --csv data/results/ch5_s51_sensitivity/per_run.csv
-  %   --anchor stealth --stem fig_C-1a_sens_dwell_family --- regenerate, never edit.
-  % Moved from the body to App. C.1 on 2026-09-17 (Marc's ruling); it re-enters
-  % the body only if its form is one a sentence cannot carry.
-  % 2026-10-05: on the house results layout (key at the foot, packed to the
-  % text width and included bare; conventions §o, §h).
-  \includegraphics{fig_C-1a_sens_dwell_family}
-  % CAPTION DRAFT STATE 2026-09-17 --- voice pass owed.
-% [CONNECTIVE-PROSE PASS 2026-09-26, DS appendix caption] Marc 2026-09-26:
-%  'deployment strategies is very clear ... change everything to
-%  deployment strategies' (registry row re-ruled). SESSION-GENERATED on
-%  Marc's 2026-09-26 go-ahead (docs/workflows/connective_prose.md; audit
-%  docs/implementation/connective_prose_audit.md); prior text in git.
-%  RATIFIED 2026-09-26 (Marc: 'I accept all this').
-  \caption[NCR against the 45\,s mean duration]{NCR
-  (Section~\ref{sec:evaluation-metrics}) as the mean duration of Persistence, Stealth and Command and Control
-  is moved from 11.25 to 180\,s, the other mean durations held, with no MTD (grey) and
-  under the random deployment strategy at 200\,s (black). Averaged over $c_1$ to
-  $c_4$, 400 runs per point. The axis is logarithmic. Whiskers: 95\,\% intervals on the mean (normal approximation).}
-  \label{fig:sens-dwell-anchor}
-\end{figure}
+a time, with the other three held at their declared values.
+Table~\ref{tab:parameter-register} gives NCR at each band end. Moving one
+value at a time leaves interactions between the values
+untested~\citep{saltelli2019}.
 
 % [2026-10-09, proposal P10 ACCEPTED (Marc: "i accept this thanks"); registry
 %  B19, run_duration_ranking.py / duration_ranking.py; table generated by
@@ -10195,86 +10052,6 @@ ranks first.
 
 \input{tables/tab_C-1b_duration_ranking}
 
-\section{Robustness to the shape of the tactic durations}
-% [heading renamed 2026-10-09 for the contents (Marc approved; handoff 9a)]
-\label{app:exponential-shape}
-
-% [prose slot --- Marc] the shape defence. The spine, from
-%   stochastic_timing_design.md §3.1-3.3 and the note
-%   docs/notes/ch4_methods/exponential_as_tractability_choice.md:
-%     - what the exponential assumes: memorylessness, a mode at zero, and a
-%       coefficient of variation fixed at 1;
-%     - where it is defensible: the scan- and exploit-shaped tactics under a
-%       retry-until-success reading;
-%     - where it is plainly wrong: the low-and-slow group, whose defining
-%       character is sustained, paced dwell --- mass concentrated AROUND a
-%       value, which is the opposite of a mode-at-zero draw;
-%     - why it is nonetheless the choice: the field defends the formalism,
-%       not the shape. No surveyed stochastic-net paper defends
-%       memorylessness as faithful to attacker behaviour, and the
-%       substrate's own lineage switched to an exponential without
-%       recording a justification at all. The claim here is a tractable,
-%       precedented family, never a fidelity claim;
-%     - the strongest available defence AND its named leak (madan2004: a
-%       mean-time result can depend only on the sojourn means, PROVIDED
-%       routing is independent of dwell --- which here it is not, because a
-%       mutation races the dwell, so a long dwell is likelier to be
-%       interrupted and shape re-enters through the interrupt channel);
-%     - the counter-evidence, acknowledged not buried: holm2014's 203 025
-%       intrusions find a Pareto best fit and report the exponential a poor
-%       choice for time-to-compromise. Two qualifications travel with it:
-%       opportunistic enterprise alarms rather than targeted campaigns, and
-%       campaign-level rather than per-tactic timing.
-%
-%   The measured answer is Table~\ref{tab:shape-substitution}, and the claim
-%   it licenses is deliberately narrow: the mean remains load-bearing across
-%   the operating region and at every other cell tested, and it stops being
-%   sufficient at the long-dwell corner under mutation pressure. That is
-%   narrower than "shape matters" and stronger than the pre-S3-R sweep could
-%   say. Worth stating plainly: the more behaviourally faithful shape is
-%   WORSE for the attacker, because removing the exponential's near-zero
-%   mass removes the short dwells that let an action complete between
-%   mutations --- the property flagged as its least realistic feature is
-%   quietly doing work.
-
-% LEAD DRAFT STATE 2026-09-17 --- connective prose (green-lit), ratify-on-read.
-% [DRAFT STATE 2026-10-05, with Section 4.4.2 round 5: "draw" and the family
-%  names retired (Marc: "we don't use that word anymore").]
-Each tactic duration is an exponential delay whose mean is the tactic's mean
-duration (Section~\ref{subsec:dwell-times}). Here an Erlang-4 delay, the sum
-of four exponential delays of a quarter of the mean, keeps each mean and varies
-less. It replaces the exponential delay on the tactics with a 45\,s mean
-duration and those set at half of it, paired run for run with the exponential
-delay at 45\,s and at the top of the band, 180\,s.
-
-\input{tables/tab_C-2a_shape_substitution}
-
-\section{Robustness to the failure matrix's distance factor}
-\label{app:decay-robustness}
-
-% ADDED 2026-09-13 (stage-2 float audit, ch5 design handoff §18): the failure
-% matrix's band-ends table, in the form tab:anchor-sensitivity already has, so
-% that the body chapter draws no figure of a non-event. DATA: the weight
-% sensitivity study RE-RUN at the reported configuration under the settled
-% timing regime; the study on record
-% (docs/implementation/pipeline/ogasp/weight_sensitivity_study.md) ran under the
-% superseded fixed-dwell regime at ten seeds --- provenance, not values. The
-% corner check on the influential pair is a row group here.
-% [prose slot --- Marc] one framing paragraph: what is swept (the forward decay,
-%   the backward decay and the floor over their declared bands, one at a time,
-%   then the corners of the pair that proved most influential); what "inert"
-%   means (band ends inside the interval at centre); and the honest limit the
-%   record names (a finer per-profile ordering that fails to separate for want
-%   of runs rather than of effect).
-% LEAD DRAFT STATE 2026-09-17 --- connective prose (green-lit), ratify-on-read.
-The distance factor of the failure matrix (Section~\ref{subsec:failure-matrix},
-Appendix~\ref{app:weight-sets}) has three parameters: $\gamma$, which scales a move
-forward across two stages, $\delta$, which scales a move back, and the
-floor $z$ below which a factor reads as zero. Each was moved across its band with
-the other two held, and $\gamma$ and $\delta$ were then run at their four corners
-with the floor declared.
-
-\input{tables/tab_C-3a_decay_sensitivity}
 
 \section{Robustness of attack confidentiality to the intrusion detection system}
 \label{app:detector-memory}
@@ -10287,10 +10064,10 @@ Attack confidentiality (Section~\ref{subsec:metrics-behaviour}) flags an attack 
 when it is at least the attacker's fifth within 60\,s, the default of the Snort
 intrusion detection system \citep[Sec.~5.2]{jung2004}.
 Table~\ref{tab:detector-memory} moves the count to three and ten and the window
-to 30 and 120\,s. At the six settings that flag at least \prelim{2.5}\,\% of the
+to 30 and 120\,s. At the six settings that flag at least 2.5\,\% of the
 baseline attacker's attack actions, every attack profile keeps a higher attack
-confidentiality than the baseline attacker. The other three flag under
-\prelim{2}\,\% of its attack actions, and there the attack profiles lie within about one point
+confidentiality than the baseline attacker. The other three flag at most
+2\,\% of its attack actions, and there the attack profiles lie within two points
 of it, above or below.
 
 \input{tables/tab_C-4a_detector_memory}
@@ -10312,7 +10089,6 @@ of it, above or below.
 % any. A 2026-08 sweep exists for the older, tier-weighted form of the detector
 % (data/misc/_viz/stealth_exposure/fig3_tau_sweep.png) and does not carry over.
 % Brief: docs/handoffs/2026-09-24_s45_instrumenting_mtdsim.md, Open 4.
-
 
 
 % [2026-09-30] Appendix 'Robustness of time lost to its window' deleted: time lost per MTD
@@ -10349,15 +10125,12 @@ changed to run it and its known limitations.
 % [heading renamed 2026-10-09 for the contents (Marc approved; handoff 9a)]
 \label{app:mtdshield-selection}
 
-Tay trained 38 agents in three hyperparameter sweeps
-(Table~\ref{tab:mtdshield-sweeps}) and scored each by summing five metrics,
+Tay trained 38 agents in three hyperparameter sweeps and scored each by summing five metrics,
 attack success rate, mean time to compromise, attack path exposure, return on
 attack and risk, each as a multiple of its value with no MTD
 \citep[Sec.~5.1]{tay2024}. The agent run here is the one he scored highest:
 initial exploration rate 0.5, decayed by 0.99 per episode, score 11.00
-\citep[Sec.~5.2.2]{tay2024}. His report gives the sweep ranges but not every
-setting held within them; those are read from the release's training script.
-Re-scoring the agents, or retraining one, would make the choice this
+\citep[Sec.~5.2.2]{tay2024}. Re-scoring the agents, or retraining one, would make the choice this
 dissertation's, so his designation is taken as it stands.
 
 One caution attaches to it. Tay's scores were produced with the exploration
@@ -10367,26 +10140,6 @@ reason Chapter~\ref{ch:experiments} runs the random deployment strategy over the
 mechanisms beside MTDShield: Tay's figures compare MTDShield against it, and
 the difference between the two is what the agent's policy adds.
 
-\begin{table}[htbp]
-  \centering
-  \caption[Tay's hyperparameter sweeps]{Tay's three hyperparameter sweeps, the
-  settings held in each, and the highest and lowest summed scores he reports
-  \citep[Sec.~5.2, Figs.~3--5]{tay2024}. $\gamma$ is the discount factor and
-  $\varepsilon$ the initial exploration rate; the training start is the number of
-  stored transitions before learning begins. Held settings are from the
-  release's training script \citep{tay2024code}. A dash: not reported by Tay.}
-  \label{tab:mtdshield-sweeps}
-  \tablestyle
-  \begin{tabular}{@{}P{2.3cm}P{2.9cm}cP{3.3cm}P{2.2cm}P{2.0cm}@{}}
-    \toprule
-    Sweep & Values & Agents & Held & Highest & Lowest \\
-    \midrule
-    discount factor & $\gamma$ from 0.50 to 0.99 & 10 & $\varepsilon$ 1.0, decay 0.99; batch 64; training start 500 & 10.77 ($\gamma$ 0.85) & 9.46 ($\gamma$ 0.50) \\
-    exploration & $\varepsilon$ from 0.5 to 1.0; decay from 0.980 to 0.998 & 24 & $\gamma$ 0.95; batch 32; training start 1\,000 & 11.00 ($\varepsilon$ 0.5, decay 0.99) & 9.48 ($\varepsilon$ 1.0, decay 0.980) \\
-    training start & 500 to 2\,000 transitions & 4 & $\gamma$ 0.95; $\varepsilon$ 1.0, decay 0.99; batch 32 & 10.39 (2\,000) & --- \\
-    \bottomrule
-  \end{tabular}
-\end{table}
 
 \section{The agent's settings}
 % [heading renamed 2026-10-09 for the contents (Marc approved; handoff 9a)]
@@ -10524,8 +10277,8 @@ Table~\ref{tab:disruption} gives the values Figure~\ref{fig:aio-adaptivity} plot
 \input{tables/tab_5-3-1b_disruption}
 
 Table~\ref{tab:eff-interval-values} gives the values Figure~\ref{fig:eff-cross-arm}
-plots, at every deployment interval. Figure~\ref{fig:eff-cross-arm-asp} and
-Table~\ref{tab:eff-interval-values-asp} give the same comparison on ASP
+plots, at every deployment interval. Table~\ref{tab:eff-interval-values-asp}
+gives the same comparison on ASP
 reduction, the share of an attacker's ASP that MTD removes:
 \begin{equation}
   \text{ASP reduction} = 1 -
@@ -10539,14 +10292,6 @@ order of NCR reduction, and reaches its ceiling of 1 against the APT attacker
 model, whose ASP with no MTD is low, so Chapter~\ref{ch:experiments} ranks on
 NCR reduction.
 
-\begin{figure}[tp]
-  \centering
-  \includegraphics{fig_F-0b_interval_asp}
-  % 2026-10-06 (Marc, Q3): the ASP rows of Figure 5.3, moved here; drawn by
-  %  tools/ch5_sweep_figures.py --only asp from numbers_reported.json sweep_asp.
-  \caption[ASP reduction against the deployment interval]{ASP reduction against the deployment interval, as Figure~\ref{fig:eff-cross-arm} draws NCR reduction: the APT attacker model averaged over $c_1$ to $c_4$ (solid, 4\,000 runs per point) and the baseline attacker (dashed, 1\,000 runs per point). ASP reduction is 1 when no run compromises a target host, 0 when as many do as with no MTD, and negative when more. A point at 1 is a reduction of 1 or one above 0.99, which Table~\ref{tab:eff-interval-values-asp} tells apart. The interval axis is logarithmic. Whiskers: 95\,\% percentile bootstrap intervals over runs.}
-  \label{fig:eff-cross-arm-asp}
-\end{figure}
 
 \input{tables/tab_F-0a_interval_values}
 
@@ -10557,18 +10302,6 @@ at every deployment interval.
 
 \input{tables/tab_F-0c_rank_one}
 
-\section{Every metric for each attacker}
-\label{app:sup-every-metric}
-
-Tables~\ref{tab:full-movement} and~\ref{tab:full-baseline} give every metric of
-Table~\ref{tab:eff-cross-arm} with its interval, for each attacker.
-
-% 2026-10-02 (results_presentation_standard.md T4: cells never wrap): Tables F.3 and F.4 on one
-%  landscape page, at the house type size, with room for the runs behind each MTTC.
-\begin{landscape}
-\input{tables/tab_F-1_conditions_movement}
-\input{tables/tab_F-1_conditions_baseline}
-\end{landscape}
 
 \section{The ablation studies in full}
 \label{app:sup-ablations}
@@ -10590,29 +10323,10 @@ flows.
 
 \input{tables/tab_F-4_ablation_random_partitions}
 
-Figure~\ref{fig:ablation-memory} and Table~\ref{tab:ablation-memory} give the
-vulnerability memory's ablation
+Table~\ref{tab:ablation-memory} gives the vulnerability memory's ablation
 (Section~\ref{subsec:ablation-vulnerability-memory}) at every number of services
 per operating system.
 
-\begin{figure}[tp]
-  \centering
-  \includegraphics{fig_F-2_ablation_memory}
-  % Generated by tools/ch5_memory_ablation_figure.py from
-  % memory_ablation_numbers.json; takeaway and design record in its docstring.
-  % Caption DRAFT STATE 2026-09-30, ratify on read. 2026-10-01: Figure 5.8
-  %  becomes 5.7; one term (with and without, not on and off); bars over seeds,
-  %  the unit Cohen's d uses; the pool sweep's table moved to Appendix F.
-  %  2026-10-02: moved here from Section 5.4.3 (stem fig_5-4b -> fig_F-2).
-  \caption[NCR with and without the vulnerability memory, by services per operating system]{NCR of the APT
-  attacker model averaged over $c_1$ to $c_4$, with and without the
-  vulnerability memory, on the same 1\,000 seeds, against the number of
-  services per operating system, (a)~with no MTD and (b)~under service
-  diversity at 200\,s. Whiskers: 95\,\% percentile bootstrap intervals over seeds.
-  Table~\ref{tab:ablation-memory} gives $d$ at each number of services per operating system, the share of
-  exploits that succeed, and OS diversity.}
-  \label{fig:ablation-memory}
-\end{figure}
 
 \input{tables/tab_F-2_ablation_memory}
 
@@ -10642,28 +10356,6 @@ Chapter~\ref{ch:discussion}'s order, and each reads runs already recorded,
 except Section~\ref{app:fa-run-time}, which runs the APT attacker model again
 with no MTD.
 
-\section{Where each attacker succeeds with no MTD}
-\label{app:fa-success}
-% Registry B1 and B2.
-Each seed generates its own network, and both attackers run on the same 1\,000
-(Table~\ref{tab:unopposed-summary}). Table~\ref{tab:fa-success} splits each
-attack profile's successes by whether the baseline attacker succeeds on the same
-seed. On the 656 seeds where it does, the attack profiles' ASP is 0.06 to 0.20;
-on the other 344 it is at most 0.02, and $c_4$ succeeds on none of them. Two
-attack profiles also succeed on the same seed three to six times as often as
-they would if their successes did not depend on the seed
-(Table~\ref{tab:fa-success-pairs}). With no MTD, then, whether a run succeeds
-depends mostly on the network its seed generates, and the attackers differ in
-how often they succeed on the networks that allow it. Under service diversity
-at 200\,s, 34 of the attack profiles' 61 successful runs are on seeds where the
-same attack profile succeeds with no MTD, and MTD interrupts successful and
-failed runs at the same rate, 3.1 to 4.2 times per 1\,000\,s. The analysis
-describes MTDSim's networks rather than either attacker; which features of a network decide success is future work
-(Section~\ref{sec:future-work}).
-
-\input{tables/tab_FA-1a_success_by_seed}
-
-\input{tables/tab_FA-1b_success_pairs}
 
 % DRAFT STATE 2026-10-11 --- F.2 and F.3 added on Marc's go-ahead ("just do
 %  what you need to do"; handoff 2026-10-11_ch6_1_redraft_scrutiny section 12).
@@ -10680,15 +10372,10 @@ Table~\ref{tab:unopposed-summary} counts them.
 Table~\ref{tab:fa-openings} counts distinct openings over a run's first four
 and eight attack actions, consecutive repeats of one attack action counted
 once, the rule Section~\ref{subsec:metrics-behaviour} applies to the baseline
-attacker. Over eight, the attack profiles take 190 to 844 distinct openings,
-against the baseline attacker's 3, and 229 to 642 counting only the attack
-actions that reach the network; over four, 10 to 39 against 1.
+attacker.
 Table~\ref{tab:fa-after-foothold} gives each attack action's share after the
-foothold, an attacker's first compromise of a host. The attack profiles
-differ: brute force is 2.3\,\% of $c_3$'s attack actions and 19.2\,\% of
-$c_1$'s, and scan port 14.1\,\% of $c_4$'s and 35.1\,\% of $c_3$'s. The
-differences of Figure~\ref{fig:aio-coverage} therefore hold when counted
-in attack actions.
+foothold, an attacker's first compromise of a host. The differences of
+Figure~\ref{fig:aio-coverage} hold when counted in attack actions.
 
 \input{tables/tab_FA-6_openings_attack_actions}
 
@@ -10723,123 +10410,11 @@ model's ASP, averaged over the four attack profiles, rises from 0.09 to 0.45,
 against the baseline attacker's 0.66: 0.63 [0.61, 0.65] of the gap. Its
 attack rate rises above the baseline attacker's, and its attack
 confidentiality falls below it. Every run that reaches a target host with its
-tactic durations as declared also reaches one with either change.
-
-The attack profiles differ. $c_1$ and $c_2$ reach a target host as often as
-the baseline attacker or more often, and $c_4$ closes about half of its gap. $c_3$ closes
-almost none: the same 78 runs reach a target host with either change. With
-the baseline attacker's times, its last successful exploit falls at a median
-of 2\,069\,s, after which its attack actions fail for missing preconditions
-or scan neighbours finds no new host, and the share of its attack actions
-that fail rises from 30 to 53\,\%. NCR closes less of its gap than ASP,
+tactic durations as declared also reaches one with either change. NCR closes less of its gap than ASP,
 because a run that reaches a target host sooner ends sooner.
 
 \input{tables/tab_FA-8_tactic_durations}
 
-\section{Runs with no foothold under the host layer}
-\label{app:fa-foothold}
-% Registry B9.
-Section~\ref{sec:disc-mtd-performance} explains why the host layer disrupts the
-APT attacker model most: after a host-layer deployment neither attacker has a
-host to act on, and the APT attacker model gets one back only when its Petri
-net next reaches Lateral Movement. Table~\ref{tab:fa-foothold} gives the share of runs in
-which the attacker compromises no host. Under the three host-layer MTD
-mechanisms at 50 to 200\,s, 70 to 89\,\% of the APT attacker model's runs
-compromise no host, against 3 to 20\,\% of the baseline attacker's; with no MTD,
-1\,\% and none. From 500\,s the share falls for both. The host layer therefore
-disrupts the APT attacker model mostly before its first foothold. The table
-checks the mechanism Section~\ref{sec:disc-mtd-performance} states; the claim
-stands on the results of Chapter~\ref{ch:experiments} without it.
-
-\input{tables/tab_FA-2_foothold}
-
-\section{Accounts reused under user shuffle}
-\label{app:fa-accounts}
-% Registry B10. The 2026-10-07 one-off count (APT 1.30 -> 2.44 at 200 s) is
-% superseded by the script's 1.26 -> 2.37.
-User shuffle raises the APT attacker model's NCR at every deployment interval
-(Table~\ref{tab:eff-interval-values}) because it redraws every host's accounts but
-leaves valid the accounts the attacker holds, so each deployment gives the
-attacker a fresh chance to log in to hosts it could not. A port scan compromises
-a host when an account the attacker holds is valid on it, and
-Table~\ref{tab:fa-accounts} counts these compromises. With no MTD, the APT
-attacker model compromises 1.26 hosts per run this way; under user shuffle,
-1.65 to 2.77, more at shorter deployment intervals, and its hosts compromised
-per run rise from 8.55 to between 8.86 and 9.67. The baseline attacker gains
-too from 100\,s, 6.71 to 7.78 hosts per run by a held account against 5.18;
-at 50\,s user shuffle disrupts it, and it compromises 13.77 hosts per run
-against 24.85. The gain follows from MTDSim's rule for user shuffle, not from
-user shuffle as an MTD mechanism (\ref{thr:rules},
-Section~\ref{sec:threats}), so
-it is not part of the main argument.
-
-\input{tables/tab_FA-3_accounts}
-
-\section{One run under MTD, traced}
-\label{app:fa-traced-run}
-% Registry B18. The run is chosen by a rule fixed before any run was looked at.
-Figure~\ref{fig:fa-traced-run} draws one run of $c_1$, the attack profile with
-the most attack flows, on seed~7, the lowest seed on which it compromises a
-target host with no MTD; the rule was fixed before any run was looked at. Both
-runs draw from the same seed, so they are the same run until 267\,s, when an
-IP shuffle deployment interrupts scan neighbours. With no MTD, the same step
-finds a neighbour, and the Petri net's next exploit compromises the first host
-at 584\,s; the run compromises 11 hosts and reaches a target host at
-14\,926\,s. Under IP shuffle the attacker has no host to act on, and the attack
-actions that follow are refused for a missing precondition: 255 of its 363
-attack actions over the run, against 42 of 317 with no MTD. It compromises one
-host, at 2\,650\,s, and never a target host. The figure illustrates one run of
-the mechanism in Section~\ref{sec:disc-mtd-performance}; it is not a result.
-
-\begin{figure}[p]
-  \centering
-  \includegraphics{fig_FA-4_traced_run}
-  % Generated by tools/further_analyses_run_figure.py from the stored records
-  % (further_analyses_numbers.json, section f4); design in its docstring.
-  \caption[One run of $c_1$ with no MTD and under IP shuffle]{One run of $c_1$
-  on seed~7, (a, c)~with no MTD and (b, d)~under IP shuffle every 200\,s:
-  (a, b)~the whole run, (c, d)~its first 1\,000\,s. Each lane is one of the
-  baseline attacker's attack actions (Figure~\ref{fig:attacker-model}), and the
-  last holds the tactics that run none. Each bar is one step of the Petri
-  net, from its start to its end.}
-  \label{fig:fa-traced-run}
-\end{figure}
-
-\section{Attack profiles against random groups of the same size}
-\label{app:fa-group-size}
-% Registry B14 and B8.
-Section~\ref{sec:fidelity-verdict} reads the random-partition ablation as
-showing that grouping by objective carries structure: with no MTD, the attack
-profiles compromise more than random partitions of the same sizes
-(Table~\ref{tab:ablation-random-partitions}). Table~\ref{tab:fa-group-size}
-shows where. Each random partition splits the 38 attack flows into groups of
-19, 7, 7 and 5, the sizes of $c_1$ to $c_4$. The ten random groups of 19 attack
-flows reach an NCR of 0.16 to 0.21, near the attack graph's 0.19, and all ten
-lie above $c_1$'s 0.15. The random groups of 7 and 5 attack flows reach less,
-with medians of 0.12 to 0.14, and $c_2$, $c_3$ and $c_4$ lie above 26 of their
-30. A small random group can lose the chains of tactics that lead to a
-compromise, and grouping by objective likely keeps them, so the attack profiles
-beat random partitions through their small groups. Each attack profile's ASP is
-also above the median of its random groups, most clearly $c_2$'s, 0.14 against
-0.03. The reading is a hypothesis on four attack profiles and says nothing of
-fidelity, so it is not part of the main argument.
-
-% 2026-10-12 (Marc: c4's differences "might just be the partitioning"; handoff
-%  section 24.6): partition_step_divergence.py -> partition_step_divergence_numbers.json.
-The same runs give how differently the groups divide their steps among the
-tactics (relative tactic occurrence, Section~\ref{subsec:metrics-behaviour}),
-measured between two groups as the share of steps that lie in different
-tactics. Outside actions on objectives, the attack profiles' six pairs average
-0.25 and the ten random partitions' 0.25 to 0.42, nine of the ten at or above
-the attack profiles; over all tactics, 0.30 against 0.27 to 0.45, eight of the
-ten. Random groups also lack Exfiltration or Impact, 16 of the 40, but by
-chance, not as their attack flows' objectives say: $c_1$ has almost no Impact,
-$c_2$ no Exfiltration and $c_4$ neither. Grouping by objective therefore shows
-in outcome, and in behaviour only in which actions on objectives occur. The
-chains a small random group can lose are an order of tactics, which a share of
-steps does not measure.
-
-\input{tables/tab_FA-5_group_size}
 
 \bibliography{references}
 

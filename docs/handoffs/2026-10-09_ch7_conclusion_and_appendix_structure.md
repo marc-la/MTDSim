@@ -467,3 +467,61 @@ Marc (2026-10-13): the appendix is "the biggest risk to my dissertation"; "what 
 1. Apply §10 as a whole? *Recommended: yes.* The cuts are deletions, and none touches a body claim.
 2. Is the proposal required in the bound dissertation? *Recommended: ask Jin. Cut it unless it is required.*
 3. Traced run: cut it, or promote it to ch4 as the worked example? *Recommended: cut.* The body is at 49 of 50 pages.
+
+## 11. Rulings on §10, and what was applied (2026-10-13)
+
+**Marc's rulings:**
+- Q1: apply §10 as a whole. **Yes.**
+- Q2: the proposal is required, so **A stays**.
+- Q3: the traced run is **cut**.
+
+**Correction to §10.** C.8's reason said "ch4 draws the matrix". It does not: ch4 has no failure-matrix figure, and the decomposition figure was the only drawing of it. The cut still passes the test. No body sentence cites the figure, its type is about 5 pt, and the two rules tables fully determine every value. Flagged to Marc; reinstating it is a one-block revert.
+
+**Applied (appendices, ch6, AI Use Declaration, generators).** The build is 101 pages, from 118. The appendices are now pp. 51–~86, with B–G about 29 pages, from 46.
+- **B:** paragraph 3 (the scoring history) moved verbatim into the AI Use Declaration, with its two "(AI Use Declaration)" self-references dropped and a DRAFT STATE comment added.
+- **C:** cut the mining section, the exemplar flow figure, the full technique graph, the mapping reasons and the total mapping. Cut the decomposition figure. The technique-core caption now carries the decode the full graph's caption gave.
+- **D:** D.1 is cut to its protocol sentence, a pointer to the register and the Saltelli limit; its C-1a table and figure are gone. D.2 and D.3 are cut. The register (`analyse.py --tables-only`) and value-bases (`value_bases.json`) no longer point to cut sections. D.4's `\prelim` values are resolved against the 1 000-seed table: "at least 2.5 %" holds; "under 2 %" became "at most 2 %" (the 5/30 setting flags 2.0 %); "within about one point" became "within two points" (c3 at 5/30 is +1.7).
+- **E:** the sweeps table is cut, with the held-settings sentence that read it.
+- **F:** "every metric" (both landscape tables), the ASP-reduction figure and the memory-ablation figure are cut.
+- **G:** G.1, G.4, G.5, G.6 and G.7 are cut. G.2 keeps its lead, and the number readings its tables carry are gone. G.3's c3 paragraph is cut, and its last sentence (NCR closes less of the gap) is kept.
+- **ch6 (auto):**
+  - 8584: the random-groups sentence is deleted, since its only evidence was G.7;
+  - 8727: the traced-run citation is dropped (the hedge "most likely" stands);
+  - 9105: `tab:anchor-sensitivity` becomes `tab:parameter-register`;
+  - 9114: the total mapping is stated as NCR 0.003 against 0.163 from the register, in place of 0.15 against 8.13 hosts (the same result, over 50 hosts).
+- **Generators:**
+  - `attack_action_times_table.py`: the caption cites `fig:controller-mapping`;
+  - `failure_weight_decomposition_figure.py`: the rules caption loses its letters sentence, and the kernel caption points to the register.
+  All four generators were rerun, and the diffs are exactly the intended lines.
+
+**The three questions, for every surviving item:** Q1, does a reader need it to follow the argument? Q2, is it the evidence for a body claim or number? Q3, neither, so cut.
+
+| Item | Q1 | Q2: the body claim it backs |
+|---|---|---|
+| A Proposal | no | no. Kept because UWA requires it (Marc) |
+| B lead + Table B.1 | no | the ch3 marks (3199; ch6 8825, 9139) |
+| B counterpoints | no | the contested cells of B.1, so the same marks |
+| C.1 technique core + tactic graph | no | ch4 4032: techniques too sparse for nodes (88 %); the tactic graph is the input ch4 describes but does not draw |
+| C.2 profile of each attack flow | no | ch4 4178, ch6 9145: the classification of the 38 attack flows |
+| C.3 edges of the attack profiles | no | ch4 4226: each Petri net takes only its own attack flows' edges |
+| C.4 tactic durations + attack-action times | no | ch4's tactic-duration table; ch6 9076 |
+| C.5 failure-matrix rules | no | ch4 5131 |
+| D lead, value bases, register | no | ch5 6216; ch6 9100, 9105, 9114 |
+| D.1 ranking at both band ends | no | ch6 9068: the rankings hold at both ends |
+| D.2 detector | no | ch4 5452, ch6 9129: the IDS rule's threshold |
+| E.1–E.3 agent, settings, changes | no | ch5 6092: "MTDShield runs as released" |
+| E.4 limitations | no | ch6 9230: "outside its training conditions" |
+| E.5 choices | no | ch5 7832: service diversity in 70 % or more of decisions |
+| F.1 interval values, disruption, rank-one, ASP-reduction table | no | ch5 7546, 7792, 7801, 7932; ch6 8921–9156 |
+| F.2 ablation tables | no | ch5 8224, 8268, 8444, 8462 |
+| G lead | no | ch6 9172 (`thr:posthoc`) |
+| G.1 behaviour metrics in attack actions | no | ch6 9133; B counterpoints |
+| G.2 tactic durations | **closest to yes** | ch6 8559–8635: the explanation of the no-MTD gap. The body states every number it uses, so the tables are its evidence. Promote the rerun table only if an examiner should see the evidence without turning pages |
+
+**Proposed, ch1–5 and ch7 (before/after; apply on Marc's yes).** Until then the build carries these six undefined references.
+- **P-a, ch4 4022:** "against 50\,\% for the attack flows (Appendix~\ref{app:cooccurrence})." → "against 50\,\% for the attack flows."
+- **P-b, ch4 4846:** delete "Table~\ref{tab:controller-mapping} gives the reason for each tactic." The preceding paragraph and the one after Figure 4.x give every row's reason.
+- **P-c, ch5 8462:** "(Figure~\ref{fig:ablation-memory}, Table~\ref{tab:ablation-memory})" → "(Table~\ref{tab:ablation-memory})".
+- **P-d, ch5 Table `tab:eff-cross-arm` caption** (`tools/ch5_sweep_figures.py` 507): delete "Tables~\ref{tab:full-movement} and~\ref{tab:full-baseline} give each value's confidence interval, ASP reduction and MTTC."
+- **P-e, ch5 `Runs` paragraph (6135), new last sentence:** "Every metric at every configuration, with its interval, is published with the experiment scripts." Verify first that the ch1 footnote's repository serves `data/results/`.
+- **P-f, ch7 9582:** "which features of a network decide success (Appendix~\ref{app:fa-success})" → "which features of a network decide success".
