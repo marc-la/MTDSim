@@ -8976,18 +8976,25 @@ enough to compare MTD mechanisms across evaluations whose attacker models
 differ. An MTD evaluation should therefore report its metrics against its own
 attacker model and against one that other evaluations also use.
 
-% ¶2b REDRAFT 2026-10-13 (Marc: 'push both'); 'On efficiency metrics' signpost mirrors ¶2a (§82): claim first; §6.5 bound as pointer; 'five times' dropped (grid artefact); one hedge (likely); should = longest deployment interval per attacker model. Handoff §76.
-On efficiency metrics, the attacker model decides how often MTD must deploy
-for a given NCR reduction, although in MTDSim a deployment costs no overhead or
-loss of service (Section~\ref{sec:threats}). Against the APT attacker model, the
-host layer reduces NCR by more than half up to a deployment interval of
-1\,000\,s (Section~\ref{subsec:eff-cross-arm}). Against the baseline attacker,
-the service layer reduces NCR by more than half only up to 200\,s. On a real
-network each deployment costs overhead or service, so the attacker model likely
-changes what MTD costs. An MTD evaluation without efficiency metrics should
-therefore report, against each attacker model, the longest deployment interval
-at which each MTD mechanism reaches a stated NCR reduction, such as half, so
-that a reader can apply their own cost per deployment.
+% ¶2b REDRAFT 2026-10-13 (Marc: "I'm happy with that ... put that in"), handoff
+%  §83-§88. A hypothesis, one hedge: efficiency metrics would not free an MTD
+%  evaluation from its attacker model, because it weighs cost against
+%  effectiveness and, for a given mechanism, how often MTD must deploy for a
+%  given NCR reduction depends on the attacker model (service diversity: about
+%  half at 1 000 s vs the baseline attacker, 100 s or shorter vs the APT attacker
+%  model). No should. Cut: the longest-interval threshold recommendation, the
+%  cross-layer comparison (5.3.2). Prior text in git.
+On efficiency metrics, which MTDSim does not measure
+(Section~\ref{sec:threats}), an MTD evaluation would likely still depend on its
+attacker model. An MTD evaluation weighs the cost of MTD, such as system
+performance overhead and quality of service (Table~\ref{tab:mtd-metrics}),
+against the effectiveness of MTD. For a given MTD mechanism, the cost grows with
+how often it deploys, and how often it must deploy for a given NCR reduction
+depends on the attacker model. Service diversity, for example, reduces NCR by
+about half when it deploys every 1\,000\,s against the baseline attacker, but
+only when it deploys every 100\,s or more often against the APT attacker model
+(Table~\ref{tab:eff-interval-values}). The same MTD mechanism can therefore be
+efficient against one attacker model and not against another.
 
 On evaluation methods, simulation lets an evaluation change the attacker model
 and hold everything else. Section~\ref{subsec:evaluation-methods} found simulation the

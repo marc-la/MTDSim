@@ -4198,3 +4198,10 @@ Scratchpad p2b_v4.tex.
 ## §87 — §6.4 ¶2b v5, proposed (Marc 2026-10-13: "very, very close"; "two examples, is that needed?"; specific terms)
 
 Scratchpad p2b_v5.tex. S2 becomes "An MTD evaluation weighs" (specific term). S4 gets "for example". The host-layer sentence is cut. It showed the shift runs both ways, which mattered for §83's "more than one attacker model" should. That should is gone, and ¶2a already shows the two attackers' rankings are uncorrelated (and §6.2 the layer reversal), so the reader will not take "the APT attacker model is harder" from one example. S6 holds on service diversity alone. About 25 words saved. Echo: ¶2a also has "Service diversity, for example,"; it is the same example carried on, so the echo is left in.
+
+
+## §88 — §6.4 ¶2b v5 applied (Marc 2026-10-13: "I'm happy with that ... put that in")
+
+Text as in §87. The stale ¶2b comment is replaced by one current comment. Build clean, 117 pages (was 118), 0 undefined.
+
+Next: the §6.4 opener (placeholder). Its list is stale: ¶2a now asks for its own attacker model and a shared one; ¶2b has no should. Then ¶3 (evaluation methods) scrutiny.
