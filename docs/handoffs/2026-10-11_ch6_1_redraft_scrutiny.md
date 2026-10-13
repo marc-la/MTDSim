@@ -4127,3 +4127,30 @@ Scratchpad p2a_v8.tex, about 150 words.
 One change from v8. Marc: "beside its own" is a pointer to nowhere. The close now reads "report its metrics against its own attacker model and against one that other evaluations also use". ¶2b opener: "On efficiency metrics, the attacker model decides how often MTD must deploy for a given NCR reduction, although in MTDSim a deployment costs no overhead or loss of service (Section threats)." This is a downstream ch6 edit mirroring ¶2a's signpost; it was proposed in §80 and Marc raised no objection. The stale ¶2 and ¶2a comment blocks are replaced by one current comment. Build clean, 118 pages, 0 undefined.
 
 Next: §6.4 opener (placeholder). Its list is stale: item 2 should now be the shared attacker model (¶2a), and the longest deployment interval per attacker model (¶2b) is missing. Then ¶3 scrutiny.
+
+
+## §83 — §6.4 ¶2b (efficiency): structure scrutiny, no drafting (Marc 2026-10-13: "fundamentally ... a bit flawed ... we don't do any of that ... what is the one-liner, and the structure?")
+
+**Verdict.** The topic stands: §3.2.2 gives Cho's efficiency half, and §6.4 must answer it. The paragraph as written does not hold up.
+1. **The evidence cannot carry a cost claim.** It compares different layers across the attackers (host layer vs the APT attacker model, service layer vs the baseline attacker). Each layer has its own cost per deployment, so "deploy less often" does not mean "costs less". The comparison is also §5.3.2's sentence restated.
+2. **The should prescribes a method we never ran** (Marc). "The longest deployment interval that reaches a stated NCR reduction, such as half" asks others to apply a threshold that ch5 uses only as an illustration in one sentence, and the threshold level is arbitrary. It also edges into ch7 F11 (price each deployment so a sweep can choose an interval).
+3. **S4 restates S1.** "On a real network each deployment costs ... so the attacker model likely changes what MTD costs" is S1 again, by way of §6.5's bound.
+
+**The stronger evidence: the same mechanism against both attackers**, read at intervals that were run (Table eff-interval-values, so nothing is interpolated):
+- host layer mean: about half against the baseline attacker at 200 s (0.49) and against the APT attacker model at 1,000 s (0.52);
+- service diversity: about half against the APT attacker model at 100 s (0.50, also 0.50 at 50 s) and against the baseline attacker at 1,000 s (0.54).
+
+A mechanism's overhead and loss of service per deployment are properties of the mechanism, not of the attacker. So for the same mechanism, how often it must deploy for the same NCR reduction stands in for what that reduction costs. This needs one assumption and no cost model. The shift runs both ways: the host layer needs fewer deployments against the APT attacker model, and service diversity needs more. So neither attacker model gives the conservative cost. No ratios are stated, because they depend on the tested intervals. "About half" is a reference level for comparing like with like, not a recommended threshold.
+
+**One-liner.** *For the same MTD mechanism, the attacker model changes how often it must deploy for the same NCR reduction, in either direction, so an efficiency metric measured against one attacker model likely misstates the cost against another.*
+
+**Spine (slots, no text; ~110 words).**
+1. Claim: on efficiency metrics, the attacker model changes how often the same MTD mechanism must deploy for the same NCR reduction.
+2. Context: efficiency metrics measure the cost of MTD (§3.2.2, Cho); MTDSim measures none (§6.5, pointer only).
+3. Evidence: the host layer and service diversity at about half, at the intervals above (Table eff-interval-values).
+4. Inference, one hedge: cost per deployment is the mechanism's, so the attacker model likely changes what the same NCR reduction costs, and in opposite directions for the two layers.
+5. Should: an evaluation that measures efficiency should measure it against more than one attacker model, because no one attacker model gives the conservative cost. This is distinct from ¶2a (comparability across evaluations) and from F11 (pricing deployments).
+
+**Cut.** The longest-interval recommendation; the cross-layer comparison (§5.3.2 has it); S4's restatement.
+
+**Open for Marc.** (a) Keep slot 5, or end on slot 4 and let ¶2a's should ("report its metrics against ...") cover efficiency too. Recommendation: keep slot 5; "more than one" follows from "both directions", which is ¶2b's own evidence. (b) Use the host-layer mean, or a single mechanism for both cases (IP shuffle: 0.68 vs baseline at 200 s, 0.58 vs the APT attacker model at 1,000 s, which does not sit at half). Recommendation: the layer mean for the host layer, as Figure 5.3 plots it.
