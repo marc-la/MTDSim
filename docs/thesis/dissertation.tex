@@ -9703,36 +9703,31 @@ its ``and''.
   \propstandin\ otherwise.}
   \label{tab:clause-tests}
   \tablestyle\fontsize{9}{11}\selectfont\setlength{\tabcolsep}{3pt}
+  \rowcolors{1}{}{}% shading by property, not by row (Marc 2026-10-13)
+  \def\pred{\leftskip=1em\hangindent=1em\hangafter=1\relax}%
   \begin{tabular}{@{}P{10.4cm}*{4}{>{\centering\arraybackslash}p{1.2cm}}@{}}
     \toprule
     Predicate & \shortstack{Baseline\\attacker} & \shortstack{Masud\\et al.} & \shortstack{Kim\\et al.} & \shortstack{APT\\attacker\\model} \\
     \midrule
     \emph{1 Campaign persistence} & \propmet & \propstandin & \propstandin & \propmet \\
-    \quad behaviour: pursues one multi-stage campaign toward its objective & yes & yes & yes & yes \\
-    \quad qualifier: over an extended period, until it reaches its objective, however many MTD deployments that takes & yes & no & no & yes \\
-    \addlinespace[3pt]
-    \emph{2 Objective-specific behaviour} & \propnone & \propnone & \propnone & \propstandin \\
-    \quad behaviour: after the foothold, uses different techniques for different objectives & no & no & no & assumed \\
-    \addlinespace[3pt]
+    \pred behaviour: pursues one multi-stage campaign toward its objective & yes & yes & yes & yes \\
+    \pred qualifier: over an extended period, until it reaches its objective, however many MTD deployments that takes & yes & no & no & yes \\
+    \rowcolor{black!5}\emph{2 Objective-specific behaviour} & \propnone & \propnone & \propnone & \propstandin \\
+    \rowcolor{black!5}\pred behaviour: after the foothold, uses different techniques for different objectives & no & no & no & assumed \\
     \emph{3 Choice of attack strategy} & \propstandin & \propnone & \propnone & \propmet \\
-    \quad behaviour: chooses among several sequences of techniques toward the same objective & rule & no & no & yes \\
-    \addlinespace[3pt]
-    \emph{4 Adaptivity} & \propstandin & \propnone & \propnone & \propstandin \\
-    \quad behaviour: chooses its next technique in response to an MTD disruption & rule & no & no & rule \\
-    \addlinespace[3pt]
+    \pred behaviour: chooses among several sequences of techniques toward the same objective & rule & no & no & yes \\
+    \rowcolor{black!5}\emph{4 Adaptivity} & \propstandin & \propnone & \propnone & \propstandin \\
+    \rowcolor{black!5}\pred behaviour: chooses its next technique in response to an MTD disruption & rule & no & no & rule \\
     \emph{5 Detection avoidance} & \propnone & \propnone & \propstandin & \propstandin \\
-    \quad behaviour: moves low and slow, slower than the baseline attacker & no & no & no & rule \\
-    \quad behaviour: chooses techniques an IDS does not flag & no & no & assumed & no \\
-    \addlinespace[3pt]
-    \emph{6 Cost--benefit reasoning} & \propnone & \propnone & \propnone & \propnone \\
-    \quad behaviour: chooses techniques by weighing their cost against their benefit & no & no & no & no \\
-    \quad qualifier: for each technique & no & no & no & no \\
-    \addlinespace[3pt]
+    \pred behaviour: moves low and slow, slower than the baseline attacker & no & no & no & rule \\
+    \pred behaviour: chooses techniques an IDS does not flag & no & no & assumed & no \\
+    \rowcolor{black!5}\emph{6 Cost--benefit reasoning} & \propnone & \propnone & \propnone & \propnone \\
+    \rowcolor{black!5}\pred behaviour: chooses techniques by weighing their cost against their benefit & no & no & no & no \\
+    \rowcolor{black!5}\pred qualifier: for each technique & no & no & no & no \\
     \emph{7 Learning} & \propnone & \propnone & \propnone & \propnone \\
-    \quad behaviour: keeps the patterns it observes in past MTD deployments, and uses them to choose later techniques & no & no & no & no \\
-    \addlinespace[3pt]
-    \emph{8 Deployment-strategy awareness} & \propnone & \propnone & \propnone & \propnone \\
-    \quad behaviour: predicts and leverages which mechanism the deployment strategy deploys next, and when & no & no & no & no \\
+    \pred behaviour: keeps the patterns it observes in past MTD deployments, and uses them to choose later techniques & no & no & no & no \\
+    \rowcolor{black!5}\emph{8 Deployment-strategy awareness} & \propnone & \propnone & \propnone & \propnone \\
+    \rowcolor{black!5}\pred behaviour: predicts and leverages which mechanism the deployment strategy deploys next, and when & no & no & no & no \\
     \bottomrule
   \end{tabular}
 \end{table}

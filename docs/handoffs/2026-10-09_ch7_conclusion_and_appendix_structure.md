@@ -570,3 +570,8 @@ Build: 99 pages, 0 undefined. B is pp. 58–59, with the lead and the table on s
 - **Lead:** what B.1 backs, where each attacker model's evidence comes from, and the predicate-split rule.
 - **Type size:** 9.5 pt was tried. Computer Modern has no 9.5 pt (LaTeX substituted 9). `fix-cm` would give a true 9.5, but it rasterised a textcomp font at 10.95 pt elsewhere in the document (mktexpk Type 3 bitmap), so 9 pt was used.
 - **Build:** 98 pages, 0 undefined. B is p. 58 alone, and C starts on p. 59.
+
+**Table B.1 legibility (Marc, 2026-10-13: wrapped predicates not indented; the zebra is hard to follow):**
+- Each predicate cell is set with `\leftskip` 1 em and a 1 em hanging indent, so wrapped lines hang under their predicate.
+- The zebra is replaced by **shading by property**: properties 2, 4, 6 and 8 grey. This is a deliberate exception to the house `\rowcolors` zebra (`figure_table_conventions.md` §k). The house style separates groups with `\midrule`, and those rules were removed to fit the page. Shading by group takes their place at no height.
+- Still one page; build 98 pages, 0 undefined.
