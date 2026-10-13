@@ -397,3 +397,73 @@ emulation.]}
 %  - THE EMULATION RUNG (notes/ch8_future_work/emulation_rung.md): what
 %    carries up the evaluation ladder and what must be re-derived.
 ```
+
+## 10. Appendix cut audit (2026-10-13, NOT RULED)
+
+Marc (2026-10-13): the appendix is "the biggest risk to my dissertation"; "what do we need in the appendix, what do we not need". The yardstick is [`../workflows/appendix_conventions.md`](../workflows/appendix_conventions.md) (UWA CITS4001 rule, verified 2026-10-13).
+
+**Size now** (`dissertation.toc`, 118-page build): body pp. 1–49, AI Use Declaration p. 50, appendices pp. 51–103 (A is pp. 51–57; B–G are 46 pages), references pp. 104–118.
+
+**Overturned on merit:**
+- §5 item 7 ("Nothing to cut in B–D"). That test asked "does it back a cited claim?" UWA's rule asks more: is the item essential (then it goes in the body), and is it concise data (not prose)?
+- The 2026-10-09 Q4 approval of five further analyses. Three of them say of themselves that they are not part of the argument (G.1 "describes MTDSim's networks rather than either attacker"; G.5 "not part of the main argument"; G.7 "not part of the main argument"). G.4 says "the claim stands … without it", and G.6 says "it is not a result".
+
+**Main-text citation counts** below come from a `\ref` scan of the body, lines 1–9620.
+
+| Now | Pages | Body cites | Verdict | Reason (appendix_conventions.md) |
+|---|---|---|---|---|
+| A Proposal | 7 | 0 | **Ask** | UWA does not require it in the dissertation. Keep it only if Jin or the coordinator says it must be bound in; otherwise cut it (7 pp.) |
+| B Predicate tests: lead paragraph 1, Table B.1, counterpoints | ~4 | 3 (ch3, ch6) | **Keep** both tables | The ch3 marks are the contribution claim; B.1 is the evidence, and the counterpoints answer "did you score yourself kindly?" |
+| B, paragraph 3 (re-scoring history, the language-model scorers, "eleven marks lowered") | ~0.7 | — | **Move to the AI Use Declaration** | Logbook. The Declaration is empty, yet ch3 and ch6 already cite it for exactly this. Fixes §5 item 8 |
+| C.1 Edges from co-occurrence and keyword mining | ~0.5 | 1 | **Cut** | A rejected method in full. Ch4 states the choice; one clause there carries it |
+| C.2 Exemplar flow (fig B-1a) | 1 | 0 | **Cut** | Ch4 Figure 4.1 already shows attack flows aggregated |
+| C.2 Full technique graph (fig B-1b) | 1 | 0 | **Cut** | Duplicates the technique core (B-1c), which shows the sparsity readably; the 88 % figure is in the text |
+| C.2 Technique core + tactic graph | 2 | 1 | **Keep** | The tactic graph is the model's input, drawn nowhere in the body |
+| C.3 Attack profile of each attack flow | 2 | 2 | **Keep** | Per-flow classification: a concise data set |
+| C.4 Edges of the attack profiles | 0.5 | 1 | **Keep** | Each Petri net's edges: replication data |
+| C.5 Reasons for the tactic-to-action mapping | ~1 | 0 (table 1) | **Cut if** ch4 ¶ after Fig 4.x gives every row's reason | Marc: "we kind of discussed that". Check row by row; any reason ch4 lacks becomes a clause there |
+| C.6 Mapping every tactic to an attack action | 0.5 | 0 (table 1, ch6) | **Cut**; one sentence in ch4 | A rejected alternative; the result (0.15 against 8.13 hosts) is one number, and the parameter register already carries it |
+| C.7 How each tactic duration was set | 2 | via tab_4-4a; ch6 | **Keep**; merge the two tables if they fit | Declared values and reasons: replication |
+| C.8 Rules of the failure matrix: tables | 1 | 1 | **Keep** | Replication |
+| C.8 Decomposition figure | ~1.5 | 0 | **Cut** | About 5 pt type (`figure_table_conventions.md` §i); ch4 draws the matrix; the tables give the parts |
+| D lead + value-bases table | ~1 | ch5, ch6 | **Keep** | Provenance and the test that covers each value |
+| D parameter register (C-0a) | ~1 | via D | **Keep, as D's single robustness table** | It already gives every perturbation's outcome, including D.2 and D.3 |
+| D.1 band protocol prose + C-1a table + C-1a figure | ~2 | 1 (ch4), ch6 | **Cut the figure and the C-1a table; cut the prose to two sentences** (bands fixed before the run; one at a time) | Same numbers as the register |
+| D.1 ranking at both band ends (C-1b) | 0.5 | ch6 | **Keep** | ch6 cites it; the register does not carry it |
+| D.2 Shape, D.3 distance factor | ~2 | 0 | **Cut** | The register carries both outcomes; neither is cited from the body |
+| D.4 Detector robustness | ~1.5 | ch4, ch6 | **Keep**; resolve the two `\prelim` | A metric threshold's robustness |
+| E lead + E.1 agent chosen + sweeps table | ~1.5 | ch5 | **Cut the sweeps table** (Tay's data: cite it); keep two sentences (which agent, why) | Someone else's data |
+| E.2 Settings table | 1 | ch5 | **Keep** | Replication |
+| E.3 Changes made | 0.5 | 0 | **Keep** | Replication; short |
+| E.4 Known limitations | 0.5 | ch6 | **Keep the list.** The exploration-rate-1 finding and the detection-input finding go to the body (ch5 setup or 6.5) **if** ch6 argues from them; check 9230 | Essential where ch6 leans on them |
+| E.5 Agent's choices | 0.5 | ch5 | **Keep** (ch5 states the 70 %) | Data behind a body number |
+| F.1 tab:disruption, tab:eff-interval-values, rank-one | ~1.5 | 9 | **Keep** | The values behind ch5's figures: the textbook appendix item |
+| F.1 ASP reduction: equation + table | 0.5 | ch6 (8972, 9084) | **Keep** | ch6 uses the term |
+| F.1 ASP reduction figure | 0.5 | 0 | **Cut** | Same numbers as its table |
+| F.2 Every metric for each attacker (2 landscape tables) | ~5 | **0** | **Cut**; one data-availability sentence | The data dump; it is the largest single block |
+| F.3 Ablation tables (3) | ~2 | ch5 | **Keep** | ch5 cites each |
+| F.3 Memory-ablation figure | 0.5 | ch5 (8462) | **Cut**; move the ch5 cite to the table | Same numbers as tab:ablation-memory |
+| G lead | 0.3 | ch6 | Keep, shortened | — |
+| G.1 Success by seed | 1.5 | ch7 only | **Cut** | Says it describes MTDSim, not either attacker; the ch7 future-work line can stand without it |
+| G.2 Behaviour metrics in attack actions | 1 | ch6, B | **Keep** both tables; cut the prose to the lead | A construct check on two metrics |
+| G.3 Tactic durations (run-time table + rerun table) | 2 | **5** (ch6 ×4, ch7) | **Keep the rerun table** (C-8). Cut the c3 paragraph. Keep tab:fa-run-time only if ch6's "15 to 30 %" needs it (it does: 8617) | ch6's explanation of the headline rests on it; the numbers are already in the body, so the appendix holds the data |
+| G.4 No foothold under the host layer | 1 | 0 | **Cut** | "The claim stands … without it" |
+| G.5 Accounts under user shuffle | 1.5 | 0 | **Cut** | "Not part of the main argument" |
+| G.6 Traced run | 1.5 | ch6 (8727) | **Cut** (alternative: promote to ch4 as the worked example) | "It is not a result". Promotion costs a body page at the 50-page ceiling |
+| G.7 Random groups of the same size | 1.5 | ch6 (8584) | **Cut**; drop the ch6 clause or keep its number bare | "A hypothesis … not part of the main argument"; long argumentative prose |
+
+**Estimated effect:** about 21 of B–G's 46 pages go, leaving about 25 (about 32 with the proposal). Every surviving section is a float the body cites, under a lead of one or two sentences. These are page estimates from the contents' section starts; the build gives the real count.
+
+**Structure after the cuts:** A Proposal (if required); B Scoring the attacker models; C The APT attacker model's values and data; D Robustness of the declared values; E MTDShield as run; F Values behind the chapter 5 figures; G Post-hoc checks (G.2, G.3). The headings stay as ruled in §9a; G's title follows its contents.
+
+**Body edits the cuts force** (proposed before/after on the yes; ch1–5 edits are presented first):
+- ch4: one clause for C.1, one sentence for C.6, and C.5's missing reasons, if any;
+- ch5: the memory-ablation cite retargeted to the table;
+- ch6: G.4, G.5, G.6 and G.7 citations removed or bared. Ch6 is auto after the ruling;
+- ch7: the G.1 citation;
+- one data-availability sentence (ch5 setup) for F.2.
+
+**Questions for Marc** (one each, with the recommendation):
+1. Apply §10 as a whole? *Recommended: yes.* The cuts are deletions, and none touches a body claim.
+2. Is the proposal required in the bound dissertation? *Recommended: ask Jin. Cut it unless it is required.*
+3. Traced run: cut it, or promote it to ch4 as the worked example? *Recommended: cut.* The body is at 49 of 50 pages.
