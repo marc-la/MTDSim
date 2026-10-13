@@ -4598,3 +4598,23 @@ Build clean, 117 pages, 0 undefined.
 ## §106 — §6.1 close fixed (Marc 2026-10-13: "'these properties' seems a bit vague ... you can fix that up")
 
 "ASP and NCR alone therefore rate it the weaker attacker for behaving more like an APT" becomes "... for what gives it objective-specific behaviour, choice of attack strategy and detection avoidance". The three properties are named in §6.1's own order. "What gives it" points back to the two causes the previous sentence names, without repeating them. The irony is kept; the claim no longer credits the judgement-set tactic durations as APT behaviour (§105). Comment added above the paragraph. The phrase appears nowhere else (grep). Build clean, 117 pages, 0 undefined.
+
+## §107 — §6.4 opener v1, proposed, not applied (Marc 2026-10-13: "what do we say in the opener ... frank and honest ... present our results clearly ... keeping it lean, short, sharp ... intentional")
+
+**Job.** (1) The result that makes §6.4 necessary, scoped once ("In MTDSim"). (2) What it means in general, hedged once ("can"). (3) Why the three parts: ch3 §3.2's own frame ("the three parts of an MTD evaluation that use the attacker model"), named in ch3's words and order. About 70 words.
+
+```
+In MTDSim, at every deployment interval, the most effective MTD mechanism
+differs between the two attackers (Section~\ref{subsec:eff-cross-arm}). Which
+MTD mechanism an MTD evaluation finds most effective can therefore depend on its
+attacker model. This section says what that means for each of the three parts of
+an MTD evaluation that use the attacker model
+(Section~\ref{sec:mtd-evaluation-survey}): MTD modelling approaches, metrics and
+evaluation methods.
+```
+
+- S1 is the abstract's sentence (SQ2's answer), word for word, with the ch5 pointer. It presents the result plainly: we ran this, and found this.
+- S2 is ch7's hedge ("can depend"). It does not name the APT attacker model as the right one, which fixes §105's overreach.
+- S3 uses ch3 §3.2's frame word for word; each paragraph's "On ..." opener then does the signposting.
+- No list of shoulds: ¶1 and ¶2a end on one, ¶2b and ¶3 do not, so a list would misstate two paragraphs.
+- No "even with the same attack actions" (Marc's "in the face of adversity"). That is ¶3's ending, and the opener would spend it before ¶3 lands. It also goes to ch7 Contribution 2 (§102).
