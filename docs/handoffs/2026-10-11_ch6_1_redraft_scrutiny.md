@@ -4996,3 +4996,27 @@ Nothing applied. Checked against §6.1 ¶1, §6.2 ¶1-¶3, §6.4 ¶1, §5.4 (att
 **Ranking question for Marc.** T1 threatens only the explanation. T2 (the host layer's lead rests on MTDSim's rule that a host comes back only through Lateral Movement) could change the host layer's rank itself. By the opener's rule ("how far each could change a claim"), T2 outranks T1. There is also a boundary to settle: T1 is about our parts and T2 about the simulator's rules, yet T2's second sentence restates the order mechanism from §6.2 ¶2.
 
 **Size.** v1 T1 is about 120 words; the in-list fits in about 60-70.
+
+
+## §118 — T1's job restated; the mapping is a rival cause (Marc 2026-10-13: "it could also be the mapping ... does the mapping change anything? ... an ablation that we had to do, but we didn't ... still not really clear on what T1 is doing")
+
+Nothing applied.
+
+**What T1 does.** Internal validity lists the rival causes of a result and says which were ruled out. The result is §6.2's: each MTD layer's rank comes from the APT attacker model's tactic durations and the order of its tactics. T1 lists the rival causes inside the APT attacker model.
+- Ruled out with MTD: the failure matrix and the vulnerability memory (negligible on NCR, §5.4); the attack profiles (the same three MTD mechanisms reduce NCR most without them, §5.4).
+- Separated with no MTD only: tactic durations against order (the run with the baseline attacker's times, G.3, about two thirds of the ASP gap). Marc's "we get close": the baseline attacker is close to the APT attacker model with the baseline attacker's times and a fixed order, so the three runs with no MTD form a ladder (baseline; APT with baseline times; APT). Under MTD only the two ends were run.
+- Not tested with MTD: the tactic-to-action mapping.
+
+**The mapping (Marc's point, verified).** Both mechanisms §6.2 gives work through the mapping. In ¶2, "only Lateral Movement runs enumerate host" is a mapping fact, so the host layer's lead is order × mapping. In ¶3, "unmapped tactics that run none" is also a mapping fact, so the service layer's lag is durations × mapping. A mapping in which, say, Discovery also runs enumerate host would let the APT attacker model recover from a host-layer deployment sooner. The total mapping (App C.4, Table C.4) ran with no MTD only (0.15 hosts against 8.13). No other mapping ran under MTD. So the mapping is an untested rival cause of the reversal, arguably the largest. v1 files it under T6 (construct: does the mapping represent an APT?), which is a different question.
+
+**Reframe (proposal).** The internal-validity type becomes the rival causes, ranked:
+- T1, our parts: the mapping and the durations-against-order split, untested with MTD; the rest ruled out.
+- T2, MTDSim's rules: MTD written against the baseline attacker's procedure.
+- T3, starting points: NCR with no MTD differs.
+- T4, code.
+
+T6 keeps only the construct question: is the mapping an APT's, and is Command and Control alone being able to find hosts a fair reading.
+
+**One-liner (concrete).** §6.2 explains the host layer's lead by the order of its tactics and the service layer's smaller reduction by the tactic durations. Under MTD, no run changes either one alone or changes the mapping they act through, so those explanations are inferred from mechanism; the failure matrix, the vulnerability memory and the attack profiles were ruled out.
+
+**The missing ablation.** The APT attacker model under MTD at 200 s with (a) the baseline attacker's times and (b) a different partial mapping. The deciding check is whether rank 1 still shares no MTD mechanism with the baseline attacker's, and whether the host layer still ranks first. Marc decides between running it (the run_duration_ablation.py pattern) and bounding it in T1 and promising it in §7.2.
