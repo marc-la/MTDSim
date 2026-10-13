@@ -4568,3 +4568,15 @@ attack actions.
 | "the order and timing of the simulator's attack actions" | "when and in what order it runs the simulator's attack actions" | "Timing" was a second term beside S4's "tactic durations" (§93). A general attacker model may have no tactic durations, so the plain words replace both terms. |
 
 Checked, unchanged: S2's appositive (one clause, ch3's own pair); S3 "baseline attacker" twice (repetition beats "it", which would be ambiguous); "therefore" in S4 and S6 (not adjacent; each marks a step that follows); one hedge per inferred claim (S5 cause, S6 generalisation).
+
+## §104 — §6.4 ¶3 v7 applied (Marc 2026-10-13: "it's uplifting ... it took honesty and maturity to land a sentence like that ... I'm actually happy with this chapter. So you can push it in")
+
+Text as §103. The old ¶3 (the controlled comparison, the "rules" thread, user shuffle, the interface list) is replaced, and one current comment goes above it.
+
+**Downstream, applied automatically.** App fa-accounts' "follows from MTDSim's rule for user shuffle ... (Section evaluation-implications)" now points to sec:threats, where §6.5's second design choice is MTDSim's rules for what each deployment takes.
+
+**Other pointers to §6.4, checked.** §6.5's two pointers (a ranking carries its attacker model's assumptions; rankings never a verdict) rest on ¶2a and still hold. The ch6 opener's pointer is generic.
+
+Build clean, 117 pages, 0 undefined.
+
+**Still open in §6.4.** (1) The opener placeholder: its three-should list is stale (¶1 and ¶2a end on a should; ¶2b and ¶3 do not); re-frame on the thread that each part of MTDSim's evaluation was built around the baseline attacker. This is the paragraph's own text, so propose first. (2) Gated ch7: Contribution 1's Impact, "Another simulator needs the interface: ... (Section evaluation-implications)", is stale ("interface" is gone from §6.4); Contribution 2's "within the limit" framing (§102); its Impact list (the lowest-NCR-reduction lower bound is not in §6.4).

@@ -8996,22 +8996,30 @@ only when it deploys every 100\,s or more often against the APT attacker model
 (Table~\ref{tab:eff-interval-values}). The same MTD mechanism can therefore be
 efficient against one attacker model and not against another.
 
-On evaluation methods, simulation lets an evaluation change the attacker model
-and hold everything else. Section~\ref{subsec:evaluation-methods} found simulation the
-dominant evaluation method because it models attack behaviour flexibly
-\citep{cho2020}. That flexibility let both attackers run on the same networks,
-MTD mechanisms and seeds, so a difference between their results comes from
-the attackers (Section~\ref{sec:threats}). The simulator's rules, though, were
-written for its own attacker. MTDSim's rules for what each MTD deployment
-takes follow the baseline attacker's procedure
-(Section~\ref{subsec:attacker-model}),
-and user shuffle raises the APT attacker model's NCR at every deployment
-interval because of the rule MTDSim gives it (Appendix~\ref{app:fa-accounts}).
-An evaluation that joins a new attacker model to a simulator should therefore
-report the interface on both sides: the parts declared to join them, here the
-tactic-to-action mapping, the tactic durations, the failure matrix and the
-vulnerability memory (Section~\ref{sec:execution}), and the rules each MTD
-deployment applies.
+% ¶3 REDRAFT 2026-10-13 (Marc: "I'm actually happy with this chapter ... push
+%  it in"), handoff §89-§103. One claim on ch3's evaluation methods: a
+%  simulator's attack actions limit how far a new attacker model can differ;
+%  answers both halves of ch3 (flexibility, transfer). Premises pointed (6.3
+%  close, 6.1, 6.2), no example (the service-layer one moved to 6.2), no should
+%  (reporting the attack actions fixes nothing; adding them was never run).
+%  Cut: the controlled comparison (6.5), user shuffle (App, now pointed at
+%  6.5), the interface list (ch4). Prior text in git.
+On evaluation methods, a simulator's attack actions limit how far a new
+attacker model can differ from the attacker the simulator was built with.
+Section~\ref{subsec:evaluation-methods} found that simulation, the dominant
+evaluation method, models specific attack behaviours flexibly but that its
+results do not transfer directly to a real network \citep{cho2020}. The APT
+attacker model shares the baseline attacker's six attack actions, so it is
+comparable with the baseline attacker and limited to what those attack actions
+do: find and compromise hosts, with no actions on objectives
+(Section~\ref{sec:fidelity-verdict}). The two attackers therefore differ mostly
+in the APT attacker model's tactic durations and the order of its tactics
+(Section~\ref{sec:disc-behaviour}). With MTD, these two differences likely
+decide which MTD layer reduces each attacker's NCR most
+(Section~\ref{sec:disc-mtd-performance}). A new attacker model in an existing
+simulator can therefore likely change how MTD is measured to perform, even when
+it differs in little more than when and in what order it runs the simulator's
+attack actions.
 
 
 % =====================================================================
@@ -10817,7 +10825,7 @@ per run rise from 8.55 to between 8.86 and 9.67. The baseline attacker gains
 too from 100\,s, 6.71 to 7.78 hosts per run by a held account against 5.18;
 at 50\,s user shuffle disrupts it, and it compromises 13.77 hosts per run
 against 24.85. The gain follows from MTDSim's rule for user shuffle, not from
-user shuffle as an MTD mechanism (Section~\ref{sec:evaluation-implications}), so
+user shuffle as an MTD mechanism (Section~\ref{sec:threats}), so
 it is not part of the main argument.
 
 \input{tables/tab_FA-3_accounts}
