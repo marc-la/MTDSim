@@ -5340,3 +5340,8 @@ Nothing applied.
 - S3: We kept the rules as MTDSim's papers describe them (T3) because SQ3 compares the two attackers under MTDSim's MTD.
 - S4: They were written for the baseline attacker's six attack actions and cannot be checked against an APT campaign (T12).
 - S5: An APT in contact with a host through Command and Control might keep it after an IP shuffle, and a service-layer deployment might take back a host compromised through that service; either would narrow the host layer's lead over the service layer.
+
+
+## §132 — T10 v6 applied (Marc 2026-10-13: "that's fine")
+
+v6 from §131 replaces v4 in the tex. Build 118 pages, 0 undefined.

@@ -9190,18 +9190,21 @@ advance.
 %  actions, never checked against an APT; both plausible differences narrow the
 %  host layer's lead. Cut: the Lateral Movement mechanism (6.2, T1), user
 %  shuffle (App F.3's own bound), "same networks and seeds" (design).
+% v6 2026-10-13 (Marc: "that's fine"; handoff 130-131): v4 edited in place,
+%  "model" -> "rules", 2.2.3's verbs, T12 for the check. v5 (rewrite) withdrawn.
 \item\label{thr:rules} Both explanations in Section~\ref{sec:disc-mtd-performance}
-rest on MTDSim's model of how an MTD deployment disrupts an attacker
-(Section~\ref{subsec:attacker-model}): a service-layer deployment interrupts
-only scanning ports, exploits and brute force, and a host-layer deployment
-interrupts any attack action and costs the attacker the host it was on. Both
-attackers meet the same model, so the comparison is fair, and the code follows
-MTDSim's papers (\ref{thr:code}). We took the model as given because
-\ref{sq:evaluate} compares the two attackers under MTDSim's MTD. It was written
-for the baseline attacker's six attack actions, and no one has checked it
-against an APT. Command and Control might keep contact with a host after an IP
-shuffle, and a service-layer deployment might take back a host compromised
-through that service; either would narrow the host layer's lead.
+rest on MTDSim's rules for how an MTD deployment disrupts an attacker
+(Section~\ref{subsec:attacker-model}): a service-layer deployment disrupts it
+only while it scans ports, exploits or brute-forces, and a host-layer
+deployment disrupts it during any attack action and costs it the host it was
+on. Both attackers meet the same rules, so the comparison is fair. We kept the
+rules as MTDSim's papers describe them (\ref{thr:code}) because
+\ref{sq:evaluate} compares the two attackers under MTDSim's MTD. They were
+written for the baseline attacker's six attack actions and cannot be checked
+against an APT campaign (\ref{thr:observation}). An APT in contact with a host
+through Command and Control might keep it after an IP shuffle, and a
+service-layer deployment might take back a host compromised through that
+service; either would narrow the host layer's lead over the service layer.
 
 \item\label{thr:corpus} The results reach APT attackers only as far as the 38
 attack flows do. The attack flows record campaigns that were detected and
