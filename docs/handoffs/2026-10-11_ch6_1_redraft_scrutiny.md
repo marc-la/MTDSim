@@ -4453,3 +4453,29 @@ report the attack actions its evaluation method gives the attacker.
 ## §98 — §6.2 service-layer paragraph edit applied (Marc 2026-10-13: "happy with the 6.2 change as well")
 
 Text as proposed in §96: "which the baseline attacker does back to back" moved onto the assumption, the "but" U-turn removed, and "therefore" added on the number. Build clean, 117 pages, 0 undefined. ¶3 v4 (§97) is still proposed.
+
+## §99 — §6.4 ¶3 v5: the should is dropped, ¶3 ends on its so-what (Marc 2026-10-13: "the should doesn't land ... you're just arguing for more transparency ... a bit cliche ... we already do that ... it's not going to fix anything")
+
+Also asked: "is there a point on host-layer disruption being emergent from slower tactic durations?" Answered in chat: no. §6.2 puts the host layer on the order of its tactics (no host until Lateral Movement) and the service layer on tactic durations. Durations plausibly also lengthen the time without a host, but no run with MTD isolates them (App run-time's baseline-times run is no-MTD only; ch7's bound says so). They stay off the page. Candidate further analysis: the host layer with the baseline attacker's times (registry, if wanted). Marc: "a bit implicit", left out.
+
+**Why the should goes.** "Report the attack actions its evaluation method gives the attacker" asks for transparency evaluations already give and fixes nothing. The one should that would fix the limit ("add attack actions to the simulator") prescribes something not run: the ¶2b threshold case (no leg, §84-§85). So ¶3 ends like ¶2b, on a hedged so-what that says what such an evaluation actually tests. It is the general form of S4-S5, as ¶2a's "A shared set of metrics is likely not enough ..." is the general form of its evidence.
+
+```
+On evaluation methods, a simulator's attack actions limit how far a new
+attacker model can differ from the attacker the simulator was built with.
+Section~\ref{subsec:evaluation-methods} found that simulation, the dominant
+evaluation method, models specific attack behaviours flexibly but that its
+results do not transfer directly to a real network \citep{cho2020}. The APT
+attacker model shares the baseline attacker's six attack actions, so it is
+comparable with the baseline attacker and limited to what those attack actions
+do: find and compromise hosts, with no actions on objectives
+(Section~\ref{sec:fidelity-verdict}). The two attackers therefore differ mostly
+in the APT attacker model's tactic durations and the order of its tactics
+(Section~\ref{sec:disc-behaviour}). With MTD, these two differences likely
+decide which MTD layer reduces each attacker's NCR most
+(Section~\ref{sec:disc-mtd-performance}). An MTD evaluation that changes only
+the attacker model therefore likely tests MTD against a new order and timing of
+the same attack actions.
+```
+
+About 135 words, two hedges on two inferred claims (S5 cause, S6 generalisation). Rejected alternative ending: "An attacker model that differs in what it can do, such as one with actions on objectives, would likely need new attack actions" (v1 S8). It points the way forward rather than saying what an MTD evaluation shows, and it edges toward the unrun prescription.
