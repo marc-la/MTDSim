@@ -4096,3 +4096,16 @@ Each idea cut from ¶2a, checked against the tex for a home:
 - **Not placed:** "ASP is the dominant effectiveness metric" is stated only in ch3. Ch6 gives ASP's few runs as a method choice, never as an implication for evaluations. Offer: three words in §6.5's sentence at l.~9292, "ASP, the dominant effectiveness metric (Section 3.2.2)". A clause in ¶2a would cut against its claim (ASP reduction ranks as NCR reduction does, with ties at the ceiling).
 
 ¶2a/¶2b pairing: Cho's two families, effectiveness (the attacker model changes the ranking) and efficiency (it changes how often MTD must deploy). v6 no longer says "effectiveness"; ¶2b says "efficiency metrics" only in its should.
+
+
+## §80 — §6.5 dominant-metric pointer applied; §6.4 ¶2a v7 clarity pass, proposed (Marc 2026-10-13: "push forward to 6.5"; "this is on effectiveness"; "a final clarity pass")
+
+**§6.5 applied.** "... with no MTD (§6.1), too few to rank on ASP, the dominant effectiveness metric (Section 3.2.2). The ranking uses NCR reduction, with ASP reduction as the check." ("therefore" dropped: the sentence before already has one.) Build clean, 118 pages, 0 undefined.
+
+**¶2a v7 (scratchpad p2a_v7.tex, 150 words), changes from v6:**
+- S1: "On metrics" becomes "On effectiveness metrics" (the signpost, mirroring Cho's classification in §3.2.2 and Table 3.1). "The choice of metric" becomes "ranking on ASP reduction instead of NCR reduction" (two metrics were tested, so name them). The Appendix E pointer moves up from S3, so S3 no longer repeats S1.
+- S3: now leads with its subject, "the rank correlation ρ" (ch4's term), and ends on what ρ means. The ASP clause is cut (now in S1).
+- S5: "would therefore likely not make ... comparable" becomes "likely still cannot be compared", which is ch3's own phrase. That removes the modal, connective, hedge and negation stack. "Whose attacker models differ" scopes the claim and sets up the should.
+- S6: "should also" becomes "should therefore" (the connective moved from S5). "Also" now marks the shared attacker model ("that other evaluations also use").
+
+**¶2b signpost (proposed, not applied).** S1 claim first: "On efficiency metrics, the attacker model decides how often MTD must deploy for a given NCR reduction, although in MTDSim a deployment costs no overhead or loss of service (Section threats)."
