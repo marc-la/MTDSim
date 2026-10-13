@@ -8925,39 +8925,33 @@ change one thing: test a deployment strategy against more than one attacker
 model, report the attacker's behaviour beside the metrics, and report the
 rules that join its attacker model to the simulator.
 
-On MTD modelling approaches, a deployment strategy is optimal for the
-attacker model it was found against. Section~\ref{subsec:defence-modelling-approaches} argued that
-the attacker model decides which deployment strategy is optimal
-\citep{cho2020}; the results measure it. On the same networks, MTD mechanisms
-and seeds, no MTD mechanism or deployment strategy ranks first against both
-attackers at any deployment interval, and $\rho$ between the two rankings lies
-between $-0.24$ and $0.25$ (Section~\ref{subsec:eff-cross-arm}). Cho et al.'s
-example runs the other way in MTDSim. Migrating a service across diverse
-platforms defends against persistent attacks but can weaken the defence
-against fast ones \citep{cho2020}; at 200\,s, service diversity ranks first
-against the faster baseline attacker and fourth against the APT attacker
-model (Table~\ref{tab:eff-cross-arm}). The two MTD mechanisms differ, since
-service diversity redraws every service and migrates none, so this likely shows only
-that such an example can invert with the attacker model. A learned
-deployment strategy inherits its attacker model too. MTDShield was trained
-against the baseline attacker and chooses service diversity at 70\,\% or more
-of its decisions (Appendix~\ref{app:mtdshield-observed}). At 200\,s it beats
-random over the same four MTD mechanisms against the baseline attacker, 0.68
-against 0.56, and loses to it against the APT attacker model, 0.28 against
-0.80 (Table~\ref{tab:eff-interval-values}). A test against the attacker model
-a deployment strategy was trained against shares that model's assumptions,
-as a test set drawn from the training data would, so an evaluation should
-test it against another attacker model, beside random over the same MTD
-mechanisms. The evidence is one agent, run as released with four of its inputs
-at zero (Appendix~\ref{app:mtdshield-limitations}): it shows the risk, and
-cannot tell whether MTDShield is fitted to the baseline attacker. Where the
-attacker is unknown, an evaluation cannot tell which ranking to trust. The APT attacker
-model has more of the eight properties (Table~\ref{tab:fidelity-verdict}), but
-rests on our judgement where MTD disrupts it (Section~\ref{sec:fidelity-verdict}).
-An evaluation can instead run several attacker models and rank each MTD
-mechanism by its lowest NCR reduction across them, a bound over those attacker
-models only. Over the two attackers, IP shuffle ranks first at every
-deployment interval (Table~\ref{tab:eff-interval-values}).
+% REDRAFT 2026-10-13 (Marc: "our strongest argument ... 90% the way there"),
+%  handoff §66-§67. One claim (MTDShield against random, both attackers), the
+%  ch3 claim, the 200 s numbers from Figure 5.x(d)/(e), the hedged mechanism,
+%  Tay's test, the should. Cut: rho, Cho's migration example, the
+%  which-ranking-to-trust and lowest-NCR-reduction ideas (parked, §66).
+On MTD modelling approaches, MTDShield reduces the baseline attacker's NCR
+more than the random deployment strategy does, but the APT attacker model's
+less, at every deployment interval. Section~\ref{subsec:defence-modelling-approaches}
+argued that the attacker model decides which deployment strategy is optimal
+\citep{cho2020}, and that MTDShield's attacker is the baseline attacker its
+training environment simulates. At the default deployment interval of
+200\,s, MTDShield reduces the baseline attacker's NCR by 68\,\% and the APT
+attacker model's by 28\,\%; the random deployment strategy reduces them by
+33\,\% and 75\,\% (Figure~\ref{fig:eff-cross-arm}(d) and~(e)). At 200\,s, MTDShield
+chooses service diversity in most of its decisions against either attacker
+(Section~\ref{subsec:eff-cross-arm}), and service diversity is the only MTD
+mechanism the baseline attacker loses time to
+(Section~\ref{sec:disc-mtd-performance}). MTDShield
+most likely learned to deploy the MTD mechanism that disrupts its training
+attacker most. Tay et al.\ tested MTDShield in its training environment,
+against the baseline attacker, and compared it with no MTD \citep{tay2024}.
+Like a test on training data, a test in the training environment cannot
+separate a deployment strategy that generalises to other attackers from one
+fitted to its training attacker. An MTD evaluation should therefore test a learned
+deployment strategy against an attacker model other than the one it was
+trained against, beside the random deployment strategy over the same MTD
+mechanisms, which shows what the learning adds.
 
 On metrics, comparing MTD mechanisms across evaluations needs a shared
 attacker model as well as shared metrics. Section~\ref{subsec:mtd-metrics} found
