@@ -3918,14 +3918,14 @@ Open (Marc): the three recommendations read as "we already do that". Settle them
 | Game theory assumes a rational attacker | No: no game-theoretic deployment strategy was run |
 | Genetic algorithms: the attacker is only the fitness function | No |
 | Machine learning: the attacker is the training environment's; MTDShield's is the baseline attacker | Yes: MTDShield, the only deployment strategy here found by an MTD modelling approach |
-| The attacker model decides which deployment strategy is optimal | Yes, but on the proactive schedules (random, alternative, single; Section 2.x "follow a schedule, so they are proactive"), which no MTD modelling approach found |
+| The attacker model decides which deployment strategy is optimal | Yes, but on the proactive schedules (random, alternative, single; ch2, near tab:deployment-strategies: "follow a schedule, so they are proactive"), which no MTD modelling approach found |
 | Cho's migration example | Not directly: no MTD mechanism migrates a service |
 | An APT attacker is persistent, so a strategy found against another may not be optimal | Yes: MTDShield |
 
 **Reading.** ~400 words, five ideas, two "should"s, ordered as discovered, not by weight: (1) claim + ρ; (2) Cho inverts (hedged to nothing); (3) MTDShield + the test-set recommendation + its bound; (4) which ranking to trust; (5) rank by the lowest NCR reduction. The strongest evidence, MTDShield, comes third; the weakest, Cho, second. Ideas 4–5 answer a different question (what to do when the attacker is unknown).
 
 **Facts.**
-- X1 "chooses service diversity at 70 % or more of its decisions": true at 200 s (76 %, 70 %), false at 2 000 s (46 %, 65 %) (Appendix C.x, app:mtdshield-observed). Scope it to 200 s.
+- X1 "chooses service diversity at 70 % or more of its decisions": true at 200 s (76 %, 70 %), false at 2 000 s (46 %, 65 %) (app:mtdshield-observed). Scope it to 200 s.
 - X2 "0.68 against 0.56", "0.28 against 0.80": the metric is unnamed (NCR reduction).
 - X3 "no MTD mechanism or deployment strategy ranks first against both attackers at any deployment interval": holds (mean rank 1: IP shuffle against the APT attacker model, service diversity against the baseline attacker, at all six; ch5_defended/numbers_reported.json sweep.by_interval.*.ranks), but §5.3.2's prose states 200 s only.
 - X4 "the faster baseline attacker": "faster" is not a ch5/ch6 term, and equating it with Cho's "fast" attacks is a stretch.
