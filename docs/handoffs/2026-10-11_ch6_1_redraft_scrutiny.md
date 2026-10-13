@@ -4859,3 +4859,31 @@ bound MTDShield as released, not MTDShield retrained against the APT attacker
 model.
 \end{enumerate}
 ```
+
+
+## §111 — §6.5 opener merged; follow-through applied; completeness audit (Marc 2026-10-13: "merged opener, that's fine ... the Wohlin entry you can do ... we can fix all those downstream ... do you think this is pretty complete")
+
+**Applied.**
+- Opener merged into the limitations paragraph. "This section bounds the answers to the three sub-questions" is cut, and the wrong count ("six limitations"; the paragraph lists eight) is gone. A two-sentence threats lead-in, citing Wohlin et al. and stating the ranking rule, sits before T1.
+- wohlin2012 is in references.bib (Crossref-checked).
+- §7.2 notes reordered to §6.5's order; "prices nothing" and "reversal" retired; the promises list updated.
+- §7.1 bound note now points to T1 and T2.
+- App F.3 pointer now goes to T2.
+- App B "refused" becomes "fail on their preconditions".
+- Build clean, 118 pages, 0 undefined. Commits da05137b and this one.
+
+**Completeness audit against the six cold examiners' fifteen (assembly handoff §13) and Cook and Campbell's types.**
+Covered:
+- 1 → T1; 2 → T5; 4 → T10 and the limitations; 5 → T7; 6 and 9 → T3; 12 → T11; 14 → T6.
+- 3 and 15 are not threats.
+- 10 → T9, partly: the mixtures were cut.
+- 11 → T9, partly: d near the floor and the random partitions' one-in-eleven were cut.
+- 13 → T5, T8 and T10, partly.
+
+Gaps, in proposed order of weight:
+- (a) **Post-hoc analyses.** Appendix F was run after the results were seen, and ch6 leans on it (§6.1's two thirds; T1). App F's opener says "none enters the main argument", yet §6.1 uses App F run-time as evidence for its causal claim. This is a conclusion-validity threat that is not stated, and the inconsistency needs a ruling.
+- (b) **Values declared before any result.** This mitigation was in the old ¶2 and was dropped in v1. Restore it in T5. Marc's 13a #9 supports it; ch4 does not state it.
+- (c) **Time lost.** It is measured at 2,000 s only, where the next deployment caps the wait (examiners 4/6). One clause in T7.
+- (d) **Random partitions, p ≥ 1/11** (examiners 3/6). Restore one clause in T9, or leave it out: ch6 does not lean on it.
+- (e) **Comparators.** The three MTD attacker models were chosen by us, and there is no game-theoretic attacker (examiners 2/6). One clause in T8.
+- Not added: "c4 a residual bin" and "corpus weights never varied". No text supports either.
