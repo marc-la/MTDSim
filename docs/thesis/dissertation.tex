@@ -8953,32 +8953,53 @@ deployment strategy against an attacker model other than the one it was
 trained against, beside the random deployment strategy over the same MTD
 mechanisms, which shows what the learning adds.
 
-On metrics, comparing MTD mechanisms across evaluations needs a shared
-attacker model as well as shared metrics. Section~\ref{subsec:mtd-metrics} found
-that MTD mechanisms cannot be compared across evaluations because each
-evaluation chooses its own metrics \citep{jalowski2026}. Here the metric is
-shared, and the attacker model alone reorders the MTD mechanisms. ASP, MTTC
-and NCR are computed from what the attacker does \citep{hong2018}, and they read
-the two attackers differently. ASP and NCR alone rate the APT attacker model
-the weaker attacker for behaving more like an APT
-(Section~\ref{sec:disc-behaviour}), so an evaluation should report the
-attacker's behaviour (Section~\ref{subsec:metrics-behaviour}) beside its
-outcome. Attack actions blocked per MTD deployment ranks the host layer the
-most disruptive against the baseline attacker, whose time lost per MTD
-deployment to it is at or below zero (Section~\ref{sec:disc-mtd-performance}),
-so the two should be reported together. Of the outcome metrics, NCR reduction
-counts hosts in every run. ASP reduction reaches its ceiling of 1 against the
-APT attacker model under the host layer up to 200\,s
-(Table~\ref{tab:eff-interval-values-asp}), and can disagree with NCR reduction
-in sign: at 500\,s, IP shuffle has an NCR reduction of 0.39 against the
-baseline attacker and an ASP reduction of $-0.09$
-(Tables~\ref{tab:eff-interval-values} and~\ref{tab:eff-interval-values-asp}). MTTC averages only the
-runs that reach a target host (Equation~\ref{eq:mttc}), so between attackers
-that differ in ASP it compares different runs. An evaluation should therefore
-lead with NCR reduction, and report ASP reduction and MTTC beside it, MTTC
-with the share of runs it covers. The metric also moves the lowest reduction
-across attacker models, which ranks IP shuffle first on NCR reduction and,
-from 100\,s, service diversity first on ASP reduction.
+% REDRAFT 2026-10-13 (Marc: "the structure is right ... a 2a and 2b might make
+%  sense"), handoff §68-§71. Thread: the metrics stop where MTDSim's attacker
+%  stops (subsec:tactic-verb-mapping). 2a, what the metrics count: ASP blunt,
+%  no behaviour metric in Cho's classification, the attacker model reorders
+%  MTD with the metrics held -> report against an existing attacker model.
+%  2b, what they do not count: cost; the shortest interval always wins; five
+%  times as often. Cut: blocks against time lost, MTTC coverage, the worst
+%  case by metric (parked, §66).
+On metrics, ASP and NCR measure how far the attacker gets toward
+compromising hosts: whether it compromises a target host, and what share of
+the hosts it compromises (Section~\ref{subsec:metrics-outcome}). They stop
+where MTDSim's attacker stops (Section~\ref{subsec:tactic-verb-mapping}).
+Compromising hosts is the baseline attacker's whole goal, but three of the APT
+attacker model's four attack profiles pursue exfiltration or impact beyond it,
+and Collection, Exfiltration and Impact run no attack action for any metric to
+count. ASP, the dominant effectiveness metric \citep{cho2020}, counts a run as
+a success once the attacker compromises a target host. At 500\,s, IP shuffle
+leaves the baseline attacker with fewer hosts compromised than with no MTD,
+but more runs that compromise a target host (NCR reduction 0.39, ASP reduction
+$-0.09$; Tables~\ref{tab:eff-interval-values}
+and~\ref{tab:eff-interval-values-asp}). This dissertation therefore leads with
+NCR reduction, which counts hosts in every run. ASP and NCR also rate the APT
+attacker model the weaker attacker, although it behaves more like an APT
+(Section~\ref{sec:disc-behaviour}). Cho et al.'s classification has no metric
+of attacker behaviour (Table~\ref{tab:mtd-metrics});
+Section~\ref{subsec:metrics-behaviour} adds four.
+Section~\ref{subsec:mtd-metrics} found MTD mechanisms incomparable across
+evaluations because each chooses its own metrics \citep{jalowski2026}. With
+the metrics held, as here, the attacker model still reorders them: $\rho$
+between the two attackers' NCR reductions lies between $-0.24$ and $0.25$
+(Section~\ref{subsec:eff-cross-arm}). A ranking of MTD mechanisms holds for
+the attacker model it was measured against. An evaluation that introduces an
+attacker model should therefore also report its MTD results against an
+existing one, as Chapter~\ref{ch:experiments} does with the baseline attacker.
+
+Cho et al.'s efficiency metrics, such as defence cost and quality of service,
+measure what MTD costs (Table~\ref{tab:mtd-metrics}), and MTDSim charges a
+deployment no overhead or loss of service (Section~\ref{sec:threats}). On
+effectiveness alone, a shorter deployment interval is therefore always better:
+both layers reduce NCR more at shorter deployment intervals, against both
+attackers (Figure~\ref{fig:eff-cross-arm}), so a sweep of deployment
+intervals cannot choose one. A defender who needs an NCR reduction of at
+least half could deploy the host layer every 1\,000\,s against the APT
+attacker model, but must deploy the service layer every 200\,s against the
+baseline attacker, five times as often (Section~\ref{subsec:eff-cross-arm}).
+The attacker model would therefore likely change what MTD costs as well as
+what it achieves.
 
 On evaluation methods, simulation lets an evaluation change the attacker model
 and hold everything else. Section~\ref{subsec:evaluation-methods} found simulation the

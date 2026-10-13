@@ -3989,3 +3989,9 @@ Two rounds after §66. Round 1 (critique): the opener abstracted ("one attacker 
 ## §70 — §6.4 ¶3: cost and threshold sentences cut (Marc 2026-10-13, "apply those cuts to paragraph three")
 
 99 words removed ("MTDSim also charges an MTD deployment nothing ... (Table E.1)"); the efficiency point moves to ¶2 (draft pending, §69). Until ¶2 is applied the PDF carries no efficiency point. Build clean.
+
+## §71 — §6.4 ¶2 redraft applied as ¶2a and ¶2b (Marc 2026-10-13: "the structure is right ... a 2a and 2b might make sense")
+
+Critique of the 320-word draft (Marc: "not as hard hitting ... clause, clause ... collection of facts"): S1 abstract ("every metric ... progress") -> names ASP and NCR and what each counts; the four-clause S2 split, thread first ("They stop where MTDSim's attacker stops"), then the attack profiles (c1-c3 pursue exfiltration or impact; Collection, Exfiltration, Impact run no attack action); ch3 facts placed beside the result each sets up; "the bluntest" cut; IP shuffle told as the story (fewer hosts compromised, more runs that compromise a target host) with both numbers in the tables' format; behaviour = "Cho et al.'s classification has no metric of attacker behaviour; §4.5.1 adds four"; efficiency in §6.5's words (no overhead or loss of service); "priced each deployment" -> the threshold: every 1 000 s vs every 200 s, five times as often; the so-what before the should ("A ranking of MTD mechanisms holds for the attacker model it was measured against").
+
+Applied: ¶2a (250 words; one should: report against an existing attacker model) and ¶2b (119 words; efficiency; one hedge: "would therefore likely change what MTD costs"); plus "so a sweep of deployment intervals cannot choose one" (from the cut ¶3 sentence). Old ¶2 271 + ¶3's cut 99 = 370 -> 369. Build clean, 118 pages, 0 undefined.
