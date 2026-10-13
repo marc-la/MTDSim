@@ -8904,173 +8904,107 @@ hosts, with no actions on objectives.
 \section{Implications for MTD evaluation}
 \label{sec:evaluation-implications}
 
-% Present tense, for anyone running an MTD evaluation. Each implication: source
-% finding -> who it changes practice for -> conditional recommendation -> its
-% own bound (the ACM antipattern: implications written as though the
-% limitations do not exist). "More research is needed" is Section 7.2's.
-% PARAGRAPH PLAN 2026-10-09 (Marc: "how do you logically structure these
-% paragraphs ... delete anything that you don't need"). Built from the
-% examiners (handoff 14) and Marc's answers (14a). One argument, four steps:
-% the dependence (P1) -> where it travels (P2) -> what to report so a reader
-% can trace it (P3) -> what the numbers cannot decide (P4). Each paragraph:
-% claim first, evidence, implication, bound. Sub-items are sentence slots in
-% order; each is replaced by its drafted paragraph. DELETED: the eight
-% properties as a reporting device; random against its members' mean (needs
-% context to land); detection and risk-based MTD (6.5 scope, 7.2); learned
-% strategies that recommend a fixed set (7.2). Numbers from
-% numbers_reported.json at 200 s unless said.
-% DRAFT STATE 2026-10-09 --- paragraph 1 (the dependence) drafted from its
-%  six slots, which it replaces. Opens on the section's job, as 6.5 does. The
-%  Cho argument is cited through Section 3.2.1, as 6.2's close does; 6.2 is
-%  not re-explained. Emulation against simulation left to 6.3, which states
-%  it. rho range and the at-every-interval claim checked against
-%  numbers_reported.json (ranking.by_interval: rank 1 disjoint at all six;
-%  rho -0.24 to 0.25), as Section 5.3.2 prints them. Bound points to 6.5
-%  (internal: the model changes the answer, not which part does).
-\ref{sq:evaluate} was answered for the APT attacker model in MTDSim. This
-section states what the answer means for anyone who evaluates MTD against APT
-attackers, the concern of the research question. One simulator on its default
-network cannot transfer its numbers or its rankings; what transfers is that a
-ranking can depend on the attacker model. Chapter~\ref{ch:litreview} argued
-that the attacker model decides which deployment strategy is optimal
-(Section~\ref{subsec:defence-modelling-approaches}), and that ASP, MTTC and
-NCR depend on how the attacker is implemented \citep{hong2018}; we measure
-it. On the same simulator, networks, MTD mechanisms and seeds, no MTD
-mechanism or deployment strategy ranks first against both attackers at any
-deployment interval, and $\rho$ between the two rankings lies between $-0.24$
-and $0.25$ (Section~\ref{subsec:eff-cross-arm}). At 200\,s, this holds with
-the 45\,s mean duration at both ends of its band
-(Appendix~\ref{app:dwell-robustness}). At 200\,s, service diversity ranks first
+% DRAFT STATE 2026-10-13 --- first draft from the structure of handoff §62
+%  (Marc: "a very strong structure ... structure to first draft"). §6.4
+%  answers ch3 §3.2 part by part: the three parts of an MTD evaluation that
+%  use the attacker model (MTD modelling approaches, metrics, evaluation
+%  methods). Each paragraph: what §3.2 said, what the results show, what an
+%  evaluation should do; the bounds are §6.5's, scoped once in the opener.
+%  Numbers checked against numbers_reported.json and Tables E.1/E.2
+%  (handoff §60--§62). The overdraft of 2026-10-09 is retired to the handoff.
+Chapter~\ref{ch:litreview} surveyed three parts of an MTD evaluation that use
+the attacker model (Section~\ref{sec:mtd-evaluation-survey}): the MTD
+modelling approach, the metrics and the evaluation method. The results bear
+on each. They come from one simulator on its default network
+(Section~\ref{sec:threats}), so each implication says what an MTD evaluation
+should check, and the numbers hold in MTDSim alone.
+
+On MTD modelling approaches, a deployment strategy is optimal for the
+attacker model it was found against. Chapter~\ref{ch:litreview} argued that
+the attacker model decides which deployment strategy is optimal
+\citep{cho2020}; the results measure it. On the same networks, MTD mechanisms
+and seeds, no MTD mechanism or deployment strategy ranks first against both
+attackers at any deployment interval, and $\rho$ between the two rankings lies
+between $-0.24$ and $0.25$ (Section~\ref{subsec:eff-cross-arm}). Cho et al.'s
+example runs the other way in MTDSim. Migrating a service across diverse
+platforms defends against persistent attacks but can weaken the defence
+against fast ones \citep{cho2020}; at 200\,s, service diversity ranks first
 against the faster baseline attacker and fourth against the APT attacker
-model, the reverse of the case Section~\ref{subsec:defence-modelling-approaches}
-cited, in which migrating a service across diverse platforms defends against
-persistent attacks but can weaken the defence against fast ones
-\citep{cho2020}. The ranking moves because MTDSim
-writes what each deployment takes against the baseline attacker's
-procedure, which the APT attacker model does not follow
-(Section~\ref{sec:disc-mtd-performance}). An optimal MTD mechanism is
-therefore optimal for one attacker model in one simulator, and an evaluation
-should report its ranking with the attacker model behind it and the
-assumptions that model and the simulator make. Neither of the two attacker
-models is the better one: each ranking is right for its own.
-Chapter~\ref{ch:litreview} also found that MTD mechanisms cannot be compared
-across evaluations, because each evaluation chooses its own metrics
-\citep{jalowski2026}. Here the metric is shared and the attacker model alone
-reorders the MTD mechanisms, so comparability also needs shared attacker
-models. Where the attacker is unknown, an evaluation can run several
-attacker models and take each MTD mechanism's lowest NCR reduction across
-them as its lower bound. No one attacker model sets that bound throughout:
-at 200\,s the APT attacker model sets it for the service layer, and the
-baseline attacker for the host layer (Table~\ref{tab:eff-interval-values}).
-CTI is one way to cut what an attacker model must assume, because it records
-what attackers did. The results do not say which ranking holds on a real
-network, nor that the grounding in CTI caused the reversal
-(Section~\ref{sec:threats}), and they recommend no MTD mechanism.
+model (Table~\ref{tab:eff-cross-arm}). The two MTD mechanisms differ, since
+service diversity redraws every service and migrates none, so this likely shows only
+that such an example can invert with the attacker model. A learned
+deployment strategy inherits its attacker model too. MTDShield was trained
+against the baseline attacker and chooses service diversity at 70\,\% or more
+of its decisions (Appendix~\ref{app:mtdshield-observed}). At 200\,s it beats
+random over the same four MTD mechanisms against the baseline attacker, 0.68
+against 0.56, and loses to it against the APT attacker model, 0.28 against
+0.80 (Table~\ref{tab:eff-interval-values}). A test against the attacker model
+a deployment strategy was trained against shares that model's assumptions,
+as a test set drawn from the training data would, so an evaluation should
+test it against another attacker model, beside random over the same MTD
+mechanisms. The evidence is one agent, run as released with four of its inputs
+at zero (Appendix~\ref{app:mtdshield-limitations}): it shows the risk, and
+cannot tell whether MTDShield is fitted to the baseline attacker. Where the
+attacker is unknown, an evaluation cannot tell which ranking to trust. The APT attacker
+model has more of the eight properties (Table~\ref{tab:fidelity-verdict}), but
+rests on our judgement where MTD disrupts it (Section~\ref{sec:fidelity-verdict}).
+An evaluation can instead run several attacker models and rank each MTD
+mechanism by its lowest NCR reduction across them, a bound over those attacker
+models only. Over the two attackers, IP shuffle ranks first at every
+deployment interval (Table~\ref{tab:eff-interval-values}).
 
-% DRAFT STATE 2026-10-09 --- paragraph 2 (where it travels) drafted from its
-%  five slots, which it replaces. P11 ACCEPTED 2026-10-09 ("all the proposals
-%  are fine"): the matched control, random over MTDShield's four, is now a row
-%  of Tables E.1 and E.2, so the numbers are MTDShield against it (0.68 vs
-%  0.56; 0.28 vs 0.80 at 200 s), no longer against random over all seven. The service
-%  diversity share and the detection input are Appendix D's; "network
-%  metrics" dropped, since the released evaluation code holds four inputs at
-%  zero (Appendix D, limitations). Marc's training-set analogy carries the
-%  test sentence.
-The dependence reaches deployment strategies. MTDShield was trained against
-the baseline attacker and chooses service diversity at 70\,\% or more of its
-decisions (Appendix~\ref{app:mtdshield-observed}), the only MTD mechanism the
-baseline attacker loses time to (Section~\ref{sec:disc-mtd-performance}). At
-200\,s it beats random over the same four MTD mechanisms against the baseline
-attacker, 0.68 against 0.56, and loses to it against the APT attacker model,
-0.28 against 0.80 (Table~\ref{tab:eff-interval-values}). The
-attacker model also sits beneath its inputs: the detection input codes the
-attacker's current attack action, so an unmapped tactic of the APT attacker
-model reads as nothing detected (Appendix~\ref{app:mtdshield-limitations}).
-A learned deployment strategy is only as faithful as the attacker model,
-network and MTD cost it is trained in, so it should be tested beside random
-over the same MTD mechanisms, against an attacker model it was not trained
-on. A test in the same simulator against the same attacker model shares the
-assumptions the agent was trained on, so it cannot show that the agent
-generalises. The evidence is one agent, Tay's as released and not retrained,
-with four of its inputs at zero at every decision
-(Appendix~\ref{app:mtdshield-limitations}). It shows the risk of fitting one
-attacker model; whether MTDShield was fitted to one, this run cannot tell.
+On metrics, comparing MTD mechanisms across evaluations needs a shared
+attacker model as well as shared metrics. Chapter~\ref{ch:litreview} found
+that MTD mechanisms cannot be compared across evaluations because each
+evaluation chooses its own metrics \citep{jalowski2026}. Here the metric is
+shared, and the attacker model alone reorders the MTD mechanisms. ASP, MTTC
+and NCR are computed from what the attacker does \citep{hong2018}, and they read
+the two attackers differently. ASP and NCR alone rate the APT attacker model
+the weaker attacker for behaving more like an APT
+(Section~\ref{sec:disc-behaviour}), so an evaluation should report the
+attacker's behaviour (Section~\ref{subsec:metrics-behaviour}) beside its
+outcome. Attack actions blocked per MTD deployment ranks the host layer the
+most disruptive against the baseline attacker, whose time lost per MTD
+deployment to it is at or below zero (Section~\ref{sec:disc-mtd-performance}),
+so the two should be reported together. Of the outcome metrics, NCR reduction
+counts hosts in every run. ASP reduction reaches its ceiling of 1 against the
+APT attacker model under the host layer up to 200\,s
+(Table~\ref{tab:eff-interval-values-asp}), and can disagree with NCR reduction
+in sign: at 500\,s, IP shuffle has an NCR reduction of 0.39 against the
+baseline attacker and an ASP reduction of $-0.09$
+(Tables~\ref{tab:eff-interval-values} and~\ref{tab:eff-interval-values-asp}). MTTC averages only the
+runs that reach a target host (Equation~\ref{eq:mttc}), so between attackers
+that differ in ASP it compares different runs. An evaluation should therefore
+lead with NCR reduction, and report ASP reduction and MTTC beside it, MTTC
+with the share of runs it covers. The metric also moves the lowest reduction
+across attacker models, which ranks IP shuffle first on NCR reduction and,
+from 100\,s, service diversity first on ASP reduction.
 
-% DRAFT STATE 2026-10-09 --- paragraph 3 (what to report) drafted from its
-%  five slots, which it replaces. User shuffle's cause is 6.2's (it re-draws
-%  every host's accounts and leaves the attacker's valid), not the slot's
-%  "trades in vulnerabilities", and is pointed to, not re-explained. "Before
-%  the runs we could predict only the direction" is Marc's account (Q3,
-%  handoff 14a). Reuse bounded to MTDSim: in another simulator the six mapped
-%  tactics take that simulator's times (Marc, Q5).
-Joining a new attacker model to a simulator is integration work, so an
-evaluation should report the interface on both sides. On the attacker's side,
-three choices join the APT attacker model to MTDSim: the mapping from tactics
-to attack actions (Section~\ref{subsec:tactic-verb-mapping}), the tactic
-durations anchored on MTDSim's times (Section~\ref{subsec:dwell-times}), and
-the failure matrix that reweights the next tactic after a failed attack action
-(Section~\ref{subsec:failure-matrix}). Each is a declared assumption, and an
-evaluation should report them with the tactics left unmapped and the attack
-actions refused. The attack actions also carry an order: each of MTDSim's
-relies on the state the one before it leaves, so every attacker model that
-adopts them inherits the order, and has refused what arrives out of it
-(Section~\ref{sec:disc-behaviour}). A simulator builder should write attack
-actions without a fixed order. On the defender's side, an evaluation should
-report what each deployment takes from the attacker. User shuffle raises the
-APT attacker model's NCR at every deployment interval
-(Table~\ref{tab:eff-interval-values}) because of the rule MTDSim gives it
-(Appendix~\ref{app:fa-accounts}), which says more about the simulator
-than about user shuffle. Without the interface, a reader cannot trace a
-ranking to its assumptions. The failure matrix moves NCR negligibly
-(Section~\ref{sec:ablation}), so a builder should ablate a component
-like it before refining its values.
+On evaluation methods, simulation lets an evaluation change the attacker model
+and hold everything else. Chapter~\ref{ch:litreview} found simulation the
+dominant evaluation method because it models attack behaviour flexibly
+\citep{cho2020}. That flexibility let both attackers run on the same networks,
+MTD mechanisms and seeds, so a difference between their results comes from
+the attackers (Section~\ref{sec:threats}). The simulator's rules, though, were
+written for its own attacker. MTDSim's rules for what each MTD deployment
+takes follow the baseline attacker's procedure
+(Section~\ref{subsec:attacker-model}),
+and user shuffle raises the APT attacker model's NCR at every deployment
+interval because of the rule MTDSim gives it (Appendix~\ref{app:fa-accounts}).
+An evaluation that joins a new attacker model to a simulator should therefore
+report the interface on both sides: the parts declared to join them, here the
+tactic-to-action mapping, the tactic durations, the failure matrix and the
+vulnerability memory (Section~\ref{sec:execution}), and the rules each MTD
+deployment applies. MTDSim also charges an MTD deployment nothing, so a sweep
+of deployment intervals shows where MTD stops reducing an attacker's NCR but
+cannot choose an interval. A defender who sets the disruption it needs and the
+cost it accepts could choose one, and the attacker model moves the choice. For
+an NCR reduction of at least half, the host layer suffices up to 1\,000\,s
+against the APT attacker model and up to 100\,s against the baseline attacker;
+the service layer suffices up to 200\,s against the baseline attacker and at no
+deployment interval against the APT attacker model
+(Table~\ref{tab:eff-interval-values}).
 
-% DRAFT STATE 2026-10-09 --- paragraph 4 (what the numbers cannot decide)
-%  drafted from its five slots, which it replaces; 6.4 is now prose
-%  throughout. Pays off the two forward pointers to 6.4: 6.1 ("Read alone,
-%  ASP and NCR call a quiet attacker weak") and 6.2 ("Time lost per MTD
-%  deployment measures what MTD costs an attacker"). The interval part points
-%  to 6.2, which already says faster wins only because a deployment is free,
-%  rather than repeating its numbers. The 52-of-60 count dropped: 6.2 and 6.5
-%  already say the reversal holds on ASP reduction. Worst case checked on
-%  numbers_reported.json (min over the two attackers, every interval).
-%  Appendix E's "ASP reduction shows the order of NCR reduction" now reads
-%  "At 200 s, ..." (P12, accepted 2026-10-09).
-The metric an evaluation reports decides part of its answer. Read alone, ASP
-and NCR call a quiet attacker weak (Section~\ref{sec:disc-behaviour}), so an
-evaluation should report what the attacker does
-(Section~\ref{subsec:metrics-behaviour}) beside what it achieves. Counting the
-attack actions MTD blocks would rank the host layer the most disruptive
-against the baseline attacker, whose mean time lost to it is at or below zero
-(Section~\ref{sec:disc-mtd-performance}), so an evaluation should report the
-time lost per MTD deployment beside it. Of the outcome metrics, NCR reduction
-counts hosts in every run, while ASP reduction rests on the few runs that
-reach a target host and reaches its ceiling of 1 against the APT attacker
-model (Table~\ref{tab:eff-interval-values-asp}). An evaluation of an attacker
-that rarely reaches its target should therefore lead with NCR reduction and
-report ASP reduction beside it. MTTC covers only the runs that reach a
-target, so between attackers that differ in attack rate and ASP it compares
-different runs (Section~\ref{sec:disc-behaviour}); it should be reported with
-the share of runs it covers. NCR reduction and ASP reduction agree on the
-reversal, but not always in sign: from 500\,s, IP shuffle reduces the
-baseline attacker's NCR by 0.39 and raises its ASP, an ASP reduction of
-$-0.09$ (Tables~\ref{tab:eff-interval-values}
-and~\ref{tab:eff-interval-values-asp}), so under it the baseline attacker
-compromises fewer hosts but reaches a target host more often. Even the lower
-bound turns on the metric. Taking each MTD mechanism's worse value over the
-two attackers, IP shuffle is highest on NCR reduction at every deployment
-interval, and service diversity on ASP reduction from 100\,s. The deployment
-interval depends on the attacker model too. The earlier MTDSim studies ran
-50 to 200\,s (Table~\ref{tab:lineage-configurations}), where both MTD layers
-reduce the baseline attacker's NCR; an interval chosen against the baseline
-attacker would judge the host layer spent beyond 100\,s, though it halves the
-APT attacker model's NCR up to 1\,000\,s, and rely on a service layer that
-never halves the APT attacker model's NCR (Table~\ref{tab:eff-interval-values}).
-An interval
-also needs a price. MTDSim charges a deployment nothing, so a sweep shows
-where MTD stops reducing an attacker's NCR but cannot choose an interval; an
-evaluation that sets one should model the overhead and loss of service each
-deployment costs.
 
 % =====================================================================
 \section{Threats to validity}
