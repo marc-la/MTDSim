@@ -9057,17 +9057,16 @@ could change a claim.
 %  base weights" was false (removing the attack profiles recounts them). Off the
 %  page: numbers, the two runs with no MTD, uniform weights and single edges
 %  (7.2), the Petri-net formalism (T4). No new runs.
-\item\label{thr:cause} In Section~\ref{sec:disc-mtd-performance}, the APT
-attacker model's tactic durations and the order of its tactics likely explain
-why the host layer reduces its NCR more than the service layer does. Under MTD,
+\item\label{thr:cause} The APT attacker model's tactic durations and the
+order of its tactics likely explain why the host layer reduces NCR more than the
+service layer does (Section~\ref{sec:disc-mtd-performance}). Under MTD,
 removing the failure matrix or the vulnerability memory changes NCR negligibly,
 and without the attack profiles the host layer still reduces NCR most at every
 deployment interval (Section~\ref{sec:ablation}). Scaling the most sensitive
-tactic durations, those of Persistence, Stealth and Command and Control, to a
-quarter and to four times their value leaves the host layer ahead of the
+tactic durations to a quarter and to four times their value leaves the host layer ahead of the
 service layer at a deployment interval of 200\,s
 (Table~\ref{tab:duration-ranking}). We took two components as given: the base
-weights, which come from the attack flows and set the order of its tactics, and
+weights, which set the order of its tactics, and
 the tactic-to-action mapping, which we declared (\ref{thr:mapping}). Every run
 under MTD drew its base weights from the attack flows and used this mapping,
 and the host layer's explanation rests on both.

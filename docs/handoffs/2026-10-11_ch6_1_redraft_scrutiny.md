@@ -5345,3 +5345,7 @@ Nothing applied.
 ## §132 — T10 v6 applied (Marc 2026-10-13: "that's fine")
 
 v6 from §131 replaces v4 in the tex. Build 118 pages, 0 undefined.
+
+## §133 T1 style pass applied (Marc 2026-10-13)
+
+Marc asked for a quick check of T1 for clauses that detract. Three cuts applied: (1) subject first, "In Section 6.2," moved to a closing parenthesis, "its NCR" -> "NCR"; (2) "those of Persistence, Stealth and Command and Control" cut (Table C.1b and T4 name them); (3) "come from the attack flows and" cut from S4 (S5 says it). The last sentence stays as on disk: the proposed "so" and a recast ("The explanation in Section 6.2 depends on both, because ...") were both declined as vacuous; Marc: leave it. T1 133 -> 118 words. Build clean, 118 pages. Chat note: Marc wants replies cleaner and more concise.
