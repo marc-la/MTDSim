@@ -5091,3 +5091,37 @@ Nothing applied; v2 stays in the tex until Marc rules.
 - The host layer's explanation rests on both.
 
 **Verified.** Table 5.4a: the failure matrix is negligible under IP shuffle and OS diversity, and the vulnerability memory under service diversity and OS diversity. Without the attack profiles, the same three host-layer mechanisms are first at every interval. Table C.1b: the host layer is above the service layer at both ends of the band.
+
+
+## §123 — T1 v3 refined into v4: terms and nuances (Marc 2026-10-13: "a lot better ... the two causes or explanations ... a subset of components ... 45 s out of place ... are they terms we've already given the reader")
+
+Nothing applied; v2 is still in the tex.
+
+**v4 candidate (about 105 words):**
+- S1: §6.2 gives two causes for the rankings, the order of its tactics and the tactic durations, and under MTD we changed only some of the APT attacker model's components.
+- S2: Removing the failure matrix or the vulnerability memory changes NCR negligibly (§5.4).
+- S3: Removing the attack profiles leaves the host layer first at every deployment interval (§5.4), and scaling the mean duration that moves NCR most leaves it first at 200 s (Table C.1b).
+- S4: We did not vary the base weights, which set the order of its tactics, or the tactic-to-action mapping.
+- S5: The base weights come from the attack flows and we declared the mapping (T6), so we took both as given.
+- S6: The host layer's explanation rests on both.
+
+**Term audit (each against where the reader got it):**
+- order of its tactics, tactic durations: §6.1 and §6.2.
+- rankings: §5.3.
+- components: §5.4's opener.
+- failure matrix, vulnerability memory, attack profiles: ch4 section names.
+- host layer: §5.3 and §6.2.
+- mean duration: §4.4.2. "That moves NCR most" is App C.1's phrase and replaces "45 s"; T5 names the 45 s right after.
+- base weights: ch4 Petri net. This replaces "the attack graph's weights", which ch4 never uses.
+- declared: §4.4.1 "we declared each pair", and the opener's "the parts we declared". This replaces "our judgement".
+
+**Nuances.**
+- In: the 200 s scope. Without it, S3 implies every deployment interval; it was dropped from T5 in v2 and is restored here.
+- Off the page:
+  - which MTD mechanisms each ablation ran under (the pointer covers it);
+  - numbers;
+  - the total mapping and the run with the baseline attacker's times, both with no MTD (App C.4, §6.1);
+  - uniform weights and single edges (§7.2);
+  - the formalism (T4);
+  - that the service layer's cause (durations) was varied while the host layer's (order, mapping) was not.
+- No hedge in S6: it states what §6.2 ¶2's mechanism uses, which is a fact.
