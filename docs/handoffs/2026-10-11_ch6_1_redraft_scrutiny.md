@@ -4283,3 +4283,13 @@ attack actions cannot run.
 **Checks.** "About two thirds": App run-time, 0.63 [0.61, 0.65] of the ASP gap (§6.1 prints "about two thirds"). 15 to 30 %: App run-time and §6.1. "Rests on where MTDSim sends each attacker": §6.5's wording; mechanism in §6.2. User shuffle is out of ¶3, so App fa-accounts' pointer needs a new home.
 
 **Open for Marc.** (1) S8 (hedge) and S9 (should) are two endings; one could go. (2) Length: about 190 words against the old ¶3's 140 and ¶2a's 150.
+
+## §92 — §6.4 ¶3 v1: does it engage ch3 §3.2.3 or only borrow its label? (Marc 2026-10-13: "a comparator but also a limiter ... we cannot take it to the real world")
+
+**What ¶3 v1 engages.** Ch3 §3.2.3 P1 opens "An MTD evaluation method runs MTD against an attacker model"; ¶3 S1 says what that attacker model runs through in a simulator. P2's "simulation is dominant because it models specific attack behaviours more flexibly" is ¶3 S2, and ¶3 S3–S7 answer it: that flexibility stops at the attack actions. P2's last sentence (the APT attacker model "through its existing attack actions") is S3's comparator-and-limiter.
+
+**What it misses.** P2's middle sentence: "Simulation results do not transfer directly to a real network". That is ch3's (Cho's) cost of simulation, and Marc's "cannot take it to the real world". Without it, ¶3 answers half of ch3's trade-off. With it, ¶3 adds a second cost to the one ch3 names: Cho's sits between the simulator and a real network, and ¶3's sits inside the simulator, where a new attacker model keeps the simulator's own attacker.
+
+**Proposed S2 edit (only).** "Section 3.2.3 found that simulation, the dominant evaluation method, models specific attack behaviours flexibly but does not transfer directly to a real network \citep{cho2020}." The transfer bound itself stays in §6.5. Here it is only ch3's claim being answered.
+
+**Not added.** Emulation and real testbeds (ch3 P1) would run real attack tools rather than a simulator's attack actions, but nothing was run on either, so there is no leg. Analytical models: the same.
