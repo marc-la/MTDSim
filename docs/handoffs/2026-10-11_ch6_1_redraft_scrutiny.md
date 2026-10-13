@@ -4032,3 +4032,11 @@ Rulings on §73: (2) "under the host layer in no run up to 200 s"; (3) the ASP b
 - Candidate should (actionable now, distinct from ch7 F11): with no cost model, report per MTD mechanism the longest deployment interval that reaches a stated NCR reduction against each attacker model, with the deployments per run, so a reader can price them at their own cost per deployment. One hedge on the cost inference.
 
 **Gated flag (ch7):** the Contribution 2 draft note's "1,000 s against 100 s ... ten times longer" (host layer, same-layer) rests on baseline host 0.52 at 100 s and 0.495 at 200 s with the CI straddling 0.5; the same grid-artefact caution applies.
+
+## §76 — §6.4 ¶2a opener and close, ¶2b redraft applied for Marc's evaluation (2026-10-13: "push both and I will evaluate")
+
+¶2a: new opener "On metrics, the attacker model decides what the effectiveness metrics can show." (claim first; Cho's effectiveness family, mirrored by 2b's efficiency); close "set out its attacker model in a section of its own, as it sets out its MTD mechanisms. A reader needs three things from that section to read the metrics: the tactics the attacker model has attack actions for, its ASP and NCR with no MTD, and its assumptions." ("where a reader can examine them" cut). ~265 words, no hedge.
+
+¶2b redraft (~110 words, was 119): claim first ("the attacker model still decides how often MTD must deploy for a given NCR reduction"); §6.5's no-cost bound as a pointer; host layer vs APT attacker model > half up to 1,000 s, service layer vs baseline attacker only up to 200 s (§5.3.2's phrasing); "five times" and "must" dropped; one hedge ("likely changes what MTD costs"); should: report the longest deployment interval at which each MTD mechanism reaches a stated NCR reduction, against each attacker model, so a reader can apply their own cost per deployment. Deployments per run (15 at 1,000 s, 75 at 200 s in numbers_reported.json) kept out: printed in no float, and counts fall below schedule at 50 and 100 s. Open: "its most effective layer" left implicit (Marc to rule).
+
+Build clean, 118 pages, 0 undefined. Pending Marc's evaluation.

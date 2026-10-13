@@ -8967,7 +8967,9 @@ mechanisms, which shows what the learning adds.
 %  metrics score the APT attacker model weaker despite more properties (§4.5
 %  expected this); shared metrics not enough (service diversity 92 % vs 36 %);
 %  set out the attacker model in its own section. No hedge.
-On metrics, ASP and NCR both count compromised hosts
+% ¶2a opener + close REVISED 2026-10-13 (handoff §76): claim first; the section's contents derived from the paragraph's evidence.
+On metrics, the attacker model decides what the effectiveness metrics can show.
+ASP and NCR both count compromised hosts
 (Section~\ref{subsec:metrics-outcome}): ASP is the share of runs in which the
 attacker compromises a target host, and NCR is the share of the hosts in the
 network it compromises. Neither measures actions on objectives: three of the
@@ -8990,21 +8992,23 @@ across evaluations because each evaluation chooses its own metrics
 200\,s, service diversity reduces the baseline attacker's NCR by 92\,\% and
 the APT attacker model's by 36\,\%, on the same networks
 (Table~\ref{tab:eff-cross-arm}). An MTD evaluation should therefore set out its
-attacker model and that model's assumptions in a section of their own, where a
-reader can examine them, as it sets out its MTD mechanisms.
+attacker model in a section of its own, as it sets out its MTD mechanisms. A
+reader needs three things from that section to read the metrics: the tactics
+the attacker model has attack actions for, its ASP and NCR with no MTD, and its
+assumptions.
 
-Cho et al.'s efficiency metrics, such as defence cost and quality of service,
-measure what MTD costs (Table~\ref{tab:mtd-metrics}), and MTDSim charges a
-deployment no overhead or loss of service (Section~\ref{sec:threats}). On
-effectiveness alone, a shorter deployment interval is therefore always better:
-both layers reduce NCR more at shorter deployment intervals, against both
-attackers (Figure~\ref{fig:eff-cross-arm}), so a sweep of deployment
-intervals cannot choose one. A defender who needs an NCR reduction of at
-least half could deploy the host layer every 1\,000\,s against the APT
-attacker model, but must deploy the service layer every 200\,s against the
-baseline attacker, five times as often (Section~\ref{subsec:eff-cross-arm}).
-The attacker model would therefore likely change what MTD costs as well as
-what it achieves.
+% ¶2b REDRAFT 2026-10-13 (Marc: 'push both'): claim first; §6.5 bound as pointer; 'five times' dropped (grid artefact); one hedge (likely); should = longest deployment interval per attacker model. Handoff §76.
+In MTDSim, a deployment costs no overhead or loss of service
+(Section~\ref{sec:threats}), but the attacker model still decides how often
+MTD must deploy for a given NCR reduction. Against the APT attacker model, the
+host layer reduces NCR by more than half up to a deployment interval of
+1\,000\,s (Section~\ref{subsec:eff-cross-arm}). Against the baseline attacker,
+the service layer reduces NCR by more than half only up to 200\,s. On a real
+network each deployment costs overhead or service, so the attacker model likely
+changes what MTD costs. An MTD evaluation without efficiency metrics should
+therefore report, against each attacker model, the longest deployment interval
+at which each MTD mechanism reaches a stated NCR reduction, such as half, so
+that a reader can apply their own cost per deployment.
 
 On evaluation methods, simulation lets an evaluation change the attacker model
 and hold everything else. Section~\ref{subsec:evaluation-methods} found simulation the
