@@ -5217,3 +5217,37 @@ Nothing applied.
 **Ranking resolved.** T2, like T1, bounds the explanation. The finding in MTDSim is measured either way, and whether an APT with Command and Control keeps its host is a question of reach. Keep T1 first: it bounds the cause §6.2 gives, and T2 bounds the setting that cause acts in.
 
 **For T7's round.** T7's "sent back to scan host, it gets a second attempt at its first host, as MTDSim intends" is the same send-back rule. Decide there whether it stays as a metric bound or folds into T2.
+
+
+## §127 — T2: what "MTDSim's rules" means; placement (Marc 2026-10-13: "what are MTDSim's rules? ... the network and its configuration, how MTD is configured, the deployment interval, the implementation of each mechanism ... do they model disruption fairly? honestly I cannot say they do")
+
+Nothing applied.
+
+**What sits outside the APT attacker model, and where each is handled:**
+
+| Outside the model | What it is | Where handled |
+|---|---|---|
+| The network | MTDSim's default 50-host network, drawn per seed, the same for both attackers | Opener limitation; App G (success); §7.2 |
+| MTD configuration | Deployment interval and deployment strategy: our experimental factors, swept and reported per interval | The design (ch5), not a threat; 200 s-only tests are conclusion validity |
+| How a deployment disrupts an attacker | §2.2.3: which attack actions each MTD layer disrupts (host layer: any; service layer: scanning ports, exploits, brute force; user shuffle: brute force), what it costs (confusion penalty; host layer: the host it was on; the baseline attacker is sent back to an earlier step), and what it never costs (a compromised host, a stolen credential). Inherited from MTDSim (Brown 2023, Zhang 2023), written with the baseline attacker's attack actions, never checked against an APT | **T2** |
+
+"MTDSim's rules" in v1 and v2 meant row 3, and the label never said so. It is the "do they model disruption fairly" question: Marc cannot say they do, and nor can the dissertation.
+
+**What rests on row 3.** Both of §6.2's layer explanations:
+- the service layer's smaller reduction: a service-layer deployment disrupts only those three attack actions, and the APT attacker model spends its time in unmapped tactics;
+- the host layer's lead: a host-layer deployment disrupts any attack action and costs the host it was on, including during an unmapped tactic (ch4).
+
+Against a real APT the direction is unknown:
+- Command and Control might keep contact with a host after an IP shuffle, which would over-credit the host layer;
+- a redrawn service might take back a host compromised through it, which would under-credit the service layer.
+
+**Placement: recommend external validity.** Both attackers face the same disruption, so it is not a confound between the conditions compared (internal). The question is whether MTD as MTDSim models it is MTD as an APT would meet it. That is "beyond MTDSim", the opener's external question, and it sits next to T12 (no observed campaign can check it). Construct validity is the alternative reading (MTDSim's mechanisms operationalise MTD), but the opener scopes construct to our metrics and declared parts. Internal would then hold T1 and T4, with T3 already marked for dissolving (§114).
+
+**One-liner.** Both of §6.2's layer explanations rest on how MTDSim's deployments disrupt an attacker. That model was inherited, written with the baseline attacker's attack actions and never checked against an APT, and we kept it, so the rankings hold for MTD as MTDSim models it.
+
+**v3 candidate (about 120 words):**
+- S1: How an MTD deployment disrupts an attacker is MTDSim's, written with the baseline attacker's attack actions (§2.2.3). We kept it for both attackers because SQ3 compares them under MTDSim's MTD.
+- S2: Both explanations in §6.2 rest on it: a service-layer deployment disrupts an attacker only while it scans ports, exploits or brute-forces, and a host-layer deployment disrupts any attack action and costs the attacker the host it was on.
+- S3: No deployment takes back a compromised host.
+- S4: Against a real APT, MTD could disrupt differently: Command and Control might keep contact with a host after an IP shuffle, and a service-layer deployment might take back a host compromised through that service.
+- S5: No observed campaign can tell which (T12).
