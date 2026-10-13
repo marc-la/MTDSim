@@ -4010,3 +4010,7 @@ Applied: ¶2a (250 words; one should: report against an existing attacker model)
 2. **"under the host layer it reaches its ceiling of 1"**: the reader cannot tell what 1 is. Plain: under the host layer, no run of the APT attacker model compromises a target host up to 200 s.
 3. **Weight of the ASP block** (~95 of 264 words) for a side branch. Option: two sentences (~55 words), dropping "rests on those 42 to 139 runs" and leaving "same order" to Appendix E. Marc to rule.
 4. **"Section 4.5 added attacker behaviour metrics for this reason"** reverses time: §4.5 predicted it, the result confirms it.
+
+## §74 — §6.4 ¶2a applied (Marc 2026-10-13: "apply it")
+
+Rulings on §73: (2) "under the host layer in no run up to 200 s"; (3) the ASP block in two sentences (resolution: few runs, then none, so rank on NCR reduction, which counts hosts in every run); (4) "Section 4.5 expected this when it added attacker behaviour metrics" (own sentence). Last sentence: no Jalowski "ill-defined" lean, no eight-property standard (Marc: "everyone should use my standard ... cliche"); "set out its attacker model and that model's assumptions in a section of their own, where a reader can examine them, as it sets out its MTD mechanisms." Clarity pass: attack profiles' owner named; ch4 objective names (data exfiltration, impediment); "ranks the MTD mechanisms"; fronted modifiers moved; "it rests on" ambiguity removed; dangling "where" fixed. 241 words (was 250). No hedge. Build clean, 118 pages, 0 undefined.
