@@ -541,3 +541,17 @@ Marc: "yes to all six, ensure no dangling pointers".
 - Two leads were made true again:
   - D's "The sections that follow read the same perturbations value by value" is deleted, because they no longer do;
   - G's two sections are swapped to keep "They follow Chapter 6's order". Chapter 6 first cites the tactic durations at 8555 and the behaviour metrics at 9125.
+
+## 13. Appendix B: B.2 removed; title, lead and caption proposed (2026-10-13)
+
+**Ruled (Marc):** "it's hard to defend b.2 … all ai generated prose, I would remove". **Applied:**
+- the counterpoints longtable and its lead sentence are removed, and with them the `longtable` package (its only user);
+- the ch6 `tab:fidelity-verdict` caption now reads "gives the predicates behind each mark", in place of "the reasoning", since B no longer argues cells.
+
+**Missed pointer, fixed.** ch6 9131 cited Appendix B for the language models' blind scoring, which moved to the AI Use Declaration in §11. It now reads "(AI Use Declaration)". The §12 sweep checked that references resolve, not what they point to; every other pointer into a section that lost content was re-read and still lands.
+
+Build: 99 pages, 0 undefined.
+
+**Proposed, NOT RULED:** the title, a lead cut to what ch3 does not already say, and the cell decode moved into B.1's caption. See the session record for the before/after.
+
+**Out of scope, flagged:** ch7's slot list (the "Last sentence." and "Promises Chapter 6 makes" items, about 9589) prints in the PDF on p. 49.

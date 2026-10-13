@@ -28,7 +28,6 @@
 \usepackage{amsmath}
 \usepackage{amssymb}\usepackage{pifont}      % \ding ticks (\propmet) in the property and appendix tables
 \usepackage{array}            % ragged-right p-columns in the appendix tables
-\usepackage{longtable}        % Table B.2, which runs past one page
 \usepackage{booktabs}          % nicer tables (\toprule, \midrule ...)
 \usepackage[table]{xcolor}     % \rowcolor / \cellcolor for tab:mtd-metrics (zebra rows, greys grammar)
 \usepackage{multirow}          % rotated row-group labels in tab:mtd-metrics
@@ -8814,7 +8813,7 @@ against 0.95 for the baseline attacker (Figure~\ref{fig:aio-adaptivity}(a)).
   5~detection avoidance, 6~cost--benefit reasoning, 7~learning and
   8~deployment-strategy awareness. \propmet\ has the property,
   \propstandin\ has it in part, \propnone\ does not have it.
-  Appendix~\ref{app:clause-tests} gives the reasoning behind each mark.}
+  Appendix~\ref{app:clause-tests} gives the predicates behind each mark.}
   \label{tab:fidelity-verdict}
   \tablestyle\setlength{\tabcolsep}{3pt}
   \begin{tabular}{@{}ll*{8}{>{\centering\arraybackslash}m{1.1cm}}@{}}
@@ -9128,7 +9127,7 @@ holds (Appendix~\ref{app:fa-behaviour-actions}).
 of the APT definition and two surveys. They are not a complete standard, they
 are weighed equally though not equally important, and one scorer marked the APT
 attacker model and three MTD attacker models on them, with language models
-scoring blind as the check (Appendix~\ref{app:clause-tests}). The three MTD
+scoring blind as the check (AI Use Declaration). The three MTD
 attacker models are our choice (Section~\ref{subsec:recent-threat-models}),
 and none is the attacker of a game-theoretic model, the dominant MTD modelling
 approach \citep{cho2020}. The attack
@@ -9699,15 +9698,6 @@ Section~\ref{subsec:recent-threat-models}, and the APT attacker model from
 Chapter~\ref{ch:attacker-model}. An example in a definition, such as passive
 reconnaissance, illustrates a predicate and is not one.
 
-% [COUNTERPOINTS, 2026-10-12] Marc: strict reading, but acknowledge every
-% elephant: for each cell a source could be read against, quote the strongest
-% counterpoint found there, then the test that decides the cell. The APT
-% attacker model's four reasons moved into the table. Baseline attacker rows
-% added 2026-10-12 from the Brown 2023 and Zhang 2023 extractions; the table
-% is a longtable, since it runs past one page. DRAFT STATE.
-Table~\ref{tab:counterpoints} gives, for each cell its source could be read
-against, the strongest counterpoint found there and why the cell stands.
-
 
 \begin{table}[htbp]
   \centering
@@ -9758,46 +9748,6 @@ against, the strongest counterpoint found there and why the cell stands.
   \end{tabular}
 \end{table}
 
-{\tablestyle\setlength{\tabcolsep}{4pt}\setlength{\LTcapwidth}{\textwidth}
-\begin{longtable}{@{}P{2.9cm}P{5.6cm}P{6.6cm}@{}}
-  \caption[The strongest counterpoint to each contested cell]{The strongest
-  counterpoint to each contested cell of Table~\ref{tab:clause-tests}, found
-  in the attacker model's source, and why the cell stands.}
-  \label{tab:counterpoints} \\
-  \toprule
-  Cell & Strongest counterpoint & Why the cell stands \\
-  \midrule
-  \endfirsthead
-  \multicolumn{3}{@{}l}{\emph{Table~\ref{tab:counterpoints}, continued}} \\
-  \toprule
-  Cell & Strongest counterpoint & Why the cell stands \\
-  \midrule
-  \endhead
-  \bottomrule
-  \endfoot
-    Baseline attacker, 1, qualifier: yes & It gives up on a host after ten attempts \citep[p.~7]{brown2023} & It moves to another host and keeps the hosts and credentials it holds, carrying on through every MTD deployment until the run ends; in the target attack scenario it never gives up on the target host \citep[p.~7]{brown2023} \\
-    Baseline attacker, 2: no & Its two attack scenarios have ``the same capabilities but with different goals'', and in the target attack scenario, ``like APT-style attacks'', it ``will use a different strategy'' \citep[p.~4]{brown2023} & The strategy sets which host it attacks next and that it never gives up on the target host; in both, it ``will always follow the attack procedure'' \citep[p.~7]{brown2023}, so its techniques after the foothold do not differ \\
-    Baseline attacker, 3: rule & ``The current attack operation in this work consists of a fixed list of actions'' \citep[p.~41]{zhang2023} & It can enter a host with stolen credentials, an exploit or brute force, and whichever succeeds enters it; its authors fix the order it tries them in \citep[p.~4]{brown2023}, a rule \\
-    Baseline attacker, 4: rule & MTDSim designed ``the attacker's movements, with adaptively changing actions based on simulation time and specific events'' \citep[p.~15]{zhang2023} & Each kind of disruption sets the step it restarts from, host discovery after a lost host and a port scan after a lost service \citep[p.~4]{brown2023}: a response its authors fix, a rule \\
-    Baseline attacker, 5: no, no & Its first predicate tests it against itself, so that cell is no by construction & It is no on its own evidence: its first step scans the network ``to discover all exposed hosts'' \citep[p.~4]{brown2023}, no step paces it, and no IDS exists for it to choose against \\
-    Baseline attacker, 6: no & It orders the vulnerabilities it exploits by RoA \citep[p.~4]{brown2023}, and ``prioritizes the weakest host to compromise hosts as quickly and easily as possible'' \citep[p.~4]{brown2023} & The RoA order chooses which vulnerability the exploit attack action tries, within one technique; it tries credentials, exploits and brute force in a fixed order, and the host is chosen by distance \citep[p.~42]{zhang2023}, so no technique is chosen by cost against benefit \\
-    Baseline attacker, 7: no & Its authors call it learning: it halves ``the exploitation time spent on the vulnerabilities that were exploited in the previous attack operations'' \citep[p.~30]{zhang2023} & It keeps vulnerabilities, not the patterns of MTD deployments, and the memory shortens an exploit without changing which technique comes next \\
-    \midrule
-    Masud et al., 2: no & Their tests include ``widespread and focused attacks aiming to breach many or specific high-value hosts'' \citep[p.~7]{masud2025} & Every attack path ends at one target, the database; no technique differs between the two, and no step of the analytical model takes either \\
-    Masud et al., 4: no & Diversity forces ``fresh scans and adaptation to new flaws'' \citep[p.~7]{masud2025} & The analytical model recomputes every attack path after each MTD deployment, and no step chooses a next technique from them \\
-    Masud et al., 6: no & ``Vulnerabilities were prioritized by return on attack'' \citep[p.~7]{masud2025} & RoA is computed and reported over every attack path, whatever its RoA; the only selection, the defender's, ranks VMs by centrality \\
-    \midrule
-    Kim et al., 1, qualifier: no & One attack outlasts an MTD deployment: its scan takes 403 to 572\,s against a 300\,s interval, and without redundancy its shell holds for over 600\,s \citep[p.~11]{kim2026} & Each attack scans at most five times and ends at the redundancy reset, and the next starts with no knowledge of the network, so none carries on until it reaches its objective \\
-    Kim et al., 2: no & The shell gives ``a set of commands that an attacker can move to the next stage based on the objectives of the attacks'' \citep[p.~7]{kim2026} & The attacker model has one objective, a shell, and one stage after the foothold; the sentence says what a shell allows, and no step of the script differs by objective \\
-    Kim et al., 8: no & ``attackers can determine the remaining available time'' before the next MTD deployment \citep[p.~10]{kim2026} & It predicts, but no technique leverages the prediction: the four stages run in the same order whatever the time left \\
-    \midrule
-    APT attacker model, 1, qualifier: yes & Chapter~\ref{ch:attacker-model} never says when a run ends & A run ends by the simulator's rule, the same for both attackers (Section~\ref{subsec:attacker-model}); nothing in the model ends its campaign, and a failed intrusion goes back to Reconnaissance to try again (Section~\ref{subsec:failure-matrix}) \\
-    APT attacker model, 2: assumed & Its attack profiles take the same six attack actions, at different rates (Appendix~\ref{app:fa-behaviour-actions}) & Its attack profiles differ in actions on objectives (Section~\ref{sec:attack-profiles}); Collection, Exfiltration and Impact are unmapped (Section~\ref{subsec:tactic-verb-mapping}), so the techniques that differ are assumed for each tactic's duration \\
-    APT attacker model, 3: yes & The Petri net draws from fixed weights, set before the run from the attack flows (Section~\ref{sec:petri-formalism}) & The draw happens during the run, from the state reached and the attack flows with its objective (Section~\ref{sec:petri-formalism}); the baseline attacker's order is fixed before the run, a rule \\
-    APT attacker model, 4: rule & The failure matrix responds to any failed attack action, whether or not an MTD disruption caused it, and a deployment during an unmapped tactic never changes which tactic comes next (Section~\ref{subsec:tactic-verb-mapping}) & The failure matrix, set by our judgement, reweights its next tactic after a failure (Section~\ref{subsec:failure-matrix}); an MTD disruption is one cause, so a fixed rule of ours sets the response \\
-    APT attacker model, 5: rule, no & No IDS exists; it is faster than the baseline attacker at brute force and enumerate host, and its slowness is time in unmapped tactics (Appendix~\ref{app:fa-run-time}) & Its declared tactic durations make it slower than the baseline attacker (Section~\ref{subsec:dwell-times}), a rule; it chooses no technique against an IDS \\
-    APT attacker model, 6: no & It keeps the baseline attacker's order of exploits by RoA & As for the baseline attacker, the order chooses which vulnerability to try, within one technique; it chooses each next tactic by how often the attack flows take each edge (Section~\ref{sec:petri-formalism}), not by cost against benefit \\
-\end{longtable}}
 
 
 % =====================================================================
