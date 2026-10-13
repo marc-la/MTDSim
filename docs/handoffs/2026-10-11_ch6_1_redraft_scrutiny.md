@@ -4896,3 +4896,14 @@ Gaps, in proposed order of weight:
 - §5.3.2 (ch5, approved): "At every deployment interval, rank 1 against the APT attacker model holds only host-layer mechanisms, and rank 1 against the baseline attacker only service-layer mechanisms (Table~\ref{tab:rank-one-intervals})."
 - ch6 (auto): §6.4 opener points to the table; T9's "Scott-Knott at 200 s only" sentence is cut.
 - Build 118 pages, 0 undefined; no new overfull box.
+
+
+## §113 — §6.5: the five gaps added (Marc 2026-10-13: "yes you can add all of them")
+
+- **Gap 1, post-hoc analyses.** New item thr:posthoc (now T10, conclusion validity). Appendix F was chosen after ch5's results were seen; ch6 uses it, most of all fa-run-time; each analysis answers a ch5 float's question and changes no ch5 result, but explores rather than tests. External threats renumber to T11-T12 (labels by name; nothing breaks).
+- **App F opener (appendix, auto).** Two false claims fixed. "None enters the main argument" (§6.1 and T1 use fa-run-time) becomes "none changes a result of Chapter 5, and Section 6.5 bounds their use (T10)". "Each reads runs already recorded, so none needed a new run" now adds "except fa-run-time, which runs the APT attacker model again with no MTD".
+- **Gap 2.** T5: "declared them by judgement before any result, rather than fitting them".
+- **Gap 3.** T7: time lost AND attack actions blocked are measured at 2,000 s only (Table 5.x caption; the cap), so §6.2 explains the service layer at every interval from measures at one. This is new on checking: §6.2's 0.15 vs 0.95 is from the 2,000 s figure.
+- **Gap 4.** T9: beating all ten random partitions is what chance alone gives one time in eleven, so the comparison describes rather than tests.
+- **Gap 5.** T8: the three MTD attacker models are our choice (subsec:recent-threat-models), and none is the attacker of a game-theoretic model, the dominant MTD modelling approach (cho2020).
+- §6.5 is now about 1,560 words. Build 118 pages, 0 undefined.

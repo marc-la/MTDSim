@@ -9101,7 +9101,7 @@ numerically with earlier MTDSim studies.
 \begin{enumerate}[resume*=threats]
 \item\label{thr:values} CTI records no tactic durations, failure-matrix values
 or factor for the vulnerability memory, so we declared them by judgement
-rather than fitting them (Table~\ref{tab:value-bases}). Each was varied,
+before any result, rather than fitting them (Table~\ref{tab:value-bases}). Each was varied,
 substituted or removed one at a time, which leaves their interactions untested,
 and three were not tested: the per-tactic duration multipliers, the share of
 weight given to the pre-intrusion overlay and the choice of one attack flow per
@@ -9126,6 +9126,10 @@ same moment in the run with no MTD, and the two runs are identical only up to
 the first MTD deployment. At that deployment the baseline attacker's time lost
 falls below zero: sent back to scan host, it gets a second attempt at its first
 host, as MTDSim intends \citep{brown2023} (Section~\ref{subsec:aio-disruption}).
+Time lost and attack actions blocked per MTD deployment are measured at
+2\,000\,s only, because the next MTD deployment caps time lost at the
+deployment interval, so Section~\ref{sec:disc-mtd-performance} explains the
+service layer at every deployment interval from measures at one.
 Attack rate and attack confidentiality measure detection avoidance by proxy,
 through how often an attacker acts and a declared IDS rule
 (Appendix~\ref{app:detector-memory}). Distinct openings counts any variety, so
@@ -9138,7 +9142,10 @@ holds (Appendix~\ref{app:fa-behaviour-actions}).
 of the APT definition and two surveys. They are not a complete standard, they
 are weighed equally though not equally important, and one scorer marked the APT
 attacker model and three MTD attacker models on them, with language models
-scoring blind as the check (Appendix~\ref{app:clause-tests}). The attack
+scoring blind as the check (Appendix~\ref{app:clause-tests}). The three MTD
+attacker models are our choice (Section~\ref{subsec:recent-threat-models}),
+and none is the attacker of a game-theoretic model, the dominant MTD modelling
+approach \citep{cho2020}. The attack
 profiles rest on two yes-or-no questions asked of each attack flow, answered by
 one coder from the CTID descriptions and their sources, three of them by our
 own decision (Appendix~\ref{app:classification-audit}).
@@ -9161,9 +9168,20 @@ to rank on ASP, the dominant effectiveness metric
 negligible effect is Cohen's default of $\pm 0.2$, not a bound set for hosts
 compromised. The ablations leave 24 of 60 cells inconclusive for the attack
 profiles, with no correction for the number of cells compared
-(Section~\ref{sec:ablation}). The confidence intervals resample runs, not
+(Section~\ref{sec:ablation}). With no MTD, the attack profiles compromise more
+than all ten random partitions, which chance alone would give one time in
+eleven, so that comparison describes rather than tests. The confidence
+intervals resample runs, not
 seeds, so they treat the four attack profiles' runs on one seed's network as
 independent.
+
+\item\label{thr:posthoc} The analyses of Appendix~\ref{app:further-analyses}
+were chosen after the results of Chapter~\ref{ch:experiments} were seen, and
+this chapter uses them, most of all the run with the baseline attacker's times
+(Appendix~\ref{app:fa-run-time}). Each answers a question that a table or
+figure of Chapter~\ref{ch:experiments} raises and changes none of its
+results, but each explores a mechanism rather than testing one fixed in
+advance.
 \end{enumerate}
 
 \paragraph{External validity.}
@@ -10599,8 +10617,11 @@ These analyses were run while Chapter~\ref{ch:discussion} was written, after
 the results of Chapter~\ref{ch:experiments} were seen. Each answers a question
 that a table or figure of Chapter~\ref{ch:experiments} raises, and checks a
 mechanism Chapter~\ref{ch:discussion} names or tests one of its hypotheses;
-none enters the main argument. They follow Chapter~\ref{ch:discussion}'s order,
-and each reads runs already recorded, so none needed a new run.
+none changes a result of Chapter~\ref{ch:experiments}, and
+Section~\ref{sec:threats} bounds their use (\ref{thr:posthoc}). They follow
+Chapter~\ref{ch:discussion}'s order, and each reads runs already recorded,
+except Section~\ref{app:fa-run-time}, which runs the APT attacker model again
+with no MTD.
 
 \section{Where each attacker succeeds with no MTD}
 \label{app:fa-success}
