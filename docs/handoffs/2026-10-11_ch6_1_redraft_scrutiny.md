@@ -5316,3 +5316,27 @@ Nothing applied.
 - S3: We kept them as MTDSim's papers describe them (T3) because SQ3 compares the two attackers under MTDSim's MTD.
 - S4: They were written for the baseline attacker's six attack actions and cannot be checked against an APT campaign (T12).
 - S5: An APT in contact with a host through Command and Control might keep it after an IP shuffle, and a service-layer deployment might take back a host compromised through that service; either would reduce the difference between the host layer and the service layer against the APT attacker model.
+
+
+## §131 — T10 v5 overcorrected; v4 is the base, edited in place (Marc 2026-10-13: "a step in the wrong direction ... what you had before was clearer ... what's the risk? ... so many clauses ... your points are right though")
+
+Nothing applied.
+
+**Why v5 regressed.** v4's S1 shows the risk concretely: §6.2's two explanations and the rule each rests on. v5 swapped those rules for "among them ..." (a meta list) and split the rest into short sentences, so the risk disappeared. This was the round-44 lesson (edit, don't rewrite) not applied. The §130 points get applied as word-level edits to v4.
+
+**Edits to v4:**
+- "model" becomes "rules" (3x), to remove the attacker-model ambiguity.
+- "interrupts" becomes "disrupts", using §2.2.3's verbs ("only while it scans ports, exploits or brute-forces"; "during any attack action").
+- The papers clause moves out of the fairness sentence into the "kept" sentence.
+- "It was written" becomes "They were written".
+- "No one has checked it against an APT" becomes "cannot be checked against an APT campaign (T12)".
+- "Command and Control might keep contact with a host" becomes "An APT in contact with a host through Command and Control might keep it".
+- "Narrow the host layer's lead" becomes "narrow the host layer's lead over the service layer".
+- Dropped from §130: replacing the service-layer rule (it is half of the risk); adding "no deployment takes back a compromised host" (Marc: the reader already has it from §2.2.3).
+
+**v6 (about 120 words):**
+- S1: Both explanations in §6.2 rest on MTDSim's rules for how an MTD deployment disrupts an attacker (§2.2.3): a service-layer deployment disrupts it only while it scans ports, exploits or brute-forces, and a host-layer deployment disrupts it during any attack action and costs it the host it was on.
+- S2: Both attackers meet the same rules, so the comparison is fair.
+- S3: We kept the rules as MTDSim's papers describe them (T3) because SQ3 compares the two attackers under MTDSim's MTD.
+- S4: They were written for the baseline attacker's six attack actions and cannot be checked against an APT campaign (T12).
+- S5: An APT in contact with a host through Command and Control might keep it after an IP shuffle, and a service-layer deployment might take back a host compromised through that service; either would narrow the host layer's lead over the service layer.
