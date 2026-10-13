@@ -9027,7 +9027,7 @@ attack actions.
 %  checks: handoff 2026-10-11_ch6_1_redraft_scrutiny.md sections 109-110. Limitations
 %  (chosen scope) first, then threats T1-T11 grouped by type (Wohlin et al.) and
 %  ranked within type by leverage on SQ2. The 2026-10-08 point sets and DRAFT STATE
-%  comments it replaces are in git history. wohlin2012 NOT YET in references.bib.
+%  comments it replaces are in git history. wohlin2012 added 2026-10-13 (Crossref).
 %  About 1,470 words against a target of about 1,000-1,100: cut pass owed.
 
 This section bounds the answers to the three sub-questions. Limitations are
@@ -9462,8 +9462,10 @@ evaluation against a simplified attacker alone
 (Section~\ref{sec:evaluation-implications}). \emph{Keep:} ``can''; not ``MTD
 fails against APTs''.
 \item \textbf{The bound (optional).} The answer rests on MTDSim's attack actions
-and its rules for what each deployment takes, and on deployments that cost
-nothing (Section~\ref{sec:threats}). \emph{Keep:} one clause per root.
+and on MTD mechanisms written against the baseline attacker (\ref{thr:rules}),
+in a simulator that measures no efficiency metric; which part of the APT
+attacker model causes it is not isolated (\ref{thr:cause};
+Section~\ref{sec:threats}). \emph{Keep:} one clause each.
 \item \emph{Hedges, each once, where its claim is made:} ``in MTDSim''; ``the
 APT attacker model''; ``can depend''; ``at no cost''; ``not which of its
 parts''.
@@ -9528,41 +9530,46 @@ cost nothing.
 % 6.5's order. Registry rows in brackets; literature to check before wording
 % FW2, FW4 and FW5 as gaps (registry F3, F10, F11).
 \begin{draftnotes}{Future work: a lead sentence, five dot points, the last sentence}
-\item \textbf{Lead.} Each direction lifts a limit of Section~\ref{sec:threats},
-in that section's order.
+\item \textbf{Lead.} Each direction lifts a limitation or a threat of
+Section~\ref{sec:threats}, in that section's order: the limitations, then
+\ref{thr:cause} and \ref{thr:corpus}.
 \item \textbf{The attack actions, and one token} (F8, F9). Attack actions
 without a fixed order and with a context of their own, which then allows more
 than one token, so the attacker can pursue several lines of a campaign; actions
 on objectives; a failure that knows MTD caused it. This lifts at most two marks,
 because detection avoidance also needs an IDS.
-\item \textbf{A simulator that prices nothing} (F5, F11). An IDS that
-depends on the attacker and drives MTD; the overhead and loss of service of each
-deployment beside NCR reduction, so that a sweep can choose a deployment
-interval.
-\item \textbf{Which part causes the reversal} (F13, F1). The APT attacker model
+\item \textbf{No efficiency metric, and nothing watches the attacker} (F5,
+F11). An IDS that depends on the attacker and drives MTD; the overhead and loss
+of service of each deployment beside NCR reduction, so that a sweep can choose a
+deployment interval.
+\item \textbf{Reach} (F3, F4, F6). Other networks, and which features of a
+network decide success (Appendix~\ref{app:fa-success}); longer runs; an attacker
+that times its attack actions around the deployment interval (property~8);
+learned deployment strategies retrained and tested against an attacker model
+they were not trained on (\ref{thr:observation}); emulation.
+\item \textbf{Which part makes the most effective MTD mechanism differ} (F13,
+F1; \ref{thr:cause}). The APT attacker model
 with the baseline attacker's times under MTD (Appendix~\ref{app:fa-run-time}
 runs it with no MTD), and a Petri net with uniform weights, to separate the
 tactic durations, the order of its tactics and the weights from CTI; then removing the
 attack profiles' edges one at a time, to find the transition a mitigation should
 break.
-\item \textbf{The corpus} (F10, F12, F2). Attack flows drafted by language
-models from reports on APT campaigns only, checked against analysts' attack
-flows; the 18 attack flows attributed to a group, run alone; a larger corpus,
-for a sweep over the size of the attack profiles.
-\item \textbf{Reach} (F3, F4, F6). Other networks, and which features of a
-network decide success (Appendix~\ref{app:fa-success}); longer runs; an attacker
-that times its attack actions around the deployment interval (property~8);
-learned deployment strategies retrained and tested against an attacker model
-they were not trained on; emulation.
+\item \textbf{The corpus} (F10, F12, F2; \ref{thr:corpus}). Attack flows
+drafted by language models from reports on APT campaigns only, checked against
+analysts' attack flows; the 18 attack flows attributed to a group, run alone; a
+larger corpus, for a sweep over the size of the attack profiles.
 \item \textbf{Last sentence.} Names the attack actions as the next step: every
 result rests on them (Sections~\ref{sec:fidelity-verdict}
 and~\ref{sec:threats}), and MTD optimised against the APT attacker model comes
 only after its assumptions are reduced.
-\item \emph{Promises Chapter~\ref{ch:discussion} makes, all paid above:} one
-token; the default network; runs of 15\,000\,s; simulation only; existing MTD
-at a deployment interval; the baseline attacker with the APT attacker model's
-tactic durations; attack flows from language models; the 18 attributed attack
-flows.
+\item \emph{Promises Chapter~\ref{ch:discussion} makes, all paid above:} the
+attack actions; one token; no efficiency metric; nothing watches the attacker;
+the default network; runs of 15\,000\,s; simulation only; existing MTD at a
+deployment interval (the limitations of Section~\ref{sec:threats}); the APT
+attacker model with the baseline attacker's times under MTD (\ref{thr:cause}).
+The attack flows from language models and the 18 attributed attack flows are
+no longer promised by Section~\ref{sec:threats} (v1, 2026-10-13); they stay as
+directions.
 \end{draftnotes}
 
 
@@ -9941,7 +9948,7 @@ tactic is unmapped where the simulator has nothing for it to act on.
 A total mapping gives every tactic an attack action, so the APT attacker
 model takes the baseline attacker's attack actions in a stochastic order.
 The baseline attacker runs them in a fixed order, each meeting the
-precondition of the next; out of that order most are refused, and the
+precondition of the next; out of that order most fail on their preconditions, and the
 attacker reaches 0.15 hosts without MTD, against 8.13 under the partial
 mapping of Figure~\ref{fig:controller-mapping}
 (Table~\ref{tab:experiment-one}).
@@ -10716,7 +10723,8 @@ per run rise from 8.55 to between 8.86 and 9.67. The baseline attacker gains
 too from 100\,s, 6.71 to 7.78 hosts per run by a held account against 5.18;
 at 50\,s user shuffle disrupts it, and it compromises 13.77 hosts per run
 against 24.85. The gain follows from MTDSim's rule for user shuffle, not from
-user shuffle as an MTD mechanism (Section~\ref{sec:threats}), so
+user shuffle as an MTD mechanism (\ref{thr:rules},
+Section~\ref{sec:threats}), so
 it is not part of the main argument.
 
 \input{tables/tab_FA-3_accounts}
