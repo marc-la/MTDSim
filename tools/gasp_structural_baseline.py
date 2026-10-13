@@ -332,19 +332,36 @@ def write_tex() -> None:
         "\\citep{mitre2026attackv19}, and \\emph{Threat report} the report the attack flow "
         "cites.}",
         "\\label{tab:profile-sources}",
-        "\\tablestyle",
-        "\\begin{tabular}{@{}P{0.5\\textwidth}cP{0.25\\textwidth}@{}}",
+        # Two-up since 2026-10-13 (Marc: "look at the full thing in total"; names
+        # indented under their profile; cells centred): c_1's 19 attack flows on
+        # the left, c_2 to c_4's 19 on the right, so the table is half as tall and
+        # no row is dropped. Stripes kept (Marc, 2026-10-01).
+        "\\tablestyle\\setlength{\\tabcolsep}{3pt}",
+        "\\begin{tabular}{@{}>{\\raggedright\\arraybackslash\\leftskip=1em}p{4.7cm}cc"
+        "@{\\hspace{14pt}}>{\\raggedright\\arraybackslash\\leftskip=1em}p{4.7cm}cc@{}}",
         "\\toprule",
-        "Attack flow & \\shortstack{ATT\\&CK\\\\group} & Threat report \\\\",
+        "Attack flow & \\shortstack{ATT\\&CK\\\\group} & \\shortstack{Threat\\\\report} & "
+        "Attack flow & \\shortstack{ATT\\&CK\\\\group} & \\shortstack{Threat\\\\report} \\\\",
         "\\midrule",
     ]
-    for k, (csv_label, key) in enumerate(CLASS_ORDER):
-        rs = by_class[csv_label]
-        if k:
-            out.append("\\midrule")
-        out.append(f"\\grouprow{{3}}{{{code(key)} ({len(rs)} attack flows)}} \\\\")
-        for r in sorted(rs, key=lambda x: x["flow_name"].lower()):
-            out.append(f"{_tex(r['flow_name'])} & {r['_group']} & {r['_report']} \\\\")
+    def block(keys):
+        cells = []
+        for csv_label, key in keys:
+            rs = sorted(by_class[csv_label], key=lambda x: x["flow_name"].lower())
+            cells.append(("label", f"{code(key)} ({len(rs)} attack flows)"))
+            cells += [("row", f"{_tex(r['flow_name'])} & {r['_group']} & {r['_report']}") for r in rs]
+        return cells
+    left, right = block(CLASS_ORDER[:1]), block(CLASS_ORDER[1:])
+    blank = ("row", " & & ")
+    left += [blank] * (len(right) - len(left))
+    right += [blank] * (len(left) - len(right))
+    def cell(c):
+        kind, text = c
+        return f"\\multicolumn{{3}}{{l}}{{\\grouplabel{{{text}}}}}" if kind == "label" else text
+    for i, (lc, rc) in enumerate(zip(left, right)):
+        lead = "\\rowcolor{white}" if lc[0] == "label" and rc[0] == "label" else ""
+        lcell = cell(lc).replace("\\multicolumn{3}{l}", "\\multicolumn{3}{@{}l}")
+        out.append(f"{lead}{lcell} & {cell(rc)} \\\\")
     out += ["\\bottomrule", "\\end{tabular}", "\\end{table}", ""]
 
     TEX_OUT.parent.mkdir(parents=True, exist_ok=True)

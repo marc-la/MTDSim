@@ -591,3 +591,11 @@ Build: 99 pages, 0 undefined. B is pp. 58–59, with the lead and the table on s
 - The caption now says what a blank row means (nothing beyond CTID was needed).
 - The prose still does the one job a cell cannot: the reason each of the three open flows was decided as it was.
 - Build: 95 pages, 0 undefined.
+
+**Table C.1 two-up (Marc, 2026-10-13: "look at the full thing in total"; indent the names; cells not aligned).**
+- c₁'s 19 attack flows sit on the left and c₂–c₄'s 19 on the right, so the table is half as tall with no row dropped; C.3 now starts on p. 60.
+- Flow names are indented 1 em under their profile label (`\leftskip`); group and report cells are centred under stacked heads.
+- Stripes kept (ruling of 2026-10-01); the first row, where both blocks open on a label, is white.
+- Also fixed: Table B.1's predicate column 10.4 → 10.35 cm, clearing the 1.2 pt overflow the one-page fix introduced.
+- Left as found: the pre-existing 2.5 pt overflow of the C.3 figure.
+- **Figure C.1 end marks, NOT done (recommended no):** the generator outlines `is_objective` techniques (out-degree 0 across the whole graph), and none of the 15 is in the core. Marking "the last step of some attack flow" would be a new definition, a third use of the accent, and serves no part of the sparsity claim C.1 backs.
