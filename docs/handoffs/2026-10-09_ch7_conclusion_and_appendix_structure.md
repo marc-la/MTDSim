@@ -563,3 +563,10 @@ Build: 99 pages, 0 undefined.
 - **Cut, no longer stated:** "an example in a definition is not a predicate", and the repeated ch3 mark definitions.
 
 Build: 99 pages, 0 undefined. B is pp. 58–59, with the lead and the table on separate pages because the table does not fit under the lead.
+
+**One-page fix (Marc, 2026-10-13: "do the 1 page fix"; caption compressed; split rule into the lead; "9.5 size"):**
+- **Table B.1:** marks on each property's row, so the eight "mark" rows are gone; gaps in place of the rules between properties; predicate column 10.4 cm; table type 9 pt.
+- **Caption:** cell key plus "✓ when every cell is yes, ✗ when every behaviour predicate is no, and P otherwise". That is exactly equivalent to the old P rule.
+- **Lead:** what B.1 backs, where each attacker model's evidence comes from, and the predicate-split rule.
+- **Type size:** 9.5 pt was tried. Computer Modern has no 9.5 pt (LaTeX substituted 9). `fix-cm` would give a true 9.5, but it rasterised a textcomp font at 10.95 pt elsewhere in the document (mktexpk Type 3 bitmap), so 9 pt was used.
+- **Build:** 98 pages, 0 undefined. B is p. 58 alone, and C starts on p. 59.

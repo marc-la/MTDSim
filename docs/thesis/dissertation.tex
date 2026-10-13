@@ -9676,71 +9676,63 @@ March 2026, with its own reference list.
 % the cells by rule; it lowered Masud's rows 3, 4 and 6 and nothing else.
 % [2026-10-13, Marc: title plain, not rhetorical; lead short and sharp; the
 %  cell key moved into the caption so Table B.1 reads alone. The heading reuses
-%  Table 3.3's wording. Prior text in git (ccd2fbdd). DRAFT STATE.]
+%  Table 3.3's wording. Prior text in git (ccd2fbdd). DRAFT STATE.
+%  One-page fix (Marc, same day): marks on each property's row, a gap in place
+%  of the rules between properties, the split rule in the lead, and the table
+%  at 9 pt, one step under the house 10 pt. Computer Modern has no 9.5 pt;
+%  fix-cm would rasterise textcomp glyphs elsewhere.]
 \chapter{The attacker models scored on the eight properties}
 \label{app:clause-tests}
 
 Table~\ref{tab:clause-tests} gives the predicates behind each mark of
-Tables~\ref{tab:attacker-cross-section} and~\ref{tab:fidelity-verdict}. Each
-definition of Table~\ref{tab:attacker-properties} is one behaviour predicate,
-word for word, except that rows 1 and 6 each split off a qualifier and row 5
-splits at its ``and'' into two behaviour predicates.
+Tables~\ref{tab:attacker-cross-section} and~\ref{tab:fidelity-verdict}: the APT
+attacker model from Chapter~\ref{ch:attacker-model}, the three MTD attacker models
+from their papers. The predicates are Table~\ref{tab:attacker-properties}'s
+definitions word for word; rows 1 and 6 split off a qualifier, row 5 splits at
+its ``and''.
 
 \begin{table}[htbp]
   \centering
   \caption[Each attacker model tested on each predicate]{Each attacker model
-  tested on each predicate of the eight definitions of
-  Table~\ref{tab:attacker-properties}, and the mark that follows: the APT
-  attacker model from Chapter~\ref{ch:attacker-model}, the three MTD attacker
-  models from their papers. A behaviour predicate states what the attacker
-  model does; a qualifier states a condition on it, checked apart. A cell is
-  \emph{yes} when the predicate is true of the attacker model's own behaviour,
-  \emph{rule} when it is true only because its authors set the behaviour by a
-  fixed rule, \emph{assumed} when the attacker model takes the behaviour's step
-  but only its authors' assumption makes the predicate true, and \emph{no}
-  otherwise. The mark is \propmet\ when every cell is yes, \propstandin\ when a
-  behaviour predicate is yes, rule or assumed but some cell is not yes, and
-  \propnone\ when every behaviour predicate is no.}
+  tested on each predicate of Table~\ref{tab:attacker-properties}. A cell is \emph{yes} when the
+  predicate is true of the attacker model's own behaviour, \emph{rule} when only
+  a fixed rule its authors set makes it true, \emph{assumed} when the attacker
+  model takes the step but only its authors assume it, and
+  \emph{no} otherwise. Each property's row gives its mark: \propmet\ when every
+  cell is yes, \propnone\ when every behaviour predicate is no, and
+  \propstandin\ otherwise.}
   \label{tab:clause-tests}
-  \tablestyle\setlength{\tabcolsep}{4pt}
-  \begin{tabular}{@{}P{7.4cm}*{3}{>{\centering\arraybackslash}p{1.7cm}}>{\centering\arraybackslash}p{2.3cm}@{}}
+  \tablestyle\fontsize{9}{11}\selectfont\setlength{\tabcolsep}{3pt}
+  \begin{tabular}{@{}P{10.4cm}*{4}{>{\centering\arraybackslash}p{1.2cm}}@{}}
     \toprule
-    Predicate & \shortstack{Baseline\\attacker} & \shortstack{Masud\\et al.} & \shortstack{Kim\\et al.} & \shortstack{APT attacker\\model} \\
+    Predicate & \shortstack{Baseline\\attacker} & \shortstack{Masud\\et al.} & \shortstack{Kim\\et al.} & \shortstack{APT\\attacker\\model} \\
     \midrule
-    \multicolumn{5}{@{}l}{\emph{1 Campaign persistence}} \\
+    \emph{1 Campaign persistence} & \propmet & \propstandin & \propstandin & \propmet \\
     \quad behaviour: pursues one multi-stage campaign toward its objective & yes & yes & yes & yes \\
     \quad qualifier: over an extended period, until it reaches its objective, however many MTD deployments that takes & yes & no & no & yes \\
-    \quad mark & \propmet & \propstandin & \propstandin & \propmet \\
-    \midrule
-    \multicolumn{5}{@{}l}{\emph{2 Objective-specific behaviour}} \\
+    \addlinespace[3pt]
+    \emph{2 Objective-specific behaviour} & \propnone & \propnone & \propnone & \propstandin \\
     \quad behaviour: after the foothold, uses different techniques for different objectives & no & no & no & assumed \\
-    \quad mark & \propnone & \propnone & \propnone & \propstandin \\
-    \midrule
-    \multicolumn{5}{@{}l}{\emph{3 Choice of attack strategy}} \\
+    \addlinespace[3pt]
+    \emph{3 Choice of attack strategy} & \propstandin & \propnone & \propnone & \propmet \\
     \quad behaviour: chooses among several sequences of techniques toward the same objective & rule & no & no & yes \\
-    \quad mark & \propstandin & \propnone & \propnone & \propmet \\
-    \midrule
-    \multicolumn{5}{@{}l}{\emph{4 Adaptivity}} \\
+    \addlinespace[3pt]
+    \emph{4 Adaptivity} & \propstandin & \propnone & \propnone & \propstandin \\
     \quad behaviour: chooses its next technique in response to an MTD disruption & rule & no & no & rule \\
-    \quad mark & \propstandin & \propnone & \propnone & \propstandin \\
-    \midrule
-    \multicolumn{5}{@{}l}{\emph{5 Detection avoidance}} \\
+    \addlinespace[3pt]
+    \emph{5 Detection avoidance} & \propnone & \propnone & \propstandin & \propstandin \\
     \quad behaviour: moves low and slow, slower than the baseline attacker & no & no & no & rule \\
     \quad behaviour: chooses techniques an IDS does not flag & no & no & assumed & no \\
-    \quad mark & \propnone & \propnone & \propstandin & \propstandin \\
-    \midrule
-    \multicolumn{5}{@{}l}{\emph{6 Cost--benefit reasoning}} \\
+    \addlinespace[3pt]
+    \emph{6 Cost--benefit reasoning} & \propnone & \propnone & \propnone & \propnone \\
     \quad behaviour: chooses techniques by weighing their cost against their benefit & no & no & no & no \\
     \quad qualifier: for each technique & no & no & no & no \\
-    \quad mark & \propnone & \propnone & \propnone & \propnone \\
-    \midrule
-    \multicolumn{5}{@{}l}{\emph{7 Learning}} \\
+    \addlinespace[3pt]
+    \emph{7 Learning} & \propnone & \propnone & \propnone & \propnone \\
     \quad behaviour: keeps the patterns it observes in past MTD deployments, and uses them to choose later techniques & no & no & no & no \\
-    \quad mark & \propnone & \propnone & \propnone & \propnone \\
-    \midrule
-    \multicolumn{5}{@{}l}{\emph{8 Deployment-strategy awareness}} \\
+    \addlinespace[3pt]
+    \emph{8 Deployment-strategy awareness} & \propnone & \propnone & \propnone & \propnone \\
     \quad behaviour: predicts and leverages which mechanism the deployment strategy deploys next, and when & no & no & no & no \\
-    \quad mark & \propnone & \propnone & \propnone & \propnone \\
     \bottomrule
   \end{tabular}
 \end{table}
