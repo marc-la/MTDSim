@@ -4479,3 +4479,27 @@ the same attack actions.
 ```
 
 About 135 words, two hedges on two inferred claims (S5 cause, S6 generalisation). Rejected alternative ending: "An attacker model that differs in what it can do, such as one with actions on objectives, would likely need new attack actions" (v1 S8). It points the way forward rather than saying what an MTD evaluation shows, and it edges toward the unrun prescription.
+
+## §100 — §6.4 ¶3 v5 final ending, ready to apply (Marc 2026-10-13: "this is MTDSim context specific ... how do you generalise that to a full audience"; then "that's correct ... no punch, but it doesn't have to be a punch anymore ... this is very specific ... you're basically constrained to this")
+
+The ending names the reader it reaches: someone who runs a new attacker model in an existing simulator, as MTDSim's own extensions did (Zhang, Ho, Tay). S1 is general by construction. S3-S5 are MTDSim's evidence, scoped by naming the two attackers. "Likely" covers the step from one simulator to others.
+
+```
+On evaluation methods, a simulator's attack actions limit how far a new
+attacker model can differ from the attacker the simulator was built with.
+Section~\ref{subsec:evaluation-methods} found that simulation, the dominant
+evaluation method, models specific attack behaviours flexibly but that its
+results do not transfer directly to a real network \citep{cho2020}. The APT
+attacker model shares the baseline attacker's six attack actions, so it is
+comparable with the baseline attacker and limited to what those attack actions
+do: find and compromise hosts, with no actions on objectives
+(Section~\ref{sec:fidelity-verdict}). The two attackers therefore differ mostly
+in the APT attacker model's tactic durations and the order of its tactics
+(Section~\ref{sec:disc-behaviour}). With MTD, these two differences likely
+decide which MTD layer reduces each attacker's NCR most
+(Section~\ref{sec:disc-mtd-performance}). An MTD evaluation that runs a new
+attacker model in an existing simulator therefore likely tests MTD against a new
+order and timing of that simulator's attack actions.
+```
+
+Not taken: Marc's "the only two things you can change are the order and the timing" as "likely changes only ...". "Only" would contradict S4's "mostly" (the tactic-to-action mapping and the failure matrix also differ; §6.3). The specific ending carries the weight: S1 says the limit, and S6 says what is left inside it.
