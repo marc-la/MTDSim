@@ -5277,3 +5277,18 @@ The labels "explicit" and "implicit" are not reader terms, so the prose uses §2
 - S4: It was written with the baseline attacker's attack actions, and no one has checked it against an APT. Command and Control might keep contact with a host after an IP shuffle, and a service-layer deployment might take back a host compromised through that service; either would narrow the host layer's lead.
 
 **Placement.** The recommendation stands: external. The fair comparison is the internal half, and it is mitigated; the open half is reach.
+
+
+## §129 — T2 v4 applied and moved to external validity (Marc 2026-10-13: "you'd move it to external validity, OK ... it reaches a real APT ... limited by the attack actions ... the drivers are the attack actions ... critical point")
+
+- v4 from §128 applied as the first item of external validity. One edit: "written with the baseline attacker's attack actions" became "written for the baseline attacker's six attack actions", which states Marc's point (the attack actions are the drivers) inside T2. The broader cap (the APT attacker model is only as good as the attack actions it adopts) is the opener's first limitation and §6.3's ceiling, so it is not repeated.
+- Not "acts only through the attack actions": a host-layer deployment during an unmapped tactic also costs the host (ch4), so that wording would be false.
+- Ranked first in external. It could narrow the host layer's lead, the SQ3 finding, and T1 showed the rankings hold without the attack profiles and under the random partitions (which weakens T11's reach on the rankings). Swap if Marc disagrees.
+- Numbering now:
+  - internal: T1 cause, T2 conditions, T3 code;
+  - construct: T4 values, T5 mapping, T6 metrics, T7 yardstick;
+  - conclusion: T8 statistics, T9 post-hoc;
+  - external: T10 rules, T11 corpus, T12 observation.
+  - All references are \ref, so nothing breaks. Handoff sections before §129 use the old numbers.
+- App F.3's pointer to thr:rules is still valid (user shuffle's rule is part of MTDSim's model of disruption).
+- Build 118 pages, 0 undefined.

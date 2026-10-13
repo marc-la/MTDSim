@@ -9072,18 +9072,6 @@ the tactic-to-action mapping, which we declared (\ref{thr:mapping}). Every run
 under MTD drew its base weights from the attack flows and used this mapping,
 and the host layer's explanation rests on both.
 
-\item\label{thr:rules} Part of the difference between the two attackers can
-come from MTDSim's MTD mechanisms, which were written against the baseline
-attacker's procedure (Section~\ref{subsec:attacker-model}). After a host-layer
-deployment, the APT attacker model has no host until the order of its tactics
-reaches Lateral Movement (Section~\ref{sec:disc-mtd-performance}). An APT that
-holds hosts through Command and Control might keep one, so the host layer's
-rank against the APT attacker model rests on MTDSim's rule. User shuffle leaves
-valid the accounts the attacker holds, so each deployment gives both attackers
-a fresh chance to log in (Appendix~\ref{app:fa-accounts}). Both attackers face
-the same MTD mechanisms, networks and seeds, and no MTD mechanism was changed
-for the APT attacker model, so the rules are shared but untested.
-
 \item\label{thr:conditions} The two attackers do not run under identical
 conditions. An attack action takes the mean duration of the tactic that runs
 it, not MTDSim's time (Table~\ref{tab:attack-action-times}), and the
@@ -9193,6 +9181,28 @@ advance.
 
 \paragraph{External validity.}
 \begin{enumerate}[resume*=threats]
+% T2 v4 2026-10-13 (Marc: "move it to external validity ... it reaches a real
+%  APT ... limited by the attack actions"; handoff sections 126-129): moved from
+%  internal validity (both attackers meet the same model, so the comparison is
+%  fair; the open half is reach). Threat: both 6.2 explanations rest on MTDSim's
+%  model of disruption (2.2.3). Mitigation: the same for both; code follows the
+%  papers (T4). Residual: written for the baseline attacker's six attack
+%  actions, never checked against an APT; both plausible differences narrow the
+%  host layer's lead. Cut: the Lateral Movement mechanism (6.2, T1), user
+%  shuffle (App F.3's own bound), "same networks and seeds" (design).
+\item\label{thr:rules} Both explanations in Section~\ref{sec:disc-mtd-performance}
+rest on MTDSim's model of how an MTD deployment disrupts an attacker
+(Section~\ref{subsec:attacker-model}): a service-layer deployment interrupts
+only scanning ports, exploits and brute force, and a host-layer deployment
+interrupts any attack action and costs the attacker the host it was on. Both
+attackers meet the same model, so the comparison is fair, and the code follows
+MTDSim's papers (\ref{thr:code}). We took the model as given because
+\ref{sq:evaluate} compares the two attackers under MTDSim's MTD. It was written
+for the baseline attacker's six attack actions, and no one has checked it
+against an APT. Command and Control might keep contact with a host after an IP
+shuffle, and a service-layer deployment might take back a host compromised
+through that service; either would narrow the host layer's lead.
+
 \item\label{thr:corpus} The results reach APT attackers only as far as the 38
 attack flows do. The attack flows record campaigns that were detected and
 reported (Section~\ref{subsec:failure-matrix}), and each draws only the steps
