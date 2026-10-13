@@ -1,6 +1,7 @@
-% Honours seminar: 15 min talk + 5 min questions.
-% Slides:  pdflatex seminar.tex  (twice)
+% Honours seminar: 15 min talk + 5 min questions (coordinator's timetable email).
+% Slides:  pdflatex seminar.tex  (twice: the footer timeline needs the .nav file)
 % Notes:   pdflatex -jobname=seminar_notes "\def\withnotes{}\input{seminar}"  (twice)
+% Slides carry prompts only; what to say is in each frame's \note.
 % Every number on a slide is taken from the dissertation; the table or
 % figure it comes from is named in the frame's comment.
 \documentclass[aspectratio=169,11pt]{beamer}
@@ -14,6 +15,7 @@
 \usepackage{pgfplots}
 \pgfplotsset{compat=1.17}
 \usepgfplotslibrary{groupplots}
+\usepackage{appendixnumberbeamer}   % "n / 12" counts the main slides only
 \graphicspath{{../figures/}}
 
 \ifdefined\withnotes
@@ -24,7 +26,6 @@
 \definecolor{accent}{RGB}{31,84,140}
 \definecolor{mid}{RGB}{122,122,122}
 \setbeamertemplate{navigation symbols}{}
-\setbeamertemplate{footline}{\hfill\scriptsize\color{mid}\insertframenumber\hspace{3mm}\vspace{2mm}}
 \setbeamercolor{frametitle}{fg=accent}
 \setbeamerfont{frametitle}{size=\large,series=\bfseries}
 \setbeamercolor{structure}{fg=accent}
@@ -32,10 +33,23 @@
 \setbeamertemplate{itemize subitem}{\color{mid}--}
 \setbeamersize{text margin left=8mm,text margin right=8mm}
 
+% --- footer: the talk's timeline (sections, one dot per slide) + n / 12 -----
+\useoutertheme[subsection=false]{miniframes}
+\setbeamertemplate{headline}{}
+\setbeamertemplate{mini frames}[default]
+\setbeamercolor{section in head/foot}{fg=accent}
+\setbeamercolor{mini frame}{fg=accent}
+\setbeamerfont{section in head/foot}{size=\scriptsize}
+\setbeamertemplate{footline}{%
+  \begin{beamercolorbox}[wd=\paperwidth,ht=4mm,dp=3.6mm]{section in head/foot}%
+    \hspace*{2mm}\insertnavigation{0.82\paperwidth}\hfill
+    {\scriptsize\color{mid}\insertframenumber\,/\,\inserttotalframenumber}\hspace*{4mm}%
+  \end{beamercolorbox}}
+
 \newcommand{\src}[1]{{\scriptsize\color{mid}[#1]}}
 \newcommand{\yes}{\ding{51}}
 \newcommand{\no}{{\color{mid}\ding{55}}}
-\newcommand{\takeaway}[1]{\vfill{\color{accent}\rule{\linewidth}{0.4pt}}\\[1mm]#1}
+\newcommand{\takeaway}[1]{\vfill{\color{accent}\rule{\linewidth}{0.4pt}}\\[1mm]#1\vspace{1mm}}
 
 \title{Evaluating moving target defence against advanced persistent threat attackers modelled on documented intrusion campaigns}
 \author{Marc Labouchardiere\\[1mm]{\small Supervisor: Dr Jin B. Hong}}
@@ -45,75 +59,76 @@
 \begin{document}
 
 % ============================================================================
-\begin{frame}[plain]
+\begin{frame}[plain,noframenumbering]
   \titlepage
 \end{frame}
 \note[itemize]{
 \item \textbf{0:00 to 0:15.} Name, supervisor.
 \item One line: ``I test whether MTD's measured effectiveness survives a change of attacker.''
+\item The footer is the talk's timeline: six parts, one dot per slide.
 }
 
 % ============================================================================
+\section{Motivation}
 % Ch1; ch3 3.1.1 and 3.1.3; Figure 3.2.
 \begin{frame}{MTD is proposed against APT attackers, but rarely tested against one}
 \begin{columns}[T]
-\begin{column}{0.50\textwidth}
+\begin{column}{0.44\textwidth}
 \begin{itemize}
-  \item \textbf{Advanced persistent threat (APT)}: one objective, one target, months or years \src{Alshamrani 2019}
-  \item Volt Typhoon: at least five years inside US critical infrastructure; its reconnaissance stayed valid \src{CISA 2024}
-  \item \textbf{Moving target defence (MTD)}: keep changing the network, so what the attacker learned goes out of date \src{Cho 2020}
-  \item Yet MTD is tested against attackers far simpler than an APT \src{Jalowski 2026}
+  \item \textbf{Advanced persistent threat (APT)}: one target, months to years
+  \item Volt Typhoon: five years inside US infrastructure \src{CISA 2024}
+  \item \textbf{Moving target defence (MTD)}: keep the network moving
+  \item Tested against simple, scripted attackers
 \end{itemize}
 \end{column}
-\begin{column}{0.47\textwidth}
+\begin{column}{0.53\textwidth}
   \centering
   \includegraphics[width=\linewidth]{fig_3-1-3a_attack_flow_volt_typhoon}\\[1mm]
-  {\scriptsize Volt Typhoon's intrusion as an \textbf{attack flow}: the steps an analyst recorded from the threat report, in order}
+  {\scriptsize Volt Typhoon's intrusion as an \textbf{attack flow}}
 \end{column}
 \end{columns}
 \takeaway{\textbf{Research question:} How does MTD perform against APT attackers?}
 \end{frame}
 \note[itemize]{
-\item \textbf{0:15 to 1:30.} Open on Volt Typhoon: five years inside, never detected, signing in with stolen valid accounts.
-\item Its reconnaissance stayed valid because nothing moved. MTD's idea: keep moving, so stolen knowledge goes stale even if the attacker is never detected.
-\item Point at the attack flow: ``This is what a threat report gives us: the steps, in order. Hold on to this picture; it is the raw material of my attacker.''
-\item The gap: MTD is proposed against APTs, but tested against simple scripted attackers. Read the research question aloud.
-\item Transition: ``To test that, I need an MTD simulator and an attacker. Here is the simulator.''
+\item \textbf{0:15 to 1:30.} APT: a well-resourced attacker, often state-sponsored, pursuing one objective against one target over months or years (Alshamrani 2019). Espionage intrusions go undetected for a median of 122 days (Mandiant 2026).
+\item Volt Typhoon held footholds in US critical infrastructure for at least five years, signing in with stolen valid accounts. Its reconnaissance stayed valid because the networks never changed.
+\item MTD: change addresses, topology, software and credentials on a schedule, so what the attacker learned goes out of date even if it is never detected (Cho 2020).
+\item Point at the attack flow: ``This is what a threat report gives us: the steps, in order, drawn by an analyst. It is the raw material of my attacker.''
+\item The gap: MTD is proposed against APTs, but tested in simulation against attackers far simpler than an APT (Jalowski 2026). Read the research question aloud.
+\item Transition: ``To test that, I need an MTD simulator and an attacker.''
 }
 
 % ============================================================================
+\section{Previous work}
 % Ch2: Figure 2.2, Table 2.1, Section 2.2.3.
-\begin{frame}{Previous work: MTDSim and its scripted baseline attacker}
+\begin{frame}{MTDSim: seven MTD mechanisms, one scripted attacker}
 \begin{columns}[T]
-\begin{column}{0.50\textwidth}
+\begin{column}{0.44\textwidth}
 \begin{itemize}
-  \item \textbf{MTDSim}: UWA's MTD simulator \src{Brown 2023; Zhang 2023; Tay 2024}
-  \item 50 hosts in four levels, from exposed endpoints to target hosts
-  \item Seven \textbf{MTD mechanisms}, one deployed every \textbf{deployment interval} (200\,s by default):
-  \begin{itemize}
-    \item \textbf{host layer}: IP shuffle, two topology shuffles
-    \item \textbf{service layer}: port shuffle, OS and service diversity
-    \item \textbf{credentials}: user shuffle
-  \end{itemize}
-  \item \textbf{Baseline attacker}: six \textbf{attack actions} in a fixed order
+  \item \textbf{MTDSim} \src{Brown 2023; Zhang 2023; Tay 2024}
+  \item \textbf{Host layer}: where hosts are
+  \item \textbf{Service layer}: what runs on them
+  \item \textbf{Baseline attacker}: six \textbf{attack actions}, fixed order
 \end{itemize}
 \end{column}
-\begin{column}{0.47\textwidth}
+\begin{column}{0.53\textwidth}
   \centering
   \includegraphics[width=\linewidth]{fig_2-2-1a_network_model}
 \end{column}
 \end{columns}
 \end{frame}
 \note[itemize]{
-\item \textbf{1:30 to 2:30.} This is the work I inherit. Brown built it, Zhang added time, Tay added MTDShield, a reinforcement-learning agent that picks which mechanism to deploy.
-\item Point at panel (b): each part of a host has a mechanism that moves it. \textbf{Remember the two layers}: the host layer moves where hosts are; the service layer moves what runs on them. The results hinge on this split.
-\item The baseline attacker runs the same six attack actions in the same order, every run.
-\item Transition: ``Is a fixed procedure like that a fair stand-in for an APT? I checked.''
+\item \textbf{1:30 to 2:30.} The work I inherit: Brown built MTDSim at UWA, Zhang added simulated time, Tay added MTDShield, a reinforcement-learning agent that picks which mechanism to deploy.
+\item Panel (a): 50 hosts in four levels; the attacker enters at an exposed endpoint and works towards the target hosts.
+\item Panel (b): each part of a host has a mechanism that moves it. Seven MTD mechanisms, one deployed every deployment interval (200\,s by default).
+\item \textbf{The two layers the results hinge on}: host layer = IP shuffle and two topology shuffles; service layer = port shuffle, OS diversity, service diversity. Plus user shuffle on credentials.
+\item Baseline attacker: scan host, enumerate host, scan port, exploit, brute force, scan neighbours; the same order every run.
+\item Transition: ``Is a fixed procedure a fair stand-in for an APT?''
 }
 
 % ============================================================================
 % Ch3: Tables 3.2 and 3.3.
-\begin{frame}{The gap: recent MTD attacker models have at most one APT property in full}
+\begin{frame}{Recent MTD attacker models lack most APT properties}
 \centering
 \small
 \begin{tabular}{@{}l l c c c@{}}
@@ -130,147 +145,143 @@
 7 & Learning from past deployments & \no & \no & \no \\
 8 & Deployment-strategy awareness & \no & \no & \no \\
 \bottomrule
-\end{tabular}\\[2mm]
+\end{tabular}\\[1mm]
 {\scriptsize 1, 2, 4, 5: the APT definition \src{Alshamrani 2019; NIST 2011}. 3, 6, 7, 8: two MTD surveys \src{Cho 2020; Jalowski 2026}.}
 \takeaway{\textbf{Gap}: how MTD performs against APT attackers is unmeasured.}
 \end{frame}
 \note[itemize]{
 \item \textbf{2:30 to 3:30.} Eight properties: four from what an APT is, four that two MTD surveys say attacker models lack. Jalowski et al. call the attacker model ``the most glaring flaw in the MTD literature''.
 \item I scored the baseline attacker and the two most recent MTD evaluations that describe their attacker in Kill Chain or ATT\&CK terms, the ones I expected to do best.
-\item Read the result: only campaign persistence, only for the baseline attacker. Nobody has objective-specific behaviour.
-\item I targeted three of these: objective-specific behaviour, choice of attack strategy, adaptivity.
+\item Read the result: at most one property in full, campaign persistence, only for the baseline attacker. None has objective-specific behaviour.
+\item I targeted three: objective-specific behaviour, choice of attack strategy, adaptivity.
 \item Likely question: ``How did you score them?'' $\to$ backup \textit{Scoring the eight properties}.
 }
 
 % ============================================================================
+\section{Method}
 % Ch4: Figure 4.1, Section 4.1, Table 4.1.
-\begin{frame}{Approach: build an APT attacker model from threat reports, run it in MTDSim}
+\begin{frame}{Build an APT attacker model from threat reports; run it in MTDSim}
 \begin{columns}[T]
-\begin{column}{0.53\textwidth}
+\begin{column}{0.60\textwidth}
   \centering
   \includegraphics[width=\linewidth]{fig_4-0a_method_overview}
 \end{column}
-\begin{column}{0.44\textwidth}
+\begin{column}{0.37\textwidth}
 \begin{itemize}
-  \item \textbf{SQ1}: 38 attack flows \src{MITRE CTID} $\to$ an \textbf{attack graph} over the 15 ATT\&CK \textbf{tactics} $\to$ four \textbf{attack profiles} by objective:\\[1mm]
-  {\small
-  \begin{tabular}{@{}l l r@{}}
-  c1 & stole data & 19 flows \\
-  c2 & impeded systems & 7 \\
-  c3 & both & 7 \\
-  c4 & neither & 5 \\
-  \end{tabular}}
-  \item \textbf{SQ2}: each attack profile runs in MTDSim as a Petri net
-  \item \textbf{SQ3}: both attackers, same networks, same MTD
+  \item \textbf{SQ1}: 38 attack flows $\to$ four \textbf{attack profiles} by objective
+  \item \textbf{SQ2}: each runs as a Petri net
+  \item \textbf{SQ3}: two attackers, same MTD
 \end{itemize}
+\vspace{2mm}
+{\small
+\begin{tabular}{@{}l l@{}}
+c1 & stole data \\
+c2 & impeded systems \\
+c3 & both \\
+c4 & neither \\
+\end{tabular}}
 \end{column}
 \end{columns}
 \end{frame}
 \note[itemize]{
-\item \textbf{3:30 to 4:45.} Three sub-questions, one pipeline (point left to right along the top row).
-\item An attack flow is the Volt Typhoon picture from slide 2: analysts drew 38 of these by hand from public threat reports. Hand-drawn matters: automated extraction from report text is still unreliable (best systems 80\,\% precision at 66\,\% recall on technique identification alone).
-\item Nodes are tactics, the ATT\&CK ``why'' level, not techniques: 88\,\% of technique-to-technique edges come from a single attack flow, so their weights would be noise.
-\item Objective split: two yes/no questions per attack flow, did it steal data, did it impede systems.
+\item \textbf{3:30 to 4:45.} Three sub-questions, one pipeline: point left to right along the top row.
+\item The 38 attack flows are analysts' hand-drawn graphs of reported intrusions, published by MITRE's Center for Threat-Informed Defense; the Volt Typhoon picture is one of the kind. Hand-drawn matters: automated extraction from report text is unreliable (best systems 80\,\% precision at 66\,\% recall on identifying techniques alone).
+\item Aggregated into an attack graph over the 15 ATT\&CK tactics (what the attacker is trying to do: Initial Access, Lateral Movement, Exfiltration, \ldots). Tactics, not techniques: 88\,\% of technique-to-technique edges come from a single attack flow.
+\item Split by two yes/no questions per attack flow: did it steal data, did it impede systems. c1 has 19 attack flows, c2 7, c3 7 (mostly ransomware), c4 5.
 \item Transition: ``A graph does not run. Here is how it runs.''
 }
 
 % ============================================================================
 % Ch4: Figure 4.5; Sections 4.3, 4.4.1 to 4.4.3; Figure 4.4(b).
-\begin{frame}{A Petri net picks the next tactic; MTDSim's attack actions carry it out}
+\begin{frame}{A Petri net picks the next tactic; MTDSim carries it out}
 \begin{columns}[T]
-\begin{column}{0.50\textwidth}
+\begin{column}{0.62\textwidth}
   \centering
   \includegraphics[width=\linewidth]{fig_4-4c_runtime_loop}
 \end{column}
-\begin{column}{0.47\textwidth}
+\begin{column}{0.35\textwidth}
 \begin{itemize}
-  \item Next tactic drawn by how often the attack flows took that step
-  \item \textbf{Tactic-to-action mapping}: 8 of 15 tactics run an attack action; 7 are \textbf{unmapped} (e.g.\ Exfiltration) and only take time
-  \item \textbf{Tactic duration}: up to 45\,s on average
-  \item \textbf{Failure matrix}: after a failure, reweights the next tactic (failed Initial Access $\to$ Reconnaissance: 0.06 becomes 0.75)
-  \item Threat reports record no timing or failures: declared, then stress-tested
+  \item Next tactic: drawn from the attack flows
+  \item 7 of 15 tactics \textbf{unmapped}
+  \item Timing and failures: declared
 \end{itemize}
 \end{column}
 \end{columns}
 \end{frame}
 \note[itemize]{
-\item \textbf{4:45 to 6:15.} Walk the loop once with your finger, steps 1 to 6: token's tactic out; mapped to an attack action; runs for the tactic duration; MTDSim returns success or failure; after failure, the failure matrix reweights; token moves on.
-\item Petri net = generalised stochastic Petri net, the convention in MTD evaluation. Timed transition = the tactic duration; immediate transitions = the choice of next tactic.
-\item The ceiling: MTDSim's attack actions only find and compromise hosts. Collection, Exfiltration and Impact have nothing to act on, so the model steals no data. Say this plainly; it is the honest bound.
-\item Where CTI is silent I declared values, before any result, and varied them afterwards.
+\item \textbf{4:45 to 6:15.} Walk the loop once with your finger, steps 1 to 6: the token's tactic leaves the Petri net; the tactic-to-action mapping turns it into an attack action; it runs for the tactic duration; MTDSim returns success or failure; after a failure the failure matrix reweights; the token moves on.
+\item Petri net: a generalised stochastic Petri net, the convention in MTD evaluation. Next tactic drawn in proportion to how many attack flows took that step, so runs differ.
+\item Tactic-to-action mapping: 8 of 15 tactics run one of MTDSim's six attack actions. The other 7 (e.g.\ Exfiltration, Stealth) are unmapped and only take time. The ceiling: MTDSim's attack actions only find and compromise hosts, so the model steals no data. Say this plainly.
+\item Threat reports record no timing and no failures. Tactic durations (up to 45\,s on average) and the failure matrix are declared before any result, then varied. Example: a failed Initial Access returns to Reconnaissance with weight 0.75, up from 0.06.
 \item Likely questions: ``Why these durations?'' $\to$ backup \textit{Tactic durations}; ``Formal definition?'' $\to$ backup \textit{The Petri net}.
 }
 
 % ============================================================================
 % Ch5: Table 5.1, Section 4.5.
-\begin{frame}{Experiment: both attackers, the same 1\,000 networks, every MTD setting}
+\begin{frame}{Experiment: both attackers on the same 1\,000 networks}
+\begin{columns}[T]
+\begin{column}{0.52\textwidth}
 \small
-\begin{tabularx}{\textwidth}{@{}>{\bfseries}l >{\raggedright\arraybackslash}X@{}}
+\begin{tabularx}{\linewidth}{@{}>{\bfseries}l >{\raggedright\arraybackslash}X@{}}
 \toprule
-Attacker & baseline attacker; APT attacker model on each of c1 to c4 \\
-MTD & none; each of the seven mechanisms alone; random and alternative rotation; MTDShield as released \\
-Deployment interval & 50, 100, 200, 500, 1\,000 and 2\,000\,s \\
-Run & targeted scenario: ends at the first target host compromised, or at 15\,000\,s \\
-Seeds & 1\,000 per configuration; same seed, same network, for both attackers \\
+Attacker & baseline; APT model, c1 to c4 \\
+MTD & none; 7 mechanisms; 3 deployment strategies \\
+Interval & 50 to 2\,000\,s \\
+Seeds & 1\,000 per configuration \\
 \bottomrule
 \end{tabularx}
-\normalsize
-\begin{columns}[T]
-\begin{column}{0.50\textwidth}
-\begin{itemize}
-  \item \textbf{NCR}, network compromise ratio: share of hosts compromised \src{Zhang 2023}
-  \item \textbf{NCR reduction} $= 1 - \dfrac{\text{NCR under MTD}}{\text{NCR with no MTD}}$
-\end{itemize}
 \end{column}
-\begin{column}{0.46\textwidth}
-\begin{itemize}
-  \item Each attacker against its own runs with no MTD
-  \item MTD ranked by Scott--Knott effect-size test; rankings compared by Spearman's $\rho$
-\end{itemize}
+\begin{column}{0.45\textwidth}
+\textbf{NCR}: share of hosts compromised\\[3mm]
+\textbf{NCR reduction}\\[1mm]
+$\displaystyle = 1 - \frac{\text{NCR under MTD}}{\text{NCR with no MTD}}$
 \end{column}
 \end{columns}
 \end{frame}
 \note[itemize]{
-\item \textbf{6:15 to 7:00.} Keep this quick. The key design choice: every configuration on the same 1\,000 seeds, so both attackers face the same 1\,000 networks. Differences come from the attacker, not the network.
-\item NCR reduction compares each attacker with itself: 0 = no effect, 1 = nothing compromised. That makes the two attackers comparable even though their starting NCRs differ.
-\item 1\,000 runs per configuration follows the recommendation for randomised algorithms (Arcuri and Briand).
-\item Behaviour metrics on the next slide: distinct openings, attack rate, attack confidentiality. Define them as you show them.
+\item \textbf{6:15 to 7:00.} Keep this quick.
+\item The design choice that matters: every configuration runs on the same 1\,000 seeds, so both attackers face the same 1\,000 networks. Differences come from the attacker, not the network. 1\,000 runs follows the recommendation for randomised algorithms (Arcuri and Briand).
+\item MTD: none; each of the seven mechanisms alone; random and alternative rotation; MTDShield as released. Intervals 50, 100, 200, 500, 1\,000, 2\,000\,s.
+\item Targeted scenario: a run ends at the first target host compromised, or at 15\,000\,s.
+\item NCR, network compromise ratio (Zhang 2023). NCR reduction compares each attacker with its own runs with no MTD: 0 = no effect, 1 = nothing compromised.
+\item MTD settings ranked by the Scott--Knott effect-size test; the two rankings compared with Spearman's $\rho$.
 }
 
 % ============================================================================
+\section{Results}
 % Ch5: Table 5.2, Figure 5.1(b), Section 5.2; Ch6 6.1.
 \begin{frame}{No MTD: the APT attacker model acts more like an APT, but compromises less}
 \small
-\begin{tabularx}{\textwidth}{@{}>{\raggedright\arraybackslash}p{3.3cm} >{\raggedright\arraybackslash}X >{\centering\arraybackslash}p{2.6cm} >{\centering\arraybackslash}p{1.9cm}@{}}
+\begin{tabularx}{\textwidth}{@{}>{\raggedright\arraybackslash}X >{\centering\arraybackslash}p{3.0cm} >{\centering\arraybackslash}p{2.4cm}@{}}
 \toprule
-Property & Metric & APT attacker model (c1 to c4) & Baseline attacker \\
+ & APT attacker model & Baseline attacker \\
 \midrule
-Choice of attack strategy & distinct openings (first 8 steps) & 179 to 947 & 3 \\
-Detection avoidance & attack rate (attack actions per minute) & 0.68 to 1.23 & 1.71 \\
- & attack confidentiality (share not flagged) & 89 to 98\,\% & 82\,\% \\
-Objective-specific behaviour & steps in Exfiltration / Impact & c1, c3 / mostly c2, c3 & neither \\
+Distinct openings (first 8 steps) & 179 to 947 & 3 \\
+Attack actions per minute & 0.68 to 1.23 & 1.71 \\
+Not flagged by a port-scan rule & 89 to 98\,\% & 82\,\% \\
 \midrule
-Attack outcome & ASP (runs reaching a target host) & 0.04 to 0.14 & 0.66 \\
- & NCR & 0.15 to 0.21 & 0.50 \\
+Runs reaching a target host (ASP) & 0.04 to 0.14 & 0.66 \\
+Share of hosts compromised (NCR) & 0.15 to 0.21 & 0.50 \\
 \bottomrule
 \end{tabularx}
 \normalsize
-\takeaway{Its tactic durations and the order of its tactics cause both halves: ASP and NCR alone rate it the weaker attacker for what makes it APT-like.}
+\takeaway{Same cause for both halves: its tactic durations and the order of its tactics.}
 \end{frame}
 \note[itemize]{
 \item \textbf{7:00 to 8:15.} First, no MTD at all: does the model behave differently?
-\item Distinct openings: the baseline attacker's 1\,000 runs start the same way; the attack profiles' runs part ways by the second to fourth step.
-\item Attack confidentiality: share of attack actions that Snort's default port-scan rule (5 targets in 60\,s) would not flag. MTDSim has no IDS, so this is a proxy; say so.
-\item Then the outcome rows: it reaches a target in far fewer runs. Pre-empt the obvious objection: ``Yes, it is a weaker attacker with no MTD. Its tactic durations are slower; with the baseline attacker's times it closes about two thirds of the ASP gap.''
-\item Transition: ``So, two different attackers on the same networks. Now switch MTD on.''
+\item Row 1, choice of attack strategy: the baseline attacker's 1\,000 runs start the same way; the attack profiles' runs part ways by the second to fourth step. Ranges are over c1 to c4.
+\item Rows 2 and 3, detection avoidance by proxy: it acts less often, and Snort's default port-scan rule (5 targets in 60\,s) would flag fewer of its attack actions. MTDSim has no IDS; say so.
+\item Objective-specific behaviour (not on the slide): Exfiltration steps only in c1 and c3, Impact mostly in c2 and c3.
+\item Bottom rows: it reaches a target in far fewer runs. Pre-empt the objection: ``Yes, with no MTD it is the weaker attacker. ASP and NCR alone would rate it weaker for exactly what makes it APT-like. With the baseline attacker's times it closes about two thirds of the gap.''
+\item Transition: ``Two different attackers, the same networks. Now switch MTD on.''
 \item Likely question: ``Isn't it just weaker?'' $\to$ backup \textit{Why it compromises less}.
 }
 
 % ============================================================================
 % Ch5: Table 5.3 (200 s), Table F.4, Section 5.3.2.
-\begin{frame}{Headline: the most effective MTD mechanism differs between the two attackers}
+\begin{frame}{Headline: the most effective MTD mechanism differs between the attackers}
 \begin{columns}[T]
-\begin{column}{0.52\textwidth}
+\begin{column}{0.56\textwidth}
 \small
 \begin{tabular}{@{}l >{\centering\arraybackslash}p{2.1cm} >{\centering\arraybackslash}p{2.1cm}@{}}
 \toprule
@@ -288,37 +299,37 @@ NCR reduction at 200\,s & APT attacker model & Baseline attacker \\
 \quad user shuffle & $-10$\,\% (8) & $-5$\,\% (5) \\
 \bottomrule
 \end{tabular}\\[1mm]
-{\scriptsize (rank) among all ten MTD settings; APT attacker model averaged over c1 to c4.}
+{\scriptsize (rank) among all ten MTD settings}
 \end{column}
-\begin{column}{0.44\textwidth}
+\begin{column}{0.40\textwidth}
 \begin{itemize}
-  \item Rank 1 against the APT attacker model: \textbf{host layer} only
-  \item Rank 1 against the baseline attacker: \textbf{service layer} only
-  \item Service diversity: 92\,\% against 36\,\%, on the same networks
-  \item Rankings uncorrelated: Spearman's $\rho = 0.01$
+  \item Rank 1 shares no mechanism
+  \item Service diversity: 92 against 36\,\%
+  \item Spearman's $\rho = 0.01$
 \end{itemize}
 \end{column}
 \end{columns}
 \end{frame}
 \note[itemize]{
 \item \textbf{8:15 to 9:45.} \textbf{This is the result. Slow down.}
-\item Read the bold cells: top-left block wins for the APT attacker model, the middle-right block wins for the baseline attacker. Rank 1 shares no mechanism.
-\item Give the one number: service diversity, 92 against 36\,\%, same networks, same deployments.
-\item $\rho = 0.01$: the orders do not agree. Careful: ``uncorrelated'', not ``reversed''.
-\item User shuffle is negative against the APT attacker model: it redraws accounts but leaves valid the ones the attacker already holds, so each deployment is a fresh chance to log in. (Only if asked.)
+\item Read the bold cells: against the APT attacker model, the host layer ranks first; against the baseline attacker, the service layer. Rank 1 shares no mechanism.
+\item The one number: service diversity removes 92\,\% of the baseline attacker's NCR and 36\,\% of the APT attacker model's, on the same networks, with the same deployments.
+\item $\rho = 0.01$: the two rankings are uncorrelated. Say ``do not agree'', not ``reversed''.
+\item APT attacker model averaged over c1 to c4.
+\item Only if asked: user shuffle is negative against the APT attacker model because it redraws accounts but leaves valid the ones the attacker holds, so each deployment is a fresh chance to log in.
 \item Transition: ``Is that just the default interval?''
 }
 
 % ============================================================================
 % Ch5: Figure 5.3 panels (a) and (b), redrawn per attacker from Table F.2; Figure 5.2 / Table F.1; Ch6 6.2.
-\begin{frame}{The difference holds at every deployment interval, and has a mechanism}
+\begin{frame}{The difference holds at every deployment interval}
 \begin{columns}[T]
-\begin{column}{0.53\textwidth}
+\begin{column}{0.58\textwidth}
 \centering
 \begin{tikzpicture}
 \begin{groupplot}[
   group style={group size=2 by 1, horizontal sep=5mm, y descriptions at=edge left},
-  width=4.7cm, height=4.7cm, legend to name=layers,
+  width=5.1cm, height=4.9cm, legend to name=layers,
   xmode=log, xmin=40, xmax=2500,
   xtick={50,100,200,500,1000,2000},
   xticklabels={50,100,200,500,1k,2k},
@@ -340,34 +351,36 @@ NCR reduction at 200\,s & APT attacker model & Baseline attacker \\
 \end{groupplot}
 \end{tikzpicture}\\[-0.5mm]
 {\scriptsize Deployment interval (s, log scale)}\\[0.5mm]
-\ref{layers}\\[0.5mm]
-{\scriptsize Each line: the mean over the layer's MTD mechanisms}
+\ref{layers}
 \end{column}
-\begin{column}{0.44\textwidth}
+\begin{column}{0.38\textwidth}
+\textbf{Why} (measured at 2\,000\,s):
 \begin{itemize}
-  \item The service layer disrupts only scan port, exploit and brute force
-  \item The baseline attacker does these back to back; the APT attacker model sits mostly in unmapped tactics
-  \item Service-layer deployments that block an attack action: 95\,\% against 15\,\%
-  \item Each host-layer deployment costs the APT attacker model 242 to 324\,s; the baseline attacker none
+  \item The service layer disrupts only port scans, exploits and brute force
+  \item Blocks an attack action: 95\,\% baseline, 15\,\% APT model
+  \item Host layer costs the APT model 242 to 324\,s
 \end{itemize}
 \end{column}
 \end{columns}
 \end{frame}
 \note[itemize]{
-\item \textbf{9:45 to 11:15.} Left: in each panel, which line is on top? APT attacker model: host layer, at every interval. Baseline attacker: service layer, at every interval.
-\item One number: the host layer keeps at least half of the APT attacker model's NCR off up to 1\,000\,s; the service layer does that for the baseline attacker only up to 200\,s.
-\item Right, the why, measured at 2\,000\,s: the attacker is disrupted only if a deployment lands while it is doing the thing that layer breaks. The APT attacker model spends most of its time in tactics MTDSim cannot see.
+\item \textbf{9:45 to 11:15.} Left: in each panel, which line is on top? APT attacker model: host layer, at every interval. Baseline attacker: service layer, at every interval. Each line is the mean over the layer's mechanisms.
+\item The host layer keeps at least half of the APT attacker model's NCR off up to 1\,000\,s; the service layer does that for the baseline attacker only up to 200\,s.
+\item Why: a deployment disrupts an attacker only if it lands while the attacker is doing what that layer breaks. The baseline attacker scans ports, exploits and brute-forces back to back; the APT attacker model sits mostly in unmapped tactics, which run no attack action.
+\item A host-layer deployment costs the APT attacker model 242 to 324\,s: it has no host until its Petri net next reaches Lateral Movement. The baseline attacker loses none, because its procedure re-enumerates a host at once.
 \item Say ``likely'': the tactic durations and the order of the tactics most likely explain it; no run separates the two.
 \item Likely question: ``Does the host layer just stop it getting in?'' $\to$ backup \textit{Footholds under the host layer}. Answer: largely yes, at short intervals.
 }
 
 % ============================================================================
+\section{So what}
 % Ch6 6.4; Table F.2 (200 s); Appendix E.5.
-\begin{frame}{So what: the attacker model can decide which MTD looks best}
+\begin{frame}{The attacker model can decide which MTD looks best}
 \begin{columns}[T]
-\begin{column}{0.43\textwidth}
+\begin{column}{0.46\textwidth}
+\centering
 \small
-\textbf{MTDShield} learned against the baseline attacker; it deploys service diversity in 70\,\% or more of its decisions.\\[2mm]
+\textbf{MTDShield}, learned against the baseline attacker\\[2mm]
 \begin{tabular}{@{}l r r@{}}
 \toprule
 NCR reduction, 200\,s & Baseline & APT model \\
@@ -377,65 +390,88 @@ random deployment & 33\,\% & \textbf{75\,\%} \\
 \bottomrule
 \end{tabular}
 \end{column}
-\begin{column}{0.54\textwidth}
+\begin{column}{0.50\textwidth}
 \begin{itemize}
-  \item \textbf{Learned deployment strategies}: test against an attacker model they were not trained on, beside random deployment
-  \item \textbf{Rankings}: report each with its attacker model; compare across studies only on a shared one
-  \item \textbf{Cost}: to halve NCR, service diversity deploys every 1\,000\,s against the baseline attacker, every 100\,s against the APT attacker model
+  \item Test a learned strategy on an attacker it was not trained on
+  \item Report a ranking with its attacker model
+  \item Cost depends on the attacker model
 \end{itemize}
 \end{column}
 \end{columns}
-\takeaway{An evaluation against one simplified attacker cannot tell you how MTD performs against an APT.}
+\takeaway{One simplified attacker cannot tell you how MTD performs against an APT.}
 \end{frame}
 \note[itemize]{
 \item \textbf{11:15 to 12:45.} The ``so what'' for anyone who evaluates MTD.
-\item MTDShield: trained and tested by Tay against the baseline attacker. Against the APT attacker model, random deployment does almost three times better. Most likely it learned the mechanism that disrupts its training attacker. Analogy for the room: a test in the training environment is a test on training data.
+\item MTDShield was trained and tested by Tay against the baseline attacker. It deploys service diversity in 70\,\% or more of its decisions against either attacker. Against the APT attacker model, random deployment does almost three times better. Most likely it learned the mechanism that disrupts its training attacker: a test in the training environment is a test on training data.
 \item Fair to Tay: it runs as released, outside its training conditions; this bounds MTDShield as released, not retrained.
-\item Cost: deploying ten times as often is ten times the overhead. Which interval is ``enough'' depends on the attacker model.
-\item Question to pose to the room (optional): ``If you were choosing an MTD for a real network, which attacker model would you trust?''
+\item Recommendation 1: test a learned deployment strategy against an attacker model it was not trained on, beside random deployment over the same mechanisms.
+\item Recommendation 2: report each ranking with the attacker model behind it; compare across studies only on a shared attacker model.
+\item Recommendation 3, cost: to halve NCR, service diversity deploys every 1\,000\,s against the baseline attacker, but every 100\,s against the APT attacker model: ten times the overhead.
+\item Optional question to the room: ``If you were choosing an MTD for a real network, which attacker model would you trust?''
 }
 
 % ============================================================================
+\section{Conclusion}
 % Ch6 6.5 (limitations; T1, T4, T5, T10, T11).
-\begin{frame}{Limitations: what the result does not show}
+\begin{frame}{Limitations}
 \begin{itemize}
-  \item \textbf{One simulator}: MTDSim's default 50-host network; deployments cost nothing
-  \item \textbf{Six attack actions cap the model}: 7 of 15 tactics unmapped; no data theft, no impact, no IDS to evade
-  \item \textbf{Declared values}: tactic durations and failure matrix by judgement; only the 45\,s duration moves NCR much, and the ranking holds from a quarter to four times it
-  \item \textbf{Small corpus}: 38 attack flows, 18 attributed to a known group; three attack profiles rest on 5 to 7
-  \item \textbf{Cause not isolated}: tactic durations or the order of tactics; MTDSim's disruption rules were written for the baseline attacker
+  \item One simulator, one network size, no deployment cost
+  \item Six attack actions: no data theft, no IDS
+  \item Declared durations and failure matrix
+  \item 38 attack flows
+  \item Cause not isolated
 \end{itemize}
 \end{frame}
 \note[itemize]{
 \item \textbf{12:45 to 13:45.} State these yourself before anyone asks; examiners mark you for it.
+\item One simulator: every claim holds in MTDSim, on its default 50-host network, with deployments that cost nothing.
+\item MTDSim's six attack actions cap the model: 7 of 15 tactics unmapped, so no data theft, no impact, and no IDS to evade.
+\item Declared values: tactic durations and failure matrix are judgement where threat reports are silent, fixed before any result. Only the 45\,s duration moves NCR much, and the ranking holds from a quarter to four times it.
+\item Small corpus: 38 attack flows, 18 attributed to a known group; three attack profiles rest on 5 to 7.
+\item Cause not isolated: tactic durations or the order of tactics. MTDSim's disruption rules were written for the baseline attacker; an APT holding a host through Command and Control might survive an IP shuffle. Both attackers meet the same rules, so the comparison is fair.
 \item The headline does not say ``MTD fails against APTs'' or ``my attacker is the realistic one''. It says the ranking \emph{can depend} on the attacker model.
-\item The declared values: fixed before any result; halved and doubled one at a time; ranking re-run at both ends of the one value that matters.
-\item The disruption rules are MTDSim's, kept as its papers describe them; both attackers meet the same rules, so the comparison is fair, but an APT might not be disrupted the way the rules assume.
 \item Likely question: ``How do you know the code does what you say?'' $\to$ backup \textit{Verification}.
 }
 
 % ============================================================================
 % Ch7 drafting notes; Table 6.1; Section 7.2.
-\begin{frame}{Conclusion: in MTDSim, the most effective MTD depends on the attacker model}
+\begin{frame}{In MTDSim, the most effective MTD depends on the attacker model}
 \begin{itemize}
-  \item \textbf{Answer}: the host layer disrupts the APT attacker model most, the service layer the baseline attacker, at every deployment interval
-  \item \textbf{Contribution 1}: an APT attacker model from 38 attack flows that any MTDSim study can run; 2 of 8 properties in full and 3 in part, against at most 1 in full for three recent models
-  \item \textbf{Contribution 2}: evidence for evaluating MTD against attacker models grounded in documented behaviour
-  \item \textbf{Future work}: attack actions for actions on objectives, and an IDS; separate tactic durations from the order of tactics; deployment cost; other networks; MTDShield retrained
+  \item \textbf{Built}: an APT attacker model from 38 attack flows, runnable in MTDSim
+  \item \textbf{Found}: host layer against it, service layer against the baseline attacker
+  \item \textbf{Next}: richer attack actions, an IDS, deployment cost
 \end{itemize}
-\takeaway{\centering \textbf{Questions?}\qquad{\scriptsize Code and experiments: github.com/marc-la/MTDSim}}
+\takeaway{Evaluate MTD against attacker models grounded in documented behaviour.}
 \end{frame}
 \note[itemize]{
-\item \textbf{13:45 to 14:45.} Answer the research question in one sentence, then the two contributions. Do not add a number here; the audience has the 92 against 36\,\%.
-\item Contribution 1 in plain words: it is a proof of concept, built, run and open-sourced; not a claim that it reproduces APT behaviour.
-\item End on the evaluation lesson, then ``Thank you; questions.'' Leave this slide up during questions.
-\item Q\&A map: weaker attacker $\to$ \textit{Why it compromises less}; footholds $\to$ \textit{Footholds}; durations $\to$ \textit{Tactic durations}; components $\to$ \textit{Ablations}; per profile $\to$ \textit{Each attack profile}; scoring $\to$ \textit{Scoring}; MTDShield $\to$ \textit{MTDShield as run}; ASP $\to$ \textit{Disruption and ASP}; earlier numbers $\to$ \textit{Verification}.
+\item \textbf{13:45 to 14:45.} Answer the research question in one sentence, then the two contributions. No new numbers; the audience has 92 against 36\,\%.
+\item Contribution 1: the APT attacker model, which any MTDSim study can run in place of the baseline attacker. Two of the eight properties in full and three in part, against at most one in full for three recent models. A proof of concept, built, run and open-sourced; not a claim that it reproduces APT behaviour.
+\item Contribution 2: the finding. At every deployment interval, the host layer disrupts the APT attacker model most and the service layer the baseline attacker.
+\item Future work: attack actions for actions on objectives, and an IDS; separate the tactic durations from the order of tactics; deployment cost; other networks; MTDShield retrained against the APT attacker model.
+\item Then move to the questions slide.
+}
+
+% ============================================================================
+\begin{frame}[plain,noframenumbering]
+\centering
+\vfill
+{\Huge\color{accent}\textbf{Questions?}}\\[8mm]
+{\large How does MTD perform against APT attackers?}\\[2mm]
+{\normalsize In MTDSim, it depends on which attacker it is tested against.}\\[10mm]
+{\small\color{mid} Marc Labouchardiere \quad\textbullet\quad Supervisor: Dr Jin B. Hong}\\[1mm]
+{\small\color{mid} Code and experiments: github.com/marc-la/MTDSim}
+\vfill
+\end{frame}
+\note[itemize]{
+\item Leave this up during questions.
+\item Q\&A map: weaker attacker $\to$ \textit{Why it compromises less}; footholds $\to$ \textit{Footholds}; durations $\to$ \textit{Tactic durations}; components $\to$ \textit{Ablations}; per profile $\to$ \textit{Each attack profile}; scoring $\to$ \textit{Scoring}; Petri net $\to$ \textit{The Petri net}; MTDShield $\to$ \textit{MTDShield as run}; ASP $\to$ \textit{Disruption and ASP}; earlier numbers $\to$ \textit{Verification}.
 }
 
 % ============================================================================
 % =========================== BACKUP SLIDES ==================================
 % ============================================================================
 \appendix
+\setbeamertemplate{footline}{\hfill{\scriptsize\color{mid}Backup \insertframenumber}\hspace*{4mm}\vspace{2mm}}
 
 % Ch6 6.1; Appendix G.3, Tables G.5 and G.6; T2.
 \begin{frame}{Backup: why the APT attacker model compromises less with no MTD}
