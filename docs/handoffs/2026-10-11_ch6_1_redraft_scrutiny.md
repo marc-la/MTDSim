@@ -4887,3 +4887,12 @@ Gaps, in proposed order of weight:
 - (d) **Random partitions, p ≥ 1/11** (examiners 3/6). Restore one clause in T9, or leave it out: ch6 does not lean on it.
 - (e) **Comparators.** The three MTD attacker models were chosen by us, and there is no game-theoretic attacker (examiners 2/6). One clause in T8.
 - Not added: "c4 a residual bin" and "corpus weights never varied". No text supports either.
+
+
+## §112 — Rank 1 at every interval printed (Marc 2026-10-13: "5.3.2 yeah you can do that ... the appendix entry, I don't care")
+
+- tools/ch5_sweep_figures.py gains `--only rankone`, which emits tables/tab_F-0c_rank_one.tex (tab:rank-one-intervals): Table 5.3's Scott-Knott rank 1 at each of the six intervals. Checked: the rank field equals sk_esd group 0 everywhere. Rank 1 shares nothing at any interval: 50-200 s, three host-layer shuffles against service diversity + port shuffle; 500-2,000 s, IP shuffle against service diversity.
+- Appendix E (app:sup-mtd-effect): one lead-in sentence and the table, after Table E.x.
+- §5.3.2 (ch5, approved): "At every deployment interval, rank 1 against the APT attacker model holds only host-layer mechanisms, and rank 1 against the baseline attacker only service-layer mechanisms (Table~\ref{tab:rank-one-intervals})."
+- ch6 (auto): §6.4 opener points to the table; T9's "Scott-Knott at 200 s only" sentence is cut.
+- Build 118 pages, 0 undefined; no new overfull box.

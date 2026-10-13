@@ -7786,7 +7786,10 @@ No MTD mechanism or deployment strategy ranks first against both attackers at
 the default deployment interval, 200\,s (Table~\ref{tab:eff-cross-arm}). IP
 shuffle, host topology shuffle and complete topology shuffle share rank 1
 against the APT attacker model, and service diversity and port shuffle share
-rank 1 against the baseline attacker. $\rho$ between the two attackers' NCR
+rank 1 against the baseline attacker. At every deployment interval, rank 1
+against the APT attacker model holds only host-layer mechanisms, and rank 1
+against the baseline attacker only service-layer mechanisms
+(Table~\ref{tab:rank-one-intervals}). $\rho$ between the two attackers' NCR
 reductions is \prelim{0.01} [\prelim{$-0.19$}, \prelim{0.05}] at 200\,s, and lies
 between \prelim{$-0.24$} and \prelim{0.25} at every deployment interval.
 % LAYOUT 2026-10-06 (Marc): Figure 5.3 above Table 5.3, the curves first and the ranks under them; both
@@ -8915,7 +8918,7 @@ hosts, with no actions on objectives.
 %  ch3's frame; no list of shoulds (only ¶1 and ¶2a end on one), and ¶3's
 %  ending (the shared attack actions) left to ¶3. Bounds are §6.5's.
 In MTDSim, at every deployment interval, the most effective MTD mechanism
-differs between the two attackers (Section~\ref{subsec:eff-cross-arm}). Which
+differs between the two attackers (Table~\ref{tab:rank-one-intervals}). Which
 MTD mechanism an MTD evaluation finds most effective can therefore depend on its
 attacker model. This section says what that means for each of the three parts of
 an MTD evaluation that use the attacker model
@@ -9149,10 +9152,7 @@ APT attacker model, every host-layer mechanism reduces NCR more than every
 service-layer mechanism at every deployment interval. Against the baseline
 attacker, this holds up to 100\,s; from 500\,s, IP shuffle reduces NCR more
 than port shuffle and OS diversity, and the service layer's lead rests on
-service diversity alone (Table~\ref{tab:eff-interval-values}). The Scott--Knott
-ESD test ranks the MTD mechanisms at 200\,s only (Table~\ref{tab:eff-cross-arm});
-at the other deployment intervals, rank~1 is read from the values and their
-confidence intervals. $\rho$ between $-0.24$ and $0.25$ means that the two
+service diversity alone (Table~\ref{tab:eff-interval-values}). $\rho$ between $-0.24$ and $0.25$ means that the two
 attackers' orders do not agree, which is weaker than one inverting the other.
 The APT attacker model reaches a target host in only 42 to 139 of each attack
 profile's 1\,000 runs with no MTD (Table~\ref{tab:unopposed-summary}), too few
@@ -10512,6 +10512,13 @@ NCR reduction.
 \end{figure}
 
 \input{tables/tab_F-0a_interval_values}
+
+% 2026-10-13 (Marc: "5.3.2 yeah you can do that ... the appendix entry, I don't care"):
+%  Table 5.3's rank 1 at every interval; tools/ch5_sweep_figures.py --only rankone.
+Table~\ref{tab:rank-one-intervals} gives rank~1 of Table~\ref{tab:eff-cross-arm}
+at every deployment interval.
+
+\input{tables/tab_F-0c_rank_one}
 
 \section{Every metric for each attacker}
 \label{app:sup-every-metric}
