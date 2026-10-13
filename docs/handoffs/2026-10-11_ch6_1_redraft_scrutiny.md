@@ -4205,3 +4205,28 @@ Scratchpad p2b_v5.tex. S2 becomes "An MTD evaluation weighs" (specific term). S4
 Text as in §87. The stale ¶2b comment is replaced by one current comment. Build clean, 117 pages (was 118), 0 undefined.
 
 Next: the §6.4 opener (placeholder). Its list is stale: ¶2a now asks for its own attacker model and a shared one; ¶2b has no should. Then ¶3 (evaluation methods) scrutiny.
+
+## §89 — §6.4 ¶3 (evaluation methods) thread and scrutiny, proposed, no draft (Marc 2026-10-13: "what is the one liner that threads this together ... scrutiny only")
+
+**One-liner (recommended).** "On evaluation methods, MTDSim's rules for MTD deployments follow the baseline attacker's procedure, whichever attacker model runs." This is the only claim ¶3's own evidence shows that no other paragraph makes. It continues §6.4's thread: each part of MTDSim's evaluation was built around the baseline attacker (¶1 the deployment strategy's training attacker, ¶2 the metrics, ¶3 the simulator's rules). It also answers ch3 §3.2.3 directly. Ch3 credits simulation with modelling attack behaviour flexibly; the results show where that flexibility stops.
+Rejected: (B) "simulation lets an evaluation change the attacker model and hold everything else" is what was done, not an implication, and §6.5 already says it ("Both attackers share the attack actions, the networks, the MTD mechanisms and the seeds..."). (C) "results transfer only as far as the simulator's rules" is external validity, which belongs to §6.5.
+
+**Spine (five slots, the ¶1/¶2a pattern).**
+1. The claim, in MTDSim.
+2. Ch3: simulation is dominant because it models specific attack behaviours flexibly (Cho); this dissertation used that to run the APT attacker model through MTDSim's attack actions.
+3. Shown: user shuffle raises the APT attacker model's NCR at every deployment interval because MTDSim's rule redraws every host's accounts but leaves valid the ones the attacker holds (App fa-accounts).
+4. Stakes: the host layer's rank against the APT attacker model rests on the same kind of rule (each deployment sends the attacker back to an attack action of the baseline attacker; Figure 2.x, §6.5). Pointer only; the bound stays in §6.5.
+5. Hedge plus should: a simulator's rules likely follow the attacker it was built with. An MTD evaluation that runs a new attacker model in a simulator should report the simulator's rule for each MTD deployment beside its results, so that an effect of the rule can be told from an effect of the MTD mechanism (App fa-accounts draws exactly this line).
+
+**Current ¶3, sentence by sentence.**
+- S1 "simulation lets an evaluation change the attacker model and hold everything else": opens on the method's strength, not the finding; restates §6.5; "an evaluation" should be "an MTD evaluation". Cut, or keep as a clause in slot 2.
+- S2, ch3 pointer: accurate to ch3 l.2571. Keep.
+- S3 "same networks, MTD mechanisms and seeds ... comes from the attackers": §6.5 almost word for word. Cut and point.
+- S4 "The simulator's rules, though, were written for its own attacker": the real claim, buried fourth and arriving as a U-turn ("though"); "its own attacker" should name the baseline attacker. Promote it to S1.
+- S5 "rules for what each MTD deployment takes": "takes" is vague. Ch2's Figure 2.x caption has the specific term, "the attack action each kind of deployment sends the attacker back to".
+- S6 user shuffle "because of the rule MTDSim gives it": vague (the appendix states the rule), and joined to S5 by "and", so two claims sit in one sentence.
+- S7 should: "interface" is defined nowhere in ch1–5 (an invented term); "both sides" is vague. The list of four declared parts (tactic-to-action mapping, tactic durations, failure matrix, vulnerability memory) has no evidence in this paragraph. Ch4 already reports them, and §6.3 finds the failure matrix and vulnerability memory move NCR negligibly. Narrow the should to the deployment rules. The sentence also stacks clauses (colon, list, "and the rules").
+
+**Cut, and where each idea lives.** Controlled comparison: §6.5. The four declared parts: ch4 sec:execution, and §6.3 for their effect. Transfer to real networks: §6.5. The attacker that analytical models import: ch3 §3.2.1, untested here.
+
+**Dependencies.** (a) The §6.4 opener's list: ¶3's item becomes "report the simulator's rule for each MTD deployment". (b) Gated ch7: Contribution 1's Impact points to §6.4 for "the interface: tactic-to-action mapping, tactic durations, failure handling", which goes stale if the list is cut; propose a repoint. (c) App fa-accounts points to §6.4 for "follows from MTDSim's rule", so ¶3 must keep user shuffle, or that pointer needs a new home.
