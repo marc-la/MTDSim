@@ -698,3 +698,8 @@ Results come before sensitivity, the usual reading order. This departs from the 
   - column heads "APT attacker model, 45 s mean duration at: 11.25 s (low end) | 45 s (declared) | 180 s (high end)", which Marc first read as deployment intervals;
   - the ρ row labelled "ρ with the baseline attacker", and the caption saying near 0 means the rankings are unrelated.
   Build: 92 pages, 0 undefined.
+- **Tables C.2 and D.9 redesigned flat** (Marc: "looks tacky … iterate … for both"). The cause was three separators at once (group rules, group labels or blank cells, row stripes).
+  - **C.2** (`attack_action_times_table.py`): one row per tactic in ATT&CK order; Tactic | Attack action | MTDSim's time (s) | Mean duration (s); "unmapped" in words, not blank; the exploit as its mean 4.5, with the 0–9 s spread once in the caption; no rules.
+  - **D.9** (`duration_ranking_table.py`): a Layer column in place of group rows; two-line column heads (11.25 s / low end …); rank columns 1.95 cm, so nothing overflows; each ρ cell set as the value over its interval in smaller type; caption tightened.
+  - Iterated four times against the rendered page. Fixed along the way: a 32 pt overflow, wrapped heads, broken ρ cells, a stripe gap, and stripe overhang.
+  - Build: 92 pages, 0 undefined.
