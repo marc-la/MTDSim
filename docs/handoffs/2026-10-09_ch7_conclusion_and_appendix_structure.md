@@ -640,3 +640,10 @@ Build: 99 pages, 0 undefined. B is pp. 58–59, with the lead and the table on s
 - F further analyses.
 
 Results come before sensitivity, the usual reading order. This departs from the §9 first-citation convention, which was proposed, never ruled. The title uses ch2's defined term "MTD evaluation"; the session first said it was not a term and was wrong. Body references are unchanged (`app:sensitivity` now prints D.3). Build: 94 pages, 0 undefined.
+
+**D.1 restructured (Marc, 2026-10-14: the title; what is needed; the ASP figure).**
+- The old D.1 backed two ch5 subsections, so it is split and named as they are: **D.1 Disruption per MTD deployment** (5.3.1; new label `app:sup-disruption`) and **D.2 MTD ranking against each attacker** (5.3.2; it keeps `app:sup-mtd-effect`, the target of ch6's ASP-reduction pointer). The ablations become **D.3 Ablation studies**, as §5.4 is named.
+- Every float passes Q2, so nothing is cut.
+- **ASP-reduction figure restored** (`fig_F-0b`, drawn from the 1 000-seed numbers on 2026-10-06). Marc judged it adds, and it shows at a glance the pattern ch6 cites. The §10 cut applied "one float per fact"; that is overturned for this pair under Jin's headline/depth rule (each figure with its table).
+- **Layout:** `\FloatBarrier` at the end of D.1 and D.2. The disruption and three ablation tables are now `[htbp]` (were `[tp]`), set in the generator and the output alike: `ch5_disruption_figure.py`, `partition_ablation.py`, `ablation_table.py`, `memory_ablation.py`. Each table now sits under its heading. None of the four is input in the body.
+- Build: 94 pages, 0 undefined.

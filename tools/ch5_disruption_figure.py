@@ -218,7 +218,7 @@ def emit_table(d: dict) -> str:
         "% (time_lost.py). Do not hand-edit; regenerate. 2026-09-30, the disruption metrics of Section 4.5.3;",
         "% headers are the metrics' names as Table 4.3 gives them; rows as Figure 5.2 orders them.",
         "% DRAFT STATE --- ratify on read.",
-        r"\begin{table}[tp]",
+        r"\begin{table}[htbp]",
         r"  \centering",
         (r"  \caption[Attack actions blocked and time lost per MTD deployment]{Attack actions blocked and time "
          r"lost per MTD deployment for each MTD mechanism, at a deployment interval of 2\,000\,s; "

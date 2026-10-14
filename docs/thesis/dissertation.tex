@@ -9905,8 +9905,10 @@ Each section of this appendix backs Chapter~\ref{ch:experiments}: the first two
 give the values behind its comparisons, and the other three the sensitivity
 analyses of the APT attacker model's declared values.
 
-\section{MTD's effect on each attacker at every deployment interval}
-\label{app:sup-mtd-effect}
+% [2026-10-14, Marc: D.1 split into two sections named as Chapter 5's
+%  subsections 5.3.1 and 5.3.2, so each backs the section of the same name.]
+\section{Disruption per MTD deployment}
+\label{app:sup-disruption}
 
 % 2026-09-30 (Marc): the headline's values, moved from Section 5.3.2 with the ASP
 %  reduction values beside them. SESSION-GENERATED sentences, DRAFT STATE.
@@ -9914,9 +9916,15 @@ Table~\ref{tab:disruption} gives the values Figure~\ref{fig:aio-adaptivity} plot
 
 \input{tables/tab_5-3-1b_disruption}
 
+\FloatBarrier
+
+\section{MTD ranking against each attacker}
+\label{app:sup-mtd-effect}
+
+
 Table~\ref{tab:eff-interval-values} gives the values Figure~\ref{fig:eff-cross-arm}
-plots, at every deployment interval. Table~\ref{tab:eff-interval-values-asp}
-gives the same comparison on ASP
+plots, at every deployment interval. Figure~\ref{fig:eff-cross-arm-asp} and
+Table~\ref{tab:eff-interval-values-asp} give the same comparison on ASP
 reduction, the share of an attacker's ASP that MTD removes:
 \begin{equation}
   \text{ASP reduction} = 1 -
@@ -9931,6 +9939,17 @@ model, whose ASP with no MTD is low, so Chapter~\ref{ch:experiments} ranks on
 NCR reduction.
 
 
+% [2026-10-14, Marc: the ASP figure restored; it shows at a glance the pattern
+%  Chapter 6 cites, the table beside it gives the values (headline/depth rule).]
+\begin{figure}[tp]
+  \centering
+  \includegraphics{fig_F-0b_interval_asp}
+  % 2026-10-06 (Marc, Q3): the ASP rows of Figure 5.3, moved here; drawn by
+  %  tools/ch5_sweep_figures.py --only asp from numbers_reported.json sweep_asp.
+  \caption[ASP reduction against the deployment interval]{ASP reduction against the deployment interval, as Figure~\ref{fig:eff-cross-arm} draws NCR reduction: the APT attacker model averaged over $c_1$ to $c_4$ (solid, 4\,000 runs per point) and the baseline attacker (dashed, 1\,000 runs per point). ASP reduction is 1 when no run compromises a target host, 0 when as many do as with no MTD, and negative when more. A point at 1 is a reduction of 1 or one above 0.99, which Table~\ref{tab:eff-interval-values-asp} tells apart. The interval axis is logarithmic. Whiskers: 95\,\% percentile bootstrap intervals over runs.}
+  \label{fig:eff-cross-arm-asp}
+\end{figure}
+
 \input{tables/tab_F-0a_interval_values}
 
 % 2026-10-13 (Marc: "5.3.2 yeah you can do that ... the appendix entry, I don't care"):
@@ -9941,7 +9960,9 @@ at every deployment interval.
 \input{tables/tab_F-0c_rank_one}
 
 
-\section{The ablation studies in full}
+\FloatBarrier
+
+\section{Ablation studies}
 \label{app:sup-ablations}
 
 % 2026-10-01 (Marc: "table 5.7 moves to the appendix"): the vulnerability
