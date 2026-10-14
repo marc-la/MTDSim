@@ -566,27 +566,29 @@ RULE_TEXT = {
 }
 
 
-# The printed condition of each failure rule (2026-10-14, Marc: "Applies to" was
-# ambiguous; state it as logic on the move). f is the tactic whose attack action
-# failed, t the candidate next tactic, D the signed number of lifecycle stages
-# from f to t, P the tactics without a foothold. Each condition is also written
+# The printed condition of each failure rule, as a decision table (2026-10-14,
+# Marc: "Applies to" was ambiguous, and symbols made it hard to read): the failed
+# tactic, the next tactic and the move by lifecycle stage, blank = any. In the
+# predicates f is the failed tactic, t the next, D the signed stage offset, P
+# the tactics that need no foothold. Each condition is also written
 # as a predicate and checked against _failure_rule on all 210 pairs, so the
 # printed logic cannot drift from the compiler. Order matters: first match wins.
 RULE_COND = {
-    "ia_gate_foothold": (r"$f = $ Initial Access $\wedge\ t \notin P$",
+    # (failed tactic, next tactic, move, predicate); "" prints blank = matches any
+    "ia_gate_foothold": ("Initial Access", "needs a foothold", "",
                          lambda f, t, D, P: f == "initial-access" and t not in P),
-    "recon_gate_initial_access": (r"$f = $ Reconnaissance $\wedge\ t = $ Initial Access",
+    "recon_gate_initial_access": ("Reconnaissance", "Initial Access", "",
                                   lambda f, t, D, P: f == "reconnaissance" and t == "initial-access"),
-    "recon_gate_deep": (r"$f = $ Reconnaissance $\wedge\ t \notin P$",
+    "recon_gate_deep": ("Reconnaissance", "needs a foothold", "",
                         lambda f, t, D, P: f == "reconnaissance" and t not in P),
-    "preintrusion_damper": (r"$f \notin P \wedge t \in P \wedge \Delta < 0$",
+    "preintrusion_damper": ("needs a foothold", "needs none", "back",
                             lambda f, t, D, P: f not in P and t in P and D < 0),
-    "execution_damper": (r"$t = $ Execution $\wedge\ \Delta < 0$",
+    "execution_damper": ("", "Execution", "back",
                          lambda f, t, D, P: t == "execution" and D < 0),
-    "backward": (r"$\Delta < 0$", lambda f, t, D, P: D < 0),
-    "lateral": (r"$\Delta = 0$", lambda f, t, D, P: D == 0),
-    "forward_from_foothold": (r"$\Delta > 0 \wedge f \notin P$", lambda f, t, D, P: D > 0 and f not in P),
-    "forward_from_prep": (r"$\Delta > 0 \wedge f \in P$", lambda f, t, D, P: D > 0 and f in P),
+    "backward": ("", "", "back", lambda f, t, D, P: D < 0),
+    "lateral": ("", "", "within", lambda f, t, D, P: D == 0),
+    "forward_from_foothold": ("needs a foothold", "", "forward", lambda f, t, D, P: D > 0 and f not in P),
+    "forward_from_prep": ("needs none", "", "forward", lambda f, t, D, P: D > 0 and f in P),
 }
 
 
@@ -600,7 +602,7 @@ def _check_conditions(rs: RuleSet) -> None:
             if f == t:
                 continue
             D = stage[t] - stage[f]
-            printed = next(rid for rid in rs.order["failure"] if RULE_COND[rid][1](f, t, D, P))
+            printed = next(rid for rid in rs.order["failure"] if RULE_COND[rid][3](f, t, D, P))
             actual = _failure_rule(rs, f, t, stage)
             if printed != actual:
                 bad.append(f"{f}->{t}: printed {printed}, compiler {actual}")
@@ -618,21 +620,25 @@ def _rules_table(rs: RuleSet, verdict: str, label: str) -> list[str]:
     L.append(r"\begin{table}[htbp]")
     L.append(r"\centering")
     L.append(r"\caption[The rules of the failure matrix]{The rules that set the failure "
-             r"matrix (Section~\ref{subsec:failure-matrix}), for a move from the tactic $f$ "
-             r"whose attack action failed to a candidate next tactic $t$. $\Delta$ is the "
-             r"number of lifecycle stages from $f$ to $t$, negative for a move back, and $P$ "
-             r"holds the tactics that need no foothold: Reconnaissance, Resource Development "
-             r"and Initial Access. The first rule a move matches gives its value.}")
+             r"matrix (Section~\ref{subsec:failure-matrix}), for a move from the tactic whose "
+             r"attack action failed to a candidate next tactic. The first rule a move matches "
+             r"gives its value, and a blank cell matches any. Every tactic needs a foothold "
+             r"except Reconnaissance, Resource Development and Initial Access. A move goes "
+             r"back, within or forward by lifecycle stage.}")
     L.append(r"\label{%s}" % label)
     L.append(r"\tablestyle")
-    L.append(r"\begin{tabular}{@{}c P{0.33\textwidth} r P{0.47\textwidth}@{}}")
+    L.append(r"\begin{tabular}{@{}c P{0.17\textwidth} P{0.17\textwidth} l r P{0.37\textwidth}@{}}")
     L.append(r"\toprule")
-    L.append(r"Rule & Condition & Value & Reason \\")
+    L.append(r"Rule & Failed tactic & Next tactic & Move & Value & Reason \\")
     L.append(r"\midrule")
     for rid in rs.order[verdict]:
         cover, reason = RULE_TEXT[rid]
-        cond = RULE_COND[rid][0] if verdict == "failure" else cover
-        L.append(r"%s & %s & %s & %s \\" % (keys[rid], cond, _fmt(float(rules[rid]["value"])), reason))
+        if verdict == "failure":
+            ft, nt, mv, _ = RULE_COND[rid]
+            L.append(r"%s & %s & %s & %s & %s & %s \\" % (keys[rid], ft, nt, mv,
+                                                       _fmt(float(rules[rid]["value"])), reason))
+        else:
+            L.append(r"%s & %s & %s & %s \\" % (keys[rid], cover, _fmt(float(rules[rid]["value"])), reason))
     L.append(r"\bottomrule")
     L.append(r"\end{tabular}")
     L.append(r"\end{table}")
