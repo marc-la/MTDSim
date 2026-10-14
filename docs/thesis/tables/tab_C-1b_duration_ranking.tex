@@ -4,21 +4,21 @@
 
 \begin{table}[htbp]
 \centering
-\caption[The ranking at the ends of the 45\,s mean duration's band]{The rank of each MTD mechanism and deployment strategy by NCR reduction at a deployment interval of 200\,s, against the APT attacker model with its 45\,s mean duration at three points of its band, and against the baseline attacker, which uses no tactic duration (the ranks of Table~\ref{tab:eff-cross-arm}). The APT attacker model averaged over $c_1$ to $c_4$, 4\,000 runs per cell. Bold: rank~1, by Scott--Knott ESD. $\rho$: Spearman's rank correlation with the baseline attacker's NCR reductions, with its 95\,\% interval; near 0, the two rankings are unrelated. Layer: an MTD mechanism's layer, or strategy for a deployment strategy.}
+\caption[The ranking at the ends of the 45\,s mean duration's band]{The rank of each MTD mechanism and deployment strategy by NCR reduction at a deployment interval of 200\,s, with the APT attacker model's 45\,s mean duration at three points of its band; the baseline attacker's ranks are Table~\ref{tab:eff-cross-arm}'s. The APT attacker model averaged over $c_1$ to $c_4$, 4\,000 runs per cell. Bold: rank~1, by Scott--Knott ESD. $\rho$: Spearman's rank correlation with the baseline attacker's NCR reductions, with its 95\,\% interval; near 0, the two rankings are unrelated.}
 \label{tab:duration-ranking}
 \tablestyle
 \begin{tabular}{@{}l l *{3}{>{\centering\arraybackslash}p{1.95cm}}>{\centering\arraybackslash}p{1.6cm}<{\hspace*{-\tabcolsep}}@{\hspace{\tabcolsep}}}
 \toprule
 & & \multicolumn{3}{c}{APT attacker model, 45\,s mean duration at} & \\
 \cmidrule(lr){3-5}
-\rowcolor{white}MTD & Layer & \shortstack{11.25\,s\\(low end)} & \shortstack{45\,s\\(declared)} & \shortstack{180\,s\\(high end)} & \shortstack{Baseline\\attacker} \\
+\rowcolor{white}MTD & Group & \shortstack{11.25\,s\\(low end)} & \shortstack{45\,s\\(declared)} & \shortstack{180\,s\\(high end)} & \shortstack{Baseline\\attacker} \\
 \midrule
-IP shuffle & host & \textbf{1} & \textbf{1} & \textbf{1} & 2 \\
-complete topology shuffle & host & 2 & \textbf{1} & \textbf{1} & 3 \\
-host topology shuffle & host & 2 & \textbf{1} & \textbf{1} & 3 \\
-port shuffle & service & 6 & 6 & 4 & \textbf{1} \\
-OS diversity & service & 7 & 7 & 5 & 2 \\
-service diversity & service & 4 & 4 & 3 & \textbf{1} \\
+IP shuffle & host layer & \textbf{1} & \textbf{1} & \textbf{1} & 2 \\
+complete topology shuffle & host layer & 2 & \textbf{1} & \textbf{1} & 3 \\
+host topology shuffle & host layer & 2 & \textbf{1} & \textbf{1} & 3 \\
+port shuffle & service layer & 6 & 6 & 4 & \textbf{1} \\
+OS diversity & service layer & 7 & 7 & 5 & 2 \\
+service diversity & service layer & 4 & 4 & 3 & \textbf{1} \\
 user shuffle & credentials & 8 & 8 & 5 & 5 \\
 random & strategy & 3 & 2 & 2 & 4 \\
 MTDShield & strategy & 5 & 5 & 4 & 2 \\

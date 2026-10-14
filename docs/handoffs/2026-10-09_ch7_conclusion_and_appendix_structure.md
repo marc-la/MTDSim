@@ -703,3 +703,8 @@ Results come before sensitivity, the usual reading order. This departs from the 
   - **D.9** (`duration_ranking_table.py`): a Layer column in place of group rows; two-line column heads (11.25 s / low end …); rank columns 1.95 cm, so nothing overflows; each ρ cell set as the value over its interval in smaller type; caption tightened.
   - Iterated four times against the rendered page. Fixed along the way: a 32 pt overflow, wrapped heads, broken ρ cells, a stripe gap, and stripe overhang.
   - Build: 92 pages, 0 undefined.
+- **D.4 deduplicated** (Marc: "is there any dedup between the tables and the prose?").
+  - **Prose:** why the test exists, the method once (both ends of a band, one at a time, the others held, interactions untested), finding 1 ("only the 45 s moves NCR much", no numbers, since bold shows it), finding 2 (the comparison holds at both ends; the test was fixed before the run), and why the baseline column does not move.
+  - **Captions** decode the cells only: D.8 drops "the other three held"; D.9 drops "which uses no tactic duration".
+  - **D.9:** the "Layer" column becomes **Group** (host layer, service layer, credentials, strategy), since a deployment strategy is not a layer.
+  - Build: 92 pages, 0 undefined, no overflow.

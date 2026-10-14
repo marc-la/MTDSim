@@ -487,11 +487,12 @@ def frag_families(out: dict) -> str:
     hw = max(hws) / N_HOSTS
     w(r"\begin{table}[htbp]")
     w(r"\centering")
-    w(r"\caption[NCR at the ends of each mean duration's band]{NCR with each mean duration of "
-      r"Table~\ref{tab:dwell-catalogue} that several tactics share at the low end of its band, at its declared "
-      r"value and at the high end, the other three held; the APT attacker model averaged over $c_1$ to $c_4$, "
-      r"400 runs per cell. Execution and Defense Impairment have half the 45\,s mean duration, 22.5\,s, "
-      r"so moving the 45\,s moves theirs too. "
+    # 2026-10-14 (Marc: dedupe with the prose): the caption decodes the cells only; the
+    # method (one at a time, the others held) is the section's prose.
+    w(r"\caption[NCR at the ends of each mean duration's band]{NCR at the low end, the declared value and "
+      r"the high end of each mean duration's band (Table~\ref{tab:dwell-catalogue}); the APT attacker model "
+      r"averaged over $c_1$ to $c_4$, 400 runs per cell. Execution and Defense Impairment have half the "
+      r"45\,s mean duration, so it moves theirs too. "
       r"\emph{Change}: high end minus low end; bold, the largest. Every NCR's 95\,\%% interval is within "
       r"$\pm %.3f$.}" % hw)
     w(r"\label{tab:anchor-sensitivity}")
