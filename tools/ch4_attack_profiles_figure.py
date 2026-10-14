@@ -260,6 +260,11 @@ def draw_grid(counts: Mapping[tuple[str, str], int], order: Sequence[str], x0: f
             continue
         parts.append(f'<rect x="{x0 + idx[c] * cell + g / 2:.2f}" y="{y0 + idx[r] * cell + g / 2:.2f}" '
                      f'width="{cell - g:.2f}" height="{cell - g:.2f}" fill="{shade(k)}"/>')
+    # The diagonal (Marc 2026-10-13: "from ... to" hard to follow): same-tactic
+    # cells are never filled, so a line through them costs no data and splits
+    # each grid into edges forward in the tactics' order (above) and back (below).
+    parts.append(f'<path d="M{x0:.2f},{y0:.2f} L{x0 + M:.2f},{y0 + M:.2f}" stroke="{INK2}" '
+                 f'stroke-width="1" fill="none"/>')
     parts.append(f'<rect x="{x0:.2f}" y="{y0:.2f}" width="{M:.2f}" height="{M:.2f}" fill="none" '
                  f'stroke="{FAINT}" stroke-width="1.2"/>')
     for c in outline:

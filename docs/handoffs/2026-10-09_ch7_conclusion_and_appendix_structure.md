@@ -599,3 +599,10 @@ Build: 99 pages, 0 undefined. B is pp. 58–59, with the lead and the table on s
 - Also fixed: Table B.1's predicate column 10.4 → 10.35 cm, clearing the 1.2 pt overflow the one-page fix introduced.
 - Left as found: the pre-existing 2.5 pt overflow of the C.3 figure.
 - **Figure C.1 end marks, NOT done (recommended no):** the generator outlines `is_objective` techniques (out-degree 0 across the whole graph), and none of the 15 is in the core. Marking "the last step of some attack flow" would be a new definition, a third use of the accent, and serves no part of the sparsity claim C.1 backs.
+
+**C.3 (Marc, 2026-10-13/14).**
+- **The heading is kept.**
+- **Muddy Water sentence added to the lead:** c₁'s one edge into Impact is Muddy Water's T1486 Data Encrypted for Impact, which its analyst drew at confidence 0 (`data/gap/flows/muddy_water.yaml`, node a10). The Talos report, fetched 2026-10-13, describes no encryption or destructive activity in the campaign; ransomware appears only as the group's past attempts. The sentence paraphrases it.
+- **Provenance flag:** the audit note in `data/gasp/metadata_audit.csv` quotes Talos as "no encryption, wiping, or ransom demands". That is not verbatim in the report, so do not quote it.
+- **Figure:** `draw_grid` now draws the diagonal, a thin grey line through the never-filled same-tactic cells. It splits each grid into edges forward in the order of tactics (above) and back (below). The caption gains one decoding sentence. Type is still at the 8 pt floor; the build is 95 pages, 0 undefined.
+- **Not done:** lifecycle-stage separators on the grids. Judged one structure too many on top of the diagonal; available if wanted.
