@@ -743,3 +743,7 @@ Results come before sensitivity, the usual reading order. This departs from the 
 - The post-hoc disclosure is kept: the lead's "chosen after the results of Chapter 5 were seen … Section 6.5 bounds its use (T9)", and T9 itself. Both were run on 2026-10-12, after the ch5 results.
 - D opener: the first five sections back Chapter 5; the last, the ablation, backs Chapter 6.
 - **Appendices now:** A proposal, B scoring, C APT attacker model, D MTD evaluation (D.1–D.6). Build 86 pp.; one undefined reference (ch4 app:detector-memory, pending).
+
+### 13.aa Appendix B retitled (Marc 2026-10-14)
+
+- "The attacker models scored on the eight properties" → **"Predicate tests of the attacker models"**. This overturns the earlier title, which reused Table 3.3's caption wording. Marc found it rhetorical: it restates what ch3 already does instead of naming what B adds, the level below the marks. "Predicate" and "mark" are ch3-defined terms (3.3.2); the new title matches the table's short caption ("Each attacker model tested on each predicate") and reads clearly on its own in the contents.
