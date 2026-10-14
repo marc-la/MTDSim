@@ -9921,9 +9921,18 @@ Table~\ref{tab:disruption} gives the values Figure~\ref{fig:aio-adaptivity} plot
 \section{MTD ranking against each attacker}
 \label{app:sup-mtd-effect}
 
-
+% [2026-10-14, Marc: the ranking first (NCR values, rank 1), the ASP check after it.]
 Table~\ref{tab:eff-interval-values} gives the values Figure~\ref{fig:eff-cross-arm}
-plots, at every deployment interval. Figure~\ref{fig:eff-cross-arm-asp} and
+plots, at every deployment interval, and Table~\ref{tab:rank-one-intervals} gives
+rank~1 of Table~\ref{tab:eff-cross-arm} at every deployment interval.
+
+\input{tables/tab_F-0a_interval_values}
+
+% 2026-10-13 (Marc: "5.3.2 yeah you can do that ... the appendix entry, I don't care"):
+%  Table 5.3's rank 1 at every interval; tools/ch5_sweep_figures.py --only rankone.
+\input{tables/tab_F-0c_rank_one}
+
+Figure~\ref{fig:eff-cross-arm-asp} and
 Table~\ref{tab:eff-interval-values-asp} give the same comparison on ASP
 reduction, the share of an attacker's ASP that MTD removes:
 \begin{equation}
@@ -9950,15 +9959,7 @@ NCR reduction.
   \label{fig:eff-cross-arm-asp}
 \end{figure}
 
-\input{tables/tab_F-0a_interval_values}
-
-% 2026-10-13 (Marc: "5.3.2 yeah you can do that ... the appendix entry, I don't care"):
-%  Table 5.3's rank 1 at every interval; tools/ch5_sweep_figures.py --only rankone.
-Table~\ref{tab:rank-one-intervals} gives rank~1 of Table~\ref{tab:eff-cross-arm}
-at every deployment interval.
-
-\input{tables/tab_F-0c_rank_one}
-
+\input{tables/tab_F-0d_interval_values_asp}
 
 \FloatBarrier
 

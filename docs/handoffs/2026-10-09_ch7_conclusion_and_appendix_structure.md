@@ -654,3 +654,10 @@ Results come before sensitivity, the usual reading order. This departs from the 
 - **Not combined.** The two tables have different jobs: NCR holds the values of Figure 5.3, cited in ch5; ASP is the robustness check ch6 cites. A joint 12-column table would double the rows.
 - **The ASP split into its own section is withdrawn**; ASP stays in D.2 next to the ranking it checks.
 - Build: 94 pages, 0 undefined.
+
+**D.2 polish (Marc, 2026-10-14: rows wrap; stretch the tables; "why did that take a full page").**
+- **Tables D.2/D.4 (NCR/ASP):** label column 3.75 → 4.25 cm, value columns 0.78 → 0.74 cm, so every row label sits on one line.
+- **Table D.3 (rank 1):** stretched to the text width (7.8 + 5.4 cm, 4 pt gaps, no overhang). The widest cells, three tied mechanisms, still wrap; they cannot fit one line beside the other columns.
+- **The lone page** was `\FloatBarrier` sending a deferred rank-1 table to a float page of its own.
+- **Fix, which also reads better:** D.2 now sets the ranking first (NCR values, rank 1) and the ASP check after it. The generator writes the ASP table to its own file, `tab_F-0d_interval_values_asp.tex`.
+- Build: **93 pages**, 0 undefined. D.3 opens at the top of p. 67 with its first two tables.
