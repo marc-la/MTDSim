@@ -3,7 +3,7 @@
 % 2026-10-06 moved here from Table 5.4's random column, then rebuilt to d and its verdict. DRAFT STATE.
 \begin{table}[htbp]
   \centering
-  \caption[The attack profiles against random partitions of the attack flows]{$d$ on NCR, the attack profiles minus each of 10 random partitions of the attack flows into groups of the same sizes. Bold: not negligible. Not bold: negligible, but inconclusive for partition 9 under OS diversity at 200\,s (Section~\ref{sec:dimensions}).}
+  \caption[The attack profiles against random partitions of the attack flows]{$d$ on NCR, the attack profiles minus each of 10 random partitions of the attack flows into groups of the same sizes, in falling order of $d$ with no MTD. Bold: not negligible, in the random partition's favour. Negligible: partitions 3, 8, 9 and 10 under IP shuffle at 200\,s; inconclusive: partition 9 under OS diversity at 200\,s; every other $d$ is not negligible (Section~\ref{sec:dimensions}).}
   \label{tab:ablation-random-partitions}
   \tablestyle
   \begin{tabular}{@{}cccccc@{}}
@@ -12,16 +12,18 @@
     \cmidrule(lr){3-4}\cmidrule(lr){5-6}
     \rowcolor{white}Random partition & no MTD & 200\,s & 2\,000\,s & 200\,s & 2\,000\,s \\
     \midrule
-    1 & \bfseries\boldmath $+0.98$ & \bfseries\boldmath $+0.48$ & \bfseries\boldmath $+1.21$ & \bfseries\boldmath $+0.88$ & \bfseries\boldmath $+1.00$ \\
-    2 & \bfseries\boldmath $+0.88$ & \bfseries\boldmath $+0.42$ & \bfseries\boldmath $+1.25$ & \bfseries\boldmath $+0.87$ & \bfseries\boldmath $+0.96$ \\
-    3 & \bfseries\boldmath $+0.66$ & $-0.01$ & \bfseries\boldmath $+0.76$ & \bfseries\boldmath $+0.67$ & \bfseries\boldmath $+0.75$ \\
-    4 & \bfseries\boldmath $+1.47$ & \bfseries\boldmath $+0.92$ & \bfseries\boldmath $+1.82$ & \bfseries\boldmath $+1.49$ & \bfseries\boldmath $+1.52$ \\
-    5 & \bfseries\boldmath $+0.45$ & \bfseries\boldmath $-0.48$ & \bfseries\boldmath $+0.40$ & \bfseries\boldmath $+0.42$ & \bfseries\boldmath $+0.49$ \\
-    6 & \bfseries\boldmath $+0.57$ & \bfseries\boldmath $-1.03$ & \bfseries\boldmath $+0.40$ & \bfseries\boldmath $+0.56$ & \bfseries\boldmath $+0.64$ \\
-    7 & \bfseries\boldmath $+0.62$ & \bfseries\boldmath $+0.44$ & \bfseries\boldmath $+0.88$ & \bfseries\boldmath $+0.61$ & \bfseries\boldmath $+0.67$ \\
-    8 & \bfseries\boldmath $+0.33$ & $-0.09$ & \bfseries\boldmath $+0.51$ & \bfseries\boldmath $+0.27$ & \bfseries\boldmath $+0.38$ \\
-    9 & \bfseries\boldmath $+0.25$ & $+0.06$ & \bfseries\boldmath $+0.28$ & $+0.16$ & \bfseries\boldmath $+0.30$ \\
-    10 & \bfseries\boldmath $+0.40$ & $-0.05$ & \bfseries\boldmath $+0.39$ & \bfseries\boldmath $+0.37$ & \bfseries\boldmath $+0.46$ \\
+    4 & $+1.47$ & $+0.92$ & $+1.82$ & $+1.49$ & $+1.52$ \\
+    1 & $+0.98$ & $+0.48$ & $+1.21$ & $+0.88$ & $+1.00$ \\
+    2 & $+0.88$ & $+0.42$ & $+1.25$ & $+0.87$ & $+0.96$ \\
+    3 & $+0.66$ & $-0.01$ & $+0.76$ & $+0.67$ & $+0.75$ \\
+    7 & $+0.62$ & $+0.44$ & $+0.88$ & $+0.61$ & $+0.67$ \\
+    6 & $+0.57$ & \bfseries\boldmath $-1.03$ & $+0.40$ & $+0.56$ & $+0.64$ \\
+    5 & $+0.45$ & \bfseries\boldmath $-0.48$ & $+0.40$ & $+0.42$ & $+0.49$ \\
+    10 & $+0.40$ & $-0.05$ & $+0.39$ & $+0.37$ & $+0.46$ \\
+    8 & $+0.33$ & $-0.09$ & $+0.51$ & $+0.27$ & $+0.38$ \\
+    9 & $+0.25$ & $+0.06$ & $+0.28$ & $+0.16$ & $+0.30$ \\
+    \midrule
+    \rowcolor{white}Not negligible (of 10) & 10 & 6 & 10 & 9 & 10 \\
     \bottomrule
   \end{tabular}
 \end{table}
