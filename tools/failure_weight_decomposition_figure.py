@@ -566,6 +566,48 @@ RULE_TEXT = {
 }
 
 
+# The printed condition of each failure rule (2026-10-14, Marc: "Applies to" was
+# ambiguous; state it as logic on the move). f is the tactic whose attack action
+# failed, t the candidate next tactic, D the signed number of lifecycle stages
+# from f to t, P the tactics without a foothold. Each condition is also written
+# as a predicate and checked against _failure_rule on all 210 pairs, so the
+# printed logic cannot drift from the compiler. Order matters: first match wins.
+RULE_COND = {
+    "ia_gate_foothold": (r"$f = $ Initial Access $\wedge\ t \notin P$",
+                         lambda f, t, D, P: f == "initial-access" and t not in P),
+    "recon_gate_initial_access": (r"$f = $ Reconnaissance $\wedge\ t = $ Initial Access",
+                                  lambda f, t, D, P: f == "reconnaissance" and t == "initial-access"),
+    "recon_gate_deep": (r"$f = $ Reconnaissance $\wedge\ t \notin P$",
+                        lambda f, t, D, P: f == "reconnaissance" and t not in P),
+    "preintrusion_damper": (r"$f \notin P \wedge t \in P \wedge \Delta < 0$",
+                            lambda f, t, D, P: f not in P and t in P and D < 0),
+    "execution_damper": (r"$t = $ Execution $\wedge\ \Delta < 0$",
+                         lambda f, t, D, P: t == "execution" and D < 0),
+    "backward": (r"$\Delta < 0$", lambda f, t, D, P: D < 0),
+    "lateral": (r"$\Delta = 0$", lambda f, t, D, P: D == 0),
+    "forward_from_foothold": (r"$\Delta > 0 \wedge f \notin P$", lambda f, t, D, P: D > 0 and f not in P),
+    "forward_from_prep": (r"$\Delta > 0 \wedge f \in P$", lambda f, t, D, P: D > 0 and f in P),
+}
+
+
+def _check_conditions(rs: RuleSet) -> None:
+    from mtdsim.l3_simulation.controller.rules import _failure_rule
+    stage = rs.ordering("consensus_stages")
+    P = rs.pre_foothold
+    bad = []
+    for f in stage:
+        for t in stage:
+            if f == t:
+                continue
+            D = stage[t] - stage[f]
+            printed = next(rid for rid in rs.order["failure"] if RULE_COND[rid][1](f, t, D, P))
+            actual = _failure_rule(rs, f, t, stage)
+            if printed != actual:
+                bad.append(f"{f}->{t}: printed {printed}, compiler {actual}")
+    if bad:
+        raise SystemExit("printed rule conditions disagree with the compiler:\n  " + "\n  ".join(bad))
+
+
 def _rules_table(rs: RuleSet, verdict: str, label: str) -> list[str]:
     keys = rule_keys(rs, verdict)
     rules = {r["id"]: r for r in rs.doc[f"{verdict}_rules"]}
@@ -576,19 +618,21 @@ def _rules_table(rs: RuleSet, verdict: str, label: str) -> list[str]:
     L.append(r"\begin{table}[htbp]")
     L.append(r"\centering")
     L.append(r"\caption[The rules of the failure matrix]{The rules that set the failure "
-             r"matrix (Section~\ref{subsec:failure-matrix}). After a failure at one tactic, "
-             r"the first rule that matches the move to the next tactic gives its value, which "
-             r"the distance factor of Table~\ref{tab:overlay-distance-kernel} then scales. "
-             r"Back, within and forward are by lifecycle stage.}")
+             r"matrix (Section~\ref{subsec:failure-matrix}), for a move from the tactic $f$ "
+             r"whose attack action failed to a candidate next tactic $t$. $\Delta$ is the "
+             r"number of lifecycle stages from $f$ to $t$, negative for a move back, and $P$ "
+             r"holds the tactics that need no foothold: Reconnaissance, Resource Development "
+             r"and Initial Access. The first rule a move matches gives its value.}")
     L.append(r"\label{%s}" % label)
     L.append(r"\tablestyle")
-    L.append(r"\begin{tabular}{@{}c P{0.40\textwidth} r P{0.40\textwidth}@{}}")
+    L.append(r"\begin{tabular}{@{}c P{0.33\textwidth} r P{0.47\textwidth}@{}}")
     L.append(r"\toprule")
-    L.append(r"Rule & Applies to & Value & Reason \\")
+    L.append(r"Rule & Condition & Value & Reason \\")
     L.append(r"\midrule")
     for rid in rs.order[verdict]:
         cover, reason = RULE_TEXT[rid]
-        L.append(r"%s & %s & %s & %s \\" % (keys[rid], cover, _fmt(float(rules[rid]["value"])), reason))
+        cond = RULE_COND[rid][0] if verdict == "failure" else cover
+        L.append(r"%s & %s & %s & %s \\" % (keys[rid], cond, _fmt(float(rules[rid]["value"])), reason))
     L.append(r"\bottomrule")
     L.append(r"\end{tabular}")
     L.append(r"\end{table}")
@@ -668,6 +712,7 @@ def emit_tables(rs: RuleSet, spec: RuleSpec, version: str) -> str:
     L.append(r"%   through mtdsim.l3_simulation.controller.rules (overlay version " + version + ").")
     L.append(r"% Do not hand-edit; regenerate. Requires booktabs + graphicx (both in the preamble).")
     L.append("")
+    _check_conditions(rs)
     L += _rules_table(rs, "failure", "tab:overlay-failure-rules")
     L.append("")
     if spec.success_passthrough:
@@ -681,8 +726,9 @@ def emit_tables(rs: RuleSet, spec: RuleSpec, version: str) -> str:
         L.append(r"%   cell 1.0, rule `passthrough`) — on a success verdict the token routes on")
         L.append(r"%   the corpus proportions unchanged, and only the failure table is declared.")
         L.append(r"%   The retired success rules remain in outcome_rules.json, unconsulted.")
-        L.append("")
-        L += _kernel_table(rs, spec, "tab:overlay-distance-kernel")
+        # No distance-factor table since 2026-10-14 (Marc): with gamma = delta =
+        # 0.25 and z = 0.1 it says one thing, which the appendix prose states,
+        # and its bands are Appendix D's register.
         # No full-matrix table since 2026-10-04: it was the decomposition
         # figure's panel (c), cell for cell.
         return "\n".join(L) + "\n"

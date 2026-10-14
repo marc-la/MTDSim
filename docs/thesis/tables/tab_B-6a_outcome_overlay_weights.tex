@@ -5,22 +5,22 @@
 
 \begin{table}[htbp]
 \centering
-\caption[The rules of the failure matrix]{The rules that set the failure matrix (Section~\ref{subsec:failure-matrix}). After a failure at one tactic, the first rule that matches the move to the next tactic gives its value, which the distance factor of Table~\ref{tab:overlay-distance-kernel} then scales. Back, within and forward are by lifecycle stage.}
+\caption[The rules of the failure matrix]{The rules that set the failure matrix (Section~\ref{subsec:failure-matrix}), for a move from the tactic $f$ whose attack action failed to a candidate next tactic $t$. $\Delta$ is the number of lifecycle stages from $f$ to $t$, negative for a move back, and $P$ holds the tactics that need no foothold: Reconnaissance, Resource Development and Initial Access. The first rule a move matches gives its value.}
 \label{tab:overlay-failure-rules}
 \tablestyle
-\begin{tabular}{@{}c P{0.40\textwidth} r P{0.40\textwidth}@{}}
+\begin{tabular}{@{}c P{0.33\textwidth} r P{0.47\textwidth}@{}}
 \toprule
-Rule & Applies to & Value & Reason \\
+Rule & Condition & Value & Reason \\
 \midrule
-A & After a failed Initial Access, a move to a tactic that needs a foothold & 0.02 & No foothold was gained, so these moves are almost out of reach. \\
-B & After a failed Reconnaissance, a move to Initial Access & 0.4 & Nothing was found, so breaking in is harder but still possible. \\
-C & After a failed Reconnaissance, a move to a tactic that needs a foothold & 0.05 & With no foothold, a move deep into the network is implausible. \\
-D & After a failure with a foothold, a move back to a tactic without one & 0.25 & Falling right back to before the foothold is an uncommon response. \\
-E & Any other move back to Execution & 0.35 & Running code again on a held foothold continues the attack. \\
-F & Any other move back: from Initial Access to preparation, or from actions on objectives to post-intrusion operations & 0.9 & Going back one stage is the common response to a failure. \\
-G & A move within the same stage & 0.7 & Another tactic of the stage is an alternative route. \\
-H & A move forward, with a foothold & 0.35 & Advancing straight after a failure is possible but uncommon. \\
-I & A move forward, without a foothold & 0.3 & The step the next one depends on did not succeed. \\
+A & $f = $ Initial Access $\wedge\ t \notin P$ & 0.02 & No foothold was gained, so these moves are almost out of reach. \\
+B & $f = $ Reconnaissance $\wedge\ t = $ Initial Access & 0.4 & Nothing was found, so breaking in is harder but still possible. \\
+C & $f = $ Reconnaissance $\wedge\ t \notin P$ & 0.05 & With no foothold, a move deep into the network is implausible. \\
+D & $f \notin P \wedge t \in P \wedge \Delta < 0$ & 0.25 & Falling right back to before the foothold is an uncommon response. \\
+E & $t = $ Execution $\wedge\ \Delta < 0$ & 0.35 & Running code again on a held foothold continues the attack. \\
+F & $\Delta < 0$ & 0.9 & Going back one stage is the common response to a failure. \\
+G & $\Delta = 0$ & 0.7 & Another tactic of the stage is an alternative route. \\
+H & $\Delta > 0 \wedge f \notin P$ & 0.35 & Advancing straight after a failure is possible but uncommon. \\
+I & $\Delta > 0 \wedge f \in P$ & 0.3 & The step the next one depends on did not succeed. \\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -30,19 +30,3 @@ I & A move forward, without a foothold & 0.3 & The step the next one depends on 
 %   cell 1.0, rule `passthrough`) — on a success verdict the token routes on
 %   the corpus proportions unchanged, and only the failure table is declared.
 %   The retired success rules remain in outcome_rules.json, unconsulted.
-
-\begin{table}[htbp]
-\centering
-\caption[The distance factor of the failure matrix]{The distance factor that scales each rule value by the lifecycle stages a move crosses. A move within a stage or to the next keeps its rule value; each further stage forward multiplies it by $\gamma$, and each further stage back by $\delta$. A factor below $z$ is zero. Table~\ref{tab:parameter-register} gives the effect of moving each parameter across its band.}
-\label{tab:overlay-distance-kernel}
-\tablestyle
-\begin{tabular}{@{}l r l@{}}
-\toprule
-Parameter & Value & Band \\
-\midrule
-$\gamma$, forward & 0.25 & \{0.1, 0.5\} \\
-$\delta$, back & 0.25 & \{0.1, 0.5\} \\
-$z$, floor & 0.1 & \{0, 0.05, 0.1\} \\
-\bottomrule
-\end{tabular}
-\end{table}

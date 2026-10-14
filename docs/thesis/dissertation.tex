@@ -9867,13 +9867,20 @@ each tactic does in an attack (Section~\ref{subsec:dwell-times}).
 % from data/ogasp/controller/{outcome_rules,lifecycle_consensus}.json through
 % the tracked compiler (overlay v4_failure_only). Record:
 % docs/implementation/pipeline/ogasp/failure_weight_decomposition.md.
-\section{The rules of the failure matrix}
+% [2026-10-14, Marc: the rules opaque, the distance table small. The rules now
+%  state their condition as logic on the move (checked against the compiler on
+%  all 210 pairs by the generator); the distance factor, gamma = delta = 0.25
+%  with floor 0.1, is one sentence; its bands are Appendix D's register.]
+\section{The rules and the distance factor of the failure matrix}
 \label{app:weight-sets}
 
-Each value of the failure matrix of Section~\ref{subsec:failure-matrix} is
-a rule value times a distance factor. Table~\ref{tab:overlay-failure-rules}
-gives the rules and Table~\ref{tab:overlay-distance-kernel} the distance
-factor.
+Each factor of the failure matrix (Section~\ref{subsec:failure-matrix}) is
+the value of the first rule of Table~\ref{tab:overlay-failure-rules} that
+the move matches, times a distance factor. The distance factor keeps the rule
+value for a move within a lifecycle stage or to an adjacent one, quarters it
+for a move two stages away, and sets it to zero for a move three away. These
+are our judgement; moving them leaves NCR inside its interval
+(Table~\ref{tab:parameter-register}).
 
 \input{tables/tab_B-6a_outcome_overlay_weights}
 

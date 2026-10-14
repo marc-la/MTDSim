@@ -614,3 +614,10 @@ Build: 99 pages, 0 undefined. B is pp. 58–59, with the lead and the table on s
 - **Lead:** gains one sentence. Six tactics take an attack action's time; we set the other nine by judgement (§4.4.2).
 - **Table** (`attack_action_times_table.py`): now one row per tactic, grouped by attack action, with MTDSim's time and the mean duration in aligned columns. The unmapped group's time cell is blank, meaning not applicable.
 - Build: 94 pages, 0 undefined.
+
+**C.5 (Marc, 2026-10-14: rules opaque, distance table small, "can't we just say we assumed them").**
+- **Heading:** "The rules and the distance factor of the failure matrix", ch4 §4.4.3's own terms.
+- **Rules table:** "Applies to" is replaced by **Condition**, written as logic on the move. *f* is the failed tactic, *t* the candidate next tactic, Δ the signed number of lifecycle stages, *P* = {Reconnaissance, Resource Development, Initial Access} (no foothold); first match wins.
+- `failure_weight_decomposition_figure.py` holds each condition as a predicate too, and checks it against `rules._failure_rule` on all 210 pairs, so a drift stops the build. The check passed.
+- **Distance-factor table cut.** With γ = δ = 0.25 and z = 0.1 the factor says one thing, now one sentence: full value within a stage or to an adjacent one, quartered two stages away, zero three away. Its bands are in Appendix D's register.
+- Build: 94 pages, 0 undefined.
