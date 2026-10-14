@@ -708,3 +708,4 @@ Results come before sensitivity, the usual reading order. This departs from the 
   - **Captions** decode the cells only: D.8 drops "the other three held"; D.9 drops "which uses no tactic duration".
   - **D.9:** the "Layer" column becomes **Group** (host layer, service layer, credentials, strategy), since a deployment strategy is not a layer.
   - Build: 92 pages, 0 undefined, no overflow.
+- **D.9 ordered for its claim** (Marc): rows sorted by the declared ranking; columns declared (45 s) | low end (11.25 s) | high end (180 s) | baseline attacker, under the spanner "APT attacker model". "45 s mean duration at 11.25 s" contradicted itself, so the caption names the 45 s mean duration and its band ends once. Build: 92 pages, 0 undefined.
