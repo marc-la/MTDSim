@@ -172,11 +172,16 @@ def behaviour(n: int) -> dict:
 
 
 TABLE = HERE.parents[2] / "docs" / "thesis" / "tables" / "tab_F-3_ablation_attack_profiles.tex"
-ROWS = (("ip_shuffle", "IP shuffle"), ("complete_topology", "complete topology shuffle"),
-        ("host_topology", "host topology shuffle"), ("port_shuffle", "port shuffle"),
-        ("user_shuffle", "user shuffle"), ("os_diversity", "OS diversity"),
-        ("service_diversity", "service diversity"), None,
-        ("random", "random"), ("mtdshield", "MTDShield"), ("alternative", "alternative"))
+# 2026-10-14 (appendix float pass): grouped and ordered as Table D.3 (tab:eff-interval-values)
+#  groups them, host layer, service layer, credentials, deployment strategies, so the bold
+#  reads as a block (the host layer and the random and alternative strategies) and the row
+#  order is the same in every Appendix D table that lists the MTDs. A str is a group row.
+ROWS = ("host layer", ("ip_shuffle", "IP shuffle"), ("complete_topology", "complete topology shuffle"),
+        ("host_topology", "host topology shuffle"),
+        "service layer", ("port_shuffle", "port shuffle"), ("os_diversity", "OS diversity"),
+        ("service_diversity", "service diversity"),
+        "credentials", ("user_shuffle", "user shuffle"),
+        "deployment strategies", ("random", "random"), ("mtdshield", "MTDShield"), ("alternative", "alternative"))
 INTERVALS = (50, 100, 200, 500, 1_000, 2_000)
 
 
@@ -206,15 +211,17 @@ def write_table(result: dict) -> None:
     none = cells["none|0"]
     body = []
     for row in ROWS:
-        if row is None:
-            body.append(r"    \midrule")
+        if isinstance(row, str):
+            if body:
+                body.append(r"    \midrule")
+            body.append(rf"    \grouprow{{{1 + len(INTERVALS)}}}{{{row}}} \\")
             continue
         key, label = row
-        body.append("    " + " & ".join([label] + [_mark(cells[f"{key}|{i}"]["cohen_d"], cells[f"{key}|{i}"]["cohen_d_ci95"])
+        body.append("    " + " & ".join([r"\quad " + label] + [_mark(cells[f"{key}|{i}"]["cohen_d"], cells[f"{key}|{i}"]["cohen_d_ci95"])
                                          for i in INTERVALS]) + r" \\")
     lo, hi = none["cohen_d_ci95"]
     n_bold = sum(line.count(r"\bfseries") for line in body)
-    n_cells = len(INTERVALS) * sum(r is not None for r in ROWS)
+    n_cells = len(INTERVALS) * sum(not isinstance(r, str) for r in ROWS)
     bold = rf"$\pm 0.2$ ({n_bold} of {n_cells} cells)."
     beyond = (rf" Of the rest, {len(INSIDE)} are negligible, the interval wholly inside $\pm 0.2$, and "
               rf"{len(CROSSING)} inconclusive, the interval crossing it (Section~\ref{{sec:dimensions}}).")
