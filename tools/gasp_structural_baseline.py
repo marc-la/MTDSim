@@ -327,7 +327,7 @@ def write_tex() -> None:
         "the two questions of Section~\\ref{sec:attack-profiles} for each attack flow, "
         "grouped by attack profile (Table~\\ref{tab:attack-profiles}). The CTID description "
         "of every attack flow was read \\citep{ctid2025attackflow}, with the analyst's notes "
-        "on its steps where needed; the columns give what else was, and a blank row needed "
+        "on its steps where needed; the columns give what else was read, and a blank row needed "
         "nothing else. \\emph{ATT\\&CK group} is the group page read "
         "\\citep{mitre2026attackv19}, and \\emph{Threat report} the report the attack flow "
         "cites.}",

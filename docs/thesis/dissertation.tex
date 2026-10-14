@@ -9683,9 +9683,9 @@ model the only one with it in part.
 \label{app:clause-tests}
 
 Table~\ref{tab:clause-tests} gives the predicates behind each mark of
-Tables~\ref{tab:attacker-cross-section} and~\ref{tab:fidelity-verdict}, read
-from Chapter~\ref{ch:attacker-model} for the APT attacker model and from their
-papers for the three MTD attacker models. The predicates are Table~\ref{tab:attacker-properties}'s
+Tables~\ref{tab:attacker-cross-section} and~\ref{tab:fidelity-verdict}. Its
+cells judge the APT attacker model from Chapter~\ref{ch:attacker-model} and the
+three MTD attacker models from their papers. The predicates are Table~\ref{tab:attacker-properties}'s
 definitions word for word; rows 1 and 6 split off a qualifier, row 5 splits at
 its ``and''.
 
@@ -9766,10 +9766,10 @@ attacker model, in Chapter~\ref{ch:attacker-model}'s order.
 \label{app:full-graph}
 
 Section~\ref{sec:technique-graph} chose tactics as the nodes of the attack
-graph because most edges between techniques come from one attack flow: 419
-of the 478 (88\,\%), against 47 of the 122 edges between tactics (39\,\%).
-Figure~\ref{fig:app-technique-core} gives the edges between techniques that
-two or more attack flows draw.
+graph because most edges between techniques are drawn by only one attack
+flow: 419 of the 478 (88\,\%), against 47 of the 122 edges between tactics
+(39\,\%). Figure~\ref{fig:app-technique-core} gives 55 of the 59 edges between
+techniques that two or more attack flows draw.
 
 
 % [2026-10-13, Marc: the tactic graph cut (the edges the model runs on are drawn
@@ -9804,9 +9804,9 @@ Table~\ref{tab:profile-sources} gives the sources that answered the two
 questions of Section~\ref{sec:attack-profiles} for each attack flow. We
 decided the three attack flows these sources left open, each from its threat
 report. CISA AA22-138B VMWare Workspace (Alt) draws a script that the advisory says steals
-sensitive data, so its attacker stole data \citep{cisaaa22138b}. Mac Malware
-Steals Crypto stole credentials and mined cryptocurrency on the victims'
-machines, hijacking them, so its attacker stole data and impeded systems
+sensitive data, so its attacker stole data \citep{cisaaa22138b}. The attacker of
+Mac Malware Steals Crypto stole credentials and mined cryptocurrency on the
+victims' machines, hijacking them, so it stole data and impeded systems
 \citep{unit42maccookies2019}. SearchAwesome Adware injects adverts but, by its
 report, takes no user data and impedes no system, so its attacker did neither
 \citep{malwarebytesadware2018}.
@@ -9853,9 +9853,9 @@ encryption in this campaign \citep{talosmuddywater2022}.
 An attack action can take a different time for each attacker
 (Section~\ref{sec:threats}, \ref{thr:conditions});
 Table~\ref{tab:attack-action-times} gives both times. Six
-tactics take the time of the attack action whose work they resemble, not always
-the one they run; we set the other nine by judgement
-(Section~\ref{subsec:dwell-times}).
+tactics take MTDSim's time for the same kind of work, even where they run
+another attack action: 4.5\,s, the exploit's, or 35\,s, the three scans'
+together. We set the other nine by judgement (Section~\ref{subsec:dwell-times}).
 
 \input{tables/tab_B-4b_attack_action_times}
 \FloatBarrier
@@ -9901,8 +9901,7 @@ for a move two stages away, and sets it to zero for a move three away.
 % [2026-10-14, Marc: the register (old Table D.9) cut; the Test column cut, not
 %  D.4's job. The tactic-duration test is D.5's table; the ablations are Section 5.4's.]
 The values we set by judgement (Section~\ref{sec:threats}, \ref{thr:values})
-come first in Table~\ref{tab:value-bases}, which lists every value of the APT
-attacker model.
+come first in Table~\ref{tab:value-bases}.
 
 \input{tables/tab_C-0b_value_bases}
 \FloatBarrier
@@ -10014,10 +10013,10 @@ NCR:
   \label{eq:asp-reduction}
 \end{equation}
 ASP reduction is 1 when no run under MTD compromises a target host. At
-200\,s, it shows the order of NCR reduction. ASP reduction against the APT
-attacker model, whose ASP with no MTD is 0.09, is 0.99 or more under every
-host-layer MTD mechanism and the random and alternative deployment strategies,
-so Chapter~\ref{ch:experiments} ranks on NCR reduction.
+200\,s, ASP reduction shows the order of NCR reduction. Against the APT attacker model, whose ASP with no MTD
+is 0.09, it cannot separate the five that reach 0.99 or more: every host-layer
+MTD mechanism and the random and alternative deployment strategies.
+Chapter~\ref{ch:experiments} therefore ranks on NCR reduction.
 
 
 % [2026-10-14, Marc: the ASP figure restored; it shows at a glance the pattern
@@ -10180,7 +10179,8 @@ the baseline attacker's time for the attack action it runs: Command and
 Control takes 5\,s for scan neighbours in place of 45\,s, and Credential Access
 20\,s for brute force in place of 4.5\,s. The two steps raise the APT attacker
 model's ASP, averaged over $c_1$ to $c_4$, from 0.09 to 0.45 against the
-baseline attacker's 0.66, closing 0.63 [0.61, 0.65] of its gap in ASP.
+baseline attacker's 0.66; the share of its gap in ASP they close is
+0.63 [0.61, 0.65].
 
 \input{tables/tab_FA-8_tactic_durations}
 
