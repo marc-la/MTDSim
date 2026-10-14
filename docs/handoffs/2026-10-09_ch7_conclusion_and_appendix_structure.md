@@ -622,3 +622,11 @@ Build: 99 pages, 0 undefined. B is pp. 58–59, with the lead and the table on s
 - **Distance-factor table cut.** With γ = δ = 0.25 and z = 0.1 the factor says one thing, now one sentence: full value within a stage or to an adjacent one, quartered two stages away, zero three away. Its bands are in Appendix D's register.
 - Build: 94 pages, 0 undefined.
 - **Revised the same day** (Marc: the symbols were hard to read): Table C.3 is now a **decision table**, with columns Failed tactic | Next tactic | Move (back / within / forward by lifecycle stage), a blank cell matching any. The caption defines "needs a foothold" (every tactic except Reconnaissance, Resource Development and Initial Access) and first-match-wins. No symbols remain. The compiler check (all 210 pairs) still runs and passed.
+- **Second revision** (Marc: "what is a foothold … what does back mean … assuming success?"). Four root causes, all fixed:
+  - a blank read as "nothing" (and, under Failed tactic, as "no failure"), so "any" is now written out;
+  - "needs a foothold" was ch4 vocabulary without its meaning, now "after Initial Access" / "up to Initial Access" in ATT&CK's order, the exact equivalent;
+  - back/within/forward is now **Stage**: earlier / same / later, the next tactic's lifecycle stage against the failed one's;
+  - the frame now leads the caption: after an attack action fails, the first rule from A down that applies gives the value.
+  The compiler check passes.
+- **Not fitted onto p. 62.** It is about 2 cm short. Trimming the reasons and narrowing columns did not close it, nor did 9 pt type; only cutting the Reason column would. Kept on p. 63; D starts on p. 64 either way, so fitting would save one page.
+- **"Applies to N of 210 cells" column:** not added. It costs width, and Marc judged it too much.

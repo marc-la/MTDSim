@@ -567,28 +567,33 @@ RULE_TEXT = {
 
 
 # The printed condition of each failure rule, as a decision table (2026-10-14,
-# Marc: "Applies to" was ambiguous, and symbols made it hard to read): the failed
-# tactic, the next tactic and the move by lifecycle stage, blank = any. In the
+# Marc: "Applies to" was ambiguous; symbols, blanks, "foothold" and back/forward
+# were hard to read): the failed tactic, the next tactic and the next tactic's
+# stage, "any" written out. In the
 # predicates f is the failed tactic, t the next, D the signed stage offset, P
 # the tactics that need no foothold. Each condition is also written
 # as a predicate and checked against _failure_rule on all 210 pairs, so the
 # printed logic cannot drift from the compiler. Order matters: first match wins.
 RULE_COND = {
-    # (failed tactic, next tactic, move, predicate); "" prints blank = matches any
-    "ia_gate_foothold": ("Initial Access", "needs a foothold", "",
+    # (failed tactic, next tactic, next tactic's stage, predicate). "after Initial
+    # Access" is ATT&CK's order, and is exactly the tactics that need a foothold
+    # (not in P); a stage is the next tactic's lifecycle stage against the failed one's.
+    "ia_gate_foothold": ("Initial Access", "after Initial Access", "any",
                          lambda f, t, D, P: f == "initial-access" and t not in P),
-    "recon_gate_initial_access": ("Reconnaissance", "Initial Access", "",
+    "recon_gate_initial_access": ("Reconnaissance", "Initial Access", "any",
                                   lambda f, t, D, P: f == "reconnaissance" and t == "initial-access"),
-    "recon_gate_deep": ("Reconnaissance", "needs a foothold", "",
+    "recon_gate_deep": ("Reconnaissance", "after Initial Access", "any",
                         lambda f, t, D, P: f == "reconnaissance" and t not in P),
-    "preintrusion_damper": ("needs a foothold", "needs none", "back",
+    "preintrusion_damper": ("after Initial Access", "up to Initial Access", "earlier",
                             lambda f, t, D, P: f not in P and t in P and D < 0),
-    "execution_damper": ("", "Execution", "back",
+    "execution_damper": ("any", "Execution", "earlier",
                          lambda f, t, D, P: t == "execution" and D < 0),
-    "backward": ("", "", "back", lambda f, t, D, P: D < 0),
-    "lateral": ("", "", "within", lambda f, t, D, P: D == 0),
-    "forward_from_foothold": ("needs a foothold", "", "forward", lambda f, t, D, P: D > 0 and f not in P),
-    "forward_from_prep": ("needs none", "", "forward", lambda f, t, D, P: D > 0 and f in P),
+    "backward": ("any", "any", "earlier", lambda f, t, D, P: D < 0),
+    "lateral": ("any", "any", "same", lambda f, t, D, P: D == 0),
+    "forward_from_foothold": ("after Initial Access", "any", "later",
+                              lambda f, t, D, P: D > 0 and f not in P),
+    "forward_from_prep": ("up to Initial Access", "any", "later",
+                          lambda f, t, D, P: D > 0 and f in P),
 }
 
 
@@ -619,17 +624,18 @@ def _rules_table(rs: RuleSet, verdict: str, label: str) -> list[str]:
     L = []
     L.append(r"\begin{table}[htbp]")
     L.append(r"\centering")
-    L.append(r"\caption[The rules of the failure matrix]{The rules that set the failure "
-             r"matrix (Section~\ref{subsec:failure-matrix}), for a move from the tactic whose "
-             r"attack action failed to a candidate next tactic. The first rule a move matches "
-             r"gives its value, and a blank cell matches any. Every tactic needs a foothold "
-             r"except Reconnaissance, Resource Development and Initial Access. A move goes "
-             r"back, within or forward by lifecycle stage.}")
+    L.append(r"\caption[The rules of the failure matrix]{The rules of the failure matrix "
+             r"(Section~\ref{subsec:failure-matrix}). After a tactic's attack action fails, "
+             r"the first rule that applies to a candidate next tactic, from A down, gives its "
+             r"value. In ATT\&CK's order, a tactic after Initial Access needs a foothold "
+             r"(Section~\ref{subsec:apt}). \emph{Stage} is the next tactic's lifecycle stage "
+             r"against the failed tactic's.}")
     L.append(r"\label{%s}" % label)
     L.append(r"\tablestyle")
-    L.append(r"\begin{tabular}{@{}c P{0.17\textwidth} P{0.17\textwidth} l r P{0.37\textwidth}@{}}")
+    L.append(r"\setlength{\tabcolsep}{4pt}")
+    L.append(r"\begin{tabular}{@{}c P{3.15cm} P{3.15cm} l r P{5.6cm}@{}}")
     L.append(r"\toprule")
-    L.append(r"Rule & Failed tactic & Next tactic & Move & Value & Reason \\")
+    L.append(r"Rule & Failed tactic & Next tactic & Stage & Value & Reason \\")
     L.append(r"\midrule")
     for rid in rs.order[verdict]:
         cover, reason = RULE_TEXT[rid]

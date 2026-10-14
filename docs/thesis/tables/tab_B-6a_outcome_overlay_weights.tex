@@ -5,22 +5,23 @@
 
 \begin{table}[htbp]
 \centering
-\caption[The rules of the failure matrix]{The rules that set the failure matrix (Section~\ref{subsec:failure-matrix}), for a move from the tactic whose attack action failed to a candidate next tactic. The first rule a move matches gives its value, and a blank cell matches any. Every tactic needs a foothold except Reconnaissance, Resource Development and Initial Access. A move goes back, within or forward by lifecycle stage.}
+\caption[The rules of the failure matrix]{The rules of the failure matrix (Section~\ref{subsec:failure-matrix}). After a tactic's attack action fails, the first rule that applies to a candidate next tactic, from A down, gives its value. In ATT\&CK's order, a tactic after Initial Access needs a foothold (Section~\ref{subsec:apt}). \emph{Stage} is the next tactic's lifecycle stage against the failed tactic's.}
 \label{tab:overlay-failure-rules}
 \tablestyle
-\begin{tabular}{@{}c P{0.17\textwidth} P{0.17\textwidth} l r P{0.37\textwidth}@{}}
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{@{}c P{3.15cm} P{3.15cm} l r P{5.6cm}@{}}
 \toprule
-Rule & Failed tactic & Next tactic & Move & Value & Reason \\
+Rule & Failed tactic & Next tactic & Stage & Value & Reason \\
 \midrule
-A & Initial Access & needs a foothold &  & 0.02 & No foothold was gained, so these moves are almost out of reach. \\
-B & Reconnaissance & Initial Access &  & 0.4 & Nothing was found, so breaking in is harder but still possible. \\
-C & Reconnaissance & needs a foothold &  & 0.05 & With no foothold, a move deep into the network is implausible. \\
-D & needs a foothold & needs none & back & 0.25 & Falling right back to before the foothold is an uncommon response. \\
-E &  & Execution & back & 0.35 & Running code again on a held foothold continues the attack. \\
-F &  &  & back & 0.9 & Going back one stage is the common response to a failure. \\
-G &  &  & within & 0.7 & Another tactic of the stage is an alternative route. \\
-H & needs a foothold &  & forward & 0.35 & Advancing straight after a failure is possible but uncommon. \\
-I & needs none &  & forward & 0.3 & The step the next one depends on did not succeed. \\
+A & Initial Access & after Initial Access & any & 0.02 & No foothold was gained, so these moves are almost out of reach. \\
+B & Reconnaissance & Initial Access & any & 0.4 & Nothing was found, so breaking in is harder but still possible. \\
+C & Reconnaissance & after Initial Access & any & 0.05 & With no foothold, a move deep into the network is implausible. \\
+D & after Initial Access & up to Initial Access & earlier & 0.25 & Falling right back to before the foothold is an uncommon response. \\
+E & any & Execution & earlier & 0.35 & Running code again on a held foothold continues the attack. \\
+F & any & any & earlier & 0.9 & Going back one stage is the common response to a failure. \\
+G & any & any & same & 0.7 & Another tactic of the stage is an alternative route. \\
+H & after Initial Access & any & later & 0.35 & Advancing straight after a failure is possible but uncommon. \\
+I & up to Initial Access & any & later & 0.3 & The step the next one depends on did not succeed. \\
 \bottomrule
 \end{tabular}
 \end{table}
