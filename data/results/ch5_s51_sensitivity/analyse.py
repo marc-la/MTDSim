@@ -464,49 +464,53 @@ def frag_body(out: dict) -> str:
 
 
 def frag_families(out: dict) -> str:
-    """Appendix D.4's table (2026-10-14, Marc: the verdict column was jargon and the
-    table never showed how much NCR moves): one row per shared mean duration, with
-    the tactics it sets, NCR at the low end, the declared value and the high end,
-    and the change across the band; no MTD and the default interval only. The
-    interval is stated once, in the caption, as its widest half-width."""
+    """Appendix D.4's table (2026-10-14, Marc: the earlier layouts wrapped badly).
+    One row per shared mean duration, in rising order, labelled by its value and
+    band (Table 4.4 says which tactics take it); two column groups, no MTD and the
+    default interval, each NCR at the low end, the declared value and the high end,
+    and the change across the band, the largest in each group in bold."""
     L = [_hdr("data/results/ch5_s51_sensitivity/analyse.py")]
     w = L.append
     conds = [c for c in CONDITIONS if c in (("none", 0), ("random", 200))]
-    rows, hws = [], []
+    fams = sorted(FAMILIES, key=lambda f: FAMILY_VALUE[f])
+    cell, hws = {}, []
     for cond, interval in conds:
         key = f"{cond}@{interval}"
-        for fam in FAMILIES:
+        for fam in fams:
             lo, hi = sweep.FAMILY_BANDS[fam]
-            e_lo = out["families"][fam]["ends"][f"x{lo:g}"].get(key)
-            e_hi = out["families"][fam]["ends"][f"x{hi:g}"].get(key)
-            if not e_lo or not e_hi:
-                continue
-            a, c, b = (e_lo["point"]["mean"], e_lo["centre"]["mean"], e_hi["point"]["mean"])
+            e_lo = out["families"][fam]["ends"][f"x{lo:g}"][key]
+            e_hi = out["families"][fam]["ends"][f"x{hi:g}"][key]
             hws += [e[k]["ci95"] for e in (e_lo, e_hi) for k in ("point", "centre")]
-            rows.append(((cond, interval), fam, a / N_HOSTS, c / N_HOSTS, b / N_HOSTS))
+            cell[(cond, interval, fam)] = tuple(v / N_HOSTS for v in (
+                e_lo["point"]["mean"], e_lo["centre"]["mean"], e_hi["point"]["mean"]))
+    big = {c: max(fams, key=lambda f: abs(cell[(*c, f)][2] - cell[(*c, f)][0])) for c in conds}
     hw = max(hws) / N_HOSTS
     w(r"\begin{table}[htbp]")
     w(r"\centering")
-    w(r"\caption[NCR at the ends of each mean duration's band]{NCR with each mean duration that several "
-      r"tactics share at the low end of its band, at its declared value and at the high end, the other three "
-      r"held; the APT attacker model averaged over $c_1$ to $c_4$, 400 runs per cell. \emph{Change}: high end "
-      r"minus low end. Every NCR's 95\,\%% interval is within $\pm %.3f$.}" % hw)
+    w(r"\caption[NCR at the ends of each mean duration's band]{NCR with each mean duration of "
+      r"Table~\ref{tab:dwell-catalogue} that several tactics share at the low end of its band, at its declared "
+      r"value and at the high end, the other three held; the APT attacker model averaged over $c_1$ to $c_4$, "
+      r"400 runs per cell. Execution and Defense Impairment have half the 45\,s mean duration, 22.5\,s, "
+      r"so moving the 45\,s moves theirs too. "
+      r"\emph{Change}: high end minus low end; bold, the largest. Every NCR's 95\,\%% interval is within "
+      r"$\pm %.3f$.}" % hw)
     w(r"\label{tab:anchor-sensitivity}")
     w(r"\tablestyle\setlength{\tabcolsep}{4pt}")
-    w(r"\begin{tabular}{@{}>{\raggedright\arraybackslash\leftskip=1em\hangindent=1em\hangafter=1\relax}p{5.6cm}rrrrrr@{}}")
+    w(r"\begin{tabular}{@{}l*{8}{r}@{}}")
     w(r"\toprule")
-    w(r"& & & \multicolumn{3}{c}{NCR} & \\")
-    w(r"\cmidrule(lr){4-6}")
-    w(r"\rowcolor{white}Tactics & \shortstack{Mean\\duration (s)} & Band (s) & Low end & Declared & High end & Change \\")
-    last = None
-    for (cond, interval), fam, a, c, b in rows:
-        if (cond, interval) != last:
-            w(r"\midrule")
-            w(r"\grouprow{7}{%s} \\" % COND_LABEL[(cond, interval)])
-            last = (cond, interval)
+    w(r"& " + " & ".join(r"\multicolumn{4}{c}{%s}" % COND_LABEL[c].replace("random", "Random").replace("no MTD", "No MTD")
+                        for c in conds) + r" \\")
+    w(r"\cmidrule(lr){2-5}\cmidrule(lr){6-9}")
+    w(r"\rowcolor{white}Mean duration (band), s" + r" & low end & declared & high end & change" * len(conds) + r" \\")
+    w(r"\midrule")
+    for fam in fams:
         lo_s, hi_s = band_s(fam)
-        w(r"%s & %g & %s to %s & %.3f & %.3f & %.3f & $%+.3f$ \\" % (
-            FAMILY_TACTICS[fam], FAMILY_VALUE[fam], lo_s, hi_s, a, c, b, b - a))
+        parts = []
+        for c in conds:
+            a, m, b = cell[(*c, fam)]
+            ch = (r"$\mathbf{%+.3f}$" if fam == big[c] else r"$%+.3f$") % (b - a)
+            parts.append("%.3f & %.3f & %.3f & %s" % (a, m, b, ch))
+        w(r"%g (%s to %s) & %s \\" % (FAMILY_VALUE[fam], lo_s, hi_s, " & ".join(parts)))
     w(r"\bottomrule")
     w(r"\end{tabular}")
     w(r"\end{table}")
