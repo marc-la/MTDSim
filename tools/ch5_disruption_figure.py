@@ -161,7 +161,7 @@ def decode_time_lost(C: dict) -> str:
     kept = min(c["deployments"] / (c["deployments"] + c["dropped"])
                for k, c in C.items() if k.endswith("|%s" % INTERVAL) and "deployments" in c)
     return (r"Time lost is over the MTD deployments made while the same seed's run with no MTD is still "
-            r"going, at least %d\,\%% of each cell's." % int(100 * kept))
+            r"going, which are at least %d\,\%% of each cell's MTD deployments." % int(100 * kept))
 
 
 def _place(hw: float) -> int:
