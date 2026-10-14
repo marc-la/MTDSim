@@ -9113,8 +9113,7 @@ Time lost and attack actions blocked per MTD deployment are measured at
 deployment interval, so Section~\ref{sec:disc-mtd-performance} explains the
 service layer at every deployment interval from measures at one.
 Attack rate and attack confidentiality measure detection avoidance by proxy,
-through how often an attacker acts and a declared IDS rule
-(Appendix~\ref{app:detector-memory}). Distinct openings counts any variety, so
+through how often an attacker acts and a declared IDS rule. Distinct openings counts any variety, so
 it shows that the APT attacker model chooses among attack strategies, not that
 it chooses well. It counts an attack profile's steps as tactics and the
 baseline attacker's as attack actions; recounted in attack actions, the gap
@@ -9925,8 +9924,8 @@ reason.
 \label{app:supplementary-results}
 
 Each section of this appendix backs Chapter~\ref{ch:experiments}: the first three
-give the full data behind its comparisons and ablations, and the last two its
-sensitivity analyses.
+give the full data behind its comparisons and ablations, and the last its
+sensitivity analysis of the tactic durations.
 
 % [2026-10-14, Marc: D.1 split into two sections named as Chapter 5's
 %  subsections 5.3.1 and 5.3.2, so each backs the section of the same name.]
@@ -10103,24 +10102,6 @@ ranking does not move.
 
 \FloatBarrier
 
-\section{Robustness of attack confidentiality to the intrusion detection system}
-\label{app:detector-memory}
-
-% 2026-09-30: the placeholder described the retired tuned-alarm detector; filled
-% on the count-in-window detector of Section 4.5.1 (ruling C). Numbers:
-% ch5_s531_unopposed/numbers.json core.detector_grid, via
-% tools/ch5_unopposed_figures.py. DRAFT STATE --- ratify on read.
-Attack confidentiality (Section~\ref{subsec:metrics-behaviour}) flags an attack action
-when it is at least the attacker's fifth within 60\,s, the default of the Snort
-intrusion detection system \citep[Sec.~5.2]{jung2004}.
-Table~\ref{tab:detector-memory} moves the count to three and ten and the window
-to 30 and 120\,s. At the six settings that flag at least 2.5\,\% of the
-baseline attacker's attack actions, every attack profile keeps a higher attack
-confidentiality than the baseline attacker. The other three flag at most
-2\,\% of its attack actions, and there the attack profiles lie within two points
-of it, above or below.
-
-\input{tables/tab_C-4a_detector_memory}
 
 % UPDATED 2026-09-24 (scrutinise-figure round 3, context critic): the alarm quantile
 % matters --- at the 60th percentile c4 falls below the baseline attacker in the

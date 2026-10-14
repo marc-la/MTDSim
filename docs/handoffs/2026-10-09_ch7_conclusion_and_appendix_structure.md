@@ -709,3 +709,6 @@ Results come before sensitivity, the usual reading order. This departs from the 
   - **D.9:** the "Layer" column becomes **Group** (host layer, service layer, credentials, strategy), since a deployment strategy is not a layer.
   - Build: 92 pages, 0 undefined, no overflow.
 - **D.9 ordered for its claim** (Marc): rows sorted by the declared ranking; columns declared (45 s) | low end (11.25 s) | high end (180 s) | baseline attacker, under the spanner "APT attacker model". "45 s mean duration at 11.25 s" contradicted itself, so the caption names the 45 s mean duration and its band ends once. Build: 92 pages, 0 undefined.
+
+**D.5 cut (Marc, 2026-10-14: "not that important … we define the metric" by the declared rule).** The detector sensitivity section and its table are gone. ch6 `thr:metrics` keeps "a declared IDS rule", minus the pointer. D's opener: "…and the last its sensitivity analysis of the tactic durations". Build: **91 pages**.
+- **PENDING Marc's yes (ch4):** delete ch4 5450, "Appendix~\ref{app:detector-memory} varies the count of five and the 60\,s window." Until then it is the build's one undefined reference.
