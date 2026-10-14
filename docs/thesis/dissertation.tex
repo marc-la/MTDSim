@@ -9214,7 +9214,7 @@ be observed, Sargent advises exploring the model's behaviour as thoroughly as
 possible and comparing it with other models \citep{sargent2011}.
 Appendix~\ref{app:sensitivity} and the ablations explore it, and the baseline
 attacker is the other model. MTDShield also runs as released, outside its
-training conditions (Appendix~\ref{app:mtdshield-limitations}), so its results
+training conditions (Table~\ref{tab:mtdshield-configuration}), so its results
 bound MTDShield as released, not MTDShield retrained against the APT attacker
 model.
 \end{enumerate}
@@ -9923,9 +9923,74 @@ reason.
 \chapter{Supplementary material for the MTD evaluation}
 \label{app:supplementary-results}
 
-Each section of this appendix backs Chapter~\ref{ch:experiments}: the first three
-give the full data behind its comparisons and ablations, and the last its
-sensitivity analysis of the tactic durations.
+Each section of this appendix backs Chapter~\ref{ch:experiments}: the first gives
+MTDShield as run, the next three the full data behind its comparisons and
+ablations, and the last its sensitivity analysis of the tactic durations.
+
+% [2026-10-14, Marc: Appendix E folded into D as its first section; MTDShield is
+%  part of the evaluation's setup. Kept: which agent, why random over its four
+%  mechanisms runs beside it, its settings, the two changes made to run it, how
+%  the APT attacker model meets its detection input, and its choices. Cut: Tay's
+%  sweeps, the note on how his scores were produced, the release's defects and
+%  the input checks. The old labels sit on this section so every pointer resolves.]
+\section{MTDShield as run}
+\label{app:mtdshield}\label{app:mtdshield-selection}\label{app:mtdshield-configuration}%
+\label{app:mtdshield-changes}\label{app:mtdshield-limitations}\label{app:mtdshield-observed}
+
+MTDShield in Chapter~\ref{ch:experiments} is the agent Tay scored highest of
+the 38 he trained \citep[Sec.~5.2.2]{tay2024}, run as released: his weights,
+and his code for building the agent's inputs \citep{tay2024code}. Beside it,
+Chapter~\ref{ch:experiments} runs the random deployment strategy over the same
+four MTD mechanisms, so the difference between the two is what the agent's
+policy adds. Table~\ref{tab:mtdshield-configuration} gives the agent's settings
+in training, in Tay's evaluation and in Chapter~\ref{ch:experiments}.
+
+\begin{table}[htbp]
+  \centering
+  \caption[MTDShield's settings: trained, evaluated by Tay, and run here]{The
+  agent's settings in training, in Tay's evaluation and in
+  Chapter~\ref{ch:experiments}. The first two columns are from the release's
+  training script and evaluation notebook \citep{tay2024code}; the third is
+  Table~\ref{tab:experiment}. The detection rate is the share of decisions at
+  which the agent is told the attacker's current attack action; a deployment is forced
+  when 2\,000\,s pass without one. A blank cell: the agent does not learn outside training.}
+  \label{tab:mtdshield-configuration}
+  \tablestyle
+  \begin{tabular}{@{}P{2.5cm}P{4.2cm}P{3.6cm}P{4.3cm}@{}}
+    \toprule
+    Setting & Training & Tay's evaluation & Chapter~\ref{ch:experiments} \\
+    \midrule
+    Learning & $\gamma$ 0.95; batch 32; replay memory 2\,000; training start 1\,000; 100 episodes; target network copied every 10 episodes & & \\
+    Exploration rate & 0.5, decayed by 0.99 per episode to 0.18 & 1 & 0 \\
+    Mechanisms & \multicolumn{3}{P{13.0cm}@{}}{complete topology shuffle, IP shuffle, OS diversity, service diversity, or nothing} \\
+    Hosts & 100, a new network each episode & 150, a new network each run & 50 \\
+    Time limit & 5\,000\,s per episode & 15\,000\,s & 15\,000\,s \\
+    Deployment interval & 200\,s & 200\,s & 50, 100, 200, 500, 1\,000 and 2\,000\,s \\
+    Attacker & the baseline attacker & the baseline attacker & the baseline attacker; the APT attacker model \\
+    Detection rate & 1 & 1 (0 to 1 in \citealp[Figure~6]{tay2024}) & 1 \\
+    Forced deployment & after 2\,000\,s & after 2\,000\,s & after 2\,000\,s \\
+    Runs & 100 episodes & 100 per agent & 1\,000 per configuration \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+Two changes were made to run the agent, and neither alters the simulation. The
+simulator builds five state and seven time-series inputs, where Tay's agents
+take eight and three, so his construction is restored as an option beside the
+current one. In the release, a decision to do nothing did not advance the
+simulated clock; here it waits for the next deployment interval, as after a
+deployment. The agent's detection input gives the attacker's current attack
+action, so an unmapped tactic of the APT attacker model, which runs none, reads
+as nothing detected.
+
+At a deployment interval of 200\,s, the agent chose service diversity at
+76\,\% of its decisions against the baseline attacker and 70\,\% against the APT
+attacker model, and did nothing at 23\,\% and 29\,\%; the other three MTD
+mechanisms took under 1\,\% together. At 2\,000\,s, service diversity took
+46\,\% and 65\,\%. Each share is over 100 runs per attacker and deployment
+interval.
+
+\FloatBarrier
 
 % [2026-10-14, Marc: D.1 split into two sections named as Chapter 5's
 %  subsections 5.3.1 and 5.3.2, so each backs the section of the same name.]
@@ -10102,191 +10167,6 @@ ranking does not move.
 
 \FloatBarrier
 
-
-% UPDATED 2026-09-24 (scrutinise-figure round 3, context critic): the alarm quantile
-% matters --- at the 60th percentile c4 falls below the baseline attacker in the
-% first 1 500 s bin (78.0 against 79.0), at the 75th c1 does too; at the median c4's
-% first-bin margin is 4.6 pp (bootstrap 1.1-8.3). Sweep the quantile (e.g. 0.4-0.8)
-% and tau together; theta_b depends on tau. §4.5 must say why the median.
-% ALSO OWED (scrutinise-figure round 4, the examiner's first objection): the action rule.
-% Counting dwell-only steps as actions brings the profiles level with the baseline
-% (51-65 % against 50); counting every step makes c1, c2, c4 louder. Report the four
-% variants as a table here (results context §8i-5); the claim is conditional on it.
-
-% ADDED 2026-09-24 (Marc: "that's something that needs to be swept ... it has to
-% be in the appendix, so make an appendix item for that"). The sweep is owed:
-% tau over a band (e.g. 15-240 s, the declared 60 s inside it), both attackers,
-% the no-defence corpus; the reading is the ordering of the attackers on attack
-% confidentiality across the alarm levels, and the tau at which it changes, if
-% any. A 2026-08 sweep exists for the older, tier-weighted form of the detector
-% (data/misc/_viz/stealth_exposure/fig3_tau_sweep.png) and does not carry over.
-% Brief: docs/handoffs/2026-09-24_s45_instrumenting_mtdsim.md, Open 4.
-
-
-% [2026-09-30] Appendix 'Robustness of time lost to its window' deleted: time lost per MTD
-% deployment now runs to the next deployment, so no window is declared (handoff
-% 2026-09-30_disruption_metrics.md). Its table and generator are removed; history in git.
-
-
-% =====================================================================
-\chapter{MTDShield as run}
-\label{app:mtdshield}
-
-% DRAFT STATE 2026-09-25, SECOND CUT (Marc: "do we need to say so much ...
-%  why don't we just make dot points for the changes ... properties, I don't
-%  even know what that means"). Cut to the reuse report the field's checklists
-%  ask for: what was taken and from where, which one and why, its settings, what
-%  was changed, its known limitations. The first cut's argument (three ways of
-%  choosing ranked; why the inputs are not rescaled; the loop rule) is reduced
-%  to one sentence each; the long form is in git history (d6ab4b5a) and the
-%  handoff 2026-09-22_ch5_defended_corpus_schemes_intervals_mtdshield.md §5.6-5.7.
-%  Evidence: Tay's report §5.1-5.2, Figs 3-5; the release at f13ed49 / e6c13c6
-%  (training script, evaluation builder and loop, notebook cells 1-3); the
-%  weights read directly. Line numbers stay in the repo records, by ruling.
-% OPEN FOR MARC: (1) the forced deployment keeps the simulator's random draw,
-%  not the release's complete topology shuffle (last bullet of E.3); (2) the
-%  release carries no licence file --- the reuse checklists ask for one to be
-%  stated; permission through the supervisor, or a sentence saying it is
-%  unlicensed and used with the author's knowledge. Ratify on read.
-MTDShield in Chapter~\ref{ch:experiments} is one of Tay's trained agents, run
-as released: his weights, and his code for building the agent's inputs
-\citep{tay2024code}. This appendix gives which agent, its settings, what was
-changed to run it and its known limitations.
-
-\section{The agent chosen}
-% [heading renamed 2026-10-09 for the contents (Marc approved; handoff 9a)]
-\label{app:mtdshield-selection}
-
-Tay trained 38 agents in three hyperparameter sweeps and scored each by summing five metrics,
-attack success rate, mean time to compromise, attack path exposure, return on
-attack and risk, each as a multiple of its value with no MTD
-\citep[Sec.~5.1]{tay2024}. The agent run here is the one he scored highest:
-initial exploration rate 0.5, decayed by 0.99 per episode, score 11.00
-\citep[Sec.~5.2.2]{tay2024}. Re-scoring the agents, or retraining one, would make the choice this
-dissertation's, so his designation is taken as it stands.
-
-One caution attaches to it. Tay's scores were produced with the exploration
-rate at one, so every scored run chose its mechanisms at random whichever agent
-was loaded, and the scores do not separate the agents' policies. For the same
-reason Chapter~\ref{ch:experiments} runs the random deployment strategy over the same four
-mechanisms beside MTDShield: Tay's figures compare MTDShield against it, and
-the difference between the two is what the agent's policy adds.
-
-
-\section{The agent's settings}
-% [heading renamed 2026-10-09 for the contents (Marc approved; handoff 9a)]
-\label{app:mtdshield-configuration}
-
-Table~\ref{tab:mtdshield-configuration} gives the agent's settings in training,
-in Tay's evaluation and in Chapter~\ref{ch:experiments}. The agent was trained
-at a 200\,s deployment interval; at the other five deployment intervals its inputs are passed as
-measured, not rescaled, because they describe the network as it is.
-
-\begin{table}[htbp]
-  \centering
-  \caption[MTDShield's settings: trained, evaluated by Tay, and run here]{The
-  agent's settings in training, in Tay's evaluation and in
-  Chapter~\ref{ch:experiments}. The first two columns are from the release's
-  training script and evaluation notebook \citep{tay2024code}; the third is
-  Table~\ref{tab:experiment}. The detection rate is the share of decisions at
-  which the agent is told the attacker's current attack action; a deployment is forced
-  when 2\,000\,s pass without one. A blank cell: the agent does not learn outside training.}
-  \label{tab:mtdshield-configuration}
-  \tablestyle
-  \begin{tabular}{@{}P{2.5cm}P{4.2cm}P{3.6cm}P{4.3cm}@{}}
-    \toprule
-    Setting & Training & Tay's evaluation & Chapter~\ref{ch:experiments} \\
-    \midrule
-    Learning & $\gamma$ 0.95; batch 32; replay memory 2\,000; training start 1\,000; 100 episodes; target network copied every 10 episodes & & \\
-    Exploration rate & 0.5, decayed by 0.99 per episode to 0.18 & 1 & 0 \\
-    Mechanisms & \multicolumn{3}{P{13.0cm}@{}}{complete topology shuffle, IP shuffle, OS diversity, service diversity, or nothing} \\
-    Hosts & 100, a new network each episode & 150, a new network each run & 50 \\
-    Time limit & 5\,000\,s per episode & 15\,000\,s & 15\,000\,s \\
-    Deployment interval & 200\,s & 200\,s & 50, 100, 200, 500, 1\,000 and 2\,000\,s \\
-    Attacker & the baseline attacker & the baseline attacker & the baseline attacker; the APT attacker model \\
-    Detection rate & 1 & 1 (0 to 1 in \citealp[Figure~6]{tay2024}) & 1 \\
-    Forced deployment & after 2\,000\,s & after 2\,000\,s & after 2\,000\,s \\
-    Runs & 100 episodes & 100 per agent & 1\,000 per configuration \\
-    \bottomrule
-  \end{tabular}
-\end{table}
-
-\section{Changes made to run the agent}
-% [heading renamed 2026-10-09 for the contents (Marc approved; handoff 9a)]
-\label{app:mtdshield-changes}
-
-Two changes were made to run the agent, and neither alters the simulation; the third item is what was kept.
-\begin{itemize}
-  \item \textbf{Inputs.} The simulator as inherited builds five state and seven
-  time-series inputs; Tay's agents take eight and three. His construction is
-  restored as an option beside the current one, which stays the default. It
-  reads state only, and draws one random number per decision, as the current
-  construction does.
-  \item \textbf{Doing nothing.} In the release, a decision to do nothing did not
-  advance the simulated clock, so an agent that prefers it would never move on.
-  The simulator used here waits for the next deployment interval, as after a deployment.
-  \item \textbf{Unchanged.} The decision loop is the simulator's, the same for
-  every deployment strategy in Chapter~\ref{ch:experiments}. It enqueues one mechanism per
-  decision (the release enqueued the chosen mechanism twice) and draws the forced
-  deployment at random (the release forced complete topology shuffle).
-\end{itemize}
-
-\section{Known limitations of the released agent}
-% [heading renamed 2026-10-09 for the contents (Marc approved; handoff 9a)]
-\label{app:mtdshield-limitations}
-
-Each is found in the release \citep{tay2024code} and left as it is; correcting
-any would make the agent this dissertation's rather than Tay's.
-\begin{itemize}
-  \item The published scores were produced with the exploration rate at one
-  (Section~\ref{app:mtdshield-selection}).
-  \item Five inputs are built differently by the training and evaluation code.
-  The evaluation code reads four of them, the host compromise ratio, attack
-  success rate, time to compromise and deployment frequency, from copies of the
-  records taken when the agent starts, so they are zero at every decision; the
-  fifth, shortest-path variability, has another formula. The agent is run as the
-  release evaluates it, and checked with the training code's inputs
-  (Section~\ref{app:mtdshield-observed}).
-  \item The batch-normalisation layers' stored variances are zero, which scales
-  each such layer's output about 30-fold at inference.
-  \item Doing nothing was never a learning target: no transition for it was
-  stored in training.
-  \item The detection input codes the attacker's current attack action. An unmapped
-  tactic of the APT attacker model runs no attack action, so it reads as nothing detected, the same
-  value as a missed detection.
-  \item The agent was trained at one deployment interval, against the baseline
-  attacker, on 100-host networks (Table~\ref{tab:mtdshield-configuration}).
-\end{itemize}
-
-\section{The agent's choices in the runs}
-% [heading renamed 2026-10-09 for the contents (Marc approved; handoff 9a)]
-\label{app:mtdshield-observed}
-
-% POPULATED 2026-09-25 from data/results/ch5_defended/numbers.json §shield
-% (the per-decision ledger), PRELIMINARY at 100 seeds and two ticks; re-read at
-% the reported seed count and six ticks. Record:
-% docs/implementation/pipeline/ogasp/ch5_mtdshield_preliminary_findings.md.
-% DRAFT STATE --- ratify on read.
-Each run records the agent's decisions; the shares below are over 100 runs per
-attacker and deployment interval, averaged over $c_1$ to $c_4$ for the APT attacker model.
-\begin{itemize}
-  \item At the 200\,s deployment interval the agent chose service diversity at 76\,\% of
-  decisions against the baseline attacker and 70\,\% against the APT attacker
-  model, and did nothing at 23\,\% and 29\,\%. The other three mechanisms took
-  under 1\,\% together, and under 1\,\% of deployments were forced.
-  \item At the 2\,000\,s deployment interval a decision to do nothing leaves more than 2\,000\,s
-  without a deployment by the next decision, so that deployment is forced: 28\,\%
-  and 18\,\% of decisions. Service diversity took 46\,\% and 65\,\%.
-  \item The expectation written before the run was a near-constant selector of
-  service diversity, falsified by a service-diversity share below 0.7 or a share
-  doing nothing above 0.2 at 200\,s. The first part held and the second did not.
-  \item With the training code's inputs, against the baseline attacker at
-  200\,s, the agent chose service diversity at 79\,\% of decisions and its NCR
-  reduction was 0.71 [0.67, 0.76], against 0.70 [0.65, 0.75] with the
-  evaluation code's. Against the APT attacker model the training code stops in
-  435 of 500 runs at 200\,s: it divides by the number of port scans, and the
-  APT attacker model compromises hosts without one.
-\end{itemize}
 
 % =====================================================================
 % NEW 2026-10-09 (Marc approved; handoff 2026-10-09_ch7_conclusion_and_appendix_

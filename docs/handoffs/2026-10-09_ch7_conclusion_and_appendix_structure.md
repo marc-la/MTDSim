@@ -712,3 +712,9 @@ Results come before sensitivity, the usual reading order. This departs from the 
 
 **D.5 cut (Marc, 2026-10-14: "not that important … we define the metric" by the declared rule).** The detector sensitivity section and its table are gone. ch6 `thr:metrics` keeps "a declared IDS rule", minus the pointer. D's opener: "…and the last its sensitivity analysis of the tactic durations". Build: **91 pages**.
 - **PENDING Marc's yes (ch4):** delete ch4 5450, "Appendix~\ref{app:detector-memory} varies the count of five and the 60\,s window." Until then it is the build's one undefined reference.
+
+**Appendix E folded into D as D.1 "MTDShield as run"** (Marc, 2026-10-14: used as released, part of the evaluation, not background or method; critiquing Tay's release is "not our place").
+- **Kept:** which agent (Tay's highest-scoring of 38, his weights and input code); why random over its four mechanisms runs beside it; the settings table (training / Tay's evaluation / ch5); the two changes made to run it; how the APT attacker model meets its detection input (an unmapped tactic reads as nothing detected); its choices at 200 s and 2 000 s.
+- **Cut:** Tay's sweeps, the exploration-rate-1 note on his scores, the release-defect list, the pre-registered falsification and the training-code input check.
+- **Pointers:** all old labels sit on D.1, so ch5 6089 and 7827 resolve; ch6 9217 ("outside its training conditions") now cites the settings table.
+- **Appendices now:** A proposal, B scoring, C APT attacker model, D MTD evaluation (D.1 MTDShield, D.2 disruption, D.3 ranking, D.4 ablations, D.5 tactic-duration sensitivity), E further analyses. Build: **90 pages**; one undefined reference, the pending ch4 5450 deletion.
