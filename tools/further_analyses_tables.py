@@ -304,8 +304,8 @@ def main() -> None:
     if DURATIONS.exists():
         t_durations(json.loads(DURATIONS.read_text()))
     d = json.loads(NUMBERS.read_text())
-    for key, fn in (("f1", t_success), ("f2", t_foothold), ("f3", t_accounts), ("f5", t_group_size),
-                     ("f6", t_openings), ("f6", t_after_foothold)):
+    for key, fn in (("f1", t_success), ("f2", t_foothold), ("f3", t_accounts), ("f5", t_group_size)):
+        # f6 (t_openings, t_after_foothold): old Appendix E.2, cut 2026-10-14 (Marc).
         if key in d:
             fn(d[key])
         else:

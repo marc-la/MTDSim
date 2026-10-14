@@ -8550,7 +8550,8 @@ avoidance (Section~\ref{sec:attacker-in-operation}). In attack outcome, it
 also reaches a target host in fewer runs and compromises fewer hosts
 (Table~\ref{tab:unopposed-summary}). Its tactic durations and the order of
 its tactics explain these differences. With the baseline attacker's times in
-place of its tactic durations, it closes about two thirds of its gap in ASP
+place of its tactic durations, it closes about two thirds of its gap in ASP,
+all of it for $c_1$ and $c_2$ but almost none for $c_3$
 (Appendix~\ref{app:fa-run-time}), and the order of its tactics most likely
 accounts for the rest. Removing the
 failure matrix or the vulnerability memory changes its NCR negligibly
@@ -9116,8 +9117,7 @@ Attack rate and attack confidentiality measure detection avoidance by proxy,
 through how often an attacker acts and a declared IDS rule. Distinct openings counts any variety, so
 it shows that the APT attacker model chooses among attack strategies, not that
 it chooses well. It counts an attack profile's steps as tactics and the
-baseline attacker's as attack actions; recounted in attack actions, the gap
-holds (Appendix~\ref{app:fa-behaviour-actions}).
+baseline attacker's as attack actions.
 
 \item\label{thr:yardstick} The eight properties are this dissertation's reading
 of the APT definition and two surveys. They are not a complete standard, they
@@ -9156,13 +9156,12 @@ intervals resample runs, not
 seeds, so they treat the four attack profiles' runs on one seed's network as
 independent.
 
-\item\label{thr:posthoc} The analyses of Appendix~\ref{app:further-analyses}
-were chosen after the results of Chapter~\ref{ch:experiments} were seen, and
-this chapter uses them, most of all the run with the baseline attacker's times
-(Appendix~\ref{app:fa-run-time}). Each answers a question that a table or
-figure of Chapter~\ref{ch:experiments} raises and changes none of its
-results, but each explores a mechanism rather than testing one fixed in
-advance.
+\item\label{thr:posthoc} The ablation of the tactic durations
+(Appendix~\ref{app:fa-run-time}) was chosen after the results of
+Chapter~\ref{ch:experiments} were seen, and this chapter uses it
+(Section~\ref{sec:disc-behaviour}). It answers a question that
+Table~\ref{tab:unopposed-summary} raises and changes none of its results,
+but it explores a mechanism rather than testing one fixed in advance.
 \end{enumerate}
 
 \paragraph{External validity.}
@@ -10160,64 +10159,29 @@ rankings stay unrelated.
 % question a chapter 5 float raises, what was computed, the result, the chapter 6
 % sentence it supports, and why it is not in the main argument. Tables come from
 % generators in tools/ writing a numbers JSON (results_section_workflow.md).
-\chapter{Post-hoc analyses}
-\label{app:further-analyses}
-
-% SESSION-DRAFTED 2026-10-09; retitled and opener cut 2026-10-14 (Marc: "post-hoc
-% analyses", kept apart from Appendix D because the threats item T9 bounds them as
-% a set). Numbers from data/results/ch6_further_analyses/; tables from
-% tools/further_analyses_tables.py.
-These analyses were chosen after the results of Chapter~\ref{ch:experiments}
-were seen, to check claims that Chapter~\ref{ch:discussion} makes, and
-Section~\ref{sec:threats} bounds their use (\ref{thr:posthoc}).
-Section~\ref{app:fa-run-time} runs the APT attacker model again with no MTD;
-Section~\ref{app:fa-behaviour-actions} recounts the runs of
-Table~\ref{tab:unopposed-summary}.
-
-
-\section{Ablation of the tactic durations}
-\label{app:fa-run-time}
-% 2026-10-14 (Marc): one table, not two (Table tab:fa-run-time cut: its
-%  failed-actions column is this table's, Chapter 6 cites none of its others);
-%  the lead names the claim, the steps and the averaged ASP Chapter 6 cites.
+\chapter{Post-hoc ablation of the tactic durations}
+\label{app:further-analyses}\label{app:fa-run-time}
+% SESSION-DRAFTED 2026-10-09; 2026-10-14 (Marc): "Post-hoc analyses" cut to the
+%  one analysis Chapter 6 needs (the attack-action recount, old E.2, cut: "not
+%  that important"); one table, the lead names the claim, the steps and the
+%  averaged ASP Chapter 6 cites. Numbers from data/results/ch6_further_analyses/;
+%  table from tools/further_analyses_tables.py.
 Section~\ref{sec:disc-behaviour} explains the APT attacker model's
 differences from the baseline attacker with no MTD by its tactic durations
-and the order of its tactics. Here it runs again with no MTD on the same
-1\,000 seeds, with only its tactic durations changed, in two steps
-(Table~\ref{tab:fa-tactic-durations}). First its unmapped tactics take no time. Then each
-mapped tactic also takes the baseline attacker's mean time for the attack
-action it runs: Command and Control takes 5\,s for scan neighbours, not
-45\,s, and Credential Access 20\,s for brute force, not 4.5\,s. Averaged
-over the four attack profiles, the two steps raise its ASP from 0.09 to 0.45,
-against the baseline attacker's 0.66: 0.63 [0.61, 0.65] of the gap. An
-attack action fails when it runs before its preconditions are met
-(Section~\ref{subsec:runtime-mechanics}).
+and the order of its tactics. This ablation checks the first; it was chosen
+after the results of Chapter~\ref{ch:experiments} were seen, and
+Section~\ref{sec:threats} bounds its use (\ref{thr:posthoc}). The APT
+attacker model runs again with no MTD on the same 1\,000 seeds, with only its
+tactic durations changed, in two steps (Table~\ref{tab:fa-tactic-durations}).
+First its unmapped tactics take no time. Then each mapped tactic also takes
+the baseline attacker's mean time for the attack action it runs: Command and
+Control takes 5\,s for scan neighbours, not 45\,s, and Credential Access 20\,s
+for brute force, not 4.5\,s. Averaged over the four attack profiles, the two
+steps raise its ASP from 0.09 to 0.45, against the baseline attacker's 0.66:
+0.63 [0.61, 0.65] of the gap. An attack action fails when it runs before its
+preconditions are met (Section~\ref{subsec:runtime-mechanics}).
 
 \input{tables/tab_FA-8_tactic_durations}
-
-% DRAFT STATE 2026-10-11 --- F.2 and F.3 added on Marc's go-ahead ("just do
-%  what you need to do"; handoff 2026-10-11_ch6_1_redraft_scrutiny section 12).
-%  Pure reads of the Table 5.2 corpus (further_analyses.py f6, f7).
-\section{The attacker behaviour metrics counted in attack actions}
-\label{app:fa-behaviour-actions}
-Table~\ref{tab:attacker-properties} defines objective-specific behaviour and
-choice of attack strategy in techniques, which MTDSim carries out as its
-attack actions (Section~\ref{subsec:tactic-verb-mapping}), but relative tactic occurrence
-and distinct openings count an attack profile's steps as tactics and the
-baseline attacker's as attack actions (Section~\ref{subsec:metrics-behaviour}).
-This section recounts both in attack actions, counted as
-Table~\ref{tab:unopposed-summary} counts them.
-Table~\ref{tab:fa-openings} counts distinct openings over a run's first four
-and eight attack actions, consecutive repeats of one attack action counted
-once, the rule Section~\ref{subsec:metrics-behaviour} applies to the baseline
-attacker.
-Table~\ref{tab:fa-after-foothold} gives each attack action's share after the
-foothold, an attacker's first compromise of a host. The differences of
-Figure~\ref{fig:aio-coverage} hold when counted in attack actions.
-
-\input{tables/tab_FA-6_openings_attack_actions}
-
-\input{tables/tab_FA-6b_after_foothold}
 
 
 \bibliography{references}

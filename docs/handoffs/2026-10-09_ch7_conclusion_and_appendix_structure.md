@@ -729,3 +729,10 @@ Results come before sensitivity, the usual reading order. This departs from the 
 - Ablation table redesigned (t_durations): baseline attacker first as the reference row; group labels say what changed ("Unmapped tactics at 0 s"; "Unmapped tactics at 0 s, mapped tactics at the baseline attacker's times"; "the baseline attacker's tactic durations" rejected: the baseline attacker has no tactics); bold = past the baseline attacker's value with the 95 % intervals apart. Lead: the ch6 claim, the two steps, the averaged ASP 0.09 → 0.45 (0.63 [0.61, 0.65] of the gap). Cut from the prose: the paired-seed sentence and "NCR closes less of its gap" (argument, uncited).
 - Flag, not actioned: per attack profile the second step closes 0.95, 1.10, 0.04 and 0.54 of the ASP gap (duration_ablation_numbers.json gap_closed). c3's ASP does not move with its tactic durations, which ch6's averaged "about two thirds" hides. For Marc.
 - Build 87 pp.; one undefined reference (the pending ch4 app:detector-memory).
+
+### 13.y Appendix E cut to the ablation (Marc 2026-10-14)
+
+- Old E.2 (attacker behaviour metrics counted in attack actions; Tables tab:fa-openings, tab:fa-after-foothold) cut (Marc: "not that important"). f6 removed from main() in tools/further_analyses_tables.py, and the tab_FA-6/6b files deleted.
+- Appendix E is now the single analysis: **"Post-hoc ablation of the tactic durations"**, with labels app:further-analyses and app:fa-run-time on the chapter and no section heading. The opener is merged into the lead.
+- ch6 (auto): the metrics threat loses "recounted in attack actions, the gap holds (App. E.2)", so it now states the tactic/attack-action counting difference with no mitigation. T9 (thr:posthoc) is now singular and names the ablation and Table 5.2. §6.1 adds "all of it for c1 and c2 but almost none for c3" to "about two thirds of its gap in ASP" (Marc's yes).
+- Build 86 pp.; one undefined reference (ch4 app:detector-memory, pending).
