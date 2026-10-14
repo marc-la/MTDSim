@@ -736,3 +736,10 @@ Results come before sensitivity, the usual reading order. This departs from the 
 - Appendix E is now the single analysis: **"Post-hoc ablation of the tactic durations"**, with labels app:further-analyses and app:fa-run-time on the chapter and no section heading. The opener is merged into the lead.
 - ch6 (auto): the metrics threat loses "recounted in attack actions, the gap holds (App. E.2)", so it now states the tactic/attack-action counting difference with no mitigation. T9 (thr:posthoc) is now singular and names the ablation and Table 5.2. §6.1 adds "all of it for c1 and c2 but almost none for c3" to "about two thirds of its gap in ASP" (Marc's yes).
 - Build 86 pp.; one undefined reference (ch4 app:detector-memory, pending).
+
+### 13.z The ablation moves into D as D.6 (Marc 2026-10-14)
+
+- Appendix E is gone. Its single analysis is now **D.6, "Ablation of the tactic durations"** (Table D.11), after D.5's sensitivity analysis. The labels app:further-analyses and app:fa-run-time are on D.6, so every ch6 and ch7 pointer resolves.
+- The post-hoc disclosure is kept: the lead's "chosen after the results of Chapter 5 were seen … Section 6.5 bounds its use (T9)", and T9 itself. Both were run on 2026-10-12, after the ch5 results.
+- D opener: the first five sections back Chapter 5; the last, the ablation, backs Chapter 6.
+- **Appendices now:** A proposal, B scoring, C APT attacker model, D MTD evaluation (D.1–D.6). Build 86 pp.; one undefined reference (ch4 app:detector-memory, pending).
