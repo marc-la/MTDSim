@@ -2,9 +2,9 @@
 %   data/results/ch5_defended/duration_ranking_numbers.json (registry B19).
 % Do not hand-edit; regenerate. Proposal P10 (Marc 2026-10-09); flat, with a Layer column, 2026-10-14.
 
-\begin{table}[htbp]
+\begin{table}[!htbp]
 \centering
-\caption[The ranking at the ends of the 45\,s mean duration's band]{The rank of each MTD mechanism and deployment strategy by NCR reduction at a deployment interval of 200\,s, with the APT attacker model's 45\,s mean duration (Persistence, Stealth and Command and Control) at its declared value and at the low and high ends of its band, rows in the order of the declared ranking; the baseline attacker's ranks are Table~\ref{tab:eff-cross-arm}'s. The APT attacker model averaged over $c_1$ to $c_4$, 4\,000 runs per cell. Bold: rank~1, by Scott--Knott ESD. $\rho$: Spearman's rank correlation with the baseline attacker's NCR reductions, with its 95\,\% interval; near 0, the two rankings are unrelated.}
+\caption[The ranking at the ends of the 45\,s mean duration's band]{The rank of each MTD mechanism and deployment strategy by NCR reduction at a deployment interval of 200\,s, with the APT attacker model's 45\,s mean duration at its declared value and at the low and high ends of its band; the baseline attacker's ranks are Table~\ref{tab:eff-cross-arm}'s, and the APT attacker model is averaged over $c_1$ to $c_4$. Bold: rank~1, by Scott--Knott ESD. $\rho$: Spearman's rank correlation with the baseline attacker's NCR reductions; every 95\,\% interval lies within $-0.27$ and $0.05$.}
 \label{tab:duration-ranking}
 \tablestyle
 \begin{tabular}{@{}l l *{3}{>{\centering\arraybackslash}p{1.95cm}}>{\centering\arraybackslash}p{1.6cm}<{\hspace*{-\tabcolsep}}@{\hspace{\tabcolsep}}}
@@ -24,7 +24,7 @@ port shuffle & service layer & 6 & 6 & 4 & \textbf{1} \\
 OS diversity & service layer & 7 & 7 & 5 & 2 \\
 user shuffle & credentials & 8 & 8 & 5 & 5 \\
 \midrule
-\rowcolor{white}$\rho$ with the baseline attacker & & \shortstack{$0.01$\\{\scriptsize [$-0.19$, $0.05$]}} & \shortstack{$0.03$\\{\scriptsize [$-0.19$, $0.05$]}} & \shortstack{$-0.03$\\{\scriptsize [$-0.27$, $-0.01$]}} & \\
+\rowcolor{white}$\rho$ with the baseline attacker & & $0.01$ & $0.03$ & $-0.03$ & \\
 \bottomrule
 \end{tabular}
 \end{table}

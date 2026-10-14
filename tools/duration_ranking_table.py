@@ -58,16 +58,15 @@ def main() -> None:
         body.append(f"{name} & {label} & " + " & ".join(rank(p["rank"][key]) for p in pts)
                     + f" & {rank(base[key])} \\\\")
     # the point over its interval, the interval set smaller: two lines by design, not a wrap
-    rho = " & ".join(r"\shortstack{%s\\{\scriptsize [%s, %s]}}" % (num(p["rho"]["point"]), num(p["rho"]["lo"]),
-                                                                 num(p["rho"]["hi"])) for p in pts)
+    rho = " & ".join(num(p["rho"]["point"]) for p in pts)
+    lo_all = min(p["rho"]["lo"] for p in pts); hi_all = max(p["rho"]["hi"] for p in pts)
     # 2026-10-14 (Marc: dedupe with the prose; "strategy" is not a layer): decode only.
     cap = (r"The rank of each MTD mechanism and deployment strategy by NCR reduction at a deployment "
-           r"interval of 200\,s, with the APT attacker model's 45\,s mean duration (Persistence, Stealth and "
-           r"Command and Control) at its declared value and at the low and high ends of its band, rows in the "
-           r"order of the declared ranking; the baseline attacker's ranks are Table~\ref{tab:eff-cross-arm}'s. The APT attacker model "
-           r"averaged over $c_1$ to $c_4$, 4\,000 runs per cell. Bold: rank~1, by Scott--Knott ESD. $\rho$: "
-           r"Spearman's rank correlation with the baseline attacker's NCR reductions, with its 95\,\% "
-           r"interval; near 0, the two rankings are unrelated.")
+           r"interval of 200\,s, with the APT attacker model's 45\,s mean duration at its declared value and "
+           r"at the low and high ends of its band; the baseline attacker's ranks are Table~\ref{tab:eff-cross-arm}'s, and the APT attacker model "
+           r"is averaged over $c_1$ to $c_4$. Bold: rank~1, by Scott--Knott ESD. $\rho$: "
+           r"Spearman's rank correlation with the baseline attacker's NCR reductions; every 95\,\%% "
+           r"interval lies within $%.2f$ and $%.2f$." % (lo_all, hi_all))
     head = (r"\rowcolor{white}MTD & Group & \shortstack{declared\\(45\,s)} & \shortstack{low end\\(11.25\,s)} & "
             r"\shortstack{high end\\(180\,s)} & \shortstack{Baseline\\attacker} \\")
     tex = "\n".join([
@@ -75,7 +74,7 @@ def main() -> None:
         "%   data/results/ch5_defended/duration_ranking_numbers.json (registry B19).",
         "% Do not hand-edit; regenerate. Proposal P10 (Marc 2026-10-09); flat, with a Layer column, 2026-10-14.",
         "",
-        r"\begin{table}[htbp]",
+        r"\begin{table}[!htbp]",
         r"\centering",
         r"\caption[The ranking at the ends of the 45\,s mean duration's band]{" + cap + "}",
         r"\label{tab:duration-ranking}",
