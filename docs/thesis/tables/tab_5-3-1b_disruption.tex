@@ -7,24 +7,24 @@
   \caption[Attack actions blocked and time lost per MTD deployment]{The values of Figure~\ref{fig:aio-adaptivity}, each with its 95\,\% confidence interval: attack actions blocked and time lost per MTD deployment at a deployment interval of 2\,000\,s, the APT attacker model averaged over $c_1$ to $c_4$. Time lost is over the MTD deployments made while the same seed's run with no MTD is still going, which are at least 78\,\% of each cell's MTD deployments. A printed 1.000 is exact.}
   \label{tab:disruption}
   \tablestyle\scriptsize\setlength{\tabcolsep}{3pt}
-  \begin{tabular}{@{}P{3.8cm}*{2}{>{\centering\arraybackslash}p{3.0cm}>{\centering\arraybackslash}p{2.4cm}}@{}}
+  \begin{tabular}{@{}P{3.65cm}>{\centering\arraybackslash}p{2.55cm}>{\centering\arraybackslash}p{2.3cm}>{\centering\arraybackslash}p{2.55cm}>{\centering\arraybackslash}p{3.15cm}@{}}
     \toprule
     & \multicolumn{2}{c}{APT attacker model} & \multicolumn{2}{c}{Baseline attacker} \\
     \cmidrule(lr){2-3}\cmidrule(lr){4-5}
     \rowcolor{white}MTD mechanism & Attack actions blocked per MTD deployment & Time lost per MTD deployment (s) & Attack actions blocked per MTD deployment & Time lost per MTD deployment (s) \\
     \midrule
     \grouprow{5}{host layer} \\
-    \quad IP shuffle & $0.351$ [$0.345$, $0.357$] & $324$ [$314$, $335$] & $1.000$ [$1.000$, $1.000$] & $-27$ [$-40$, $-14$] \\
-    \quad complete topology shuffle & $0.393$ [$0.387$, $0.398$] & $242$ [$230$, $253$] & $1.000$ [$1.000$, $1.000$] & $-14$ [$-29$, $2$] \\
-    \quad host topology shuffle & $0.391$ [$0.385$, $0.397$] & $246$ [$235$, $257$] & $1.000$ [$1.000$, $1.000$] & $-15$ [$-30$, $0$] \\
+    \quad IP shuffle & $0.351$ [$0.345$, $0.357$] & $324$ [$314$, $335$] & $1.000$ [$1.000$, $1.000$] & $-26.7$ [$-39.8$, $-13.8$] \\
+    \quad complete topology shuffle & $0.393$ [$0.387$, $0.398$] & $242$ [$230$, $253$] & $1.000$ [$1.000$, $1.000$] & $-13.9$ [$-29.4$, $1.9$] \\
+    \quad host topology shuffle & $0.391$ [$0.385$, $0.397$] & $246$ [$235$, $257$] & $1.000$ [$1.000$, $1.000$] & $-14.7$ [$-29.9$, $-0.2$] \\
     \midrule
     \grouprow{5}{service layer} \\
-    \quad port shuffle & $0.150$ [$0.146$, $0.154$] & $26$ [$18$, $34$] & $0.951$ [$0.946$, $0.957$] & $-24$ [$-35$, $-12$] \\
-    \quad OS diversity & $0.151$ [$0.147$, $0.155$] & $-8$ [$-17$, $1$] & $0.951$ [$0.946$, $0.957$] & $-58$ [$-72$, $-45$] \\
-    \quad service diversity & $0.150$ [$0.145$, $0.154$] & $60$ [$51$, $69$] & $0.951$ [$0.946$, $0.956$] & $493$ [$469$, $516$] \\
+    \quad port shuffle & $0.150$ [$0.146$, $0.154$] & $26$ [$18$, $34$] & $0.951$ [$0.946$, $0.957$] & $-23.6$ [$-35.0$, $-11.7$] \\
+    \quad OS diversity & $0.151$ [$0.147$, $0.155$] & $-8$ [$-17$, $1$] & $0.951$ [$0.946$, $0.957$] & $-58.2$ [$-71.6$, $-44.6$] \\
+    \quad service diversity & $0.150$ [$0.145$, $0.154$] & $60$ [$51$, $69$] & $0.951$ [$0.946$, $0.956$] & $492.5$ [$468.6$, $515.6$] \\
     \midrule
     \grouprow{5}{credentials} \\
-    \quad user shuffle & $0.009$ [$0.008$, $0.010$] & $-26$ [$-34$, $-18$] & $0.068$ [$0.061$, $0.075$] & $-23$ [$-37$, $-9$] \\
+    \quad user shuffle & $0.009$ [$0.008$, $0.010$] & $-26$ [$-34$, $-18$] & $0.068$ [$0.061$, $0.075$] & $-22.7$ [$-36.6$, $-9.0$] \\
     \bottomrule
   \end{tabular}
 \end{table}

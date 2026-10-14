@@ -219,6 +219,24 @@ def write_table(result: dict) -> None:
         key, label = row
         body.append("    " + " & ".join([r"\quad " + label] + [_mark(cells[f"{key}|{i}"]["cohen_d"], cells[f"{key}|{i}"]["cohen_d_ci95"])
                                          for i in INTERVALS]) + r" \\")
+    # the negligible cells named, so the caption tells negligible from inconclusive
+    # among the plain cells, as Table D.7's does (Marc 2026-10-14)
+    neg = []
+    for row in ROWS:
+        if isinstance(row, str):
+            continue
+        key, label = row
+        ivs = [i for i in INTERVALS if -0.2 < cells[f"{key}|{i}"]["cohen_d_ci95"][0]
+               and cells[f"{key}|{i}"]["cohen_d_ci95"][1] < 0.2]
+        if ivs:
+            names = [f"{i:,}".replace(",", r"\,") for i in ivs]
+            if len(ivs) == len(INTERVALS) - 1:   # shorter: name the one interval left out
+                miss = next(f"{i:,}".replace(",", r"\,") for i in INTERVALS if i not in ivs)
+                neg.append(f"{label} at every interval but {miss}" + r"\,s")
+            else:
+                neg.append(f"{label} at " + (names[0] if len(names) == 1 else
+                                             ", ".join(names[:-1]) + " and " + names[-1]) + r"\,s")
+    negligible = (r" Negligible: " + "; ".join(neg) + r"; every other plain $d$ is inconclusive.") if neg else ""
     lo, hi = none["cohen_d_ci95"]
     n_bold = sum(line.count(r"\bfseries") for line in body)
     n_cells = len(INTERVALS) * sum(not isinstance(r, str) for r in ROWS)
@@ -233,8 +251,9 @@ def write_table(result: dict) -> None:
         (r"  \caption[The APT attacker model with and without the attack profiles, at every MTD mechanism, deployment strategy and deployment interval]"
          # 2026-10-14 (Marc: dedupe): d's reading, the seeds and the averaging are in the
          # appendix section's prose and Section 5.1; the counts are in Section 5.4's text.
-         r"{$d$ on NCR, the attack profiles minus the attack graph, at every MTD mechanism, deployment "
-         r"strategy and deployment interval. Bold: not negligible.}"),
+         # 2026-10-14: "at every MTD mechanism, deployment strategy and deployment interval"
+         # cut (the D.4 lead and the row and column heads give it) for the negligible cells
+         r"{$d$ on NCR, the attack profiles minus the attack graph. Bold: not negligible." + negligible + "}"),
         r"  \label{tab:ablation-attack-profiles}",
         r"  \tablestyle",
         r"  \begin{tabular}{@{}lcccccc@{}}",

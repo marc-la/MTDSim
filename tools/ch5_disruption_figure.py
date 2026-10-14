@@ -185,11 +185,12 @@ def emit_table(d: dict) -> str:
     tl_place = {arm: _place(max((c["time_lost_ci95"][1] - c["time_lost_ci95"][0]) / 2 for c in cs))
                 for arm, cs in cells.items()}
     # a bound that rounds to 0 without being 0 hides whether the interval includes
-    # zero; such a column goes one place finer (standard P2)
+    # zero; such a column goes finer until none does (standard P2)
     for arm, cs in cells.items():
         q = 10.0 ** tl_place[arm]
-        if any(b != 0 and round(b / q) == 0 for c in cs for b in c["time_lost_ci95"]):
-            tl_place[arm] -= 1
+        while any(b != 0 and round(b / q) == 0 for c in cs for b in c["time_lost_ci95"]):
+            tl_place[arm] -= 1   # repeated until no bound rounds to 0 (2026-10-14: -0.23 printed as 0)
+            q = 10.0 ** tl_place[arm]
     bl_place = {arm: _place(max((c["blocked_per_deployment"]["hi"] - c["blocked_per_deployment"]["lo"]) / 2 for c in cs))
                 for arm, cs in cells.items()}
 
@@ -228,7 +229,7 @@ def emit_table(d: dict) -> str:
         r"  \label{tab:disruption}",
         # scriptsize, 3 pt gaps: at footnotesize the 3-decimal brackets exceed the text width (conventions, "Table size")
         r"  \tablestyle\scriptsize\setlength{\tabcolsep}{3pt}",  # group rows keep the stripes (Marc, 2026-10-01)
-        r"  \begin{tabular}{@{}P{3.8cm}*{2}{>{\centering\arraybackslash}p{3.0cm}>{\centering\arraybackslash}p{2.4cm}}@{}}",
+        r"  \begin{tabular}{@{}P{3.65cm}>{\centering\arraybackslash}p{2.55cm}>{\centering\arraybackslash}p{2.3cm}>{\centering\arraybackslash}p{2.55cm}>{\centering\arraybackslash}p{3.15cm}@{}}",
         r"    \toprule",
         r"    & \multicolumn{2}{c}{APT attacker model} & \multicolumn{2}{c}{Baseline attacker} \\",
         r"    \cmidrule(lr){2-3}\cmidrule(lr){4-5}",

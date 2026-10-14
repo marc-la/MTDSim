@@ -4988,7 +4988,8 @@ target's network, so it takes no time.
 Because these values are our judgement,
 Appendix~\ref{app:dwell-robustness} tests whether NCR
 (Section~\ref{sec:evaluation-metrics}) depends on them: after the values were
-fixed, it halved and doubled each one in turn. Only the 45~s changes NCR much,
+fixed, it moved each mean duration in turn to both ends of a band, from half
+to double, and from a quarter to four times for the 45~s. Only the 45~s changes NCR much,
 most likely through Command and Control, one of the three tactics it times.
 Command and Control is the only tactic that maps to scan neighbours, the
 attack action that finds the hosts next to those the attacker has compromised
@@ -8962,7 +8963,7 @@ two attackers' rankings on NCR reduction are uncorrelated ($\rho = 0.01$;
 Section~\ref{subsec:eff-cross-arm}). Service diversity, for example, reduces
 the baseline attacker's NCR by 92\,\% and the APT attacker model's by 36\,\%,
 on the same networks (Table~\ref{tab:eff-cross-arm}). Ranking on ASP reduction
-instead gives the same order against either attacker
+instead gives the same layer order against either attacker
 (Appendix~\ref{app:sup-mtd-effect}). A shared set of metrics is likely not
 enough to compare MTD mechanisms across evaluations whose attacker models
 differ. An MTD evaluation should therefore report its metrics against its own
@@ -9091,7 +9092,7 @@ numerically with earlier MTDSim studies.
 or factor for the vulnerability memory, so we declared them by judgement
 before any result, rather than fitting them (Table~\ref{tab:value-bases}). Each was varied,
 substituted or removed one at a time, which leaves their interactions untested,
-and three were not tested: the per-tactic duration multipliers, the share of
+and three were not tested: half the 45\,s for Execution and Defense Impairment, the share of
 weight given to the pre-intrusion overlay and the choice of one attack flow per
 APT group. Only the 45\,s mean duration changes NCR much
 (Table~\ref{tab:anchor-sensitivity}), and the rankings hold at both ends of its
@@ -9117,7 +9118,9 @@ Attack rate and attack confidentiality measure detection avoidance by proxy,
 through how often an attacker acts and a declared IDS rule. Distinct openings counts any variety, so
 it shows that the APT attacker model chooses among attack strategies, not that
 it chooses well. It counts an attack profile's steps as tactics and the
-baseline attacker's as attack actions.
+baseline attacker's as attack actions; recounted in attack actions, the
+attack profiles have 190 to 844 distinct openings over eight steps, against
+the baseline attacker's 3.
 
 \item\label{thr:yardstick} The eight properties are this dissertation's reading
 of the APT definition and two surveys. They are not a complete standard, they
@@ -10095,6 +10098,7 @@ with the APT attacker model averaged over $c_1$ to $c_4$.
 
 % [2026-10-14, Marc: "sensitivity analysis on tactic durations"; purpose first,
 %  the finding stated, the verdict column replaced by the change across the band.]
+\clearpage % D.5 on its own page, D.6 with its table on the next (2026-10-14)
 \section{Sensitivity analysis of the tactic durations}
 \label{app:dwell-robustness}\label{app:sensitivity}
 
@@ -10129,7 +10133,7 @@ with the APT attacker model averaged over $c_1$ to $c_4$.
 %  docs/implementation/pipeline/ogasp/judgement_parameter_presentation_guidance.md).]
 % [2026-10-14, Marc: dedupe with the captions. The prose carries why, the method
 %  once and the two findings; the captions decode the cells; the numbers are the tables'.]
-Our judgement sets the tactic durations (Section~\ref{subsec:dwell-times}),
+Most tactic durations are our judgement (Section~\ref{subsec:dwell-times}),
 so this sensitivity analysis tests whether the results depend on them. Each
 of the four mean durations that several tactics share was moved to both ends
 of its band, one at a time, with the other three held at their declared values;

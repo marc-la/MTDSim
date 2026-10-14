@@ -45,7 +45,7 @@
       "test": "moved to both ends of a band, Appendix~\\ref{app:dwell-robustness}"
     },
     {
-      "value": "Per-tactic duration multipliers",
+      "value": "Half the 45\\,s for Execution and Defense Impairment",
       "basis": "Our judgement",
       "reason": "Section~\\ref{subsec:dwell-times}",
       "test": "not tested"
