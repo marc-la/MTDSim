@@ -224,11 +224,10 @@ def write_table(result: dict) -> None:
         r"\begin{table}[htbp]",
         r"  \centering",
         (r"  \caption[The APT attacker model with and without the attack profiles, at every MTD mechanism, deployment strategy and deployment interval]"
-         r"{The effect size $d$ on NCR of the APT attacker model averaged over $c_1$ to $c_4$, minus the APT attacker model on the "
-         r"attack graph, on the same 1\,000 seeds, for every MTD mechanism and deployment strategy at every "
-         rf"deployment interval (with no MTD, ${none['cohen_d']:+.2f}$ [${lo:+.2f}$, ${hi:+.2f}$]). "
-         r"Bold: not negligible, the 95\,\% percentile bootstrap interval over seeds, before rounding, wholly outside "
-         + bold + beyond + "}"),
+         # 2026-10-14 (Marc: dedupe): d's reading, the seeds and the averaging are in the
+         # appendix section's prose and Section 5.1; the counts are in Section 5.4's text.
+         r"{$d$ on NCR, the attack profiles minus the attack graph, at every MTD mechanism, deployment "
+         r"strategy and deployment interval. Bold: not negligible.}"),
         r"  \label{tab:ablation-attack-profiles}",
         r"  \tablestyle",
         r"  \begin{tabular}{@{}lcccccc@{}}",

@@ -661,3 +661,10 @@ Results come before sensitivity, the usual reading order. This departs from the 
 - **The lone page** was `\FloatBarrier` sending a deferred rank-1 table to a float page of its own.
 - **Fix, which also reads better:** D.2 now sets the ranking first (NCR values, rank 1) and the ASP check after it. The generator writes the ASP table to its own file, `tab_F-0d_interval_values_asp.tex`.
 - Build: **93 pages**, 0 undefined. D.3 opens at the top of p. 67 with its first two tables.
+
+**D.3 dedupe (Marc, 2026-10-14: "the full set of data the ablation table summarises"; what do the prose and the captions each carry?).**
+- **Three tables, three experiments.** Each expands an ablation that Table 5.4 summarises at a few conditions: D.5 the attack profiles at all 60 conditions, D.6 against the 10 random partitions, D.7 the vulnerability memory by services per OS. Each backs a distinct sentence of §5.4. Nothing cut.
+- **Prose** now states the frame ("each table gives in full an ablation that Table 5.4 summarises") and the shared reading of *d* once: on NCR, the same 1 000 seeds, averaged over c₁–c₄, bold = not negligible (§5.1).
+- **Captions** keep their own comparison plus "Bold: not negligible" (S4). Cut from them: d's definition, the ±0.2 rule and bootstrap method (§5.1), the 29/7/24 counts and the no-MTD *d* (both in §5.4).
+- **Generators** (`partition_ablation.py`, `ablation_table.py`, `memory_ablation.py`) carry the same captions; edited in place, since they read multi-GB run files.
+- Build: 93 pages, 0 undefined.

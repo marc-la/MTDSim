@@ -9973,19 +9973,22 @@ NCR reduction.
 %  extended to name it. DRAFT STATE.
 % 2026-10-02: the attack profiles' ablation over the whole grid, cited by
 %  Section 5.4.1's outcome paragraph. SESSION-DRAFTED sentence, DRAFT STATE.
-Table~\ref{tab:ablation-attack-profiles} gives the attack profiles' ablation
-(Section~\ref{subsec:ablation-attack-profiles}) at every MTD mechanism,
-deployment strategy and deployment interval, and
-Table~\ref{tab:ablation-random-partitions} its random partitions of the attack
-flows.
+% [2026-10-14, Marc: the full data Table 5.6 summarises; the shared reading of d
+%  stated once here, so each caption keeps only its own comparison.]
+Each table gives in full an ablation that Table~\ref{tab:ablation} summarises
+(Section~\ref{sec:ablation}): the attack profiles at every MTD mechanism,
+deployment strategy and deployment interval (Table~\ref{tab:ablation-attack-profiles}),
+the attack profiles against random partitions of the attack flows
+(Table~\ref{tab:ablation-random-partitions}), and the vulnerability memory at
+every number of services per operating system (Table~\ref{tab:ablation-memory}).
+Every $d$ is on NCR, on the same 1\,000 seeds, with the APT attacker model
+averaged over $c_1$ to $c_4$, and bold marks a $d$ that is not negligible
+(Section~\ref{sec:dimensions}).
 
 \input{tables/tab_F-3_ablation_attack_profiles}
 
 \input{tables/tab_F-4_ablation_random_partitions}
 
-Table~\ref{tab:ablation-memory} gives the vulnerability memory's ablation
-(Section~\ref{subsec:ablation-vulnerability-memory}) at every number of services
-per operating system.
 
 
 \input{tables/tab_F-2_ablation_memory}

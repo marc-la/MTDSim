@@ -218,9 +218,8 @@ def control_table() -> None:
         r"\begin{table}[htbp]",
         r"  \centering",
         (r"  \caption[The attack profiles against random partitions of the attack flows]"
-         r"{$d$ on NCR of the APT attacker model averaged over $c_1$ to $c_4$, the attack profiles minus each of "
-         r"10 random partitions of the attack flows (Section~\ref{subsec:ablation-attack-profiles}). "
-         r"Bold: not negligible." + rest + "}"),
+         r"{$d$ on NCR, the attack profiles minus each of 10 random partitions of the attack flows into "
+         r"groups of the same sizes. Bold: not negligible." + rest + "}"),
         r"  \label{tab:ablation-random-partitions}",
         r"  \tablestyle",
         r"  \begin{tabular}{@{}cccccc@{}}",
