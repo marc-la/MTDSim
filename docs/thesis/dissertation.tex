@@ -9882,6 +9882,33 @@ are our judgement.
 
 \FloatBarrier
 
+% Completed sensitivity sweeps too verbose for the results preamble; the
+% ~200-value success/failure overlay matrix declaration (V6: per-user
+% adoption concern, not a swept dimension).
+% [2026-10-14, Marc: moved from Appendix D to C (it describes the model, not the
+%  evaluation); the sensitivity label stays in D. Heading in the reader's terms ("values", "our judgement", how
+%  each was tested), not "declared values" or "the effect of moving each".]
+\section{Where each value of the APT attacker model comes from}
+
+% LEAD DRAFT STATE 2026-09-20 --- connective prose (green-lit), ratify-on-read.
+% Was the lead of C.1 pointing at the body's Table 5.1; the table now leads the
+% appendix (the body section was cut, see the note at the head of ch5).
+% [2026-10-04: the bases table added first, the four-bases list of the 4.4
+%  preamble as a table (generated, tools/value_bases_table.py). DRAFT STATE.]
+% [2026-10-14, Marc: "argument based". The argument is Section 6.5's (thr:values),
+%  which cites both tables; this section holds the tables, with a lead saying what
+%  each gives. Cut: the four-bases sentence (the table's basis column) and the three
+%  untested values (Section 6.5 and the table's "not tested" cells).]
+% [2026-10-14, Marc: the register (old Table D.9) cut; the Test column cut, not
+%  D.4's job. The tactic-duration test is D.5's table; the ablations are Section 5.4's.]
+Table~\ref{tab:value-bases} gives every value of the APT attacker model, grouped
+by where it comes from, our judgement first, with the section that gives its
+reason.
+
+\input{tables/tab_C-0b_value_bases}
+\FloatBarrier
+
+
 
 % =====================================================================
 % NEW 2026-09-25 (results context §8j-4; Marc agreed the intervals leave the body
@@ -9897,9 +9924,9 @@ are our judgement.
 \chapter{Supplementary material for the MTD evaluation}
 \label{app:supplementary-results}
 
-Each section of this appendix backs Chapter~\ref{ch:experiments}: the first two
-give the values behind its comparisons, and the other three the sensitivity
-analyses of the APT attacker model's declared values.
+Each section of this appendix backs Chapter~\ref{ch:experiments}: the first three
+give the full data behind its comparisons and ablations, and the last two its
+sensitivity analyses.
 
 % [2026-10-14, Marc: D.1 split into two sections named as Chapter 5's
 %  subsections 5.3.1 and 5.3.2, so each backs the section of the same name.]
@@ -9990,30 +10017,6 @@ averaged over $c_1$ to $c_4$, and bold marks a $d$ that is not negligible
 \input{tables/tab_F-2_ablation_memory}
 \FloatBarrier
 
-% Completed sensitivity sweeps too verbose for the results preamble; the
-% ~200-value success/failure overlay matrix declaration (V6: per-user
-% adoption concern, not a swept dimension).
-% [2026-10-14, Marc: heading in the reader's terms ("values", "our judgement", how
-%  each was tested), not "declared values" or "the effect of moving each".]
-\section{Where each value of the APT attacker model comes from}
-\label{app:sensitivity}
-
-% LEAD DRAFT STATE 2026-09-20 --- connective prose (green-lit), ratify-on-read.
-% Was the lead of C.1 pointing at the body's Table 5.1; the table now leads the
-% appendix (the body section was cut, see the note at the head of ch5).
-% [2026-10-04: the bases table added first, the four-bases list of the 4.4
-%  preamble as a table (generated, tools/value_bases_table.py). DRAFT STATE.]
-% [2026-10-14, Marc: "argument based". The argument is Section 6.5's (thr:values),
-%  which cites both tables; this section holds the tables, with a lead saying what
-%  each gives. Cut: the four-bases sentence (the table's basis column) and the three
-%  untested values (Section 6.5 and the table's "not tested" cells).]
-% [2026-10-14, Marc: the register (old Table D.9) cut; the Test column cut, not
-%  D.4's job. The tactic-duration test is D.5's table; the ablations are Section 5.4's.]
-Table~\ref{tab:value-bases} gives every value of the APT attacker model, grouped
-by where it comes from, our judgement first, with the section that gives its
-reason.
-
-\input{tables/tab_C-0b_value_bases}
 
 % =====================================================================
 % LANDED 2026-08-20 (2026-08-20_dwell_table_and_derivation.md, artefact 3).
@@ -10039,7 +10042,7 @@ reason.
 \FloatBarrier
 
 \section{Robustness of the declared tactic durations across their bands}
-\label{app:dwell-robustness}
+\label{app:dwell-robustness}\label{app:sensitivity}
 
 % [prose slot --- Marc] the framing. What this section is evidence OF: the
 %   declared values are arbitrary in the sense the chapter concedes, and
