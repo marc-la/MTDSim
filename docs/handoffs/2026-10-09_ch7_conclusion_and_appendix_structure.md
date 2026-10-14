@@ -274,6 +274,7 @@ Each says what it holds and carries its own float.
 ### 9b. The three front lists read together (Marc 2026-10-09)
 
 - Marc: the examiner reads the contents, the list of figures and the list of tables together.
+- **Superseded 2026-10-14:** the list of figures and the list of tables are cut (Marc: three pages for little value). Only the contents remain; the short-caption proposals below are moot.
 - The "Owed before submission" page was removed (commit 35db0030; no `\owed` mark remains).
 - The contents print to subsection depth (cls `tocdepth` 2), so the run-in paragraph headings do not print.
 - **The main-text contents read cleanly.** Each heading names its content, and ch5 and ch6 mirror each other in 5.2/6.1 and 5.3/6.2.
