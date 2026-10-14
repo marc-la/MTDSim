@@ -606,3 +606,11 @@ Build: 99 pages, 0 undefined. B is pp. 58–59, with the lead and the table on s
 - **Provenance flag:** the audit note in `data/gasp/metadata_audit.csv` quotes Talos as "no encryption, wiping, or ransom demands". That is not verbatim in the report, so do not quote it.
 - **Figure:** `draw_grid` now draws the diagonal, a thin grey line through the never-filled same-tactic cells. It splits each grid into edges forward in the order of tactics (above) and back (below). The caption gains one decoding sentence. Type is still at the 8 pt floor; the build is 95 pages, 0 undefined.
 - **Not done:** lifecycle-stage separators on the grids. Judged one structure too many on top of the diagonal; available if wanted.
+
+**C.4 (Marc, 2026-10-14: "all the cuts are fine"; polish the table; retitle).**
+- **Table C.2 cut** (reference, multiplier, band and reason per tactic). Ch4's prose and Table 4.4 give every value and reason. The per-tactic bands fed no test; Appendix D's register gives the ranges that were moved.
+- **Applied by ruling:** the ch4 Table 4.4 caption loses "Appendix C.4 gives each tactic's reason" (`dwell_catalogue_tables.py`), and the value-bases rows now point to §4.4.2 (`value_bases.json`).
+- **Heading:** "Tactic durations against the baseline attacker's times", in the text's terms; the baseline attacker has times, not tactic durations.
+- **Lead:** gains one sentence. Six tactics take an attack action's time; we set the other nine by judgement (§4.4.2).
+- **Table** (`attack_action_times_table.py`): now one row per tactic, grouped by attack action, with MTDSim's time and the mean duration in aligned columns. The unmapped group's time cell is blank, meaning not applicable.
+- Build: 94 pages, 0 undefined.

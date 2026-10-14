@@ -155,8 +155,7 @@ def main() -> None:
 
     short = "The tactic durations"
     caption = (
-        "The mean duration of each tactic, and its source. "
-        "Appendix~\\ref{app:dwell-derivation} gives each tactic's reason."
+        "The mean duration of each tactic, and its source."
     )
     L = [banner, r"\begin{table}[htbp]", r"\centering",
          rf"\caption[{short}]{{{caption}}}", r"\label{tab:dwell-catalogue}",
