@@ -748,3 +748,35 @@ Results come before sensitivity, the usual reading order. This departs from the 
 ### 13.aa Appendix B retitled (Marc 2026-10-14)
 
 - "The attacker models scored on the eight properties" → **"Predicate tests of the attacker models"**. This overturns the earlier title, which reused Table 3.3's caption wording. Marc found it rhetorical: it restates what ch3 already does instead of naming what B adds, the level below the marks. "Predicate" and "mark" are ch3-defined terms (3.3.2); the new title matches the table's short caption ("Each attacker model tested on each predicate") and reads clearly on its own in the contents.
+
+## 14. Chapter 7 first draft (2026-10-14, DRAFT STATE)
+
+Marc: "get the draft conclusion down … short, sharp and relevant … everything up to about 6.4". The `draftnotes` slot blocks are replaced by prose; they stay in git at 42be1a7d.
+
+**Shape.** The introduction's mirror, from specific to general (Bunton 2005's moves; Charles 2024, *Writing your Introduction & Conclusion chapters*, Digital Health CRC, after Mullins & Kiley 2002: examiners read the abstract, the introduction and then the conclusion first, so "write your conclusion with your introduction open"):
+1. the RQ answered;
+2. ch1's two contributions in ch1's order and nouns, each with its SQs, evidence, impact and bound;
+3. future work, each item opening on the 6.5 limitation or threat it lifts;
+4. a close that returns to ch1 P2's advantage of time.
+
+**Words: 945 against ~800.** Preamble 106, C1 189, C2 212, future work 437. Cut candidates, in order:
+- future work item 3 (four directions in one bullet);
+- C2's third implication, if 6.4 ¶3 is judged enough;
+- C1's sentence on the gains over the baseline attacker.
+
+**Stale slot-sheet items, corrected in the draft against ch6 as of 42be1a7d:**
+- "deployments that cost nothing" no longer appears in ch6; the bound now uses 6.5's "no efficiency metric";
+- "another simulator needs the interface" is cut, since it was cut from 6.4 ¶3;
+- the lowest-NCR-reduction lower bound is cut: it was parked in 6.4 and never drafted;
+- C1's bound followed 6.3's close, which has since been cut. It now follows 6.3 ¶2 (threat reports give the order; judgement sets the tactic durations and the failure matrix) and ¶3 (no actions on objectives);
+- §3's "five in part" is wrong: Table 6.1 and ch1 both give three in part;
+- C2's candidate number (the host layer halving NCR to 1 000 s) is not in ch6, so it is not used.
+
+**Future work: no F-labels.** No sentence refers back to a future-work item. Each item cites the threat it lifts instead (`\ref{thr:*}`).
+
+**Open for Marc:**
+- (a) Properties 6 and 7 (cost–benefit reasoning and learning) get no future-work item. No attacker model has them, but 6.5 names no limitation to open on.
+- (b) The two closing sentences: keep the advantage-of-time return, or end on the attack actions alone?
+- (c) The ch1 overview says ch7 "sets out future work". It still holds.
+
+Build: 82 pp.; one undefined reference (ch4 `app:detector-memory`, pending).
