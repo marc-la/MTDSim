@@ -630,3 +630,13 @@ Build: 99 pages, 0 undefined. B is pp. 58–59, with the lead and the table on s
   The compiler check passes.
 - **Not fitted onto p. 62.** It is about 2 cm short. Trimming the reasons and narrowing columns did not close it, nor did 9 pt type; only cutting the Reason column would. Kept on p. 63; D starts on p. 64 either way, so fitting would save one page.
 - **"Applies to N of 210 cells" column:** not added. It costs width, and Marc judged it too much.
+
+**Appendix merge (Marc, 2026-10-14).** The sensitivity analyses are merged into the supplementary results, with MTDShield after them. The appendices are now:
+- A the proposal;
+- B scoring;
+- C supplementary material for the APT attacker model;
+- **D Supplementary material for the MTD evaluation**: D.1 MTD's effect at every interval, D.2 the ablations, D.3 the declared values and the effect of moving each (the old D lead, now a section carrying `app:sensitivity`), D.4 tactic-duration robustness, D.5 detector robustness;
+- E MTDShield as run;
+- F further analyses.
+
+Results come before sensitivity, the usual reading order. This departs from the §9 first-citation convention, which was proposed, never ruled. The title uses ch2's defined term "MTD evaluation"; the session first said it was not a term and was wrong. Body references are unchanged (`app:sensitivity` now prints D.3). Build: 94 pages, 0 undefined.

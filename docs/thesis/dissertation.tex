@@ -9887,10 +9887,92 @@ are our judgement; moving them leaves NCR inside its interval
 \FloatBarrier
 
 
+% =====================================================================
+% NEW 2026-09-25 (results context §8j-4; Marc agreed the intervals leave the body
+% table): the per-attacker tables with every interval. Heading and placement are
+% the session's; DRAFT STATE --- ratify on read. [2026-10-09: 1 000 seeds; the
+% '100 seeds' note was stale.] SECTIONED 2026-10-09 (Marc approved, handoff s9-9a):
+% three sections in the floats' existing order, which is chapter 5's (5.3.1, 5.3.2,
+% 5.4). PROPOSED OPENER (not yet ratified): "Each section gives the full grid
+% behind a comparison of Chapter 5, in its order."
+% [2026-10-14, Marc: the sensitivity analyses merged in after the supplementary
+%  results ("results and the sensitivity analysis should go together"), MTDShield
+%  after; the title parallels Appendix C's and uses Section 2's defined term.]
+\chapter{Supplementary material for the MTD evaluation}
+\label{app:supplementary-results}
+
+Each section of this appendix backs Chapter~\ref{ch:experiments}: the first two
+give the values behind its comparisons, and the other three the sensitivity
+analyses of the APT attacker model's declared values.
+
+\section{MTD's effect on each attacker at every deployment interval}
+\label{app:sup-mtd-effect}
+
+% 2026-09-30 (Marc): the headline's values, moved from Section 5.3.2 with the ASP
+%  reduction values beside them. SESSION-GENERATED sentences, DRAFT STATE.
+Table~\ref{tab:disruption} gives the values Figure~\ref{fig:aio-adaptivity} plots.
+
+\input{tables/tab_5-3-1b_disruption}
+
+Table~\ref{tab:eff-interval-values} gives the values Figure~\ref{fig:eff-cross-arm}
+plots, at every deployment interval. Table~\ref{tab:eff-interval-values-asp}
+gives the same comparison on ASP
+reduction, the share of an attacker's ASP that MTD removes:
+\begin{equation}
+  \text{ASP reduction} = 1 -
+  \frac{\text{ASP under MTD}}{\text{ASP with no MTD}}.
+  \label{eq:asp-reduction}
+\end{equation}
+It is 0 when MTD has no effect, 1 when the attacker reaches its goal in no run
+under MTD, and negative when MTD raises ASP, after the mitigation factor of
+Alavizadeh et al.\ \citep[Eq.~13]{alavizadeh2022}. At 200\,s, ASP reduction shows the
+order of NCR reduction, and reaches its ceiling of 1 against the APT attacker
+model, whose ASP with no MTD is low, so Chapter~\ref{ch:experiments} ranks on
+NCR reduction.
+
+
+\input{tables/tab_F-0a_interval_values}
+
+% 2026-10-13 (Marc: "5.3.2 yeah you can do that ... the appendix entry, I don't care"):
+%  Table 5.3's rank 1 at every interval; tools/ch5_sweep_figures.py --only rankone.
+Table~\ref{tab:rank-one-intervals} gives rank~1 of Table~\ref{tab:eff-cross-arm}
+at every deployment interval.
+
+\input{tables/tab_F-0c_rank_one}
+
+
+\section{The ablation studies in full}
+\label{app:sup-ablations}
+
+% 2026-10-01 (Marc: "table 5.7 moves to the appendix"): the vulnerability
+%  memory's pool sweep, in Table 5.6's form. SESSION-GENERATED sentence, DRAFT STATE.
+% 2026-10-02 (Marc: "move it to appendix F"): the figure follows its table
+%  here from Section 5.4.3, which keeps the hypothesis's verdict. Sentence
+%  extended to name it. DRAFT STATE.
+% 2026-10-02: the attack profiles' ablation over the whole grid, cited by
+%  Section 5.4.1's outcome paragraph. SESSION-DRAFTED sentence, DRAFT STATE.
+Table~\ref{tab:ablation-attack-profiles} gives the attack profiles' ablation
+(Section~\ref{subsec:ablation-attack-profiles}) at every MTD mechanism,
+deployment strategy and deployment interval, and
+Table~\ref{tab:ablation-random-partitions} its random partitions of the attack
+flows.
+
+\input{tables/tab_F-3_ablation_attack_profiles}
+
+\input{tables/tab_F-4_ablation_random_partitions}
+
+Table~\ref{tab:ablation-memory} gives the vulnerability memory's ablation
+(Section~\ref{subsec:ablation-vulnerability-memory}) at every number of services
+per operating system.
+
+
+\input{tables/tab_F-2_ablation_memory}
+\FloatBarrier
+
 % Completed sensitivity sweeps too verbose for the results preamble; the
 % ~200-value success/failure overlay matrix declaration (V6: per-user
 % adoption concern, not a swept dimension).
-\chapter{Supplementary sensitivity analyses}
+\section{The declared values and the effect of moving each}
 \label{app:sensitivity}
 
 % LEAD DRAFT STATE 2026-09-20 --- connective prose (green-lit), ratify-on-read.
@@ -10004,6 +10086,7 @@ confidentiality than the baseline attacker. The other three flag at most
 of it, above or below.
 
 \input{tables/tab_C-4a_detector_memory}
+
 % UPDATED 2026-09-24 (scrutinise-figure round 3, context critic): the alarm quantile
 % matters --- at the 60th percentile c4 falls below the baseline attacker in the
 % first 1 500 s bin (78.0 against 79.0), at the 75th c1 does too; at the median c4's
@@ -10188,80 +10271,6 @@ attacker and deployment interval, averaged over $c_1$ to $c_4$ for the APT attac
   435 of 500 runs at 200\,s: it divides by the number of port scans, and the
   APT attacker model compromises hosts without one.
 \end{itemize}
-
-% =====================================================================
-% NEW 2026-09-25 (results context §8j-4; Marc agreed the intervals leave the body
-% table): the per-attacker tables with every interval. Heading and placement are
-% the session's; DRAFT STATE --- ratify on read. [2026-10-09: 1 000 seeds; the
-% '100 seeds' note was stale.] SECTIONED 2026-10-09 (Marc approved, handoff s9-9a):
-% three sections in the floats' existing order, which is chapter 5's (5.3.1, 5.3.2,
-% 5.4). PROPOSED OPENER (not yet ratified): "Each section gives the full grid
-% behind a comparison of Chapter 5, in its order."
-\chapter{Supplementary results}
-\label{app:supplementary-results}
-
-\section{MTD's effect on each attacker at every deployment interval}
-\label{app:sup-mtd-effect}
-
-% 2026-09-30 (Marc): the headline's values, moved from Section 5.3.2 with the ASP
-%  reduction values beside them. SESSION-GENERATED sentences, DRAFT STATE.
-Table~\ref{tab:disruption} gives the values Figure~\ref{fig:aio-adaptivity} plots.
-
-\input{tables/tab_5-3-1b_disruption}
-
-Table~\ref{tab:eff-interval-values} gives the values Figure~\ref{fig:eff-cross-arm}
-plots, at every deployment interval. Table~\ref{tab:eff-interval-values-asp}
-gives the same comparison on ASP
-reduction, the share of an attacker's ASP that MTD removes:
-\begin{equation}
-  \text{ASP reduction} = 1 -
-  \frac{\text{ASP under MTD}}{\text{ASP with no MTD}}.
-  \label{eq:asp-reduction}
-\end{equation}
-It is 0 when MTD has no effect, 1 when the attacker reaches its goal in no run
-under MTD, and negative when MTD raises ASP, after the mitigation factor of
-Alavizadeh et al.\ \citep[Eq.~13]{alavizadeh2022}. At 200\,s, ASP reduction shows the
-order of NCR reduction, and reaches its ceiling of 1 against the APT attacker
-model, whose ASP with no MTD is low, so Chapter~\ref{ch:experiments} ranks on
-NCR reduction.
-
-
-\input{tables/tab_F-0a_interval_values}
-
-% 2026-10-13 (Marc: "5.3.2 yeah you can do that ... the appendix entry, I don't care"):
-%  Table 5.3's rank 1 at every interval; tools/ch5_sweep_figures.py --only rankone.
-Table~\ref{tab:rank-one-intervals} gives rank~1 of Table~\ref{tab:eff-cross-arm}
-at every deployment interval.
-
-\input{tables/tab_F-0c_rank_one}
-
-
-\section{The ablation studies in full}
-\label{app:sup-ablations}
-
-% 2026-10-01 (Marc: "table 5.7 moves to the appendix"): the vulnerability
-%  memory's pool sweep, in Table 5.6's form. SESSION-GENERATED sentence, DRAFT STATE.
-% 2026-10-02 (Marc: "move it to appendix F"): the figure follows its table
-%  here from Section 5.4.3, which keeps the hypothesis's verdict. Sentence
-%  extended to name it. DRAFT STATE.
-% 2026-10-02: the attack profiles' ablation over the whole grid, cited by
-%  Section 5.4.1's outcome paragraph. SESSION-DRAFTED sentence, DRAFT STATE.
-Table~\ref{tab:ablation-attack-profiles} gives the attack profiles' ablation
-(Section~\ref{subsec:ablation-attack-profiles}) at every MTD mechanism,
-deployment strategy and deployment interval, and
-Table~\ref{tab:ablation-random-partitions} its random partitions of the attack
-flows.
-
-\input{tables/tab_F-3_ablation_attack_profiles}
-
-\input{tables/tab_F-4_ablation_random_partitions}
-
-Table~\ref{tab:ablation-memory} gives the vulnerability memory's ablation
-(Section~\ref{subsec:ablation-vulnerability-memory}) at every number of services
-per operating system.
-
-
-\input{tables/tab_F-2_ablation_memory}
 
 % =====================================================================
 % NEW 2026-10-09 (Marc approved; handoff 2026-10-09_ch7_conclusion_and_appendix_
