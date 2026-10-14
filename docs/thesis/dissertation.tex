@@ -10184,7 +10184,8 @@ Control takes 5\,s for scan neighbours in place of 45\,s, and Credential Access
 20\,s for brute force in place of 4.5\,s. The two steps raise the APT attacker
 model's ASP, averaged over $c_1$ to $c_4$, from 0.09 to 0.45 against the
 baseline attacker's 0.66; the share of its gap in ASP they close is
-0.63 [0.61, 0.65].
+0.63 [0.61, 0.65]. An attack action fails when it runs before its
+preconditions are met (Section~\ref{subsec:runtime-mechanics}).
 
 \input{tables/tab_FA-8_tactic_durations}
 
