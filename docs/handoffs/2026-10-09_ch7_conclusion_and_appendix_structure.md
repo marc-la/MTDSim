@@ -676,3 +676,11 @@ Results come before sensitivity, the usual reading order. This departs from the 
 - **Bases:** "Corpus" → "Attack Flow corpus".
 - **Layout:** `\FloatBarrier` before D.5 keeps D.8/D.9 inside D.4. This costs a page, because D.6's detector table now sits alone on p. 72. Build: **94 pages**, 0 undefined.
 - **Open:** D.5/D.6 prose also summarises results (§6.5 territory). Trimming D.5 to a lead would likely recover the page; offered to Marc.
+
+**D.4/D.5 (Marc, 2026-10-14: "I don't think table D.9 is useful"; the Test column "not D.4's job").**
+- **The register (old Table D.9, `tab:parameter-register`) is cut.**
+- **D.8 loses its Test column.** It is now every value, where it comes from (our judgement first), and where its reason is given. The exponential delay moves to Literature (ch4 justifies it from GSPN timing and stochastic attack behaviour). D.4 is retitled "Where each value of the APT attacker model comes from".
+- **The plain tactic-duration table (`tab:anchor-sensitivity`) is restored in D.5:** NCR at each band end, for no MTD and random at 200 and 2 000 s.
+- **Retargeted:** ch6 `thr:values` now cites `tab:anchor-sensitivity` for "only the 45 s changes NCR much". C.5's lead loses "moving them leaves NCR inside its interval". ch6 `thr:mapping` loses the total-mapping sentence (0.003 against 0.163; Marc: the mapping test is unimportant), keeping "No other partial mapping was tested".
+- **`\FloatBarrier` before D.6** keeps D.5's tables in D.5. Build: **93 pages**, 0 undefined.
+- **For the §6.5 T-round:** `thr:values` still says each value was "varied, substituted or removed one at a time". That stays true, but the substitutions (Erlang-4 delay, total mapping) no longer have a displayed table. Decide in the T-round whether to keep "substituted" or drop it.

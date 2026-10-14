@@ -52,7 +52,7 @@
     },
     {
       "value": "Exponential delay",
-      "basis": "Our judgement",
+      "basis": "Literature",
       "reason": "Section~\\ref{subsec:dwell-times}",
       "test": "replaced by an Erlang-4 delay, Table~\\ref{tab:parameter-register}"
     },
@@ -86,5 +86,6 @@
       "reason": "Section~\\ref{subsec:vulnerability-memory}",
       "test": "removed in the ablation, Section~\\ref{subsec:ablation-vulnerability-memory}"
     }
-  ]
+  ],
+  "_test_column": "Not printed since 2026-10-14 (Marc: not D.4's job; the duration test is Appendix D.5's table, the ablations Section 5.4's). Kept here for the record."
 }

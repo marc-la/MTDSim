@@ -2,32 +2,31 @@
 % DRAFT STATE (2026-10-04, 4.4 preamble redraft): caption session-drafted, ratify on read.
 \begin{table}[htbp]
   \centering
-  \caption[Each value of the APT attacker model and its basis]{Every value the
-  APT attacker model needs, grouped by where it comes from, with the section that
-  gives its reason and what was done to test it. \emph{Not tested}: a value of
-  our judgement left untested (Section~\ref{sec:threats}).}
+  \caption[Each value of the APT attacker model and where it comes from]{Every
+  value the APT attacker model needs, grouped by where it comes from, with the
+  section that gives its reason.}
   \label{tab:value-bases}
   \tablestyle
-  \begin{tabular}{@{}P{2.3cm}P{4.6cm}P{2.3cm}P{5.2cm}@{}}
+  \begin{tabular}{@{}P{3.0cm}P{8.0cm}P{2.6cm}@{}}
     \toprule
-    Comes from & Value & Reason in & Test \\
+    Comes from & Value & Reason in \\
     \midrule
-    Our judgement & Mean durations set by judgement & Section~\ref{subsec:dwell-times} & moved to both ends of a band, Appendix~\ref{app:dwell-robustness} \\
-     & Per-tactic duration multipliers & Section~\ref{subsec:dwell-times} & not tested \\
-     & Exponential delay & Section~\ref{subsec:dwell-times} & replaced by an Erlang-4 delay, Table~\ref{tab:parameter-register} \\
-     & Tactic-to-action mapping & Section~\ref{subsec:tactic-verb-mapping} & replaced by a total mapping, Table~\ref{tab:parameter-register} \\
-     & Failure-matrix values & Table~\ref{tab:overlay-failure-rules} & removed in the ablation, Section~\ref{sec:ablation} \\
-     & Share of weight given to the pre-intrusion overlay & Section~\ref{sec:petri-formalism} & not tested \\
-     & One attack flow per APT group & Section~\ref{sec:petri-formalism} & not tested \\
-     & Vulnerability memory's factor of three & Section~\ref{subsec:vulnerability-memory} & removed in the ablation, Section~\ref{subsec:ablation-vulnerability-memory} \\
+    Our judgement & Mean durations set by judgement & Section~\ref{subsec:dwell-times} \\
+     & Per-tactic duration multipliers & Section~\ref{subsec:dwell-times} \\
+     & Tactic-to-action mapping & Section~\ref{subsec:tactic-verb-mapping} \\
+     & Failure-matrix values & Table~\ref{tab:overlay-failure-rules} \\
+     & Share of weight given to the pre-intrusion overlay & Section~\ref{sec:petri-formalism} \\
+     & One attack flow per APT group & Section~\ref{sec:petri-formalism} \\
+     & Vulnerability memory's factor of three & Section~\ref{subsec:vulnerability-memory} \\
     \addlinespace
-    Attack Flow corpus & Base weights of the Petri nets & Section~\ref{sec:petri-formalism} & none: taken from its source \\
-     & Membership of each attack profile & Section~\ref{sec:attack-profiles} & none: taken from its source \\
+    Attack Flow corpus & Base weights of the Petri nets & Section~\ref{sec:petri-formalism} \\
+     & Membership of each attack profile & Section~\ref{sec:attack-profiles} \\
     \addlinespace
-    MTDSim & Mean durations from MTDSim's scan and exploit attack actions & Section~\ref{subsec:dwell-times} & moved to both ends of a band, Appendix~\ref{app:dwell-robustness} \\
-     & Confusion penalty & Section~\ref{subsec:attacker-model} & none: taken from its source \\
+    MTDSim & Mean durations from MTDSim's scan and exploit attack actions & Section~\ref{subsec:dwell-times} \\
+     & Confusion penalty & Section~\ref{subsec:attacker-model} \\
     \addlinespace
-    Literature & Order of the lifecycle stages & Section~\ref{subsec:apt} & none: taken from its source \\
+    Literature & Order of the lifecycle stages & Section~\ref{subsec:apt} \\
+     & Exponential delay & Section~\ref{subsec:dwell-times} \\
     \bottomrule
   \end{tabular}
 \end{table}
