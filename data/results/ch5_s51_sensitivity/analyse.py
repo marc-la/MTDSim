@@ -492,7 +492,7 @@ def frag_families(out: dict) -> str:
     w(r"\caption[NCR at the ends of each mean duration's band]{NCR at the low end, the declared value and "
       r"the high end of each mean duration's band (Table~\ref{tab:dwell-catalogue}); the APT attacker model "
       r"averaged over $c_1$ to $c_4$, 400 runs per cell. Execution and Defense Impairment have half the "
-      r"45\,s mean duration, so it moves theirs too. "
+      r"45\,s mean duration, so moving the 45\,s moves theirs too. "
       r"\emph{Change}: high end minus low end; bold, the largest. Every NCR's 95\,\%% interval is within "
       r"$\pm %.3f$.}" % hw)
     w(r"\label{tab:anchor-sensitivity}")

@@ -219,7 +219,7 @@ def control_table() -> None:
         r"  \centering",
         (r"  \caption[The attack profiles against random partitions of the attack flows]"
          r"{$d$ on NCR, the attack profiles minus each of 10 random partitions of the attack flows into "
-         r"groups of the same sizes. Bold: not negligible." + rest + "}"),
+         r"four groups of the attack profiles' sizes. Bold: not negligible." + rest + "}"),
         r"  \label{tab:ablation-random-partitions}",
         r"  \tablestyle",
         r"  \begin{tabular}{@{}cccccc@{}}",
