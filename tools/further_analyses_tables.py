@@ -18,6 +18,7 @@ Usage:  python tools/further_analyses_tables.py
 from __future__ import annotations
 
 import json
+import re
 import sys
 from pathlib import Path
 
@@ -229,63 +230,69 @@ def pm(x: dict, nd: int, scale: float = 1.0) -> str:
     return f"${x['mean'] * scale:.{nd}f} \\pm {half:.{nd}f}$"
 
 
-def t_time(d: dict) -> None:
-    rows = []
-    for c in CODES:
-        x = d[c]
-        rows.append(f"$c_{c[1]}$ & {pm(x['unmapped_time_share'], 1, 100)} & {pm(x['blocked_share'], 1, 100)} & "
-                    f"{pm(x['rate'], 2)} & {pm(x['rate_blocked_counted'], 2)} \\\\")
-    rows.append("\\midrule")
-    rows.append(f"Baseline attacker & & & {pm(d['baseline']['rate'], 2)} & \\\\")
-    # 2026-10-12: the two recomputed what-ifs (unmapped tactics take no time; the
-    # baseline attacker's times) are now runs, Table tab:fa-tactic-durations.
-    write("tab_FA-7_run_time", "Marc 2026-10-11; runs replace two columns 2026-10-12", (
-        "\\begin{table}[htbp]\n\\centering\n"
-        "\\caption[Where the APT attacker model's run time goes]"
-        "{With no MTD: the share of each attack profile's run spent in unmapped tactics, the share of the "
-        "attack actions it runs that fail because their preconditions are missing, and its attack "
-        "rate (Table~\\ref{tab:unopposed-summary}), as run and with the failed attack actions counted. "
-        "Means over 1\\,000 runs, $\\pm$ the half-width of a 95\\,\\% bootstrap interval.}\n"
-        "\\label{tab:fa-run-time}\n\\tablestyle\n"
-        "\\begin{tabular}{@{}l c c c c@{}}\n\\toprule\n"
-        "& & & \\multicolumn{2}{c}{Attack rate (per minute)} \\\\\n"
-        "\\cmidrule(lr){4-5}\n"
-        "Attacker & \\shortstack{Unmapped\\\\tactics (\\%)} & \\shortstack{Attack actions\\\\failed (\\%)} & "
-        "As run & \\shortstack{Failed\\\\counted} \\\\\n"
-        "\\midrule\n" + "\n".join(rows) + "\n\\bottomrule\n\\end{tabular}\n\\end{table}\n"))
-
-
 DURATIONS = REPO / "data" / "results" / "ch6_further_analyses" / "duration_ablation_numbers.json"
 VARIANTS = (("reported", "Tactic durations as declared"),
-            ("unmapped_zero", "Unmapped tactics take no time"),
-            ("baseline_pace", "The baseline attacker's times"))
+            ("unmapped_zero", "Unmapped tactics at 0\\,s"),
+            ("baseline_pace", "Unmapped tactics at 0\\,s, mapped tactics at the baseline attacker's times"))
 
 
-def conf(x: dict) -> str:
-    return f"${100 * x['point']:.1f}$ [${100 * x['lo']:.1f}$, ${100 * x['hi']:.1f}$]"
+def conf(x: dict, bold: bool = False) -> str:
+    v = f"{100 * x['point']:.1f}"
+    v = f"\\mathbf{{{v}}}" if bold else v
+    return f"${v}$ [${100 * x['lo']:.1f}$, ${100 * x['hi']:.1f}$]"
+
+
+def intervals(x: dict) -> dict:
+    """Each metric's 95 % interval, as the cell prints it."""
+    k = round(x["asp"]["mean"] * x["n"])
+    r = x["attack_rate"]
+    return {"asp": clopper_pearson(k, x["n"]), "ncr": (x["ncr"]["lo"], x["ncr"]["hi"]),
+            "rate": (r["mean"] - r["ci95"], r["mean"] + r["ci95"]),
+            "conf": (x["attack_confidentiality"]["lo"], x["attack_confidentiality"]["hi"])}
+
+
+def past(row: tuple, ref: tuple, higher: bool) -> bool:
+    """Beyond the baseline attacker's value, the two 95 % intervals apart."""
+    return row[0] > ref[1] if higher else row[1] < ref[0]
 
 
 def t_durations(d: dict) -> None:
-    """Section 6.1's run: the APT attacker model with its tactic durations changed
-    (data/results/ch6_further_analyses/run_duration_ablation.py, Marc 2026-10-12)."""
-    rows = []
+    """Section 6.1's run: the APT attacker model with its tactic durations ablated
+    (data/results/ch6_further_analyses/run_duration_ablation.py, Marc 2026-10-12).
+    Redesigned 2026-10-14 (Marc): the baseline attacker first as the reference;
+    bold marks a value past it, intervals apart; Table tab:fa-run-time folded in
+    (its failed-actions column is this table's, its other columns are cut)."""
+    b = d["baseline"]
+    ref = intervals(b)
+    rows = [f"Baseline attacker & {share(b['asp']['mean'], b['n'])} & {pm(b['ncr'], 3)} & "
+            f"${b['attack_rate']['mean']:.3f} \\pm {b['attack_rate']['ci95']:.3f}$ & "
+            f"{conf(b['attack_confidentiality'])} & \\\\", "\\midrule"]
     for key, label in VARIANTS:
         rows.append(f"\\grouprow{{6}}{{{label}}} \\\\")
         for c in CODES:
             x = d[c][key]
-            rows.append(f"\\quad $c_{c[1]}$ & {share(x['asp']['mean'], x['n'])} & {pm(x['ncr'], 3)} & "
-                        f"${x['attack_rate']['mean']:.3f} \\pm {x['attack_rate']['ci95']:.3f}$ & "
-                        f"{conf(x['attack_confidentiality'])} & {pm(x['blocked_share'], 1, 100)} \\\\")
+            iv = intervals(x)
+            bold = {m: past(iv[m], ref[m], higher=(m != "conf")) for m in iv}
+            asp = share(x["asp"]["mean"], x["n"])
+            if bold["asp"]:
+                asp = re.sub(r"^(\S+)", r"\\textbf{\1}", asp)
+            ncr = pm(x["ncr"], 3)
+            if bold["ncr"]:
+                ncr = ncr.replace("$", "$\\mathbf{", 1).replace(" \\pm", "} \\pm", 1)
+            rate = f"${x['attack_rate']['mean']:.3f} \\pm {x['attack_rate']['ci95']:.3f}$"
+            if bold["rate"]:
+                rate = f"$\\mathbf{{{x['attack_rate']['mean']:.3f}}} \\pm {x['attack_rate']['ci95']:.3f}$"
+            rows.append(f"\\quad $c_{c[1]}$ & {asp} & {ncr} & {rate} & "
+                        f"{conf(x['attack_confidentiality'], bold['conf'])} & {pm(x['blocked_share'], 1, 100)} \\\\")
         rows.append("\\midrule")
-    b = d["baseline"]
-    rows.append(f"Baseline attacker & {share(b['asp']['mean'], b['n'])} & {pm(b['ncr'], 3)} & "
-                f"${b['attack_rate']['mean']:.3f} \\pm {b['attack_rate']['ci95']:.3f}$ & "
-                f"{conf(b['attack_confidentiality'])} & \\\\")
-    write("tab_FA-8_tactic_durations", "duration_ablation_numbers.json, Marc 2026-10-12", (
+    rows.pop()
+    write("tab_FA-8_tactic_durations", "duration_ablation_numbers.json, Marc 2026-10-12; redesigned 2026-10-14", (
         "\\begin{table}[htbp]\n\\centering\n"
-        "\\caption[The APT attacker model with its tactic durations changed]"
-        "{With no MTD: the APT attacker model with its tactic durations changed, against the baseline "
-        "attacker. The same 1\\,000 seeds in every row.}\n"
+        "\\caption[The APT attacker model with its tactic durations ablated]"
+        "{The APT attacker model with its tactic durations ablated, against the baseline attacker, with no "
+        "MTD. The same 1\\,000 seeds in every row. Bold: past the "
+        "baseline attacker's value, the 95\\,\\% intervals apart (a higher ASP, NCR or attack rate, a "
+        "lower attack confidentiality). Blank: not applicable, as the baseline attacker runs no tactics.}\n"
         "\\label{tab:fa-tactic-durations}\n\\tablestyle\\setlength{\\tabcolsep}{3pt}\n"
         "\\begin{tabular}{@{}l c c c c c@{}}\n\\toprule\n"
         "Attacker & ASP & NCR & \\shortstack{Attack rate\\\\(per minute)} & "
@@ -298,7 +305,7 @@ def main() -> None:
         t_durations(json.loads(DURATIONS.read_text()))
     d = json.loads(NUMBERS.read_text())
     for key, fn in (("f1", t_success), ("f2", t_foothold), ("f3", t_accounts), ("f5", t_group_size),
-                     ("f6", t_openings), ("f6", t_after_foothold), ("f7", t_time)):
+                     ("f6", t_openings), ("f6", t_after_foothold)):
         if key in d:
             fn(d[key])
         else:

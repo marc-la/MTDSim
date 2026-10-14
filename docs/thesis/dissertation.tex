@@ -10160,56 +10160,38 @@ rankings stay unrelated.
 % question a chapter 5 float raises, what was computed, the result, the chapter 6
 % sentence it supports, and why it is not in the main argument. Tables come from
 % generators in tools/ writing a numbers JSON (results_section_workflow.md).
-\chapter{Further analyses}
+\chapter{Post-hoc analyses}
 \label{app:further-analyses}
 
-% SESSION-DRAFTED 2026-10-09, DRAFT STATE: ratify on read. Openers approved in
-% outline (Marc: "Yep, that looks good"). Numbers from
-% data/results/ch6_further_analyses/further_analyses_numbers.json; tables and
-% the figure from tools/further_analyses_tables.py and
-% tools/further_analyses_run_figure.py.
-These analyses were run while Chapter~\ref{ch:discussion} was written, after
-the results of Chapter~\ref{ch:experiments} were seen. Each answers a question
-that a table or figure of Chapter~\ref{ch:experiments} raises, and checks a
-mechanism Chapter~\ref{ch:discussion} names or tests one of its hypotheses;
-none changes a result of Chapter~\ref{ch:experiments}, and
-Section~\ref{sec:threats} bounds their use (\ref{thr:posthoc}). They follow
-Chapter~\ref{ch:discussion}'s order, and each reads runs already recorded,
-except Section~\ref{app:fa-run-time}, which runs the APT attacker model again
-with no MTD.
+% SESSION-DRAFTED 2026-10-09; retitled and opener cut 2026-10-14 (Marc: "post-hoc
+% analyses", kept apart from Appendix D because the threats item T9 bounds them as
+% a set). Numbers from data/results/ch6_further_analyses/; tables from
+% tools/further_analyses_tables.py.
+These analyses were chosen after the results of Chapter~\ref{ch:experiments}
+were seen, to check claims that Chapter~\ref{ch:discussion} makes, and
+Section~\ref{sec:threats} bounds their use (\ref{thr:posthoc}).
+Section~\ref{app:fa-run-time} runs the APT attacker model again with no MTD;
+Section~\ref{app:fa-behaviour-actions} recounts the runs of
+Table~\ref{tab:unopposed-summary}.
 
 
-\section{The APT attacker model's tactic durations}
+\section{Ablation of the tactic durations}
 \label{app:fa-run-time}
-% 2026-10-12 (Marc; handoff 2026-10-11_ch6_1_redraft_scrutiny.md section 24.2):
-%  the records' what-ifs for no time in unmapped tactics and for the baseline
-%  attacker's times are now runs (Table G.6, run_duration_ablation.py); the
-%  heading now names what the section tests. DRAFT STATE --- ratify on read.
+% 2026-10-14 (Marc): one table, not two (Table tab:fa-run-time cut: its
+%  failed-actions column is this table's, Chapter 6 cites none of its others);
+%  the lead names the claim, the steps and the averaged ASP Chapter 6 cites.
 Section~\ref{sec:disc-behaviour} explains the APT attacker model's
 differences from the baseline attacker with no MTD by its tactic durations
-and the order of its tactics. Table~\ref{tab:fa-run-time} shows where its run
-time goes. The unmapped tactics take 34 to 57\,\% of an attack profile's run,
-and 15 to 30\,\% of the attack actions its tactics run fail because
-their preconditions are missing, which attack rate does not count. Counted,
-the failed attack actions raise its attack rate to 0.97 to 1.71 per minute,
-against the baseline attacker's 1.71.
-
-\input{tables/tab_FA-7_run_time}
-
-Table~\ref{tab:fa-tactic-durations} runs the APT attacker model again with no
-MTD and the same 1\,000 seeds, with only its tactic durations changed. First
-its unmapped tactics take no time. Then, in addition, each mapped tactic takes
-the baseline attacker's mean time for the attack action it runs:
-Command and Control takes 5\,s for scan neighbours, not 45\,s, and Credential
-Access 20\,s for brute force, not 4.5\,s. Together these are the baseline
-attacker's times. The order of its tactics is unchanged, and so are its
-distinct openings. With the baseline attacker's times, the APT attacker
-model's ASP, averaged over the four attack profiles, rises from 0.09 to 0.45,
-against the baseline attacker's 0.66: 0.63 [0.61, 0.65] of the gap. Its
-attack rate rises above the baseline attacker's, and its attack
-confidentiality falls below it. Every run that reaches a target host with its
-tactic durations as declared also reaches one with either change. NCR closes less of its gap than ASP,
-because a run that reaches a target host sooner ends sooner.
+and the order of its tactics. Here it runs again with no MTD on the same
+1\,000 seeds, with only its tactic durations changed, in two steps
+(Table~\ref{tab:fa-tactic-durations}). First its unmapped tactics take no time. Then each
+mapped tactic also takes the baseline attacker's mean time for the attack
+action it runs: Command and Control takes 5\,s for scan neighbours, not
+45\,s, and Credential Access 20\,s for brute force, not 4.5\,s. Averaged
+over the four attack profiles, the two steps raise its ASP from 0.09 to 0.45,
+against the baseline attacker's 0.66: 0.63 [0.61, 0.65] of the gap. An
+attack action fails when it runs before its preconditions are met
+(Section~\ref{subsec:runtime-mechanics}).
 
 \input{tables/tab_FA-8_tactic_durations}
 
