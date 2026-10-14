@@ -9938,57 +9938,43 @@ ablations, and the last its sensitivity analysis of the tactic durations.
 \label{app:mtdshield-changes}\label{app:mtdshield-limitations}\label{app:mtdshield-observed}
 
 MTDShield in Chapter~\ref{ch:experiments} is the agent Tay scored highest of
-the 38 he trained \citep[Sec.~5.2.2]{tay2024}, run as released: his weights,
-and his code for building the agent's inputs \citep{tay2024code}. Beside it,
-Chapter~\ref{ch:experiments} runs the random deployment strategy over the same
-four MTD mechanisms, so the difference between the two is what the agent's
-policy adds. Table~\ref{tab:mtdshield-configuration} gives the agent's settings
-in training, in Tay's evaluation and in Chapter~\ref{ch:experiments}.
+the 38 he trained \citep[Sec.~5.2.2]{tay2024}, run as released, with his
+weights and input code \citep{tay2024code}. Chapter~\ref{ch:experiments} runs
+the random deployment strategy over the same four MTD mechanisms beside it, so
+the difference between the two is what the agent's policy adds.
+Table~\ref{tab:mtdshield-configuration} compares its training with the runs
+here.
 
 \begin{table}[htbp]
   \centering
-  \caption[MTDShield's settings: trained, evaluated by Tay, and run here]{The
-  agent's settings in training, in Tay's evaluation and in
-  Chapter~\ref{ch:experiments}. The first two columns are from the release's
-  training script and evaluation notebook \citep{tay2024code}; the third is
-  Table~\ref{tab:experiment}. The detection rate is the share of decisions at
-  which the agent is told the attacker's current attack action; a deployment is forced
-  when 2\,000\,s pass without one. A blank cell: the agent does not learn outside training.}
+  \caption[MTDShield's settings: trained and run here]{MTDShield's settings in
+  training, from the release's training script \citep{tay2024code}, and as run
+  in Chapter~\ref{ch:experiments} (Table~\ref{tab:experiment}). In both, it
+  chooses among complete topology shuffle, IP shuffle, OS diversity and service
+  diversity, or nothing; it is told the attacker's current attack action at
+  every decision; and a deployment is forced after 2\,000\,s without one.}
   \label{tab:mtdshield-configuration}
   \tablestyle
-  \begin{tabular}{@{}P{2.5cm}P{4.2cm}P{3.6cm}P{4.3cm}@{}}
+  \begin{tabular}{@{}lP{5.4cm}P{6.2cm}@{}}
     \toprule
-    Setting & Training & Tay's evaluation & Chapter~\ref{ch:experiments} \\
+    Setting & Training & Chapter~\ref{ch:experiments} \\
     \midrule
-    Learning & $\gamma$ 0.95; batch 32; replay memory 2\,000; training start 1\,000; 100 episodes; target network copied every 10 episodes & & \\
-    Exploration rate & 0.5, decayed by 0.99 per episode to 0.18 & 1 & 0 \\
-    Mechanisms & \multicolumn{3}{P{13.0cm}@{}}{complete topology shuffle, IP shuffle, OS diversity, service diversity, or nothing} \\
-    Hosts & 100, a new network each episode & 150, a new network each run & 50 \\
-    Time limit & 5\,000\,s per episode & 15\,000\,s & 15\,000\,s \\
-    Deployment interval & 200\,s & 200\,s & 50, 100, 200, 500, 1\,000 and 2\,000\,s \\
-    Attacker & the baseline attacker & the baseline attacker & the baseline attacker; the APT attacker model \\
-    Detection rate & 1 & 1 (0 to 1 in \citealp[Figure~6]{tay2024}) & 1 \\
-    Forced deployment & after 2\,000\,s & after 2\,000\,s & after 2\,000\,s \\
-    Runs & 100 episodes & 100 per agent & 1\,000 per configuration \\
+    Hosts & 100, a new network each episode & 50 \\
+    Run length & 5\,000\,s & 15\,000\,s \\
+    Deployment interval & 200\,s & 50, 100, 200, 500, 1\,000 and 2\,000\,s \\
+    Attacker & the baseline attacker & the baseline attacker and the APT attacker model \\
+    Exploration & from 0.5, decayed to 0.18 & none \\
     \bottomrule
   \end{tabular}
 \end{table}
 
-Two changes were made to run the agent, and neither alters the simulation. The
-simulator builds five state and seven time-series inputs, where Tay's agents
-take eight and three, so his construction is restored as an option beside the
-current one. In the release, a decision to do nothing did not advance the
-simulated clock; here it waits for the next deployment interval, as after a
-deployment. The agent's detection input gives the attacker's current attack
-action, so an unmapped tactic of the APT attacker model, which runs none, reads
-as nothing detected.
-
-At a deployment interval of 200\,s, the agent chose service diversity at
-76\,\% of its decisions against the baseline attacker and 70\,\% against the APT
-attacker model, and did nothing at 23\,\% and 29\,\%; the other three MTD
-mechanisms took under 1\,\% together. At 2\,000\,s, service diversity took
-46\,\% and 65\,\%. Each share is over 100 runs per attacker and deployment
-interval.
+Two changes were needed to run it: Tay's input construction is restored beside
+the simulator's, and a decision to do nothing now waits for the next deployment
+interval instead of stopping the clock. An unmapped tactic of the APT attacker
+model runs no attack action, so the agent reads it as nothing detected. At
+200\,s, the agent chose service diversity at 76\,\% of its decisions against the
+baseline attacker and 70\,\% against the APT attacker model, and nothing at
+23\,\% and 29\,\% (100 runs each).
 
 \FloatBarrier
 
