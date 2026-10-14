@@ -10005,15 +10005,13 @@ averaged over $c_1$ to $c_4$, and bold marks a $d$ that is not negligible
 % appendix (the body section was cut, see the note at the head of ch5).
 % [2026-10-04: the bases table added first, the four-bases list of the 4.4
 %  preamble as a table (generated, tools/value_bases_table.py). DRAFT STATE.]
-Every value of the APT attacker model comes from one of four bases: the Attack
-Flow corpus, MTDSim's own attack-action times, the literature or our judgement.
-Table~\ref{tab:value-bases} lists each value with its basis, where its reason is
-given and the test that varies or removes it. Three values of our judgement are
-not tested: the per-tactic duration multipliers, the pre-intrusion overlay's share and the
-choice of one attack flow per APT group.
-Table~\ref{tab:parameter-register} lists the values declared for the APT attacker
-model in Section~\ref{sec:execution} and what happened when each was moved, at
-the experimental setup of Section~\ref{sec:dimensions}.
+% [2026-10-14, Marc: "argument based". The argument is Section 6.5's (thr:values),
+%  which cites both tables; this section holds the tables, with a lead saying what
+%  each gives. Cut: the four-bases sentence (the table's basis column) and the three
+%  untested values (Section 6.5 and the table's "not tested" cells).]
+Table~\ref{tab:value-bases} gives each value of the APT attacker model with its
+basis, where its reason is given and the test that varies or removes it, and
+Table~\ref{tab:parameter-register} what each test did to NCR.
 
 \input{tables/tab_C-0b_value_bases}
 \input{tables/tab_C-0a_declared_inputs}
