@@ -668,3 +668,11 @@ Results come before sensitivity, the usual reading order. This departs from the 
 - **Captions** keep their own comparison plus "Bold: not negligible" (S4). Cut from them: d's definition, the ±0.2 rule and bootstrap method (§5.1), the 29/7/24 counts and the no-MTD *d* (both in §5.4).
 - **Generators** (`partition_ablation.py`, `ablation_table.py`, `memory_ablation.py`) carry the same captions; edited in place, since they read multi-GB run files.
 - Build: 93 pages, 0 undefined.
+
+**D.4 (Marc, 2026-10-14: "argument based"; blank cells; "corpus"; buzzword test verbs; "how is the reader supposed to use this?").**
+- **The argument is §6.5's** (`thr:values`), which cites both tables. D.4's lead now says only how to use them.
+- **The reader's use:** from §6.5 the reader asks which values are our judgement and whether each was tested. Table D.8 now lists **our judgement first** (`value_bases.json` bases order), with column headers Comes from | Value | Reason in | Test.
+- **Every test cell says what was done:** "moved to both ends of a band", "replaced by an Erlang-4 delay" or "replaced by a total mapping", "removed in the ablation", "not tested" (decoded in the caption as a judgement value left untested, §6.5), or "none: taken from its source". No blank cells.
+- **Bases:** "Corpus" → "Attack Flow corpus".
+- **Layout:** `\FloatBarrier` before D.5 keeps D.8/D.9 inside D.4. This costs a page, because D.6's detector table now sits alone on p. 72. Build: **94 pages**, 0 undefined.
+- **Open:** D.5/D.6 prose also summarises results (§6.5 territory). Trimming D.5 to a lead would likely recover the page; offered to Marc.

@@ -47,15 +47,15 @@ def main() -> int:
 % DRAFT STATE (2026-10-04, 4.4 preamble redraft): caption session-drafted, ratify on read.
 \\begin{{table}}[htbp]
   \\centering
-  \\caption[Each value of the APT attacker model and its basis]{{Each value of
-  the APT attacker model, grouped by its basis, with where its reason is given
-  and the test that varies, substitutes or removes it. A blank test cell: the
-  value is not varied.}}
+  \\caption[Each value of the APT attacker model and its basis]{{Every value the
+  APT attacker model needs, grouped by where it comes from, with the section that
+  gives its reason and what was done to test it. \\emph{{Not tested}}: a value of
+  our judgement left untested (Section~\\ref{{sec:threats}}).}}
   \\label{{tab:value-bases}}
   \\tablestyle
-  \\begin{{tabular}}{{@{{}}P{{2.2cm}}P{{5.2cm}}P{{2.6cm}}P{{4.4cm}}@{{}}}}
+  \\begin{{tabular}}{{@{{}}P{{2.3cm}}P{{4.6cm}}P{{2.3cm}}P{{5.2cm}}@{{}}}}
     \\toprule
-    Basis & Value & Reason & Tested \\\\
+    Comes from & Value & Reason in & Test \\\\
     \\midrule
 {chr(10).join(body)}
     \\bottomrule
