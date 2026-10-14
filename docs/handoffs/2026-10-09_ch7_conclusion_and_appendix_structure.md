@@ -647,3 +647,10 @@ Results come before sensitivity, the usual reading order. This departs from the 
 - **ASP-reduction figure restored** (`fig_F-0b`, drawn from the 1 000-seed numbers on 2026-10-06). Marc judged it adds, and it shows at a glance the pattern ch6 cites. The §10 cut applied "one float per fact"; that is overturned for this pair under Jin's headline/depth rule (each figure with its table).
 - **Layout:** `\FloatBarrier` at the end of D.1 and D.2. The disruption and three ablation tables are now `[htbp]` (were `[tp]`), set in the generator and the output alike: `ch5_disruption_figure.py`, `partition_ablation.py`, `ablation_table.py`, `memory_ablation.py`. Each table now sits under its heading. None of the four is input in the body.
 - Build: 94 pages, 0 undefined.
+
+**D.2 captions (Marc, 2026-10-14: captions "abnormally large"; grey or bold; combine the NCR and ASP tables?).**
+- **Tables D.2 and D.3** (`ch5_sweep_figures.py --only values`) now decode only. Cut, as ch5 already gives them: the metric's scale, the runs per cell and the interval method. The ASP table now reads "laid out as Table D.2: the values of Figure D.1"; its "panels (g) to (l) of Figure 5.3" was stale. Figure D.1's caption is cut the same way ("drawn as Figure 5.3 draws NCR reduction").
+- **Grey kept.** Results standard S3 (ratified 2026-10-02) makes grey mean "interval includes zero" dissertation-wide, and bold already means rank 1. Grey also marks the minority.
+- **Not combined.** The two tables have different jobs: NCR holds the values of Figure 5.3, cited in ch5; ASP is the robustness check ch6 cites. A joint 12-column table would double the rows.
+- **The ASP split into its own section is withdrawn**; ASP stays in D.2 next to the ranking it checks.
+- Build: 94 pages, 0 undefined.

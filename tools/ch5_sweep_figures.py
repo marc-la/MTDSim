@@ -340,7 +340,19 @@ def emit_value_table(sweeps: dict) -> tuple[str, list]:
         n = len(ivs)
         w(r"\begin{table}[htbp]")
         w(r"  \centering")
-        w(r"  \caption[%s against each attacker, by MTD mechanism and deployment interval]{%s for each MTD mechanism and deployment strategy against the APT attacker model averaged over $c_1$ to $c_4$, and against the baseline attacker, at each deployment interval; 1 is %s, 0 is as many as with no MTD, and a negative value is %s. Rows grouped as panels~%s of Figure~\ref{fig:eff-cross-arm}; an italic row with values is a layer's mean over its mechanisms, the line the figure plots. Grey text: its %s includes zero; each cell is from 4\,000 runs for the APT attacker model (1\,000 per attack profile) and 1\,000 for the baseline attacker, and a layer's mean from its mechanisms' runs together.@BOUND@}" % (name, name, one, neg, panels, IV_BOOT))
+        # 2026-10-14 (Marc: "why is the caption so big"): the caption decodes only. Cut, as
+        # Chapter 5 already gives them: the metric's scale (Section 4.5), the runs per cell
+        # (Section 5.1), the interval method (Section 5.1). The ASP table points at the NCR
+        # table's layout (its "panels (g) to (l)" was stale: they are Figure D.1 now).
+        if suffix:
+            cap = (r"%s, laid out as Table~\ref{tab:eff-interval-values}: the values of "
+                   r"Figure~\ref{fig:eff-cross-arm-asp}. Grey: the 95\,\%% interval includes zero.@BOUND@" % name)
+        else:
+            cap = (r"%s for each MTD mechanism and deployment strategy against each attacker, at "
+                   r"every deployment interval: the values of Figure~\ref{fig:eff-cross-arm}, the APT "
+                   r"attacker model averaged over $c_1$ to $c_4$. An italic row is a layer's mean, the "
+                   r"line the figure plots. Grey: the 95\,\%% interval includes zero.@BOUND@" % name)
+        w(r"  \caption[%s against each attacker, by MTD mechanism and deployment interval]{%s}" % (name, cap))
         cap_at = len(L) - 1  # the bound decode joins the caption only if a cell needs it
         w(r"  \label{tab:eff-interval-values%s}" % suffix)
         w(r"  \tablestyle\scriptsize\setlength{\tabcolsep}{3pt}")  # group rows keep the stripes (Marc, 2026-10-01)
@@ -374,7 +386,7 @@ def emit_value_table(sweeps: dict) -> tuple[str, list]:
         w(r"\end{table}")
         w("")
         bound = any("{>}" in x or "{<}" in x for x in L[cap_at + 1:])
-        L[cap_at] = L[cap_at].replace("@BOUND@", (BOUND_DECODE if bound else "") + MATCHED_DECODE)
+        L[cap_at] = L[cap_at].replace("@BOUND@", (BOUND_DECODE if bound else "") + ("" if suffix else MATCHED_DECODE))
     return "\n".join(L), facts
 
 
