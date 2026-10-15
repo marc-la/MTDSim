@@ -8952,7 +8952,14 @@ hosts, with no actions on objectives.
 In MTDSim, at every deployment interval, the most effective MTD mechanism
 differs between the two attackers (Table~\ref{tab:rank-one-intervals}). Which
 MTD mechanism an MTD evaluation finds most effective can therefore depend on its
-attacker model. This section says what that means for each of the three parts of
+attacker model. An evaluation against an attacker model far simpler than an APT
+is not enough to show how MTD performs against APT attackers.
+% 2026-10-15 (Marc, ch7 handoff section 18): the evidence reading of the
+%  sentence ch7's preamble closes on; homed here so ch7 traces to ch6. Licensed
+%  by "can depend" (an existence claim): an evaluation against one attacker
+%  model carries no evidence that its ranking holds for another. Not an outcome
+%  claim, so the house "may" for reach beyond MTDSim does not apply.
+This section says what that means for each of the three parts of
 an MTD evaluation that use the attacker model
 (Section~\ref{sec:mtd-evaluation-survey}): MTD modelling approaches, metrics and
 evaluation methods.
@@ -9707,7 +9714,10 @@ the simulation.
 %  house scheme, threats handoff section 23); the so-what. Sentence 5 carries no
 %  hedge because it is entailed by sentence 4 and is a claim about what an
 %  evaluation can infer, not about real APTs (inside thr:observation).
-%  "inferred" (validity vocabulary) over "read from". CUT: "no MTD mechanism
+%  REVISED same day (handoff section 18): "cannot be inferred" admitted an
+%  outcome reading 6.5 does not license; "not enough to show" leaves only the
+%  evidence reading, homed in 6.4 paragraph 1. "therefore" kept once, in
+%  sentence 4. CUT: "no MTD mechanism
 %  is the most effective against both" (the abstract's and ch1's highlight,
 %  a third time) and "may not" (a second hedge). No cause, number or bound:
 %  contribution 2, chapter 6.
@@ -9716,8 +9726,9 @@ performs differently against the APT attacker model than against the baseline
 attacker. At every deployment interval, the host layer reduces the APT attacker
 model's NCR most, and the service layer reduces the baseline attacker's NCR
 most. Which MTD mechanism an MTD evaluation finds most effective can therefore
-depend on its attacker model. How MTD performs against APT attackers cannot be
-inferred from an evaluation against an attacker model far simpler than an APT.
+depend on its attacker model. An evaluation against an attacker model far
+simpler than an APT is not enough to show how MTD performs against APT
+attackers.
 
 \section{Contributions}
 \label{sec:contributions}
