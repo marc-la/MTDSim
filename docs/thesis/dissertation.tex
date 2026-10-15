@@ -9186,6 +9186,10 @@ model.
 
 \paragraph{Construct validity.}
 \begin{enumerate}[resume*=threats]
+% T4 v6 2026-10-15 (Marc: "push C"): sentence one's tail simplified ("a
+%  target host in the targeted attack scenario"); mitigation as option C --
+%  the second measure agrees with the first ("orders the two layers as NCR
+%  reduction does"), without restating 6.2's result.
 % T4 v5 2026-10-15 (Marc: v4 "is actually worse"; back to v3, word-level
 %  only). v4 compressed past the peak: it cut the content words (an attacker,
 %  a target host) and swapped a concrete result for a pointer ("the answer to
@@ -9222,11 +9226,9 @@ model.
 %  1) for all three host-layer mechanisms at 50-200 s.
 \item\label{thr:ncr} NCR reduction, our main metric, only partially
 measures how MTD performs: it counts the hosts an attacker compromises,
-whether or not it reaches a target host, the goal of the targeted attack
-scenario. To mitigate this threat, we also computed ASP reduction, and on it
-the host layer still leads against the APT attacker model and the service
-layer against the baseline attacker, at every deployment interval
-(Table~\ref{tab:eff-interval-values-asp}). The threat remains for rank~1
+whether or not it reaches a target host in the targeted attack scenario. To mitigate this threat, we also computed ASP reduction, and it orders
+the two layers as NCR reduction does, for both attackers, at every deployment
+interval (Table~\ref{tab:eff-interval-values-asp}). The threat remains for rank~1
 against the APT attacker model up to 200\,s, where ASP reduction ties every
 host-layer mechanism at 1 and only NCR reduction orders them.
 
