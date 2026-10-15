@@ -876,3 +876,14 @@ Marc: "is having two contribution points the correct approach here … in terms 
 | EGZ p. 70; Golding p. 570 | Ch1 and ch7 match | Two, in ch1's order and nouns |
 
 **Rejected:** three (capture has no measurement of its own, so fails the refutable test); one (discards an evaluated artefact); implications as a third (they are contribution 2's significance); the eight properties (folded 2026-10-07, the yardstick).
+
+## 18. Overclaim check on the preamble's last sentence (2026-10-15, NOT RULED)
+
+Marc: "did you evaluate its potential for overclaim … does 6.5 licence that sort of claim?" The sentence, "How MTD performs against APT attackers cannot be inferred from an evaluation against an attacker model far simpler than an APT", now also closes ch1 contribution 2 (l.597, front-three session, b0c0a278) and is the candidate for the abstract closer (front-three A4).
+
+- **Licensed reading (epistemic):** a simplified-attacker evaluation is *insufficient evidence* about APT attackers. Entailed by sentence 4's "can depend" (an existence claim, shown in MTDSim): if the ranking can change with the attacker model, an evaluation against one model carries no evidence that its ranking holds for another. Survives T8 (rules) and T10 (observation), since it needs only that invariance is unestablished, not that the reversal recurs elsewhere.
+- **Unlicensed reading (empirical):** such an evaluation *gets APT performance wrong*, in any simulator. That needs the reversal to generalise beyond MTDSim's disruption rules (T8) and the APT attacker model to stand for APT attackers (T9, T10); 6.5 grants neither. "Cannot be inferred" admits both readings.
+- **Missed in §16:** the claim is in no ch6 paragraph. 6.4 ¶1 stops at "can therefore depend on its attacker model". Yardstick (g)4: every ch7 claim traces to ch6.
+- **House scheme (threats handoff §23):** reach beyond MTDSim takes "may". The sentence is exempt only under the epistemic reading.
+
+**Recommended:** say the epistemic reading outright, and give it a home in 6.4 ¶1 (ch6, auto after a ruling): *"An evaluation against an attacker model far simpler than an APT is therefore not enough to show how MTD performs against APT attackers."* Ch1 l.597 and the abstract closer then take the same words.
