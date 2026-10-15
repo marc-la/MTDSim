@@ -9082,6 +9082,12 @@ repairs, we make no quantitative comparison with their results. The code is
 public for review (Chapter~\ref{ch:intro}). The threat remains for behaviour
 no check exercised and for code we only partially reviewed.
 
+% T2 v8 2026-10-15 (Marc: "what's the conventional way"; "a clearer through
+%  line" at the bottom). "ablated" (ch5's "Ablation studies"); "rules out each
+%  as a cause" (terminology file's conventional verb); the duration swap named
+%  as a second ablation; the last two sentences folded into one through line:
+%  not repeated under MTD, order and mapping not varied -> inferred, mapping
+%  cannot be ruled out. First "its" dropped before tactic durations.
 % T2 v7 2026-10-15 (Marc: four-line opener; "abstract a little bit more";
 %  "what do we need to say to the reader"). Threat in the terminology file's
 %  internal form ("X may confound Y"); the two differences no longer re-derived;
@@ -9103,16 +9109,16 @@ no check exercised and for code we only partially reviewed.
 %  tactics most likely accounts for the rest").
 \item\label{thr:cause} Other components of the APT attacker model may
 confound our explanation of its results (Sections~\ref{sec:disc-behaviour}
-and~\ref{sec:disc-mtd-performance}), which credits its tactic durations and
-the order of its tactics. To mitigate this threat, we removed the attack
-profiles, the failure matrix and the vulnerability memory one at a time, and
-none of them accounts for the host layer's lead (Section~\ref{sec:ablation}).
-With no MTD, replacing its tactic durations with the baseline attacker's times
-closes about two thirds of the gap in ASP between the two attackers
-(Appendix~\ref{app:fa-run-time}). We did not repeat that replacement under MTD
-or vary the order of its tactics, so the rest of our explanation is inferred.
-Nor did we vary the tactic-to-action mapping, so we cannot rule it out as a
-cause of its results.
+and~\ref{sec:disc-mtd-performance}), which credits tactic durations and the
+order of its tactics. To mitigate this threat, we ablated the attack profiles,
+the failure matrix and the vulnerability memory one at a time, which rules out
+each as a cause of the host layer's lead (Section~\ref{sec:ablation}). A
+second ablation, with no MTD, replaced its tactic durations with the baseline
+attacker's times and closed about two thirds of the gap in ASP between the two
+attackers (Appendix~\ref{app:fa-run-time}). We did not repeat it under MTD or
+vary the order of its tactics or the tactic-to-action mapping, so the rest of
+our explanation is inferred, and we cannot rule out the mapping as a cause of
+its results.
 
 % T3 MTDShield, 2026-10-15 (ruled: its own internal item; Marc: "there is no
 %  such concept as an unmapped tactic in MTDShield"). Reasoned: against either
