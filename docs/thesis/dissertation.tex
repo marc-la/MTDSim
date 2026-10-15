@@ -9232,6 +9232,14 @@ interval (Table~\ref{tab:eff-interval-values-asp}). The threat remains for rank~
 against the APT attacker model up to 200\,s, where ASP reduction ties every
 host-layer mechanism at 1 and only NCR reduction orders them.
 
+% T5 v3 2026-10-15 (Marc: bare-bones threat; each gap -> its source ->
+%  what we did). Three gaps as three nouns (likelihood, timing, response to
+%  failure); sentence 2 maps each to its source (counts -> base weights;
+%  judgement); "them" = the declared values, so no mapping overclaim.
+%  Lower-case "attack flows" kept on purpose: terminology.md (ruled
+%  2026-10-03) -- Attack Flow is the language, attack flows the instances, and
+%  the gap is the instances' (Attack Flow CAN record timing, l.~1881; the
+%  threat reports rarely do, 6.3).
 % T5 v2 2026-10-15 (Marc: "what's the threat ... through the lens of
 %  construct validity"; "only partially", as T4). Crux: the operation (the
 %  APT attacker model) departs from the construct (an APT attacker) exactly
@@ -9249,15 +9257,16 @@ host-layer mechanism at 1 and only NCR reduction orders them.
 %  7.2 (uniform base weights).
 \item\label{thr:values}\label{thr:mapping} The APT attacker model only
 partially represents an APT attacker, because attack flows record the order
-of an attack's steps but not their likelihood, their timing or what followed a
-failure. We turned counts of drawn edges into base weights and declared the
-values attack flows lack by judgement (Table~\ref{tab:value-bases}). To
-mitigate this threat, we declared every value before any result and varied,
-substituted or removed most of them one at a time: only the 45\,s mean
-duration changes NCR much (Table~\ref{tab:anchor-sensitivity}), and the
-rankings hold at both ends of its band (Table~\ref{tab:duration-ranking}). We
-did not test uniform base weights, another tactic-to-action mapping or the
-values together, so we cannot rule out that they change the rankings.
+of an attack's steps but not their likelihood, timing or response to failure.
+Likelihood comes from counts of drawn edges, turned into base weights; timing
+and response to failure we declared by judgement
+(Table~\ref{tab:value-bases}). To mitigate this threat, we declared every
+value before any result and varied, substituted or removed them one at a
+time: only the 45\,s mean duration changes NCR much
+(Table~\ref{tab:anchor-sensitivity}), and the rankings hold at both ends of its
+band (Table~\ref{tab:duration-ranking}). We did not test uniform base weights,
+another tactic-to-action mapping or the values together, so we cannot rule out
+that they change the rankings.
 
 % T6 the marks, 2026-10-15 (Marc: "show a direction ... hedge it down"). The
 %  190-844 recount has no home outside this item (handoff 2026-10-15 section 11).
