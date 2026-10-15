@@ -9308,24 +9308,26 @@ the finding of the two surveys \citep{cho2020, jalowski2026}.
 
 \paragraph{Conclusion validity.}
 \begin{enumerate}[resume*=threats]
+% T7 v2 2026-10-15 (Marc, options round): the violated assumption named, then
+%  why ("because at each seed ..."); mitigation says what the wider intervals
+%  show; ablation caveats split, one fact per sentence (chance; post hoc).
+%  Cut: the per-mechanism scope (a result's grain, not statistics; the tables
+%  show it). D.3 now says why it resamples seeds.
 % T7 statistics, 2026-10-15 (Marc: neither the run-level intervals nor the
 %  ablation tests is "as strong a risk"): thr:statistics + thr:posthoc merged.
 %  Seed check: data/results/ch5_defended/seed_layer_check.py, printed in
 %  Appendix D.3. 24 of 60 and the one-in-eleven random partitions cut.
 \item\label{thr:statistics}\label{thr:posthoc} The confidence intervals of
-NCR reduction resample runs, so they assume that the four attack
-profiles' runs on one seed's network are independent. To mitigate this threat,
-we resampled seeds in place of runs, and the host layer and the service layer
-remain apart at every deployment interval against both attackers
-(Appendix~\ref{app:sup-mtd-effect}). The layer order does not hold for every
-pair of MTD mechanisms: against the baseline attacker, every service-layer
-mechanism reduces NCR more than every host-layer mechanism only up to 100\,s
-(Table~\ref{tab:eff-interval-values}). The ablations call an effect
-negligible by Cohen's default of $\pm 0.2$ and compare many cells with no
-correction for their number, so some of their findings may arise by chance
-(Section~\ref{sec:ablation}). The ablation of the tactic durations
-(Appendix~\ref{app:fa-run-time}) was also chosen after the results of
-Chapter~\ref{ch:experiments} were seen. We treat the ablations as
+NCR reduction treat each run as independent. Our design violates this
+assumption, because at each seed the four attack profiles run on the same
+network. To mitigate this threat, we also resampled whole seeds, keeping each
+network's runs together, and these wider intervals still keep the host layer
+and the service layer apart at every deployment interval against both
+attackers (Appendix~\ref{app:sup-mtd-effect}). The ablations are weaker
+evidence, as they compare many cells without correction, so some may cross
+Cohen's threshold for a negligible effect, $\pm 0.2$, by chance. The ablation
+of the tactic durations was also designed post hoc
+(Appendix~\ref{app:fa-run-time}). We therefore treat the ablations as
 exploratory.
 \end{enumerate}
 
@@ -10174,7 +10176,8 @@ plots, and Table~\ref{tab:rank-one-intervals} gives
 rank~1 of Table~\ref{tab:eff-cross-arm} at every deployment interval.
 % [2026-10-15, handoff 2026-10-15_ch6_5_threats_top_down.md section 11: home of
 %  thr:statistics' seed check; data/results/ch5_defended/seed_layer_check.py.]
-Its intervals resample runs. Resampling seeds instead, with the APT attacker
+Its intervals resample runs, but runs on one seed share a network, so they
+are not independent. Resampling seeds instead, with the APT attacker
 model's four attack profiles averaged at each seed, the host layer and the
 service layer remain apart at every deployment interval against both
 attackers; they are closest for the baseline attacker at 500\,s, where the
