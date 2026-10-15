@@ -9817,82 +9817,90 @@ against that attacker, and worse against the APT attacker model.
 \section{Future work}
 \label{sec:future-work}
 
-% Dot points (Marc 2026-10-09), unlabelled: nothing refers back to an item,
-% so an F-number would be a label with no reader (the threats are numbered
-% because chapter 6 cites them). Each item opens on the limitation or threat
-% of Section 6.5 it lifts and cites the threat by its label. Order: 6.5's
-% limitations as it lists them, then its threats. Worded as directions, never
-% "no one has": the literature behind the network, efficiency and
-% language-model items is unchecked (registry F3, F10, F11).
-% Promises Section 6.5 makes, all paid: the six attack actions with no
-% actions on objectives, one line of a campaign (item 1); the default network,
-% 15 000 s, simulation only (item 2); MTD at a deployment interval, no
-% efficiency metric, no IDS (item 3); thr:cause, thr:rules, thr:corpus,
-% thr:observation (items 4, 1, 5, 2-3).
-% LEFT OUT, for Marc: cost--benefit reasoning and learning (properties 6 and
-% 7), which no attacker model of Table 6.1 has; an item would need its own
-% limitation in 6.5 to open on.
-Each direction below lifts a limitation or a threat of
-Section~\ref{sec:threats}.
+% FUTURE WORK REDRAFT 2026-10-15 (Marc: "frame each of these six items ...
+%  in terms of the best practice"; handoff sections 22-24, yardstick
+%  conclusion_conventions.md (d3), (d4)). Six items, ruled 2026-10-15, in the
+%  order of the three sub-questions (the lead states the principle). Each item
+%  carries the yardstick's four parts: anchor (the 6.5 limit, Table 6.1 mark or
+%  threat, one sentence), objective, method, payoff. The three model items each
+%  lift one property the APT attacker model has only in part (2, 4, 5).
+%  Owed items restored: dynamic weighting (supervisor; ch6.1 handoff Q8) and
+%  the vulnerability memory's richer exploit (memory handoff, 2026-09-29).
+%  Labels name the direction, not the limit (Brutus G7), and match 6.5's
+%  pointer ("the attack actions, an IDS and emulation"). No new citation:
+%  automated attack profiling and emulation are ch3's (subsec:profiling,
+%  subsec:evaluation-methods). CUT, with reasons in handoff sections 22-23:
+%  the cause of the host layer's result, varying the mapping, other networks,
+%  longer runs, the general attack scenario, deployment-strategy awareness,
+%  efficiency alone in simulation, the edge ablation, and 18 smaller ideas.
+%  Overdraft: one cut pass against the word band follows (Marc 2026-10-08).
+The directions below follow the three sub-questions in order: recovering APT
+behaviour from threat reports, executing it as an attacker model, and
+evaluating MTD against it.
 \begin{itemize}
-  \item \emph{The six inherited attack actions, one line of the campaign at
-  a time.} Attack actions that each keep their own context would let the Petri
-  net run several lines of a campaign at once. Attack actions for actions on
-  objectives, such as stealing data, and a failure that records whether an MTD
-  deployment caused it, would address why objective-specific behaviour and
-  adaptivity are in part. Each new attack action needs its own rule for how an
-  MTD deployment disrupts it (\ref{thr:rules}).
-  % PLACEHOLDER 2026-10-15 (Marc: "just put a placeholder in"): the targeted
-  %  attack scenario added to this item; the general scenario's goal is what
-  %  NCR measures (ties to T4). Ratify on read.
-  \item \emph{The targeted attack scenario, a network of 50 hosts, a time limit
-  of 15\,000\,s, and simulation only.} The general attack scenario, whose goal
-  of compromising as many hosts as possible is what NCR measures; other networks, to find which features of a network decide
-  whether an attacker succeeds; runs closer to a campaign's months; and
-  emulation, since the results of simulation do not transfer directly to a
-  real network \citep{cho2020}.
-  \item \emph{Existing MTD mechanisms, with no efficiency metric and no
-  IDS.} An IDS whose alerts depend on the attacker's
-  behaviour, so that detection avoidance can be tested and MTD can deploy on
-  an alert; the overhead and loss of service of each MTD deployment beside NCR
-  reduction, so that an MTD evaluation can choose a deployment interval; an
-  attacker model that times its attack actions around the deployment interval,
-  the deployment-strategy awareness no attacker model of
-  Table~\ref{tab:fidelity-verdict} has; and MTDShield retrained against the APT
-  attacker model (\ref{thr:mtdshield}).
-  \item \emph{The cause of the host layer's result} (\ref{thr:cause}). The APT
-  attacker model with the baseline attacker's times run under MTD
-  (Appendix~\ref{app:fa-run-time} runs it with no MTD), and a Petri net with
-  uniform base weights, would separate its tactic durations, the order of its
-  tactics and the base weights drawn from the attack flows. A second
-  tactic-to-action mapping would separate the order of its tactics from the
-  mapping. Removing the attack
-  % PLACEHOLDER 2026-10-15 (Marc: "put in a placeholder for the varying"):
-  %  the sentence before answers T2's residual (the mapping never varied).
-  %  Ratify on read.
-  profiles' edges one at a time would then show which transition between
-  tactics most changes NCR.
-  % 2026-10-15 (Marc: "you can update it"): ATT&CK's campaign entries named as
-  %  the source to sequence (they list tradecraft with no order; T9's trade-off).
-  \item \emph{The 38 attack flows} (\ref{thr:corpus}). Attack flows drafted by
-  language models from reports on APT campaigns only, such as those behind
-  ATT\&CK's campaign entries, and checked against
-  analysts' attack flows, would let each attack profile be drawn from more than
-  five to seven attack flows, and from APT attackers alone. The 18 attack flows
-  attributed to a group in ATT\&CK, run alone, would test the attack graph
-  without the rest.
+  \item \emph{Attack flows drafted by language models.} Three of the four
+  attack profiles rest on five to seven attack flows, not all of them by APT
+  groups (\ref{thr:corpus}). Automated attack profiling
+  (Section~\ref{subsec:profiling}) could draft attack flows from reports on APT
+  campaigns, such as those behind ATT\&CK's campaign entries, for analysts to
+  check. Each attack profile could then draw on more attack flows, and on APT
+  attackers alone, which would test whether the finding for~\ref{sq:evaluate}
+  holds beyond the 38 attack flows.
+  \item \emph{Attack actions for the whole campaign.} Objective-specific
+  behaviour is in part because no attack action in MTDSim carries Collection,
+  Exfiltration or Impact, the tactics of actions on objectives
+  (Section~\ref{sec:fidelity-verdict}). Attack actions for these tactics, each
+  with its own rule for how an MTD deployment disrupts it (\ref{thr:rules}),
+  would let each attack profile pursue its objective. Attack actions that each
+  keep their own context would also let the Petri net hold one token for each
+  line of the campaign, where it now pursues one at a time. A richer exploit
+  action would give the vulnerability memory, whose effect on NCR is negligible
+  (Section~\ref{sec:ablation}), more to act on.
+  \item \emph{A choice that depends on what the attacker observes.} Adaptivity
+  is in part because the failure matrix is a fixed rule of ours
+  (Section~\ref{sec:fidelity-verdict}), and the Petri net's weights are
+  constants (Section~\ref{sec:petri-formalism}). Weights that change with what
+  the attacker has found, such as the hosts, ports and credentials it holds,
+  would let its next tactic depend on its state. A failure that records whether
+  an MTD deployment caused it would let the response to failure depend on its
+  cause.
+  \item \emph{An IDS in the loop.} MTDSim has no IDS, so the APT attacker model
+  avoids detection only through its tactic durations, and attack
+  confidentiality is counted after each run
+  (Section~\ref{subsec:metrics-behaviour}). Applying Snort's port-scan rule
+  during a run would raise an alert each time the attacker trips it. Detection
+  avoidance could then be tested directly, and MTDShield, which reads the
+  attacker's current attack action, could read the alerts instead.
+  \item \emph{MTDShield retrained against the APT attacker model.} We credit
+  MTDShield doing worse than the random deployment strategy against the APT
+  attacker model to its training against only the baseline attacker
+  (\ref{thr:mtdshield}). Retrained with the APT attacker model in its training
+  environment, and tested against both attackers beside the random deployment
+  strategy, it would show whether a learned deployment strategy does better
+  than random against the attacker model it learned from.
+  \item \emph{Emulation.} Every result is simulated, under disruption rules
+  written for the baseline attacker, with no efficiency metric
+  (\ref{thr:rules}). An emulation runs real software, with real
+  vulnerabilities, on a virtual network
+  (Section~\ref{subsec:evaluation-methods}). Running the attack profiles against
+  MTD there would measure the overhead and loss of service of each MTD
+  deployment beside NCR reduction, so that an MTD evaluation could choose a
+  deployment interval. It would also show whether the host layer's lead
+  survives disruption that MTDSim does not model, such as an attacker keeping a
+  host through Command and Control.
 \end{itemize}
 
-% Last sentences: the attack actions as the next step (Marc 2026-10-09, Q3),
-% with Marc's 2026-10-08 line (MTD optimised against an attacker model
-% inherits its assumptions, as MTDShield inherits the baseline attacker's),
-% closing on Chapter 1's aim (ghosh2009nitrd, P2) as the introduction's mirror.
-Of these directions, the attack actions come first: every result of this
-dissertation rests on what MTDSim's six attack actions let the APT attacker
-model do. MTD optimised against an attacker model inherits that model's
-assumptions, as MTDShield may inherit the baseline attacker's, so whether MTD
-shifts the advantage of time from an APT attacker to the defender can be
-tested only once the attacker model assumes less.
+% THE CLOSE, REDRAFTED 2026-10-15 (yardstick (d4); Marc 2026-10-09 Q3: the
+%  attack actions as the next step). Returns to ch1's aim (the advantage of
+%  time, ghosh2009nitrd, P2) and names the next step as its continuation.
+%  CUT: "MTD optimised against an attacker model inherits that model's
+%  assumptions" (generalised 6.4; MTDShield now has its own item) and "can be
+%  tested only once the attacker model assumes less" (ended on a deficit).
+Of these directions, the attack actions come first, because every result of
+this dissertation rests on what they let the APT attacker model do. With attack
+actions for the whole campaign, an MTD evaluation could test whether MTD
+shifts the advantage of time from an APT attacker to the defender, as it was
+proposed to do.
 
 
 %TC:ignore

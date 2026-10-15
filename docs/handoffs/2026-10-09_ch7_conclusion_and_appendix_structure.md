@@ -1021,3 +1021,20 @@ Capture (1) and evaluate (MTDShield retrained; emulation) unchanged: six items.
 - **Ch6 has no `\ref{sec:future-work}`** (§15, open).
 
 **Rulings on §23 (Marc 2026-10-15):** six items, the model step split by the three in-part properties: yes. Edge ablation: excluded. Ch4 l.3935 clause: cut (applied). Ch6 forward pointer: one sentence at the end of 6.5's scope paragraph, "Section 7.2 proposes work that lifts each of these limits" (applied, ch6 auto-gate). Only the scope limits point forward; each threat keeps its mitigation and residual, and 7.2's items point back to them by `\ref`.
+
+## 24. Future work, decomposed and drafted (2026-10-15, DRAFT STATE in the tex)
+
+Marc: "frame each of these six items … in terms of the best practice … push a full change to the PDF". Each item in the yardstick's four parts; the tex carries the prose.
+
+| Item (label) | Anchor | Objective | Method | Payoff |
+|---|---|---|---|---|
+| Attack flows drafted by language models (SQ1) | thr:corpus: 3 of 4 profiles on 5–7 flows, not all APT | More attack flows per profile, APT reports only | Automated attack profiling (ch3 §subsec:profiling) drafts from APT campaign reports (ATT&CK campaign entries); analysts check (ch3: automated is not yet reliable) | Tests whether the SQ3 finding holds beyond the 38 attack flows |
+| Attack actions for the whole campaign (SQ2) | Property 2 in part: Collection, Exfiltration, Impact unmapped (6.3) | Actions on objectives; one token per line of the campaign; a richer exploit | New attack actions, each with its disruption rule (thr:rules); context per attack action | Each profile pursues its objective; several lines at once; the memory (negligible on NCR, §5.4) gets more to act on |
+| A choice that depends on what the attacker observes (SQ2) | Property 4 in part: fixed failure matrix (6.3); constant weights (§4.3) | Next tactic depends on state; response to failure depends on cause | Weights that change with hosts, ports and credentials held (dynamic weighting, supervisor); a failure that records MTD as its cause | Adaptivity grounded in the run, not a fixed rule |
+| An IDS in the loop (SQ2) | Property 5 in part: no IDS, detection by proxy; attack confidentiality counted after the run (§4.5.1) | Alerts during a run | Snort's port-scan rule applied in the run | Detection avoidance tested directly; MTDShield reads alerts, not the attack action |
+| MTDShield retrained against the APT attacker model (SQ3, UWA item 6) | thr:mtdshield: worse than random, credited to training | Learned strategy trained on the APT attacker model | Retrain in its training environment; test against both attackers beside random | Whether a learned deployment strategy beats random against the attacker model it learned from |
+| Emulation (SQ3) | Simulation only, no efficiency metric (6.5 ¶1), thr:rules | Run the attack profiles against MTD on real software and vulnerabilities | Emulation (ch3 §subsec:evaluation-methods) | Overhead and loss of service beside NCR reduction, so an interval can be chosen; whether the host layer's lead survives real disruption (C2 keeps a host) |
+
+**Close:** attack actions first (Marc Q3, 2026-10-09), then a return to ch1's advantage of time as the next step's aim. Cut its generalisation of 6.4 and its deficit ending.
+
+**Words:** chapter ≈ 870 (7.2 ≈ 510 with lead and close), inside the yardstick's 650–900 at the top. The close spills four lines onto p. 48; the cut pass (Marc 2026-10-08, overdraft then cut) is the lever. Candidates: item 2's third sentence (the richer exploit), item 6's last sentence, item 1's anchor sentence.
