@@ -205,15 +205,18 @@ learned about it goes out of date before it can be used. Yet simulation
 studies of MTD commonly test it against simplified attackers that follow a
 fixed sequence of steps. We build an APT attacker model from published
 reports of real intrusion campaigns, with attack profiles distinguished by
-objective. We run an existing MTD simulator twice on the same networks, once
-with its scripted baseline attacker and once with
-the APT attacker model. At the default deployment interval, service diversity
-and port shuffle are the most effective MTD mechanisms against the baseline
-attacker. Service
+objective. We run it and an existing MTD simulator's scripted baseline
+attacker on the same networks, under seven MTD mechanisms at six deployment
+intervals.
+% 2026-10-15 (Marc, front-three pass; handoff 2026-10-15_front_three_final_mile):
+% A2 "twice" -> the scale (seven mechanisms, Table 5.1; six intervals); A1 the
+% headline first, then the instance, its repeated words dropped. P6 mirrors it.
+At every deployment interval, the most effective MTD mechanism differs
+between the two attackers. At the default interval, service diversity and port
+shuffle are the most effective against the baseline attacker. Service
 diversity reduces the number of hosts the baseline attacker compromises by
-92\,\%, but reduces the number of hosts the APT attacker model compromises
-by 36\,\%. At every deployment interval, the most effective MTD
-mechanism differs between the two attackers. These results make a case for
+92\,\%, but the number the APT attacker model compromises by 36\,\%. These
+results make a case for
 testing MTD against more than one attacker model.
 \end{abstract}
 
@@ -299,7 +302,12 @@ from the attacker to the defender \citep{ghosh2009nitrd, zhuang2012}.
 MTD has been proposed as a defence against APTs \citep{alshamrani2019},
 yet it is rarely tested against one. Most tests run in simulation,
 against attacker models far simpler than an APT
-\citep{cho2020, jalowski2026}.
+\citep{cho2020, jalowski2026}, and how MTD is measured to perform depends on
+how the attacker is implemented \citep{hong2018}.
+% 2026-10-15 (Marc, I1): the gap's cause, from ch3's research gap and on its
+% citation (Hong Sec. 2: "the evaluation results are dictated by the threat
+% model used"); worded as ch7's third implication ("how MTD is measured to
+% perform").
 % 2026-10-07 (Marc): "None of the recent attacker models reviewed in Chapter
 % 3 fully captures an APT's adaptation to the defender" CUT --- adaptation
 % never returns in ch1, contribution 2 gives the full comparison, and it was
@@ -429,9 +437,8 @@ actions, such as scanning a host's ports and exploiting its vulnerabilities.
 The APT attacker model takes the same six attack actions, but its attack
 profile decides which comes next, and values we declared decide when and what
 to do after one fails. Both
-attackers run on the same network. We run both first with no MTD, then under
-each of MTDSim's MTD mechanisms at different deployment intervals, how often
-MTD changes the network. We measure MTD's performance by how much it reduces
+attackers run on the same network. We run both first with no MTD, then under each of MTDSim's seven MTD mechanisms at six deployment intervals,
+how often MTD changes the network. We measure MTD's performance by how much it reduces
 the number of hosts each attacker compromises.
 
 % P6, PRELIMINARY FINDINGS + VALUE + SCOPE --- floated 2026-09-24 (Marc:
@@ -464,11 +471,12 @@ the number of hosts each attacker compromises.
 % intervals --- {IP, host topology, complete topology shuffle} against
 % {service diversity, port shuffle} at 50-200 s, IP shuffle against service
 % diversity at 500-2 000 s. No p-value in ch1; ch5 carries the test.
-At the default deployment interval, service diversity and port shuffle are
-the most effective MTD mechanisms against the baseline attacker. Service diversity reduces the
-number of hosts the baseline attacker compromises by 92\,\%, but reduces the
-number of hosts the APT attacker model compromises by 36\,\%. At every deployment
-interval, the most effective MTD mechanism differs between the two attackers.
+% 2026-10-15 (Marc, I3): the headline first, verbatim with the abstract.
+At every deployment interval, the most effective MTD mechanism differs
+between the two attackers. At the default interval, service diversity and port
+shuffle are the most effective against the baseline attacker. Service
+diversity reduces the number of hosts the baseline attacker compromises by
+92\,\%, but the number the APT attacker model compromises by 36\,\%.
 % [2026-09-28: the two scope sentences that closed P6 were moved to P5, then
 %  cut (see the P5 comment).]
 
@@ -565,8 +573,11 @@ interval, the most effective MTD mechanism differs between the two attackers.
   model needs to model an APT attacker, the APT attacker model has two in
   full and three in part; three recent attacker models have at most one in
   full.
+  % 2026-10-15 (Marc, I2): the "so what", in ch7's opening words; it closes
+  % the ring with P3's "far simpler than an APT".
   \item We find that, in MTDSim, the most effective MTD mechanism depends
-  on the attacker model.
+  on the attacker model, so an MTD evaluation against an attacker model far
+  simpler than an APT may not show how MTD performs against APT attackers.
 \end{itemize}
 
 % [CONNECTIVE-PROSE PASS 2026-09-26, ch1 overview] Thesis-structure
@@ -610,8 +621,8 @@ with no MTD and under MTD, then removes parts of the APT attacker model one
 at a time to see what each changes. Chapter~\ref{ch:discussion} explains the
 results and their limits. It answers~\ref{sq:capture} and~\ref{sq:model} by
 scoring the APT attacker model on the eight properties, and~\ref{sq:evaluate}
-by finding which MTD layer reduces each attacker's NCR most, and proposing
-why. It
+by finding which MTD mechanisms are most effective against each attacker, and
+proposing why. It
 closes on what the results mean for MTD evaluation.
 Chapter~\ref{ch:conclusion} answers the research question and sets out
 future work.

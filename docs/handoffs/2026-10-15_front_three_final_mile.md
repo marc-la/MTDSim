@@ -132,3 +132,36 @@ Ch7 answers the RQ in **layers** ("the host layer reduces the APT attacker model
 ## Out of scope
 
 Hedging and claim strength (done). Ch2–ch6 prose. The ch7 layers/mechanisms alignment (flagged above).
+
+## Round 2 (2026-10-15): rulings, and two option sets
+
+**Applied** (Marc: "happy with all that"): A1, A2, I1–I5. The build is clean, 83 pp, 0 undefined. I1's citation is checked: Hong §2 says "the evaluation results are dictated by the threat model used", of decision-theoretic defence selection, which is the reading ch3 L2224 already makes. **Deferred:** A4 (ch7 is being redrafted). **Open:** A3 wording and the layer reconciliation, below.
+
+### A3: the build sentence
+
+*We build an APT attacker model from published reports of real intrusion campaigns, ___.*
+
+| Option | Words | For | Against |
+|---|---|---|---|
+| (a) …campaigns, **grouped by objective** | 3 | Shortest. Keeps S1's "objective". No new term | It says how the reports were sorted, not what the model does, so it does not answer S3's "fixed sequence of steps" |
+| (b) We build an APT attacker model **that chooses its next step by objective**, from published reports of real intrusion campaigns | 6 | Answers S3 directly: fixed sequence against a chosen next step (the seminar's gate 4, the contribution fills the gap). Within what was built: the Petri net chooses the next tactic at runtime from its attack profile. "It" in S5 can now attach only to the model | "By objective" compresses how the choice is made: from the order of the campaigns with that objective |
+| (c) …campaigns, **one attack profile per objective** | 5 | The term ch1 uses | The term is undefined in the abstract and never used again there |
+| (d) We build an **objective-dependent** APT attacker model… | 1 | Shortest of all | Reads as jargon, and "dependent" does not say on what or how |
+
+**Recommendation: (b).** It costs three more words than (a). Only (b) makes the build sentence the answer to the gap sentence before it.
+
+### Mechanisms and layers: reconciling the front three with ch5–ch7
+
+**What the terms are.** Ch2 defines the *host layer* (the topology) and the *service layer* (the services on each host) as layers of MTDSim's network model. Each MTD mechanism "reconfigures one part of the network: the host layer, the service layer or the users' credentials" (Table 2.1). Marc's "the layer the MTD operates on" is that definition. "MTD layer" and "MTD operational layer" are compressions that ch2 never defines. Ch6 uses "MTD layer" twice (L8509, L9021); that is flagged for ch6, and is auto-gate.
+
+**How the two relate.** The two are not competing results. The mechanism is what is measured and ranked. The layer is the pattern among the mechanisms that rank first. At every interval, rank 1 against the APT attacker model holds only host-layer mechanisms, and rank 1 against the baseline attacker holds only service-layer mechanisms (ch5 L7793, Table 5.4). "The most effective MTD mechanism differs" is that pattern's consequence. Ch6 and ch7 explain the pattern at the layer level.
+
+| Option | Form | For | Against |
+|---|---|---|---|
+| L1 Mechanisms in the front, layers from ch2 on (as now) | No change | No words. One term in the front three | Ch7 answers the RQ in words the front three never used (the seminar's same-words test). "Differs" does not say *how* the two attackers differ |
+| **L2 The pattern in ch1's own words** (P2's "addresses, layout") | *At every deployment interval, the most effective MTD mechanisms against the APT attacker model change the network's addresses or layout, and those against the baseline attacker change its services. At the default interval, service diversity reduces the number of hosts the baseline attacker compromises by 92 %, but the number the APT attacker model compromises by 36 %.* | More information in fewer words (55 against 57: the "service diversity and port shuffle are the most effective" sentence is no longer needed). The disagreement shows as a pattern. No new term. Ch7's "host layer" is then the same finding in ch2's names | Overturns the 2026-10-07 choice of the bare "differs" as the headline. That ruling's intent holds: nothing wins against both attackers, and no attacker is crowned. "Services" is ch2's word, while P2 says "software" (port shuffle changes ports, not software) |
+| L3 As L2, with ch2's terms glossed in ch1 (*"…are always host-layer mechanisms, which change the network's addresses or layout…"*) | ~+10 words on L2 | Exact term match with ch5–ch7 | It defines a term in ch1 that ch2 then defines again (voice §0: never pre-define). Longer |
+
+**Recommendation: L2**, in the abstract and P6 together, so they stay verbatim. Contribution 2 ("depends on the attacker model") and the I5 overview are unchanged. Ch7, still being redrafted, keeps layers: by then ch2 has given the reader the names.
+
+**Claim check for L2.** The rank-1 sets are IP shuffle, host topology shuffle and complete topology shuffle at 50–200 s, and IP shuffle at 500–2 000 s: all addresses or layout. Against the baseline attacker they are service diversity and port shuffle, then service diversity alone: all services (`numbers_reported.json`, `ranking.by_interval.*.*.sk_esd`, as recorded in the P6 comment).
