@@ -9133,6 +9133,9 @@ MTD, so the rest of our explanation is inferred. We never varied the
 tactic-to-action mapping, so we cannot rule it out as a cause of what we
 credit to the order of its tactics.
 
+% T3 v6 2026-10-15 (Marc: second-last sentence, clauses 1-2): subject first,
+%  "Only the APT attacker model has unmapped tactics"; the link to the
+%  assumption is left to the adjacency with "assumed".
 % T3 v5 2026-10-15 (Marc: "one janky sentence", four clauses where one will
 %  do): "and assumed that it detects nothing during an unmapped tactic"; the
 %  "which runs no attack action" gloss cut (the term carries it).
@@ -9173,10 +9176,9 @@ training settings (Table~\ref{tab:mtdshield-configuration}), and assumed that it
 detects nothing during an unmapped tactic. To mitigate this threat, we kept the experimental setup
 identical for both attackers, and against the baseline attacker MTDShield
 still reduces NCR more than the random deployment strategy does at every
-deployment interval. The assumption matters only against the APT attacker
-model, the only attacker with unmapped tactics: at 200\,s, MTDShield chose to
-deploy nothing in 29\,\% of its decisions against it and in 23\,\% against the
-baseline attacker. We cannot rule out this assumption as a cause of part of
+deployment interval. Only the APT attacker model has unmapped tactics, and at
+200\,s MTDShield chose to deploy nothing in 29\,\% of its decisions against it
+and 23\,\% against the baseline attacker. We cannot rule out this assumption as a cause of part of
 the random deployment strategy's lead over MTDShield against the APT attacker
 model.
 \end{enumerate}
