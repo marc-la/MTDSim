@@ -422,3 +422,45 @@ Unflagged sentences pass.
 ## 19. Clarity check applied (Marc 2026-10-15: "easy you can fix those")
 
 All 20 of the §18 rows are applied as written. T2 S1 (ratified) is untouched. The pages were read back: no breaks, and every pointer resolves. Build: 83 pages, 0 undefined, no new overfull box.
+
+## 20. Pass 5 (compress-to-ledger) on §6.5 v4 (Marc 2026-10-15; proposals only, nothing applied)
+
+**Budget.** No skeleton comment gives §6.5 a figure. The only one on record is §109's target of about 1 000–1 100 words, taken from ch6's 3 300.
+- **Measured:** about 1 690 words by the session's count, which counts each reference as a word. That is about 1 600 by the §14 count.
+- **Protected, never cut:** T2 S1–S5 (v5, ratified); T8 (v6, ratified); the opener's type glosses and ranking rule (ruled 2026-10-15); every number and citation; the clarity repairs of §19.
+
+**Sentence merit (only the non-KEEP rows; every other sentence is KEEP).**
+
+| # | Unit | Sentence | Duplicates / class | Verdict |
+|---|---|---|---|---|
+| P1 | Opener S4 | "Each is a direction of future work (Section 7.2)." | duplicate of §7.2's opener ("Each direction below lifts a limitation or a threat of Section 6.5"); also false for the targeted attack scenario | CUT |
+| P2 | Opener S3 | "…runs of at most 15 000 s, about four hours; …" | qualifier; Table 5.1 carries the time limit | TIGHTEN: delete ", about four hours" |
+| P3 | T1 S4 | "We found defects in MTDSim, among them runs that ended early, and repaired them." | second example | TIGHTEN: delete ", among them runs that ended early," |
+| P4 | T3 S3 | "MTDShield is told the attacker's current attack action at each decision, and it reads …" | re-explanation; the Table D.1 caption says "it is told the attacker's current attack action at every decision" | TIGHTEN: delete "is told the attacker's current attack action at each decision, and it", leaving "MTDShield reads the APT attacker model's unmapped tactics, which run no attack action, as nothing detected (Appendix D.1)." |
+| P5 | T3 S7 | "MTDShield retrained against the APT attacker model would separate the two (Section 7.2)." | duplicate of §7.2 bullet 3, which points back here (`thr:mtdshield`) | CUT (S6's semicolon becomes a full stop: a mechanical joint, flagged) |
+| P6 | T9 S3 | "Only 18 of them are attributed to a group in ATT&CK, criminal groups among them (Section 4.1)." | duplicate of ch4 l.~4023, nearly verbatim; ch4's sentence already points to §6.5 for the bound, which T9 S1 gives | CUT (re-opens Marc's §13 "beautiful") |
+| P7 | T9 S5 | "…counts like any other: c₁'s one edge into Impact comes from such a step (Appendix C.3)." | second example; App C.3 prints it | TIGHTEN: delete ": c₁'s one edge into Impact comes from such a step", leaving "…counts like any other (Appendix C.3)." |
+| P8 | T9 S6 | "Analysts' attack flows record the order of steps that automatic alternatives could not recover (Section 4.1), at the cost of volume: three of the four attack profiles …" | re-explanation of ch4 l.~4016 | TIGHTEN: delete up to the colon, leaving "Three of the four attack profiles are drawn from 5 to 7 attack flows (Table 4.1)." (re-opens Marc's round-3 point; joint capital flagged) |
+| P9 | T10 S5 | "An emulated APT campaign against MTD could supply data on how a deployment disrupts it (Section 7.2)." | duplicate of §7.2 bullet 2 ("emulation …") | CUT (re-opens Marc's round-2 point) |
+
+**Technical-claim flags.**
+- **P3** loses the kind of defect repaired. No other carrier in the body; the record is project_context.md and the git history.
+- **P4** loses why an unmapped tactic reads as nothing detected. Carrier: the Table D.1 caption.
+- **P5** loses the remedy beside the threat. Carrier: §7.2 bullet 3, which cites T3.
+- **P6** loses the attribution count from §6.5. Carrier: §4.1, verbatim.
+- **P7** loses the worked example. Carrier: App C.3, verbatim.
+- **P8** loses the reason the corpus is small. Carrier: §4.1 (the two automatic alternatives, with 10 %, 14 % and 50 %).
+- **P9** loses the route to removing the threat. Carrier: §7.2 bullet 2.
+
+**Deltas.**
+
+| Tier | Items | What they are | Words |
+|---|---|---|---|
+| A | P1, P4, P5, P7 | clean duplicates; nothing ruled is re-opened | −45 |
+| B | P6, P8, P9 | duplicates that re-open Marc's same-day additions or praise | −53 |
+| C | P2, P3 | qualifiers | −8 |
+| | | **All** | **−106**, to about 1 585 (session count) |
+
+**Minimal set: tier A**, −45 words. It removes every duplicate whose carrier is a float, a caption or §7.2, and re-opens nothing.
+
+**The budget cannot be reached by deletion.** About 480 words would remain over the 1 100 target after every proposal. Closing that gap means removing whole threats, which is a content decision, not pass 5. The pipeline's 2026-08-18 ruling lets a first completion sit over budget. The cut to the ledger is reconciled across the assembled chapter, where ch6 as a whole is the lever.
