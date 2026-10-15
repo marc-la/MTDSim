@@ -9333,22 +9333,28 @@ exploratory.
 
 \paragraph{External validity.}
 \begin{enumerate}[resume*=threats]
+% T8 v7 2026-10-15 (Marc, options rounds): external frame -- the finding's
+%  reach beyond MTDSim's disruption rules (2.2.3 states both rules: back to
+%  scanning hosts after a host-layer deployment; "a deployment never takes back
+%  a compromised host"; code: attack_operation.py clears curr_host on a
+%  network-type MTD; no mechanism in mtdnetwork/mtd touches compromise). Each
+%  rule paired with the real-world departure that breaks it; close in the
+%  conventional "may not hold". Cut: the rules spelled out, "Both
+%  explanations ... assume" (T2's ground), the SQ3 justification.
 % T8 rules: v6 2026-10-13 as ratified (handoff 2026-10-11 sections 126-132);
 %  kept 2026-10-15 (T5 is what we built from CTI, T8 what we inherited from
 %  MTDSim; the property ceiling is the attack actions', a limitation, and 6.3's).
-\item\label{thr:rules} Both explanations in Section~\ref{sec:disc-mtd-performance}
-assume MTDSim's rules for how an MTD deployment disrupts an attacker
-(Section~\ref{subsec:attacker-model}): a service-layer deployment disrupts it
-only while it scans ports, exploits or brute-forces, and a host-layer
-deployment disrupts it during any attack action and costs it the host it was
-on. Both attackers meet the same rules, so the comparison is fair. We kept the
-rules as MTDSim's papers describe them (\ref{thr:code}) because
-\ref{sq:evaluate} compares the two attackers under MTDSim's MTD. They were
-written for the baseline attacker's six attack actions and cannot be checked
-against an APT campaign (\ref{thr:observation}). An APT in contact with a host
-through Command and Control might keep it after an IP shuffle, and a
-service-layer deployment might take back a host compromised through that
-service; either would narrow the host layer's lead over the service layer.
+\item\label{thr:rules} The finding for~\ref{sq:evaluate} may not generalise
+beyond MTDSim's disruption rules (Section~\ref{subsec:attacker-model}). We
+kept these rules to their original intent, which keeps the two attackers
+comparable, but they were written for the baseline attacker and cannot be
+validated against an APT campaign (\ref{thr:observation}). In MTDSim, an IP
+shuffle costs the attacker the host it was on, but a real APT may keep that
+host through Command and Control. In MTDSim, no deployment takes back a
+compromised host, but in a real network, replacing a service may evict an
+attacker that compromised its host through that service. Either departure
+would narrow the host layer's lead over the service layer, so the finding
+for~\ref{sq:evaluate} may not hold in a real network.
 
 % T9 corpus v2, 2026-10-15 (Marc: "a very strong ... beautiful"): what the model
 %  keeps from each attack flow; the build reads no confidence (16 of 853 steps
