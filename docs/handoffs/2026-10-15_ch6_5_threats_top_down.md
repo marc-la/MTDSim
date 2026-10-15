@@ -488,3 +488,36 @@ All 20 of the §18 rows are applied as written. T2 S1 (ratified) is untouched. T
 **Next:** §6.5 is through pass 5. Pass 6 (voice-pass) runs on the assembled section.
 
 **Still owed:** the 190–844 home; the AI Use Declaration's code sentence; §7.2's targeted attack scenario (P1 removed §6.5's false "each is a direction", but §7.2's opener still says "each direction lifts a limitation"); the upstream "likely" sweep.
+
+## 22. Item-by-item redraft rounds (Marc 2026-10-15, after pass 5)
+
+Each item was reframed through its validity type, then settled by options per sentence (feedback memory `feedback_options_per_sentence.md`). Final forms are in the tex with a `% T<n> v<k>` trail each. Summary of what changed in substance, not wording:
+
+- **Opener v5–v6:** item contract, ranking sentence and bracketed glosses cut; limitations grouped attacker / runs / defence; "six inherited attack actions".
+- **T1:** opens "a plausible alternative explanation"; MTDSim lineage cited; "all of ours … AI assistance" unhedged; code public; residual adds partial review; hyperlinked pointer to the AI Use Declaration (now labelled `ch:ai-declaration`).
+- **T2:** "may confound our explanation … which credits"; removals rule out three components; D.6 as a second ablation; residual: not repeated under MTD (inferred) + the mapping never varied. Fact fixed: the attack-profile ablation DID vary the order (whole attack graph). Duration scaling moved to T5.
+- **T3:** same form as T2; the declared assumption (nothing detected during an unmapped tactic); control = identical setup against the baseline attacker. Flag: Tay's evaluation builder feeds four constant-zero inputs (ch5_mtdshield_preliminary_findings.md §1.1), not disclosed anywhere; same for both attackers.
+- **T4:** construct = mono-operation; ASP reduction "orders the two layers as NCR reduction does"; residual about NCR (rank 1 decided by it alone).
+- **T5:** claim narrowed to likelihood, timing, response to failure; mapping dropped (T2 carries it).
+- **T6:** two owned causes (our synthesis; face-value reading); predicates + blind LM cross-check; residual per cause; scope "four attacker models", field finding attributed to the surveys. Equal counting cut (APT attacker model ≥ every model on every property). Distinct-openings recount moved to App. B (clause tests): closes the 190–844 home.
+- **T7:** violated independence assumption named; seed resample; ablations exploratory (chance; post hoc). App. D.3 now says why it resamples seeds. Per-mechanism scope cut.
+- **T8:** "may not generalise beyond MTDSim's disruption rules", defined in place; each rule paired with its real-world counter-example (code-verified: no mechanism touches compromise; network MTD clears curr_host).
+- **T9:** unrepresentative sample (survivorship, report detail, not all APT — restores the fact §4.1 sends here), thin, amplified by our use; profile ablation is NOT a mitigation (Marc); trade-off sentence; no mitigation within the corpus.
+- **T10:** operational validity; Sargent cited not named; close "these analyses cannot take the findings beyond the simulation".
+- **Outside §6.5:** §7.2 T9 line names ATT&CK campaign entries and "be drawn from"; §7.2 T2 line gets a mapping placeholder; AI Use Declaration code sentence (placeholder).
+
+§6.5 is about 1 280 words (rough count).
+
+## 23. Claim-strength sweep: abstract, ch1, ch6 (6.1–6.4), ch7 against §6.5 (Marc 2026-10-15; proposals only)
+
+**House hedging scheme** (conventional, one form per kind of claim, so the hedges read seamlessly):
+
+| Kind of claim | Form | Example |
+|---|---|---|
+| An explanation we own (T2, T3) | "We attribute X to Y" | "We attribute these differences to its tactic durations and the order of its tactics." |
+| A mechanism we infer, beside a measured number | "is consistent with" | "…, which is consistent with its 60 s." |
+| Reach beyond MTDSim (T8–T10) | "may" | "A shared set of metrics may not be enough…" |
+| Something we showed can happen | "can" | "A new attacker model … can change how MTD is measured to perform." |
+| Banned | "likely", "most likely", double modals ("can … likely") | — |
+
+Ledger: see the chat return of this date (merged with a cold reader's pass); rulings to be logged here.
