@@ -9065,18 +9065,22 @@ conclusion and external.
 %  a bug"): first by the ranking rule, since it bears on every result. The
 %  defect check is the intent spec's (docs/implementation/mtdsim_intent_spec.md).
 %  The AI Use Declaration does not yet cover code: not cited here until it does.
-\item\label{thr:code} The code may not do what Chapters~\ref{ch:background}
-and~\ref{ch:attacker-model} say it does. MTDSim's code was inherited from the
-studies that built it, and much of ours was written with AI assistance. To
-mitigate this threat, we checked the code by its behaviour: an event tracer
-replays any run step by step against what this dissertation describes, unit tests check the Petri net
-and the simulator, and fixed seeds reproduce every run exactly. We found
-defects in MTDSim and repaired them. We
-called a behaviour a defect only after checking it against what MTDSim's
-papers describe, so that we kept MTDSim's design choices and repaired only its
-errors.
-Because of the repairs, we do not compare the results numerically with earlier
-MTDSim studies. The threat remains for behaviour no check exercised.
+% T1 v2 2026-10-15 (Marc, dictated): opens on the conventional internal-validity
+%  move ("plausible alternative explanation"), no chapter pointers; "all of ours
+%  ... with AI assistance" unhedged; checks named, not walked through; "prior
+%  studies" = the four cited; "no quantitative comparison"; code public (ch1
+%  footnote); residual adds partial review (Marc: "partial scrutiny").
+\item\label{thr:code} A defect in the code is a plausible alternative
+explanation for the results in this chapter. MTDSim's code was inherited from
+prior studies \citep{brown2023,zhang2023,ho2024,tay2024}, and all of ours was
+written with AI assistance. To mitigate this threat, we checked the code by
+its behaviour, with an event tracer, unit tests and fixed seeds that reproduce
+every run exactly. We repaired the defects we found in MTDSim, calling a
+behaviour a defect only where it departs from what the prior studies describe,
+so that its design choices are implemented as intended. Because of these
+repairs, we make no quantitative comparison with their results. The code is
+public for review (Chapter~\ref{ch:intro}). The threat remains for behaviour
+no check exercised and for code we only partially reviewed.
 
 % T2 cause: v5 2026-10-13 as ratified (handoff 2026-10-11 sections 117-125,
 %  133-136), plus one sentence 2026-10-15 (ruled: extend to 6.1's "order of its
