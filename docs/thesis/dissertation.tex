@@ -9018,6 +9018,8 @@ attack actions.
 % =====================================================================
 \section{Threats to validity}
 \label{sec:threats}
+% PASS 5 2026-10-15 (Marc: "apply thanks"): compression ledger P1-P9 applied
+%  (handoff 2026-10-15 section 20); each cut names its carrier there.
 % V4 2026-10-15 (Marc: "easy you can fix those"): clarity check applied
 %  (handoff 2026-10-15 section 18).
 % V3 2026-10-15 (Marc: "easy you can apply that"): the hedging audit (handoff
@@ -9043,10 +9045,8 @@ did to mitigate it, and what remains. The
 limitations are the scope we chose: MTDSim's six attack actions, with no
 actions on objectives; one line of a campaign at a time
 (Section~\ref{sec:petri-formalism}); the targeted attack scenario only;
-MTDSim's default network of 50 hosts; runs of at most 15\,000\,s, about four
-hours; simulation only; existing MTD mechanisms, each deployed at a deployment
-interval; no efficiency metric; and no IDS. Each is a direction of future work
-(Section~\ref{sec:future-work}). We group the threats by the four types of
+MTDSim's default network of 50 hosts; runs of at most 15\,000\,s; simulation only; existing MTD mechanisms, each deployed at a deployment
+interval; no efficiency metric; and no IDS. We group the threats by the four types of
 Wohlin et al.\ \citep{wohlin2012}: internal (what causes our results),
 construct (our measures and the model we built from CTI), conclusion (our statistics) and
 external (reach beyond MTDSim and the 38 attack flows). Within each type, threats to
@@ -9064,7 +9064,7 @@ studies that built it, and much of ours was written with AI assistance. To
 mitigate this threat, we checked the code by its behaviour: an event tracer
 replays any run step by step against what this dissertation describes, unit tests check the Petri net
 and the simulator, and fixed seeds reproduce every run exactly. We found
-defects in MTDSim, among them runs that ended early, and repaired them. We
+defects in MTDSim and repaired them. We
 called a behaviour a defect only after checking it against what MTDSim's
 papers describe, so that we kept MTDSim's design choices and repaired only its
 errors.
@@ -9099,16 +9099,14 @@ Section~\ref{sec:disc-behaviour} gives the order of its tactics.
 than the random deployment strategy does, which
 Section~\ref{sec:evaluation-implications} explains by its training against
 the baseline attacker. How we ran MTDShield is a plausible alternative
-explanation. MTDShield is told the
-attacker's current attack action at each decision, and it reads the APT
+explanation. MTDShield reads the APT
 attacker model's unmapped tactics, which run no attack action, as nothing
 detected (Appendix~\ref{app:mtdshield}). At 200\,s, it chose nothing in
 29\,\% of its decisions against the APT attacker model and 23\,\% against the
 baseline attacker. That shift is consistent with how we ran it, and its choice
 of service diversity, about as often against both attackers, is consistent
 with our explanation. We cannot rule out how we ran it as a cause of part of
-its smaller reduction; MTDShield retrained against the APT attacker model would
-separate the two (Section~\ref{sec:future-work}).
+its smaller reduction.
 \end{enumerate}
 
 \paragraph{Construct validity.}
@@ -9223,16 +9221,11 @@ service; either would narrow the host layer's lead over the service layer.
 \item\label{thr:corpus} The results may not generalise to APT attackers beyond
 the 38 attack flows. The attack flows record incidents that succeeded and were
 worth writing about (Section~\ref{subsec:failure-matrix}), each only as far as its threat
-report describes (Section~\ref{sec:attack-profiles}). Only 18 of them are
-attributed to a group in ATT\&CK, criminal groups among them
-(Section~\ref{sec:technique-graph}). We used each attack flow as its analyst
+report describes (Section~\ref{sec:attack-profiles}). We used each attack flow as its analyst
 drew it, and the APT attacker model keeps only which tactic follows which,
 counted over the attack flows. It drops the techniques, the descriptions and
 the confidence the analyst gave each step, so a step drawn with confidence 0
-counts like any other: $c_1$'s one edge into Impact comes from such a step
-(Appendix~\ref{app:profile-edges}). Analysts' attack flows record the order of
-steps that automatic alternatives could not recover
-(Section~\ref{sec:technique-graph}), at the cost of volume: three of the four
+counts like any other (Appendix~\ref{app:profile-edges}). Three of the four
 attack profiles are drawn from 5 to 7 attack flows
 (Table~\ref{tab:attack-profiles}). One coder assigned each attack flow to its
 attack profile (Appendix~\ref{app:classification-audit}). Without the attack profiles,
@@ -9250,9 +9243,7 @@ observed: explore the model's behaviour as thoroughly as possible and compare
 it with other models \citep{sargent2011}. The sensitivity analysis
 (Appendix~\ref{app:sensitivity}) and the ablations explore the APT attacker
 model's behaviour, and the
-baseline attacker is the other model. The threat remains. An emulated APT
-campaign against MTD could supply data on how a deployment disrupts it
-(Section~\ref{sec:future-work}).
+baseline attacker is the other model. The threat remains.
 \end{enumerate}
 
 % =====================================================================

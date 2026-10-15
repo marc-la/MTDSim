@@ -464,3 +464,27 @@ All 20 of the §18 rows are applied as written. T2 S1 (ratified) is untouched. T
 **Minimal set: tier A**, −45 words. It removes every duplicate whose carrier is a float, a caption or §7.2, and re-opens nothing.
 
 **The budget cannot be reached by deletion.** About 480 words would remain over the 1 100 target after every proposal. Closing that gap means removing whole threats, which is a content decision, not pass 5. The pipeline's 2026-08-18 ruling lets a first completion sit over budget. The cut to the ledger is reconciled across the assembled chapter, where ch6 as a whole is the lever.
+
+## 21. Pass 5 applied (Marc 2026-10-15: "apply thanks")
+
+"Apply" was read as the whole ledger: P1–P9 are applied exactly as written in §20, with no extras. §6.5 goes from about 1 690 to 1 581 words (session count). Build: 83 pages, 0 undefined, no new overfull box.
+
+**Joints flagged for Marc's eye.**
+- T3 S6 now ends at "its smaller reduction." (the semicolon became a full stop).
+- T9 now opens "Three of the four attack profiles …" without "at the cost of volume". The reader infers that the corpus is small from "5 to 7".
+
+**Claims that moved to other carriers** (the tex trail comment points here):
+- the targeted-scenario future-work link → §7.2's opener;
+- why MTDShield reads an unmapped tactic as nothing → Table D.1's caption;
+- MTDShield retrained → §7.2 bullet 3;
+- 18 of 38 → §4.1;
+- c₁'s Impact edge → App C.3;
+- the reason for attack flows → §4.1;
+- emulation → §7.2 bullet 2;
+- the kind of defect → the record only.
+
+**Rejected:** none.
+
+**Next:** §6.5 is through pass 5. Pass 6 (voice-pass) runs on the assembled section.
+
+**Still owed:** the 190–844 home; the AI Use Declaration's code sentence; §7.2's targeted attack scenario (P1 removed §6.5's false "each is a direction", but §7.2's opener still says "each direction lifts a limitation"); the upstream "likely" sweep.
