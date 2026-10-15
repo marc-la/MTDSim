@@ -9064,7 +9064,8 @@ conclusion and external.
 % T1 code, 2026-10-15 (Marc: inherited code, AI assistance, "what constitutes
 %  a bug"): first by the ranking rule, since it bears on every result. The
 %  defect check is the intent spec's (docs/implementation/mtdsim_intent_spec.md).
-%  The AI Use Declaration does not yet cover code: not cited here until it does.
+%  The AI Use Declaration does not yet cover code; pointer added 2026-10-15 as a
+%  placeholder (Marc: "I'm gonna update it in the future").
 % T1 v2 2026-10-15 (Marc, dictated): opens on the conventional internal-validity
 %  move ("plausible alternative explanation"), no chapter pointers; "all of ours
 %  ... with AI assistance" unhedged; checks named, not walked through; "prior
@@ -9073,7 +9074,7 @@ conclusion and external.
 \item\label{thr:code} A defect in the code is a plausible alternative
 explanation for the results in this chapter. MTDSim's code was inherited from
 prior studies \citep{brown2023,zhang2023,ho2024,tay2024}, and all of ours was
-written with AI assistance. To mitigate this threat, we checked the code by
+written with AI assistance (AI Use Declaration). To mitigate this threat, we checked the code by
 its behaviour, with an event tracer, unit tests and fixed seeds that reproduce
 every run exactly. We repaired the defects we found in MTDSim, calling a
 behaviour a defect only where it departs from what the prior studies describe,
@@ -9712,6 +9713,8 @@ tested only once the attacker model assumes less.
 %  whole"): moved verbatim from Appendix B, where it was the history of the
 %  scoring, with its two "(AI Use Declaration)" self-references dropped. Held
 %  here until the Declaration is drafted. DRAFT STATE.]
+% [OWED 2026-10-15: T1 (thr:code) points here for "all of ours was written
+%  with AI assistance"; the Declaration must say so for the code. Marc to draft.]
 Table~\ref{tab:attacker-properties} was reworded after the attacker models
 were first scored: its rows name techniques, ATT\&CK's term, where they had
 named MTDSim's attack actions, and learning names the patterns of MTD
