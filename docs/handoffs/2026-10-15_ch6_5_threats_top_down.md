@@ -176,3 +176,68 @@ Cut from conclusion:
 - `docs/thesis/dissertation.tex` §6.1–§6.5 (l.~8460–9222) and ch7 §7.2
 - `docs/thesis/tables/tab_F-0d_interval_values_asp.tex` (T4's check)
 - App D.1 MTDShield (l.~9942) (T3)
+
+## 9. Rulings (Marc 2026-10-15)
+
+All five questions of §6 are yes: the SQ3-first ranking rule; the types glossed in brackets; MTDShield as its own internal item; T2 cause extended to §6.1; T2 conditions dissolved. The §6.4 fix ("either" → "each") is **applied**. Marc's additions, each checked before use:
+
+| Marc's point | Checked | Goes to |
+|---|---|---|
+| Code: AI-assisted, inherited code, tech debt, iterated on since 2023, too much to review in full | The AI Use Declaration covers only scoring by language models, **not code** (flag §12). The lineage is in ch2 l.~783 | T1 |
+| MTDShield has no concept of an unmapped tactic | App D.1: it is told the attacker's current attack action; it reads an unmapped tactic as nothing detected. At 200 s it chose nothing in 29 % of decisions against the APT attacker model and 23 % against the baseline attacker. The alternative explanation predicts that rise, so it gets **partial support** | T3 |
+| NCR does not say whether the targeted attack scenario succeeded; NCR and ASP correlate but can diverge | **Verified:** at 500 s and 1 000 s the host layer reduces the baseline attacker's NCR (0.16, 0.06; Table D.3) but raises its ASP (−0.10, −0.06; Table D.5). None of these cells is greyed | T4 |
+| Disruption is what the model defines; the service layer disrupts only three attack actions; "we made those really short" | **Corrected:** the APT attacker model's attack actions are not shorter across the board (Table B.4b: brute force 4.5 s against 20 s, but scan port 35 s against 25 s and the exploit 4.5–22.5 s against 4.5 s). What sets disruption is the **share of its time** spent in those attack actions, because the tactic durations keep it in unmapped tactics between them (§6.2 ¶3) | T6 |
+| The marks are hard to defend; read them as a direction, not as absolutes | Each mark follows a predicate printed in App B, which is the transparency to cite | T7 |
+| Runs on one network treated as independent: "I don't know how bad that is" | **Measured** (read-only, scratchpad `seed_boot.py`; resampling seeds, the four attack profiles averaged per seed, 2 000 resamples). Host minus service layer: APT attacker model +0.22 to +0.75, baseline attacker −0.11 to −0.45, and **no interval reaches zero at any deployment interval**. The closest is the baseline attacker at 500 s: −0.106 [−0.120, −0.092]. The points match Table D.3. Scott–Knott and ρ already resample seeds (analyse.py `per_seed`); ch5 does not say so | T8 (mitigation) |
+| Only the tactic-durations ablation is post hoc; the other ablations are planned, in §5.4 | Agreed: App D.6 alone | T9 |
+| "The rules: the attack actions, is that correct?" | Yes. The rules say which of the six attack actions each MTD layer disrupts | T10 unchanged |
+| Corpus: meaning stripped, e.g. confidence; a confidence-0 step still in the graph; the pre-intrusion steps | **Verified:** of 853 attack actions in the 38 flows, 69 carry a confidence and 16 carry confidence 0 (Muddy Water, OceanLotus, ToolShell). The L3 build ignores confidence (no use in src/mtdsim/l3_simulation). App C.3 already prints c₁'s Impact edge, drawn with confidence 0. Reconnaissance is in 10 of 38 flows, hence the overlay (ch4 l.~4038) | T11 (confidence); overlay stays in T5 |
+
+## 10. Drafts, item by item (proposed, not applied)
+
+Each item makes the three moves. Pointers are given as printed numbers here and become `\ref`s in the tex. Words are approximate.
+
+**Opener (~150).** Each threat below names a claim of Sections 6.1 to 6.4, what could make it wrong, what we did to mitigate it, and what remains. The limitations are the scope we chose: *[list as on disk]*. Each is a direction of future work (Section 7.2). We group the threats by the four types of Wohlin et al.: internal (the causes we give), construct (our metrics and the parts we declared), conclusion (our statistics) and external (beyond MTDSim and the 38 attack flows). Within each type, threats to the answer to SQ3 come first.
+
+### Internal validity
+
+**T1 code (~90).** The code may not do what Chapters 2 and 4 say it does. MTDSim's code was inherited from the studies that built it, and much of ours was written with AI assistance, so we checked the code by what it does. An event tracer replays any run step by step against the text, an audit compared MTDSim's code with what its papers describe, unit tests cover the Petri net and the simulator, and fixed seeds reproduce every run exactly. The defects the audit found in MTDSim were repaired, so the results are not compared numerically with earlier MTDSim studies. The threat remains for behaviour no check exercised.
+
+**T2 cause (v5 as on disk, +1 sentence, ~150).** *[v5 unchanged]* Added at the end: With no MTD, only the tactic durations were changed on their own (Appendix D.6), so the share of the gap that Section 6.1 gives the order of its tactics could also come from these two components.
+
+**T3 MTDShield (~100).** That MTDShield most likely learned to deploy the MTD mechanism that disrupts its training attacker most (Section 6.4) has a plausible alternative explanation. MTDShield is told the attacker's current attack action at each decision, and it was trained against the baseline attacker alone, so it has no input for a tactic that runs no attack action and reads one as nothing detected (Appendix D.1). It chose service diversity in most decisions against either attacker, 76 and 70 %, which is consistent with our explanation, but it chose nothing more often against the APT attacker model, 29 against 23 %. We cannot rule out the alternative without MTDShield retrained against the APT attacker model (Section 7.2).
+
+### Construct validity
+
+**T4 NCR reduction (~115).** NCR reduction, the measure of the answer to SQ3, measures how MTD performs only in part. It counts the hosts an attacker compromises, whereas the targeted attack scenario succeeds when a target host is compromised, which ASP counts. A run also ends at the first target host compromised, which cuts NCR short in 656 of the baseline attacker's 1 000 runs with no MTD. The two metrics can diverge: at 500 and 1 000 s, the host layer reduces the baseline attacker's NCR but raises its ASP (Tables D.3 and D.5). To mitigate this, we also computed ASP reduction, which does not depend on when a run ends, and each attacker's layer order holds on it at every deployment interval. The threat remains for rank 1 against the APT attacker model: up to 500 s, ASP reduction reaches 0.99 or more for every host-layer mechanism and cannot order them.
+
+**T5 declared parts (~115).** CTI records no tactic durations, failure-matrix values or factor for the vulnerability memory, and no mapping from tactics to MTDSim's attack actions, so these parts represent an APT only as far as our judgement does (Table C.4). To mitigate this, we declared them before any result and varied, substituted or removed each one at a time: only the 45 s mean duration changes NCR much (Table D.9), and the rankings hold at both ends of its band (T2). Their interactions, the weights of the pre-intrusion overlay and the choice of one attack flow per APT group were not tested, and nor was any other partial mapping. In ours, Command and Control is the only tactic mapped to scan neighbours, the attack action that finds new hosts, so it alone sets how fast the APT attacker model spreads.
+
+**T6 disruption measures (~95).** Time lost and attack actions blocked per MTD deployment, by which Section 6.2 explains each layer, measure disruption only as MTDSim defines it. A service-layer deployment disrupts an attacker only while it scans ports, exploits or brute-forces (T10). How often it disrupts therefore follows from the share of the attacker's time spent in those attack actions, which for the APT attacker model our tactic durations set (T5). Both measures are taken at 2 000 s only, because the next MTD deployment caps time lost at the deployment interval, so Section 6.2 explains the service layer at every deployment interval from measures taken at one.
+*(Cut: the baseline attacker's time lost below zero at the first deployment; Section 5.3.1 carries it.)*
+
+**T7 §6.3's marks (~120).** The marks of Section 6.3 measure each attacker model's properties only against our yardstick. The eight properties are our reading of the APT definition and two surveys, weighed equally though not equally important. One scorer marked all four attacker models, and the three MTD attacker models are our choice, none of them the attacker of a game-theoretic model, the dominant MTD modelling approach (cho2020). To mitigate this, each mark follows a predicate printed in Appendix B, and language models scored the attacker models blind (AI Use Declaration). Distinct openings, behind the full mark for choice of attack strategy, counts any variety, in tactics for the APT attacker model and in attack actions for the baseline attacker; recounted in attack actions, the attack profiles still have 190 to 844 against 3. We make no claim for the marks beyond comparing the four attacker models on the same predicates.
+
+### Conclusion validity
+
+**T8 layer order (~85).** The statistics support the layer order of Section 6.2 at every deployment interval. Its confidence intervals resample runs, so they treat the four attack profiles' runs on one seed's network as independent. To mitigate this, we resampled seeds instead: the host layer and the service layer remain apart at every deployment interval against both attackers (Appendix D.3). What remains is the order of single MTD mechanisms against the baseline attacker. Every service-layer mechanism reduces its NCR more than every host-layer mechanism only up to 100 s, and from 500 s the service layer's lead is service diversity's alone (Table D.3).
+
+**T9 analyses behind the explanations (~90).** The ablations behind the explanations of Sections 6.1 and 6.2 are weaker tests than the rankings. A negligible effect is Cohen's default of ±0.2, not a bound set for hosts compromised. The ablations leave 24 of 60 cells inconclusive for the attack profiles, with no correction for the number of cells compared. The attack profiles compromise more hosts than all ten random partitions with no MTD, which chance alone would give one time in eleven (Section 5.4). The ablation of the tactic durations (Appendix D.6) was chosen after the results of Chapter 5 were seen, and it changes none of them. We treat these analyses as exploratory.
+
+### External validity
+
+**T10 rules (v6 as on disk, ~140).** Unchanged.
+
+**T11 corpus (~140).** The results may not generalise to APT attackers beyond the 38 attack flows. The attack flows record campaigns that were detected and reported, each only as far as its threat report describes, and only 18 are attributed to a group in ATT&CK, criminal groups among them (Section 4.1). The base weights count each drawn edge the same, whatever the analyst's confidence in its steps: c₁'s one edge into Impact comes from a step drawn with confidence 0 (Appendix C.3). We chose attack flows because CTI and ATT&CK rarely record the order of an attack's techniques, at the cost of volume: three of the four attack profiles are drawn from 5 to 7 attack flows, each assigned to its attack profile by one coder (Appendix C.2). Without the attack profiles the host layer still reduces NCR most (T2), so that assignment does not decide the answer to SQ3. We make no claim about APT behaviour the attack flows do not record, and a run may join parts of several attack flows into a campaign no attacker ran.
+
+**T12 observation (~65).** No APT campaign against MTD can be observed, so the APT attacker model cannot be validated against one. For a system that cannot be observed, Sargent advises exploring the model's behaviour as thoroughly as possible and comparing it with other models (sargent2011). The sensitivity analysis (Appendix D.5) and the ablations explore it, and the baseline attacker is the other model. The threat remains.
+
+**Size.** About 1 450 words against 1 624 on disk. The §4 estimate of 1 130 was too low: T2 and T10 are ratified at about 150 and 140 words. The cut pass comes after the content is ruled. The first candidates are T4's run-end sentence (the ASP check covers it), T7's distinct-openings sentence, and T11's last clause.
+
+## 11. Homes and flags owed before applying
+
+- **Seed check (T8)** needs a home. Proposal: one sentence in App D.3 after Table D.3, "Resampling seeds instead of runs, the host layer and the service layer remain apart at every deployment interval against both attackers; the closest is the baseline attacker at 500 s, −0.11 [−0.12, −0.09]" (appendix: auto after ruling). Optional ch5 §5.x statistics clause (gated): Scott–Knott and ρ use one value per seed.
+- **190 to 844 (T7)** is printed only in §6.5 (B3, homeless since the A3 ruling). Either home it in App D or drop the number and keep "recounted in attack actions, the gap holds".
+- **AI Use Declaration** says nothing on AI-assisted code, so T1 cannot point to it. The rewording is owed (memory: ai-greenflag); one sentence on how the code was written and checked.
+- **App C.4 l.~9861** cites `thr:conditions`: retarget to `thr:cause` when T2 conditions is dissolved.
+- **§7.2** "MTDShield retrained against the APT attacker model (\ref{thr:observation})": retarget to `thr:mtdshield`.
