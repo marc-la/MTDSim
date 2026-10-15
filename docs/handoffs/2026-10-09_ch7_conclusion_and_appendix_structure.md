@@ -1037,4 +1037,4 @@ Marc: "frame each of these six items … in terms of the best practice … push 
 
 **Close:** attack actions first (Marc Q3, 2026-10-09), then a return to ch1's advantage of time as the next step's aim. Cut its generalisation of 6.4 and its deficit ending.
 
-**Words:** chapter ≈ 870 (7.2 ≈ 510 with lead and close), inside the yardstick's 650–900 at the top. The close spills four lines onto p. 48; the cut pass (Marc 2026-10-08, overdraft then cut) is the lever. Candidates: item 2's third sentence (the richer exploit), item 6's last sentence, item 1's anchor sentence.
+**Words:** chapter ≈ 900–925 (7.2 ≈ 530–550 with lead and close), just over the yardstick's 650–900. The close spills four lines onto p. 48; the cut pass (Marc 2026-10-08, overdraft then cut) is the lever. Candidates: item 2's third sentence (the richer exploit), item 6's last sentence, item 1's anchor sentence.
