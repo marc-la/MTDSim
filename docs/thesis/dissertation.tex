@@ -9272,6 +9272,10 @@ the response to failure, NCR changes negligibly (Section~\ref{sec:ablation}).
 We did not test uniform likelihoods or the values together, so we cannot rule
 out that they change the rankings.
 
+% T6 v3 2026-10-15 (Marc, options round 3): "blindly scored all four MTD
+%  attacker models" (the APT attacker model is one too); residual split into
+%  one sentence per cause, in the threat's order (set; reading -> code); scope
+%  sentence point first.
 % T6 v2 2026-10-15 (Marc, two option rounds): construct threat = the
 %  comparison partially measures closeness to an APT attacker, for two causes
 %  we own (our synthesis of the property set; a face-value reading of the
@@ -9291,15 +9295,15 @@ attacker: we synthesised the eight properties from the APT definition and two
 surveys, and scored each attacker model from a face-value reading of its
 papers. To mitigate this threat, we tied each mark to a predicate
 (Appendix~\ref{app:clause-tests}) and cross-checked our marks against language
-models that scored the attacker models blind
-(\hyperref[ch:ai-declaration]{AI Use Declaration}). Neither check validates
-the property set, which is coarse and likely incomplete, or reads past the
-papers, so the threat remains. We chose three MTD attacker models
-(Section~\ref{subsec:recent-threat-models}), none from game theory, the
-dominant MTD modelling approach \citep{cho2020}, so the comparison covers only
-these four attacker models. That MTD attacker models in general lack the
-properties of an APT attacker is the finding of the two surveys
-\citep{cho2020, jalowski2026}.
+models that blindly scored all four MTD attacker models
+(\hyperref[ch:ai-declaration]{AI Use Declaration}). We did not validate the
+property set, which is coarse and likely incomplete. Nor did we read the
+attacker models' code, which may behave differently from their papers, so the
+threat remains. The comparison covers only four attacker models: the three MTD
+attacker models we chose (Section~\ref{subsec:recent-threat-models}) include
+none from game theory, the dominant MTD modelling approach \citep{cho2020}.
+That MTD attacker models in general lack the properties of an APT attacker is
+the finding of the two surveys \citep{cho2020, jalowski2026}.
 \end{enumerate}
 
 \paragraph{Conclusion validity.}
