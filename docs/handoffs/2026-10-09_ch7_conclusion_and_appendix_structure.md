@@ -1061,3 +1061,10 @@ Retired, with reasons:
 - *ATT&CK Persistence:* the tactic must not be confused with property 1, campaign persistence, which is met in full.
 
 Build: 82 pp, 0 undefined, overfull count unchanged at 62. Next: item 3.
+
+**Item 3 ("A choice that depends on what the attacker observes"): dropped (Marc 2026-10-15).** The item failed every part of the yardstick:
+- It had two anchors. Dynamic weighting is property 3's limit (Q8), which ch6 never states. The failure's cause belongs to property 4.
+- It held two studies.
+- It had no payoff. The failure-matrix ablation (subsec:ablation-failure-matrix) finds a negligible effect on NCR, and time lost per MTD deployment is unchanged.
+
+Marc: "dynamic weighting is the failure matrix with more assumptions"; the approach we chose was the failure matrix. This overturns Q8's "owed: dynamic weighting in Future work" (2026-10-11). The supervisor does not expect it, though register S1 had recorded it as the deferred eventual direction. The failure's cause comes nearly free with item 2's rebuilt attack actions. 7.2 now has five items. No forward pointer in ch6 referred to item 3.

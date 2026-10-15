@@ -9819,7 +9819,7 @@ against that attacker, and worse against the APT attacker model.
 
 % FUTURE WORK REDRAFT 2026-10-15 (Marc: "frame each of these six items ...
 %  in terms of the best practice"; handoff sections 22-24, yardstick
-%  conclusion_conventions.md (d3), (d4)). Six items, ruled 2026-10-15, in the
+%  conclusion_conventions.md (d3), (d4)). Six items ruled 2026-10-15, five after item 3 was dropped the same day;, in the
 %  order of the three sub-questions (the lead states the principle). Each item
 %  carries the yardstick's four parts: anchor (the 6.5 limit, Table 6.1 mark or
 %  threat, one sentence), objective, method, payoff. The three model items each
@@ -9873,14 +9873,12 @@ this dissertation rests on what they let the APT attacker model do.
   how an MTD deployment disrupts it (\ref{thr:rules}). The APT attacker model
   could then carry out actions on objectives, the part of objective-specific
   behaviour it lacks (Table~\ref{tab:fidelity-verdict}).
-  \item \emph{A choice that depends on what the attacker observes.} Adaptivity
-  is in part because the failure matrix is a fixed rule of ours
-  (Section~\ref{sec:fidelity-verdict}), and the Petri net's weights are
-  constants (Section~\ref{sec:petri-formalism}). Weights that change with what
-  the attacker has found, such as the hosts, ports and credentials it holds,
-  would let its next tactic depend on its state. A failure that records whether
-  an MTD deployment caused it would let the response to failure depend on its
-  cause.
+  % Item 3 (a choice that depends on what the attacker observes) DROPPED
+  %  2026-10-15 (Marc): dynamic weighting is the failure matrix with more
+  %  assumptions; two anchors, two studies, and no payoff, since the failure
+  %  matrix's effect on NCR is negligible and it leaves time lost per MTD
+  %  deployment unchanged (subsec:ablation-failure-matrix). Overturns Q8's
+  %  owed dynamic weighting; the supervisor does not expect it. Handoff 25.
   \item \emph{An IDS in the loop.} MTDSim has no IDS, so the APT attacker model
   avoids detection only through its tactic durations, and attack
   confidentiality is counted after each run
