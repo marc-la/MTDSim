@@ -925,3 +925,28 @@ Marc: "did you evaluate its potential for overclaim … does 6.5 licence that so
 - A, superlative ("the first attacker other than the baseline attacker"): verified over the closed set, but a novelty word the SIGSOFT antipattern list flags.
 - **B, fact form, recommended:** "Every earlier MTDSim study evaluated MTD against the baseline attacker alone." Verified, no superlative; the claim sentence's "any study using MTDSim can run [it] in place of the baseline attacker" then lands as the change.
 - C, B plus the lineage's own call ("as Zhang and Ho proposed"): the strongest significance, but a citation first met in ch7 (yardstick (e) "new material"). Needs a home first, e.g. one clause in ch2's lineage paragraph (ch2: proposed first). Flagged, not actioned.
+
+## 21. Contribution 2, defined (2026-10-15, NOT RULED)
+
+**Job.** Deliver ch1's second promise: the gap's second half (MTD is tested "against attacker models far simpler than an APT") shown to matter. EGZ's kind: advancing knowledge. The preamble already gave the answer, so this paragraph carries the **warrant** (why, and how far) and the **impact** (what an MTD evaluation changes). It does not answer the question again.
+
+**On the page / off the page:**
+
+| On | Off, and where it lives |
+|---|---|
+| The claim as a label, ch1's noun, parallel to contribution 1's opener; answering SQ3 | The layer pattern and "at every deployment interval" (the preamble) |
+| The cause, owned: "we attribute" the difference to the APT attacker model's tactic durations and the order of its tactics (6.2 ¶1, 6.4 ¶3) | The numbers: 92/36 (abstract, ch1, 6.4), ρ = 0.01, MTDShield's 68/28/33/75 (6.4) |
+| The cause's bound in one clause: no run under MTD separates the two, or rules out the tactic-to-action mapping (thr:cause) | Why the host layer works: footholds, IP shuffle (6.2) |
+| The finding's bound: MTDSim's disruption rules and the 38 attack flows, the two threats 6.5 states for SQ3 (thr:rules, thr:corpus) | Network size, scenario, simulation only (6.5 ¶1's scope; "in MTDSim" carries it) |
+| The conceptual conclusion (6.4 ¶3): an attacker model that differs in little more than when and in what order it runs a simulator's attack actions can change how MTD is measured to perform | The efficiency implication (6.4 ¶2b, a hypothesis) |
+| The impact, 6.4's two shoulds: report metrics against an attacker model other evaluations use; test a learned deployment strategy against one it was not trained on, with MTDShield as the one instance (beats random against the baseline attacker, not against the APT attacker model) | ASP agreement (thr:ncr); MTDShield's service-diversity choice and thr:mtdshield (6.4, 6.5) |
+
+**Slots** (~150–160 words, six sentences; order: what we found → why → how far → what it means → what to do, ending on the concrete instance):
+- **C2-1 Claim + SQ3.** ch1's noun phrase; "answering SQ3", as contribution 1.
+- **C2-2 Cause, owned, with its bound.** "We attribute …" (house scheme); thr:cause in one clause.
+- **C2-3 Finding's bound.** Disruption rules, the 38 attack flows; pointer to 6.5.
+- **C2-4 Conceptual conclusion.** "can change" (shown to happen); same attack actions, different timing and order.
+- **C2-5 Impact 1.** Report metrics against an attacker model other evaluations use.
+- **C2-6 Impact 2 + instance.** A learned deployment strategy tested against an attacker model it was not trained against; MTDShield.
+
+**Options for Marc:** (a) C2-4: keep (the conceptual step; it is what tells a simulator's users that a cheap attacker model matters) or cut (overlaps the preamble's "can depend"); *recommend keep*. (b) "The finding does not make either attacker model the better one": keep as negative scope (voice §c6) or leave in 6.2; *recommend leave*: C2-2's "we attribute" and the preamble's "not enough to show" already say the APT attacker model is evidence, not truth.
