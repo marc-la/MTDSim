@@ -1120,3 +1120,13 @@ Build: 82 pp, 0 undefined. Next: emulation.
 The 6.5 pointer now reads "proposes work on the attack actions and intrusion detection" (ch6, auto-gate). The chapter ends on item 5's payoff. 7.2 has four items.
 
 **Open: the lead.** "The attack actions come first" contradicts the list order (automated attack profiling is listed first). Marc: arrange the items by what matters most and rewrite the lead in the next piece of work. Not yet touched.
+
+**Lead and order (Marc 2026-10-16).** Lead: "The directions below are in order of priority. The attack actions are the highest priority: we kept them unchanged by design, and they limit every result." The reason is stated frankly ("by design" from 6.5, "limit" from 6.1). The supervisor's instruction stays off the page.
+
+Order by priority (Brutus G4), items 1 and 2 swapped:
+1. attack actions rebuilt for modelling APT tradecraft;
+2. automated attack profiling;
+3. intrusion detection and MTD;
+4. testing learned deployment strategies against other attacker models.
+
+The chapter still ends on item 4's payoff. Build: 82 pp, 0 undefined. Item-by-item review of 7.2 complete; the one cut pass against the word band remains.

@@ -9841,21 +9841,12 @@ against that attacker, and worse against the APT attacker model.
 %  the chapter ends on future research, Bunton's science-and-technology pattern
 %  (a closing restatement in 1 of 25); the preamble already takes the position.
 %  Overturns the advantage-of-time return (Q3's close).
-Of the directions below, the attack actions come first, because every result of
-this dissertation rests on what they let the APT attacker model do.
+% LEAD 2026-10-16 (Marc): items in order of priority (Brutus G4, weight
+%  first); the reason for the top item stated frankly (kept by design, 6.5;
+%  they limit every result, 6.1). Items 1 and 2 swapped to match.
+The directions below are in order of priority. The attack actions are the
+highest priority: we kept them unchanged by design, and they limit every result.
 \begin{itemize}
-  % Item 1 relabelled 2026-10-15 (Marc): the label names ch3's term, not our
-  %  input format or the tool; verbs are thr:corpus's own (drawn from,
-  %  generalise); the source is targeted by objective (ch4 splits the attack
-  %  profiles by objective), replacing the uncited ATT&CK campaign entries.
-  \item \emph{Automated attack profiling.} Three of the four attack profiles
-  are drawn from only 5 to 7 attack flows, and not all by APT groups
-  (\ref{thr:corpus}). Automated attack profiling
-  (Section~\ref{subsec:profiling}) could recover the order of techniques from
-  reports on APT campaigns chosen for each attack profile's objective, for
-  analysts to check. Each attack profile could then be drawn from more
-  incidents, all by APT groups, which would test whether the finding
-  for~\ref{sq:evaluate} generalises beyond the 38 attack flows.
   % Item 2 rebuilt 2026-10-15 (Marc): a rebuild, not an extension, because the
   %  attack actions are inherited from the baseline attacker. Parts: anchor
   %  (6.1's closing sentence by pointer), objective (the open question, UWA
@@ -9873,6 +9864,18 @@ this dissertation rests on what they let the APT attacker model do.
   how an MTD deployment disrupts it (\ref{thr:rules}). The APT attacker model
   could then carry out actions on objectives, the part of objective-specific
   behaviour it lacks (Table~\ref{tab:fidelity-verdict}).
+  % Item 1 relabelled 2026-10-15 (Marc): the label names ch3's term, not our
+  %  input format or the tool; verbs are thr:corpus's own (drawn from,
+  %  generalise); the source is targeted by objective (ch4 splits the attack
+  %  profiles by objective), replacing the uncited ATT&CK campaign entries.
+  \item \emph{Automated attack profiling.} Three of the four attack profiles
+  are drawn from only 5 to 7 attack flows, and not all by APT groups
+  (\ref{thr:corpus}). Automated attack profiling
+  (Section~\ref{subsec:profiling}) could recover the order of techniques from
+  reports on APT campaigns chosen for each attack profile's objective, for
+  analysts to check. Each attack profile could then be drawn from more
+  incidents, all by APT groups, which would test whether the finding
+  for~\ref{sq:evaluate} generalises beyond the 38 attack flows.
   % Item 3 (a choice that depends on what the attacker observes) DROPPED
   %  2026-10-15 (Marc): dynamic weighting is the failure matrix with more
   %  assumptions; two anchors, two studies, and no payoff, since the failure
