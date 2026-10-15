@@ -950,3 +950,37 @@ Marc: "did you evaluate its potential for overclaim … does 6.5 licence that so
 - **C2-6 Impact 2 + instance.** A learned deployment strategy tested against an attacker model it was not trained against; MTDShield.
 
 **Options for Marc:** (a) C2-4: keep (the conceptual step; it is what tells a simulator's users that a cheap attacker model matters) or cut (overlaps the preamble's "can depend"); *recommend keep*. (b) "The finding does not make either attacker model the better one": keep as negative scope (voice §c6) or leave in 6.2; *recommend leave*: C2-2's "we attribute" and the preamble's "not enough to show" already say the APT attacker model is evidence, not truth.
+
+## 22. Future work against the yardstick (2026-10-15, NOT RULED)
+
+Marc: "the opening line seems a bit vacuous … a bit vestigial … appending random things … I feel like future work probably has a number of taxonomies". Yardstick `conclusion_conventions.md` (d3), (d4).
+
+**Kinds of item (the taxonomy).** UWA scores two: (5) improvements that lift a recognised shortcoming; (6) open questions the results raised. Hu & Wan 2015 (724 future-work sentences) code the object: the *problem* (extend, apply elsewhere, a new problem), the *method*, the *evaluation* (new data sets, metrics). Each item carries anchor → objective → method → payoff (Suray et al. 2024: specific means objective *and* method).
+
+**Structure audit:**
+
+| Element | Verdict | Why |
+|---|---|---|
+| Lead "Each direction below lifts a limitation or a threat of Section 6.5" | Rework | It names the anchor rule but not the order principle the guidance asks the lead to state; it describes the list, says nothing the items do not |
+| Bullets | Keep | No source requires prose; parallel items, findable (Suray §6); Marc's 2026-10-09 ruling |
+| Italic label naming the *limit* ("The six inherited attack actions, one line …") | Rework | It restates the limitation (Brutus G7, redundant); the label should name the *direction*, the `\ref` carries the limit |
+| Closing "Of these directions … come first" paragraph | Keep as the close, rework its job | A close naming the next step is the convention (Dunleavy p. 207; Thomson); ranking the items is not. Defects as §15: generalises 6.4, ends on what the thesis could not do |
+
+**Item audit:**
+
+| Item | Verdict | Reason |
+|---|---|---|
+| 1 Attack actions | Keep, sharpen | The binding limit (6.3 close, 6.5 ¶1). Payoff concrete: Table 6.1's objective-specific behaviour and adaptivity, both in part |
+| 2 Scenario, 50 hosts, 15 000 s, emulation | Split | Four directions (wish list). Emulation is an item of its own (cho2020's ladder, ch3 §3.2); other networks and longer runs have no method (generic); the general attack scenario is specific (thr:ncr) but small |
+| 3 IDS, efficiency, deployment-strategy awareness, MTDShield retrained | Split | Four directions. Marc: IDS is a whole piece of work; efficiency on its own in simulation layers assumptions on assumptions, so it belongs where overhead is measurable, i.e. emulation (`notes/ch8_future_work/emulation_rung.md` says the same). MTDShield retrained is the open question 6.4 raised (UWA item 6) |
+| 4 The cause of the host layer's result | Cut | Marc: no successor re-validates the thesis; it reads as unfinished work (Thomson 2018) and as future work standing in for a mitigation (Feldt & Magazinius). The residual stays in thr:cause. **Overturns** the 2026-10-15 "varying the mapping" placeholder |
+| 5 The 38 attack flows | Keep, sharpen | Grounded already: ch3 sets automated profiling (ChronoCTI rahman2025, AttacKG+ zhangY2025) against manual, with buchel2025's 80 % precision at 66 % recall. The method is the hybrid: language models draft, analysts check |
+
+**Proposed set (5 items), ordered by the dissertation's spine (capture → model → evaluate):**
+1. *Capture:* attack flows drafted by language models and checked by analysts (thr:corpus) → each attack profile from more than 5–7 attack flows, and from APT reports alone.
+2. *Model:* attack actions for the whole campaign (6.5 ¶1, thr:rules) → actions on objectives, a failure that knows MTD caused it, several lines at once; payoff: Table 6.1 properties 2 and 4.
+3. *Model:* an IDS in the loop (6.5 ¶1) → the Snort rule (§4.5) raising alerts during a run; payoff: detection avoidance tested directly, and reactive MTD deploying on an alert.
+4. *Evaluate:* MTDShield retrained against the APT attacker model (the question 6.4 raised) → does a learned deployment strategy beat random against the attacker model it learned?
+5. *Evaluate:* emulation (simulation only, no efficiency metric, thr:rules, thr:observation) → overhead and loss of service beside NCR reduction, so an evaluation can choose a deployment interval; and whether the host layer's lead survives real disruption.
+
+**Cut or folded:** item 4; other networks and longer runs (generic); the 18 attributed attack flows (a sub-case of item 1); deployment-strategy awareness (option: a clause in item 2); the general attack scenario (option: own short item, tied to thr:ncr). **Overturns** the 2026-10-15 general-scenario placeholder unless kept.
