@@ -9133,22 +9133,32 @@ MTD, so the rest of our explanation is inferred. We never varied the
 tactic-to-action mapping, so we cannot rule it out as a cause of what we
 credit to the order of its tactics.
 
+% T3 v2 2026-10-15 (Marc: "lots of these are trying to re-explain the result";
+%  "should it live elsewhere as an explanation or remain a threat?"). Stays a
+%  threat, narrowed: same form as T2 ("may confound our explanation ... which
+%  credits"). New mitigation: the same settings and changes apply to both
+%  attackers, and against the baseline attacker MTDShield still beats random
+%  at every interval (6.4), so how we ran it can only explain the APT-specific
+%  gap through the one input that differs by attacker. Cut: the result
+%  restated, "That shift is consistent with how we ran it", the service-
+%  diversity re-validation (6.4 already says it chose service diversity in
+%  most decisions against either attacker).
 % T3 MTDShield, 2026-10-15 (ruled: its own internal item; Marc: "there is no
 %  such concept as an unmapped tactic in MTDShield"). Reasoned: against either
 %  attacker it chose almost only service diversity or nothing (76 + 23 %, 70 +
 %  29 %), so how we ran it can explain only the shift to nothing.
-\item\label{thr:mtdshield} MTDShield reduces the APT attacker model's NCR less
-than the random deployment strategy does, which
-Section~\ref{sec:evaluation-implications} explains by its training against
-the baseline attacker. How we ran MTDShield is a plausible alternative
-explanation. MTDShield reads the APT
-attacker model's unmapped tactics, which run no attack action, as nothing
-detected (Appendix~\ref{app:mtdshield}). At 200\,s, it chose nothing in
+\item\label{thr:mtdshield} How we ran MTDShield
+(Appendix~\ref{app:mtdshield}) may confound our explanation of its results
+against the APT attacker model (Section~\ref{sec:evaluation-implications}),
+which credits its training against the baseline attacker. To mitigate this
+threat, we ran MTDShield the same way against both attackers, and against the
+baseline attacker it still reduces NCR more than the random deployment
+strategy does at every deployment interval. One input differs between the
+attackers: MTDShield reads the APT attacker model's unmapped tactics, which run
+no attack action, as nothing detected. At 200\,s, it chose nothing in
 29\,\% of its decisions against the APT attacker model and 23\,\% against the
-baseline attacker. That shift is consistent with how we ran it, and its choice
-of service diversity, about as often against both attackers, is consistent
-with our explanation. We cannot rule out how we ran it as a cause of part of
-its smaller reduction.
+baseline attacker. We cannot rule out this reading as a cause of part of its
+smaller reduction.
 \end{enumerate}
 
 \paragraph{Construct validity.}
