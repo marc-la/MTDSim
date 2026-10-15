@@ -9232,25 +9232,32 @@ interval (Table~\ref{tab:eff-interval-values-asp}). The threat remains for rank~
 against the APT attacker model up to 200\,s, where ASP reduction ties every
 host-layer mechanism at 1 and only NCR reduction orders them.
 
+% T5 v2 2026-10-15 (Marc: "what's the threat ... through the lens of
+%  construct validity"; "only partially", as T4). Crux: the operation (the
+%  APT attacker model) departs from the construct (an APT attacker) exactly
+%  where the evidence (attack flows) is silent -- likelihood, timing, what
+%  followed a failure -- so those parts are counts turned into weights, or
+%  judgement. Terminology file: "inappropriate real-world representation by
+%  model parameters". Fixed: the mitigation's "each one" overclaimed (the
+%  mapping was never varied, T2); now "most of them", and the residual names
+%  what was not. Cut: the declared-value list (Table C.0b has it), "which of
+%  MTDSim's attack actions a tactic runs" (the mapping is named in the
+%  residual), the overlay weights (minor; in Table C.0b).
 % T5 the model built from CTI, 2026-10-15 (Marc: "CTI wasn't designed for this
 %  ... how much can we trust the weights"): thr:values + thr:mapping merged, and
 %  the base weights added as our construction. Untested list from Table C.4 and
 %  7.2 (uniform base weights).
-\item\label{thr:values}\label{thr:mapping} The APT attacker model represents
-an APT attacker only in part, because attack flows record the order of an
-attack's steps but not how likely each next step is, how long a step took,
-what the attacker did after a step failed, or which of MTDSim's attack actions
-a tactic runs. We turned counts of drawn edges into the base weights, and we
-declared the tactic durations, the failure matrix, the vulnerability memory's
-factor and the tactic-to-action mapping by judgement
-(Table~\ref{tab:value-bases}). To mitigate this threat, we declared them
-before any result and varied, substituted or removed each one at a time: only
-the 45\,s mean duration changes NCR much
-(Table~\ref{tab:anchor-sensitivity}), and the rankings hold at both ends of
-its band (Table~\ref{tab:duration-ranking}). We have not tested uniform base weights, the
-interactions between the parts, the weights of the pre-intrusion overlay or any
-other partial mapping, so we cannot rule out that they change the
-rankings.
+\item\label{thr:values}\label{thr:mapping} The APT attacker model only
+partially represents an APT attacker, because attack flows record the order
+of an attack's steps but not their likelihood, their timing or what followed a
+failure. We turned counts of drawn edges into base weights and declared the
+values attack flows lack by judgement (Table~\ref{tab:value-bases}). To
+mitigate this threat, we declared every value before any result and varied,
+substituted or removed most of them one at a time: only the 45\,s mean
+duration changes NCR much (Table~\ref{tab:anchor-sensitivity}), and the
+rankings hold at both ends of its band (Table~\ref{tab:duration-ranking}). We
+did not test uniform base weights, another tactic-to-action mapping or the
+values together, so we cannot rule out that they change the rankings.
 
 % T6 the marks, 2026-10-15 (Marc: "show a direction ... hedge it down"). The
 %  190-844 recount has no home outside this item (handoff 2026-10-15 section 11).
