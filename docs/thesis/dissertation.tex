@@ -9359,6 +9359,9 @@ compromised host, but in a real network, replacing a service may evict an
 attacker that compromised its host through that service. Each would narrow
 the host layer's lead over the service layer.
 
+% T9 v4 2026-10-15 (Marc: "let's add it"): the trade-off sentence -- why we
+%  accepted the sample (4.1: automatic alternatives recovered 10 % and 14 % of
+%  tactic-to-tactic edges against 50 %; ATT&CK groups/campaigns carry no order).
 % T9 v3 2026-10-15 (Marc, two option rounds; "push"): external frame =
 %  unrepresentative sample. Bias (survivorship; detail of the reports; not all
 %  APT -- restores the fact 4.1 sends here, cut in pass 5), thin, amplified by
@@ -9378,7 +9381,9 @@ reports give, and not all by APT groups (Section~\ref{sec:technique-graph}). Thr
 four attack profiles are drawn from only 5 to 7 attack flows
 (Table~\ref{tab:attack-profiles}). Our use amplifies these biases, as the APT
 attacker model treats every step equally, even one its analyst drew with
-confidence 0 (Appendix~\ref{app:profile-edges}). No analysis within the corpus
+confidence 0 (Appendix~\ref{app:profile-edges}). We accepted this sample
+because no other source we found records the order of an attack's steps
+(Section~\ref{sec:technique-graph}). No analysis within the corpus
 mitigates this threat, because every part of the APT attacker model draws on
 the same attack flows. We make no claim about APT behaviour the attack flows do
 not record.
