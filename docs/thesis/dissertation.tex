@@ -9082,6 +9082,11 @@ repairs, we make no quantitative comparison with their results. The code is
 public for review (Chapter~\ref{ch:intro}). The threat remains for behaviour
 no check exercised and for code we only partially reviewed.
 
+% T2 v10 2026-10-15 (Marc: "dangling bare pointers"; what the reader needs in
+%  the last sentence). Full terms only; the attack-flow provenance and the
+%  "turned into attack actions" gloss cut (the term says it); conventional
+%  "cannot rule it out as a cause of". The order WAS varied (profiles), the
+%  mapping never was: so the mapping is the confound of the order's share.
 % T2 v9 2026-10-15 (Marc: "we do vary the order ... through the attack
 %  profiles"; the order reaches MTDSim only through the mapping, "in tandem").
 %  Fact fixed: the attack-profile ablation runs the whole attack graph, so the
@@ -9124,10 +9129,9 @@ each as a cause of the host layer's lead (Section~\ref{sec:ablation}). A
 second ablation, with no MTD, replaced its tactic durations with the baseline
 attacker's times and closed about two thirds of the gap in ASP between the two
 attackers (Appendix~\ref{app:fa-run-time}). We did not repeat this ablation under
-MTD, so the rest of our explanation is inferred. Every run drew the order of
-its tactics from the attack flows and turned it into attack actions through
-the same tactic-to-action mapping, so we cannot separate the order from the
-mapping as a cause of its results.
+MTD, so the rest of our explanation is inferred. We never varied the
+tactic-to-action mapping, so we cannot rule it out as a cause of what we
+credit to the order of its tactics.
 
 % T3 MTDShield, 2026-10-15 (ruled: its own internal item; Marc: "there is no
 %  such concept as an unmapped tactic in MTDShield"). Reasoned: against either
