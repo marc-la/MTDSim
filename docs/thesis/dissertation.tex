@@ -9074,7 +9074,7 @@ conclusion and external.
 \item\label{thr:code} A defect in the code is a plausible alternative
 explanation for the results in this chapter. MTDSim's code was inherited from
 prior studies \citep{brown2023,zhang2023,ho2024,tay2024}, and all of ours was
-written with AI assistance (AI Use Declaration). To mitigate this threat, we checked the code by
+written with AI assistance (\hyperref[ch:ai-declaration]{AI Use Declaration}). To mitigate this threat, we checked the code by
 its behaviour, with an event tracer, unit tests and fixed seeds that reproduce
 every run exactly. We repaired the defects we found in MTDSim, calling a
 behaviour a defect only where it departs from what the prior studies describe,
@@ -9242,7 +9242,7 @@ strategy. It counts an opening whether or not its run reaches a target host,
 and it counts tactics for the APT attacker model but attack actions for the
 baseline attacker. To mitigate this threat, we tied each mark to a predicate
 printed in Appendix~\ref{app:clause-tests}, had language models score the
-attacker models blind (AI Use Declaration), and recounted the openings in
+attacker models blind (\hyperref[ch:ai-declaration]{AI Use Declaration}), and recounted the openings in
 attack actions: the attack profiles still have 190 to 844 against 3. We make no
 claim for the marks beyond comparing the four attacker models on the same
 predicates.
@@ -9708,6 +9708,7 @@ tested only once the attacker model assumes less.
 % Conclusion, before the appendices (Marc, 2026-09-24)
 \chapter*{AI Use Declaration}
 \addcontentsline{toc}{chapter}{AI Use Declaration}
+\phantomsection\label{ch:ai-declaration}%
 
 % [2026-10-13, appendix cut audit (handoff 2026-10-09 §10, Marc: "apply as a
 %  whole"): moved verbatim from Appendix B, where it was the history of the
