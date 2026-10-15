@@ -984,3 +984,38 @@ Marc: "the opening line seems a bit vacuous … a bit vestigial … appending ra
 5. *Evaluate:* emulation (simulation only, no efficiency metric, thr:rules, thr:observation) → overhead and loss of service beside NCR reduction, so an evaluation can choose a deployment interval; and whether the host layer's lead survives real disruption.
 
 **Cut or folded:** item 4; other networks and longer runs (generic); the 18 attributed attack flows (a sub-case of item 1); deployment-strategy awareness (option: a clause in item 2); the general attack scenario (option: own short item, tied to thr:ncr). **Overturns** the 2026-10-15 general-scenario placeholder unless kept.
+
+**Rulings on §22 (Marc 2026-10-15):** the five items and the capture → model → evaluate order: yes. Cause item: cut. General attack scenario: **cut** ("very study-specific … a very small study"). Deployment-strategy awareness: **left out**, and never framed as a gap: game-theoretic MTD models the defender and attacker as competing agents, so some have it, and the comparative survey (Table 6.1) covers none of them; "no attacker model has it" would mislead. Open: a sweep of every future-work idea raised during the ch6 sessions, so each is either in the five or excluded on a stated reason (§23).
+
+## 23. Sweep of every ch6-era future-work idea (2026-10-15, NOT RULED)
+
+A read-only sweep (registry F1–F13/B1–B21 at tex ~9459–9693; handoffs H-AFF, H-ASM and harvests, H-RED, H-THR, the memory handoff; notes ch7_discussion/ and ch8_future_work/; ch6–ch7 `%` comments) found **54 distinct ideas**: 20 in or folded into the five, 11 on the ruled-out list (+2 by class), 5 excluded earlier with a stated reason, **18 not covered**. Full ledger: the sweep's report of this date (agent return, not committed); the decisions are below.
+
+**Two owed items the five dropped (verified at source):**
+- **Dynamic weighting** (supervisor): H-RED §12, Q8 ruled yes, "Owed: dynamic weighting in Future work" — weights that change with what the attacker observes; the constant weights let it choose an exploit before a scan.
+- **A memory that acts on the next hop** (ruled future work 2026-09-29, memory handoff §7.2/B4): dry run +3.55 hosts [+2.22, +4.88], 20 seeds, preliminary; a richer exploit action.
+
+**Proposed restructure of the model step (follows from the two owed items):** one item per Table 6.1 property the APT attacker model has only in part (2, 4, 5), so each model item names the mark it lifts.
+- *Attack actions* (property 2): actions on objectives, several lines of the campaign at once, a richer exploit (the next-hop memory).
+- *A choice that depends on what the attacker observes* (property 4): dynamic weighting; a failure that knows an MTD deployment caused it.
+- *An IDS in the loop* (property 5).
+Capture (1) and evaluate (MTDShield retrained; emulation) unchanged: six items.
+
+**Not covered, triaged:**
+
+| Row | Idea | Proposed |
+|---|---|---|
+| 22 | Edge ablation tied to mitigations (Marc's "graph theory") | Marc's call; lean exclude: the literature (attack-graph hardening) is unchecked, it proposes defences beyond the RQ (existing MTD), and its first step is the edge ablation cut with the cause item |
+| 21 | Real CVEs instead of synthetic vulnerabilities | Fold into emulation (real software carries real CVEs) |
+| 17 | Simpler stand-ins (reversed edges, one duration), ruled 2026-10-07 to 6.5 with a §7.2 pointer | Exclude: the re-validation class; **overturns** the 2026-10-07 pointer ruling |
+| 18 | Properties 6–7 (cost–benefit, learning) | Exclude on the awareness ruling's logic: game-theoretic and learning attackers outside the survey have them; 6.5 names no limit |
+| 28 | Post-intrusion MTD (a new mechanism) | Exclude: a new defence is a different RQ (existing MTD only); new literature |
+| 33 | Lowest NCR reduction across attacker models as a lower bound | Exclude: an evaluator guideline, never drafted in 6.4; not future work |
+| 31 | Jalowski's state-of-the-art comparator | Exclude: evaluation design, not a 6.5 limit |
+| 4, 5, 12, 34, 40 | Confidence weighting; second coder; FSM vs Petri net; open "why" questions; validating the property set | Exclude: re-validation / unfinished work (the cause item's class) |
+| 6, 30, 44 | Threat modelling; "MTD by default"; optimal adversary | Exclude: no method, unchecked literature |
+| 16, 19, 20, 26, 43, 53 | Costed port discovery; campaign give-up; single-actor nets; fixed-set learned strategy; order-aware divergence; IP addressing | Exclude: minor, no claim-changing payoff, or not raised in the ch6 sessions |
+
+**Consequential fixes (outside ch7):**
+- **Ch4 l.3935** promises "deployment-strategy awareness is left to future work", against the 2026-10-15 ruling. Ch4 (proposed first): cut the clause, or end the sentence at "slower than the baseline attacker".
+- **Ch6 has no `\ref{sec:future-work}`** (§15, open).
