@@ -9844,14 +9844,18 @@ against that attacker, and worse against the APT attacker model.
 Of the directions below, the attack actions come first, because every result of
 this dissertation rests on what they let the APT attacker model do.
 \begin{itemize}
-  \item \emph{Attack flows drafted by language models.} Three of the four
-  attack profiles rest on five to seven attack flows, not all of them by APT
-  groups (\ref{thr:corpus}). Automated attack profiling
-  (Section~\ref{subsec:profiling}) could draft attack flows from reports on APT
-  campaigns, such as those behind ATT\&CK's campaign entries, for analysts to
-  check. Each attack profile could then draw on more attack flows, and on APT
-  attackers alone, which would test whether the finding for~\ref{sq:evaluate}
-  holds beyond the 38 attack flows.
+  % Item 1 relabelled 2026-10-15 (Marc): the label names ch3's term, not our
+  %  input format or the tool; verbs are thr:corpus's own (drawn from,
+  %  generalise); the source is targeted by objective (ch4 splits the attack
+  %  profiles by objective), replacing the uncited ATT&CK campaign entries.
+  \item \emph{Automated attack profiling.} Three of the four attack profiles
+  are drawn from only 5 to 7 attack flows, and not all by APT groups
+  (\ref{thr:corpus}). Automated attack profiling
+  (Section~\ref{subsec:profiling}) could recover the order of techniques from
+  reports on APT campaigns chosen for each attack profile's objective, for
+  analysts to check. Each attack profile could then be drawn from more
+  incidents, all by APT groups, which would test whether the finding
+  for~\ref{sq:evaluate} generalises beyond the 38 attack flows.
   \item \emph{Attack actions for the whole campaign.} Objective-specific
   behaviour is in part because no attack action in MTDSim carries Collection,
   Exfiltration or Impact, the tactics of actions on objectives
