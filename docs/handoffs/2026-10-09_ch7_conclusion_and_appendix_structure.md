@@ -1019,3 +1019,5 @@ Capture (1) and evaluate (MTDShield retrained; emulation) unchanged: six items.
 **Consequential fixes (outside ch7):**
 - **Ch4 l.3935** promises "deployment-strategy awareness is left to future work", against the 2026-10-15 ruling. Ch4 (proposed first): cut the clause, or end the sentence at "slower than the baseline attacker".
 - **Ch6 has no `\ref{sec:future-work}`** (§15, open).
+
+**Rulings on §23 (Marc 2026-10-15):** six items, the model step split by the three in-part properties: yes. Edge ablation: excluded. Ch4 l.3935 clause: cut (applied). Ch6 forward pointer: one sentence at the end of 6.5's scope paragraph, "Section 7.2 proposes work that lifts each of these limits" (applied, ch6 auto-gate). Only the scope limits point forward; each threat keeps its mitigation and residual, and 7.2's items point back to them by `\ref`.

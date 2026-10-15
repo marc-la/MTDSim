@@ -3932,7 +3932,10 @@ they also cap what it gains, so it has two properties in full and three in part
 (Section~\ref{sec:fidelity-verdict}). It is a
 proof of concept: it tests whether an attacker that behaves like an APT changes
 what an MTD evaluation measures. Detection avoidance rests on tactic durations
-that make it slower than the baseline attacker, and deployment-strategy awareness is left to future work.
+that make it slower than the baseline attacker.
+% 2026-10-15 (Marc, ch7 handoff section 23): "and deployment-strategy
+%  awareness is left to future work" CUT. Game-theoretic MTD models have it,
+%  and the comparative survey covers none, so ch7 does not frame it as a gap.
 Figure~\ref{fig:pipeline} shows the pipeline that builds the model from 38
 attack flows and runs it in MTDSim. Sections~\ref{sec:technique-graph}
 and~\ref{sec:attack-profiles} answer \ref{sq:capture}: they recover the
@@ -9104,7 +9107,15 @@ on objectives, and pursues one line of the campaign at a time
 (Section~\ref{sec:petri-formalism}). Every result is simulated, in the
 targeted attack scenario only, on a network of 50 hosts with a time limit of
 15\,000\,s. We evaluate MTDSim's existing MTD mechanisms, with no efficiency
-metric and no IDS. We group the threats
+metric and no IDS. Section~\ref{sec:future-work} proposes work that lifts each
+of these limits.
+% 2026-10-15 (Marc: "chapter six still has no pointer to 7.2 ... that's an
+%  issue"; ch7 handoff section 23): the one forward pointer, on the scope
+%  limits only, as the 2026-09-28 board fixed ("paragraph 1: the artefact's
+%  limitations as scope, each with its ref to 7.2"). Threats keep their own
+%  mitigation and residual; 7.2 points back to them, so no future work stands
+%  in for a mitigation (Feldt & Magazinius).
+We group the threats
 into four types of validity \citep{wohlin2012}: internal, construct,
 conclusion and external.
 
