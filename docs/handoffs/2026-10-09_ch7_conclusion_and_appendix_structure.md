@@ -858,3 +858,21 @@ Marc: "what do we need to explain to the reader, what do we not … what is the 
 - **P3, the so-what.** *Job:* carry the answer from the model to the question's APT attackers. *Facts (6.4 ¶1, reworded, not copied):* the most effective MTD mechanism can depend on the attacker model, so an evaluation against a simplified attacker alone cannot show how MTD performs against APT attackers. *Ceiling:* one hedge ("can"); not "MTD fails against APTs"; not "the APT attacker model is the right one".
 
 **Consequence for contribution 2 (decision 1):** it no longer opens on "the most effective MTD mechanism depends on the attacker model" as a fresh claim; it opens on the warrant (the cause and its bound) and the impact.
+
+## 17. Contributions: how many, at what level (2026-10-15, NOT RULED)
+
+Marc: "is having two contribution points the correct approach here … in terms of the guidance as well". Tested against `conclusion_conventions.md` (d2) and its sources.
+
+| Guidance | What it asks | Two, at the knowledge level |
+|---|---|---|
+| EGZ p. 72 (single aim); Peyton Jones ("one ping") | Few, all serving one aim | Both serve the one RQ; the preamble is the one ping, contribution 1 its means |
+| Trafford & Leshem p. 141 | "Restate the gap … then rephrase it as a contribution" | Ch1's gap has two halves: MTD is rarely tested against an APT (contribution 1 fills it) and is tested against far simpler attacker models (contribution 2 shows that matters) |
+| Trafford & Leshem p. 142 | One sentence per aspect, "no more than two variables" | 1: the model × the eight properties; 2: the attacker model × the most effective mechanism |
+| EGZ pp. 66–67, 72, four kinds of significance | Name the kind | 1: a contribution to a research programme (the next step in the MTDSim lineage, Brown → Zhang → Ho → Tay); 2: advancing knowledge |
+| Dunleavy p. 39 | The commonest originality: an idea taken "for a walk" | 1: Attack Flow's CTI carried into an MTD simulator |
+| Soler-Monreal Table 9 | CS conclusions present a product (66.67 %), evaluate it (37.5 %), give findings (93.75 %) | 1 = product + its evaluation; 2 = finding |
+| SIGSOFT Engineering Research | An artefact contribution is evaluated; antipattern: "incidental implementation aspects" | 1 is evaluated (Table 6.1); the draft's method walk is the antipattern |
+| Peyton Jones (refutable); Ernst (outcome, not activity) | A claim an examiner could falsify, not the work done | Both pass at the knowledge level; "we built / we ran" does not |
+| EGZ p. 70; Golding p. 570 | Ch1 and ch7 match | Two, in ch1's order and nouns |
+
+**Rejected:** three (capture has no measurement of its own, so fails the refutable test); one (discards an evaluated artefact); implications as a third (they are contribution 2's significance); the eight properties (folded 2026-10-07, the yardstick).
