@@ -9890,14 +9890,16 @@ this dissertation rests on what they let the APT attacker model do.
   \item \emph{Intrusion detection and MTD.} MTDSim has no IDS, so the APT
   attacker model avoids detection only through its tactic durations
   (Section~\ref{sec:fidelity-verdict}). This dissertation leaves open how
-  intrusion detection would change which MTD mechanism is most effective
-  against the APT attacker model. The rule that flags attack actions for attack confidentiality
+  intrusion detection would change which MTD mechanism is most effective. The
+  rule that flags attack actions for attack confidentiality
   (Section~\ref{subsec:metrics-behaviour}) could instead raise an alert each
   time an attacker trips it during the run. The APT attacker model could then
   be tested on choosing techniques an IDS does not flag, the part of detection
-  avoidance it lacks (Table~\ref{tab:fidelity-verdict}). The same alerts could
-  trigger reactive MTD, which none of MTDSim's deployment strategies is
-  (Section~\ref{sec:mtd-concept}).
+  avoidance it lacks (Table~\ref{tab:fidelity-verdict}). This question could be
+  answered by comparing the MTD mechanisms with an IDS in place, under both
+  proactive and reactive MTD (Section~\ref{sec:mtd-concept}).
+  % Closing sentence 2026-10-16 (Marc): closes the open question; reactive MTD
+  %  is a trigger (ch2), not a mechanism, so "under both proactive and reactive".
   % MTDShield item rebuilt 2026-10-16 (Marc): kept as the one item raised by a
   %  result, not a limit (UWA item 6); label is C2's recommendation. Cut: the
   %  result restated (C2 has it), training on a mix, the thr:mtdshield
