@@ -780,3 +780,25 @@ Marc: "get the draft conclusion down … short, sharp and relevant … everythin
 - (c) The ch1 overview says ch7 "sets out future work". It still holds.
 
 Build: 82 pp.; one undefined reference (ch4 `app:detector-memory`, pending).
+
+### 13.bb The two passes merged; Marc's rulings applied; Table C.4 stale rows (2026-10-14/15)
+
+- Both passes merged:
+  - design: D.7, D.6 and C.4; record `2026-10-14_appendix_float_design.md`;
+  - prose: record `2026-10-14_appendix_prose_pass.md`.
+  The D.7 caption conflict was resolved to keep both passes' wording. The prose pass's dropped definition of a failed attack action (D.6 lead) was restored.
+- Marc ruled the passes' questions 1–6 "plausible", applied:
+  - C.2 lead kept;
+  - D.2 precision loop fixed in `ch5_disruption_figure.py` (−0.2, not 0; widths rebalanced so nothing wraps);
+  - D.6 caption names its negligible cells (generated);
+  - ch6 §6.4 "same layer order";
+  - ch4 §4.4.2 band sentence;
+  - D.5 S1 "Most tactic durations are our judgement".
+  The ch6 metrics threat gets the inline recount (190 to 844 distinct openings over eight attack actions against 3; from `further_analyses_numbers.json` f6).
+- **Table C.4 audited for stale rows** (Marc: "per-tactic duration multipliers, we don't even use that anymore"):
+  - "Mean durations set by judgement" → "Mean durations of nine tactics", since the group label already says judgement;
+  - the "half the 45 s" row is cut: it is the code's `relative_multiplier` 0.5; 22.5 s is one of the nine and moves with the 45 s in D.5;
+  - "Share of weight given to the pre-intrusion overlay" → "Weights of the pre-intrusion overlay" (§4.3: "Their weights are declared");
+  - the MTDSim row reads "Mean durations of six tactics, from MTDSim's scans and exploit".
+  thr:values: "two were not tested". The other rows were checked against ch4 and hold. "Membership of each attack profile" under Attack Flow corpus is borderline (§4.2 answers from the CTID descriptions, ATT&CK pages and threat reports, three by us), left as is.
+- Layout: the D.6 caption lost its axis restatement, and D.5 starts on a new page (`\clearpage`). Build **82 pp.**; one undefined reference (ch4 app:detector-memory, awaiting Marc).

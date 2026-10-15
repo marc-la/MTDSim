@@ -21,7 +21,7 @@
       "test": "none: taken from its source"
     },
     {
-      "value": "Mean durations from MTDSim's scan and exploit attack actions",
+      "value": "Mean durations of six tactics, from MTDSim's scans and exploit",
       "basis": "MTDSim",
       "reason": "Section~\\ref{subsec:dwell-times}",
       "test": "moved to both ends of a band, Appendix~\\ref{app:dwell-robustness}"
@@ -39,16 +39,10 @@
       "test": "none: taken from its source"
     },
     {
-      "value": "Mean durations set by judgement",
+      "value": "Mean durations of nine tactics",
       "basis": "Our judgement",
       "reason": "Section~\\ref{subsec:dwell-times}",
       "test": "moved to both ends of a band, Appendix~\\ref{app:dwell-robustness}"
-    },
-    {
-      "value": "Half the 45\\,s for Execution and Defense Impairment",
-      "basis": "Our judgement",
-      "reason": "Section~\\ref{subsec:dwell-times}",
-      "test": "not tested"
     },
     {
       "value": "Exponential delay",
@@ -69,7 +63,7 @@
       "test": "removed in the ablation, Section~\\ref{sec:ablation}"
     },
     {
-      "value": "Share of weight given to the pre-intrusion overlay",
+      "value": "Weights of the pre-intrusion overlay",
       "basis": "Our judgement",
       "reason": "Section~\\ref{sec:petri-formalism}",
       "test": "not tested"
@@ -87,5 +81,6 @@
       "test": "removed in the ablation, Section~\\ref{subsec:ablation-vulnerability-memory}"
     }
   ],
-  "_test_column": "Not printed since 2026-10-14 (Marc: not D.4's job; the duration test is Appendix D.5's table, the ablations Section 5.4's). Kept here for the record."
+  "_test_column": "Not printed since 2026-10-14 (Marc: not D.4's job; the duration test is Appendix D.5's table, the ablations Section 5.4's). Kept here for the record.",
+  "_2026-10-15": "Marc: stale rows checked against Section 4.4.2 and data/ogasp/tactic_durations.json. 'Mean durations set by judgement' named by content (nine tactics; the group label already says judgement); the 'half the 45 s' row (formerly 'per-tactic duration multipliers', the code's relative_multiplier 0.5) cut: 22.5 s is one of the nine and moves with the 45 s in Appendix D.5; the overlay row in Section 4.3's words ('Their weights are declared')."
 }
