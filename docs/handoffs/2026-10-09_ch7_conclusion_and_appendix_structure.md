@@ -1038,3 +1038,5 @@ Marc: "frame each of these six items … in terms of the best practice … push 
 **Close:** attack actions first (Marc Q3, 2026-10-09), then a return to ch1's advantage of time as the next step's aim. Cut its generalisation of 6.4 and its deficit ending.
 
 **Words:** chapter ≈ 900–925 (7.2 ≈ 530–550 with lead and close), just over the yardstick's 650–900. The close spills four lines onto p. 48; the cut pass (Marc 2026-10-08, overdraft then cut) is the lever. Candidates: item 2's third sentence (the richer exploit), item 6's last sentence, item 1's anchor sentence.
+
+**Opener and close (Marc 2026-10-15, option C):** merged into one lead sentence carrying the priority ("Of the directions below, the attack actions come first, because every result of this dissertation rests on what they let the APT attacker model do"); the order sentence and the advantage-of-time close cut. The emulation item's last two sentences swapped so the chapter ends on its payoff. Overturns Q3's close (2026-10-09); the priority survives. Yardstick (d3), (f), (g)12–13 updated.

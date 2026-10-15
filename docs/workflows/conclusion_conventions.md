@@ -1,7 +1,7 @@
 ---
 status: durable
 created: 2026-10-15
-updated: 2026-10-15
+updated: 2026-10-15   # (f) close reconciled to Bunton's S&T pattern; (d3) lead optional; (g) 12-13 (Marc)
 provenance: distilled from three research passes for the chapter 7 redraft (2026-10-15), one per part (chapter and preamble; contributions; future work and close); sources read in full unless marked second-hand. Builds on handoff 2026-10-09_ch7_conclusion_and_appendix_structure.md §1 and harvest 2026-10-07_ch6_discussion_assembly_harvests/D_examiner_benchmarks.md, and corrects the former's Bunton line (§(f))
 ---
 
@@ -199,9 +199,11 @@ done poorly, it "can appear absurd" (EGZ p. 122).
 - **One follow-up study each.** "Immediate and incremental … actionable" (Brutus
   G7, pp. 67–68). The five-year research agenda (EGZ p. 122) is a PhD-scale
   expectation.
-- **Ordered by a stated principle.** No source prescribes an order; weight first
-  ("those weaknesses that matter most", Brutus G4, p. 66) transfers. The lead
-  sentence names the principle.
+- **Ordered by a principle.** No source prescribes an order; weight first
+  ("those weaknesses that matter most", Brutus G4, p. 66) transfers. No source
+  requires a lead sentence: the order may stay implicit when the items' labels
+  and anchors carry it (Marc 2026-10-15). A lead earns its place only with
+  content a successor needs, such as which direction comes first.
 - **Format.** No source requires bullets or prose. A median of 4 statements of
   about 39 words each at SOUPS (Suray et al. §4); a designated heading makes them
   findable (§6).
@@ -271,9 +273,12 @@ thesis took. "Take the position" (Thomson 2018).
   carried out; method, findings, claims and products; future research) and
   almost no closing restatement (1 of 25, 4 %; Bunton Tables 2–5 via the OSU
   excerpt and Soler-Monreal Tables 2–3). CS differs: 60.42 % close on a
-  recapitulation (Soler-Monreal Table 7). *Reconciled:* the last sentence names
-  the next step as the continuation of chapter 1's problem, which meets
-  Bunton's ending on future research, the CS recap and Thomson's return.
+  recapitulation (Soler-Monreal Table 7). *Reconciled (Marc 2026-10-15):* this
+  dissertation follows Bunton's science-and-technology pattern and ends on future
+  research, with no closing restatement: the preamble already takes the
+  position. The one fact a successor needs, which direction comes first, leads
+  the future-work list instead. (Superseded: a last sentence returning to
+  chapter 1's problem.)
 - **Recapping the chapters.** It is the descriptive CS norm (72.92 %), and every
   prescriptive source rejects it. *Reconciled:* a recap appears only as a
   subordinate clause carrying a claim. With one discussion chapter, there is
@@ -326,9 +331,11 @@ thesis took. "Take the position" (Thomson 2018).
     not only a limitation (item 5).
 11. Every forward pointer in chapter 6 is paid; no item stands in for a 6.5
     mitigation; no unverified gap claim.
-12. The items follow an order the lead sentence names.
-13. The last sentence returns to chapter 1's problem and names the next step; no
-    deficit, cliché, hedge stack or claim wider than chapter 6's.
+12. The items follow a principle; any lead sentence carries content, not a
+    description of the list.
+13. The chapter's last sentence ends on a payoff, never a deficit; no cliché,
+    hedge stack or claim wider than chapter 6's. A closing return to chapter 1
+    is optional (Bunton vs Soler-Monreal, §(f)); this dissertation has none.
 14. One tense scheme: present perfect for the work, past for what chapter 1
     asked, present for the claims (Soler-Monreal pp. 119–122; no source
     prescribes one).
