@@ -170,6 +170,11 @@
 
 % =====================================================================
 \begin{document}
+%TC:ignore
+% WORD COUNT (Marc 2026-10-15): Overleaf's Word Count (texcount) skips everything
+% between %TC:ignore and %TC:endignore, so it reports Chapters 1-7 only: the
+% count against 15 000 +-10 %. Ignored: front matter (title, abstract, contents)
+% and, below, the AI Use Declaration, appendices and bibliography.
 
 \maketitle
 
@@ -224,6 +229,7 @@ Thank you, Jin, for the many ideas I have explored, for keeping me from falling 
 % \listoftables   % REMOVED 2026-10-14 (as above)
 % \listofowed    % REMOVED 2026-10-09 (Marc: "remove owed before submission table", page x)
 
+%TC:endignore
 % =====================================================================
 \chapter{Introduction}
 \label{ch:intro}
@@ -9806,6 +9812,7 @@ shifts the advantage of time from an APT attacker to the defender can be
 tested only once the attacker model assumes less.
 
 
+%TC:ignore
 % ---------------------------------------------------------------------
 % AI Use Declaration (as included in recent UWA honours theses); after the
 % Conclusion, before the appendices (Marc, 2026-09-24)
@@ -10432,4 +10439,5 @@ preconditions are met (Section~\ref{subsec:runtime-mechanics}).
 
 \bibliography{references}
 
+%TC:endignore
 \end{document}
