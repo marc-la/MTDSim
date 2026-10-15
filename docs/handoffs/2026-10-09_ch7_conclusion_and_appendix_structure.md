@@ -1040,3 +1040,24 @@ Marc: "frame each of these six items … in terms of the best practice … push 
 **Words:** chapter ≈ 900–925 (7.2 ≈ 530–550 with lead and close), just over the yardstick's 650–900. The close spills four lines onto p. 48; the cut pass (Marc 2026-10-08, overdraft then cut) is the lever. Candidates: item 2's third sentence (the richer exploit), item 6's last sentence, item 1's anchor sentence.
 
 **Opener and close (Marc 2026-10-15, option C):** merged into one lead sentence carrying the priority ("Of the directions below, the attack actions come first, because every result of this dissertation rests on what they let the APT attacker model do"); the order sentence and the advantage-of-time close cut. The emulation item's last two sentences swapped so the chapter ends on its payoff. Overturns Q3's close (2026-10-09); the priority survives. Yardstick (d3), (f), (g)12–13 updated.
+
+## 25. Item-by-item review of 7.2 (Marc 2026-10-15)
+
+**Item 1 → "Automated attack profiling."** The old label named our input format and the tool. Chapter 3's term already covers language models. The verbs are now thr:corpus's own ("drawn from", "generalise"). The source is targeted by each attack profile's objective, which replaces the uncited "ATT&CK campaign entries".
+
+**Item 2 → "Attack actions rebuilt for modelling APT tradecraft."** Marc: the attack actions need rebuilding from the ground up, not extending. "For the unmapped tactics" implies the mapped eight are right. Ch4 maps two of them by goal alone, and three share exploit. The anchor, objective, method and payoff were rebuilt from the yardstick, not regenerated to fit the label:
+- **Anchor:** the model shares the baseline attacker's attack actions, so it stops at compromising hosts (6.1, by pointer).
+- **Objective:** an open question (UWA item 6).
+- **Method:** the ATT&CK techniques CTI records, not Attack Flow. Each needs what it acts on and a disruption rule (thr:rules).
+- **Payoff:** actions on objectives (Table 6.1, property 2).
+
+Retired, with reasons:
+- *One token per line of the campaign:* covered by the rebuild; no 6.5 anchor.
+- *The richer exploit for the vulnerability memory:* covered by the rebuild. This overturns its 2026-10-15 restoration as an owed item.
+- *The comparability trade:* a rebuild gives up the shared attack actions that C2's attribution rests on. It is implied by the anchor, and Marc judges the better model worth it.
+- *ATT&CK mitigations:* separate from MTD (Marc). Also absent from the dissertation, so naming them would be a new claim.
+- *MTD aimed at technique dependencies:* a second study (MTD design), with no 6.5 anchor.
+- *Defense Impairment:* would reintroduce deployment-strategy awareness, ruled not a gap.
+- *ATT&CK Persistence:* the tactic must not be confused with property 1, campaign persistence, which is met in full.
+
+Build: 82 pp, 0 undefined, overfull count unchanged at 62. Next: item 3.

@@ -9856,16 +9856,23 @@ this dissertation rests on what they let the APT attacker model do.
   analysts to check. Each attack profile could then be drawn from more
   incidents, all by APT groups, which would test whether the finding
   for~\ref{sq:evaluate} generalises beyond the 38 attack flows.
-  \item \emph{Attack actions for the whole campaign.} Objective-specific
-  behaviour is in part because no attack action in MTDSim carries Collection,
-  Exfiltration or Impact, the tactics of actions on objectives
-  (Section~\ref{sec:fidelity-verdict}). Attack actions for these tactics, each
-  with its own rule for how an MTD deployment disrupts it (\ref{thr:rules}),
-  would let each attack profile pursue its objective. Attack actions that each
-  keep their own context would also let the Petri net hold one token for each
-  line of the campaign, where it now pursues one at a time. A richer exploit
-  action would give the vulnerability memory, whose effect on NCR is negligible
-  (Section~\ref{sec:ablation}), more to act on.
+  % Item 2 rebuilt 2026-10-15 (Marc): a rebuild, not an extension, because the
+  %  attack actions are inherited from the baseline attacker. Parts: anchor
+  %  (6.1's closing sentence by pointer), objective (the open question, UWA
+  %  item 6), method (ATT&CK techniques that CTI records, not Attack Flow; what
+  %  each acts on; thr:rules), payoff (Table 6.1 property 2). Retired to the
+  %  handoff: one token per line, the richer exploit (both covered by the
+  %  rebuild), the comparability trade (implied by the anchor), mitigations
+  %  (separate from MTD).
+  \item \emph{Attack actions rebuilt for modelling APT tradecraft.} The APT
+  attacker model shares the baseline attacker's attack actions, so it stops at
+  compromising hosts (Section~\ref{sec:fidelity-verdict}). Which attack
+  actions an MTD simulator needs to model APT tradecraft is an open question.
+  They could be built from the ATT\&CK techniques that CTI records, each with
+  what it acts on, such as data for actions on objectives, and its own rule for
+  how an MTD deployment disrupts it (\ref{thr:rules}). The APT attacker model
+  could then carry out actions on objectives, the part of objective-specific
+  behaviour it lacks (Table~\ref{tab:fidelity-verdict}).
   \item \emph{A choice that depends on what the attacker observes.} Adaptivity
   is in part because the failure matrix is a fixed rule of ours
   (Section~\ref{sec:fidelity-verdict}), and the Petri net's weights are
