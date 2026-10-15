@@ -9186,28 +9186,30 @@ model.
 
 \paragraph{Construct validity.}
 \begin{enumerate}[resume*=threats]
+% T4 v2 2026-10-15 (Marc: "the threat isn't very clear ... defining NCR
+%  reduction twice ... reads like we're on the back foot"). Construct lens:
+%  mono-operation bias -- one measure for "how MTD performs", and it captures
+%  spread (hosts compromised), not success (a target host reached). Mitigation:
+%  the second operation (ASP reduction), layer order holds. Residual: rank 1
+%  against the APT attacker model. Cut: NCR's definition (4.5), "ASP is the
+%  dominant metric", the 42-139 successes (Table 5.x; App D gives why we rank
+%  on NCR), the 500/1 000 s divergence example (not needed once the second
+%  operation agrees on the claim).
 % T4 NCR reduction, 2026-10-15: absorbed thr:conditions' run end (cut in v3,
 %  handoff section 16: the divergence example carries the gap) and
 %  thr:statistics' ASP clause. Divergence checked (Tables D.3, D.5: host layer
 %  against the baseline attacker at 500 and 1 000 s, NCR 0.16/0.06, ASP
 %  -0.10/-0.06, none grey). "Up to 200 s ... 1": Table D.5 prints 1.00 (exactly
 %  1) for all three host-layer mechanisms at 50-200 s.
-\item\label{thr:ncr} NCR reduction, which the answer
-to~\ref{sq:evaluate} uses, measures how MTD performs only in part. NCR is the share
-of hosts an attacker compromises, whereas the targeted attack scenario succeeds
-when the attacker compromises a target host, which ASP measures. ASP is the
-dominant effectiveness metric (Section~\ref{subsec:mtd-metrics}), but the APT
-attacker model reaches a target host in only 42 to 139 of each attack
-profile's 1\,000 runs with no MTD (Table~\ref{tab:unopposed-summary}), too few
-to rank on. The two metrics can diverge: at 500 and 1\,000\,s, the host layer
-reduces the baseline attacker's NCR but raises its ASP
-(Tables~\ref{tab:eff-interval-values} and~\ref{tab:eff-interval-values-asp}).
-To mitigate this threat, we also computed ASP reduction, and each attacker's
-layer order holds on it at every deployment interval
-(Table~\ref{tab:eff-interval-values-asp}). The threat remains for
-rank~1 against the APT attacker model: up to 200\,s, no run under any
-host-layer mechanism reaches a target host, so ASP reduction cannot order
-them.
+\item\label{thr:ncr} NCR reduction, on which we rank MTD mechanisms to
+answer~\ref{sq:evaluate}, measures how MTD performs only in part: it counts
+the hosts an attacker compromises, not whether the attacker reaches a target
+host, which is success in the targeted attack scenario. To mitigate this
+threat, we also computed ASP reduction, which counts that success, and each
+attacker's layer order holds on it at every deployment interval
+(Table~\ref{tab:eff-interval-values-asp}). The threat remains for rank~1
+against the APT attacker model: up to 200\,s, no run under any host-layer
+mechanism reaches a target host, so ASP reduction cannot order them.
 
 % T5 the model built from CTI, 2026-10-15 (Marc: "CTI wasn't designed for this
 %  ... how much can we trust the weights"): thr:values + thr:mapping merged, and
