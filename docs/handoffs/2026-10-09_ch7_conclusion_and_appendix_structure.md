@@ -913,3 +913,15 @@ Marc: "did you evaluate its potential for overclaim … does 6.5 licence that so
 - **C1-3 SQ2 answered.** *Job:* how it runs. *Facts (6.3 ¶3):* a Petri net choosing its next tactic at runtime over MTDSim's six attack actions. *Ceiling:* one clause; may fold into C1-1.
 - **C1-4 Evidence against the field.** *Facts:* Table 6.1; the only one of four with choice of attack strategy in full or any objective-specific behaviour. *Ceiling:* no count repeated from ch1; "more of the eight properties", never "an APT".
 - **C1-5 Significance + ceiling.** *Job:* who can now do what, and how far. *Facts:* an MTDSim study can test MTD against an APT attacker model beside the attacker MTDSim was built with; limited to finding and compromising hosts, no actions on objectives. *Ceiling:* "can"; the ceiling as the last clause.
+
+## 20. The lineage check for contribution 1 (2026-10-15, NOT RULED)
+
+**Verified: every earlier MTDSim study ran one attacker, the baseline attacker.**
+- Zhang 2023's "adversary profile" (§4.4.1, pp. 27–28) describes that one attacker along four dimensions (objectives, exploiting vulnerabilities, command and control, credentials); it is not a second attacker. It refactors only Brown's first scenario. `extractions/zhang2023.md` §A; intent spec IS-ADV-01 ("a description, not a configurable parameterisation, in every lineage paper").
+- Ho 2024 and Tay 2024 reuse Zhang's attacker unchanged (Ho l.242, Tay l.206; ch3 round 55/60 comments; `extractions/tay2024.md`: "Nothing added on the attacker side").
+- Two of the four ask for this work as future work: Zhang §6.3 (p. 42, `lit_review/zhang2023.md` l.519): "a more intelligent attack profile … enabling future works to evaluate the effectiveness of MTD techniques against a more advanced adversary"; Ho §5.1: "more complex adversaries", "only one type in the simulator" (`extractions/ho2024.md` H-FW-01).
+
+**Wording options for the significance sentence:**
+- A, superlative ("the first attacker other than the baseline attacker"): verified over the closed set, but a novelty word the SIGSOFT antipattern list flags.
+- **B, fact form, recommended:** "Every earlier MTDSim study evaluated MTD against the baseline attacker alone." Verified, no superlative; the claim sentence's "any study using MTDSim can run [it] in place of the baseline attacker" then lands as the change.
+- C, B plus the lineage's own call ("as Zhang and Ho proposed"): the strongest significance, but a citation first met in ch7 (yardstick (e) "new material"). Needs a home first, e.g. one clause in ch2's lineage paragraph (ch2: proposed first). Flagged, not actioned.
