@@ -9746,21 +9746,26 @@ attackers.
 %  section 20; fact form, no "first"). SQ1 in 6.5's plain words (thr:values:
 %  "record only their order", "timing and response to failure"), the
 %  concession in the same breath. SQ2 with the ceiling beside its cause (6.5
-%  paragraph 1's clause). Evidence as 6.3 paragraph 1's verdict, one idea:
-%  the two "only" facts read choppy compressed into one sentence. CUT: the
+%  paragraph 1's clause; "actions on objectives" is ch3's Kill Chain stage,
+%  l.~1267); it is the one bound on what the model does, and why
+%  objective-specific behaviour is "any", not full. Evidence: the two "only"
+%  facts of 6.3 paragraph 1, the properties named (Marc reverted the one-idea
+%  verdict, "has more of the eight properties"). "solely", not "alone" at the
+%  sentence end (Marc). CUT: the
 %  method walk (attack flows, a Petri net per attack profile), ch1's counts,
 %  the gains over the baseline attacker (6.3).
 The first contribution is an APT attacker model that any study using MTDSim
 can run in place of the baseline attacker, answering~\ref{sq:capture}
-and~\ref{sq:model}. Every earlier MTDSim study evaluated MTD against the
-baseline attacker alone. Threat reports record the order of an attack's
+and~\ref{sq:model}. Every earlier MTDSim study evaluated MTD solely against
+the baseline attacker. Threat reports record the order of an attack's
 tactics, but not how long each took or what followed a failure, so the APT
 attacker model's timing and response to failure, where MTD disrupts it, rest
 on our judgement. In MTDSim, the APT attacker model uses a Petri net to choose
 its next tactic at runtime, and maps each tactic onto one of the baseline
-attacker's six attack actions, none of which models actions on objectives. It
-has more of the eight properties than any of the three other attacker models
-in Table~\ref{tab:fidelity-verdict}.
+attacker's six attack actions, none of which models actions on objectives. Of
+the four attacker models in Table~\ref{tab:fidelity-verdict}, it is the only
+one with choice of attack strategy in full, and the only one with any
+objective-specific behaviour.
 
 % "No run under MTD separates" (not "no run"): Appendix D.6 separates the
 % tactic durations from the order with no MTD. The three implications are
