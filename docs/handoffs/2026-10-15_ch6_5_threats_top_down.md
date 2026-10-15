@@ -418,3 +418,7 @@ Unflagged sentences pass.
 **Unflagged:** the opener's S1–S3 and S5; T1 S1–S3 and S5–S6; T2 S2–S5; T3 S2–S4; T4 S2–S4; T5 (all four sentences); T7 S2–S3 and S5; T8 (ratified); T9 S1, S3 and S6–S7; T10 S1–S2 and S4–S5.
 
 **Net effect.** About −15 words. The gain is in sentence count and in subjects coming first, not in length.
+
+## 19. Clarity check applied (Marc 2026-10-15: "easy you can fix those")
+
+All 20 of the §18 rows are applied as written. T2 S1 (ratified) is untouched. The pages were read back: no breaks, and every pointer resolves. Build: 83 pages, 0 undefined, no new overfull box.
