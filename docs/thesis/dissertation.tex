@@ -9333,6 +9333,9 @@ exploratory.
 
 \paragraph{External validity.}
 \begin{enumerate}[resume*=threats]
+% T8 v8 2026-10-15 (Marc: "both of those are fine"): the rules defined in
+%  place; close back to "Each would narrow ..." (the loop to "may not hold"
+%  read as rhetorical; the first sentence carries the threat).
 % T8 v7 2026-10-15 (Marc, options rounds): external frame -- the finding's
 %  reach beyond MTDSim's disruption rules (2.2.3 states both rules: back to
 %  scanning hosts after a host-layer deployment; "a deployment never takes back
@@ -9345,16 +9348,16 @@ exploratory.
 %  kept 2026-10-15 (T5 is what we built from CTI, T8 what we inherited from
 %  MTDSim; the property ceiling is the attack actions', a limitation, and 6.3's).
 \item\label{thr:rules} The finding for~\ref{sq:evaluate} may not generalise
-beyond MTDSim's disruption rules (Section~\ref{subsec:attacker-model}). We
+beyond MTDSim's disruption rules, which model how an MTD deployment disrupts
+the attacker (Section~\ref{subsec:attacker-model}). We
 kept these rules to their original intent, which keeps the two attackers
 comparable, but they were written for the baseline attacker and cannot be
 validated against an APT campaign (\ref{thr:observation}). In MTDSim, an IP
 shuffle costs the attacker the host it was on, but a real APT may keep that
 host through Command and Control. In MTDSim, no deployment takes back a
 compromised host, but in a real network, replacing a service may evict an
-attacker that compromised its host through that service. Either departure
-would narrow the host layer's lead over the service layer, so the finding
-for~\ref{sq:evaluate} may not hold in a real network.
+attacker that compromised its host through that service. Each would narrow
+the host layer's lead over the service layer.
 
 % T9 corpus v2, 2026-10-15 (Marc: "a very strong ... beautiful"): what the model
 %  keeps from each attack flow; the build reads no confidence (16 of 853 steps
