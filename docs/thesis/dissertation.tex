@@ -9357,8 +9357,7 @@ attacker: we synthesised the eight properties from the APT definition and two
 surveys, and scored each attacker model from a face-value reading of its
 papers. To mitigate this threat, we tied each mark to a predicate
 (Appendix~\ref{app:clause-tests}) and cross-checked our marks against language
-models that blindly scored all four MTD attacker models
-(\hyperref[ch:ai-declaration]{AI Use Declaration}). We did not validate the
+models that blindly scored all four MTD attacker models. We did not validate the
 property set, which is coarse and likely incomplete. Nor did we read the
 attacker models' code, which may behave differently from their papers, so the
 threat remains. The comparison covers only four attacker models: the three MTD
@@ -9937,46 +9936,44 @@ highest priority: we kept them unchanged by design, and they limit every result.
 \addcontentsline{toc}{chapter}{AI Use Declaration}
 \phantomsection\label{ch:ai-declaration}%
 
-% [2026-10-13, appendix cut audit (handoff 2026-10-09 §10, Marc: "apply as a
-%  whole"): moved verbatim from Appendix B, where it was the history of the
-%  scoring, with its two "(AI Use Declaration)" self-references dropped. Held
-%  here until the Declaration is drafted. DRAFT STATE.]
-% [PLACEHOLDER 2026-10-15 (Marc: "AI use ... you can update that"): the code
-%  sentence T1 (thr:code) points to. DRAFT STATE; Marc rewords the whole
-%  Declaration before submission.]
-All code written for this dissertation, the APT attacker model and the
-experiment scripts, was written with AI assistance. We checked it by its
-behaviour, with an event tracer, unit tests and fixed seeds that reproduce
-every run (\ref{thr:code}).
+% [2026-10-16, Marc dictated the content; drafted against UWA's guidance
+%  (acknowledge any use; AI must not replace the student's own thinking) and
+%  the common thesis-declaration elements: tool and version with dates, use
+%  per task, extent, how the output was checked, ownership. Rulings: "I", not
+%  "we"; Chapter 5 in the mixed group; scoring paragraph deleted (the
+%  scoring history held here since 2026-10-13 is in git); logs line kept.
+%  Model range from the git Co-Authored-By trailers (Opus 4.7, 2026-04-22,
+%  to Opus 5.5); Opus 4.6 and the March start are Marc's recollection.]
+I used Claude (Anthropic), through its chat interface and Claude Code, from
+March to October 2026, at whichever model was current: Claude Opus 4.6 to
+Opus 5.5, Sonnet 5, and Fable 5 and 5.1. I used no other generative AI tool.
 
-Table~\ref{tab:attacker-properties} was reworded after the attacker models
-were first scored: its rows name techniques, ATT\&CK's term, where they had
-named MTDSim's attack actions, and learning names the patterns of MTD
-deployments. Four language models then scored all four attacker models by an
-earlier form of the rule, which counted the clauses each attacker model met,
-each given only that rule, Table~\ref{tab:attacker-properties} and one
-attacker model's sources, with our claims of which properties the APT
-attacker model has removed. They disagreed with us on
-one mark: the baseline attacker's campaign persistence, in part on the
-reading that its papers never call a run an extended period. The APT attacker
-model keeps the baseline attacker's loop, and its scorer gave the same
-evidence a full mark. We mark both in full: each carries on toward its
-objective through every MTD deployment, until it reaches it or the run ends. Counting clauses let a mark rest on
-a condition met without its behaviour, so the predicates replaced the
-clauses, tested on the same evidence; they lowered three of Masud et al.'s
-marks, where its attacker model has the attack paths, their recomputation and
-their cost, but chooses nothing from them. A fifth language model,
-given only the rule, Table~\ref{tab:attacker-properties} and
-Chapter~\ref{ch:attacker-model} with our claims removed, then scored the APT
-attacker model by the predicates. It differed on one
-mark, cost--benefit reasoning, which it marked none: the exploit's RoA order
-chooses which vulnerability to try, within one technique, not among
-techniques. We agree, and lower the mark for the baseline attacker too, whose
-order it is. Against the first scoring, the rewording, the predicates and this
-reading lowered eleven marks and raised none: two of the APT attacker model's,
-learning and cost--benefit reasoning, and nine of the other three's, among
-them objective-specific behaviour for all three, which leaves the APT attacker
-model the only one with it in part.
+\textbf{Ideas.} The research questions, the APT attacker model and the
+experiments came from me or from weekly meetings with my supervisors. I used
+Claude to develop ideas and test them against the literature and the code. I
+showed the results at each meeting, and my supervisors' feedback set the next
+step.
+
+\textbf{Literature.} Claude helped me find papers. I triaged them by abstract
+and read every paper I cite.
+
+\textbf{Code.} Claude wrote almost all the code for this dissertation: the
+APT attacker model, the experiment scripts, the unit tests, and the scripts
+that produce every table and figure. I specified what each part should do and
+checked it by its behaviour, with an event tracer, unit tests and fixed seeds
+that reproduce every run (\ref{thr:code}).
+
+\textbf{Writing.} Chapters~\ref{ch:background} to~\ref{ch:attacker-model}
+began as my own dictated drafts, which Claude helped me edit and cut. For the
+abstract and Chapters~\ref{ch:intro} and~\ref{ch:experiments}
+to~\ref{ch:conclusion}, Claude proposed sentences, and I chose, rewrote and
+critiqued them over many rounds. Most sentences went through ten drafts or
+more.
+
+Every idea in this dissertation is mine or my supervisors'. I have read,
+checked and revised every sentence, and I take full responsibility for the
+content. Any errors that remain are mine. The Claude Code session logs are
+available on request.
 
 
 % =====================================================================
