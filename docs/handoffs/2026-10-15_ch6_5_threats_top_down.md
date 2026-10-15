@@ -241,3 +241,39 @@ Each item makes the three moves. Pointers are given as printed numbers here and 
 - **AI Use Declaration** says nothing on AI-assisted code, so T1 cannot point to it. The rewording is owed (memory: ai-greenflag); one sentence on how the code was written and checked.
 - **App C.4 l.~9861** cites `thr:conditions`: retarget to `thr:cause` when T2 conditions is dissolved.
 - **§7.2** "MTDShield retrained against the APT attacker model (\ref{thr:observation})": retarget to `thr:mtdshield`.
+
+## 12. Round 2 (Marc 2026-10-15): fewer, bigger threats
+
+Marc: the big general threats read clearly; the specific ones "get into the weeds of the implementation" and become vague. "Do we have the biggest threats?"
+
+**Verdicts on the specific items.**
+- **T6 disruption measures: cut.** The real threat is that disruption is whatever the model defines it to be. That is T10 (MTDSim's rules) together with T5 (our tactic durations). The "2 000 s only" scope is a measurement choice: the deployment interval caps time lost, as Marc notes, and the float captions already state it. It is not a risk to a claim.
+- **T8 layer order + T9 analyses: merged into one conclusion item.** With 1 000 seeds and the seed-level check, conclusion validity is the strongest part of the study. The honest item says so. It then names the two residuals: layer means hide single mechanisms, and the ablations are weaker, exploratory tests (Cohen's default, no correction, D.6 post hoc). Both labels stay on the one item.
+- **T3 MTDShield, reasoned through.** Against either attacker it chose almost only service diversity or nothing: 76 + 23 % against the baseline attacker and 70 + 29 % against the APT attacker model. How we ran it (an unmapped tactic read as nothing detected) can therefore account only for the roughly 6-point shift from service diversity to nothing. Its main choice, service diversity, is the same against both attackers, so it comes from its policy, which is E3. The alternative explanation is real but bounded. What remains is whether MTDShield trained against the APT attacker model would choose differently.
+- **T5 declared parts: widened** (Marc: "CTI wasn't designed for this … how much can we trust the weights"). The base weights are a construction of ours too: counts of drawn edges turned into probabilities of the next tactic. Before, they appeared only as T2's "taken as given". This is the construct threat with the most leverage on the model.
+
+**Coverage, checked against de França & Travassos's simulation threats and the six cold examiners (§111).**
+- By risk to what the dissertation claims, not by position, the largest are: T5 (most of the model's behaviour is our construction from CTI); T10 (MTDSim's rules produce the layer result); T11 (corpus); T2 (cause); T1 (code).
+- Low: statistics, NCR reduction (ASP agrees on the layer order) and the marks (already hedged as a comparison).
+- Missing: one limitation. Every run is the targeted attack scenario (ch2 l.~744, ch5 l.~6107), and the opener's list omits it. Add it there.
+- The rival "would any slower attacker show the same layer order?" is T2's untested residual (uniform base weights). No new item is needed.
+
+**Ten items now.**
+- Internal: T1 code, T2 cause, T3 MTDShield.
+- Construct: T4 NCR reduction, T5 the model's construction from CTI, T6 marks.
+- Conclusion: T7 statistics.
+- External: T8 rules, T9 corpus, T10 observation.
+
+**Revised drafts (proposed, not applied).**
+
+**T1 code.** The code may not do what Chapters 2 and 4 say it does. MTDSim's code was inherited from the studies that built it, and much of ours was written with AI assistance, so we checked the code by what it does. An event tracer replays any run step by step against the text, unit tests cover the Petri net and the simulator, and fixed seeds reproduce every run exactly. Getting MTDSim to run took repairing defects. Before we called a behaviour a defect, we checked it against what MTDSim's papers describe, so that a design choice was kept and only an error was repaired. The repairs mean the results are not compared numerically with earlier MTDSim studies. The threat remains for behaviour no check exercised.
+
+**T3 MTDShield.** That MTDShield most likely learned to deploy the MTD mechanism that disrupts its training attacker most (Section 6.4) has a plausible alternative explanation in how we ran it. MTDShield is told the attacker's current attack action at each decision, and it reads the APT attacker model's unmapped tactics, which run none, as nothing detected (Appendix D.1). Against either attacker it chose almost only service diversity or nothing. Against the APT attacker model it chose nothing in 29 % of its decisions, against 23 % for the baseline attacker. How we ran it can therefore explain at most that shift, and not its choice of service diversity. We cannot rule out that MTDShield trained against the APT attacker model would choose differently (Section 7.2).
+
+**T5 the model's construction from CTI.** CTI was not recorded to drive an attacker model, so much of what the APT attacker model does is our construction. Attack flows record the order of an attack's steps. They do not record how likely each next step is, how long a step took, what the attacker did after a step failed, or which of MTDSim's attack actions a tactic runs. We turned counts of drawn edges into the base weights, and we declared the tactic durations, the failure matrix, the vulnerability memory's factor and the tactic-to-action mapping by judgement (Table C.4). To mitigate this, we declared them before any result and varied, substituted or removed each one at a time: only the 45 s mean duration changes NCR much (Table D.9), and the rankings hold at both ends of its band (T2). Uniform base weights, the interactions between the parts, the weights of the pre-intrusion overlay and any other partial mapping were not tested.
+
+**T7 statistics.** The statistics are strongest for the answer to SQ3. Every MTD mechanism ran on the same 1 000 seeds against both attackers. Resampling seeds in place of runs leaves the host layer and the service layer apart at every deployment interval (Appendix D.3). The layer means hide single MTD mechanisms: against the baseline attacker, every service-layer mechanism reduces NCR more than every host-layer mechanism only up to 100 s (Table D.3). The ablations are weaker tests. A negligible effect is Cohen's default of ±0.2, with no correction for the 60 cells compared, and the ablation of the tactic durations (Appendix D.6) was chosen after the results of Chapter 5 were seen. We treat the ablations as exploratory.
+
+**T10 observation.** No data set records APT campaigns against MTD, so the APT attacker model cannot be validated against one, and what MTD does to an APT is inferred. For a system that cannot be observed, Sargent advises exploring the model's behaviour as thoroughly as possible and comparing it with other models (sargent2011). The sensitivity analysis (Appendix D.5) and the ablations explore it, and the baseline attacker is the other model. The threat remains. An emulated APT campaign against MTD could supply the data (Section 7.2).
+
+Unchanged from §10: T2 (v5 + 1), T4, T6 (was T7, marks), T8 rules (v6), T9 corpus. The cut T6's labels: `thr:metrics` has no inbound reference outside §6.5 and is retired.
