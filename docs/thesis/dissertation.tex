@@ -9036,21 +9036,26 @@ attack actions.
 %  half of thr:metrics cut, statistics and post hoc merged, MTDShield split out
 %  of thr:observation. The earlier v1 trail is in handoff
 %  2026-10-11_ch6_1_redraft_scrutiny.md sections 109-137.
-% OPENER: purpose (one sentence); limitations as one list (+ the targeted
-%  attack scenario, 2026-10-15); the four types glossed by their object, not
-%  defined as questions (Marc: "the reader may have already come across these");
-%  the ranking rule.
-Each threat below says what could make this chapter's claims wrong, what we
-did to mitigate it, and what remains. The
-limitations are the scope we chose: MTDSim's six attack actions, with no
-actions on objectives; one line of a campaign at a time
-(Section~\ref{sec:petri-formalism}); the targeted attack scenario only;
-MTDSim's default network of 50 hosts; runs of at most 15\,000\,s; simulation only; existing MTD mechanisms, each deployed at a deployment
-interval; no efficiency metric; and no IDS. We group the threats by the four types of
-Wohlin et al.\ \citep{wohlin2012}: internal (what causes our results),
-construct (our measures and the model we built from CTI), conclusion (our statistics) and
-external (reach beyond MTDSim and the 38 attack flows). Within each type, threats to
-the answer to~\ref{sq:evaluate} come first.
+% OPENER v5 2026-10-15 (Marc: the contract sentence and "the scope we chose"
+%  read as cliche/flourish; "what does the opening need to do"). Two jobs only:
+%  set the bounds once (the limitations as deliberate scope, grouped by what
+%  they limit: the attacker, the runs, the defence) and name the four types.
+%  Cut: the item contract (the items show it); the ranking rule (order kept,
+%  sentence dropped); the bracketed glosses (Marc: vague clips doing a second
+%  job; the cite carries the types); "default", "per run", "MTDSim's" twice,
+%  "each deployed at a deployment interval", "none of them reactive" (Marc:
+%  the aim is between reactive and proactive, not a limitation). The token
+%  clause mirrors ch4's initial marking (l.~4348). "Time limit" is App. B's
+%  comparison-table term.
+We limited the scope of this dissertation by design. The APT attacker model
+takes the six attack actions, none of them modelling actions on objectives,
+and, with a single token, pursues one line of the campaign at a time
+(Section~\ref{sec:petri-formalism}). Every result is simulated, in the
+targeted attack scenario only, on a network of 50 hosts with a time limit of
+15\,000\,s. We evaluate MTDSim's existing MTD mechanisms, with no efficiency
+metric and no IDS. We group the threats
+into four types of validity \citep{wohlin2012}: internal, construct,
+conclusion and external.
 
 \paragraph{Internal validity.}
 \begin{enumerate}[label=T\arabic*, ref=T\arabic*, series=threats, align=left]
