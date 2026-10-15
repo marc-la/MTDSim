@@ -1112,3 +1112,11 @@ Now:
 - item 5: "Our results raise the question of whether…".
 
 Build: 82 pp, 0 undefined. Next: emulation.
+
+**Item 6 (Emulation) cut (Marc 2026-10-16).** Emulation is one of Cho et al.'s four evaluation methods, so in a simulation dissertation it reads as the generic "validate in the real world" and as the missing half of our own work. It bundled two studies, both paid elsewhere:
+- the disruption rules (thr:rules), by item 2;
+- efficiency, by 6.4 (and ruled not standalone, §22).
+
+The 6.5 pointer now reads "proposes work on the attack actions and intrusion detection" (ch6, auto-gate). The chapter ends on item 5's payoff. 7.2 has four items.
+
+**Open: the lead.** "The attack actions come first" contradicts the list order (automated attack profiling is listed first). Marc: arrange the items by what matters most and rewrite the lead in the next piece of work. Not yet touched.

@@ -9108,7 +9108,7 @@ on objectives, and pursues one line of the campaign at a time
 targeted attack scenario only, on a network of 50 hosts with a time limit of
 15\,000\,s. We evaluate MTDSim's existing MTD mechanisms, with no efficiency
 metric and no IDS. Section~\ref{sec:future-work} proposes work on the attack
-actions, an IDS and emulation.
+actions and intrusion detection.
 % Revised same day (Marc): "each of these limits" claimed too much; 7.2 does
 %  not take up the targeted scenario, the 50 hosts or the 15 000 s.
 % 2026-10-15 (Marc: "chapter six still has no pointer to 7.2 ... that's an
@@ -9915,18 +9915,12 @@ this dissertation rests on what they let the APT attacker model do.
   random deployment strategy. The result would show whether a learned
   deployment strategy must be trained against an attacker model close to the
   attackers it will face.
-  \item \emph{Emulation.} Every result is simulated, under disruption rules
-  written for the baseline attacker, with no efficiency metric
-  (\ref{thr:rules}). An emulation runs real software, with real
-  vulnerabilities, on a virtual network
-  (Section~\ref{subsec:evaluation-methods}). Running the attack profiles against
-  MTD there would show whether the host layer's lead survives disruption that
-  MTDSim does not model, such as an attacker keeping a host through Command and
-  Control. It would also measure the overhead and loss of service of each MTD
-  deployment beside NCR reduction, so that an MTD evaluation could choose a
-  deployment interval.
-  % Sentences swapped 2026-10-15 (option C): the dissertation proper now ends on
-  %  this item's payoff, not on what MTDSim does not model.
+  % Emulation item CUT 2026-10-16 (Marc): the label is one of Cho et al.'s four
+  %  evaluation methods, so in a simulation dissertation it reads as the generic
+  %  "validate in the real world" (Suray) and as the missing half of our own
+  %  work. Its two studies are paid elsewhere: the disruption rules by item 2
+  %  (thr:rules), efficiency by 6.4 (and ruled not standalone, handoff 22).
+  %  The chapter now ends on the learned-deployment-strategy payoff.
 \end{itemize}
 
 
