@@ -1089,3 +1089,26 @@ Cut:
 - MTDShield reading alerts (derivative; the next item is MTDShield's own).
 
 Not claimed: "few papers join IDS and MTD", an unverified gap (yardstick (d3)); posed as an open question instead. The 6.5 pointer ("an IDS") still holds. Build: 82 pp, 0 undefined. Next: the MTDShield item.
+
+**Item 5 → "Testing learned deployment strategies against other attacker models" (Marc 2026-10-16).** Marc's lean was to cut it as unfinished engineering work. Kept on merit:
+- it is the only item raised by a result rather than a limit (UWA item 6);
+- MTDShield is Tay et al.'s, not ours.
+
+The label is C2's recommendation. Cut:
+- the restated result;
+- training on a mix of attackers;
+- the thr:mtdshield clause (future work as mitigation, yardstick (d3)).
+
+The payoff is reframed (Marc): defenders face real attackers, not attacker models, so the question is how close the training attacker must be to them.
+
+**Open questions scoped to this work (Marc 2026-10-16: "overclaiming is bad").** The "is an open question" field claims in items 2 and 4 were never checked; the yardstick's "unchecked no-one-has" pitfall. Sengupta et al. 2020's MTD survey (docs/sources/methodology, uncited) shows:
+- IDS placement with MTD already studied (Sengupta et al. 2018; NIDS/HIDS cost on throughput);
+- IDS alerts driving MTD (MASON);
+- MTD against several attacker types (Bayesian Stackelberg games, Vadlamudi et al. 2016).
+
+Now:
+- item 2: "This dissertation leaves open which attack actions…";
+- item 4: "This dissertation leaves open how intrusion detection would change which MTD mechanism is most effective against the APT attacker model" (its studied three-part question cut);
+- item 5: "Our results raise the question of whether…".
+
+Build: 82 pp, 0 undefined. Next: emulation.
