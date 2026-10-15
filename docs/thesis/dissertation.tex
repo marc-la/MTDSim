@@ -9767,34 +9767,39 @@ the four attacker models in Table~\ref{tab:fidelity-verdict}, it is the only
 one with choice of attack strategy in full, and the only one with any
 objective-specific behaviour.
 
-% "No run under MTD separates" (not "no run"): Appendix D.6 separates the
-% tactic durations from the order with no MTD. The three implications are
-% Section 6.4's paragraphs 1, 2a and 3, in its order; 2b (efficiency, a
-% hypothesis) is left there. CUT as stale: the lowest-NCR-reduction lower
-% bound (parked in 6.4, never drafted) and "another simulator needs the
-% interface" (cut from 6.4 paragraph 3). The 92/36 pair stays in the abstract
-% and Chapter 1; the MTDShield comparison carries no number here.
-The second contribution is the finding that, in MTDSim, the most effective MTD
-mechanism depends on the attacker model. It answers~\ref{sq:evaluate}
-(Section~\ref{sec:disc-mtd-performance}). The two attackers' most effective
-MTD mechanisms differ at every deployment interval, and we attribute this to the
-APT attacker model's tactic durations and the order of its tactics. The
-finding does not make either attacker model the better one, and no run under
-MTD separates those two causes or rules out the tactic-to-action mapping
-(\ref{thr:cause}). For an MTD evaluation, it means three things
-(Section~\ref{sec:evaluation-implications}). First, a learned deployment
-strategy should be tested against an attacker model other than the one it was
-trained against: MTDShield reduces the baseline attacker's NCR more than the
-random deployment strategy does, but the APT attacker model's less. Second, a
-shared set of metrics may not be enough to compare MTD mechanisms across
-evaluations whose attacker models differ, so an MTD evaluation should also
-report its metrics against an attacker model that other evaluations use.
-Third, a new attacker model in an existing simulator can change how MTD is
-measured to perform, even when it differs in little more than when and in what
-order it runs the simulator's attack actions. The finding holds for one
-simulator and its disruption rules, a network of 50 hosts in the targeted
-attack scenario, and the 38 attack flows, in simulation only
-(Section~\ref{sec:threats}).
+% CONTRIBUTION 2 REDRAFT 2026-10-15 (Marc: "that's good, apply"; handoff
+%  section 21, yardstick conclusion_conventions.md (d2)). The preamble holds the
+%  answer, so this paragraph carries the warrant and the impact, not the answer
+%  again. Order: what we found -> why -> how far -> what it means -> what to
+%  do, ending on the measured case. Claim split from "answers SQ3" (two
+%  interruptions read janky); the claim is ch1's contribution 2 less "We find
+%  that". Cause in the house "We attribute"; its limits in thr:cause's own
+%  words (the tactic-duration ablation ran with no MTD; the mapping never
+%  varied), not "no run under MTD separates". Reach in the house "may"
+%  (thr:rules, thr:corpus); "Even so" turns to the lesson shown to happen
+%  (6.4 paragraph 3). Implication: CONTEST OF POSITIONS (Marc), 6.4's four
+%  candidates: A learned deployment strategies (measured) kept; B shared
+%  attacker model for comparable rankings left in 6.4 (its action is vague
+%  without its premise and rho); C efficiency cut (a hypothesis); D already the
+%  "Even so" sentence; "test against more than one attacker model" rejected as
+%  the preamble's "not enough to show" turned into an instruction. MTDShield
+%  uncited (defined at first use, ch2 l.~854); "better/worse than the random
+%  deployment strategy", the ML convention; "solely" (Marc). CUT: "does not
+%  make either attacker model the better one" (6.2, Marc); the five stacked
+%  limits (6.5 paragraph 1; "in MTDSim" carries them).
+The second contribution answers~\ref{sq:evaluate}. In MTDSim, the most
+effective MTD mechanism depends on the attacker model. We attribute this
+dependence to the APT attacker model's tactic durations and the order of its
+tactics. Our ablation of the tactic durations ran with no MTD, and we never
+varied the tactic-to-action mapping (\ref{thr:cause}). The finding may not
+generalise beyond MTDSim's disruption rules or the 38 attack flows
+(\ref{thr:rules}, \ref{thr:corpus}). Even so, an attacker model that differs in
+little more than when and in what order it runs a simulator's attack actions
+can change how MTD is measured to perform. A learned deployment strategy should
+therefore be tested against an attacker model other than the one it was
+trained against. MTDShield was trained solely against the baseline attacker. At
+every deployment interval, it does better than the random deployment strategy
+against that attacker, and worse against the APT attacker model.
 
 \section{Future work}
 \label{sec:future-work}
