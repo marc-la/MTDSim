@@ -289,3 +289,25 @@ Unchanged from §10: T2 (v5 + 1), T4, T6 (was T7, marks), T8 rules (v6), T9 corp
 > The results may not generalise to APT attackers beyond the 38 attack flows. The attack flows record campaigns that were detected and reported, each only as far as its threat report describes, and only 18 are attributed to a group in ATT&CK, criminal groups among them (Section 4.1). We used each attack flow as its analyst drew it, and the APT attacker model keeps only which tactic follows which. It drops the techniques, the analyst's descriptions and their confidence in each step, so c₁'s one edge into Impact comes from a step drawn with confidence 0 (Appendix C.3). Analysts' attack flows record the order of steps that automatic alternatives could not recover (Section 4.1), at the cost of volume: three of the four attack profiles are drawn from 5 to 7 attack flows, each assigned to its attack profile by one coder (Appendix C.2). Without the attack profiles the host layer still reduces NCR most (T2), so that assignment does not decide the answer to SQ3. We make no claim about APT behaviour the attack flows do not record.
 
 (About 140 words. Cut from the §10 draft: "a run may join parts of several attack flows into a campaign no attacker ran". It is minor beside the stripping, and it is a cut candidate if Marc wants it back.)
+
+## 14. Full draft v2 applied for reading (Marc 2026-10-15: "get the full draft down … recompile the PDF")
+
+Not ratified; the item-by-item rounds follow.
+- **§6.5** has the opener and T1–T10 as in §10, §12 and §13. T2 is v5 + 1 sentence; T8 is v6 verbatim. Each item carries a `%` provenance comment.
+- **Labels:**
+  - `thr:values` + `thr:mapping` are on T5, and `thr:statistics` + `thr:posthoc` are on T7.
+  - `thr:ncr` and `thr:mtdshield` are new.
+  - `thr:conditions` and `thr:metrics` are retired.
+- **Consequential edits:**
+  - App C (dwell derivation) `thr:conditions` → `thr:values`.
+  - §7.2 "MTDShield retrained" `thr:observation` → `thr:mtdshield` (a re-pointed `\ref` only).
+  - App D.3 gains the seed-check sentence. Its source is `data/results/ch5_defended/seed_layer_check.py` (+ `.log`, `_numbers.json`), which reproduces the §9 figures exactly.
+- **Fixes made on reading the page:**
+  - T7 "the 60 cells compared" → "the number of cells compared". 60 is the attack profiles' ablation alone.
+  - T4 "up to 500 s, 0.99 or more" → "up to 200 s, ASP reduction is 1". A printed 0.99 at 500 s could be below 0.99; at 50–200 s all three host-layer mechanisms print 1.00, which means exactly 1.
+- **Build:** 83 pages (was 82), 0 undefined, no new overfull box. §6.5 is on pp. 43–46. About 1 600 words against 1 624; the cut pass comes after the rounds.
+
+**Still owed (Marc rules):**
+- the 190–844 home (T6);
+- the AI Use Declaration's code sentence (T1 does not cite it until then);
+- ch7 §7.2: the targeted attack scenario, now a limitation, has no future-work line ("Each is a direction of future work"). Proposal: add "and other attack scenarios" to the second bullet's head (ch7 gated).
