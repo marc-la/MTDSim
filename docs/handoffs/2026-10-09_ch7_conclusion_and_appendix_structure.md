@@ -1068,3 +1068,24 @@ Build: 82 pp, 0 undefined, overfull count unchanged at 62. Next: item 3.
 - It had no payoff. The failure-matrix ablation (subsec:ablation-failure-matrix) finds a negligible effect on NCR, and time lost per MTD deployment is unchanged.
 
 Marc: "dynamic weighting is the failure matrix with more assumptions"; the approach we chose was the failure matrix. This overturns Q8's "owed: dynamic weighting in Future work" (2026-10-11). The supervisor does not expect it, though register S1 had recorded it as the deferred eventual direction. The failure's cause comes nearly free with item 2's rebuilt attack actions. 7.2 now has five items. No forward pointer in ch6 referred to item 3.
+
+**Item 4 (formerly "An IDS in the loop") → "Intrusion detection and MTD" (Marc 2026-10-15).** "X and Y" names an intersection without deciding which side serves which. MTDSim is now the method, not the objective. A tool-specific objective reads as an engineering ticket that one component will fix (Marc).
+
+Kept from the original:
+- the anchor in 6.1's own words;
+- an alert raised each time the attacker trips the rule.
+
+Added:
+- the field-level open question: which IDS, where on the network it watches, how its alerts change how often MTD deploys;
+- property 5's IDS predicate as the testable payoff ("tested on", not "would have": meeting it needs item 2's Stealth actions);
+- reactive MTD as the payoff that answers the open question.
+
+Cut:
+- Snort named (decoration: attack confidentiality already defines the flagging rule);
+- "in the loop";
+- "tested directly";
+- the Stealth/Defense Impairment chain;
+- attack-confidentiality bookkeeping;
+- MTDShield reading alerts (derivative; the next item is MTDShield's own).
+
+Not claimed: "few papers join IDS and MTD", an unverified gap (yardstick (d3)); posed as an open question instead. The 6.5 pointer ("an IDS") still holds. Build: 82 pp, 0 undefined. Next: the MTDShield item.

@@ -9879,13 +9879,25 @@ this dissertation rests on what they let the APT attacker model do.
   %  matrix's effect on NCR is negligible and it leaves time lost per MTD
   %  deployment unchanged (subsec:ablation-failure-matrix). Overturns Q8's
   %  owed dynamic weighting; the supervisor does not expect it. Handoff 25.
-  \item \emph{An IDS in the loop.} MTDSim has no IDS, so the APT attacker model
-  avoids detection only through its tactic durations, and attack
-  confidentiality is counted after each run
-  (Section~\ref{subsec:metrics-behaviour}). Applying Snort's port-scan rule
-  during a run would raise an alert each time the attacker trips it. Detection
-  avoidance could then be tested directly, and MTDShield, which reads the
-  attacker's current attack action, could read the alerts instead.
+  % IDS item rebuilt 2026-10-15 (Marc): the label names the research area, not
+  %  the component ("X and Y" for an intersection); MTDSim is the method, not
+  %  the objective. Parts: anchor (6.1's property-5 verdict), objective (the
+  %  open question: which IDS, where it watches, how alerts change how often
+  %  MTD deploys), method (attack confidentiality's flagging rule raised during
+  %  the run; Snort not name-dropped), payoff (property 5's IDS predicate
+  %  becomes testable; reactive MTD, ch2's trigger MTDSim lacks). Cut: the
+  %  MTDShield-reads-alerts clause (derivative; the next item is MTDShield's).
+  \item \emph{Intrusion detection and MTD.} MTDSim has no IDS, so the APT
+  attacker model avoids detection only through its tactic durations
+  (Section~\ref{sec:fidelity-verdict}). Which IDS to use with MTD, where on the
+  network it watches and how its alerts change how often MTD deploys are open
+  questions. The rule that flags attack actions for attack confidentiality
+  (Section~\ref{subsec:metrics-behaviour}) could instead raise an alert each
+  time an attacker trips it during the run. The APT attacker model could then
+  be tested on choosing techniques an IDS does not flag, the part of detection
+  avoidance it lacks (Table~\ref{tab:fidelity-verdict}). The same alerts could
+  trigger reactive MTD, which none of MTDSim's deployment strategies is
+  (Section~\ref{sec:mtd-concept}).
   \item \emph{MTDShield retrained against the APT attacker model.} We credit
   MTDShield doing worse than the random deployment strategy against the APT
   attacker model to its training against only the baseline attacker
