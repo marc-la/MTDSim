@@ -887,3 +887,29 @@ Marc: "did you evaluate its potential for overclaim … does 6.5 licence that so
 - **House scheme (threats handoff §23):** reach beyond MTDSim takes "may". The sentence is exempt only under the epistemic reading.
 
 **Recommended:** say the epistemic reading outright, and give it a home in 6.4 ¶1 (ch6, auto after a ruling): *"An evaluation against an attacker model far simpler than an APT is therefore not enough to show how MTD performs against APT attackers."* Ch1 l.597 and the abstract closer then take the same words.
+
+## 19. Contribution 1, defined (2026-10-15, NOT RULED)
+
+**Format.** One plain paragraph per contribution, opened "The first contribution is …". Paragraph, not bullet: ch1's bullets are the promise list (Peyton Jones), a conclusion wants "a short summarizing paragraph" (Widom), and thesis corpora use prose. No bold run-in label: with two items the ordinal opener is the label, and nothing refers back to "Contribution 1" (the future-work rule, §14). Run-in labels stay where text cites them (6.5's threat types).
+
+**Job.** Deliver ch1's first promise: the gap's first half filled (MTD "is rarely tested against [an APT]"), as a contribution to the earlier MTDSim studies, evaluated against the field.
+
+**"Research programme".** EGZ's category, not on the page: the dissertation's term is "the earlier MTDSim studies" (ch2, Table 2.2). The sentence it licenses: the baseline attacker is the attacker MTDSim was built with (ch2 l.~823); the APT attacker model is the first that runs in its place. *Verify before drafting:* Zhang 2023's adversary profiles are variants of the baseline, not a second attacker (ch2 is silent).
+
+**On the page / off the page:**
+
+| On | Off, and where it lives |
+|---|---|
+| The claim, in ch1's noun: an APT attacker model any study using MTDSim can run in place of the baseline attacker | The attack graph, attack profiles, partition, 38 attack flows (ch4) |
+| SQ1's answer as a finding about threat reports: they record the order of an attack's tactics by objective, almost never how long a step took, never what followed a failure. Strength and limit are one fact (voice §c5) | Petri-net mechanics, the mapping of 8 of 15 tactics (ch4, 6.3) |
+| SQ2's answer in one clause: the order runs in MTDSim as a Petri net over the baseline attacker's six attack actions | The eight properties' definitions, each mark (ch3, Table 6.1) |
+| Deciding evidence, more concrete than ch1: the only one of four attacker models with choice of attack strategy in full or any objective-specific behaviour (6.3 ¶1) | Ch1's "two in full and three in part … at most one in full", already said twice (ch1, 6.3) |
+| Significance: what an MTDSim study can now do that the earlier ones could not | The gains over the baseline attacker list (6.3) |
+| Bound: judgement where MTD disrupts it (6.3 ¶2 close); MTDSim's attack actions cap it, no actions on objectives (6.3 ¶3 close) | Code verification, sensitivity analysis, the public repository (ch1 footnote, 6.5) |
+
+**Slots** (~130–150 words, five sentences):
+- **C1-1 Claim + questions.** *Job:* name the contribution and what it answers. *Facts:* ch1's noun phrase; SQ1, SQ2. *Ceiling:* ch1's noun, not ch1's sentence; "built", "runs", never "reproduces APT behaviour".
+- **C1-2 SQ1 answered, with its bound.** *Job:* what threat reports can give an attacker model. *Facts (6.3 ¶2):* the order of tactics by objective, yes; step durations, almost never; responses to failure, never; so the tactic durations and the failure matrix, where MTD disrupts it, rest on our judgement. *Ceiling:* one sentence, the concession in the same breath.
+- **C1-3 SQ2 answered.** *Job:* how it runs. *Facts (6.3 ¶3):* a Petri net choosing its next tactic at runtime over MTDSim's six attack actions. *Ceiling:* one clause; may fold into C1-1.
+- **C1-4 Evidence against the field.** *Facts:* Table 6.1; the only one of four with choice of attack strategy in full or any objective-specific behaviour. *Ceiling:* no count repeated from ch1; "more of the eight properties", never "an APT".
+- **C1-5 Significance + ceiling.** *Job:* who can now do what, and how far. *Facts:* an MTDSim study can test MTD against an APT attacker model beside the attacker MTDSim was built with; limited to finding and compromising hosts, no actions on objectives. *Ceiling:* "can"; the ceiling as the last clause.
