@@ -521,3 +521,5 @@ Each item was reframed through its validity type, then settled by options per se
 | Banned | "likely", "most likely", double modals ("can … likely") | — |
 
 Ledger: see the chat return of this date (merged with a cold reader's pass); rulings to be logged here.
+
+**Ruling (Marc 2026-10-15): "accept all, keep C5".** Applied in one checked pass (31 replacements): A1; C1–C4; D1–D18; E1–E9. C5 kept ("properties an attacker model needs", the ratified ch3 definition; T6 discloses the set is unvalidated). C3 applied as "the steps drawn in the attack flows with that objective" (the ledger's "steps its attack flows took" read as if attack flows act). Rejected from the cold reader, logged as do-not-re-flag: NCR qualifier on "most effective" (defined by the sentence before); "depends" vs "can depend" (both correctly scoped); "in simulation" on ch7's last line. No "likely" hedge left in the abstract, ch1, 6.1–6.4 or ch7 (the one hit, l.~8874, is a probability). Overfull boxes unchanged (62 before and after); 83 pp, 0 undefined.
