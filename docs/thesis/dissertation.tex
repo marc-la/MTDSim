@@ -9765,7 +9765,11 @@ Section~\ref{sec:threats}.
   attacker model with the baseline attacker's times run under MTD
   (Appendix~\ref{app:fa-run-time} runs it with no MTD), and a Petri net with
   uniform base weights, would separate its tactic durations, the order of its
-  tactics and the base weights drawn from the attack flows. Removing the attack
+  tactics and the base weights drawn from the attack flows. A second
+  tactic-to-action mapping would separate the order of its tactics from the
+  mapping.
+  % PLACEHOLDER 2026-10-15 (Marc: "put in a placeholder for the varying"):
+  %  answers T2's residual (the mapping never varied). Ratify on read. Removing the attack
   profiles' edges one at a time would then show which transition between
   tactics a mitigation should break.
   % 2026-10-15 (Marc: "you can update it"): ATT&CK's campaign entries named as
@@ -9773,8 +9777,8 @@ Section~\ref{sec:threats}.
   \item \emph{The 38 attack flows} (\ref{thr:corpus}). Attack flows drafted by
   language models from reports on APT campaigns only, such as those behind
   ATT\&CK's campaign entries, and checked against
-  analysts' attack flows, would let each attack profile rest on more than five
-  to seven attack flows, and on APT attackers alone. The 18 attack flows
+  analysts' attack flows, would let each attack profile be drawn from more than
+  five to seven attack flows, and from APT attackers alone. The 18 attack flows
   attributed to a group in ATT\&CK, run alone, would test the attack graph
   without the rest.
 \end{itemize}
@@ -9802,8 +9806,14 @@ tested only once the attacker model assumes less.
 %  whole"): moved verbatim from Appendix B, where it was the history of the
 %  scoring, with its two "(AI Use Declaration)" self-references dropped. Held
 %  here until the Declaration is drafted. DRAFT STATE.]
-% [OWED 2026-10-15: T1 (thr:code) points here for "all of ours was written
-%  with AI assistance"; the Declaration must say so for the code. Marc to draft.]
+% [PLACEHOLDER 2026-10-15 (Marc: "AI use ... you can update that"): the code
+%  sentence T1 (thr:code) points to. DRAFT STATE; Marc rewords the whole
+%  Declaration before submission.]
+All code written for this dissertation, the APT attacker model and the
+experiment scripts, was written with AI assistance. We checked it by its
+behaviour, with an event tracer, unit tests and fixed seeds that reproduce
+every run (\ref{thr:code}).
+
 Table~\ref{tab:attacker-properties} was reworded after the attacker models
 were first scored: its rows name techniques, ATT\&CK's term, where they had
 named MTDSim's attack actions, and learning names the patterns of MTD
