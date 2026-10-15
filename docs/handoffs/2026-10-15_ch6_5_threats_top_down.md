@@ -381,3 +381,40 @@ All the §15 and §16 suggestions are applied as written, with these choices:
 - **T6:** "counts distinct openings" → "counts an opening whether or not its run reaches a target host", which removes the echo of the metric's name on the page.
 
 Build: 83 pages, 0 undefined, no new overfull box. Still owed: the 190–844 home, the AI Use Declaration's code sentence, §7.2's targeted attack scenario (ch7 gated), and the upstream "likely" sweep (§15).
+
+## 18. Clarity check of v3 (Marc 2026-10-15; proposals only, nothing applied)
+
+Tests applied:
+- the three sentence weights: (1) an unintroduced or vague term, (2) subject not first, (3) clause fluff;
+- one idea per sentence; the important point first;
+- the critique protocol's §e (subject–verb separation, proposition count, dangling modifier);
+- lessons (b) and (l): a referent for every pronoun and abstract noun.
+
+Unflagged sentences pass.
+
+| # | Before | Defect | After |
+|---|---|---|---|
+| O1 | "…and external (beyond MTDSim and the 38 attack flows)" | the other three glosses are noun phrases; this one is a bare preposition | "external (reach beyond MTDSim and the 38 attack flows)" |
+| T1a | "an event tracer replays any run step by step against the text" | "the text" is vague (1) | "…step by step against what this dissertation describes" |
+| T1b | "Before we called a behaviour a defect, we checked it against what MTDSim's papers describe, so that a design choice was kept and only an error was repaired." | subject not first (2); a passive pair at the end | "We called a behaviour a defect only after checking it against what MTDSim's papers describe, so that we kept MTDSim's design choices and repaired only its errors." |
+| T2 | "…as a cause of the share of the gap that Section 6.1 gives the order of its tactics." | a noun cluster of five (§e4); "the gap" lacks its metric (1) | "…as a cause of the rest of the gap in ASP, which Section 6.1 gives the order of its tactics." |
+| T2 (ratified) | "…why the host layer reduces NCR more than the service layer does" | whose NCR is implicit (1). Flag only; ratified wording | ("…reduces the APT attacker model's NCR more…", if Marc reopens it) |
+| T3a | "Section 6.4 explains why MTDShield reduces the APT attacker model's NCR less than the random deployment strategy does by its training against the baseline attacker; how we ran MTDShield is a plausible alternative explanation." | 40 words and two ideas; "explains why … by" separates the verb from its means (§e1) | "MTDShield reduces the APT attacker model's NCR less than the random deployment strategy does, which Section 6.4 explains by its training against the baseline attacker. How we ran MTDShield is a plausible alternative explanation." |
+| T3b | "…as a cause of part of that difference" | "that difference" is now four sentences from its referent (b) | "…as a cause of part of its smaller reduction" |
+| T4a | "NCR reduction, the measure behind the answer to SQ3, measures how MTD performs only in part." | "measure … measures" echo | "NCR reduction, which the answer to SQ3 uses, measures how MTD performs only in part." |
+| T4b | "…and each attacker's layer order holds on it at every deployment interval." | no pointer for the check (lesson 8) | "…holds on it at every deployment interval (Table D.5)." |
+| T4c | "…so ASP reduction, at 1 for all three, cannot order them." | "at 1 for all three" adds nothing once no run reaches a target host (3) | "…so ASP reduction cannot order them." |
+| T6a | "…the eight properties, which are our reading of the APT definition and two surveys, weighed equally." | "weighed equally" attaches to "surveys" (1) | "…the eight properties, our reading of the APT definition and two surveys. The properties count equally in Section 6.3's comparison." |
+| T6b | "One scorer marked all four attacker models, and the three MTD attacker models are our choice (…), none of them …" | two ideas joined by "and" | split: "One scorer marked all four attacker models. The three MTD attacker models are our choice (…), none of them …" |
+| T6c | "Distinct openings, behind the full mark for choice of attack strategy, counts an opening whether or not its run reaches a target host, in tactics for … and in attack actions for …" | an appositive separates subject and verb (§e1); two ideas | "Distinct openings backs the full mark for choice of attack strategy. It counts an opening whether or not its run reaches a target host, and it counts tactics for the APT attacker model but attack actions for the baseline attacker." |
+| T6d | "To mitigate this threat, each mark follows a predicate printed in Appendix B, and language models scored …; recounted in attack actions, …" | **dangling modifier**: "To mitigate" has no "we" (§e) | "To mitigate this threat, we tied each mark to a predicate printed in Appendix B, had language models score the attacker models blind (AI Use Declaration), and recounted the openings in attack actions: the attack profiles still have 190 to 844 against 3." |
+| T7a | "Each host-layer and service-layer mechanism ran on the same 1 000 seeds against both attackers, and the confidence intervals resample runs, so they assume …" | the threat sits third (2); the first clause does not feed it (3); "the confidence intervals" does not say which (1) | "The confidence intervals of NCR reduction resample runs, so they assume that the four attack profiles' runs on one seed's network are independent." |
+| T7b | "The ablations call an effect negligible … so some of their findings may arise by chance (Section 5.4), and the ablation of the tactic durations (…) was chosen after …" | two threats in one sentence | split: "…may arise by chance (Section 5.4). The ablation of the tactic durations (Appendix D.6) was also chosen after the results of Chapter 5 were seen." |
+| T9a | "The attack flows record incidents that succeeded …, each only as far as …, and only 18 are attributed …" | four propositions (§e5) | split before "only 18": "Only 18 of them are attributed to a group in ATT&CK, criminal groups among them (Section 4.1)." |
+| T9b | "…counts like any other: c₁'s one edge into Impact comes from one" | "one" is cryptic (b) | "…comes from such a step" |
+| T9c | "…drawn from 5 to 7 attack flows (Table 4.1), each assigned to its attack profile by one coder (Appendix C.2)." | "each" could be the attack flow or the attack profile (b); two ideas | "…drawn from 5 to 7 attack flows (Table 4.1). One coder assigned each attack flow to its attack profile (Appendix C.2)." |
+| T10 | "The sensitivity analysis (…) and the ablations explore it" | "it" is a sentence back (b) | "…explore the APT attacker model's behaviour" |
+
+**Unflagged:** the opener's S1–S3 and S5; T1 S1–S3 and S5–S6; T2 S2–S5; T3 S2–S4; T4 S2–S4; T5 (all four sentences); T7 S2–S3 and S5; T8 (ratified); T9 S1, S3 and S6–S7; T10 S1–S2 and S4–S5.
+
+**Net effect.** About −15 words. The gain is in sentence count and in subjects coming first, not in length.
