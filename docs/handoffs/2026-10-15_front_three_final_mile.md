@@ -175,3 +175,13 @@ Hedging and claim strength (done). Ch2–ch6 prose. The ch7 layers/mechanisms al
 - **Still open:** A4, the abstract closer (waits on ch7). If ch7 settles on "cannot be inferred", the closer could take those words as well.
 
 Abstract: 178 words. Build clean, 83 pp, 0 undefined.
+
+## Round 4 (2026-10-15): ch7's closer softened
+
+Ch7 changed "cannot be inferred" to "is not enough to show" (`637e2da2`; ch7 handoff §18). The new wording keeps only the evidence reading 6.5 licenses, and 6.4 ¶1 holds the same sentence. Implications for the front three:
+
+- **Contribution 2 (applied):** now verbatim with ch7 and 6.4 ¶1: "…so an evaluation against an attacker model far simpler than an APT is not enough to show how MTD performs against APT attackers". "Depends" stays unhedged because it is scoped "in MTDSim", where the dependence was shown.
+- **P3 (I1):** unchanged. "How MTD is measured to perform" still matches ch7's third implication.
+- **Abstract closer (A4, proposed, not applied):** the current closer ("make a case for testing MTD against more than one attacker model") is still licensed by ch7's second implication, so nothing is broken. The option is to end on the answer instead, in the abstract's own term from S3: *"An MTD evaluation against a simplified attacker is therefore not enough to show how MTD performs against APT attackers."* For: it closes the ring with S3 and mirrors ch7. Against: it drops the actionable advice, and "therefore" follows a single example. Lean: take it, since the abstract then answers the research question as ch7 does.
+
+Build clean, 83 pp, 0 undefined. "Cannot be inferred" now survives only in comments.
