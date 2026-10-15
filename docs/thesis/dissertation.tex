@@ -9133,6 +9133,9 @@ MTD, so the rest of our explanation is inferred. We never varied the
 tactic-to-action mapping, so we cannot rule it out as a cause of what we
 credit to the order of its tactics.
 
+% T3 v5 2026-10-15 (Marc: "one janky sentence", four clauses where one will
+%  do): "and assumed that it detects nothing during an unmapped tactic"; the
+%  "which runs no attack action" gloss cut (the term carries it).
 % T3 v4 2026-10-15 (Marc's wording suggestions): "against only the
 %  baseline attacker" (negative edge without imputing motive); "its training
 %  settings" as one noun cluster; the unmapped-tactic reading as a declared
@@ -9166,9 +9169,8 @@ credit to the order of its tactics.
 explanation of its results against the APT attacker model
 (Section~\ref{sec:evaluation-implications}), which credits its training
 against only the baseline attacker. We ran MTDShield as released, outside its
-training settings (Table~\ref{tab:mtdshield-configuration}), and declared one
-assumption: it reads an unmapped tactic, which runs no attack action, as
-nothing detected. To mitigate this threat, we kept the experimental setup
+training settings (Table~\ref{tab:mtdshield-configuration}), and assumed that it
+detects nothing during an unmapped tactic. To mitigate this threat, we kept the experimental setup
 identical for both attackers, and against the baseline attacker MTDShield
 still reduces NCR more than the random deployment strategy does at every
 deployment interval. The assumption matters only against the APT attacker
