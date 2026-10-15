@@ -9186,6 +9186,13 @@ model.
 
 \paragraph{Construct validity.}
 \begin{enumerate}[resume*=threats]
+% T4 v5 2026-10-15 (Marc: v4 "is actually worse"; back to v3, word-level
+%  only). v4 compressed past the peak: it cut the content words (an attacker,
+%  a target host) and swapped a concrete result for a pointer ("the answer to
+%  SQ3"). v5 = v3 + Marc's "only partially measures" + the target host back in
+%  the threat + the layer order stated as the result itself. Not added:
+%  "targeted attack scenario is closer to APT behaviour" (no body sentence
+%  claims it; not needed for the threat).
 % T4 v4 2026-10-15 (Marc: stack the noun clusters; "same layer order" vague
 %  -> the headline result holds; the residual's "so what"): "counts
 %  compromised hosts"; "the answer to SQ3 holds on it" (6.2's opening is the
@@ -9213,13 +9220,15 @@ model.
 %  against the baseline attacker at 500 and 1 000 s, NCR 0.16/0.06, ASP
 %  -0.10/-0.06, none grey). "Up to 200 s ... 1": Table D.5 prints 1.00 (exactly
 %  1) for all three host-layer mechanisms at 50-200 s.
-\item\label{thr:ncr} NCR reduction, our main metric, measures how MTD
-performs only in part: it counts compromised hosts, whatever the attack
-scenario's goal. To mitigate this threat, we also computed ASP reduction, and
-the answer to~\ref{sq:evaluate} holds on it at every deployment interval
+\item\label{thr:ncr} NCR reduction, our main metric, only partially
+measures how MTD performs: it counts the hosts an attacker compromises,
+whether or not it reaches a target host, the goal of the targeted attack
+scenario. To mitigate this threat, we also computed ASP reduction, and on it
+the host layer still leads against the APT attacker model and the service
+layer against the baseline attacker, at every deployment interval
 (Table~\ref{tab:eff-interval-values-asp}). The threat remains for rank~1
-against the APT attacker model up to 200\,s: no run under a host-layer
-mechanism reaches a target host, so only NCR reduction tells the three apart.
+against the APT attacker model up to 200\,s, where ASP reduction ties every
+host-layer mechanism at 1 and only NCR reduction orders them.
 
 % T5 the model built from CTI, 2026-10-15 (Marc: "CTI wasn't designed for this
 %  ... how much can we trust the weights"): thr:values + thr:mapping merged, and
