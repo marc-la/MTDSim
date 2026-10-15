@@ -9359,23 +9359,29 @@ compromised host, but in a real network, replacing a service may evict an
 attacker that compromised its host through that service. Each would narrow
 the host layer's lead over the service layer.
 
+% T9 v3 2026-10-15 (Marc, two option rounds; "push"): external frame =
+%  unrepresentative sample. Bias (survivorship; detail of the reports; not all
+%  APT -- restores the fact 4.1 sends here, cut in pass 5), thin, amplified by
+%  our use (confidence 0: 16 of 853 steps). Marc: the profile ablation is NOT a
+%  mitigation (same 38 attack flows), so the item says no analysis within the
+%  corpus mitigates it. Cut: "used as drawn" (rules out our curation, not the
+%  bias), the one coder (reliability of the split; App. classification audit;
+%  T2's ablation), the method detail (T5).
 % T9 corpus v2, 2026-10-15 (Marc: "a very strong ... beautiful"): what the model
 %  keeps from each attack flow; the build reads no confidence (16 of 853 steps
 %  drawn with confidence 0); one coder moved here from the yardstick item.
-\item\label{thr:corpus} The results may not generalise to APT attackers beyond
-the 38 attack flows. The attack flows record incidents that succeeded and were
-worth writing about (Section~\ref{subsec:failure-matrix}), each only as far as its threat
-report describes (Section~\ref{sec:attack-profiles}). We used each attack flow as its analyst
-drew it, and the APT attacker model keeps only which tactic follows which,
-counted over the attack flows. It drops the techniques, the descriptions and
-the confidence the analyst gave each step, so a step drawn with confidence 0
-counts like any other (Appendix~\ref{app:profile-edges}). Three of the four
-attack profiles are drawn from 5 to 7 attack flows
-(Table~\ref{tab:attack-profiles}). One coder assigned each attack flow to its
-attack profile (Appendix~\ref{app:classification-audit}). Without the attack profiles,
-the host layer still reduces NCR most (\ref{thr:cause}), so that assignment
-does not decide the answer to~\ref{sq:evaluate}. We make no claim about APT
-behaviour the attack flows do not record.
+\item\label{thr:corpus} The 38 attack flows are an unrepresentative sample
+of APT attackers, so the finding for~\ref{sq:evaluate} may not generalise
+beyond the attack flows. They record only successful incidents worth writing
+about (Section~\ref{subsec:failure-matrix}), to the detail their threat
+reports give, and not all by APT groups (Section~\ref{sec:technique-graph}). Three of the
+four attack profiles are drawn from only 5 to 7 attack flows
+(Table~\ref{tab:attack-profiles}). Our use amplifies these biases, as the APT
+attacker model treats every step equally, even one its analyst drew with
+confidence 0 (Appendix~\ref{app:profile-edges}). No analysis within the corpus
+mitigates this threat, because every part of the APT attacker model draws on
+the same attack flows. We make no claim about APT behaviour the attack flows do
+not record.
 
 % T10 observation, 2026-10-15 (Marc: "no MTD-APT data sets ... emulate"):
 %  MTDShield's half moved to thr:mtdshield. "We know of no" scopes the universal.
