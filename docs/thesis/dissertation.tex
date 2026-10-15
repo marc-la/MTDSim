@@ -9082,6 +9082,14 @@ repairs, we make no quantitative comparison with their results. The code is
 public for review (Chapter~\ref{ch:intro}). The threat remains for behaviour
 no check exercised and for code we only partially reviewed.
 
+% T2 v9 2026-10-15 (Marc: "we do vary the order ... through the attack
+%  profiles"; the order reaches MTDSim only through the mapping, "in tandem").
+%  Fact fixed: the attack-profile ablation runs the whole attack graph, so the
+%  order WAS varied, but only among orders drawn from the attack flows. The
+%  residual is now the confound itself: order and mapping never varied apart.
+%  Kept the name "the order of its tactics" (not renamed to a sequence of
+%  attack actions): it is the CTI-grounded part (6.3), the mapping our
+%  judgement (T5), and the residual needs the two named apart.
 % T2 v8 2026-10-15 (Marc: "what's the conventional way"; "a clearer through
 %  line" at the bottom). "ablated" (ch5's "Ablation studies"); "rules out each
 %  as a cause" (terminology file's conventional verb); the duration swap named
@@ -9115,10 +9123,11 @@ the failure matrix and the vulnerability memory one at a time, which rules out
 each as a cause of the host layer's lead (Section~\ref{sec:ablation}). A
 second ablation, with no MTD, replaced its tactic durations with the baseline
 attacker's times and closed about two thirds of the gap in ASP between the two
-attackers (Appendix~\ref{app:fa-run-time}). We did not repeat it under MTD or
-vary the order of its tactics or the tactic-to-action mapping, so the rest of
-our explanation is inferred, and we cannot rule out the mapping as a cause of
-its results.
+attackers (Appendix~\ref{app:fa-run-time}). We did not repeat this ablation under
+MTD, so the rest of our explanation is inferred. Every run drew the order of
+its tactics from the attack flows and turned it into attack actions through
+the same tactic-to-action mapping, so we cannot separate the order from the
+mapping as a cause of its results.
 
 % T3 MTDShield, 2026-10-15 (ruled: its own internal item; Marc: "there is no
 %  such concept as an unmapped tactic in MTDShield"). Reasoned: against either
