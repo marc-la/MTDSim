@@ -9186,6 +9186,13 @@ model.
 
 \paragraph{Construct validity.}
 \begin{enumerate}[resume*=threats]
+% T4 v3 2026-10-15 (Marc: simplify the threat; "which counts that success"
+%  is App D's; the residual argued ASP's limit, not NCR's). Threat: counts
+%  hosts "whatever the attack scenario's goal" (4.4: the attack scenario sets
+%  the goal). Residual turned to NCR: where the cross-check ties (Table D.5
+%  prints 1.00, exactly 1, for all three host-layer mechanisms at 50-200 s),
+%  only NCR reduction orders rank 1. "main metric", not "dominant" (ch2 uses
+%  dominant for ASP, after Cho).
 % T4 v2 2026-10-15 (Marc: "the threat isn't very clear ... defining NCR
 %  reduction twice ... reads like we're on the back foot"). Construct lens:
 %  mono-operation bias -- one measure for "how MTD performs", and it captures
@@ -9201,15 +9208,13 @@ model.
 %  against the baseline attacker at 500 and 1 000 s, NCR 0.16/0.06, ASP
 %  -0.10/-0.06, none grey). "Up to 200 s ... 1": Table D.5 prints 1.00 (exactly
 %  1) for all three host-layer mechanisms at 50-200 s.
-\item\label{thr:ncr} NCR reduction, on which we rank MTD mechanisms to
-answer~\ref{sq:evaluate}, measures how MTD performs only in part: it counts
-the hosts an attacker compromises, not whether the attacker reaches a target
-host, which is success in the targeted attack scenario. To mitigate this
-threat, we also computed ASP reduction, which counts that success, and each
-attacker's layer order holds on it at every deployment interval
-(Table~\ref{tab:eff-interval-values-asp}). The threat remains for rank~1
-against the APT attacker model: up to 200\,s, no run under any host-layer
-mechanism reaches a target host, so ASP reduction cannot order them.
+\item\label{thr:ncr} NCR reduction, our main metric, measures how MTD
+performs only in part: it counts the hosts an attacker compromises, whatever
+the attack scenario's goal. To mitigate this threat, we also computed ASP
+reduction, which gives each attacker the same layer order at every deployment
+interval (Table~\ref{tab:eff-interval-values-asp}). The threat remains for
+rank~1 against the APT attacker model up to 200\,s, where ASP reduction ties
+every host-layer mechanism at 1 and only NCR reduction orders them.
 
 % T5 the model built from CTI, 2026-10-15 (Marc: "CTI wasn't designed for this
 %  ... how much can we trust the weights"): thr:values + thr:mapping merged, and
