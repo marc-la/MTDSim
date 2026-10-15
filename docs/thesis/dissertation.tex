@@ -10195,7 +10195,16 @@ of Chapter~\ref{ch:experiments}.
 
 Two changes let MTDShield run: Tay's input construction is restored as an
 option beside the simulator's, and a decision to do nothing waits for the next
-deployment interval instead of stopping the clock. The agent reads an unmapped
+deployment interval instead of stopping the clock.
+As released, its evaluation code reads four of its eight inputs before the run
+starts, so they are zero at every decision, as in Tay's own evaluations. With
+the inputs read live, as in its training code, its NCR reduction against the
+baseline attacker does not change measurably; against the APT attacker model,
+the training code fails in most runs.
+% 2026-10-15 (Marc: "that's fine"): disclosure of the constant-zero inputs
+%  (ch5_mtdshield_preliminary_findings.md 1.1, 4.4). Check run on the
+%  preliminary 100 seeds, so no numbers printed.
+ The agent reads an unmapped
 tactic of the APT attacker model as nothing detected. At 200\,s, the agent
 chose service diversity in 76\,\% of its decisions against the baseline
 attacker and 70\,\% against the APT attacker model, and nothing in 23\,\% and
