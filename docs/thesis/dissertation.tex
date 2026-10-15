@@ -9388,17 +9388,22 @@ mitigates this threat, because every part of the APT attacker model draws on
 the same attack flows. We make no claim about APT behaviour the attack flows do
 not record.
 
+% T10 v2 2026-10-15 (Marc, options rounds): operational validity (Sargent) --
+%  no real data to compare outputs with. "to our knowledge" scopes the
+%  universal; Sargent cited, not named in prose ("as is standard"); the close
+%  says what the mitigation cannot reach ("these analyses": antecedents are
+%  the sensitivity analysis and the ablations; "checks" was unintroduced).
+%  Cut: "inferred from MTDSim's rules (T8)" -- T8 already points here.
 % T10 observation, 2026-10-15 (Marc: "no MTD-APT data sets ... emulate"):
 %  MTDShield's half moved to thr:mtdshield. "We know of no" scopes the universal.
-\item\label{thr:observation} We know of no data set that records APT campaigns
-against MTD, so the APT attacker model cannot be validated against one, and
-what MTD does to an APT is inferred from MTDSim's rules (\ref{thr:rules}). To
-mitigate this threat, we followed Sargent's advice for a system that cannot be
-observed: explore the model's behaviour as thoroughly as possible and compare
-it with other models \citep{sargent2011}. The sensitivity analysis
-(Appendix~\ref{app:sensitivity}) and the ablations explore the APT attacker
-model's behaviour, and the
-baseline attacker is the other model. The threat remains.
+\item\label{thr:observation} We cannot validate the APT attacker model or its
+findings against real APT campaigns that involve MTD, because to our knowledge
+no data set records such a campaign. To mitigate this threat, we explored the
+model's behaviour through the sensitivity analysis
+(Appendix~\ref{app:sensitivity}) and the ablations, and compared it with the
+baseline attacker, as is standard when the real system cannot be observed
+\citep{sargent2011}. However, these analyses cannot take the findings beyond
+the simulation.
 \end{enumerate}
 
 % =====================================================================
