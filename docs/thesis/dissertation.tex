@@ -9082,6 +9082,15 @@ repairs, we make no quantitative comparison with their results. The code is
 public for review (Chapter~\ref{ch:intro}). The threat remains for behaviour
 no check exercised and for code we only partially reviewed.
 
+% T2 v7 2026-10-15 (Marc: four-line opener; "abstract a little bit more";
+%  "what do we need to say to the reader"). Threat in the terminology file's
+%  internal form ("X may confound Y"); the two differences no longer re-derived;
+%  removals abstracted to "none accounts for the host layer's lead" (true of
+%  all three: profiles, host still leads; FM/VM negligible, Table 5.4 -- NOT
+%  "the result holds", since FM/VM were run on three mechanisms only); the
+%  three gaps folded: durations-under-MTD + order -> "inferred", mapping ->
+%  cannot rule out. Cut: "which decides which tactics run no attack action",
+%  the T8 pointer.
 % T2 v6 2026-10-15 (Marc: "the framing ... is not correct"; ruled: T2 is the
 %  threat to the explanation only, one item for both claims, SQ3's first).
 %  Opens on the rival, not on our explanation; mitigation = the three
@@ -9092,26 +9101,18 @@ no check exercised and for code we only partially reviewed.
 % T2 (superseded) cause: v5 2026-10-13 as ratified (handoff 2026-10-11 sections 117-125,
 %  133-136), plus one sentence 2026-10-15 (ruled: extend to 6.1's "order of its
 %  tactics most likely accounts for the rest").
-\item\label{thr:cause} Other parts of the APT attacker model are a
-plausible alternative explanation for two differences that this chapter
-attributes to its tactic durations and the order of its tactics: the host
-layer's lead over the service layer under MTD
-(Section~\ref{sec:disc-mtd-performance}), and its gap in ASP to the baseline
-attacker with no MTD (Section~\ref{sec:disc-behaviour}). To mitigate this
-threat, we removed the attack profiles, the failure matrix and the
-vulnerability memory one at a time (Section~\ref{sec:ablation}). Under MTD,
-the host layer still reduces NCR most without the attack profiles, and
-removing the failure matrix or the vulnerability memory changes NCR
-negligibly. With no MTD, the baseline attacker's times in place of its tactic
-durations close about two thirds of its gap in ASP
-(Appendix~\ref{app:fa-run-time}). Under MTD, we never replaced its tactic
-durations, so their part in the host layer's lead is inferred from MTDSim's
-rules for how a deployment disrupts an attacker (\ref{thr:rules}). We never
-varied the order of its tactics, so the rest of the gap in ASP, which
-Section~\ref{sec:disc-behaviour} credits to that order, is inferred, not
-measured. Nor did we vary the tactic-to-action mapping, which decides which
-tactics run no attack action, so we cannot rule out the mapping as a cause of
-the host layer's lead or of the rest of the gap in ASP.
+\item\label{thr:cause} Other components of the APT attacker model may
+confound our explanation of its results (Sections~\ref{sec:disc-behaviour}
+and~\ref{sec:disc-mtd-performance}), which credits its tactic durations and
+the order of its tactics. To mitigate this threat, we removed the attack
+profiles, the failure matrix and the vulnerability memory one at a time, and
+none of them accounts for the host layer's lead (Section~\ref{sec:ablation}).
+With no MTD, replacing its tactic durations with the baseline attacker's times
+closes about two thirds of the gap in ASP between the two attackers
+(Appendix~\ref{app:fa-run-time}). We did not repeat that replacement under MTD
+or vary the order of its tactics, so the rest of our explanation is inferred.
+Nor did we vary the tactic-to-action mapping, so we cannot rule it out as a
+cause of its results.
 
 % T3 MTDShield, 2026-10-15 (ruled: its own internal item; Marc: "there is no
 %  such concept as an unmapped tactic in MTDShield"). Reasoned: against either
