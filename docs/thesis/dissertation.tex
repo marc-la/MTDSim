@@ -9082,25 +9082,36 @@ repairs, we make no quantitative comparison with their results. The code is
 public for review (Chapter~\ref{ch:intro}). The threat remains for behaviour
 no check exercised and for code we only partially reviewed.
 
-% T2 cause: v5 2026-10-13 as ratified (handoff 2026-10-11 sections 117-125,
+% T2 v6 2026-10-15 (Marc: "the framing ... is not correct"; ruled: T2 is the
+%  threat to the explanation only, one item for both claims, SQ3's first).
+%  Opens on the rival, not on our explanation; mitigation = the three
+%  removals + D.6; what remains = durations never replaced under MTD, order
+%  never varied (inferred by elimination), mapping never varied. Duration
+%  scaling moved to T5 (cites tab:duration-ranking); "took as given" cut (T5).
+%  Flag: ch7 future-work bullet has no line for another mapping.
+% T2 (superseded) cause: v5 2026-10-13 as ratified (handoff 2026-10-11 sections 117-125,
 %  133-136), plus one sentence 2026-10-15 (ruled: extend to 6.1's "order of its
 %  tactics most likely accounts for the rest").
-\item\label{thr:cause} The APT attacker model's tactic durations and the
-order of its tactics are a plausible explanation of why the host layer reduces NCR more than the
-service layer does (Section~\ref{sec:disc-mtd-performance}). Under MTD,
-removing the failure matrix or the vulnerability memory changes NCR negligibly,
-and without the attack profiles the host layer still reduces NCR most at every
-deployment interval (Section~\ref{sec:ablation}). Scaling the most sensitive
-tactic durations to a quarter and to four times their value leaves the host layer ahead of the
-service layer at a deployment interval of 200\,s
-(Table~\ref{tab:duration-ranking}). We took two components as given: the base
-weights, which set the order of its tactics, and
-the tactic-to-action mapping, which we declared (\ref{thr:mapping}). Every run
-under MTD drew its base weights from the attack flows and used this mapping,
-so we cannot rule out either as a cause of the host layer's result. With no MTD, only the tactic durations were changed on their own
-(Appendix~\ref{app:fa-run-time}), so we cannot rule out the tactic-to-action
-mapping as a cause of the rest of the gap in ASP, which
-Section~\ref{sec:disc-behaviour} gives the order of its tactics.
+\item\label{thr:cause} Other parts of the APT attacker model are a
+plausible alternative explanation for two differences that this chapter
+attributes to its tactic durations and the order of its tactics: the host
+layer's lead over the service layer under MTD
+(Section~\ref{sec:disc-mtd-performance}), and its gap in ASP to the baseline
+attacker with no MTD (Section~\ref{sec:disc-behaviour}). To mitigate this
+threat, we removed the attack profiles, the failure matrix and the
+vulnerability memory one at a time (Section~\ref{sec:ablation}). Under MTD,
+the host layer still reduces NCR most without the attack profiles, and
+removing the failure matrix or the vulnerability memory changes NCR
+negligibly. With no MTD, the baseline attacker's times in place of its tactic
+durations close about two thirds of its gap in ASP
+(Appendix~\ref{app:fa-run-time}). Under MTD, we never replaced its tactic
+durations, so their part in the host layer's lead is inferred from MTDSim's
+rules for how a deployment disrupts an attacker (\ref{thr:rules}). We never
+varied the order of its tactics, so the rest of the gap in ASP, which
+Section~\ref{sec:disc-behaviour} credits to that order, is inferred, not
+measured. Nor did we vary the tactic-to-action mapping, which decides which
+tactics run no attack action, so we cannot rule out the mapping as a cause of
+the host layer's lead or of the rest of the gap in ASP.
 
 % T3 MTDShield, 2026-10-15 (ruled: its own internal item; Marc: "there is no
 %  such concept as an unmapped tactic in MTDShield"). Reasoned: against either
@@ -9160,7 +9171,7 @@ factor and the tactic-to-action mapping by judgement
 before any result and varied, substituted or removed each one at a time: only
 the 45\,s mean duration changes NCR much
 (Table~\ref{tab:anchor-sensitivity}), and the rankings hold at both ends of
-its band (\ref{thr:cause}). We have not tested uniform base weights, the
+its band (Table~\ref{tab:duration-ranking}). We have not tested uniform base weights, the
 interactions between the parts, the weights of the pre-intrusion overlay or any
 other partial mapping, so we cannot rule out that they change the
 rankings.
