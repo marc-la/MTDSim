@@ -9232,6 +9232,11 @@ interval (Table~\ref{tab:eff-interval-values-asp}). The threat remains for rank~
 against the APT attacker model up to 200\,s, where ASP reduction ties every
 host-layer mechanism at 1 and only NCR reduction orders them.
 
+% T5 v4 2026-10-15 (Marc: "push the draft"; chosen per sentence from options):
+%  S1 claim narrowed to the three gaps (C); S2 plain source, no table pointer
+%  (C; base weight = share of attack flows drawing the edge, Eq. base-weight);
+%  S3 one finding per gap in the threat's order (B), "declared before any
+%  result" kept (rules out tuning); mapping dropped (B; T2 carries it).
 % T5 v3 2026-10-15 (Marc: bare-bones threat; each gap -> its source ->
 %  what we did). Three gaps as three nouns (likelihood, timing, response to
 %  failure); sentence 2 maps each to its source (counts -> base weights;
@@ -9256,17 +9261,16 @@ host-layer mechanism at 1 and only NCR reduction orders them.
 %  the base weights added as our construction. Untested list from Table C.4 and
 %  7.2 (uniform base weights).
 \item\label{thr:values}\label{thr:mapping} The APT attacker model only
-partially represents an APT attacker, because attack flows record the order
-of an attack's steps but not their likelihood, timing or response to failure.
-Likelihood comes from counts of drawn edges, turned into base weights; timing
-and response to failure we declared by judgement
-(Table~\ref{tab:value-bases}). To mitigate this threat, we declared every
-value before any result and varied, substituted or removed them one at a
-time: only the 45\,s mean duration changes NCR much
-(Table~\ref{tab:anchor-sensitivity}), and the rankings hold at both ends of its
-band (Table~\ref{tab:duration-ranking}). We did not test uniform base weights,
-another tactic-to-action mapping or the values together, so we cannot rule out
-that they change the rankings.
+partially represents the likelihood, timing and response to failure of an APT
+attacker's steps, because attack flows record only their order. We took each
+step's likelihood as the share of attack flows that draw it, and declared
+timing and response to failure by judgement. To mitigate this threat, we
+declared these values before any result and tested them one at a time: timing
+changes NCR most, but the rankings hold across its band
+(Table~\ref{tab:duration-ranking}), and without the failure matrix, which sets
+the response to failure, NCR changes negligibly (Section~\ref{sec:ablation}).
+We did not test uniform likelihoods or the values together, so we cannot rule
+out that they change the rankings.
 
 % T6 the marks, 2026-10-15 (Marc: "show a direction ... hedge it down"). The
 %  190-844 recount has no home outside this item (handoff 2026-10-15 section 11).
