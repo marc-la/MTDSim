@@ -203,17 +203,26 @@ threats (APTs), attackers who pursue a specific objective over months or
 years. MTD continually reconfigures a network so that what an attacker has
 learned about it goes out of date before it can be used. Yet simulation
 studies of MTD commonly test it against simplified attackers that follow a
-fixed sequence of steps. We build an APT attacker model from published
-reports of real intrusion campaigns, with attack profiles distinguished by
-objective. We run it and an existing MTD simulator's scripted baseline
+fixed sequence of steps.
+% 2026-10-15 (Marc, A3 option b): the build sentence answers S3's "fixed
+% sequence of steps"; "attack profiles" (undefined here, never reused) cut.
+We build an APT attacker model that chooses its next step by objective, from
+published reports of real intrusion campaigns. We run it and an existing MTD simulator's scripted baseline
 attacker on the same networks, under seven MTD mechanisms at six deployment
 intervals.
 % 2026-10-15 (Marc, front-three pass; handoff 2026-10-15_front_three_final_mile):
 % A2 "twice" -> the scale (seven mechanisms, Table 5.1; six intervals); A1 the
 % headline first, then the instance, its repeated words dropped. P6 mirrors it.
-At every deployment interval, the most effective MTD mechanism differs
-between the two attackers. At the default interval, service diversity and port
-shuffle are the most effective against the baseline attacker. Service
+% 2026-10-15 (Marc, L2): the headline states the layer pattern in plain words
+% (ch1 P2's "addresses, layout"; ch2's "services"), so ch5-ch7's host layer and
+% service layer are the same finding; "service diversity and port shuffle are
+% the most effective" cut (the pattern carries it). Overturns 2026-10-07's bare
+% "differs"; nothing is the most effective against both. Rank-1 sets checked:
+% host-layer only vs the APT attacker model, service-layer only vs the baseline
+% attacker, all six intervals.
+At every deployment interval, the most effective MTD mechanisms against the
+APT attacker model change the network's addresses or layout, and those against
+the baseline attacker change its services. At the default interval, service
 diversity reduces the number of hosts the baseline attacker compromises by
 92\,\%, but the number the APT attacker model compromises by 36\,\%. These
 results make a case for
@@ -472,9 +481,16 @@ the number of hosts each attacker compromises.
 % {service diversity, port shuffle} at 50-200 s, IP shuffle against service
 % diversity at 500-2 000 s. No p-value in ch1; ch5 carries the test.
 % 2026-10-15 (Marc, I3): the headline first, verbatim with the abstract.
-At every deployment interval, the most effective MTD mechanism differs
-between the two attackers. At the default interval, service diversity and port
-shuffle are the most effective against the baseline attacker. Service
+% 2026-10-15 (Marc, L2): the headline states the layer pattern in plain words
+% (ch1 P2's "addresses, layout"; ch2's "services"), so ch5-ch7's host layer and
+% service layer are the same finding; "service diversity and port shuffle are
+% the most effective" cut (the pattern carries it). Overturns 2026-10-07's bare
+% "differs"; nothing is the most effective against both. Rank-1 sets checked:
+% host-layer only vs the APT attacker model, service-layer only vs the baseline
+% attacker, all six intervals.
+At every deployment interval, the most effective MTD mechanisms against the
+APT attacker model change the network's addresses or layout, and those against
+the baseline attacker change its services. At the default interval, service
 diversity reduces the number of hosts the baseline attacker compromises by
 92\,\%, but the number the APT attacker model compromises by 36\,\%.
 % [2026-09-28: the two scope sentences that closed P6 were moved to P5, then
@@ -574,10 +590,12 @@ diversity reduces the number of hosts the baseline attacker compromises by
   full and three in part; three recent attacker models have at most one in
   full.
   % 2026-10-15 (Marc, I2): the "so what", in ch7's opening words; it closes
-  % the ring with P3's "far simpler than an APT".
+  % the ring with P3's "far simpler than an APT". Re-mirrored the same day to
+  % ch7's redrafted preamble (eaa956cd: "cannot be inferred").
   \item We find that, in MTDSim, the most effective MTD mechanism depends
-  on the attacker model, so an MTD evaluation against an attacker model far
-  simpler than an APT may not show how MTD performs against APT attackers.
+  on the attacker model, so how MTD performs against APT attackers cannot be
+  inferred from an evaluation against an attacker model far simpler than an
+  APT.
 \end{itemize}
 
 % [CONNECTIVE-PROSE PASS 2026-09-26, ch1 overview] Thesis-structure
@@ -8517,8 +8535,8 @@ order. Section~\ref{sec:disc-behaviour} explains how the two attackers
 differ with no MTD on the three properties Chapter~\ref{ch:experiments}
 measures, mostly by the APT attacker model's tactic durations and the order
 of its tactics.
-Section~\ref{sec:disc-mtd-performance} explains why a different MTD layer
-reduces each attacker's NCR most, and answers~\ref{sq:evaluate}.
+Section~\ref{sec:disc-mtd-performance} explains why a different layer's MTD
+mechanisms reduce each attacker's NCR most, and answers~\ref{sq:evaluate}.
 Section~\ref{sec:fidelity-verdict} scores the APT attacker model on the eight
 properties of Section~\ref{subsec:attacker-criterion}, beside the three MTD
 attacker models scored there, and answers~\ref{sq:capture}
@@ -9029,8 +9047,8 @@ do: find and compromise hosts, with no actions on objectives
 (Section~\ref{sec:fidelity-verdict}). We therefore attribute the two
 attackers' different results mostly to the APT attacker model's tactic
 durations and the order of its tactics (Section~\ref{sec:disc-behaviour}).
-With MTD, we attribute to these two differences which MTD layer reduces each
-attacker's NCR most (Section~\ref{sec:disc-mtd-performance}). A new attacker
+With MTD, we attribute to these two differences which layer's MTD mechanisms reduce
+each attacker's NCR most (Section~\ref{sec:disc-mtd-performance}). A new attacker
 model in an existing simulator can therefore change how MTD is measured to perform, even when
 it differs in little more than when and in what order it runs the simulator's
 attack actions.

@@ -165,3 +165,13 @@ Hedging and claim strength (done). Ch2–ch6 prose. The ch7 layers/mechanisms al
 **Recommendation: L2**, in the abstract and P6 together, so they stay verbatim. Contribution 2 ("depends on the attacker model") and the I5 overview are unchanged. Ch7, still being redrafted, keeps layers: by then ch2 has given the reader the names.
 
 **Claim check for L2.** The rank-1 sets are IP shuffle, host topology shuffle and complete topology shuffle at 50–200 s, and IP shuffle at 500–2 000 s: all addresses or layout. Against the baseline attacker they are service diversity and port shuffle, then service diversity alone: all services (`numbers_reported.json`, `ranking.by_interval.*.*.sk_esd`, as recorded in the P6 comment).
+
+## Round 3 (2026-10-15): applied
+
+- **A3 (b)**: "We build an APT attacker model that chooses its next step by objective, from published reports of real intrusion campaigns."
+- **L2** in the abstract and P6 (still verbatim): the layer pattern in plain words, with the "service diversity and port shuffle" sentence cut. That sentence gave the same fact one level down, and the pattern carries it. The 92/36 instance keeps one named mechanism, and its name says it changes services.
+- **Ch6 "MTD layer"** (auto-gate) becomes "a layer's MTD mechanisms" (two places). This is ch2 Table 2.1's grouping, so no new term is introduced.
+- **Re-mirror**: ch7's preamble was redrafted mid-pass (`eaa956cd`). Contribution 2 now ends in its words: "so how MTD performs against APT attackers cannot be inferred from an evaluation against an attacker model far simpler than an APT". I1's "how MTD is measured to perform" still matches ch7's third implication. Ch7's opening and ch1 P6 now tell the same layer pattern, in ch2's names and in plain words respectively.
+- **Still open:** A4, the abstract closer (waits on ch7). If ch7 settles on "cannot be inferred", the closer could take those words as well.
+
+Abstract: 178 words. Build clean, 83 pp, 0 undefined.
