@@ -9272,23 +9272,34 @@ the response to failure, NCR changes negligibly (Section~\ref{sec:ablation}).
 We did not test uniform likelihoods or the values together, so we cannot rule
 out that they change the rankings.
 
+% T6 v2 2026-10-15 (Marc, two option rounds): construct threat = the
+%  comparison partially measures closeness to an APT attacker, for two causes
+%  we own (our synthesis of the property set; a face-value reading of the
+%  papers, no code). Mitigation: predicates + blind language-model cross-check.
+%  Residual: neither validates the set (coarse, likely incomplete) or reads past
+%  the papers. Scope: three comparators, none game-theoretic; the field-wide
+%  "lack" is the surveys' finding (3.3 preamble), so "covers only these four"
+%  does not contradict ch1/ch3. Cut: equal counting (APT attacker model's mark
+%  >= every other model's on every property, Table 6.1, so no weighting changes
+%  the verdict); the distinct-openings detail and the 190-844 recount moved to
+%  App. B (clause tests) -- closes the "no home" flag.
 % T6 the marks, 2026-10-15 (Marc: "show a direction ... hedge it down"). The
 %  190-844 recount has no home outside this item (handoff 2026-10-15 section 11).
-\item\label{thr:yardstick} The marks of Section~\ref{sec:fidelity-verdict}
-measure each attacker model only against the eight properties, our reading of
-the APT definition and two surveys. The properties count equally in
-Section~\ref{sec:fidelity-verdict}'s comparison. One scorer marked all four
-attacker models. The three MTD attacker models are our choice (Section~\ref{subsec:recent-threat-models}), none of them the attacker
-of a game-theoretic model, the dominant MTD modelling approach
-\citep{cho2020}. Distinct openings backs the full mark for choice of attack
-strategy. It counts an opening whether or not its run reaches a target host,
-and it counts tactics for the APT attacker model but attack actions for the
-baseline attacker. To mitigate this threat, we tied each mark to a predicate
-printed in Appendix~\ref{app:clause-tests}, had language models score the
-attacker models blind (\hyperref[ch:ai-declaration]{AI Use Declaration}), and recounted the openings in
-attack actions: the attack profiles still have 190 to 844 against 3. We make no
-claim for the marks beyond comparing the four attacker models on the same
-predicates.
+\item\label{thr:yardstick} Section~\ref{sec:fidelity-verdict}'s comparison
+only partially measures how closely an attacker model represents an APT
+attacker: we synthesised the eight properties from the APT definition and two
+surveys, and scored each attacker model from a face-value reading of its
+papers. To mitigate this threat, we tied each mark to a predicate
+(Appendix~\ref{app:clause-tests}) and cross-checked our marks against language
+models that scored the attacker models blind
+(\hyperref[ch:ai-declaration]{AI Use Declaration}). Neither check validates
+the property set, which is coarse and likely incomplete, or reads past the
+papers, so the threat remains. We chose three MTD attacker models
+(Section~\ref{subsec:recent-threat-models}), none from game theory, the
+dominant MTD modelling approach \citep{cho2020}, so the comparison covers only
+these four attacker models. That MTD attacker models in general lack the
+properties of an APT attacker is the finding of the two surveys
+\citep{cho2020, jalowski2026}.
 \end{enumerate}
 
 \paragraph{Conclusion validity.}
@@ -9842,6 +9853,13 @@ cells judge the APT attacker model from Chapter~\ref{ch:attacker-model} and the
 three MTD attacker models from their papers. The predicates are Table~\ref{tab:attacker-properties}'s
 definitions word for word; rows 1 and 6 split off a qualifier, row 5 splits at
 its ``and''.
+
+Distinct openings (Equation~\ref{eq:apv}) backs the APT attacker
+model's full mark for choice of attack strategy (Section~\ref{sec:disc-behaviour}).
+It counts tactics for the APT attacker model and attack actions for the
+baseline attacker; counted in attack actions for both, the attack profiles
+still have 190 to 844 distinct openings against the baseline attacker's 3.
+% 2026-10-15: moved from 6.5 T6 (Marc ruled T6's Part 3 B); the recount's only home.
 
 \begin{table}[htbp]
   \centering
