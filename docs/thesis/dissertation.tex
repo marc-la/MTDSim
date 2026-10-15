@@ -9018,6 +9018,8 @@ attack actions.
 % =====================================================================
 \section{Threats to validity}
 \label{sec:threats}
+% V3 2026-10-15 (Marc: "easy you can apply that"): the hedging audit (handoff
+%  2026-10-15 section 15) and the ch6 critique (section 16) applied.
 % REDRAFTED TOP-DOWN 2026-10-15 (Marc: "a formal critique ... top-down ... the
 %  biggest threats"; "get the full draft down ... recompile"). Full draft v2,
 %  applied for reading, NOT ratified; item-by-item rounds to follow. Record:
@@ -9034,9 +9036,8 @@ attack actions.
 %  attack scenario, 2026-10-15); the four types glossed by their object, not
 %  defined as questions (Marc: "the reader may have already come across these");
 %  the ranking rule.
-Each threat below names a claim of
-Sections~\ref{sec:disc-behaviour} to~\ref{sec:evaluation-implications}, what
-could make it wrong, what we did to mitigate it, and what remains. The
+Each threat below says what could make this chapter's claims wrong, what we
+did to mitigate it, and what remains. The
 limitations are the scope we chose: MTDSim's six attack actions, with no
 actions on objectives; one line of a campaign at a time
 (Section~\ref{sec:petri-formalism}); the targeted attack scenario only;
@@ -9044,8 +9045,8 @@ MTDSim's default network of 50 hosts; runs of at most 15\,000\,s, about four
 hours; simulation only; existing MTD mechanisms, each deployed at a deployment
 interval; no efficiency metric; and no IDS. Each is a direction of future work
 (Section~\ref{sec:future-work}). We group the threats by the four types of
-Wohlin et al.\ \citep{wohlin2012}: internal (the causes we give), construct
-(our metrics and the model we built from CTI), conclusion (our statistics) and
+Wohlin et al.\ \citep{wohlin2012}: internal (what causes our results),
+construct (our measures and the model we built from CTI), conclusion (our statistics) and
 external (beyond MTDSim and the 38 attack flows). Within each type, threats to
 the answer to~\ref{sq:evaluate} come first.
 
@@ -9057,14 +9058,15 @@ the answer to~\ref{sq:evaluate} come first.
 %  The AI Use Declaration does not yet cover code: not cited here until it does.
 \item\label{thr:code} The code may not do what Chapters~\ref{ch:background}
 and~\ref{ch:attacker-model} say it does. MTDSim's code was inherited from the
-studies that built it, and much of ours was written with AI assistance, so we
-checked the code by what it does. An event tracer replays any run step by step
-against the text, unit tests cover the Petri net and the simulator, and fixed
-seeds reproduce every run exactly. Getting MTDSim to run took repairing
-defects. Before we called a behaviour a defect, we checked it against what
-MTDSim's papers describe, so that a design choice was kept and only an error
-was repaired. The repairs mean the results are not compared numerically with
-earlier MTDSim studies. The threat remains for behaviour no check exercised.
+studies that built it, and much of ours was written with AI assistance. To
+mitigate this threat, we checked the code by its behaviour: an event tracer
+replays any run step by step against the text, unit tests check the Petri net
+and the simulator, and fixed seeds reproduce every run exactly. We found
+defects in MTDSim, among them runs that ended early, and repaired them. Before
+we called a behaviour a defect, we checked it against what MTDSim's papers
+describe, so that a design choice was kept and only an error was repaired.
+Because of the repairs, we do not compare the results numerically with earlier
+MTDSim studies. The threat remains for behaviour no check exercised.
 
 % T2 cause: v5 2026-10-13 as ratified (handoff 2026-10-11 sections 117-125,
 %  133-136), plus one sentence 2026-10-15 (ruled: extend to 6.1's "order of its
@@ -9082,87 +9084,88 @@ weights, which set the order of its tactics, and
 the tactic-to-action mapping, which we declared (\ref{thr:mapping}). Every run
 under MTD drew its base weights from the attack flows and used this mapping,
 so we cannot rule out either as a cause of the host layer's result. With no MTD, only the tactic durations were changed on their own
-(Appendix~\ref{app:fa-run-time}), so the share of the gap that
-Section~\ref{sec:disc-behaviour} gives the order of its tactics could also
-come from these two components.
+(Appendix~\ref{app:fa-run-time}), so we cannot rule out the tactic-to-action
+mapping as a cause of the share of the gap that
+Section~\ref{sec:disc-behaviour} gives the order of its tactics.
 
 % T3 MTDShield, 2026-10-15 (ruled: its own internal item; Marc: "there is no
 %  such concept as an unmapped tactic in MTDShield"). Reasoned: against either
 %  attacker it chose almost only service diversity or nothing (76 + 23 %, 70 +
 %  29 %), so how we ran it can explain only the shift to nothing.
-\item\label{thr:mtdshield} That MTDShield most likely learned to deploy the
-MTD mechanism that disrupts its training attacker most
-(Section~\ref{sec:evaluation-implications}) has a plausible alternative
-explanation in how we ran it. MTDShield is told the attacker's current attack
-action at each decision, and it reads the APT attacker model's unmapped
-tactics, which run none, as nothing detected (Appendix~\ref{app:mtdshield}).
-Against either attacker it chose almost only service diversity or nothing.
-Against the APT attacker model it chose nothing in 29\,\% of its decisions,
-against 23\,\% for the baseline attacker. How we ran it can therefore explain
-at most that shift, and not its choice of service diversity. We cannot rule out
-that MTDShield trained against the APT attacker model would choose differently
-(Section~\ref{sec:future-work}).
+\item\label{thr:mtdshield} Section~\ref{sec:evaluation-implications} explains
+why MTDShield reduces the APT attacker model's NCR less than the random
+deployment strategy does by its training against the baseline attacker; how we
+ran MTDShield is a plausible alternative explanation. MTDShield is told the
+attacker's current attack action at each decision, and it reads the APT
+attacker model's unmapped tactics, which run no attack action, as nothing
+detected (Appendix~\ref{app:mtdshield}). At 200\,s, it chose nothing in
+29\,\% of its decisions against the APT attacker model and 23\,\% against the
+baseline attacker. That shift is consistent with how we ran it, and its choice
+of service diversity, about as often against both attackers, is consistent
+with our explanation. We cannot rule out how we ran it as a cause of part of
+that difference; MTDShield retrained against the APT attacker model would
+separate the two (Section~\ref{sec:future-work}).
 \end{enumerate}
 
 \paragraph{Construct validity.}
 \begin{enumerate}[resume*=threats]
-% T4 NCR reduction, 2026-10-15: absorbs thr:conditions' run end and
+% T4 NCR reduction, 2026-10-15: absorbed thr:conditions' run end (cut in v3,
+%  handoff section 16: the divergence example carries the gap) and
 %  thr:statistics' ASP clause. Divergence checked (Tables D.3, D.5: host layer
 %  against the baseline attacker at 500 and 1 000 s, NCR 0.16/0.06, ASP
 %  -0.10/-0.06, none grey). "Up to 200 s ... 1": Table D.5 prints 1.00 (exactly
 %  1) for all three host-layer mechanisms at 50-200 s.
-\item\label{thr:ncr} NCR reduction, which answers~\ref{sq:evaluate}, measures
-how MTD performs only in part. NCR counts the hosts an attacker compromises,
-whereas the targeted attack scenario succeeds when the attacker compromises a
-target host, which ASP counts. ASP is the dominant effectiveness metric
-(Section~\ref{subsec:mtd-metrics}), but the APT attacker model reaches a target
-host in only 42 to 139 of each attack profile's 1\,000 runs with no MTD
-(Table~\ref{tab:unopposed-summary}), too few to rank on. A run also ends at the
-first target host compromised, which cuts NCR short in 656 of the baseline
-attacker's 1\,000 runs with no MTD. The two metrics can diverge: at 500 and
-1\,000\,s, the host layer reduces the baseline attacker's NCR but raises its
-ASP (Tables~\ref{tab:eff-interval-values} and~\ref{tab:eff-interval-values-asp}).
-To mitigate this threat, we also computed ASP reduction, which does not depend
-on when a run ends, and each attacker's layer order holds on it at every
-deployment interval. The threat remains for rank~1 against the APT attacker
-model: up to 200\,s, ASP reduction is 1 for every host-layer mechanism, so it
-cannot order them.
+\item\label{thr:ncr} NCR reduction, the measure behind the answer
+to~\ref{sq:evaluate}, measures how MTD performs only in part. NCR is the share
+of hosts an attacker compromises, whereas the targeted attack scenario succeeds
+when the attacker compromises a target host, which ASP measures. ASP is the
+dominant effectiveness metric (Section~\ref{subsec:mtd-metrics}), but the APT
+attacker model reaches a target host in only 42 to 139 of each attack
+profile's 1\,000 runs with no MTD (Table~\ref{tab:unopposed-summary}), too few
+to rank on. The two metrics can diverge: at 500 and 1\,000\,s, the host layer
+reduces the baseline attacker's NCR but raises its ASP
+(Tables~\ref{tab:eff-interval-values} and~\ref{tab:eff-interval-values-asp}).
+To mitigate this threat, we also computed ASP reduction, and each attacker's
+layer order holds on it at every deployment interval. The threat remains for
+rank~1 against the APT attacker model: up to 200\,s, no run under any
+host-layer mechanism reaches a target host, so ASP reduction, at 1 for all
+three, cannot order them.
 
 % T5 the model built from CTI, 2026-10-15 (Marc: "CTI wasn't designed for this
 %  ... how much can we trust the weights"): thr:values + thr:mapping merged, and
 %  the base weights added as our construction. Untested list from Table C.4 and
 %  7.2 (uniform base weights).
-\item\label{thr:values}\label{thr:mapping} CTI was not recorded to drive an
-attacker model, so much of what the APT attacker model does is our
-construction. Attack flows record the order of an attack's steps. They do not
-record how likely each next step is, how long a step took, what the attacker
-did after a step failed, or which of MTDSim's attack actions a tactic runs. We
-turned counts of drawn edges into the base weights, and we declared the tactic
-durations, the failure matrix, the vulnerability memory's factor and the
-tactic-to-action mapping by judgement (Table~\ref{tab:value-bases}). To
-mitigate this threat, we declared them before any result and varied,
-substituted or removed each one at a time: only the 45\,s mean duration
-changes NCR much (Table~\ref{tab:anchor-sensitivity}), and the rankings hold at
-both ends of its band (\ref{thr:cause}). Uniform base weights, the
-interactions between the parts, the weights of the pre-intrusion overlay and
-any other partial mapping were not tested.
+\item\label{thr:values}\label{thr:mapping} The APT attacker model represents
+an APT attacker only in part, because attack flows record the order of an
+attack's steps but not how likely each next step is, how long a step took,
+what the attacker did after a step failed, or which of MTDSim's attack actions
+a tactic runs. We turned counts of drawn edges into the base weights, and we
+declared the tactic durations, the failure matrix, the vulnerability memory's
+factor and the tactic-to-action mapping by judgement
+(Table~\ref{tab:value-bases}). To mitigate this threat, we declared them
+before any result and varied, substituted or removed each one at a time: only
+the 45\,s mean duration changes NCR much
+(Table~\ref{tab:anchor-sensitivity}), and the rankings hold at both ends of
+its band (\ref{thr:cause}). We have not tested uniform base weights, the
+interactions between the parts, the weights of the pre-intrusion overlay or any
+other partial mapping, so we cannot rule out that they change the
+rankings.
 
 % T6 the marks, 2026-10-15 (Marc: "show a direction ... hedge it down"). The
 %  190-844 recount has no home outside this item (handoff 2026-10-15 section 11).
 \item\label{thr:yardstick} The marks of Section~\ref{sec:fidelity-verdict}
-measure each attacker model's properties only against our yardstick. The eight
-properties are our reading of the APT definition and two surveys, weighed
-equally though not equally important. One scorer marked all four attacker
-models, and the three MTD attacker models are our choice
-(Section~\ref{subsec:recent-threat-models}), none of them the attacker of a
-game-theoretic model, the dominant MTD modelling approach \citep{cho2020}. To
-mitigate this threat, each mark follows a predicate printed in
-Appendix~\ref{app:clause-tests}, and language models scored the attacker
-models blind (AI Use Declaration). Distinct openings, behind the full mark for
-choice of attack strategy, counts any variety, in tactics for the APT attacker
-model and in attack actions for the baseline attacker; recounted in attack
-actions, the attack profiles still have 190 to 844 against 3. We make no claim
-for the marks beyond comparing the four attacker models on the same
+measure each attacker model only against the eight properties, which are our
+reading of the APT definition and two surveys, weighed equally. One scorer
+marked all four attacker models, and the three MTD attacker models are our
+choice (Section~\ref{subsec:recent-threat-models}), none of them the attacker
+of a game-theoretic model, the dominant MTD modelling approach
+\citep{cho2020}. Distinct openings, behind the full mark for choice of attack
+strategy, counts an opening whether or not its run reaches a target host, in tactics for the APT attacker model and in attack actions for the
+baseline attacker. To mitigate this threat, each mark follows a predicate
+printed in Appendix~\ref{app:clause-tests}, and language models scored the
+attacker models blind (AI Use Declaration); recounted in attack actions, the
+attack profiles still have 190 to 844 distinct openings against 3. We make no
+claim for the marks beyond comparing the four attacker models on the same
 predicates.
 \end{enumerate}
 
@@ -9172,18 +9175,22 @@ predicates.
 %  ablation tests is "as strong a risk"): thr:statistics + thr:posthoc merged.
 %  Seed check: data/results/ch5_defended/seed_layer_check.py, printed in
 %  Appendix D.3. 24 of 60 and the one-in-eleven random partitions cut.
-\item\label{thr:statistics}\label{thr:posthoc} The statistics are strongest for
-the answer to~\ref{sq:evaluate}. Each host-layer and service-layer mechanism
-ran on the same 1\,000 seeds against both attackers. Resampling seeds in place
-of runs leaves the host layer and the service layer apart at every deployment
-interval (Appendix~\ref{app:sup-mtd-effect}). The layer means hide single MTD
-mechanisms: against the baseline attacker, every service-layer mechanism
-reduces NCR more than every host-layer mechanism only up to 100\,s
-(Table~\ref{tab:eff-interval-values}). The ablations are weaker tests. A
-negligible effect is Cohen's default of $\pm 0.2$, with no correction for the
-number of cells compared (Section~\ref{sec:ablation}), and the ablation of the tactic
-durations (Appendix~\ref{app:fa-run-time}) was chosen after the results of
-Chapter~\ref{ch:experiments} were seen. We treat the ablations as exploratory.
+\item\label{thr:statistics}\label{thr:posthoc} Each host-layer and
+service-layer mechanism ran on the same 1\,000 seeds against both attackers,
+and the confidence intervals resample runs, so they assume that the four attack
+profiles' runs on one seed's network are independent. To mitigate this threat,
+we resampled seeds in place of runs, and the host layer and the service layer
+remain apart at every deployment interval against both attackers
+(Appendix~\ref{app:sup-mtd-effect}). The layer order does not hold for every
+pair of MTD mechanisms: against the baseline attacker, every service-layer
+mechanism reduces NCR more than every host-layer mechanism only up to 100\,s
+(Table~\ref{tab:eff-interval-values}). The ablations call an effect
+negligible by Cohen's default of $\pm 0.2$ and compare many cells with no
+correction for their number, so some of their findings may arise by chance
+(Section~\ref{sec:ablation}), and the ablation of the tactic durations
+(Appendix~\ref{app:fa-run-time}) was chosen after the results of
+Chapter~\ref{ch:experiments} were seen. We treat the ablations as
+exploratory.
 \end{enumerate}
 
 \paragraph{External validity.}
@@ -9192,7 +9199,7 @@ Chapter~\ref{ch:experiments} were seen. We treat the ablations as exploratory.
 %  kept 2026-10-15 (T5 is what we built from CTI, T8 what we inherited from
 %  MTDSim; the property ceiling is the attack actions', a limitation, and 6.3's).
 \item\label{thr:rules} Both explanations in Section~\ref{sec:disc-mtd-performance}
-rest on MTDSim's rules for how an MTD deployment disrupts an attacker
+assume MTDSim's rules for how an MTD deployment disrupts an attacker
 (Section~\ref{subsec:attacker-model}): a service-layer deployment disrupts it
 only while it scans ports, exploits or brute-forces, and a host-layer
 deployment disrupts it during any attack action and costs it the host it was
@@ -9209,14 +9216,15 @@ service; either would narrow the host layer's lead over the service layer.
 %  keeps from each attack flow; the build reads no confidence (16 of 853 steps
 %  drawn with confidence 0); one coder moved here from the yardstick item.
 \item\label{thr:corpus} The results may not generalise to APT attackers beyond
-the 38 attack flows. The attack flows record campaigns that were detected and
-reported (Section~\ref{subsec:failure-matrix}), each only as far as its threat
+the 38 attack flows. The attack flows record incidents that succeeded and were
+worth writing about (Section~\ref{subsec:failure-matrix}), each only as far as its threat
 report describes (Section~\ref{sec:attack-profiles}), and only 18 are
 attributed to a group in ATT\&CK, criminal groups among them
 (Section~\ref{sec:technique-graph}). We used each attack flow as its analyst
-drew it, and the APT attacker model keeps only which tactic follows which. It
-drops the techniques, the analyst's descriptions and their confidence in each
-step, so $c_1$'s one edge into Impact comes from a step drawn with confidence 0
+drew it, and the APT attacker model keeps only which tactic follows which,
+counted over the attack flows. It drops the techniques, the descriptions and
+the confidence the analyst gave each step, so a step drawn with confidence 0
+counts like any other: $c_1$'s one edge into Impact comes from one
 (Appendix~\ref{app:profile-edges}). Analysts' attack flows record the order of
 steps that automatic alternatives could not recover
 (Section~\ref{sec:technique-graph}), at the cost of volume: three of the four
@@ -9231,12 +9239,14 @@ behaviour the attack flows do not record.
 %  MTDShield's half moved to thr:mtdshield. "We know of no" scopes the universal.
 \item\label{thr:observation} We know of no data set that records APT campaigns
 against MTD, so the APT attacker model cannot be validated against one, and
-what MTD does to an APT is inferred. For a system that cannot be observed,
-Sargent advises exploring the model's behaviour as thoroughly as possible and
-comparing it with other models \citep{sargent2011}. The sensitivity analysis
-(Appendix~\ref{app:sensitivity}) and the ablations explore it, and the baseline
-attacker is the other model. The threat remains. An emulated APT campaign
-against MTD could supply the data (Section~\ref{sec:future-work}).
+what MTD does to an APT is inferred from MTDSim's rules (\ref{thr:rules}). To
+mitigate this threat, we followed Sargent's advice for a system that cannot be
+observed: explore the model's behaviour as thoroughly as possible and compare
+it with other models \citep{sargent2011}. The sensitivity analysis
+(Appendix~\ref{app:sensitivity}) and the ablations explore it, and the
+baseline attacker is the other model. The threat remains. An emulated APT
+campaign against MTD could supply data on how a deployment disrupts it
+(Section~\ref{sec:future-work}).
 \end{enumerate}
 
 % =====================================================================

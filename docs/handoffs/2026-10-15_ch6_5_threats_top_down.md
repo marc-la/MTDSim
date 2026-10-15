@@ -371,3 +371,13 @@ Run against critique_protocol.md (verdicts, tiers, §e diagnostics, §f banlist)
 3. **Repair the opener's contract and glosses, and the coined or paraphrased terms**: "yardstick", T4's NCR paraphrase, T9's "detected and reported".
 
 **Tier audit: clean.** Every intervention is a T2 suggestion, none applied. Banlist re-scan of the suggestions: no negative parallelism, no "rather than", no em-dash interpolation, no inflation.
+
+## 17. v3 applied (Marc 2026-10-15: "easy you can apply that")
+
+All the §15 and §16 suggestions are applied as written, with these choices:
+- **Signpost "To mitigate this threat"** added to T1, T7 and T10 (T4, T5 and T6 already had it). T2 (ratified) and T9 (Marc: "beautiful") are left without it, to keep edits minimal.
+- **T4:** the run-end sentence is cut (§16 cut candidate).
+- **T5:** "changes NCR much" is kept, because it is App D.5's own phrase (one term).
+- **T6:** "counts distinct openings" → "counts an opening whether or not its run reaches a target host", which removes the echo of the metric's name on the page.
+
+Build: 83 pages, 0 undefined, no new overfull box. Still owed: the 190–844 home, the AI Use Declaration's code sentence, §7.2's targeted attack scenario (ch7 gated), and the upstream "likely" sweep (§15).
