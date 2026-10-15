@@ -825,3 +825,36 @@ Marc: "what is the convention for each of these … best practice … common pit
 4. **Contribution 2's implications.** Compressed to the one an evaluator acts on, with a pointer to 6.4 for the rest.
 5. **Future work.** Each item carries anchor, objective, method and payoff; items 2 and 3 split or cut to one direction each; the lead names the order.
 6. **Chapter 6's forward pointers** (ch6, auto after a ruling): one `\ref{sec:future-work}` from 6.5's scope paragraph.
+
+## 16. The preamble, defined (2026-10-15, NOT RULED)
+
+Marc: "what do we need to explain to the reader, what do we not … what is the preamble doing … it's giving the answer … currently it just seems like a stitch together of a lot of different ideas … so what?"
+
+**Job, in one sentence.** Answer the research question: say what "performs" turned out to mean in MTDSim, and why that answers the question's "APT attackers" and not only the APT attacker model.
+
+**Why the draft reads stitched.** Four sentences, four jobs, no single answer:
+- S1 restates the question (fine).
+- S2 says "performs differently", which is true but names nothing (voice §(0) check 5).
+- S3 packs three findings. The third ("no MTD mechanism is the most effective against both") is the abstract's and ch1's highlight a third time; the first two (the layers) are the concrete answer but sit as evidence.
+- S4 is the so-what, behind "therefore" and two hedges ("can", "may not").
+
+**What the preamble adds that the abstract and ch1 do not.** Both already state that the most effective mechanism differs. The preamble's new content is (a) the statement *as the answer* to the question; (b) the layer pattern, 6.2's answer to SQ3, one level more concrete than the mechanism headline; (c) the step from the APT attacker model to APT attackers, with its one hedge.
+
+**On the page / off the page** (audience: the examiner and a fourth-year CS student who has read, or skipped to, ch7):
+
+| On the page | Off the page, and where it lives |
+|---|---|
+| The question, once, in ch1's words | The problem and the gap (ch1 P3) |
+| "Performs differently", made concrete: which layer reduces NCR more, for each attacker, at every deployment interval | How the APT attacker model is built (contribution 1; ch4) |
+| The measured scope: "in MTDSim", "the APT attacker model" | Why the layers differ: tactic durations and order (contribution 2's warrant; 6.2) |
+| The step to the question's reach: which MTD an evaluation finds most effective can depend on its attacker model, so an evaluation against a simplified attacker alone cannot show how MTD performs against APT attackers | What an evaluator should do (contribution 2's impact; 6.4) |
+| | The numbers: 92 % / 36 % is in the abstract and ch1 already |
+| | Every bound beyond "in MTDSim" (contribution 2's bound; 6.5) |
+| | Definitions of NCR, the layers, the baseline attacker (ch2, ch4): never re-defined |
+
+**Slots** (job + facts + ceiling; ~80–100 words, three sentences):
+- **P1, the question.** *Job:* put the RQ back in front of the reader as what was asked. *Facts:* "How does MTD perform against APT attackers?" (ch1). *Ceiling:* once; may fold into P2 as a clause.
+- **P2, the answer at the measured scope.** *Job:* say what "differently" means. *Facts (6.2 ¶1):* at every deployment interval, the host layer reduces the APT attacker model's NCR more than the service layer does, and the service layer reduces the baseline attacker's more than the host layer does. *Ceiling:* "in MTDSim"; "the APT attacker model", never "APT attackers"; no cause; no number.
+- **P3, the so-what.** *Job:* carry the answer from the model to the question's APT attackers. *Facts (6.4 ¶1, reworded, not copied):* the most effective MTD mechanism can depend on the attacker model, so an evaluation against a simplified attacker alone cannot show how MTD performs against APT attackers. *Ceiling:* one hedge ("can"); not "MTD fails against APTs"; not "the APT attacker model is the right one".
+
+**Consequence for contribution 2 (decision 1):** it no longer opens on "the most effective MTD mechanism depends on the attacker model" as a fresh claim; it opens on the warrant (the cause and its bound) and the impact.
