@@ -1,7 +1,7 @@
 ---
 status: durable
 created: 2026-07-13
-updated: 2026-10-02   # ch4 6 -> 16 units, experiments 12 -> 8 (ch4 scrutiny G1, Marc accepted); conservation breach recorded
+updated: 2026-10-15   # the front three: tests from the seminar's full transcript (title, abstract, introduction, reviewer filter chain)
 provenance: distilled from a UWA research-writing seminar (April 2026) supplied by Marc; adapted from paper-writing to dissertation shape; unit ledger added 2026-08-12 from Marc's base-unit framing plus an independent chapter-weighting suggestion he supplied
 ---
 
@@ -87,6 +87,52 @@ Pacing: at ~2 units per day the document is roughly 4–5 weeks of drafting (fro
 - **Refine–forget–refine.** A first draft is a draft zero. Rereading it ten times in one day finds nothing; refine, *put it away* (a day, then three, then a week as the deadline allows), and refine again — each pass finds a different class of improvement. Never hand a draft zero to the supervisor; the supervisor's pass should lift the draft from your ceiling, not do your early iterations.
 - **Selection discipline for the introduction:** what sells the contribution goes in; what doesn't, comes out; no application-example padding when writing for an expert audience.
 - **Citation selection for the review:** from each category, the *first* method (sets the direction), the *most established* method (survived the test of time), and the *latest* (the current year where possible — a stale newest-reference dates the whole review).
+
+## The front three: tests from the seminar's full transcript
+
+Added 2026-10-15 from the seminar's full transcript (the speaker was Ajmal Mian, per Marc). The one-line rows above came from the slides. Each test below is the speaker's; a **bend** line says how it changes for a dissertation. Applied to the current front three in [`../handoffs/2026-10-15_front_three_final_mile.md`](../handoffs/2026-10-15_front_three_final_mile.md).
+
+**The reviewer's filter chain.** A reviewer, like any reader, takes the work through these gates in order and stops at the first "no":
+
+1. Is it readable?
+2. Is the application significant?
+3. Does it identify a technical gap?
+4. Does the contribution fill that gap?
+5. Is the method sound?
+6. Are the experiments thorough?
+7. Is it compared with previous methods?
+
+The title, abstract and introduction must pass gates 1–4 on their own and promise 5–7.
+
+**Title.**
+- Highlights the main contribution, not the activity. The technical contribution comes first and the application second. Two exceptions: the application comes first when the novelty lies there (his case: transparent-object pose estimation), and the problem alone is the title when the work is the first on that problem (his case: viewpoint-invariant action recognition).
+- Words go in order of importance.
+- Never "X using Y": it reads as a known tool applied to a known problem.
+- Carries both readerships: readers who follow the technique and readers who follow the application.
+- Method: list every keyword (fewer than twenty), try the permutations, and keep the forms that put the contribution first. Written last.
+- *Bend:* every example he gives is a noun phrase naming what was made or solved. None is a finding stated as a sentence.
+
+**Abstract.**
+- For a targeted community, it opens on the technical gap. It opens on the application only when written for everybody. *Bend:* the examiner may not work in the subfield, so the application opener is licensed, kept to what the gap needs.
+- States the gap as a technical problem. "Accuracy is low" is not a gap; why it is low is.
+- Places the contribution in the literature.
+- As brief as possible: a long abstract loses the reader.
+- Ends on the outcome, the "so what", in one sentence.
+
+**Introduction.**
+- A squeezed literature review: the problem, the landmark approaches, the technical gap they share, and what this work does about it, without the detail. One paragraph, or two when the gap is two levels deep.
+- Names examples from the literature, so the reader accepts that the gap exists before the review proves it.
+- Selection: what sells the contribution goes in. Application padding the reader does not need comes out.
+- States the contributions precisely, in running text or as a list.
+- Gives one highlight result, with the scale that makes it credible (his form: "on three benchmarks against five methods, as high as X").
+- By its end, the reader knows the whole story without the details and has decided whether to read on.
+- Expect about ten drafts. Stop when it impresses you.
+
+**Across the three.**
+- Defining the problem precisely is half the work. The front three are judged on how precise the gap is.
+- The conclusion gives the impact and the next step, never the abstract in past tense. The front three and the conclusion answer each other in the same words.
+- Refine, forget, refine: the break between passes is what finds new improvements.
+- New knowledge is a ramp, not a threshold. Running existing methods on a new benchmark with the field's metrics is a recognised contribution, and a new benchmark still reports results on the old one.
 
 ## How this maps onto the notes system
 
