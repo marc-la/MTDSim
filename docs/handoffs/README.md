@@ -37,6 +37,10 @@ The §4.5 drafting records stay tracked in
 
 ## Open work
 
+- [`2026-10-16_claim_by_claim_check.md`](2026-10-16_claim_by_claim_check.md)
+  — every claim true to its source, every needed source present, no decorative
+  citation (protocol: `workflows/claim_check_protocol.md`); after the 2026-10-16
+  bibliography check, before submission; blocks nothing but the final build.
 - [`2026-09-28_vulnerability_memory_on.md`](2026-09-28_vulnerability_memory_on.md)
   — the vulnerability memory on for the APT attacker model and ablated in §5.4;
   **must land before the 1 000-seed corpus runs**.
