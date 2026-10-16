@@ -13,7 +13,7 @@ CITS4001 *Project components* ([link](http://teaching.csse.uwa.edu.au/units/CITS
 - "If the material is essential to understand the dissertation, it should not appear in an appendix; it should appear in the body of the dissertation."
 - "Any large sections of text appearing as an appendix may be considered as an attempt to circumvent the word limit."
 
-The page does not require the proposal to be bound into the dissertation, and it sets no page count for appendices.
+The page does not require the proposal to be bound into the dissertation, and it sets no page count for appendices. **The UWA template does require it:** the boilerplate built on `cshonours` (commit `4f3657f5`, 2026-07-09) carried the template's instruction "You must include as your first appendix an exact copy (in wording) of your original project proposal." Appendix A is therefore required, not an orphan, and is exempt from (b) and (d).
 
 Two consequences:
 

@@ -147,10 +147,9 @@ experiments/experimental_data/*
 experiments/*
 experimental_data/*
 
-# External source material (copyright) is ignored, but the per-paper
-# fair-use extraction layer nested under it stays tracked.
+# External source material (copyright): the 74 cited sources, named by bib key.
+# Wholly ignored since 2026-10-16; the old extraction layer is archived outside the repo.
 docs/sources/*
-!docs/sources/extractions/
 
 # GAP (L1) build inputs — upstream corpora, gitignored per gap_schema.md
 # Decision 4. The distilled per-flow extracts + aggregate under data/gap/ ARE
