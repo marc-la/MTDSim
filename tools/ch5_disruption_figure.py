@@ -202,14 +202,14 @@ def emit_table(d: dict) -> str:
     def tl(c, arm):
         lo, hi = c["time_lost_ci95"]
         pl = tl_place[arm]
-        return r"%s [%s, %s]" % (num(c["time_lost"], pl), num(lo, pl), num(hi, pl))
+        return r"%s (%s, %s)" % (num(c["time_lost"], pl), num(lo, pl), num(hi, pl))
 
     def bl(c, arm):
         b = c["blocked_per_deployment"]
         # a share of deployments, bounded by 0 and 1, never prints a bound it does not reach (P2)
         nd = max(0, -bl_place[arm])
         f = lambda v: bounded(v, nd, lo=0.0, hi=1.0)
-        return r"%s [%s, %s]" % (f(b["point"]), f(b["lo"]), f(b["hi"]))
+        return r"%s (%s, %s)" % (f(b["point"]), f(b["lo"]), f(b["hi"]))
 
     # a printed 1.00 is said to be exact, when the table has one (P2)
     EXACT = (" A printed %s is exact." % ("1." + "0" * max(0, -min(bl_place.values())))) if any(c["blocked_per_deployment"]["point"] == 1.0

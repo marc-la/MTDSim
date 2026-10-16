@@ -47,11 +47,11 @@ def f(x: float, nd: int = 2) -> str:
 def share(p: float, n: int, nd: int = 2) -> str:
     k = round(p * n)
     lo, hi = clopper_pearson(k, n)
-    return f"{f(p, nd)} [{f(lo, nd)}, {f(hi, nd)}]"
+    return f"{f(p, nd)} ({f(lo, nd)}, {f(hi, nd)})"
 
 
 def mean_iv(d: dict, nd: int = 2) -> str:
-    return f"${d['mean']:.{nd}f}$ [{d['lo']:.{nd}f}, {d['hi']:.{nd}f}]"
+    return f"${d['mean']:.{nd}f}$ ({d['lo']:.{nd}f}, {d['hi']:.{nd}f})"
 
 
 def write(stem: str, rows: str, body: str) -> None:
@@ -239,7 +239,7 @@ VARIANTS = (("reported", "Tactic durations as declared"),
 def conf(x: dict, bold: bool = False) -> str:
     v = f"{100 * x['point']:.1f}"
     v = f"\\mathbf{{{v}}}" if bold else v
-    return f"${v}$ [${100 * x['lo']:.1f}$, ${100 * x['hi']:.1f}$]"
+    return f"${v}$ (${100 * x['lo']:.1f}$, ${100 * x['hi']:.1f}$)"
 
 
 def intervals(x: dict) -> dict:

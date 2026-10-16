@@ -113,7 +113,7 @@
 \graphicspath{{figures/}}      % keep figures in the figures/ folder
 \usepackage[margin=2.5cm]{geometry}
 \usepackage[australian]{babel}
-\usepackage[numbers,sort&compress]{natbib}   % \citep / \citet -> [n]
+\usepackage[numbers,sort]{natbib}\makeatletter\def\NAT@def@citea{\def\@citea{\NAT@@close\NAT@separator\NAT@spacechar\NAT@@open}}\makeatother % \citep -> [n]; IEEE Reference Guide V 3.28.2025 Sect. I: each number in its own bracket, no ranges, [1], [2], [3] (Marc 2026-10-16)
 \usepackage{tcolorbox}         % the research-question grey box (ch1)
 \usepackage{enumitem}          % the SQ1--SQ3 list in ch1: label = SQ\arabic*,
                                % \ref{sq:*} renders the identifier
@@ -5480,7 +5480,7 @@ attack actions that an IDS does not flag \citep{zaffarano2015}.
 MTDSim has no IDS, so one stands in with a single rule, the default
 port-scan rule of the Snort IDS, which flagged a source that
 connected to five different addresses within 60\,s
-\citep[Sec.~5.2]{jung2004}. Here an attack action is flagged when it is at
+\citep[Sect.~5.2]{jung2004}. Here an attack action is flagged when it is at
 least the attacker's fifth attack action within a window of 60\,s, on any
 target. Counting
 over every run,
@@ -5587,7 +5587,7 @@ NCR reduction is the share of an attacker's NCR that MTD removes:
 \end{equation}
 It is 0 when MTD has no effect, 1 when no host is compromised under MTD, and
 negative when MTD raises NCR. It takes the form of the mitigation factor of
-Alavizadeh et al.\ \citep[Eq.~13]{alavizadeh2022}, with NCR in place of annual
+Alavizadeh et al.\ \citep[eq.~(13)]{alavizadeh2022}, with NCR in place of annual
 loss expectancy and no floor at 0.
 
 % ROUND 10, 2026-10-05 (Marc: "just plainly explain the metric"; the model's
@@ -5620,7 +5620,7 @@ deployment delays the attacker's next compromise of a host. The \emph{wait} is
 the time from an MTD deployment to the attacker's next compromise of a host,
 capped at the next MTD deployment. Time lost is the wait under MTD less the
 wait from the same moment on the same seed's run with no MTD, averaged over
-MTD deployments, a difference of restricted means \citep[Eq.~1]{royston2013}:
+MTD deployments, a difference of restricted means \citep[eq.~(1)]{royston2013}:
 \begin{equation}
   \text{time lost per MTD deployment} = \operatorname*{mean}_{\text{MTD deployments}}
   \bigl( \text{wait under MTD} - \text{wait with no MTD} \bigr).
@@ -10283,7 +10283,7 @@ Chapter~\ref{ch:discussion}.
 \label{app:mtdshield-changes}\label{app:mtdshield-limitations}\label{app:mtdshield-observed}
 
 MTDShield in Chapter~\ref{ch:experiments} is the agent Tay scored highest of
-the 38 he trained \citep[Sec.~5.2.2]{tay2024}, run as released, with his
+the 38 he trained \citep[Sect.~5.2.2]{tay2024}, run as released, with his
 weights and input code \citep{tay2024code}. Chapter~\ref{ch:experiments} runs
 the random deployment strategy over the same four MTD mechanisms beside it, so
 the difference between the two is what the agent's policy adds.
@@ -10543,7 +10543,7 @@ Control takes 5\,s for scan neighbours in place of 45\,s, and Credential Access
 20\,s for brute force in place of 4.5\,s. The two steps raise the APT attacker
 model's ASP, averaged over $c_1$ to $c_4$, from 0.09 to 0.45 against the
 baseline attacker's 0.66; the share of its gap in ASP they close is
-0.63 [0.61, 0.65]. An attack action fails when it runs before its
+0.63 (0.61, 0.65). An attack action fails when it runs before its
 preconditions are met (Section~\ref{subsec:runtime-mechanics}).
 
 \input{tables/tab_FA-8_tactic_durations}

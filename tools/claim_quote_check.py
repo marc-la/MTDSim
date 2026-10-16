@@ -13,7 +13,9 @@ check (docs/workflows/claim_check_protocol.md, section 5).
 
 A MISSING quote is never a finding about the dissertation: it means the agent's
 evidence cannot be trusted and the unit is re-verified. Matching is on the source's
-own words, so a quote an agent "tidied" fails, by design.
+own words, so a quote an agent "tidied" fails, by design. A locator of the form
+``<commit>:<path>[:line]`` is checked against that file at that commit instead (the
+code release, tay2024code).
 """
 from __future__ import annotations
 
@@ -114,6 +116,17 @@ def check(paths: list[Path]) -> int:
             key, quote = row.get("key"), (row.get("quote") or "").strip()
             if not quote:
                 print(f"{row.get('unit')}\t{key}\tNO-QUOTE\t{row.get('verdict', '')}")
+                continue
+            code = re.match(r"\s*([0-9a-f]{7,40}):([^\s:]+)", row.get("locator") or "")
+            if code:
+                # a code release (tay2024code): the quote must be in that file at that commit
+                import subprocess
+                src = subprocess.run(["git", "-C", str(ROOT), "show", f"{code.group(1)}:{code.group(2)}"],
+                                     capture_output=True, text=True).stdout
+                ok = all(norm(fr) in norm(src) for fr in re.split(r"\s*(?:\.\.\.|…)\s*", quote) if len(fr) > 3)
+                status = "FOUND" if ok and src else "MISSING"
+                missing += status == "MISSING"
+                print(f"{row.get('unit')}\t{key}\t{status}\t{code.group(1)}:{code.group(2)}\tagent said: {row.get('locator', '')}")
                 continue
             if key not in cache:
                 f = TEXT / f"{key}.txt"
