@@ -41,7 +41,7 @@ from mtdsim.l3_simulation.movement import measures as M
 
 HERE = Path(__file__).resolve().parent
 RESULTS = HERE.parent
-REPO = RESULTS.parent.parent
+REPO = RESULTS.parent
 RUNS = HERE / "runs.jsonl"
 DEFENDED = RESULTS / "ch5_defended" / "runs.jsonl"
 NUMBERS = HERE / "numbers.json"

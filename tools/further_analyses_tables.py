@@ -301,15 +301,15 @@ def t_durations(d: dict) -> None:
 
 
 def main() -> None:
-    if DURATIONS.exists():
-        t_durations(json.loads(DURATIONS.read_text()))
+    # Only Table FA-8 is in the dissertation (Appendix D.6, since 2026-10-14);
+    # --all also writes the cut tables FA-1 to FA-6 from further_analyses_numbers.json.
+    t_durations(json.loads(DURATIONS.read_text()))
+    if "--all" not in sys.argv:
+        return
     d = json.loads(NUMBERS.read_text())
     for key, fn in (("f1", t_success), ("f2", t_foothold), ("f3", t_accounts), ("f5", t_group_size)):
-        # f6 (t_openings, t_after_foothold): old Appendix E.2, cut 2026-10-14 (Marc).
         if key in d:
             fn(d[key])
-        else:
-            print(f"skip {key}: no numbers yet")
 
 
 if __name__ == "__main__":

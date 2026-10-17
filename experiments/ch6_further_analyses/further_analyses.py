@@ -92,7 +92,7 @@ SUMMARIES = RESULTS / "ch5_defended" / "runs_reported_summaries.pkl"
 PC_NUMBERS = RESULTS / "ch5_defended" / "partition_control_numbers.json"
 PC_RUNS = RESULTS / "ch5_defended" / "runs_partition_control.jsonl"
 PC_REDRAW = RESULTS / "ch5_defended" / "runs_partition_control_redraw.jsonl"
-PC_MANIFEST = RESULTS.parent / "ogasp" / "partition_control" / "partitions.json"
+PC_MANIFEST = RESULTS.parent / "data" / "ogasp" / "partition_control" / "partitions.json"
 OUT = HERE / "further_analyses_numbers.json"
 
 FOUR = ("objective_exfiltration", "objective_impact", "objective_exfiltration_impact", "objective_none_c2")

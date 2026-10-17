@@ -90,7 +90,7 @@ def _d(d: float, ci: list, where: str = "") -> str:
     The dagger for an interval that crosses an edge is gone too: the interval
     is printed, and the one case a reader would query, a d beyond 0.2 that is
     not bold, is named in the caption."""
-    cell = f"{_f(d, 2, True)} [{_f(ci[0], 2, True)}, {_f(ci[1], 2, True)}]"
+    cell = f"{_f(d, 2, True)} ({_f(ci[0], 2, True)}, {_f(ci[1], 2, True)})"
     if _beyond(ci):
         return r"\bfseries\boldmath " + cell
     if (ci[0] <= -0.2 or ci[1] >= 0.2) and where:

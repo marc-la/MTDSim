@@ -790,7 +790,7 @@ def dry_run_adjacent(rs: RuleSet, spec: RuleSpec, verdict: str) -> None:
 
 def main() -> None:
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    ap.add_argument("--layout", default="all", choices=("all", "matrix", "decomposition", "bands"),
+    ap.add_argument("--layout", default="all", choices=("all", "matrix", "decomposition", "bands", "tables"),
                     help="which figure(s) to write (default: all three)")
     ap.add_argument("--version", default="v4_failure_only",
                     help="overlay registry version to decompose (default: the reported one — "
