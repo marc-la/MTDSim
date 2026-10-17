@@ -3244,7 +3244,7 @@ because its authors set the behaviour by a fixed rule, such as always
 re-scanning after a host-layer disruption, or assume it. A \propnone\ means
 no behaviour predicate is true. Table~\ref{tab:attacker-cross-section} shows each
 attacker model's mark on each property, and the paragraph on each attacker
-model below cites the evidence from its paper for each mark.
+model below gives the evidence from its paper for each mark.
 % [CH3 SCRUTINY 2026-09-30, T3] the mark decode moved here from the caption (no definitions in captions, supervisor 2026-09-22; yardstick §(e)3).
 
 % TABLE 3.3 --- floats first (writing-guide order). REDESIGNED
@@ -4991,7 +4991,7 @@ action, 4.5~s. Reconnaissance and Discovery survey a network, as MTDSim's
 scans for hosts, ports and neighbours do together, so each takes the total
 time of the three scans, 35~s.
 
-No source times the other nine tactics, since threat reports time whole
+No source we found times the other nine tactics, since threat reports time whole
 intrusions. We set their mean durations by judgement, from what each tactic
 does in an attack, as other models that time attack steps do where data are
 missing~\citep{mcqueen2006, bland2020}.
@@ -5099,7 +5099,7 @@ between zero and one for each pair of tactics, the tactic whose attack action
 failed and a tactic that can come next, and Equation~\ref{eq:routing}
 multiplies each base weight by its factor. The attack flows cannot supply
 it. The threat reports behind them describe incidents that succeeded and were worth writing about,
-so an attack flow draws only the steps its attacker completed. The base
+so the attack flows draw only the steps their attackers completed. The base
 weights therefore say where an attacker goes after a success, and nothing
 about where it goes after a failure.
 
@@ -7867,7 +7867,7 @@ baseline attacker's at every deployment interval
 attacker's NCR more, at every deployment interval up to \prelim{1\,000}\,s
 (Figure~\ref{fig:eff-cross-arm}(e)). At 200\,s, MTDShield chooses service
 diversity in \prelim{70}\,\% or more of its decisions against either attacker
-(Appendix~\ref{app:mtdshield-observed}).
+in 100 runs (Appendix~\ref{app:mtdshield-observed}).
 %     (tab:eff-cross-arm). If Marc swaps the two tables (handoff B9/F12) so that the 200 s
 %     ranking moves to §5.3.3, P3's first two sentences move with it and the last
 %     sentence closes P2. ---
@@ -8981,14 +8981,14 @@ argued that the attacker model decides which deployment strategy is optimal
 \citep{cho2020}, and that MTDShield's attacker is the baseline attacker its
 training environment simulates. At the default deployment interval of
 200\,s, MTDShield reduces the baseline attacker's NCR by 68\,\% and the APT
-attacker model's by 28\,\%; the random deployment strategy reduces them by
-33\,\% and 75\,\% (Figure~\ref{fig:eff-cross-arm}(d) and~(e)). At 200\,s, MTDShield
+attacker model's by 28\,\%; the random deployment strategy over the same four MTD
+mechanisms reduces them by 56\,\% and 80\,\% (Figure~\ref{fig:eff-cross-arm}(e); Table~\ref{tab:eff-interval-values}). At 200\,s, MTDShield
 chooses service diversity in most of its decisions against either attacker
 (Section~\ref{subsec:eff-cross-arm}), and service diversity is the only MTD
 mechanism the baseline attacker loses time to
 (Section~\ref{sec:disc-mtd-performance}). Its
 choices are consistent with a policy that learned to deploy the MTD mechanism
-that disrupts its training attacker most (\ref{thr:mtdshield}). Tay et al.\ tested MTDShield in its training environment,
+that disrupts its training attacker most (\ref{thr:mtdshield}). Tay tested MTDShield in its training environment,
 against the baseline attacker, and compared it with no MTD \citep{tay2024}.
 Like a test on training data, a test in the training environment cannot
 separate a deployment strategy that generalises to other attackers from one
@@ -9240,7 +9240,7 @@ identical for both attackers, and against the baseline attacker MTDShield
 still reduces NCR more than the random deployment strategy does at every
 deployment interval. Only the APT attacker model has unmapped tactics, and at
 200\,s MTDShield chose to deploy nothing in 29\,\% of its decisions against it
-and 23\,\% against the baseline attacker. We cannot rule out this assumption as a cause of part of
+and 23\,\% against the baseline attacker, in 100 runs (Appendix~\ref{app:mtdshield-observed}). We cannot rule out this assumption as a cause of part of
 the random deployment strategy's lead over MTDShield against the APT attacker
 model.
 \end{enumerate}
@@ -9356,7 +9356,7 @@ attacker: we synthesised the eight properties from the APT definition and two
 surveys, and scored each attacker model from a face-value reading of its
 papers. To mitigate this threat, we tied each mark to a predicate
 (Appendix~\ref{app:clause-tests}) and cross-checked our marks against language
-models that blindly scored all four MTD attacker models. We did not validate the
+models that blindly scored all four attacker models. We did not validate the
 property set, which is coarse and likely incomplete. Nor did we read the
 attacker models' code, which may behave differently from their papers, so the
 threat remains. The comparison covers only four attacker models: the three MTD
@@ -10379,8 +10379,8 @@ NCR:
 \end{equation}
 ASP reduction is 1 when no run under MTD compromises a target host. At
 200\,s, ASP reduction shows the order of NCR reduction. Against the APT attacker model, whose ASP with no MTD
-is 0.09, it cannot separate the five that reach 0.99 or more: every host-layer
-MTD mechanism and the random and alternative deployment strategies.
+is 0.09, it cannot separate the six that reach 0.99 or more: every host-layer
+MTD mechanism and the random, random over MTDShield's four, and alternative deployment strategies.
 Chapter~\ref{ch:experiments} therefore ranks on NCR reduction.
 
 
@@ -10492,7 +10492,7 @@ with the APT attacker model averaged over $c_1$ to $c_4$.
 %  once and the two findings; the captions decode the cells; the numbers are the tables'.]
 Most tactic durations are our judgement (Section~\ref{subsec:dwell-times}),
 so this sensitivity analysis tests whether the results depend on them. Each
-of the four mean durations that several tactics share was moved to both ends
+of the four mean durations of Table~\ref{tab:anchor-sensitivity} was moved to both ends
 of its band, one at a time, with the other three held at their declared values;
 moving one value at a time leaves their interactions
 untested~\citep{saltelli2019}. Only the 45\,s mean duration of Persistence,
