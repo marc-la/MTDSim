@@ -49,7 +49,7 @@ import simpy
 
 _HERE = Path(__file__).resolve().parent
 _NUMBERS = _HERE / "numbers"
-_REPO = _HERE.parents[2]
+_REPO = _HERE.parents[1]
 
 # --- pre-registered design constants (record §4–§5) --------------------------
 HORIZON = 15_000

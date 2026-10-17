@@ -10,6 +10,10 @@ JSON line it produces must equal the recorded line.
     python experiments/verify_ledgers.py                 # 20 rows per ledger
     python experiments/verify_ledgers.py --n 100 --only defended_reported
     python experiments/verify_ledgers.py --runs-dir /path/to/archive/experiments
+    python experiments/verify_ledgers.py --smoke         # no raw runs needed (~2 min)
+
+``--smoke`` re-runs every row of the committed fixtures, seed 0 of the two
+reported corpora (``experiments/*/smoke_seed0.jsonl.gz``: 6 + 402 rows).
 
 The raw ledgers are not in git (README, "Raw runs"); ``--runs-dir`` points at
 wherever they were unpacked, laid out as experiments/<name>/runs*.jsonl.
@@ -17,6 +21,7 @@ wherever they were unpacked, laid out as experiments/<name>/runs*.jsonl.
 from __future__ import annotations
 
 import argparse
+import gzip
 import importlib.util
 import json
 import os
@@ -43,6 +48,11 @@ LEDGERS = {
     "sensitivity": ("ch5_s51_sensitivity/runs.jsonl", "ch5_s51_sensitivity/run_sweep.py", None),
     "duration_ablation": ("ch6_further_analyses/runs_duration_ablation.jsonl",
                           "ch6_further_analyses/run_duration_ablation.py", None),
+}
+
+SMOKE = {
+    "unopposed_reported": ("ch5_s531_unopposed/smoke_seed0.jsonl.gz", "ch5_s531_unopposed/run_corpus.py"),
+    "defended_reported": ("ch5_defended/smoke_seed0.jsonl.gz", "ch5_defended/run_corpus.py"),
 }
 
 _MODULES: dict[str, object] = {}
@@ -72,10 +82,15 @@ def _job(row: dict) -> dict:
 def _rerun(args: tuple[str, str]) -> tuple[bool, str]:
     script, line = args
     row = json.loads(line)
-    new = json.dumps(_runner(script).dispatch(_job(row)))
+    runner = _runner(script)
+    # a runner whose rows do not carry the whole job rebuilds it (run_sweep.py)
+    job = runner.job_from_row(row) if hasattr(runner, "job_from_row") else _job(row)
+    new = json.dumps(runner.dispatch(job))
     if new == line:
         return True, ""
     fresh = json.loads(new)
+    if "error" in fresh:
+        return False, f"{_job(row)} raised {fresh['error']}"
     keys = [k for k in {**row, **fresh} if row.get(k, "<absent>") != fresh.get(k, "<absent>")]
     return False, f"{_job(row)} differs in {keys}"
 
@@ -109,19 +124,25 @@ def main() -> int:
     ap.add_argument("--only", nargs="*", choices=sorted(LEDGERS))
     ap.add_argument("--runs-dir", type=Path, default=HERE, help="where experiments/<name>/runs*.jsonl live")
     ap.add_argument("--workers", type=int, default=min(7, os.cpu_count() or 4))
+    ap.add_argument("--smoke", action="store_true", help="re-run every row of the committed seed-0 fixtures")
     args = ap.parse_args()
     os.environ.setdefault("TF_CPP_MIN_LOG_LEVEL", "3")
 
     failures = checked = 0
-    for name in args.only or LEDGERS:
-        rel, script, skip = LEDGERS[name]
-        path = args.runs_dir / rel
-        if not path.exists():
-            print(f"{name:26s} missing: {path}")
-            failures += 1
-            continue
+    for name in (SMOKE if args.smoke else args.only or LEDGERS):
         t0 = time.time()
-        lines = sample(path, args.n, random.Random(f"{args.seed}:{name}"), skip)
+        if args.smoke:
+            rel, script = SMOKE[name]
+            with gzip.open(HERE / rel, "rt") as fh:
+                lines = [line.rstrip("\n") for line in fh]
+        else:
+            rel, script, skip = LEDGERS[name]
+            path = args.runs_dir / rel
+            if not path.exists():
+                print(f"{name:26s} missing: {path}")
+                failures += 1
+                continue
+            lines = sample(path, args.n, random.Random(f"{args.seed}:{name}"), skip)
         with ProcessPoolExecutor(args.workers) as pool:
             results = list(pool.map(_rerun, [(script, line) for line in lines]))
         bad = [msg for ok, msg in results if not ok]

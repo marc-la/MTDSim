@@ -210,6 +210,13 @@ def dispatch(job: dict) -> dict:
                 "interval": job["interval"], "seed": job["seed"]}
 
 
+def job_from_row(row: dict) -> dict:
+    """The job a recorded row came from (rows keep the point's name, not the point);
+    used by experiments/verify_ledgers.py."""
+    point = {p["name"]: p for p in build_points()}[row["point"]]
+    return {"point": point, **{k: row[k] for k in ("profile", "condition", "interval", "seed")}}
+
+
 def build_jobs(points: list[dict], seeds, profiles) -> list[dict]:
     return [
         {"point": p, "profile": prof, "condition": c, "interval": i, "seed": s}

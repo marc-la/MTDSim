@@ -127,6 +127,19 @@ def _movement(job: dict) -> dict:
     }
 
 
+_CATALOGUES: dict | None = None
+
+
+def job_from_row(row: dict) -> dict:
+    """The job a recorded row came from (rows do not carry the duration catalogue);
+    used by experiments/verify_ledgers.py."""
+    global _CATALOGUES
+    if _CATALOGUES is None:
+        _CATALOGUES = catalogues()
+    return {"variant": row["variant"], "profile": row["profile"], "seed": row["seed"],
+            "catalogue": _CATALOGUES[row["variant"]]}
+
+
 def dispatch(job: dict) -> dict:
     try:
         return _movement(job)
