@@ -5463,8 +5463,8 @@ runs.
 
 \paragraph{Attack rate.}
 An attacker with detection avoidance moves low and slow and chooses techniques an IDS does not flag. MTDSim detects no attacker, so the two metrics for detection avoidance measure it by proxy, through how often the attacker acts.
-Attack rate is the number of attack actions an attacker takes per minute
-\citep{zhan2013}, averaged over its runs:
+Attack rate \citep{zhan2013} is the number of attack actions an attacker takes per
+minute, averaged over its runs:
 \begin{equation}
   \text{attack rate} = \operatorname*{mean}_{\text{runs}}
   \left( \frac{\text{attack actions}}{\text{run length in minutes}} \right),
@@ -5475,8 +5475,8 @@ attack rate is a more aggressive attacker \citep{pendleton2016}.
 
 \paragraph{Attack confidentiality.}
 Attack rate is a mean, so it does not show bursts of attack actions, which
-an IDS flags. Attack confidentiality is the share of an attacker's
-attack actions that an IDS does not flag \citep{zaffarano2015}.
+an IDS flags. Attack confidentiality \citep{zaffarano2015} is the share of an
+attacker's attack actions that an IDS does not flag.
 MTDSim has no IDS, so one stands in with a single rule, the default
 port-scan rule of the Snort IDS, which flagged a source that
 connected to five different addresses within 60\,s
@@ -5524,16 +5524,16 @@ The attack scenario sets the attacker's goal
 (Table~\ref{tab:attacker-objectives}).
 
 \paragraph{Attack success probability (ASP).}
-ASP is the share of runs in which the attacker reaches its goal
-\citep{cho2020}:
+ASP \citep{cho2020} is the share of runs in which the attacker reaches
+its goal:
 \begin{equation}
   \mathrm{ASP} = \frac{\text{runs in which the attacker reaches its goal}}{\text{runs}}.
   \label{eq:asp}
 \end{equation}
 
 \paragraph{Network compromise ratio (NCR).}
-NCR is the share of the hosts in the network that the attacker has
-compromised when a run ends \citep{zhang2023}, averaged over runs:
+NCR \citep{zhang2023} is the share of the hosts in the network that the
+attacker has compromised when a run ends, averaged over runs:
 \begin{equation}
   \mathrm{NCR} = \operatorname*{mean}_{\text{runs}}
   \left( \frac{\text{hosts compromised}}{\text{hosts in the network}} \right).
@@ -5546,8 +5546,8 @@ compromised when a run ends \citep{zhang2023}, averaged over runs:
 % target host, Zhang's written definition (p. 16, verified in
 % s45_metric_definitions/17); the first-host reading and the 80 % sentence are
 % retired. ASP is its coverage, so no bracketed share is needed in the floats.
-MTTC is the mean time from the start of a run to the attacker reaching its
-goal, over the runs in which it does \citep{mcqueen2006, zhang2023}:
+MTTC \citep{mcqueen2006, zhang2023} is the mean time from the start of a
+run to the attacker reaching its goal, over the runs in which it does:
 \begin{equation}
   \mathrm{MTTC} = \operatorname*{mean}_{\text{runs in which the attacker reaches its goal}}
   \left( \text{time the attacker reaches its goal} \right).
@@ -5604,8 +5604,8 @@ loss expectancy and no floor at 0.
 %  (it names the cap, and credits Royston as Table 4.3 does), its own sentence cut.
 \paragraph{Attack actions blocked per MTD deployment.}
 Attack actions blocked per MTD deployment is the number of attack actions MTD
-disrupts, divided by the number of MTD deployments before the run ends,
-counting over every run \citep{brown2023}:
+disrupts \citep{brown2023}, divided by the number of MTD deployments before
+the run ends, counting over every run:
 \begin{equation}
   \text{attack actions blocked per MTD deployment} =
   \frac{\text{attack actions disrupted}}{\text{MTD deployments}}.
