@@ -1,0 +1,22 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite the dissertation it accompanies."
+title: "MTDSim with an APT attacker model"
+type: software
+authors:
+  - family-names: Labouchardiere
+    given-names: Marc
+    affiliation: "The University of Western Australia"
+version: 1.0.0
+date-released: 2026-10-18
+license: MIT
+repository-code: "https://github.com/marc-la/MTDSim"
+preferred-citation:
+  type: thesis
+  authors:
+    - family-names: Labouchardiere
+      given-names: Marc
+  title: "Evaluating moving target defence against advanced persistent threat attackers modelled on documented intrusion campaigns"
+  institution:
+    name: "The University of Western Australia"
+  year: 2026
+  thesis-type: "Honours dissertation"

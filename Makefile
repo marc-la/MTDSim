@@ -14,7 +14,7 @@ help:
 	@echo "make test-all   the full grid, including the slow tests                               ~1 h"
 	@echo "make smoke      re-run seed 0 of both reported corpora; must match the committed rows ~2 min"
 	@echo "make floats     every generated figure and table from the committed numbers files    ~1 min"
-	@echo "make verify     re-run 20 random rows of each raw ledger (needs the raw runs, README) ~15 min"
+	@echo "make verify     re-run 20 random rows of each raw ledger (needs the raw runs, README) ~5 min"
 	@echo "make numbers    recompute every numbers file from the raw runs (needs the raw runs)   ~1 h"
 	@echo "make runs       every simulation behind Chapters 5 and 6, from scratch                ~45 h on 7 cores"
 	@echo "make thesis     build docs/thesis/dissertation.pdf (pdflatex + bibtex)"
@@ -43,16 +43,21 @@ verify:
 	$(PY) experiments/verify_ledgers.py --n 20
 
 # Analysers, in dependency order: each reads raw runs and writes the numbers*.json
-# files that `make floats` draws from.
+# files that `make floats` draws from. Run from the repository root.
 numbers:
-	cd experiments/ch5_s531_unopposed && CORPUS=reported $(PY) analyse.py
-	cd experiments/ch5_defended && CORPUS=reported $(PY) analyse.py
-	cd experiments/ch5_defended && $(PY) time_lost.py && $(PY) time_lost_first_deployment.py
-	cd experiments/ch5_defended && $(PY) ablation.py && $(PY) memory_ablation.py
-	cd experiments/ch5_defended && $(PY) partition_ablation.py && $(PY) duration_ranking.py
-	cd experiments/ch5_defended && $(PY) seed_layer_check.py
-	cd experiments/ch5_s51_sensitivity && $(PY) analyse.py
-	cd experiments/ch6_further_analyses && $(PY) further_analyses.py && $(PY) analyse_duration_ablation.py
+	CORPUS=reported $(PY) experiments/ch5_s531_unopposed/analyse.py
+	CORPUS=reported $(PY) experiments/ch5_defended/analyse.py
+	CORPUS=reported $(PY) experiments/ch5_defended/time_lost.py
+	$(PY) experiments/ch5_defended/time_lost_first_deployment.py
+	MEMORY=1 $(PY) experiments/ch5_defended/ablation.py
+	$(PY) experiments/ch5_defended/memory_ablation.py
+	$(PY) experiments/ch5_defended/partition_control.py
+	$(PY) experiments/ch5_defended/partition_ablation.py
+	$(PY) experiments/ch5_defended/duration_ranking.py
+	$(PY) experiments/ch5_defended/seed_layer_check.py
+	$(PY) experiments/ch5_s51_sensitivity/analyse.py
+	$(PY) experiments/ch6_further_analyses/further_analyses.py
+	$(PY) experiments/ch6_further_analyses/analyse_duration_ablation.py
 
 # The recorded order (each wrapper logs its commit and timings beside its ledger).
 runs:

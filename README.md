@@ -1,91 +1,122 @@
-# MTDSimTime
+# MTDSim with an APT attacker model
 
-A time-based simulator used for evaluating Moving Target Defence (MTD) techniques.
+Code, data and results for the UWA honours dissertation *Evaluating moving target
+defence against advanced persistent threat attackers modelled on documented
+intrusion campaigns* (Marc Labouchardiere, 2026; supervisor Jin B. Hong).
+The dissertation is [`docs/dissertation.pdf`](docs/dissertation.pdf); the seminar
+slides are [`docs/seminar.pdf`](docs/seminar.pdf).
 
-## Getting Started:
+MTDSim is a discrete-event simulator in which an attacker works through a
+generated enterprise network while moving target defence (MTD) mechanisms
+reshuffle it. It was built by Brown, Zhang, Ho and Tay ([`docs/lineage/`](docs/lineage/)).
+This repository adds an **APT attacker model**: 38 documented intrusion campaigns
+(MITRE CTID Attack Flow) aggregated into an attack graph of ATT&CK techniques, cut
+into four attack profiles by objective, compiled into Petri nets, and run inside
+MTDSim in place of its baseline attacker. Chapter 5 compares the two attackers
+under seven MTD mechanisms, two deployment strategies and MTDShield over 1 000 seeds.
 
-1. Installing [conda](https://conda.io/projects/conda/en/latest/user-guide/install/index.html)
-2. Creating conda environment
-   - `conda env create -f environment.yml`
-   - `conda config --add channels conda-forge`
-3. Activating the environment
-   - `conda activate mtdsimtime`
-4. Updating the environment
-   - `conda env update --name mtdsimtime --file environment.yml --prune`
+## Layout
 
-## Features
+| Path | What it holds |
+|---|---|
+| [`src/mtdnetwork/`](src/mtdnetwork/) | the simulator inherited from the lineage, with the defects we repaired |
+| [`src/mtdsim/`](src/mtdsim/) | the APT attacker model; its README maps each dissertation section to a package |
+| [`data/`](data/) | inputs: the Attack Flow snapshot, the attack graph, attack profiles, Petri nets, tactic durations, the MTDShield agent |
+| [`experiments/`](experiments/) | one folder per experiment: runner, analyser, and the numbers files the floats read |
+| [`tools/`](tools/) | the figure and table generators (`build_floats.py` runs them all) and developer tools |
+| [`tests/`](tests/), [`baseline/`](baseline/) | unit and regression tests; golden event streams that pin the simulator's behaviour |
+| [`docs/thesis/`](docs/thesis/) | the dissertation's LaTeX source, figures and tables |
+| [`docs/implementation/`](docs/implementation/) | design records: architecture, data schemas, pre-registrations and findings for each design choice |
 
-1. Network graph generation
-<p>
-  <img alt="" src="output/network.png" width="1080"/>
-</p>
+## Install
 
-2. Attack Operation
+Python 3.11 on Linux (the runs used 3.11.15). With conda:
 
-<p>
-  <img alt="" src="output/attack_record.png" width="720"/>
-</p>
+```sh
+conda env create -f environment.yml && conda activate mtdsim
+python -m playwright install chromium        # only for the figures
+```
 
+or with a virtual environment: `python3.11 -m venv .venv && . .venv/bin/activate && make install`.
+`requirements-lock.txt` pins the exact environment; `pyproject.toml` declares the
+direct dependencies (`pip install -e .[all]` for a looser install). The figures
+also need TeX Live (`pdflatex`) and Ghostscript.
 
-3. MTD Operation
+## Quick start
 
-<p>
-  <img alt="" src="output/mtd_record.png" width="755"/>
-</p>
+```sh
+make test      # 1 019 tests, ~5 min (make test-all adds the slow grid)
+make smoke     # re-run seed 0 of both reported corpora and compare with the recorded rows, ~2 min
+```
 
+Watch one run of the APT attacker model, event by event, under IP shuffle every 200 s:
 
-4. Snapshot
+```sh
+PYTHONPATH=src python -m mtdsim.l3_simulation.trace objective_exfiltration \
+  --mapping v2_partial --overlay-version v4_failure_only --retrace \
+  --attack-objective targeted --scheme single --mtd IPShuffle --interval 200 --seed 0
+```
 
-5. Evaluation based on MTTC
+`python -m mtdnetwork.trace` does the same for the baseline attacker.
 
+## Reproducing the dissertation
 
-## System Architecture
-The system uses the 3-layer HARM model to represent the network. This is a representation of the network, with the lowest levels on the bottom and the highest levels on the top:
+Every run is seeded: the same commit, inputs and seed give the same run, byte for
+byte. Reproduction comes in four levels, from cheapest:
 
-| layer           | Description                                                                                                                              |
-|-----------------|------------------------------------------------------------------------------------------------------------------------------------------|
-| Network         | Made up of all the Hosts, connected in an Attack Graph, with exposed and un-exposed hosts that attackers will attempt to compromise      |
-| Host            | Made up of several services (internal and external) in an Attack Graph.  The host is compromised when an internal service is compromised |
-| Services        | An attack tree of vulnerabilities. A service is compromised when the sum of the exploited vulnerabilities' impact scores exceeds **7** (`SERVICE_COMPROMISED_THRESHOLD`). |
-| Vulnerabilities | Generated with a set Attack Complexity (∈ [0.4, 1]) and Impact (∈ **[0, 10]** in this codebase — see note below).                          |
+| Command | What it reproduces | Needs | Time |
+|---|---|---|---|
+| `make floats` | every generated figure and table, from the committed numbers files | this repository | ~1 min |
+| `make smoke` | 408 recorded runs (seed 0 of Chapter 5's corpora), compared byte for byte | this repository | ~2 min |
+| `make verify` / `make numbers` | sampled runs from all nine raw ledgers; every numbers file from the raw runs | the raw runs | ~5 min / ~1 h |
+| `make runs` | every simulation behind Chapters 5 and 6 (over 800 000 runs) | this repository | ~45 h on 7 cores |
 
-> **Note on Impact range.** Brown 2023 Table I quotes vulnerability impact on a `[0, 1]` scale. This codebase uses **`[0, 10]`** (`services.py`: `self.impact = random.random() * 10`), and the service-compromise threshold of `7` is calibrated against that wider range. The `[0, 10]` form is the inherited reality of MTDSim; the Brown-paper `[0, 1]` form is recorded as a documentation-only delta in [`docs/implementation/mtdsim_spec.md`](docs/implementation/mtdsim_spec.md) (Conflict C3, NET-13). No code change.
+Times are on a laptop (Intel i7-1360P, 13 GB RAM). [`experiments/README.md`](experiments/README.md)
+lists each experiment with its run count, time and outputs.
 
-For the original upstream MTD parameter reference, see the unmodified MTDSimTime repository at https://github.com/MoeBuTa/MTDSimTime.
+| Dissertation float | Command (`python ...`) |
+|---|---|
+| Figures 2.1–2.3 | `tools/ch2_model_figures.py` |
+| Table 2.4 | `tools/ch2_lineage_configurations_table.py` |
+| Figure 3.1 | `tools/attack_matrix_figure.py` |
+| Figure 3.2 | `tools/attack_flow_figure.py` |
+| Figure 4.1 | `tools/ch4_overview_figure.py` |
+| Figure 4.2 | `tools/ch4_attack_graph_figure.py` |
+| Figure 4.3 | `tools/ch4_profile_reach_figure.py` |
+| Figure 4.4 | `tools/gspn_gadget_figure.py` |
+| Figure 4.5 | `tools/runtime_loop_figure.py` |
+| Figure 4.6 | `tools/controller_mapping_figure.py` |
+| Table 4.2 | `tools/dwell_catalogue_tables.py` |
+| Figure 5.1, Table 5.2 | `tools/ch5_unopposed_figures.py` |
+| Figure 5.2, Table D.2 | `tools/ch5_disruption_figure.py` |
+| Figures 5.3, 5.4, D.1; Tables 5.3, D.3–D.5 | `tools/ch5_sweep_figures.py` |
+| Tables 5.4, D.7 | `experiments/ch5_defended/ablation_table.py` |
+| Table C.1 | `tools/gasp_structural_baseline.py --tex` |
+| Figure C.1 | `tools/gap_appendix_figures.py --only gap_technique_core` |
+| Figure C.2 | `tools/ch4_attack_profiles_figure.py` |
+| Table C.2 | `tools/attack_action_times_table.py` |
+| Table C.3 | `tools/failure_weight_decomposition_figure.py --layout tables` |
+| Table C.4 | `tools/value_bases_table.py` |
+| Table D.6 | `TABLE_ONLY=1 experiments/ch5_defended/partition_ablation.py` |
+| Table D.8 | `experiments/ch5_defended/memory_ablation.py --table-only` |
+| Table D.9 | `experiments/ch5_s51_sensitivity/analyse.py --tables-only` |
+| Table D.10 | `tools/duration_ranking_table.py` |
+| Table D.11 | `tools/further_analyses_tables.py` |
 
-## Documents
+Tables 4.3 and 5.1, and the tables set inline in the text, are typed in
+`docs/thesis/dissertation.tex`. `make thesis` builds the PDF.
 
-see [docs](https://github.com/MoeBuTa/MTDSimTime/blob/main/docs/) for all related documents.
+## Extending it
 
+- **Run the APT attacker model in a new study:** `mtdsim.l3_simulation.movement.run.run_movement(profile, seed=..., mtd_scheme=..., ...)` returns the run's records; `experiments/ch5_defended/run_corpus.py` shows the configuration Chapter 5 reports.
+- **Add an MTD mechanism:** subclass `MTD` (`src/mtdnetwork/mtd/__init__.py`) beside the others in `src/mtdnetwork/mtd/`, and pass it through `custom_strategies`.
+- **Change behaviour on purpose:** the golden streams in `baseline/` will fail; re-capture them with `PYTHONPATH=src python tools/mtd_golden_streams.py capture` and say why in `baseline/CHANGELOG.md`.
+- **Find what something is for:** the design record for each choice is in `docs/implementation/pipeline/ogasp/`. Code comments that cite `docs/handoffs/` point at working notes that are not kept here (they are in the git history).
 
+## Credits, licence, citation
 
-
-
-
-## Setup the previous works only
-
-switch to another branch (MTDSim / New-Attack-Method) or go directly to:
-
-[MTDSim](https://github.com/Ccamm/MTDSim)
-
-[MTDSimTze](https://github.com/tzewenlee99/MTDSimTze)
-
-
-
-This was all run on Python 3.9.13 64 Bit. In the root directory in terminal, run the following commands in your virtual environment to setup the environment:
-
-- Setup virtualenv
-   - `python -m pip install virtualenv venv`
-   - `python -m virtualenv venv`
-- Activate environemnt
-   - `source venv/bin/activate`
-- Install dependencies
-   - `python setup.py install`
-   - `pip install -r requirements.txt`
-- Run an example: The following is only an example of how the function can be made, reference the run.py file or use the –help command to understand the parameters.
-   - For New-Attack-Method: 
-     - `python batchrun.py`
-   - For MTDSim: 
-     - `python -m mtdnetwork.run -m IPShuffle -n 50 -e 10 -s 5 -l 3 results.json`
-
-
+The simulator in `src/mtdnetwork/` is the work of Alex Brown, Wenxiao Zhang, Wai
+Him Ho and Joo Kai Tay ([Bsubs/MTDSim](https://github.com/Bsubs/MTDSim)); the
+MTDShield agent in `data/mtdshield/` is Tay's. The rest is MIT-licensed; see
+[`LICENSE`](LICENSE) for what it covers. To cite this work, see
+[`CITATION.cff`](CITATION.cff).
