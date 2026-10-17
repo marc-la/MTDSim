@@ -140,6 +140,10 @@ def check(paths: list[Path]) -> int:
             for frag in frags:
                 target = norm_map(frag)[0].strip()
                 hits = [m.start() for m in re.finditer(re.escape(target), n)] if target else []
+                if not hits and "-" in target:
+                    # a real hyphen broken across a line ("Three-\nlayer") is joined by norm
+                    t2 = re.sub(r"(\w)-(\w)", r"\1\2", target)
+                    hits = [m.start() for m in re.finditer(re.escape(t2), n)]
                 if hits:
                     # every place the passage occurs (a published copy and a preprint both count)
                     where.append(" | ".join(dict.fromkeys(page_of(raw, idx[h]) for h in hits)))

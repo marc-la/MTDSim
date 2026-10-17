@@ -1,0 +1,157 @@
+[
+ {
+  "key": "cisaaa24038a",
+  "units": [
+   "U0011"
+  ]
+ },
+ {
+  "key": "cho2020",
+  "units": [
+   "U0016",
+   "U0019",
+   "U0209",
+   "U0215",
+   "U0221",
+   "U0222",
+   "U0841"
+  ]
+ },
+ {
+  "key": "jalowski2026",
+  "units": [
+   "U0019",
+   "U0237",
+   "U0240",
+   "U0791",
+   "U0841"
+  ]
+ },
+ {
+  "key": "ctid2025attackflow",
+  "units": [
+   "U0026",
+   "U0182"
+  ]
+ },
+ {
+  "key": "hutchins2011",
+  "units": [
+   "U0108"
+  ]
+ },
+ {
+  "key": "alshamrani2019",
+  "units": [
+   "U0149",
+   "U0153"
+  ]
+ },
+ {
+  "key": "mtrends2026",
+  "units": [
+   "U0153"
+  ]
+ },
+ {
+  "key": "strom2018mitre",
+  "units": [
+   "U0161"
+  ]
+ },
+ {
+  "key": "ferraz2026",
+  "units": [
+   "U0161"
+  ]
+ },
+ {
+  "key": "buchel2025",
+  "units": [
+   "U0161",
+   "U0173"
+  ]
+ },
+ {
+  "key": "mitre2026attackkb",
+  "units": [
+   "U0182",
+   "U0461"
+  ]
+ },
+ {
+  "key": "evans2011",
+  "units": [
+   "U0215"
+  ]
+ },
+ {
+  "key": "kim2026",
+  "units": [
+   "U0215",
+   "U0263",
+   "U0288",
+   "U0290",
+   "U0759"
+  ]
+ },
+ {
+  "key": "masud2025",
+  "units": [
+   "U0215",
+   "U0262",
+   "U0279",
+   "U0758"
+  ]
+ },
+ {
+  "key": "mcqueen2006",
+  "units": [
+   "U0215",
+   "U0517",
+   "U0560"
+  ]
+ },
+ {
+  "key": "manadhatawing2011tse",
+  "units": [
+   "U0215"
+  ]
+ },
+ {
+  "key": "mitre2026attackv19",
+  "units": [
+   "U0314"
+  ]
+ },
+ {
+  "key": "rodriguez2024",
+  "units": [
+   "U0532"
+  ]
+ },
+ {
+  "key": "sargent2011",
+  "units": [
+   "U0861"
+  ]
+ },
+ {
+  "key": "engenuitynerve",
+  "units": [
+   "U0960"
+  ]
+ },
+ {
+  "key": "uberbreach2022",
+  "units": [
+   "U0969"
+  ]
+ },
+ {
+  "key": "dfirgootloader2022",
+  "units": [
+   "U0969"
+  ]
+ }
+]

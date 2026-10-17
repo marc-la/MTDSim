@@ -129,7 +129,7 @@ Within a tier, take session-drafted units first: those whose comment trail says 
 
 1. `claim_quote_check.py check` on both files. A `MISSING` quote voids that verdict, and the unit is re-run. This is the deterministic guard against an invented quote, and it also catches cross-attribution, since a quote must be found in *that* key's text.
 2. **Minority veto, calibrated on the pilot.** A unit is cleared only if both A and B say `SUPPORTED` with found quotes. Any `major` from either verifier goes on Marc's sheet, and so does any `minor` that both verifiers raise. A `minor` that only one raises goes on a skim list beneath the sheet. In the pilot the adversarial pass raised a minor point on 12 of 16 unit–source pairs, so a raw veto would bury the one major under eleven minors. H units go on the sheet whatever the verdicts.
-3. `NOT-CHECKABLE` units (no saved text: `cai2016`, `cohen1988statistical`, `efron1994introduction`, `marsan1995`, `engenuitynerve`, `uberbreach2022`) go to Marc with the claim and what he needs to look up. `tay2024code` claims are checked against the released code in `mtdnetwork/`, quoting the file and line.
+3. `NOT-CHECKABLE` units (no saved text: `cai2016`, `cohen1988statistical`, `efron1994introduction`, `marsan1995`, `engenuitynerve`, `uberbreach2022`) go to Marc with the claim and what he needs to look up. `tay2024code` claims are checked against the release as cited, at commits `f13ed49` (the agents) and `e6c13c6` (the evaluation notebook), with `git show <commit>:<path>`, never against today's working tree, which the thesis has changed; the locator is `<commit>:<path>:<line>`, and the quote check verifies it there.
 
 ## 6. The missing-citation screen (tier V1)
 
