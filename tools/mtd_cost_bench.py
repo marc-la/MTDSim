@@ -11,7 +11,7 @@ comparable with the numbers the handoff reasons from.
 
 **Measurement, not experiment.** This runs the movement arm purely to time the
 defender side; it computes no metric and writes no findings. Nothing here may
-become evidence for a claim — the run workspaces under `data/results/` are for
+become evidence for a claim — the run workspaces under `experiments/` are for
 that.
 
 One thing worth knowing before reading its output: wall clock per run is

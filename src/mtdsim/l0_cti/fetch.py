@@ -12,8 +12,15 @@ reproducibly:
 2. The MITRE ATT&CK Enterprise STIX bundle (node metadata: technique names,
    tactics, platforms), pinned to a specific ATT&CK version.
 
-Both land under ``data/gap/_corpus_stix/`` and ``data/gap/_attack/`` (gitignored).
+The corpus lands under ``data/gap/_corpus_stix/`` and the ATT&CK bundle under
+``data/gap/_attack/`` (gitignored, checked against its SHA-256).
 Idempotent: existing non-empty files are skipped unless ``--force`` is given.
+
+The corpus snapshot the dissertation was built from (fetched 2026-05-15) is
+committed in ``data/gap/_corpus_stix/``, because CTID's docs-site export is not
+versioned: a fresh download (its 2026-10-14 export) changes 28 of the 38 per-flow
+extracts and so the attack graph. ``--force`` replaces the committed snapshot
+with the current export; do not use it to reproduce the dissertation.
 
 Library entry point: :func:`fetch_corpus`. The CLI runner is this package's
 ``__main__`` (``PYTHONPATH=src python -m mtdsim.l0_cti [--force]``).
@@ -40,6 +47,7 @@ CORPUS_BASE_URL = (
 
 # ATT&CK Enterprise STIX (node metadata). Latest in attack-stix-data at pin time.
 ATTACK_VERSION = "19.1"
+ATTACK_SHA256 = "bdf1ce86a4e604214c5076d37ae4dcb322678afc528df8492e6fdc1b554f5da3"
 ATTACK_URL = (
     "https://raw.githubusercontent.com/mitre-attack/attack-stix-data/"
     f"master/enterprise-attack/enterprise-attack-{ATTACK_VERSION}.json"
@@ -141,6 +149,12 @@ def fetch_corpus(force: bool = False) -> dict:
     # 2. ATT&CK Enterprise STIX
     attack_dest = ATTACK_DIR / f"enterprise-attack-{ATTACK_VERSION}.json"
     attack_status = _download(ATTACK_URL, attack_dest, force)
+    if attack_dest.exists() and not attack_status.startswith("fail"):
+        import hashlib
+
+        digest = hashlib.sha256(attack_dest.read_bytes()).hexdigest()
+        if digest != ATTACK_SHA256:
+            attack_status = f"fail: SHA-256 {digest} is not the pinned {ATTACK_SHA256}"
     size_mb = attack_dest.stat().st_size / 1e6 if attack_dest.exists() else 0.0
     return {
         "corpus": counts,

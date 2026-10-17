@@ -7,7 +7,7 @@ Pipeline (option B, ch3 §3.1.2 exemplar):
       -> (Attack Flow Builder, manual) -> ..._exemplar.presentation.svg
       -> THIS TOOL -> docs/thesis/figures/fig_3-1a_attack_flow_volt_typhoon.svg
 
-What it does, and why (see docs/workflows/figure_table_conventions.md):
+What it does, and why (see docs/implementation/figure_table_conventions.md):
   - Recolours to greys + one accent. Recognisability lives in the *grammar*
     (condition boxes, the OR operator node, effect-edge routing), not the
     palette, so neutralising the Builder's blue/green/red to

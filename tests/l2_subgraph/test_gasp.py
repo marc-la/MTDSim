@@ -1,7 +1,7 @@
 """L2 GASP — sanity tests + the two discrimination checks.
 
 1. The operator-deduplicated technique-JSD re-check (Mitigation 1 from
-   ``docs/notes/ch4_methods/operator_concentration.md``): collapse multi-flow
+   ``docs/implementation/evidence/operator_concentration.md``): collapse multi-flow
    operator clusters to one representative each (highest ``n_actions``), then
    re-compute mean pairwise technique-JSD across the four classes against a
    random **half-split** null. This is the historical calibration (spec §g);
@@ -206,7 +206,7 @@ def test_operator_deduplicated_jsd_above_null(
     msg = (
         f"operator-dedup mean JSD = {observed:.4f}  "
         f"(null p95 = {null_p95:.4f}, n={len(kept)} flows kept; "
-        f"see docs/notes/ch4_methods/operator_concentration.md)"
+        f"see docs/implementation/evidence/operator_concentration.md)"
     )
     print("\n" + msg)
     _write_validation_note(observed, null_p95, n_kept=len(kept))
@@ -234,8 +234,8 @@ def _write_validation_note(observed: float, null_p95: float, *, n_kept: int) -> 
     line = (
         f"{marker} mean JSD = {observed:.4f} bits, half-split null p95 = {null_p95:.4f}, "
         f"n_kept = {n_kept} flows. "
-        f"See [`docs/notes/ch4_methods/operator_concentration.md`]"
-        f"(../../docs/notes/ch4_methods/operator_concentration.md) "
+        f"See [`docs/implementation/evidence/operator_concentration.md`]"
+        f"(../../docs/implementation/evidence/operator_concentration.md) "
         f"for the mitigation rationale.\n"
     )
     text = readme.read_text()

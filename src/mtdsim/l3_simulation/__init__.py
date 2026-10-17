@@ -1,8 +1,8 @@
-"""L3 — OGASP (operationalised GASP).  *Substrate seam — holds no code here.*
+"""Running the attack profiles as an attacker inside MTDSim (Sections 4.3-4.4).
 
-Stage L3 of the L0->L4 pipeline: a graph-driven attacker traverses the L2 GASP
-*inside the MTDSim substrate*, alongside the inherited 6-phase scripted attacker.
-That code lives in the substrate (``mtdnetwork/``), not in this package — see
-this directory's ``README.md`` and ``docs/implementation/architecture.md`` §(f),(i). This
-package exists only to mark the pipeline level and point at the seam.
+``petri`` compiles a profile into a Petri net; ``controller`` maps each tactic
+to the simulator's attack actions and judges their outcomes; ``movement`` is the
+APT attacker model that walks the net inside ``mtdnetwork``; ``timeline`` is an
+earlier stand-alone walk of the same nets, kept for its tests; ``trace.py`` is
+the event-log tracer for a movement run.
 """

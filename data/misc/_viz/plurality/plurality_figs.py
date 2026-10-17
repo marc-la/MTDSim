@@ -16,7 +16,7 @@ magnitude; grey survives greyscale printing and every CVD axis) with the rank
 annotated in every cell so nothing is colour-alone. Conditions are carried in
 the figure itself.
 
-Reads data/results/expo02_ashen_lynx/runs.jsonl (recorded runs only — nothing
+Reads experiments/expo02_ashen_lynx/runs.jsonl (recorded runs only — nothing
 is simulated). Deterministic: same input, same pixels.
 
     PYTHONPATH=src python data/misc/_viz/plurality/plurality_figs.py
@@ -173,7 +173,7 @@ def fig_opening_variety(rows) -> None:
         0.5, 0.012,
         "Movement arm (modulators null), no MTD, mapping v2_partial, sink "
         "policy retrace, horizon 15 000 s; recorded runs, experiment 2 "
-        "(data/results/expo02_ashen_lynx).",
+        "(experiments/expo02_ashen_lynx).",
         ha="center", fontsize=7.5, color="#444444")
     fig.subplots_adjust(left=0.09, right=0.98, top=0.97, bottom=0.22)
     out = HERE / "fig_opening_variety.png"
@@ -239,7 +239,7 @@ def main() -> int:
         0.5, 0.012,
         "Movement arm (modulators null), mapping v2_partial, sink policy "
         "retrace, 10 seeds per cell, horizon 15 000 s; recorded runs, "
-        "experiment 2 (data/results/expo02_ashen_lynx).",
+        "experiment 2 (experiments/expo02_ashen_lynx).",
         ha="center", fontsize=7.5, color="#444444")
     fig.subplots_adjust(left=0.17, right=0.985, top=0.9, bottom=0.26)
     out = HERE / "fig_interaction_rank.png"

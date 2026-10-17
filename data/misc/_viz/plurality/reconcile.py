@@ -119,7 +119,7 @@ W = {}  # family -> spec
 _ax6 = load(RESULTS / "axis6_rationality" / "numbers" / "sweep_per_run.jsonl")
 W["utility_lambda"] = {
     "label": "utility λ (axis 6, shipped)",
-    "script": "data/results/axis6_rationality/run_sweep.py",
+    "script": "experiments/axis6_rationality/run_sweep.py",
     "record": "incentive_rationality.md C3",
     "sink_policy": "censor",
     "rows": _ax6,
@@ -133,7 +133,7 @@ W["utility_lambda"] = {
 _ax7 = load(RESULTS / "axis7_learning" / "runs.jsonl")
 W["learner_kappa"] = {
     "label": "learner κ (axis 7)",
-    "script": "data/results/axis7_learning/run_sweep.py",
+    "script": "experiments/axis7_learning/run_sweep.py",
     "record": "learning_capability.md §7.5 (L4)",
     "sink_policy": "censor",
     "rows": _ax7,
@@ -146,7 +146,7 @@ W["learner_kappa"] = {
 _fsm_a = load(RESULTS / "fsm_alignment" / "runs.jsonl")
 W["alignment_alpha"] = {
     "label": "alignment α (factor 8)",
-    "script": "data/results/fsm_alignment/run_sweep.py",
+    "script": "experiments/fsm_alignment/run_sweep.py",
     "record": "modulator_composition.md (A4)",
     "sink_policy": "retrace",
     "rows": _fsm_a,
@@ -159,7 +159,7 @@ W["alignment_alpha"] = {
 _fsm_s = load(RESULTS / "fsm_succession" / "runs.jsonl")
 W["succession_alpha"] = {
     "label": "succession α (factor 9)",
-    "script": "data/results/fsm_succession/run_sweep.py",
+    "script": "experiments/fsm_succession/run_sweep.py",
     "record": "modulator_composition.md (B4)",
     "sink_policy": "retrace",
     "rows": _fsm_s,
@@ -184,7 +184,7 @@ def _iter_cell(arm):
 for _arm, _expect in (("A", "falls"), ("B", "rises")):
     W[f"iterated_{_arm}"] = {
         "label": f"iterated cost, change {_arm} (λ)",
-        "script": "data/results/iterated_cost/run_sweep.py",
+        "script": "experiments/iterated_cost/run_sweep.py",
         "record": "iterated_cost_model.md",
         "sink_policy": "censor",
         "rows": _iter,
@@ -304,7 +304,7 @@ def main() -> int:
         cg[f"exp2_null_{policy}"] = {
             "label": f"experiment 2 no-MTD ({policy})",
             "sink_policy": policy,
-            "script": "data/results/expo02_ashen_lynx/run_experiment.py",
+            "script": "experiments/expo02_ashen_lynx/run_experiment.py",
             "record": "experiment_02_findings.md §12",
             "mapping": "v2_partial", "mtd": "none", "seeds": "0-9",
             "expect": "null row", "series": series,

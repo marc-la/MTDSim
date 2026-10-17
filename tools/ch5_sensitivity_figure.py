@@ -16,7 +16,7 @@ interval on the pooled mean. Nothing is typed here — every plotted value and
 every number a caption may quote is computed from the CSV and printed.
 
 PROVENANCE, stated once: the default workspace is the S3-R re-run
-(data/results/rate_feasibility_study/numbers/, ten seeds, the random
+(experiments/rate_feasibility_study/numbers/, ten seeds, the random
 multi-mechanism scheme, pre-restoration substrate). Until the sweep is re-run
 at the configuration chapter 5 reports (design handoff §3.2), the figure it
 draws is the record's, not the chapter's — the tex comment beside the float
@@ -25,7 +25,7 @@ numbers are re-read from stdout.
 
 Usage:
   python tools/ch5_sensitivity_figure.py
-      [--csv data/results/rate_feasibility_study/numbers/per_run.csv]
+      [--csv experiments/rate_feasibility_study/numbers/per_run.csv]
       [--anchor stealth] [--reference-interval 200] [--no-compile]
 
 Writes docs/thesis/figures/fig_5-1a_sens_dwell_anchor.{tex,pdf}.
@@ -146,7 +146,7 @@ def _cap(s: str) -> str:
 def main() -> None:
     global STEM
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    ap.add_argument("--csv", type=Path, default=REPO / "data/results/rate_feasibility_study/numbers/per_run.csv")
+    ap.add_argument("--csv", type=Path, default=REPO / "experiments/rate_feasibility_study/numbers/per_run.csv")
     ap.add_argument("--anchor", choices=sorted(ANCHORS), default="stealth")
     ap.add_argument("--reference-interval", type=float, default=200.0)
     ap.add_argument("--no-compile", action="store_true")

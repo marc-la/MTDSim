@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Figure 5.x (fig:ablation), §5.4 Ablation of the failure matrix: what
 removing the failure matrix changes (a) and what it does not (b). Reads
-data/results/ch5_defended/ablation_numbers.json; the table beside it
+experiments/ch5_defended/ablation_numbers.json; the table beside it
 (tab:ablation) is written by ablation.py from the same JSON.
 
 TAKEAWAYS (Marc 2026-09-28: "changes where the attacker goes but doesn't
@@ -46,7 +46,7 @@ import math
 from _ch5_style import FONT, LABEL, PREAMBLE, REPO, compile_fig, key_row, panel_title, write_fig
 
 STEM = "fig_5-4a_ablation"
-NUMBERS = REPO / "data" / "results" / "ch5_defended" / "ablation_numbers.json"
+NUMBERS = REPO / "experiments" / "ch5_defended" / "ablation_numbers.json"
 DRAWN = ("objective_exfiltration", "objective_exfiltration_impact", "objective_none_c2")  # c_2 left out: see above
 ARM = {"core": "with", "blind": "without"}
 KINDS = (  # key, legend label, fill, text colour on the fill

@@ -1,10 +1,9 @@
-"""mtdsim — the contribution pipeline, organised by architecture level (L0→L4).
+"""mtdsim — the APT attacker model, built in four stages and run inside MTDSim.
 
-Each stage is an ``lN_`` package (``l0_cti``, ``l1_construction``,
-``l2_subgraph``, ``l3_simulation``, ``l4_evaluation``); ``README.md`` carries the
-canonical cross-walk. On this branch (``feat/gap-schema``) L0–L1 are built and
-self-contained — they import nothing from the simulator substrate, so they build
-and test in isolation — while L2 is a stub and L3–L4 are seam pointers into the
-inherited ``mtdnetwork/`` substrate. A parallel *role*-based restructure of the
-substrate lives on ``feat/attacker-profiling`` and is a separate reconciliation.
+``l0_cti`` fetches the threat intelligence (CTID Attack Flow corpus, MITRE ATT&CK);
+``l1_construction`` builds the attack graph (Section 4.1); ``l2_subgraph`` cuts it
+into attack profiles by objective (Section 4.2); ``l3_simulation`` compiles each
+profile into a Petri net and runs it as the attacker inside the simulator
+(``mtdnetwork``) through attack actions (Sections 4.3-4.4). ``README.md`` maps
+each package to its dissertation section and data folder.
 """

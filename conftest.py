@@ -1,10 +1,6 @@
-"""Pytest bootstrap.
-
-Adds ``src/`` to ``sys.path`` so the restructured ``mtdsim`` package
-(the L0–L1 pipeline stages on this branch — ``mtdsim.l0_cti`` /
-``mtdsim.l1_construction``) is importable without altering the repo's
-``mtdnetwork`` packaging in ``setup.py``. Module CLIs run with ``PYTHONPATH=src``.
-"""
+"""Pytest bootstrap: puts ``src/`` on ``sys.path`` so the suite runs from a
+checkout without ``pip install -e .`` (both packages, ``mtdnetwork`` and
+``mtdsim``, live under ``src/``)."""
 
 import sys
 from pathlib import Path

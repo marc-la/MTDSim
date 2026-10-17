@@ -7,7 +7,7 @@ was Figure 5.2 is DEMOTED to body-text content (2026-09-21, results context
 §8d): its numbers are printed on stdout from the analyser's block and drawn
 nowhere.
 
-Data: ``data/results/ch5_s531_unopposed/numbers.json``, the analyser's output
+Data: ``experiments/ch5_s531_unopposed/numbers.json``, the analyser's output
 over the recorded corpus (design: docs/handoffs/2026-09-15_ch5_s531_unopposed_runs.md;
 read: docs/implementation/pipeline/ogasp/ch5_s531_unopposed_findings.md).
 Nothing is typed here: every plotted value, every table cell and every number a
@@ -44,7 +44,7 @@ REPO = Path(__file__).resolve().parents[1]
 FIG_DIR = REPO / "docs" / "thesis" / "figures"
 TAB_DIR = REPO / "docs" / "thesis" / "tables"
 # the reported corpus (1 000 seeds, the vulnerability memory on; 2026-09-30)
-NUMBERS = REPO / "data" / "results" / "ch5_s531_unopposed" / "numbers_reported.json"
+NUMBERS = REPO / "experiments" / "ch5_s531_unopposed" / "numbers_reported.json"
 STEM_A = "fig_5-2-1a_campaign_openings"
 STEM_T = "tab_5-2-1a_unopposed_summary"
 

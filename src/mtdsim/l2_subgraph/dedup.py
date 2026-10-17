@@ -2,7 +2,7 @@
 
 The corpus is not operator-uniform: 16 of the 38 flows belong to 8
 multi-flow operator clusters (spec §(g),
-``docs/notes/ch3_design/operator_concentration.md``). Mitigation 1
+``docs/implementation/evidence/operator_concentration.md``). Mitigation 1
 collapses each cluster to one representative — the flow with the highest
 ``n_actions`` in the audit CSV, tie-broken lexicographically — leaving the
 **n = 29 operator-deduplicated corpus**. This module is the single source of

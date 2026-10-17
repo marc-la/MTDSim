@@ -40,7 +40,7 @@ PYTHONPATH=src python -m pytest tests/l2_subgraph/  # validation gate (incl. ope
 ## Validation
 
 The operator-deduplicated JSD re-check (Mitigation 1 from
-[`docs/notes/ch4_methods/operator_concentration.md`](../../docs/notes/ch4_methods/operator_concentration.md))
+[`docs/implementation/evidence/operator_concentration.md`](../../docs/implementation/evidence/operator_concentration.md))
 re-runs the per-class technique-JSD discrimination after collapsing each
 multi-flow operator cluster (Conti, Turla, FIN13, CISA AA22-138B,
 OceanLotus, Sandworm, Lazarus) to one representative — the flow with the
@@ -54,5 +54,5 @@ beyond chance at this corpus size. Both lines below are written by the gate;
 JSD is in bits (`jensenshannon(..., base=2) ** 2`, in [0, 1]) — the
 pre-2026-08-17 numbers (0.3149 / 0.1849) were in nats.
 
-**Operator-dedup JSD re-check:** mean JSD = 0.4623 bits, half-split null p95 = 0.2667, n_kept = 29 flows. See [`docs/notes/ch4_methods/operator_concentration.md`](../../docs/notes/ch4_methods/operator_concentration.md) for the mitigation rationale.
+**Operator-dedup JSD re-check:** mean JSD = 0.4623 bits, half-split null p95 = 0.2667, n_kept = 29 flows. See [`docs/implementation/evidence/operator_concentration.md`](../../docs/implementation/evidence/operator_concentration.md) for the mitigation rationale.
 **Size-matched null, tactic-to-tactic resolution:** mean pairwise transition-share JSD = 0.5319 bits, size-matched null p95 = 0.6236, p = 0.708, n = 29 flows (does not clear — the recorded verdict; see [`docs/implementation/pipeline/gasp/tactic_profile_statistics.md`](../../docs/implementation/pipeline/gasp/tactic_profile_statistics.md)).

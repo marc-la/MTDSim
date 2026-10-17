@@ -26,7 +26,7 @@ subtracted out:
 Usage:
 
     PYTHONPATH=. python tools/mtd_ai_lambda_ladder.py \
-        --out data/results/mtd_ai_lambda_ladder/ladder.json
+        --out experiments/mtd_ai_lambda_ladder/ladder.json
 """
 
 from __future__ import annotations

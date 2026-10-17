@@ -1,0 +1,45 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "mtdsim-apt"
+version = "1.0.0"
+description = "MTDSim with an APT attacker model built from MITRE ATT&CK and CTID Attack Flow (UWA honours dissertation, 2026)"
+readme = "README.md"
+requires-python = ">=3.11"
+authors = [{ name = "Marc Labouchardiere" }]
+# Lower bounds are the versions the dissertation's runs used; requirements-lock.txt
+# pins that environment exactly.
+dependencies = [
+    "numpy>=2.4",
+    "scipy>=1.17",
+    "pandas>=3.0",
+    "matplotlib>=3.10",
+    "seaborn>=0.13",
+    "networkx>=3.6",
+    "simpy>=4.1",
+    "pulp>=3.3",
+    "pyyaml>=6.0",
+    "snakes>=0.9.33",
+]
+
+[project.optional-dependencies]
+ai = ["tensorflow>=2.21"]                                     # MTDShield (Tay's trained agent)
+figures = ["playwright>=1.59", "cairosvg>=2.9", "graphviz>=0.21"]
+test = ["pytest>=9.0"]
+all = ["mtdsim-apt[ai,figures,test]"]
+
+[project.urls]
+Repository = "https://github.com/marc-la/MTDSim"
+Upstream = "https://github.com/Bsubs/MTDSim"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+include = ["mtdnetwork*", "mtdsim*"]
+
+[tool.setuptools.package-data]
+"mtdnetwork.data" = ["*.txt"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

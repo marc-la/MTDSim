@@ -4,7 +4,7 @@ attacker, and Table 5.x beside it.
 
 REBUILT 2026-09-30 on the metrics Section 4.5.3 now defines (Marc's rulings;
 record docs/implementation/disruption_mechanism.md; handoff
-docs/handoffs/2026-09-30_disruption_metrics.md). The compromise rate after an MTD
+docs/implementation/run_plans/2026-09-30_disruption_metrics.md). The compromise rate after an MTD
 deployment is retired with its reader, disruption.py; time_lost.py is the reader.
 
   (a) attack actions blocked per run and (b) time lost per MTD deployment, for
@@ -36,7 +36,7 @@ from _ch5_style import (BASE_DASH, IV_BOOT, bounded, FONT, LABEL, LONG, PREAMBLE
 from ch5_effectiveness_figures import LAYER, PANEL_SINGLES, TICK  # noqa: E402
 
 # the reported corpus (1 000 seeds, the vulnerability memory on; 2026-10-02)
-NUMBERS = REPO / "data" / "results" / "ch5_defended" / "time_lost_numbers_reported.json"
+NUMBERS = REPO / "experiments" / "ch5_defended" / "time_lost_numbers_reported.json"
 TABLE = REPO / "docs" / "thesis" / "tables" / "tab_5-3-1b_disruption.tex"
 STEM = "fig_5-2-2a_disruption_response"
 INTERVAL = 2000

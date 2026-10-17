@@ -24,7 +24,7 @@ FONT = r"\footnotesize"
 
 # The attack graph before partition (corpus profile "aggregate", once c_agg)
 # left every chapter 5 float on 2026-10-02 (Marc): it is Section 5.4.1's
-# ablation arm, read there by data/results/ch5_defended/partition_ablation.py.
+# ablation arm, read there by experiments/ch5_defended/partition_ablation.py.
 PROFILES = (
     "objective_exfiltration",
     "objective_impact",
