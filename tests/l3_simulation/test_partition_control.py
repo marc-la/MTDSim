@@ -131,7 +131,13 @@ def test_committed_partitions_are_the_seeded_draws_that_pass():
     draws = list(islice(partition_stream(m["partition_seed"], m["shuffle"]["stratified"]),
                         m["draws_taken"]))
     kept = [p["draw"] for p in m["partitions"]]
-    assert sorted(kept + [r["draw"] for r in m["rejected"]]) == list(range(m["draws_taken"]))
+    # The 2026-10-07 redraw replaced five kept draws and screened the stream past them;
+    # every draw taken is accounted for exactly once across the four lists.
+    redraw = m.get("redraw_2026_10_07", {})
+    replaced = [r["draw"] for r in redraw.get("replaced", [])]
+    screened_out = [r["draw"] for r in redraw.get("screened", []) if r["failed"]]
+    accounted = kept + [r["draw"] for r in m["rejected"]] + replaced + screened_out
+    assert sorted(accounted) == list(range(m["draws_taken"]))
     for p in m["partitions"]:
         for slot, g in p["groups"].items():
             assert tuple(g["flow_ids"]) == draws[p["draw"]][slot]
@@ -149,7 +155,8 @@ def test_committed_partition_rebuilds_byte_identical_and_runs(tmp_path, i):
         {slot: g["flow_ids"] for slot, g in p["groups"].items()}, tmp_path,
         guard=m["guard"]["used"], build_date=first["provenance"]["build_date"],
         provenance={k: first["partition_control"][k]
-                    for k in ("partition", "draw", "partition_seed", "guard", "stratified")},
+                    for k in ("partition", "draw", "partition_seed", "guard", "stratified", "redrawn")
+                    if k in first["partition_control"]},
     )
     for name in [f"{s}_structural.json" for s in SLOTS] + ["synthetic_overlay.json"]:
         assert (tmp_path / name).read_bytes() == (d / name).read_bytes(), name

@@ -1,5 +1,17 @@
 # Baseline goldens — change log
 
+## 2026-10-18 — movement goldens re-captured for the `target_class` record field
+
+**What moved.** 69 of the 70 streams in `baseline/golden_movement/` and their
+digests in `manifest.json`. Nothing else.
+
+**Why.** Commit `7bbce690` (the targeted attacker) added a `target_class` field
+to every movement record and did not re-capture the goldens, so
+`test_golden_stream_is_bit_identical` failed on the field alone. Checked before
+re-capture: on every changed stream the fresh record equals the golden record
+once `target_class` is removed, and `target_class` is `None` throughout (these
+configurations run the general objective). Behaviour did not move.
+
 ## 2026-08-30 — movement goldens re-baselined under the fresh-host contract
 
 **What moved.** All 70 streams in `baseline/golden_movement/` (the movement
