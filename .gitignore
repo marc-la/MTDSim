@@ -65,3 +65,4 @@ docs/thesis/**/*.synctex.gz
 docs/thesis/dissertation.pdf
 docs/thesis/figures/*.png
 texput.log
+experiments/**/preview_*.png

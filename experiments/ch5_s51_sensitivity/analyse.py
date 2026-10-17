@@ -671,8 +671,12 @@ def main(argv: list[str] | None = None) -> int:
     cells, sanity = load(args.partial)
     print("sanity:", json.dumps(sanity))
     out = {"sanity": sanity}
-    if not args.no_sim05:
+    if not args.no_sim05 and DEFENDED.exists():
         out["sim05"] = sim05_check(cells)
+    elif NUMBERS.exists() and "sim05" in json.loads(NUMBERS.read_text()):
+        # the 100-seed defended corpus this check reads is no longer kept: carry the recorded result
+        out["sim05"] = json.loads(NUMBERS.read_text())["sim05"]
+    if "sim05" in out:
         print("sim05:", json.dumps({k: v for k, v in out["sim05"].items() if k != "first_mismatches"}))
     out.update(analyse(cells))
     for fam, v in out["families"].items():

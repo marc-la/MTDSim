@@ -210,7 +210,7 @@ def main() -> int:
             g = s.get("gap_closed")
             gs = (f"  gap closed ASP {g['asp']['point']:.2f} [{g['asp']['lo']:.2f}, {g['asp']['hi']:.2f}]"
                   f" NCR {g['ncr']['point']:.2f} [{g['ncr']['lo']:.2f}, {g['ncr']['hi']:.2f}]") if g else ""
-            m = s["mttc"]
+            m = s.get("mttc")
             print(f"{code} {v:14s} ASP {f(s['asp'])}  NCR {f(s['ncr'])}  "
                   f"rate {s['attack_rate']['mean']:.3f}  conf {s['attack_confidentiality']['point']:.3f}  "
                   f"MTTC {(round(m['mean']) if m else None)} n={(m['n'] if m else 0)}  "
