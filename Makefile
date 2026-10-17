@@ -4,8 +4,9 @@
 PY      ?= python
 export PYTHONPATH := $(CURDIR)/src
 export TF_CPP_MIN_LOG_LEVEL := 3
+export PYTHONHASHSEED := 0
 
-.PHONY: help install inputs test test-all smoke floats verify numbers runs thesis clean
+.PHONY: help install inputs test test-all smoke floats verify check-raw numbers runs thesis clean
 
 help:
 	@echo "make install    pinned environment (requirements-lock.txt) + this repo, editable + Chromium for figures"
@@ -15,6 +16,7 @@ help:
 	@echo "make smoke      re-run seed 0 of both reported corpora; must match the committed rows ~2 min"
 	@echo "make floats     every generated figure and table from the committed numbers files    ~1 min"
 	@echo "make verify     re-run 20 random rows of each raw ledger (needs the raw runs, README) ~5 min"
+	@echo "make check-raw  check the unpacked raw runs against experiments/RAW_RUNS.sha256"
 	@echo "make numbers    recompute every numbers file from the raw runs (needs the raw runs)   ~1 h"
 	@echo "make runs       every simulation behind Chapters 5 and 6, from scratch                ~45 h on 7 cores"
 	@echo "make thesis     build docs/thesis/dissertation.pdf (pdflatex + bibtex)"
@@ -41,6 +43,9 @@ floats: inputs
 
 verify:
 	$(PY) experiments/verify_ledgers.py --n 20
+
+check-raw:
+	cd experiments && grep -v '^#' RAW_RUNS.sha256 | sha256sum -c -
 
 # Analysers, in dependency order: each reads raw runs and writes the numbers*.json
 # files that `make floats` draws from. Run from the repository root.
