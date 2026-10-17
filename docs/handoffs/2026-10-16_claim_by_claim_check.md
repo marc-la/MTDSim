@@ -85,6 +85,19 @@ The brief every agent reads is [`data/claim_check/AGENT_BRIEF.md`](../../data/cl
 - To list what remains, compare each assignment with the files, as this session's resume step did.
 - `python tools/claim_review_sheet.py` rebuilds `review_sheet.md`, `review_cleared.md` and `stats.md` from whatever is on disk, re-checking every quote. It can be run at any time.
 
+**Run 1 is complete (2026-10-17).** All 17 agents reported. 269 of the 273 pairs are verified; the 4 left are the no-text sources, which are Marc's. The front page is [`data/claim_check/review_priority.md`](../../data/claim_check/review_priority.md), and every item is in `review_sheet.md`.
+
+- **Majors.** 27 pairs (8.1 %) carry one, grouped into five causes with one ruling each.
+- **Screens.** 26 `needs-source` and 2 `mark-ours`.
+- **Mechanical exceptions.** 14.
+- **Residual estimate after the rulings.** About 1–3 % undetected majors, by capture–recapture on the double-checked pairs.
+
+**Next.**
+1. Marc marks the front page's groups and rulings, then the sheet.
+2. A session applies the rulings through the edit gate.
+3. Rebuild, and diff the cited keys.
+4. Optionally, run role B on the V2 skim list.
+
 **What run 1 turned up**, before the remaining agents reported. There are 20 majors among the first 246 pairs.
 
 *Numbers and rules from the code, cited to a paper.* The supervisor-lineage paragraphs of §2.2 take these from the MTDSim code but cite Zhang or Brown:
