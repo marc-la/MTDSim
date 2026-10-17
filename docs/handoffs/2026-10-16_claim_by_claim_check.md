@@ -71,6 +71,44 @@ Wave 1 ran as the pilot: the statistics and metric sources, 9 keys, 15 units, 16
 - **Fixed in the tools.** The checker's page lookup (it used the first word only), control characters that made grep treat OCR text as binary, and the protocol rules for ligature-tolerant search, printed-against-PDF pages and a `PLACEMENT` verdict.
 - **Cost.** About 140–160 k tokens and 7–10 minutes per agent for a 9-source group. Marc's sheet is 7 rows plus a 4-line skim list for 15 units, so the whole run should give roughly 60–90 sheet rows plus the H rows not otherwise flagged.
 
+## Run 1 (2026-10-16 to 17): how it ran, and how to resume
+
+Marc asked for a token-lean run, so run 1 departs from §5's full two-agent pass in one way:
+
+- **Role A on every cited pair.** One verifier per source group verifies each claim, then argues against its own `SUPPORTED` verdicts.
+- **An independent adversary (role B) on every H unit only.** V2 units get A's self-adversarial pass but no independent B. A V2 row reaches the sheet on its own major, or through the skim list.
+
+The brief every agent reads is [`data/claim_check/AGENT_BRIEF.md`](../../data/claim_check/AGENT_BRIEF.md), and the assignments are in `data/claim_check/assignments/` (A01–A10, B01–B04, S01–S03). M01 is the mechanical bundle.
+
+**Resuming.**
+- Each agent writes `data/claim_check/verdicts/run1/<key>.<A|B>.jsonl`, or `screen_<S>.jsonl`, key by key. A key is done when its file holds a row for every assigned unit.
+- To list what remains, compare each assignment with the files, as this session's resume step did.
+- `python tools/claim_review_sheet.py` rebuilds `review_sheet.md`, `review_cleared.md` and `stats.md` from whatever is on disk, re-checking every quote. It can be run at any time.
+
+**What run 1 turned up**, before the remaining agents reported. There are 20 majors among the first 246 pairs.
+
+*Numbers and rules from the code, cited to a paper.* The supervisor-lineage paragraphs of §2.2 take these from the MTDSim code but cite Zhang or Brown:
+- 20 s minimum deployment time;
+- 20 s confusion penalty;
+- "never takes back … a stolen credential";
+- the RoA formula;
+- "15 s × (1 − AC)".
+
+The usual fix is to add `tay2024code`, or move the citation.
+
+*Attributions that overstate.*
+- "Added to by Zhang" (Table 2.1), where all seven mechanisms are Brown's.
+- "The 38 he trained" (Tay trained at least 49).
+- "Four of its eight inputs" (eleven).
+- The threats sentence crediting "the two surveys" with finding that attacker models lack "the properties".
+
+*Citations that contradict the sentence.*
+- Holm and Madan, cited for exponential tactic delays, both find the exponential a poor fit.
+- Brown has user shuffle block credential stuffing, where §2.2 says brute force.
+- Lakens is cited beside ±0.2, a bound he advises against.
+
+*Bibliography lead.* The `rodriguez2024` PDF reads 2023, 15:1, doi 10.5753/jisa.2023.3902. This needs the bibliography check's procedure.
+
 ## Recommended approach
 
 Run in waves, highest risk first. Each wave is an agent pair (A and adversarial B) per source group, one source per pass, then the quote check and the minority veto.

@@ -1,5 +1,8 @@
 # Cleared: both verifiers SUPPORTED, every quote found
 
+- `U0012` cisaaa24038a (tier V2): A: PDF p. 10, Overview of Activity
+- `U0014` cisaaa24038a (tier V2): A: PDF p. 7, Overview of Activity, item 1
+- `U0015` ghosh2009nitrd (tier V2): A: p. 31 printed (PDF p. 31), Sec. 4.1.1
 - `U0018` alshamrani2019 (tier V2): A: p. 1871 printed (PDF p. 21), Sec. IV-C-2-B
 - `U0029` brown2023 (tier H): A: p. 1 printed (PDF p. 1), Sec. I | B: p. 1 printed (PDF p. 1), §I
 - `U0051` cho2020 (tier V2): A: Sec. I-A; Sec. II-B, p. 709 printed (PDF p. 1); p. 713 printed (PDF p. 5)
@@ -7,17 +10,18 @@
 - `U0059` cho2020 (tier V2): A: Sec. II-B, p. 713 printed (PDF p. 5); p. 714 printed (PDF p. 6)
 - `U0061` brown2023 (tier H): A: p. 2 printed (PDF p. 2), Sec. III | B: p. 2 printed (PDF p. 2), §III
 - `U0062` zhang2023 (tier H): A: Sec. 4.5, p. 30 printed (PDF p. 31) | B: Sec. 4.5, p. 30 printed (PDF p. 31); Table 3, p. 33 printed (PDF p. 34)
-- `U0094` tay2024 (tier H): A: p. 14 printed (PDF p. 14), Sec. 4.1
+- `U0094` tay2024 (tier H): A: p. 14 printed (PDF p. 14), Sec. 4.1 | B: p. 14 (printed = PDF), Sect. 4.1
 - `U0095` tay2024code (tier M): A: f13ed49:mtdnetwork/operation/mtd_ai_operation.py:87
 - `U0099` tay2024code (tier H): A: f13ed49:mtdnetwork/component/time_generator.py:9
-- `U0100` tay2024 (tier H): A: p. 14 printed (PDF p. 14), Sec. 4.1
+- `U0100` tay2024 (tier H): A: p. 14 printed (PDF p. 14), Sec. 4.1 | B: p. 3, Abstract; body p. 14, Sect. 4.1 (see U0094)
 - `U0107` brown2023 (tier H): A: p. 2 printed (PDF p. 2), Sec. III; Sec. III-C, p. 4 | B: p. 2 printed (PDF p. 2), §III
+- `U0108` hutchins2011 (tier H): A: p. 4 printed (PDF p. 4), Sec. 3.2 | B: Sec. 3, PDF p. 4
 - `U0111` brown2023 (tier H): A: p. 4 printed (PDF p. 4), Sec. III-C(1); Sec. IV-A, p. 5 | B: p. 4 printed (PDF p. 4), §III-C, §III-C(1)
 - `U0117` brown2023 (tier M): A: p. 4 printed (PDF p. 4), Sec. III-C(2)
 - `U0119` brown2023 (tier H): A: p. 7 printed (PDF p. 7), Sec. V-C; Table I, p. 5 | B: p. 7 printed (PDF p. 7), §V-C; Table I p. 5
 - `U0120` tay2024code (tier H): A: f13ed49:mtdnetwork/data/constants.py:140-146
 - `U0122` zhang2023 (tier H): A: Sec. 4.4.3, p. 30 printed (PDF p. 31); Eq. 2 | B: Sec. 4.4.3 and Eq. 2, p. 30 printed (PDF p. 31)
-- `U0129` tay2024 (tier H): A: p. 13 printed (PDF p. 13), Sec. 4
+- `U0129` tay2024 (tier H): A: p. 13 printed (PDF p. 13), Sec. 4 | B: p. 25, Sect. 6
 - `U0130` zhang2023 (tier H): A: Table 2, p. 32 printed (PDF p. 33) | B: Table 2 and Sec. 5, p. 32 printed (PDF p. 33)
 - `U0131` brown2023 (tier V1): A: p. 5 printed (PDF p. 5), Table I
 - `U0131` zhang2023 (tier V1): A: Table 2, p. 32 printed (PDF p. 33)
@@ -34,36 +38,50 @@
 - `U0137` zhang2023 (tier V1): A: Sec. 4.3.4, p. 26 printed (PDF p. 27); Sec. 5.1.2, p. 35 printed (PDF p. 36)
 - `U0138` brown2023 (tier V1): A: p. 5 printed (PDF p. 5), Sec. IV
 - `U0138` zhang2023 (tier V1): A: Sec. 5, p. 32 printed (PDF p. 33)
-- `U0149` alshamrani2019 (tier H): A: p. 1852 printed (PDF p. 2), Sec. II-A
 - `U0151` alshamrani2019 (tier V2): A: p. 1852 printed (PDF p. 2), Sec. II-A
-- `U0153` alshamrani2019 (tier H): A: p. 1851 printed (PDF p. 1), Sec. I
+- `U0152` nist2011sp80039 (tier V2): A: p. B-1 printed (PDF p. 60), Appendix B Glossary
 - `U0154` alshamrani2019 (tier V2): A: p. 1853 printed (PDF p. 3), Sec. II-C
+- `U0154` nist2011sp80039 (tier V2): A: p. B-1 printed (PDF p. 60), Appendix B Glossary
 - `U0155` alshamrani2019 (tier V2): A: p. 1854 printed (PDF p. 4), Sec. II-C
+- `U0155` hutchins2011 (tier V2): A: p. 4 printed (PDF p. 4), Sec. 3.2
+- `U0155` mandiant2013 (tier V2): A: p. 27 printed (PDF p. 29), APT1: Attack Lifecycle
 - `U0158` alshamrani2019 (tier V2): A: p. 1854 printed (PDF p. 4), Sec. II-C
 - `U0159` alshamrani2019 (tier V2): A: p. 1854 printed (PDF p. 4), Sec. II-C
+- `U0161` buchel2025 (tier H): A: p. 4621 printed (PDF p. 2), Sect. 1
+- `U0161` strom2018mitre (tier H): A: p. 1 printed (PDF p. 11), Sect. 1 and 1.1 | B: Introduction, p. 1 printed (PDF p. 11)
+- `U0163` strom2018mitre (tier V2): A: p. 1 printed (PDF p. 11), Sect. 1
+- `U0172` rahman2025 (tier V2): A: p. 8943 printed (PDF p. 3), Sect. 1
+- `U0172` zhangY2025 (tier V2): A: p. 2 (PDF p. 2), Sect. 1; article 104220
+- `U0179` cisaaa24038a (tier V2): A: PDF p. 8, Overview of Activity, item 6
+- `U0180` cisaaa24038a (tier V2): A: PDF p. 6, Overview of Activity
 - `U0184` cho2020 (tier V2): A: Sec. II-D, p. 715 printed (PDF p. 7)
 - `U0190` cho2020 (tier V2): A: Sec. VI; Sec. VI-D, p. 723 printed (PDF p. 15); p. 726 printed (PDF p. 18); p. 727 printed (PDF p. 19)
 - `U0192` cho2020 (tier V2): A: Sec. VI-A, p. 723 printed (PDF p. 15)
+- `U0197` ho2024 (tier H): A: p. 13 printed (PDF p. 14), Sec. 3.1
 - `U0198` cho2020 (tier M): A: Sec. VI-A, p. 724 printed (PDF p. 16)
 - `U0202` cho2020 (tier V2): A: Sec. VII; VII-A; VII-B, p. 727 printed (PDF p. 19); p. 729 printed (PDF p. 21)
 - `U0204` cho2020 (tier V1): A: Sec. VII-A, p. 727 printed (PDF p. 19)
 - `U0205` cho2020 (tier V2): A: Sec. VII-A, p. 727 printed (PDF p. 19)
 - `U0208` cho2020 (tier V2): A: Sec. VII-B, p. 729 printed (PDF p. 21)
 - `U0215` brown2023 (tier H): A: p. 5 printed (PDF p. 5), Sec. IV | B: p. 5 printed (PDF p. 5), §IV
-- `U0215` cho2020 (tier H): A: Sec. VII-A, p. 727 printed (PDF p. 19)
-- `U0215` hong2018 (tier H): B: p. 39 printed (PDF p. 7), Sects. 5.1.1-5.1.3
+- `U0215` cho2020 (tier H): A: Sec. VII-A, p. 727 printed (PDF p. 19) | B: Sec. VII-A, p. 727 printed (PDF p. 19)
+- `U0215` evans2011 (tier H): A: p. 34 printed (PDF p. 6), Sec. 2.3; the analysis computes it, e.g. p. 41 printed (PDF p. 13), Sec. 2.5.5: "the quantity of interest is the probability of a successful attack occur- ring in some speciﬁc number of probes"
+- `U0215` hong2018 (tier H): A: pp. 39, 45 printed (PDF pp. 7, 13), Secs. 5.1.1, 5.3.3 | B: p. 39 printed (PDF p. 7), Sects. 5.1.1-5.1.3
 - `U0215` kim2026 (tier H): A: p. 10 printed (PDF p. 10), Sec. 6.1.3 and 6.3, Eq. 2
 - `U0215` masud2025 (tier H): A: p. 9 printed (PDF p. 9), Sec. 3.5.1
+- `U0216` cremonini2005 (tier V2): A: Sec. 2, PDF p. 2 (workshop paper; no printed page numbers, WEIS 2005 published no proceedings)
+- `U0216` mendonca2023 (tier V2): A: p. 42 printed (PDF p. 2), Sec. 1
 - `U0218` cho2020 (tier V2): A: Sec. VIII (intro), p. 730 printed (PDF p. 22)
 - `U0219` cho2020 (tier M): A: Sec. VIII-A-1/2, p. 730 printed (PDF p. 22)
-- `U0222` cho2020 (tier H): A: Sec. VIII-C and VIII-D Pros and Cons, p. 731-732 printed (PDF p. 23-24); Table VI: emulation 'High validity; ... more realistic scenarios', real testbeds 'Highest flexibility and validity ... among all other available evaluation tools'
+- `U0230` nist2011sp80039 (tier V2): A: p. B-1 printed (PDF p. 60), Appendix B Glossary
 - `U0231` jalowski2026 (tier V2): A: p. 8 printed (PDF p. 8), Sec. 4.3
 - `U0233` cho2020 (tier V2): A: Sec. V-D, p. 723 printed (PDF p. 15)
 - `U0235` cho2020 (tier M): A: Sec. V-D bullet 2, p. 723 printed (PDF p. 15)
 - `U0236` cho2020 (tier M): A: Sec. V-D bullet 3, p. 723 printed (PDF p. 15)
 - `U0238` jalowski2026 (tier M): A: p. 8 printed (PDF p. 8), Sec. 4.3
-- `U0240` jalowski2026 (tier H): A: p. 8 printed (PDF p. 8), Sec. 4.3; p. 9 printed (PDF p. 9), Sec. 5
+- `U0240` jalowski2026 (tier H): A: p. 8 printed (PDF p. 8), Sec. 4.3; p. 9 printed (PDF p. 9), Sec. 5 | B: Sec. 5, p. 9 printed (PDF p. 9); with Sec. 4.3, p. 8: 'testing against active scanning (Nmap [ 52]) is too naive'
 - `U0242` alshamrani2019 (tier V2): A: p. 1852 printed (PDF p. 2), Sec. II-A
+- `U0242` nist2011sp80039 (tier V2): A: p. B-1 printed (PDF p. 60), Appendix B Glossary
 - `U0243` alshamrani2019 (tier V2): A: p. 1854 printed (PDF p. 4), Sec. II-C
 - `U0245` cho2020 (tier V2): A: Sec. V-A, p. 720 printed (PDF p. 12)
 - `U0246` jalowski2026 (tier V2): A: p. 8 printed (PDF p. 8), Sec. 4.3
@@ -104,6 +122,7 @@
 - `U0296` kim2026 (tier V1): A: p. 7 printed (PDF p. 7), Sec. 5.2
 - `U0297` kim2026 (tier V1): A: p. 7 printed (PDF p. 7), Sec. 5.2
 - `U0297` masud2025 (tier V1): A: p. 9 printed (PDF p. 9), Algorithm 2
+- `U0314` mitre2026attackv19 (tier H): A: PDF p. 3, "Updates - April 2026", domain counts
 - `U0371` marsan1984 (tier V2): A: p. 93 printed (PDF p. 1), Sect. 1; GSPN 'as in (2)', p. 96 printed (PDF p. 4), Sect. 2
 - `U0372` marsan1984 (tier M): A: p. 93 printed (PDF p. 1), Sect. 1
 - `U0373` marsan1984 (tier M): A: p. 94 printed (PDF p. 2), Sect. 1
@@ -112,11 +131,13 @@
 - `U0376` marsan1984 (tier M): A: p. 96 printed (PDF p. 4), Sect. 2
 - `U0429` brown2023 (tier H): A: p. 4 printed (PDF p. 4), Sec. III-C(2); Fig. 3 box 9, p. 5 | B: p. 4 printed (PDF p. 4), §III-C(2)
 - `U0458` mcqueen2006 (tier V2): A: preprint p. 3 (PDF p. 3), Sec. 1; worked case at preprint PDF p. 6, Sec. 3.1.2: "Somewhat arbitrarily, we de- cided to use 8 hours (one working day) as the mean time for a successful attack in Process 1"
+- `U0476` hutchins2011 (tier V2): A: p. 9 printed (PDF p. 9), Sec. 4
 - `U0521` royston2013 (tier V2): A: Methods, 'Definition of RMST', p. 3 (Page 3 of 15) | B: Methods, 'Definition of RMST', p. 3 (printed 'Page 3 of 15' = PDF p. 3)
-- `U0539` hong2018 (tier H): B: p. 39 printed (PDF p. 7), Sect. 5.1.1; host-sequence paths, e.g. '(A, h 1 , h 4 , h 7 )', p. 42 printed (PDF p. 10)
+- `U0539` hong2018 (tier H): A: p. 39 printed (PDF p. 7), Sec. 5.1.1 | B: p. 39 printed (PDF p. 7), Sect. 5.1.1; host-sequence paths, e.g. '(A, h 1 , h 4 , h 7 )', p. 42 printed (PDF p. 10)
 - `U0565` alavizadeh2022 (tier H): A: Eq. (13), p. 1782 printed (PDF p. 11) | B: Sec. V-D, Eq. 13, p. 1782 (printed; PDF p. 11)
 - `U0588` brown2023 (tier H): A: p. 2 printed (PDF p. 2), Sec. III | B: p. 2 printed (PDF p. 2), §III
 - `U0589` brown2023 (tier H): A: p. 5 printed (PDF p. 5), Sec. IV-A; Fig. 4(a), p. 6 | B: p. 5 printed (PDF p. 5), §IV-A; §III-B for the six
+- `U0590` ho2024 (tier H): A: p. 22 printed (PDF p. 23), Table 6
 - `U0590` tay2024code (tier H): A: f13ed49:mtdnetwork/operation/mtd_operation.py:100
 - `U0591` tay2024code (tier H): A: f13ed49:experiments/run.py:296
 - `U0593` tay2024code (tier H): A: f13ed49:mtdnetwork/data/constants.py:92
@@ -126,10 +147,23 @@
 - `U0757` zhang2023 (tier H): A: Sec. 6.3, p. 41 printed (PDF p. 42) | B: title page (PDF p. 1)
 - `U0758` masud2025 (tier H): A: p. 5 printed (PDF p. 5), Sec. 3.1; p. 9 printed (PDF p. 9), Algorithm 2
 - `U0759` kim2026 (tier H): A: p. 7 printed (PDF p. 7), Sec. 5.2
+- `U0811` wohlin2012 (tier V2): A: p. 102 printed (PDF p. 122), Sect. 8.7
 - `U0813` brown2023 (tier H): A: p. 1 printed (PDF p. 1), Sec. I | B: p. 2 printed (PDF p. 2), §III
-- `U0813` tay2024 (tier H): A: p. 13 printed (PDF p. 13), Sec. 4
+- `U0813` ho2024 (tier H): A: p. 13 printed (PDF p. 14), Sec. 3.1.1
+- `U0813` tay2024 (tier H): A: p. 13 printed (PDF p. 13), Sec. 4 | B: p. 13, Sect. 4
 - `U0813` zhang2023 (tier H): A: Sec. 1, p. 6 printed (PDF p. 7) | B: Sec. 1, p. 6 printed (PDF p. 7)
 - `U0840` cho2020 (tier V2): A: Sec. VI-D, p. 727 printed (PDF p. 19)
+- `U0946` unit42maccookies2019 (tier V2): A: PDF p. 2 (web page, unpaginated), behaviour rundown
+- `U0952` cisaaa22138b (tier V2): A: PDF p. 3 (web page, unpaginated), summary of the third-party report
+- `U0953` cybereasoncobaltkitty (tier V2): A: PDF p. 3 (web page, archived copy, unpaginated)
+- `U0954` csoequifax2020 (tier V2): A: PDF p. 1 (web page, unpaginated), standfirst
+- `U0954` mcafeeshamoon (tier V2): A: PDF p. 2 (web page, archived copy, unpaginated)
+- `U0957` volexityivanti2024 (tier V2): A: PDF p. 2 (web page, unpaginated)
+- `U0959` unit42basta2022 (tier V2): A: PDF p. 2 (web page, unpaginated), 'Black Basta Overview'
+- `U0963` unit42maccookies2019 (tier V2): A: PDF p. 1 (web page, unpaginated), Background
+- `U0967` cisaaa22138b (tier V2): A: PDF p. 3 (web page, unpaginated), summary of the third-party report
+- `U0973` talosmuddywater2022 (tier V2): A: PDF p. 2 (web page, unpaginated), 'MuddyWater threat actor'
 - `U1027` tay2024code (tier H): A: f13ed49:experiments/train_models.py:38-42
 - `U1033` tay2024code (tier V1): A: f13ed49:mtdnetwork/operation/mtd_ai_operation.py:102, 135
+- `U1152` saltelli2019 (tier V2): A: p. 31 printed (PDF p. 3), Sect. 2; OAT defined as keeping 'all other input factors fixed' on the same page
 - `U1163` spearman1904proof (tier V1): A: Sec. 3(b), p. 81 printed (PDF p. 11) | B: Part I Sec. 3, p. 80 (printed; PDF p. 10)
