@@ -767,7 +767,7 @@ Section~\ref{subsec:attacker-model} the baseline attacker.
 \end{figure}
 
 The network in MTDSim is a three-layer hierarchical attack representation
-model (HARM) \citep{hongkim2012harm}: a graph of hosts, in which each host
+model (HARM) \citep{hongkim2012harm, brown2023}: a graph of hosts, in which each host
 runs services and each service carries vulnerabilities
 (Figure~\ref{fig:network-model}). The \emph{host layer} is the topology:
 the hosts are nodes, and an edge joins two hosts that can reach each other.
@@ -988,8 +988,8 @@ A host-layer deployment disrupts the attacker
 during any attack action and sends it back to scanning hosts, because the host it
 was on may have moved. A service-layer deployment disrupts it only while
 it scans ports, exploits or brute-forces, and sends it back to scanning the
-same host's ports \citep{brown2023, zhang2023}. A user shuffle disrupts only brute
-force, and sends it to exploit instead. Each disruption costs the
+same host's ports \citep{brown2023, zhang2023}. A user shuffle disrupts only the
+attacker's credential attacks, and sends it to exploit instead \citep{brown2023}. Each disruption costs the
 attacker a confusion penalty \citep{zhang2023} of about 20\,s \citep{tay2024code}. A deployment never
 takes back a compromised host \citep{zhang2023} or a stolen credential \citep{tay2024code}; the
 attacker loses only the progress it must repeat, and a topology shuffle also
@@ -4943,10 +4943,10 @@ tactic comes next.
 The \emph{tactic durations} set how long each tactic takes, at
 step~3 of Figure~\ref{fig:runtime-loop}. They set how often the APT attacker
 model acts, and the longer a tactic runs, the more likely an MTD deployment
-disrupts it. A tactic's duration is random each time it runs, an
+disrupts it. A tactic's duration is random each time it runs, because attack
+behaviour is stochastic~\citep{holm2014, madan2004, bland2020}, and an
 exponential delay, because the timed transitions of a GSPN fire after
-exponential delays (Section~\ref{sec:petri-formalism}) and attack behaviour
-is stochastic~\citep{holm2014, madan2004, bland2020}. An exponential delay
+exponential delays (Section~\ref{sec:petri-formalism}). An exponential delay
 has one parameter, its mean, so each tactic needs one value, its
 \emph{mean duration}~$\mu_p$.
 
@@ -6210,7 +6210,7 @@ interval: Clopper--Pearson for ASP \citep{clopper1934use}, the normal
 approximation for a mean, printed with $\pm$, and otherwise a percentile
 bootstrap over runs \citep{efron1994introduction}. Effect size is Cohen's $d$
 with the pooled standard deviation, negligible within $\pm 0.2$
-\citep{cohen1988statistical}. The Scott--Knott
+\citep{cohen1988statistical, tantithamthavorn2017empirical}. The Scott--Knott
 effect size difference test \citep{tantithamthavorn2017empirical} ranks the
 MTD by NCR reduction for each attacker at each deployment interval.
 Neighbouring ranks differ significantly and by more than a negligible effect.
