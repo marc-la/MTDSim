@@ -32,6 +32,8 @@ OPERATOR_CLUSTERS: dict[str, list[str]] = {
         "cisa_aa22_138b_vmware_workspace_ta2",
     ],
     "OceanLotus": ["cobalt_kitty_campaign", "oceanlotus"],
+    # Kept as run (Marc 2026-10-17, claim check G5 W1): ATT&CK v19.1 attributes
+    # WhisperGate to Ember Bear (G1003), not Sandworm; Appendix C discloses it.
     "Sandworm": ["notpetya", "whispergate"],
     "Lazarus": ["sony_malware", "swift_heist"],
 }

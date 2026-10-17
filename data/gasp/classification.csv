@@ -31,7 +31,7 @@ notpetya,objective_impact,high,G0034
 shamoon,objective_impact,high,unknown
 sony_malware,objective_impact,high,G0032
 tesla_kubernetes_breach,objective_impact,high,unknown
-whispergate,objective_impact,high,G0034
+whispergate,objective_impact,high,unknown
 cisa_aa22_138b_vmware_workspace_ta2,objective_none_c2,high,unknown
 dfir_bumblebee_round_2,objective_none_c2,high,unknown
 gootloader,objective_none_c2,high,unknown
