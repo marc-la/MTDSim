@@ -23,7 +23,7 @@ conti_cisa_alert,objective_exfiltration_impact,high,G0102
 conti_pwc,objective_exfiltration_impact,high,G0102
 conti_ransomware,objective_exfiltration_impact,high,G0102
 mac_malware_steals_crypto,objective_exfiltration_impact,high,unknown
-ragnar_locker,objective_exfiltration_impact,high,G0125
+ragnar_locker,objective_exfiltration_impact,high,unknown
 revil,objective_exfiltration_impact,high,G0115
 cisa_iranian_apt,objective_impact,high,unknown
 maastricht_university_ransomware,objective_impact,high,unknown

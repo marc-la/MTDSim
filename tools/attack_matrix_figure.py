@@ -204,10 +204,9 @@ def emit(tactics, per_tactic, subs_of, proc_rows, n_procs) -> tuple[str, dict]:
 
     # ---- heading: the figure names its source ------------------------------
     # y = 0 is the top of the cells; the header band and heading sit above it.
-    y_head = HDR_GAP + HDR_H + HEAD_GAP
-    w(r"\node[anchor=south west,text=black!85,font=%s] at (0,%.3f)"
-      r" {MITRE ATT\&CK Enterprise: %d tactics, %d techniques};"
-      % (HEAD_FONT, y_head, n, total))
+    # Heading cut 2026-10-17 (claim check G5): its "%d techniques" summed the
+    # per-tactic counts, so a technique under two tactics counted twice (254 for
+    # v19.1's 222). Section 3.1 states the 15 tactics; the caption names the matrix.
 
     # ---- the tactic headers: rotated so every name prints at 8 pt ----------
     # Fifteen columns in 16 cm leave ~29 pt each; "Reconnaissance" alone is

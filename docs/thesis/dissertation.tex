@@ -819,7 +819,7 @@ the mechanism \citep{zhang2023}.
 \begin{table}[t]
   \centering
   \caption[The seven MTD mechanisms]{The seven MTD mechanisms, from the
-  pool of Brown~\citep{brown2023}, added to by Zhang~\citep{zhang2023}, by
+  pool of Brown~\citep{brown2023}, by
   the part of the network each reconfigures.}
   \label{tab:defence-mechanisms}
   % SDR class column CUT 2026-10-01 (Marc: "is SDR class column needed if
@@ -7611,7 +7611,7 @@ The baseline attacker's time lost is at or below zero under every MTD mechanism 
 service diversity. Under every host-layer and service-layer mechanism, the
 first deployment of each run brings the baseline attacker's first compromise
 \prelim{204} to \prelim{232}\,s forward. After the first MTD deployment, each
-later host-layer or port-shuffle deployment costs it \prelim{19} to
+later host-layer or port-shuffle deployment costs it \prelim{18} to
 \prelim{32}\,s.
 % 2026-10-09 (Marc, P9 of handoff 13b): registry B20's home; the later
 %  deployments = every deployment but the run's first, from
@@ -7855,7 +7855,7 @@ service-layer mechanisms at every deployment interval, and the service-layer
 mechanisms reduce the baseline attacker's NCR more than the host-layer
 mechanisms (Figure~\ref{fig:eff-cross-arm}(a) and~(b)). Up to 200\,s, the
 host-layer mechanisms reduce the APT attacker model's NCR by \prelim{0.96} or
-more, and the service-layer mechanisms the baseline attacker's by
+more on average, and the service-layer mechanisms the baseline attacker's by
 \prelim{0.84} or more. The APT attacker model's host-layer reduction stays
 above 0.5 up to \prelim{1\,000}\,s, and the baseline attacker's service-layer
 reduction only up to 200\,s. User shuffle reduces the APT attacker model's NCR
@@ -8594,7 +8594,7 @@ avoidance (Section~\ref{sec:attacker-in-operation}). In attack outcome, it
 also reaches a target host in fewer runs and compromises fewer hosts
 (Table~\ref{tab:unopposed-summary}). We attribute these differences to its
 tactic durations and the order of its tactics. With the baseline attacker's times in
-place of its tactic durations, it closes about two thirds of its gap in ASP,
+place of its tactic durations, it closes almost two thirds of its gap in ASP,
 all of it for $c_1$ and $c_2$ but almost none for $c_3$
 (Appendix~\ref{app:fa-run-time}), and we attribute the rest to the order of its
 tactics (\ref{thr:cause}). Removing the
@@ -9189,7 +9189,7 @@ order of its tactics. To mitigate this threat, we ablated the attack profiles,
 the failure matrix and the vulnerability memory one at a time, which rules out
 each as a cause of the host layer's lead (Section~\ref{sec:ablation}). A
 second ablation, with no MTD, replaced its tactic durations with the baseline
-attacker's times and closed about two thirds of the gap in ASP between the two
+attacker's times and closed almost two thirds of the gap in ASP between the two
 attackers (Appendix~\ref{app:fa-run-time}). We did not repeat this ablation under
 MTD, so the rest of our explanation is inferred. We never varied the
 tactic-to-action mapping, so we cannot rule it out as a cause of what we
@@ -10282,8 +10282,8 @@ Chapter~\ref{ch:discussion}.
 \label{app:mtdshield}\label{app:mtdshield-selection}\label{app:mtdshield-configuration}%
 \label{app:mtdshield-changes}\label{app:mtdshield-limitations}\label{app:mtdshield-observed}
 
-MTDShield in Chapter~\ref{ch:experiments} is the agent Tay scored highest of
-the 38 he trained \citep[Sect.~5.2.2]{tay2024}, run as released, with his
+MTDShield in Chapter~\ref{ch:experiments} is the agent Tay scored highest in
+his hyperparameter evaluation \citep[Sect.~5.2]{tay2024}, run as released, with his
 weights and input code \citep{tay2024code}. Chapter~\ref{ch:experiments} runs
 the random deployment strategy over the same four MTD mechanisms beside it, so
 the difference between the two is what the agent's policy adds.
@@ -10315,7 +10315,7 @@ of Chapter~\ref{ch:experiments}.
 Two changes let MTDShield run: Tay's input construction is restored as an
 option beside the simulator's, and a decision to do nothing waits for the next
 deployment interval instead of stopping the clock.
-As released, its evaluation code reads four of its eight inputs before the run
+As released, its evaluation code reads four of its eleven inputs before the run
 starts, so they are zero at every decision, as in Tay's own evaluations. With
 the inputs read live, as in its training code, its NCR reduction against the
 baseline attacker does not change measurably; against the APT attacker model,
