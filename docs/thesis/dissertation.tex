@@ -291,7 +291,7 @@ networks \citep{cisaaa24038a}. A static network keeps such reconnaissance
 valid and lets an attacker plan at its leisure \citep{ghosh2009nitrd}. Moving target defence (MTD) changes a network's
 addresses, layout, software and credentials on a schedule, so that stolen
 credentials and reconnaissance go out of date even if the attacker is
-never detected \citep{cho2020}. MTD aims to shift the advantage of time
+never detected \citep{cho2020, brown2023}. MTD aims to shift the advantage of time
 from the attacker to the defender \citep{ghosh2009nitrd, zhuang2012}.
 
 % P3 --- the problem (brief s14). ACCEPTED 2026-09-24 (Marc), second
@@ -310,8 +310,8 @@ from the attacker to the defender \citep{ghosh2009nitrd, zhuang2012}.
 MTD has been proposed as a defence against APTs \citep{alshamrani2019},
 yet it is rarely tested against one. Most tests run in simulation,
 against attacker models far simpler than an APT
-\citep{cho2020, jalowski2026}, and how MTD is measured to perform depends on
-how the attacker is implemented \citep{hong2018}.
+\citep{cho2020, jalowski2026}, and how well MTD performs depends on the
+attacker it faces \citep{hong2018}.
 % 2026-10-15 (Marc, I1): the gap's cause, from ch3's research gap and on its
 % citation (Hong Sec. 2: "the evaluation results are dictated by the threat
 % model used"); worded as ch7's third implication ("how MTD is measured to
@@ -1667,7 +1667,7 @@ compromised networks \citep{mitre2026attackkb}.
 % read). Deletion/insertion of his own bridge noun.]
 % [CH3 REDRAFT ROUND 2, 2026-10-01, 3.1.3 P1-P2] Narrative: what profiling recovers, the obstacle (named once, attributed), two routes (automated: scale, not yet reliable; manual: Attack Flow), the corpus and our drawn flow. STIX sentence cut (unused; its bib entry oasis2021stix was an unverified draft); "That manual path's exemplar" (Marc: unclear) replaced; ChronoCTI/AttacKG+ to one clause each; what/how italics removed. SESSION-DRAFTED on Marc's walk-through ("the narrative is a bit disjointed ... clarity and relevance"); ratify on read. Prior text in git.
 % [CH3 REDRAFT ROUND 14, 2026-10-01, 3.1.3] Rebuilt on fixed terms, one per thing (Marc: "one of the poorest sections in terms of structure ... the terminology was not specific and not standardised"): attack profiling (automated / manual), attack profile, order, Attack Flow / flow / corpus, timing. "Extraction", "curation", "routes", "chain", "coverage against fidelity", "the difficulty", the procedural-semantics name, the export, the effect-edge mechanics and "Its main example" cut. Each sentence leads with its subject. Büchel's figures re-scoped to technique identification (what they measure). SESSION-DRAFTED on Marc's walk-through; ratify on read. Prior text in git.
-\emph{Attack profiling} reads CTI to recover the order in which an
+\emph{Attack profiling} recovers the order in which an
 attacker used ATT\&CK techniques to reach its objective
 \citep{rodriguez2024}. CTI records which techniques an attack used, but
 rarely their order, and ATT\&CK does not record the order either
@@ -2249,13 +2249,13 @@ as attack success probability (ASP) and mean time to compromise (MTTC)
 Defender-side effectiveness metrics measure the network's security, such
 as network compromise ratio (NCR) \citep{zhang2023}. Efficiency metrics
 measure the cost of an attack or of MTD \citep{cho2020}. No standard set
-of metrics exists \citep{cho2020}. Each evaluation chooses its own, so MTD
+of metrics exists \citep{cho2020, jalowski2026}. Each evaluation chooses its own, so MTD
 mechanisms cannot be compared across evaluations \citep{jalowski2026}.
 
 ASP, MTTC and NCR are all computed from what the attacker does, so their
-values depend on how the attacker is implemented \citep{hong2018}. MTD that
+values depend on how the attacker is implemented. MTD that
 is effective against one attacker may therefore not be effective against an
-APT attacker.
+APT attacker \citep{hong2018}.
 % PASS 6 V8 (2026-09-07, blanket accept): "Many of the metrics" -> "The
 %   effectiveness metrics" (Table 3.1's honest scope; register b4). The
 %   instances clause NOT taken (take-or-leave, left). Both [3b] closed.
@@ -4994,7 +4994,7 @@ time of the three scans, 35~s.
 No source times the other nine tactics, since threat reports time whole
 intrusions. We set their mean durations by judgement, from what each tactic
 does in an attack, as other models that time attack steps do where data are
-missing~\citep{mcqueen2006, bland2020, mendonca2023}.
+missing~\citep{mcqueen2006, bland2020}.
 Chapter~\ref{ch:experiments} compares the APT attacker model with the baseline
 attacker under the same MTD deployments, so we kept the nine on the scale of
 the baseline attacker's attack actions (Section~\ref{subsec:attacker-model}).
@@ -9009,7 +9009,7 @@ deployment strategies differently, at every deployment interval.
 Section~\ref{subsec:mtd-metrics} found that MTD mechanisms cannot be compared
 across evaluations because each evaluation chooses its own metrics
 \citep{jalowski2026}, and that metric values depend on how the attacker is
-implemented \citep{hong2018}. At the default deployment interval of 200\,s, the
+implemented. At the default deployment interval of 200\,s, the
 two attackers' rankings on NCR reduction are uncorrelated ($\rho = 0.01$;
 Section~\ref{subsec:eff-cross-arm}). Service diversity, for example, reduces
 the baseline attacker's NCR by 92\,\% and the APT attacker model's by 36\,\%,
@@ -9362,7 +9362,7 @@ attacker models' code, which may behave differently from their papers, so the
 threat remains. The comparison covers only four attacker models: the three MTD
 attacker models we chose (Section~\ref{subsec:recent-threat-models}) include
 none from game theory, the dominant MTD modelling approach \citep{cho2020}.
-That MTD attacker models in general lack the properties of an APT attacker is
+That MTD attacker models in general lack properties of an APT attacker is
 the finding of the two surveys \citep{cho2020, jalowski2026}.
 \end{enumerate}
 
