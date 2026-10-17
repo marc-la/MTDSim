@@ -1,5 +1,5 @@
 ---
-status: open
+status: substantially shipped (2026-10-17)
 created: 2026-10-16
 ---
 
@@ -70,6 +70,16 @@ Wave 1 ran as the pilot: the statistics and metric sources, 9 keys, 15 units, 16
   - The defects that mattered sat one or two sentences from the citation, so packets now carry two units either side.
 - **Fixed in the tools.** The checker's page lookup (it used the first word only), control characters that made grep treat OCR text as binary, and the protocol rules for ligature-tolerant search, printed-against-PDF pages and a `PLACEMENT` verdict.
 - **Cost.** About 140–160 k tokens and 7–10 minutes per agent for a 9-source group. Marc's sheet is 7 rows plus a 4-line skim list for 15 units, so the whole run should give roughly 60–90 sheet rows plus the H rows not otherwise flagged.
+
+## Shipped 2026-10-17
+
+All five causes (G1 to G5, including WhisperGate W1), the six rulings (R1 to R6) and the final pass (G6) are applied, each with a before/after sheet in `data/claim_check/rulings/`. All 27 majors are resolved. Pendleton was overturned on the evidence: the published version supports the claim. The rebuild is clean at 82 pages, and the cited keys are unchanged (74).
+
+Optional, and left by Marc's ruling, because neither threatens a claim:
+- the 86-line skim list and the minor wording items in `review_sheet.md`;
+- the 20 copy-only quote flags, which concern the evidence and not the text.
+
+Marc to do: check his own copy of Cohen for whether he calls 0.2 "small" or "negligible". No edit is needed either way. Delete this handoff once that is done.
 
 ## Run 1 (2026-10-16 to 17): how it ran, and how to resume
 
