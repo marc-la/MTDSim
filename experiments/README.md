@@ -56,8 +56,10 @@ ledgers, and 400 of 400 across the two reported corpora reproduced exactly.
 
 ## Raw runs
 
-The ledgers are too large for git (the defended corpus alone is 27 GB). They
-are archived with a SHA-256 manifest; unpack the archive so the files sit at
-`experiments/<folder>/runs*.jsonl`, or pass `--runs-dir` to `verify_ledgers.py`.
+The ledgers are too large for git (the defended corpus alone is 27 GB). Their
+SHA-256 sums are in [`RAW_RUNS.sha256`](RAW_RUNS.sha256). The archive's DOI is
+added here when it is published; unpack it so the files sit at
+`experiments/<folder>/runs*.jsonl` and run `make check-raw`, or pass `--runs-dir`
+to `verify_ledgers.py`.
 Without them, `make smoke` and `make floats` still run: the first re-runs
 committed rows, the second draws every float from the committed numbers files.
