@@ -93,7 +93,7 @@ def main() -> None:
         "\\begin{table}[htbp]\n\\centering\n"
         "\\caption[The baseline attacker's times and the tactic durations]"
         "{Each tactic, in ATT\\&CK's order, with the attack action it runs (Figure~\\ref{fig:controller-mapping}), "
-        "that attack action's time in MTDSim, which the baseline attacker takes, and the tactic's mean duration, "
+        "that attack action's time in MTDSim \\citep{tay2024code}, which the baseline attacker takes, and the tactic's mean duration, "
         "which the APT attacker model takes instead. The exploit's time is its mean: it takes "
         f"{fmt(lo)} to {fmt(hi)}\\,s, by the vulnerability.}}\n"
         "\\label{tab:attack-action-times}\n\\tablestyle\n"

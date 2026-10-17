@@ -813,8 +813,8 @@ compromise its host.
 MTDSim deploys seven MTD mechanisms: five shuffles, two diversities, and no
 redundancy (Table~\ref{tab:defence-mechanisms}). Each reconfigures one part
 of the network: the host layer, the service layer or the users' credentials.
-A \emph{deployment} is one run of one mechanism, and takes from 20\,s to
-110\,s to complete, depending on the mechanism \citep{zhang2023}.
+A \emph{deployment} is one run of one mechanism; its duration depends on
+the mechanism \citep{zhang2023}.
 
 \begin{table}[t]
   \centering
@@ -854,7 +854,7 @@ deployment strategies follow a schedule, so they are proactive
 \citep{tay2024}. At each interval it reads the network's security metrics
 and the attacker's current attack action, and deploys one of four mechanisms
 (complete topology shuffle, IP shuffle, OS diversity or service diversity)
-or none; if 2\,000\,s pass without a deployment, one is forced. It adapts its
+or none; if 2\,000\,s pass without a deployment, one is forced \citep{tay2024code}. It adapts its
 schedule to what it observes within a bound, so it is hybrid. No deployment
 strategy is reactive.
 
@@ -956,8 +956,8 @@ discover no new host.
 The attacker knows only its \emph{visible subgraph}: the exposed
 endpoints, the hosts it has compromised and their neighbours. On each host
 it tries stolen credentials first, then exploits the vulnerabilities in
-order of \emph{return on attack}, an exploit's probability of success times
-its impact, divided by the time it takes \citep{brown2023}, and brute force
+order of \emph{return on attack} \citep{brown2023}, an exploit's probability of success times
+its impact, divided by the time it takes \citep{tay2024code}, and brute force
 last.
 % [DRAFT STATE 2026-10-06, Marc: "chapter two relies on the baseline attacker moving to
 %  the next host ... put in a clause there ... plain, clear, simple". Section 5.3.1 reads
@@ -979,7 +979,7 @@ attempts, but never on a target host \citep{brown2023}.
 Scanning for hosts, enumerating a host and scanning a host's neighbours
 each take 5\,s, scanning its ports 25\,s and brute force
 20\,s~\citep{tay2024code}. An exploit takes 15\,s times one minus the
-vulnerability's attack complexity, which lies between 0.4 and
+vulnerability's attack complexity \citep{tay2024code}, which lies between 0.4 and
 1~\citep{brown2023}, so from 0 to 9\,s. An exploit of a vulnerability it
 has exploited before takes half the time \citep{zhang2023}.
 
@@ -988,10 +988,10 @@ A host-layer deployment disrupts the attacker
 during any attack action and sends it back to scanning hosts, because the host it
 was on may have moved. A service-layer deployment disrupts it only while
 it scans ports, exploits or brute-forces, and sends it back to scanning the
-same host's ports \citep{brown2023}. A user shuffle disrupts only brute
+same host's ports \citep{brown2023, zhang2023}. A user shuffle disrupts only brute
 force, and sends it to exploit instead. Each disruption costs the
-attacker a confusion penalty of about 20\,s \citep{zhang2023}. A deployment never
-takes back a compromised host or a stolen credential \citep{zhang2023}; the
+attacker a confusion penalty \citep{zhang2023} of about 20\,s \citep{tay2024code}. A deployment never
+takes back a compromised host \citep{zhang2023} or a stolen credential \citep{tay2024code}; the
 attacker loses only the progress it must repeat, and a topology shuffle also
 rebuilds its visible subgraph.
 
