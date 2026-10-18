@@ -386,7 +386,10 @@ def emit_table(core: dict) -> str:
     # carries the classes), full text width
     # natural width, the house table style (scrutiny round 2026-09-30: it was
     # stretched to the text width); the attacker model is a group label row
-    w(r"  \tablestyle")  # group rows keep the stripes (Marc, 2026-10-01)
+    # 2026-10-18 (Marc): the run counts in the MTTC cells pushed the table 49 pt
+    # past the text width; 4 pt column gaps (as Table 5.3's generator below) and the
+    # baseline attacker's label on two lines bring it to 447 of 455 pt, one row taller
+    w(r"  \tablestyle\setlength{\tabcolsep}{4pt}")  # group rows keep the stripes (Marc, 2026-10-01)
     w(r"  \begin{tabular}{@{}lccccc@{}}")
     w(r"    \toprule")
     w(r"    Attacker & ASP & NCR & MTTC (s) & \shortstack{Attack rate\\(per minute)} & \shortstack{Attack\\confidentiality (\%)} \\")
@@ -426,7 +429,7 @@ def emit_table(core: dict) -> str:
     for p in PROFILES:
         w(row(r"\quad " + LABEL[p], p))
     w(r"    \midrule")
-    w(row(r"Baseline attacker", "baseline"))
+    w(row(r"\begin{tabular}[t]{@{}l@{}}Baseline\\attacker\end{tabular}", "baseline"))
     w(r"    \bottomrule")
     w(r"  \end{tabular}")
     w(r"\end{table}")
