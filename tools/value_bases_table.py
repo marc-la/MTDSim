@@ -47,14 +47,14 @@ def main() -> int:
 % DRAFT STATE (2026-10-04, 4.4 preamble redraft): caption session-drafted, ratify on read.
 \\begin{{table}}[!htbp]
   \\centering
-  \\caption[Each value of the APT attacker model and where it comes from]{{Every
-  value the APT attacker model needs, grouped by where it comes from, with the
-  section that gives its reason.}}
+  \\caption[Each value of the APT attacker model and where it comes from]{{The
+  source of every value the APT attacker model needs and the section that gives
+  its reason.}}
   \\label{{tab:value-bases}}
   \\tablestyle
   \\begin{{tabular}}{{@{{}}P{{3.0cm}}P{{10.0cm}}P{{1.95cm}}@{{}}}}  % 2026-10-14: Value widened to the text width so no value wraps (it was 8.0 cm; the MTDSim row took two lines)
     \\toprule
-    Comes from & Value & Reason in \\\\
+    Source & Value & Reason in \\\\
     \\midrule
 {chr(10).join(body)}
     \\bottomrule

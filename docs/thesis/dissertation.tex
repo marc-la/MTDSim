@@ -933,7 +933,7 @@ delay of 0.5\,s on average \citep{tay2024code}.
   \includegraphics{fig_2-2-3a_attacker_model}
   \caption[The six attack actions of the baseline attacker]{The six attack actions of the
   baseline attacker and the moves between them. A dashed arrow marks the
-  attack action each kind of deployment sends the attacker back to.}
+  attack action a deployment sends the attacker to.}
   \label{fig:attacker-model}
 \end{figure}
 
@@ -2235,7 +2235,7 @@ attacker may not be optimal against it.
 %   $\dagger$ in Table~\ref{tab:mtd-metrics}) that quantify how the
 %   security posture shifts as MTD operations execute across consecutive
 %   network states.
-\subsection{Metrics}
+\subsection{MTD metrics}
 \label{subsec:mtd-metrics}
 
 % 3b WALK RULED 2026-09-04 (Marc, spoken; applied): generic second
@@ -2531,8 +2531,8 @@ APT attacker \citep{hong2018}.
   % [CH3 SCRUTINY 2026-09-30, T1] round-1 changes (X10-X12, option B, C3) are in git.
   % [CH3 REDRAFT ROUND 2, 2026-10-01, T1] Marc: "shrink it down ... what does a reader need ... what it counts, what does that mean". Now Cho's 2x2 itself: the "What it counts" grouping column is gone (it was this dissertation's, not Cho's); each cell keeps the metrics a later chapter uses (ASP, MTTC, NCR, attack actions blocked, the mitigation factor ch4's reductions take their form from, RoA) and enough of the rest to show the frame. Acronyms only where used again. Session-drafted, ratify on read.
   % [CH3 REDRAFT ROUND 31] caption: "frame of perspective and purpose" -> "classify", the prose's one verb; no meta-nouns. Ratify on read.
-  \caption[The MTD metrics of the literature]{MTD metrics as Cho et al.\ classify them
-  \citep{cho2020}, with examples from the works surveyed.}
+  \caption[MTD metrics from the works surveyed]{MTD metrics from the works surveyed and their class in
+  Cho et al.~\citep{cho2020}.}
   \label{tab:mtd-metrics}
   \tablestyle
   \begin{tabular}{@{}lP{6.4cm}P{6.4cm}@{}}
@@ -2559,7 +2559,7 @@ APT attacker \citep{hong2018}.
 % the metrics unit: P1 the what (the sentence below), P2 the so-what
 % (G6 fused with the re-homed G4a --- the default attacker the
 % graphical-security-model composition brings with it).
-\subsection{Evaluation methods}
+\subsection{MTD evaluation methods}
 \label{subsec:evaluation-methods}
 
 % CUE CARD (2026-09-07, scrutiny pass, Marc's ask): two paragraphs,
@@ -3073,8 +3073,7 @@ while an APT attacker uses passive reconnaissance to stay hidden
   % [CH3 REDRAFT ROUND 42, 2026-10-02, Table 3.2] Marc: caption "are said to lack" not declarative; "What it names" vague; the Source column took most of the row; the cells not specific to attacker models. Caption now matches the 3.3.1 heading; the middle column says what an attacker model with the property does (each cell a verb phrase, meaning unchanged so Table 3.3's scores stand; "plural attack options" -> "several attack strategies", Cho V-D's word; "cost/benefit signal" -> "weighs the cost of an action against its benefit"); widths 3.2/5.9/5.3 -> 3.4/8.6/2.4 cm (same total). Ratify on read.
   % [CH3 REDRAFT ROUND 47, 2026-10-02, Table 3.2 caption] follows the heading: the table defines what is needed, not what is lacking.
   \caption[The eight properties an MTD attacker model needs to model an APT
-  attacker]{The eight properties an MTD attacker model needs to model an APT
-  attacker, and their sources.}
+  attacker]{The eight properties of an APT attacker and their sources.}
   % [2026-10-11, Marc, Table 3.2 audit (handoff 2026-10-11_ch6_1_redraft_scrutiny
   %  section 14): row 1 runs -> pursues (NIST (i)'s verb; "run" is a simulation
   %  run); row 7 "what it observes of" -> "the patterns it observes in" (Cho
@@ -3380,7 +3379,7 @@ model below gives the evidence from its paper for each mark.
   % [CH3 REDRAFT ROUND 55, 2026-10-02, Table 3.3 caption] "Recent" made specific (2023 to 2026), as in the 3.3.2 opener. Ratify on read.
   \caption[Three MTD attacker models, scored on the eight
   properties]{Three MTD attacker models from 2023 to 2026, scored by this
-  dissertation on the eight properties of Table~\ref{tab:attacker-properties}: \propmet~has the property,
+  dissertation on the eight properties of Table~\ref{tab:attacker-properties}. \propmet~has the property,
   \propstandin~has it in part, \propnone~does not have it.}
   \label{tab:attacker-cross-section}
   \tablestyle\setlength{\tabcolsep}{3pt}
@@ -4069,8 +4068,9 @@ within a tactic is its tactic duration (Section~\ref{subsec:dwell-times}).
   %  they are). The caption's second sentence cut: it decoded marks, and the
   %  weight is defined in the paragraph that cites the figure. [b] -> [t]: the
   %  top of a page is the conventional place, and [b] was the thesis's only one.]
-  \caption[How attack flows are aggregated into the attack graph]{Part of
-  two attack flows aggregated into the attack graph.}
+  \caption[Part of two attack flows aggregated into the attack graph]{Part of
+  two attack flows aggregated into the attack graph. A number on an edge
+  counts the attack flows that draw it.}
   \label{fig:attack-graph-construction}
 \end{figure}
 
@@ -4479,12 +4479,11 @@ gives both sets of weights at Initial Access in $c_1$.
   \centering
   \includegraphics{fig_4-3a_gspn_gadget}
   \caption[One tactic of a Petri net]{One tactic of a Petri net. (a)~The
-  construction for one tactic $p$, with the legend for every mark.
-  (b)~Initial Access in $c_1$: each successor $q$ with its base weight
-  $W(t_{pq})$ and, in blue, its weight after a failure,
+  construction for one tactic $p$.
+  (b)~Each successor $q$ of Initial Access in $c_1$ with its base weight
+  $W(t_{pq})$ and, in blue, its weight after a failure
   $W(t_{pq} \mid \text{failure})$ (Equations~\ref{eq:base-weight}
-  and~\ref{eq:routing}). After a failure, most of the weight moves to
-  Reconnaissance.}
+  and~\ref{eq:routing}).}
   \label{fig:gspn-gadget}
 \end{figure}
 
@@ -4915,8 +4914,8 @@ and Control revealing connected hosts~\citep{brown2023}.
 \begin{figure}[tbp]
   \centering
   \includegraphics{fig_4-4a_controller_mapping}
-  \caption[The tactic-to-action mapping]{The tactic-to-action mapping, with
-  the tactics grouped by the four lifecycle stages of
+  \caption[The tactic-to-action mapping]{The tactic-to-action mapping. The
+  tactics are grouped by the four lifecycle stages of
   Section~\ref{subsec:apt}.}
   \label{fig:controller-mapping}
 \end{figure}
@@ -6650,7 +6649,7 @@ This section compares the two attackers with no MTD running.
   % 2026-10-08 (Marc: fix the "0" against "<1" flagged by a cold examiner): "0" is a true zero, a tactic in the attack flows that no run can enter (c1: resource development has no incoming arc; c2: its one incoming arc has weight 0; data/ogasp/petri/*_structural.json); keyed in the caption, the cell left as generated.
   % 2026-10-06 (Marc, section 5.2): caption decodes only; the definitions of step, the metric and opening cut (Section 4.5), the baseline attacker's 1 to 3 carried by (b)'s log axis.
   % 2026-10-06 round 2 (Marc): the attackers, the runs and the decodes chapter 4 gives cut; blank tied to Figure 4.3.
-  \caption[How each attacker acts with no MTD running]{How each attacker acts with no MTD running (Section~\ref{subsec:metrics-behaviour}). (a)~Left: the attack action each tactic runs (Section~\ref{subsec:tactic-verb-mapping}); the baseline attacker's column is by attack action. Blank: a tactic the attack profile's attack flows do not reach (Figure~\ref{fig:attack-profiles}); 0: a tactic they reach that no run takes. (b)~1: every run takes the same opening; 1\,000: every run takes its own.}
+  \caption[Relative tactic occurrence and distinct openings with no MTD running]{Relative tactic occurrence and distinct openings with no MTD running (Section~\ref{subsec:metrics-behaviour}). (a)~Left: the attack action each tactic runs (Section~\ref{subsec:tactic-verb-mapping}). The baseline attacker's column counts attack actions. Blank: a tactic the attack profile's attack flows do not reach (Figure~\ref{fig:attack-profiles}); 0: a tactic they reach that no run takes. (b)~1: every run has the same opening; 1\,000: every run has its own.}
   \label{fig:aio-coverage}
 \end{figure}
 % LAYOUT 2026-10-06: Table 5.2's input straight after Figure 5.1, so the two are queued together and share
@@ -7402,7 +7401,7 @@ strategy running.
 % OWED HERE, 2026-09-20 (setup handoff §AL3, §AM P10): the verdict-blind control
 % is run (run_corpus.py "blind" group) and declared nowhere; §5.2 does not carry
 % it, so it is declared at this subsection's head, where it is first used.
-\subsection{Disruption per MTD deployment}
+\subsection{Attack actions blocked and time lost per MTD deployment}
 \label{subsec:aio-disruption}
 
 % DRAFT STATE 2026-09-25 --- agent-drafted on Marc's request ("each of the agents will
@@ -7609,7 +7608,7 @@ at the deployment interval (Section~\ref{subsec:metrics-effectiveness}).
 \begin{figure}[tp]
   \centering
   \includegraphics{fig_5-2-2a_disruption_response}
-  \caption[Attack actions blocked and time lost per MTD deployment]{Attack actions blocked and time lost per MTD deployment for each MTD mechanism, at a deployment interval of 2\,000\,s; the APT attacker model averaged over $c_1$ to $c_4$. Table~\ref{tab:disruption} gives each bar's value with its confidence interval.}
+  \caption[Attack actions blocked and time lost per MTD deployment]{Attack actions blocked and time lost per MTD deployment for each MTD mechanism, at a deployment interval of 2\,000\,s. The APT attacker model is averaged over $c_1$ to $c_4$. Table~\ref{tab:disruption} gives each bar's value with its confidence interval.}
   \label{fig:aio-adaptivity}
 \end{figure}
 
@@ -7872,7 +7871,7 @@ between \prelim{$-0.24$} and \prelim{0.25} at every deployment interval.
 \begin{figure}[p]
   \centering
   \includegraphics{fig_5-3-2b_interval_headline}
-  \caption[NCR reduction against the deployment interval, for each attacker]{NCR reduction against the deployment interval; the APT attacker model averaged over $c_1$ to $c_4$. Host layer and service layer: the mean over the layer's MTD mechanisms. Where no whisker shows, the confidence interval is narrower than the marker. Table~\ref{tab:eff-interval-values} gives each point's value with its confidence interval.}
+  \caption[NCR reduction against the deployment interval, for each attacker]{NCR reduction against the deployment interval. The APT attacker model is averaged over $c_1$ to $c_4$. Host layer and service layer: the mean over the layer's MTD mechanisms. Where no whisker shows, the confidence interval is narrower than the marker. Table~\ref{tab:eff-interval-values} gives each point's value with its confidence interval.}
   \label{fig:eff-cross-arm}
 \end{figure}
 \input{tables/tab_5-3-2d_attacker_ranking}
@@ -8003,7 +8002,7 @@ in 100 runs (Appendix~\ref{app:mtdshield-observed}).
   % 2026-10-02 (Marc: "if somebody just read the captions ... they could figure out what's happening";
   %  results_presentation_standard.md S4, I1-I3, T2, F5): caption rewritten to read the float alone,
   %  decoding only; metrics stay defined in Section 4.5. Session-written, DRAFT STATE --- ratify on read.
-  \caption[NCR reduction against the deployment interval, for each attack profile]{NCR reduction against the deployment interval, for each attack profile and the baseline attacker. Where no whisker shows, the confidence interval is narrower than the marker. Table~\ref{tab:eff-interval-values} gives each point's value for the baseline attacker, and averaged over $c_1$ to $c_4$ for the APT attacker model.}
+  \caption[NCR reduction against the deployment interval, for each attack profile]{NCR reduction against the deployment interval for each attack profile and the baseline attacker. Where no whisker shows, the confidence interval is narrower than the marker. Table~\ref{tab:eff-interval-values} gives each point's value for the baseline attacker and the mean over $c_1$ to $c_4$ for the APT attacker model.}
   \label{fig:eff-suppression-profiles}
 \end{figure}
 
@@ -8228,7 +8227,7 @@ memory.
 % 2026-10-06 (Marc: "would it be more clear to just have the bold header and then the text";
 %  "we don't really need the subsections"): each ablation study is one or two paragraphs, so a
 %  run-in head, as Section 5.1's paragraphs have; the label stays, and now resolves to 5.4.
-\paragraph{Attack profiles by objective.}\label{subsec:ablation-attack-profiles}
+\paragraph{Attack profiles.}\label{subsec:ablation-attack-profiles}
 
 % [NEW 2026-10-02: the third ablation, first in chapter 4's order (Section 4.2
 %  before 4.4.4 and 4.4.5). Marc: "we're just winding back a step, so there
@@ -8909,7 +8908,7 @@ time in scan neighbours, and service diversity's reduction of its NCR at
   5~detection avoidance, 6~cost--benefit reasoning, 7~learning and
   8~deployment-strategy awareness. \propmet\ has the property,
   \propstandin\ has it in part, \propnone\ does not have it.
-  Appendix~\ref{app:clause-tests} gives the predicates behind each mark.}
+  Appendix~\ref{app:clause-tests} derives each mark from its predicates.}
   \label{tab:fidelity-verdict}
   \tablestyle\setlength{\tabcolsep}{3pt}
   \begin{tabular}{@{}ll*{8}{>{\centering\arraybackslash}m{1.1cm}}@{}}
@@ -10115,7 +10114,7 @@ have 190 to 844 distinct openings against its 3.
 
 \begin{table}[htbp]
   \centering
-  \caption[Each attacker model tested on each predicate]{Each attacker model
+  \caption[Each attacker model tested on each predicate]{Each MTD attacker model
   tested on each predicate of Table~\ref{tab:attacker-properties}. A cell is \emph{yes} when the
   predicate is true of the attacker model's own behaviour, \emph{rule} when only
   a fixed rule its authors set makes it true, \emph{assumed} when the attacker
@@ -10203,15 +10202,15 @@ techniques that two or more attack flows draw.
   \centering
   \includegraphics{fig_B-1c_gap_technique_core}
   \caption[The attack graph with techniques as nodes, edges from two or more
-  attack flows]{The attack graph with techniques as nodes, with only the
-  edges drawn by two or more of the 38 attack flows, and only the connected
-  groups of three or more techniques those edges form: 35 of its 124
-  techniques and 55 of its 478 edges. Techniques are grouped by tactic, in
-  ATT\&CK's order,
-  and labelled by identifier; each group gives its tactic and, in italic, how
+  attack flows]{The attack graph with techniques as nodes, limited to the
+  edges drawn by two or more of the 38 attack flows and the connected
+  groups of three or more techniques those edges form. The figure keeps 35 of
+  its 124 techniques and 55 of its 478 edges. Techniques are grouped by
+  tactic, in ATT\&CK's order,
+  and labelled by identifier. Each group gives its tactic and, in italic, how
   many of its techniques are drawn. Darker, thicker edges are drawn by more
-  attack flows, and a number on an edge counts them where more than two did;
-  blue edges run back to an earlier tactic. A filled box is a technique some
+  attack flows, and a number on an edge counts them where more than two did.
+  Blue edges run back to an earlier tactic. A filled box is a technique some
   attack flow starts at.}
   \label{fig:app-technique-core}
 \end{figure}
@@ -10256,8 +10255,9 @@ encryption in this campaign \citep{talosmuddywater2022}.
   \centering
   \includegraphics{fig_4-2a_attack_profiles}
   \caption[Edges of the four attack profiles]{Edges of the four attack
-  profiles: each cell is an edge from the tactic of its row to the tactic of
-  its column, darker where more of the attack profile's attack flows draw it.
+  profiles. Each cell is an edge from the tactic of its row to the tactic of
+  its column. Darker cells are drawn by more of the attack profile's attack
+  flows.
   A cell above the diagonal runs forward in ATT\&CK's order of tactics, and
   one below it back to an earlier tactic. Exfiltration is outlined where the attackers stole data, and Impact where
   they impeded systems (Table~\ref{tab:attack-profiles}).}
@@ -10371,12 +10371,13 @@ of Chapter~\ref{ch:experiments}.
 
 \begin{table}[htbp]
   \centering
-  \caption[MTDShield's settings: trained and run here]{MTDShield's settings in
-  training, from the release's training script \citep{tay2024code}, and as run
+  \caption[MTDShield's settings in training and in
+  Chapter~\ref{ch:experiments}]{MTDShield's settings in
+  the release's training script \citep{tay2024code} and as run
   in Chapter~\ref{ch:experiments} (Table~\ref{tab:experiment}). In both, it
   chooses among complete topology shuffle, IP shuffle, OS diversity and service
-  diversity, or nothing; it is told the attacker's current attack action at
-  every decision; and a deployment is forced after 2\,000\,s without one.}
+  diversity, or nothing. It is told the attacker's current attack action at
+  every decision. A deployment is forced after 2\,000\,s without one.}
   \label{tab:mtdshield-configuration}
   \tablestyle
   \begin{tabular}{@{}lP{5.4cm}P{6.2cm}@{}}
@@ -10468,7 +10469,7 @@ Chapter~\ref{ch:experiments} therefore ranks on NCR reduction.
   \includegraphics{fig_F-0b_interval_asp}
   % 2026-10-06 (Marc, Q3): the ASP rows of Figure 5.3, moved here; drawn by
   %  tools/ch5_sweep_figures.py --only asp from numbers_reported.json sweep_asp.
-  \caption[ASP reduction against the deployment interval]{ASP reduction against the deployment interval, drawn as Figure~\ref{fig:eff-cross-arm} draws NCR reduction; the APT attacker model averaged over $c_1$ to $c_4$. A point at 1 may be a reduction above 0.99, which Table~\ref{tab:eff-interval-values-asp} tells apart.}
+  \caption[ASP reduction against the deployment interval]{ASP reduction against the deployment interval, drawn as Figure~\ref{fig:eff-cross-arm} draws NCR reduction. The APT attacker model is averaged over $c_1$ to $c_4$. A point at 1 may be a reduction above 0.99. Table~\ref{tab:eff-interval-values-asp} prints it as $>0.99$.}
   \label{fig:eff-cross-arm-asp}
 \end{figure}
 

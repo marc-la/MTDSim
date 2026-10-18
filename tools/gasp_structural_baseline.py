@@ -325,9 +325,9 @@ def write_tex() -> None:
         "\\centering",
         "\\caption[The sources behind each attack flow's attack profile]{The sources that answered "
         "the two questions of Section~\\ref{sec:attack-profiles} for each attack flow, "
-        "grouped by attack profile (Table~\\ref{tab:attack-profiles}). The CTID description "
-        "of every attack flow was read \\citep{ctid2025attackflow}, with the analyst's notes "
-        "on its steps where needed; the columns give what else was read, and a blank row needed "
+        "grouped by attack profile (Table~\\ref{tab:attack-profiles}). We read the CTID description "
+        "of every attack flow \\citep{ctid2025attackflow} and the analyst's notes "
+        "on its steps where needed. The columns give what else we read, and a blank row needed "
         "nothing else. \\emph{ATT\\&CK group} is the group page read "
         "\\citep{mitre2026attackv19}, and \\emph{Threat report} the report the attack flow "
         "cites.}",
