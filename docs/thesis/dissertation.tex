@@ -133,32 +133,9 @@
                                         % ruling 2026-09-02; body prose and
                                         % captions, not the generated figures
 
-% --- owed marks: text that is not yet defensible (Marc, 2026-09-25) ------
-% Convention: docs/workflows/evaluation_conventions.md §k8. \owed{text}{what
-% is owed} prints the text as it stands with a numbered red mark, and lists
-% the owed item, with its page, under "Owed before submission" after the list
-% of tables. The mark says the sentence or value stands in the draft but
-% cannot yet be defended; the second argument names what would defend it (a
-% citation, a run, a ruling). Resolve an item by deleting the wrapper. For
-% the submission build set \owedmarksfalse: any \owed still in the text then
-% stops the build. \prelim{n} wraps a number typed into prose from the
-% 100-seed corpus; it prints n unchanged and is the grep target for the
-% 1 000-seed swap (grep -n '\\prelim{' dissertation.tex).
-\newif\ifowedmarks \owedmarkstrue
-\newcounter{owed}
-\makeatletter
-\newcommand{\owed}[2]{%
-  \ifowedmarks
-    #1\refstepcounter{owed}\textsuperscript{\textcolor{red!70!black}{[\theowed]}}%
-    \addcontentsline{low}{owed}{\protect\numberline{\theowed}#2}%
-  \else
-    \PackageError{dissertation}{An owed mark is left in the text}{Resolve
-      every owed mark (listed under Owed before submission) or set
-      owedmarks back to true.}%
-  \fi}
-\newcommand*{\l@owed}{\@dottedtocline{1}{0em}{2.3em}}
-\newcommand{\listofowed}{\ifowedmarks\chapter*{Owed before submission}\@starttoc{low}\fi}
-\makeatother
+% \prelim{n} wraps a number typed into prose from the 100-seed corpus; it
+% prints n unchanged and is the grep target for the 1 000-seed swap
+% (grep -n '\\prelim{' dissertation.tex).
 \newcommand{\prelim}[1]{#1}
 
 
@@ -253,7 +230,6 @@ Thank you, Jin, for the many ideas I have explored, for keeping me from falling 
 \tableofcontents
 % \listoffigures  % REMOVED 2026-10-14 (Marc: three pages for little value; floats are hyperlinked from the text)
 % \listoftables   % REMOVED 2026-10-14 (as above)
-% \listofowed    % REMOVED 2026-10-09 (Marc: "remove owed before submission table", page x)
 
 %TC:endignore
 % =====================================================================
