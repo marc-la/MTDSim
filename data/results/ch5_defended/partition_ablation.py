@@ -236,7 +236,7 @@ def write_table(result: dict) -> None:
             else:
                 neg.append(f"{label} at " + (names[0] if len(names) == 1 else
                                              ", ".join(names[:-1]) + " and " + names[-1]) + r"\,s")
-    negligible = (r" Negligible: " + "; ".join(neg) + r"; every other plain $d$ is inconclusive.") if neg else ""
+    negligible = (r" Negligible: " + (", ".join(neg[:-1]) + " and " + neg[-1] if len(neg) > 1 else neg[0]) + r". Every other plain $d$ is inconclusive.") if neg else ""
     lo, hi = none["cohen_d_ci95"]
     n_bold = sum(line.count(r"\bfseries") for line in body)
     n_cells = len(INTERVALS) * sum(not isinstance(r, str) for r in ROWS)
@@ -253,7 +253,7 @@ def write_table(result: dict) -> None:
          # appendix section's prose and Section 5.1; the counts are in Section 5.4's text.
          # 2026-10-14: "at every MTD mechanism, deployment strategy and deployment interval"
          # cut (the D.4 lead and the row and column heads give it) for the negligible cells
-         r"{$d$ on NCR, the attack profiles minus the attack graph. Bold: not negligible." + negligible + "}"),
+         r"{$d$ on NCR of the attack profiles minus the attack graph. Bold: not negligible." + negligible + "}"),
         r"  \label{tab:ablation-attack-profiles}",
         r"  \tablestyle",
         r"  \begin{tabular}{@{}lcccccc@{}}",

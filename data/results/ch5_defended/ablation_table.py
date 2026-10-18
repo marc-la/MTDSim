@@ -101,7 +101,7 @@ def _d(d: float, ci: list, where: str = "") -> str:
 def rows() -> list:
     fm, mem = json.loads(FM.read_text())["reads"], json.loads(MEM.read_text())["reads"]
     part = json.loads(PART.read_text())["by_n"]["1000"]["outcome"]["shared"]
-    out = [r"\emph{Attack profiles by objective}"]  # first, in chapter 4's order (Marc 2026-10-02)
+    out = [r"\emph{Attack profiles}"]  # first, in chapter 4's order (Marc 2026-10-02)
     for key, label in [("none|0", "no MTD"), ("ip_shuffle|200", r"IP shuffle, 200\,s"),
                        ("ip_shuffle|2000", r"IP shuffle, 2\,000\,s"), ("os_diversity|200", r"OS diversity, 200\,s"),
                        ("os_diversity|2000", r"OS diversity, 2\,000\,s")]:
@@ -154,7 +154,8 @@ def main() -> None:
         r"\begin{table}[!ht]",  # 2026-10-07 (Marc: centred alone on a float page; "is it conventional to render tables here"): [!ht], after 5.4's preamble. [tp] tried: 5.4's text then fits on one page and the table goes alone to a float page again
         r"  \centering",
         (r"  \caption[The APT attacker model with and without each component]{The APT attacker model "
-         r"with and without each component, averaged over $c_1$ to $c_4$. "
+         r"with and without each component, averaged over $c_1$ to $c_4$. $d$ on NCR is with minus "
+         r"without. Parentheses give its 95\,\% interval. "
          # 2026-10-06 (Marc: "is this something that we already give the reader ... in 5.1";
          #  "why would you judge it on an interval before rounding"; "why do you need to put this
          #  specific example"): decode the one mark only. d, its sign and its interval are Section
@@ -241,9 +242,9 @@ def control_table() -> None:
     if named["negligible"]:
         verdicts.append("Negligible: " + _cells(named["negligible"]))
     if named["inconclusive"]:
-        verdicts.append(("inconclusive: " if verdicts else "Inconclusive: ") + _cells(named["inconclusive"]))
-    verdicts.append(("every other" if verdicts else "Every") + r" $d$ is not negligible (Section~\ref{sec:dimensions}).")
-    rest = r" Bold: not negligible, in the random partition's favour. " + "; ".join(verdicts)
+        verdicts.append("Inconclusive: " + _cells(named["inconclusive"]))
+    verdicts.append(("Every other" if verdicts else "Every") + r" $d$ is not negligible (Section~\ref{sec:dimensions}).")
+    rest = r" Bold: not negligible, in the random partition's favour. " + ". ".join(verdicts)
     print(f"control verdicts over {len(parts) * len(keys)} comparisons: {counts}; "
           f"not negligible per configuration: {per_key}")
     tex = [
@@ -253,8 +254,8 @@ def control_table() -> None:
         r"\begin{table}[htbp]",
         r"  \centering",
         (r"  \caption[The attack profiles against random partitions of the attack flows]"
-         r"{$d$ on NCR, the attack profiles minus each of 10 random partitions of the attack flows into "
-         r"four groups of the attack profiles' sizes, in falling order of $d$ with no MTD." + rest + "}"),
+         r"{$d$ on NCR of the attack profiles minus each of 10 random partitions of the attack flows into "
+         r"four groups of the attack profiles' sizes. Rows are in falling order of $d$ with no MTD." + rest + "}"),
         r"  \label{tab:ablation-random-partitions}",
         r"  \tablestyle",
         r"  \begin{tabular}{@{}cccccc@{}}",
