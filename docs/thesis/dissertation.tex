@@ -7614,7 +7614,15 @@ the APT attacker model loses \prelim{26}\,s or less.
 The baseline attacker's time lost is at or below zero under every MTD mechanism but
 service diversity. Under every host-layer and service-layer mechanism, the
 first deployment of each run brings the baseline attacker's first compromise
-\prelim{204} to \prelim{232}\,s forward. After the first MTD deployment, each
+\prelim{204} to \prelim{232}\,s forward. The first deployment disrupts the
+baseline attacker while it exploits its first exposed endpoint, and its
+procedure sends it straight back to that endpoint, keeping the progress it
+made there (Section~\ref{subsec:attacker-model}). It otherwise returns there
+only after its list of hosts runs out.
+% [2026-10-18, Marc: supervisor item 4; restores the 2026-10-06 T1 (a) ruling,
+%  lost when 6.5 cut the explanation on 2026-10-15. Traced on seeds 0, 3, 12;
+%  every rule conforms to the intent spec (IS-INT-01/05/07, IS-PRC-01/02/06/07).]
+After the first MTD deployment, each
 later host-layer or port-shuffle deployment costs it \prelim{18} to
 \prelim{32}\,s.
 % 2026-10-09 (Marc, P9 of handoff 13b): registry B20's home; the later
