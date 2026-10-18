@@ -136,6 +136,8 @@ under this constraint.
 
 > **Axis 6 re-ruled 2026-10-12 (Marc, strict reading):** the RoA ordering of exploits chooses *which vulnerability* the exploit attack action tries, within one ATT&CK technique, not *among* techniques. So the thesis marks cost–benefit reasoning **none** for the baseline attacker and the APT attacker model alike. A blind scorer, given Chapter 4 alone, raised it; see handoff `2026-10-11_ch6_1_redraft_scrutiny.md` §19–§20. The 'partial' in the row above is history.
 
+> **Axis 3 thesis mark re-ruled 2026-10-18 (Marc, supervisor final feedback item 6; overturns 2026-10-08 13a.5):** choice of attack strategy is **in part** (◐, Table B.1 cell "rule") for the APT attacker model, as for the baseline attacker. The Petri net draws its next tactic at random in proportion to the edge weights, a fixed rule of ours, which is this axis's own "variety, not strategy" limit. The thesis now reads one property in full and four in part (ch1, ch4, §6.3, ch7). The DEMONSTRATED badge in the row above records that the branching is evidenced, not that the mark is full.
+
 > **Prior-work column RE-SCORED 2026-10-02 (Marc: "the rescored table looks
 > right").** Every row was re-read blind under one model-agnostic rule: an attacker
 > model, executed or computed, is scored on what enters it, and framing is reported

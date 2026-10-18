@@ -519,7 +519,9 @@ baseline attacker, about the penalty plus the rescan.
 every interval the first deployment completes one deployment duration into
 the run, about 110 s. At that moment the baseline attacker is exploiting its
 first host. The forced rescan puts that host back at the head of its queue, so
-the attacker gets a second attempt it would not otherwise have had.
+the attacker gets an earlier second attempt. With no MTD, it moves on after one
+failed pass and returns only when its list of hosts runs out (corrected
+2026-10-18: it is an earlier attempt, not an extra one).
 
 | Baseline attacker, 1 000 runs | median time to first compromise | runs whose first compromise is host 0 |
 |---|---|---|
@@ -536,7 +538,12 @@ per run, the first deployment pulls the host-layer means below zero.
 **3. It is inherited intent, not a bug.** The intent spec classes the forced
 rescan after a block as documented intent: IS-INT-01, IS-INT-05 ("restart from
 Phase 1 regardless of prior progress") and IS-INT-07 (Brown §III-D, §V-A;
-Zhang §4.4.2). The second attempt is a consequence of that rule. Classified
+Zhang §4.4.2). The second attempt is a consequence of that rule, together with
+IS-PRC-01 (the rebuilt list puts the exposed endpoints first), IS-PRC-02
+(exploited vulnerabilities stay exploited), IS-PRC-06/07 (with no MTD a failed
+host waits for the list to run out), and D-23 (service diversity exempts the
+exposed endpoints, so it gives the same second attempt). Traced on seeds 0, 3
+and 12, 2026-10-18. Classified
 `conforms`; it is not a bug candidate. The APT attacker model does not get the
 second attempt. Its first deployment costs +73 to +106 s under the host layer.
 
@@ -557,7 +564,7 @@ direction of B2 does not depend on it; the magnitudes might.
 - **User shuffle is not this mechanism.** For the APT attacker model the first user-shuffle deployment costs +9.9 s; the negative mean (−26 s) comes from later deployments that block nothing (−25.6 s, 30 486 deployments; 0.01 blocked per deployment). Its cause is the credential re-draw: `usershuffle.py` re-draws every internal host's accounts and leaves the attacker's held accounts valid (ruling D-02), and `host.py` `can_auto_compromise_with_users` (credential reuse, at SCAN_PORT) and `compromise_with_users` (brute force) log in with any held account. Compromises by credential reuse at 200 s rise 1.30 → 2.44 per run for the APT attacker model and 5.18 → 7.56 for the baseline attacker.
 - **Random against alternative is not this mechanism either.** Alternative always opens with complete topology shuffle (`mtd_scheme.py` deque over `run_corpus.py` MODULES order), so it gives the baseline attacker the second attempt in every run, random in about 6 runs of 7. That predicts alternative holding the baseline attacker back less; at 100–200 s it holds it back more (0.58 vs 0.52; 0.38 vs 0.33). Against the APT attacker model a host-layer first deployment costs time, which predicts alternative ahead; it is slightly behind. Cause untraced; the gap is ≤ 0.06.
 
-**How it is reported.** §5.3.1 states the fact (204–232 s forward) with no appendix pointer; §6.2 gives the mechanism (rescan → second attempt on the first host), the intent classification and the APT contrast; the clock-time caveat (point 5) is a §6.5 conclusion-validity clause.
+**How it is reported (as of 2026-10-18).** §5.3.1 states the fact (204–232 s forward) and, since supervisor item 4, the mechanism in two sentences, pointing to §2.2.3 for the procedure's rules. §6.2 no longer carries it (cut 2026-10-15), and neither does §6.5. The clock-time caveat (point 5) is not in the thesis. The time-lost definition (§4.5) says the comparison is "from the same moment on the same seed's run with no MTD", which is the caveat's premise.
 
 **Further checks (2026-10-08), from the examiner reads of the §5.3 floats.**
 - **User shuffle holds back the baseline attacker at 50 s (NCR reduction 0.45), by a brute-force loop.** A reserve-class (user shuffle) deployment interrupts only BRUTE_FORCE and sends the baseline attacker to EXPLOIT_VULN on the same host (`attack_operation.py` `_handle_interrupt`, IS-INT-03), whose exploits already failed. At 50 s: 138.2 brute forces per run, 118.5 interrupted; brute-force time share 0.154 (no MTD: 43.0 per run, none interrupted, share 0.082); exploit compromises 10.1 per run against 19.4. At 200 s: 42.8 per run, 4.4 interrupted. (1 000 runs each.)
