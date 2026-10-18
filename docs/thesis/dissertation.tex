@@ -8765,7 +8765,13 @@ enumerate host next. For the APT attacker model, only Lateral Movement runs
 enumerate host (Section~\ref{subsec:tactic-verb-mapping}), so it has no host
 until the order of its tactics next brings it to Lateral Movement, and
 meanwhile the attack actions of its other tactics can fail because
-their preconditions are missing. Service
+their preconditions are missing. The tactic-to-action mapping therefore gives
+the host layer part of its lead (\ref{thr:cause}). The APT attacker model's
+failure matrix leaves its time lost under IP shuffle unchanged
+(Section~\ref{sec:ablation}), so the host layer's lead reflects a disruption
+it does not adapt to.
+% [2026-10-18, Marc: supervisor items 2 and 3, sheet B round 2.]
+Service
 diversity redraws every service, and MTDSim sends the baseline attacker back
 to scan port on the same host, so it exploits the host's new vulnerabilities
 from the start. The APT attacker model keeps the ports it had found and goes
@@ -8787,11 +8793,19 @@ We attribute the service layer's smaller reduction of its NCR to the APT
 attacker model's tactic durations. A service-layer deployment
 disrupts an attacker only while it scans ports, exploits or brute-forces
 (Section~\ref{subsec:attacker-model}), which the baseline attacker does back to
-back. The APT attacker model's tactic durations keep it between attack actions,
-in unmapped tactics that run none (Section~\ref{subsec:aio-disruption}). Consistent
+back. The APT attacker model's tactic durations keep it mostly in unmapped
+tactics, which run no attack action (Section~\ref{subsec:aio-disruption}), and
+in Command and Control, which runs scan neighbours. Consistent
 with this, attack actions blocked per MTD deployment under every service-layer
 mechanism is 0.15 for the APT attacker model,
 against 0.95 for the baseline attacker (Figure~\ref{fig:aio-adaptivity}(a)).
+With its unmapped tactics at 0\,s, the APT attacker model spends 45\,\% of its
+time in scan neighbours, and service diversity's reduction of its NCR at
+200\,s falls from 0.36 to 0.29 (Table~\ref{tab:fa-unmapped-mtd}).
+% [2026-10-18, Marc: supervisor item 13, sheet B round 2. The run
+%  (run_unmapped_mtd.py) moved the duration at issue from the unmapped tactics
+%  to Command and Control; declared shares under service diversity at 200 s:
+%  unmapped 46 %, scan neighbours 25 %, scan port/exploit/brute force 17 %.]
 
 % PARAGRAPH 3 DISSOLVED, 2026-10-12 (Marc; handoff section 29): rho and
 %  "rankings carry their model's assumptions" are 6.4's; "NCR reduction falls
@@ -9197,10 +9211,10 @@ the failure matrix and the vulnerability memory one at a time, which rules out
 each as a cause of the host layer's lead (Section~\ref{sec:ablation}). A
 second ablation, with no MTD, replaced its tactic durations with the baseline
 attacker's times and closed almost two thirds of the gap in ASP between the two
-attackers (Appendix~\ref{app:fa-run-time}). We did not repeat this ablation under
-MTD, so the rest of our explanation is inferred. We never varied the
-tactic-to-action mapping, so we cannot rule it out as a cause of what we
-credit to the order of its tactics.
+attackers (Appendix~\ref{app:fa-run-time}). Under MTD, the host layer still
+leads with its unmapped tactics at 0\,s (Appendix~\ref{app:fa-run-time}). We
+never varied the tactic-to-action mapping, so we cannot separate its share from
+that of the order of its tactics.
 
 % T3 v6 2026-10-15 (Marc: second-last sentence, clauses 1-2): subject first,
 %  "Only the APT attacker model has unmapped tactics"; the link to the
@@ -9806,8 +9820,9 @@ one with any objective-specific behaviour.
 The second contribution answers~\ref{sq:evaluate}. In MTDSim, the most
 effective MTD mechanism depends on the attacker model. We attribute this
 dependence to the APT attacker model's tactic durations and the order of its
-tactics. Our ablation of the tactic durations ran with no MTD, and we never
-varied the tactic-to-action mapping (\ref{thr:cause}). The finding may not
+tactics. Our ablation of the tactic durations ran under MTD only with the
+unmapped tactics at 0\,s, and we never varied the tactic-to-action mapping
+(\ref{thr:cause}). The finding may not
 generalise beyond MTDSim's disruption rules or the 38 attack flows
 (\ref{thr:rules}, \ref{thr:corpus}). Even so, an attacker model that differs in
 little more than when and in what order it runs a simulator's attack actions
@@ -10277,7 +10292,7 @@ come first in Table~\ref{tab:value-bases}.
 \chapter{Supplementary material for the MTD evaluation}
 \label{app:supplementary-results}
 
-Sections~\ref{app:mtdshield} to~\ref{app:sensitivity} back
+Sections~\ref{app:mtdshield} to~\ref{app:sup-ablations} back
 Chapter~\ref{ch:experiments}, and Section~\ref{app:further-analyses} backs
 Chapter~\ref{ch:discussion}.
 
@@ -10406,37 +10421,6 @@ Chapter~\ref{ch:experiments} therefore ranks on NCR reduction.
 
 \FloatBarrier
 
-\section{Ablation studies}
-\label{app:sup-ablations}
-
-% 2026-10-01 (Marc: "table 5.7 moves to the appendix"): the vulnerability
-%  memory's pool sweep, in Table 5.6's form. SESSION-GENERATED sentence, DRAFT STATE.
-% 2026-10-02 (Marc: "move it to appendix F"): the figure follows its table
-%  here from Section 5.4.3, which keeps the hypothesis's verdict. Sentence
-%  extended to name it. DRAFT STATE.
-% 2026-10-02: the attack profiles' ablation over the whole grid, cited by
-%  Section 5.4.1's outcome paragraph. SESSION-DRAFTED sentence, DRAFT STATE.
-% [2026-10-14, Marc: the full data Table 5.6 summarises; the shared reading of d
-%  stated once here, so each caption keeps only its own comparison.]
-Each table gives in full an ablation study of Section~\ref{sec:ablation}:
-the attack profiles at every MTD mechanism,
-deployment strategy and deployment interval (Table~\ref{tab:ablation-attack-profiles}),
-the attack profiles against random partitions of the attack flows
-(Table~\ref{tab:ablation-random-partitions}), and the vulnerability memory at
-every number of services per operating system (Table~\ref{tab:ablation-memory}).
-Every $d$ is on NCR (Section~\ref{sec:dimensions}), on the same 1\,000 seeds,
-with the APT attacker model averaged over $c_1$ to $c_4$.
-
-\input{tables/tab_F-3_ablation_attack_profiles}
-
-\input{tables/tab_F-4_ablation_random_partitions}
-
-
-
-\input{tables/tab_F-2_ablation_memory}
-\FloatBarrier
-
-
 % =====================================================================
 % LANDED 2026-08-20 (2026-08-20_dwell_table_and_derivation.md, artefact 3).
 %
@@ -10462,7 +10446,7 @@ with the APT attacker model averaged over $c_1$ to $c_4$.
 
 % [2026-10-14, Marc: "sensitivity analysis on tactic durations"; purpose first,
 %  the finding stated, the verdict column replaced by the change across the band.]
-\clearpage % D.5 on its own page, D.6 with its table on the next (2026-10-14)
+\clearpage % sensitivity analysis on its own page (2026-10-14); before the ablations, Chapter 5's order (2026-10-18)
 \section{Sensitivity analysis of the tactic durations}
 \label{app:dwell-robustness}\label{app:sensitivity}
 
@@ -10519,9 +10503,38 @@ the two rankings stay uncorrelated.
 
 \input{tables/tab_C-1b_duration_ranking}
 
-
 \FloatBarrier
 
+\clearpage
+\section{Ablation studies}
+\label{app:sup-ablations}
+
+% 2026-10-01 (Marc: "table 5.7 moves to the appendix"): the vulnerability
+%  memory's pool sweep, in Table 5.6's form. SESSION-GENERATED sentence, DRAFT STATE.
+% 2026-10-02 (Marc: "move it to appendix F"): the figure follows its table
+%  here from Section 5.4.3, which keeps the hypothesis's verdict. Sentence
+%  extended to name it. DRAFT STATE.
+% 2026-10-02: the attack profiles' ablation over the whole grid, cited by
+%  Section 5.4.1's outcome paragraph. SESSION-DRAFTED sentence, DRAFT STATE.
+% [2026-10-14, Marc: the full data Table 5.6 summarises; the shared reading of d
+%  stated once here, so each caption keeps only its own comparison.]
+Each table gives in full an ablation study of Section~\ref{sec:ablation}:
+the attack profiles at every MTD mechanism,
+deployment strategy and deployment interval (Table~\ref{tab:ablation-attack-profiles}),
+the attack profiles against random partitions of the attack flows
+(Table~\ref{tab:ablation-random-partitions}), and the vulnerability memory at
+every number of services per operating system (Table~\ref{tab:ablation-memory}).
+Every $d$ is on NCR (Section~\ref{sec:dimensions}), on the same 1\,000 seeds,
+with the APT attacker model averaged over $c_1$ to $c_4$.
+
+\input{tables/tab_F-3_ablation_attack_profiles}
+
+\input{tables/tab_F-4_ablation_random_partitions}
+
+
+
+\input{tables/tab_F-2_ablation_memory}
+\FloatBarrier
 
 % =====================================================================
 % NEW 2026-10-09 (Marc approved; handoff 2026-10-09_ch7_conclusion_and_appendix_
@@ -10531,7 +10544,7 @@ the two rankings stay uncorrelated.
 % question a chapter 5 float raises, what was computed, the result, the chapter 6
 % sentence it supports, and why it is not in the main argument. Tables come from
 % generators in tools/ writing a numbers JSON (results_section_workflow.md).
-\section{Ablation of the tactic durations}
+\subsection{Ablation of the tactic durations}
 \label{app:further-analyses}\label{app:fa-run-time}
 % 2026-10-14 (Marc): moved from its own Appendix E into D; still disclosed as
 %  post-hoc here and in T9. SESSION-DRAFTED 2026-10-09; "Post-hoc analyses" cut to the
@@ -10553,9 +10566,27 @@ Control takes 5\,s for scan neighbours in place of 45\,s, and Credential Access
 model's ASP, averaged over $c_1$ to $c_4$, from 0.09 to 0.45 against the
 baseline attacker's 0.66; the share of its gap in ASP they close is
 0.63 (0.61, 0.65). An attack action fails when it runs before its
-preconditions are met (Section~\ref{subsec:runtime-mechanics}).
+preconditions are met (Section~\ref{subsec:runtime-mechanics}). The first step
+also runs under IP shuffle and service diversity at 200\,s
+(Table~\ref{tab:fa-unmapped-mtd}). Under service diversity, the APT attacker
+model then spends 45\,\% of its time in scan neighbours, the attack action of
+Command and Control, and under IP shuffle, 79\,\% of its attack actions fail
+for missing preconditions.
+% [2026-10-18, Marc: supervisor item 13; D.4 and D.6 merged, this section a
+%  subsection of the ablations; numbers from unmapped_mtd_numbers.json.]
 
 \input{tables/tab_FA-8_tactic_durations}
+
+\input{tables/tab_FA-9_unmapped_mtd}
+
+
+
+
+
+
+
+
+
 
 
 \bibliography{references}
