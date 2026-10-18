@@ -24,6 +24,8 @@ This file gives every proposal from the final register pass, in five clusters. I
 
 ## 0. First: the factual fix and the three senses of *step*
 
+**Ruled and applied (Marc, 2026-10-18):** 0.1 (a); 0.2 sense 2 (a), sense 3 (a) *turn*; F.7 ok. The three verb uses of *turns* (L656, L4096, L4647) were reworded so the term is only a noun. Figure 5.1's axis label was re-rendered. Build clean at 83 pages.
+
 **F.7. Ruled ok (Marc, 2026-10-18).** The figure should show it visually. Where it cannot, the caption says it clearly.
 
 ### 0.1 · A2.14 · L9845 · §7.1. Restoring the fact

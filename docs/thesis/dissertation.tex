@@ -653,8 +653,8 @@ diversity reduces the number of hosts the baseline attacker compromises by
 \noindent Chapter~\ref{ch:background} describes MTD and MTDSim.
 Chapter~\ref{ch:litreview} reviews how APT attackers behave and how MTD is
 evaluated, then sets out the eight properties and checks which of them three
-recent attacker models have. Chapter~\ref{ch:attacker-model} turns the attack
-flows into attack profiles, runs each attack profile in MTDSim as the APT
+recent attacker models have. Chapter~\ref{ch:attacker-model} builds attack
+profiles from the attack flows, runs each attack profile in MTDSim as the APT
 attacker model, and defines the metrics for each attacker's behaviour and
 MTD's performance. Chapter~\ref{ch:experiments} compares the two attackers
 with no MTD and under MTD, then removes parts of the APT attacker model one
@@ -4093,7 +4093,7 @@ for edges that recur across attack flows. Most edges between techniques
 come from one attack flow alone: 88\,\%, against 39\,\% of the edges
 between tactics (Appendix~\ref{app:full-graph}). An edge
 weight needs several attack flows behind it, because
-Section~\ref{sec:petri-formalism} turns the weights into the probability of
+Section~\ref{sec:petri-formalism} converts the weights into the probability of
 each next tactic. Tactics also make the tactic-to-action mapping smaller: it maps 15 tactics,
 rather than the 124 techniques the attack flows use, to MTDSim's six attack
 actions (Section~\ref{sec:execution}).
@@ -4632,7 +4632,7 @@ transitions that take the token to the next tactic.
   %  title). DRAFT STATE.]
   \caption[The Petri net integrated with MTDSim]{The Petri net integrated
   with MTDSim, drawn at Initial Access in $c_1$ with three of its eight
-  successors. Blue traces one iteration of the loop, numbered by step.}
+  successors. Blue traces one iteration of the loop, numbered in order.}
   \label{fig:runtime-loop}
 % [CH4 SCRUTINY 2026-10-02, F5: regenerated --- "Defender" -> "MTD" (Figure
 %  2.1's module), the vulnerability memory drawn in the attacker box in the
@@ -4640,11 +4640,11 @@ transitions that take the token to the next tactic.
 %  the caption says how to read the bands. DRAFT STATE --- ratify on read.]
 \end{figure}
 
-One iteration of the loop runs in six steps, numbered as in
+One iteration of the loop runs as follows, numbered as in
 Figure~\ref{fig:runtime-loop}:
 \begin{enumerate}[nosep, leftmargin=*]
   \item the token's tactic leaves the Petri net;
-  \item the tactic-to-action mapping turns the tactic into one of MTDSim's
+  \item the tactic-to-action mapping maps the tactic onto one of MTDSim's
   attack actions;
   % [2026-10-05, with Section 4.4.2 round 9 (Marc: "use the specific term on
   %  those two"): "drawn from an exponential" -> "an exponential delay of mean
@@ -4889,8 +4889,8 @@ vulnerability raises the attacker's odds of exploiting it again.
 %  (reconnaissance: Active Scanning, discovery: Network Service Discovery, both
 %  scanning techniques, v19.1); the two chosen for their goal in one sentence
 %  each. Paragraphs two and three as round 4. DRAFT STATE.]
-The \emph{tactic-to-action mapping} turns the token's tactic into one of
-MTDSim's attack actions at step~2 of Figure~\ref{fig:runtime-loop}.
+The \emph{tactic-to-action mapping} maps the token's tactic onto one of
+MTDSim's attack actions (2 in Figure~\ref{fig:runtime-loop}).
 Figure~\ref{fig:controller-mapping} shows the attack action each of the 15
 tactics maps to, if any. We declared each pair from ATT\&CK, in which a
 tactic is what an attacker does to achieve a goal and its techniques are how
@@ -4961,8 +4961,8 @@ tactic comes next.
 %  exponential delay, so the old closing paragraph folds in; the shape test
 %  joins the robustness paragraph. Five paragraphs. Round 5 in git 7c3b9598.
 %  DRAFT STATE.]
-The \emph{tactic durations} set how long each tactic takes, at
-step~3 of Figure~\ref{fig:runtime-loop}. They set how often the APT attacker
+The \emph{tactic durations} set how long each tactic takes (3 in
+Figure~\ref{fig:runtime-loop}). They set how often the APT attacker
 model acts, and the longer a tactic runs, the more likely an MTD deployment
 disrupts it. A tactic's duration is random each time it runs, because attack
 behaviour is stochastic~\citep{holm2014, madan2004, bland2020}, and an
@@ -5115,7 +5115,7 @@ NCR rests most on this one value.
 %  quarter (factor 0.02 against 0.9); 58-71 per cent from
 %  tools/gspn_gadget_figure.py stage_shares. DRAFT STATE.]
 The \emph{failure matrix} reweights the immediate transitions after an attack
-action fails, at step~5 of Figure~\ref{fig:runtime-loop}. It holds one factor
+action fails (5 in Figure~\ref{fig:runtime-loop}). It holds one factor
 between zero and one for each pair of tactics, the tactic whose attack action
 failed and a tactic that can come next, and Equation~\ref{eq:routing}
 multiplies each base weight by its factor. The attack flows cannot supply
@@ -5289,8 +5289,8 @@ the APT attacker model is more likely to exploit a vulnerability it has
 exploited before. The baseline
 attacker already remembers the vulnerabilities it has exploited: exploiting
 one again takes it half the time (Section~\ref{subsec:attacker-model}). In the
-APT attacker model, the tactic duration replaces the exploit's time (step~3
-of Figure~\ref{fig:runtime-loop}), so the baseline attacker's memory saves it
+APT attacker model, the tactic duration replaces the exploit's time (3 in
+Figure~\ref{fig:runtime-loop}), so the baseline attacker's memory saves it
 no time. The vulnerability memory acts on the chance of success instead. It is
 not learning, property~7 of Table~\ref{tab:attacker-properties}: it keeps
 vulnerabilities, not the patterns of MTD deployments, and it changes the odds
@@ -5431,10 +5431,10 @@ attacker. Table~\ref{tab:metrics} gives the metrics and their sources.
 % path" means a host path through a graph model in 3.3.2 and Table 3.1 (Hong's
 % attack path variation) and in this section's Hong sentence; flagged to Marc.
 % SESSION-DRAFTED, DRAFT STATE --- ratify on read.
-The four attacker behaviour metrics count steps or attack actions. A \emph{step} is one tactic
+The four attacker behaviour metrics count turns or attack actions. A \emph{turn} is one tactic
 the token of the Petri net enters (Section~\ref{sec:petri-formalism}). The
-baseline attacker has no tactics, so its step is one attack action, and
-consecutive repeats of an attack action are one step. A step in an unmapped
+baseline attacker has no tactics, so its turn is one attack action, and
+consecutive repeats of an attack action are one turn. A turn in an unmapped
 tactic runs no attack action (Section~\ref{subsec:tactic-verb-mapping}).
 Every attack action counts except one that fails because its preconditions
 are missing (Section~\ref{subsec:runtime-mechanics}), which never reaches the
@@ -5443,13 +5443,13 @@ many of a host's vulnerabilities it tries.
 
 \paragraph{Relative tactic occurrence.}
 An attacker with objective-specific behaviour uses different techniques after the foothold for different objectives. The attack profiles of the APT attacker model should therefore
-divide their steps among the tactics differently, most of all in actions on
+divide their turns among the tactics differently, most of all in actions on
 objectives (Section~\ref{sec:attack-profiles}). Relative tactic occurrence is
-the percentage of an attacker's steps taken in each tactic, counting over
+the percentage of an attacker's turns taken in each tactic, counting over
 every run:
 \begin{equation}
   \text{relative tactic occurrence}(p) =
-  100 \times \frac{\text{steps in tactic } p}{\text{all steps}}.
+  100 \times \frac{\text{turns in tactic } p}{\text{all turns}}.
   \label{eq:rto}
 \end{equation}
 Rodr\'{\i}guez et al.\ tabulate the same percentage over the events of an
@@ -5467,9 +5467,9 @@ attack action reweights the attacker's next tactics
 % opening is the argument for itself); "sequences of steps" cut from the last
 % sentence. DRAFT STATE --- ratify on read.
 \paragraph{Distinct openings.}
-An attacker with choice of attack strategy chooses among several sequences of techniques toward the same objective. An attacker with one attack strategy takes the same first steps in every run, and an
+An attacker with choice of attack strategy chooses among several sequences of techniques toward the same objective. An attacker with one attack strategy takes the same first turns in every run, and an
 attacker that chooses does not. A run's \emph{opening} is the sequence of its
-first $k$ steps. Distinct openings is the number of different openings among
+first $k$ turns. Distinct openings is the number of different openings among
 an attacker's runs, from 1, when every run has the same opening, to the number
 of runs:
 \begin{equation}
@@ -5491,7 +5491,7 @@ minute, averaged over its runs:
   \left( \frac{\text{attack actions}}{\text{run length in minutes}} \right),
   \label{eq:attack-rate}
 \end{equation}
-where a run's length is from its start to the end of its last step. A higher
+where a run's length is from its start to the end of its last turn. A higher
 attack rate is a more aggressive attacker \citep{pendleton2016}.
 
 \paragraph{Attack confidentiality.}
@@ -6804,11 +6804,11 @@ This section compares the two attackers with no MTD running.
 % ROUND 2 2026-10-06 (Marc, section 5.2): lead with the baseline attacker; nothing chapter 4 or Figure 4.3 already gives.
 On objective-specific behaviour, the baseline attacker takes only its six
 attack actions (Figure~\ref{fig:aio-coverage}(a)). Every attack profile also
-spends \prelim{26} to \prelim{47}\,\% of its steps in unmapped tactics, which
+spends \prelim{26} to \prelim{47}\,\% of its turns in unmapped tactics, which
 run no attack action (Section~\ref{subsec:tactic-verb-mapping}). The
 unmapped tactics include Collection, Exfiltration and Impact, the tactics of
 actions on objectives. The attack profiles divide their
-steps among the tactics differently, each over the tactics its attack flows
+turns among the tactics differently, each over the tactics its attack flows
 reach (Figure~\ref{fig:attack-profiles}).
 
 % 2026-09-30: redrawn on the metric Section 4.5.1 defines (distinct attack paths,
@@ -6823,12 +6823,12 @@ reach (Figure~\ref{fig:attack-profiles}).
 On choice of attack strategy, the baseline attacker has fewer distinct
 openings than any attack profile (Figure~\ref{fig:aio-coverage}(b)). The
 baseline attacker's runs share one opening over their first \prelim{four}
-steps, the order of its fixed procedure (Section~\ref{subsec:attacker-model}).
+turns, the order of its fixed procedure (Section~\ref{subsec:attacker-model}).
 All but \prelim{two} of its 1\,000 runs then branch once, into brute force or
 scan neighbours, before enumerating a host again. The runs of the attack
-profiles part ways from the \prelim{second} step ($c_1$) to the
+profiles part ways from the \prelim{second} turn ($c_1$) to the
 \prelim{fourth} ($c_3$), and have \prelim{179} to \prelim{947} distinct
-openings over eight steps.
+openings over eight turns.
 
 
 % FIGURE 5.2 (fig:aio-divergence, the 4 x 4 pairwise-divergence matrix) DEMOTED
@@ -8677,7 +8677,7 @@ so the APT attacker model steals no data and impedes no system.
 %  mechanics and the failure matrix (4.4), the overlay exception, the G.2
 %  recount, the implication sentence (it repeated the result).
 On choice of attack strategy, the attack profiles' 1\,000 runs have 179 to
-947 distinct openings over eight steps, and the baseline attacker's 3
+947 distinct openings over eight turns, and the baseline attacker's 3
 (Figure~\ref{fig:aio-coverage}(b)). In each run, the Petri net picks the next
 tactic at random, in proportion to the edge weights
 (Equations~\ref{eq:base-weight} and~\ref{eq:routing}), whereas the baseline
@@ -9842,7 +9842,7 @@ the baseline attacker. Threat reports record the order of an attack's
 tactics, but not how long each took or what followed a failure, so the APT
 attacker model's timing and response to failure, where MTD disrupts it, rest
 on our judgement. In MTDSim, the APT attacker model uses a Petri net to choose
-its next tactic at runtime, and maps each tactic onto one of the baseline
+its next tactic at runtime, and maps eight of the 15 tactics onto the baseline
 attacker's six attack actions, none of which models actions on objectives. Of
 the four attacker models in Table~\ref{tab:fidelity-verdict}, it is the only
 one with any objective-specific behaviour.
