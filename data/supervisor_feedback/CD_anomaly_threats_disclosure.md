@@ -154,3 +154,47 @@ Words were counted by script over the tex (a `\ref` = 1 word, `\,` joined). Thes
 - **Against the register:** its estimate for these four items was about +154. The difference is item 5's "flesh it out" (+27 over option B).
 - **Citations:** none added, moved or removed.
 - **Cross-references:** item 4 adds one section reference (§2.2.3); item 5's optional second table pointer is not in Rec.
+
+---
+
+## Round 2 (2026-10-18): recrafted with B's process, before Marc reads
+
+**Process (as for sheet B).**
+- Load each item's own scrutiny record:
+  - §5.3.1: `2026-10-06_ch5_results_prose_redraft.md` §5 (gate) and §8–9.
+  - T4: `2026-10-15_ch6_5_threats_top_down.md` §10 and §16–17.
+  - §4.2: `2026-10-02_ch4_attacker_model_scrutiny.md` C2.
+- Find whether the item was already ruled.
+- Edit in place: subject first, at most three clauses, no new colon, no not-X-but-Y, only the reader's terms.
+
+### What the records show
+
+- **Item 4 was ruled on 2026-10-06 and then lost.**
+  - Marc ruled T1 (a) on 2026-10-06: one by-construction sentence in §5.3.1 ("the first deployment lands while the baseline attacker exploits its first host, and the forced rescan gives it a second attempt there"). He also said: "my supervisor would like to see that".
+  - The explanation then lived in §6.2 and moved to §6.5 on 2026-10-12.
+  - §6.5 cut it on 2026-10-15 with the note "Section 5.3.1 carries it". But §5.3.1 only ever carried the fact.
+  - So this restores a ruled sentence to where that note assumed it already was.
+- **T4 once held both of Jin's points.**
+  - The 2026-10-15 draft (§10) had both: the run end ("cuts NCR short in 656 of the baseline attacker's 1 000 runs with no MTD") and the divergence ("at 500 and 1 000 s, the host layer reduces the baseline attacker's NCR but raises its ASP").
+  - v3 cut them as covered by the ASP check (§16–17).
+  - Jin asks for them back, so the rebuild starts from that ratified wording.
+- **c4.** The ch4 record (C2) already avoids claiming positioning for $c_4$. Jin's words, "a mixed group of attack flows, not a single objective", are the missing statement.
+
+### The recrafts
+
+| # | Before | After (v2) | Process applied |
+|---|---|---|---|
+| 4 (§5.3.1, after "…204 to 232 s forward.") **PROPOSE** | *(none)* | The first deployment disrupts the baseline attacker while it exploits its first host, and sends it back to that host. It otherwise returns there only when its list of hosts runs out (Section~\ref{subsec:attacker-model}). | The 2026-10-06 ruled sentence, rebuilt to the ch5 gate. The subject leads; there is no "With no MTD" opener (gate 2). "Disrupts" and "sends it back" are §2.2.3's verbs. "Sends it back to that host" holds for both layers: the 2026-10-11 critique found "restarts its procedure" false for the service layer. "Second attempt", which §28 flagged as a compressed phrase, is left implicit. +29 words. |
+| 5 (T4) **APPLY ON RULING** | NCR reduction, our main metric, … in the targeted attack scenario. To mitigate this threat, … | NCR reduction, our main metric, … in the targeted attack scenario. **A run ends at the first target host compromised or at the time limit. With no MTD, the baseline attacker's runs mostly end at a target host (66\,\%), and the APT attacker model's at the time limit (91\,\%). For the baseline attacker under IP shuffle at 500 to 2\,000\,s, and under complete topology shuffle and OS diversity at 500\,s, NCR reduction is positive while ASP reduction is negative (Tables~\ref{tab:eff-interval-values} and~\ref{tab:eff-interval-values-asp}).** To mitigate this threat, … *(mitigation and rank 1 unchanged)* | Both points go in the *threat*, as in the ratified 2026-10-15 §10 draft. The mitigation (the layer order holds on ASP reduction) then answers them directly, and the residual stays rank 1, as it was. The sign sentence is nearly Jin's own, with OS diversity added so it is not wrongly exhaustive. The host topology shuffle reverse is left off: the claim at risk is the layer order, which the mitigation covers. No new colon and no "therefore" chain. **+66 words**, against round 1's +100 and +73. |
+| 9 (§4.2, end of ¶2) **PROPOSE** | …and one ran an adware campaign. | …and one ran an adware campaign. **$c_4$ is therefore a mixed group of attack flows, with no single objective.** | Jin's words, as a subject-first sentence after the list that shows the mix. Avoids round 1's "a mixed group, not an objective" (the not-X-but-Y form) and leaves the ratified sentence untouched. +12 words. |
+| 8 (App A margin label) **APPLY ON RULING** | Original honours proposal, as submitted in March 2026 | Original honours proposal, as submitted in March 2026. **This dissertation pursues the first of its four aims, ``a more sophisticated adversarial module''; work on the defender, the other three, was ruled out of scope after submission.** | Subject first. The proposal's own words are quoted, so the reader can find them on the next page. "Rather than" is gone, and so is "MTDShield as released", which is not needed to explain the scope. The proposal's aims 2–4 are all defender-side (input parameters, configuration and IDS observation). Build check together with item 12's PDF swap. |
+
+**In place, §5.3.1 (item 4).**
+> … The baseline attacker's time lost is at or below zero under every MTD mechanism but service diversity. Under every host-layer and service-layer mechanism, the first deployment of each run brings the baseline attacker's first compromise 204 to 232 s forward. **The first deployment disrupts the baseline attacker while it exploits its first host, and sends it back to that host. It otherwise returns there only when its list of hosts runs out (Section 2.2.3).** After the first MTD deployment, each later host-layer or port-shuffle deployment costs it 18 to 32 s.
+
+**In place, T4 (item 5).**
+> NCR reduction, our main metric, only partially measures how MTD performs: it counts the hosts an attacker compromises, whether or not it reaches a target host in the targeted attack scenario. **A run ends at the first target host compromised or at the time limit. With no MTD, the baseline attacker's runs mostly end at a target host (66 %), and the APT attacker model's at the time limit (91 %). For the baseline attacker under IP shuffle at 500 to 2 000 s, and under complete topology shuffle and OS diversity at 500 s, NCR reduction is positive while ASP reduction is negative (Tables D.3 and D.5).** To mitigate this threat, we also computed ASP reduction, and it orders the two layers as NCR reduction does, for both attackers, at every deployment interval (Table D.5). The threat remains for rank 1 against the APT attacker model up to 200 s, where ASP reduction ties every host-layer mechanism at 1 and only NCR reduction orders them.
+
+**Net, round 2:** body about +107 words (item 4 +29, item 5 +66, item 9 +12), against round 1's +145. The margin label is extra.
+
+**Repo record owed when applied:** `docs/implementation/disruption_mechanism.md` §9 has three stale points (the §6.2 pointer; "an attempt it would not otherwise have had", which should be "an earlier one"; D-23 omitted).
