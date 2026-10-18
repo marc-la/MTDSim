@@ -1,5 +1,11 @@
 # A: claims and self-scoring (items 1, 6, 7)
 
+> **Marc's rulings (2026-10-18, round 1).**
+> - Item 1: Rec. accepted (verb kept, object changed), in 1a, 1b and 1c alike. Reason: "is not enough to show" is about evidence and holds whether or not a ranking transfers; "may not show" predicts an outcome and stacks a second hedge.
+> - Item 6: 6a, 6b, 6c, 6f, 6g, 6h and 6i accepted. **6d revised** to move "in part" off the sentence end: "That order gives it two properties in part, choice of attack strategy and objective-specific behaviour (Table~\ref{tab:fidelity-verdict})." **6e revised** to Marc's simplification, parallel to the adaptivity sentence: "The Petri net's draw of its next tactic, at random in proportion to the edge weights, is also a fixed rule of ours, so choice of attack strategy is in part." It keeps ¶3's "so … is in part" ending, which every mark sentence in ¶3 shares.
+> - Item 7: accepted.
+> - **Awaiting Marc's confirmation of the 6d and 6e revisions.**
+
 > **Reviewer notes (main session, 2026-10-18).** Two choices for Marc; everything else is ready to apply as drafted.
 > 1. **Item 1's verb.** The sheet keeps your ratified "is not enough to show" and changes only its object, to "a single attacker model … other attackers". Jin's example uses "may (therefore) not show". The sheet argues the stacked hedge: you cut "may not" from this exact ch7 sentence on 2026-10-15. Jin called his wording an example, so either version answers him: what he objected to was the object. **Recommend the sheet's Rec.**
 > 2. **6e's wording.** "Chooses its next tactic by a fixed rule of ours, at random" puts "chooses" and "at random" in one clause. A tighter option keeps §6.1's words and the parallel with the adaptivity sentence: **"The Petri net draws its next tactic at random, in proportion to the edge weights, also a fixed rule of ours, so choice of attack strategy is in part."** (+25, against +29). **Recommend this.**
