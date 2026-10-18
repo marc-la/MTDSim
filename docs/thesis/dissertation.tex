@@ -585,19 +585,23 @@ diversity reduces the number of hosts the baseline attacker compromises by
   in place of the baseline attacker.\footnote{The APT attacker model and
   the experiment scripts are publicly available at
   \url{https://github.com/marc-la/MTDSim}.} Of eight properties an attacker
-  model needs to model an APT attacker, the APT attacker model has two in
-  full and three in part; three recent attacker models have at most one in
-  full.
+  model needs to model an APT attacker, the APT attacker model has one in
+  full and four in part; three recent attacker models have at most one in
+  full and two in part.
+  % 2026-10-18 (Marc, supervisor item 6): 3 choice of attack strategy tick ->
+  % in part; counts from Table 6.1 (baseline 1+2, Masud 0+1, Kim 0+2).
   % 2026-10-15 (Marc, I2): the "so what", in ch7's opening words; it closes
   % the ring with P3's "far simpler than an APT". Re-mirrored the same day to
   % ch7's redrafted preamble (eaa956cd: "cannot be inferred"), then to its
   % revision (637e2da2; ch7 handoff section 18): "is not enough to show" keeps
   % only the evidence reading 6.5 licenses; verbatim with ch7 and 6.4 para 1.
   % "Depends" stays unhedged: it is scoped "in MTDSim", where it was shown.
+  % 2026-10-18 (Marc, supervisor item 1): object aligned with the abstract,
+  % "a single attacker model ... other attackers"; verb kept (evidence reading,
+  % true whether or not a ranking transfers). Verbatim with 6.4 and ch7.
   \item We find that, in MTDSim, the most effective MTD mechanism depends
-  on the attacker model, so an evaluation against an attacker model far
-  simpler than an APT is not enough to show how MTD performs against APT
-  attackers.
+  on the attacker model, so an evaluation against a single attacker model is
+  not enough to show how MTD performs against other attackers.
 \end{itemize}
 
 % [CONNECTIVE-PROSE PASS 2026-09-26, ch1 overview] Thesis-structure
@@ -3927,7 +3931,7 @@ Section~\ref{subsec:attacker-criterion}: objective-specific behaviour, choice of
 as the baseline attacker, but the Petri net of its attack profile chooses its
 next tactic at runtime. With those attack actions it keeps the baseline
 attacker's campaign persistence;
-they also cap what it gains, so it has two properties in full and three in part
+they also cap what it gains, so it has one property in full and four in part
 (Section~\ref{sec:fidelity-verdict}). It is a
 proof of concept: it tests whether an attacker with more of an APT's properties changes
 what an MTD evaluation measures. It avoids detection only through its tactic durations,
@@ -8871,7 +8875,9 @@ against 0.95 for the baseline attacker (Figure~\ref{fig:aio-adaptivity}(a)).
     Kim et al.~\citep{kim2026} & 2026 & \propstandin & \propnone & \propnone & \propnone & \propstandin & \propnone & \propnone & \propnone \\
     \midrule
     % [CH3 REDRAFT ROUND 52, 2026-10-02] Marc: the dissertation's own row named as such, at the bottom, 2026.
-    \begin{tabular}[c]{@{}l@{}}APT attacker model,\\ this dissertation\end{tabular} & 2026 & \propmet & \propstandin & \propmet & \propstandin & \propstandin & \propnone & \propnone & \propnone \\
+    \begin{tabular}[c]{@{}l@{}}APT attacker model,\\ this dissertation\end{tabular} & 2026 & \propmet & \propstandin & \propstandin & \propstandin & \propstandin & \propnone & \propnone & \propnone \\
+    % [2026-10-18, Marc: 3 tick -> in part (supervisor item 6): the Petri net's
+    %  draw is a fixed rule of ours, Table B.1 "rule"; overturns 2026-10-08 12b.]
     % [2026-10-08 regrade, Marc: 2 and 4 tick -> in part (exfiltration and
     %  impact unmapped; the failure matrix a fixed rule that reads the verdict);
     %  5 cross -> in part (stealth by proxy, Kim's precedent). DRAFT STATE.]
@@ -8893,9 +8899,8 @@ against 0.95 for the baseline attacker (Figure~\ref{fig:aio-adaptivity}(a)).
 %  table. The appendix pointer moved to the caption.]
 The APT attacker model has more of the eight properties than any of the three
 MTD attacker models of Section~\ref{subsec:recent-threat-models}
-(Table~\ref{tab:fidelity-verdict}). It is the only attacker model with choice
-of attack strategy in full or with any objective-specific behaviour, which it
-has in part. All four attacker models lack cost--benefit reasoning, learning
+(Table~\ref{tab:fidelity-verdict}). It is the only attacker model with any
+objective-specific behaviour, which it has in part. All four attacker models lack cost--benefit reasoning, learning
 and deployment-strategy awareness.
 
 % [2026-10-12, Marc: ¶2 (SQ1) redraft, handoff §41--§47. The punch: threat
@@ -8905,8 +8910,8 @@ and deployment-strategy awareness.
 %  to Table 6.1 alone (its caption points to Appendix B).]
 In answer to \ref{sq:capture}, the attack flows drawn from threat reports
 give the APT attacker model the order of its tactics for each objective. That
-order gives it choice of attack strategy in full and objective-specific
-behaviour in part (Table~\ref{tab:fidelity-verdict}). Threat reports time only
+order gives it two properties in part, choice of attack strategy and
+objective-specific behaviour (Table~\ref{tab:fidelity-verdict}). Threat reports time only
 whole intrusions, so the attack flows almost never record how long a step took
 (Section~\ref{subsec:dwell-times}). Drawn from incidents that succeeded, they
 never record what the attacker did after a step failed
@@ -8934,7 +8939,9 @@ what the APT attacker model adds: the order of its tactics and four parts we
 declared (Section~\ref{sec:execution}). Two of those parts, the tactic
 durations and the failure matrix, fill what the threat reports do not record.
 The failure matrix makes the APT attacker model's response to failure a fixed rule of ours, so
-adaptivity is in part (Table~\ref{tab:fidelity-verdict}). The same attack
+adaptivity is in part (Table~\ref{tab:fidelity-verdict}). The Petri net's
+draw of its next tactic, at random in proportion to the edge weights, is also
+a fixed rule of ours, so choice of attack strategy is in part. The same attack
 actions cap the APT attacker model, because the other seven tactics are
 unmapped. Three of them are Collection, Exfiltration and Impact, the tactics
 of actions on objectives, so objective-specific behaviour is in part. MTDSim
@@ -8957,8 +8964,8 @@ hosts, with no actions on objectives.
 In MTDSim, at every deployment interval, the most effective MTD mechanism
 differs between the two attackers (Table~\ref{tab:rank-one-intervals}). Which
 MTD mechanism an MTD evaluation finds most effective can therefore depend on its
-attacker model. An evaluation against an attacker model far simpler than an APT
-is not enough to show how MTD performs against APT attackers.
+attacker model. An evaluation against a single attacker model is not enough
+to show how MTD performs against other attackers.
 % 2026-10-15 (Marc, ch7 handoff section 18): the evidence reading of the
 %  sentence ch7's preamble closes on; homed here so ch7 traces to ch6. Licensed
 %  by "can depend" (an existence claim): an evaluation against one attacker
@@ -9740,9 +9747,8 @@ performs differently against the APT attacker model than against the baseline
 attacker. At every deployment interval, the host layer reduces the APT attacker
 model's NCR most, and the service layer reduces the baseline attacker's NCR
 most. Which MTD mechanism an MTD evaluation finds most effective can therefore
-depend on its attacker model. An evaluation against an attacker model far
-simpler than an APT is not enough to show how MTD performs against APT
-attackers.
+depend on its attacker model. An evaluation against a single attacker model
+is not enough to show how MTD performs against other attackers.
 
 \section{Contributions}
 \label{sec:contributions}
@@ -9775,8 +9781,7 @@ on our judgement. In MTDSim, the APT attacker model uses a Petri net to choose
 its next tactic at runtime, and maps each tactic onto one of the baseline
 attacker's six attack actions, none of which models actions on objectives. Of
 the four attacker models in Table~\ref{tab:fidelity-verdict}, it is the only
-one with choice of attack strategy in full, and the only one with any
-objective-specific behaviour.
+one with any objective-specific behaviour.
 
 % CONTRIBUTION 2 REDRAFT 2026-10-15 (Marc: "that's good, apply"; handoff
 %  section 21, yardstick conclusion_conventions.md (d2)). The preamble holds the
@@ -10025,11 +10030,14 @@ Table~\ref{tab:clause-tests} gives the predicates behind each mark of
 Tables~\ref{tab:attacker-cross-section} and~\ref{tab:fidelity-verdict}. Its
 cells judge the APT attacker model from Chapter~\ref{ch:attacker-model} and the
 three MTD attacker models from their papers. The predicates are Table~\ref{tab:attacker-properties}'s
-definitions word for word; rows 1 and 6 split off a qualifier, row 5 splits at
-its ``and''.
+definitions; rows 1 and 6 split off a qualifier, row 5 splits at
+its ``and''. To make ``over an extended period'' and ``low and slow''
+testable, row 1 adds ``until it reaches its objective, however many MTD
+deployments that takes'', and row 5 adds ``slower than the baseline
+attacker''.
 
 Distinct openings (Equation~\ref{eq:apv}) backs the APT attacker
-model's full mark for choice of attack strategy (Section~\ref{sec:disc-behaviour}).
+model's mark for choice of attack strategy (Section~\ref{sec:disc-behaviour}).
 It counts tactics for the APT attacker model and attack actions for the
 baseline attacker; counted in attack actions for both, the attack profiles
 still have 190 to 844 distinct openings against the baseline attacker's 3.
@@ -10058,8 +10066,8 @@ still have 190 to 844 distinct openings against the baseline attacker's 3.
     \pred qualifier: over an extended period, until it reaches its objective, however many MTD deployments that takes & yes & no & no & yes \\
     \rowcolor{black!5}\emph{2 Objective-specific behaviour} & \propnone & \propnone & \propnone & \propstandin \\
     \rowcolor{black!5}\pred behaviour: after the foothold, uses different techniques for different objectives & no & no & no & assumed \\
-    \emph{3 Choice of attack strategy} & \propstandin & \propnone & \propnone & \propmet \\
-    \pred behaviour: chooses among several sequences of techniques toward the same objective & rule & no & no & yes \\
+    \emph{3 Choice of attack strategy} & \propstandin & \propnone & \propnone & \propstandin \\
+    \pred behaviour: chooses among several sequences of techniques toward the same objective & rule & no & no & rule \\
     \rowcolor{black!5}\emph{4 Adaptivity} & \propstandin & \propnone & \propnone & \propstandin \\
     \rowcolor{black!5}\pred behaviour: chooses its next technique in response to an MTD disruption & rule & no & no & rule \\
     \emph{5 Detection avoidance} & \propnone & \propnone & \propstandin & \propstandin \\
