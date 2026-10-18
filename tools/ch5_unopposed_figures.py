@@ -297,7 +297,7 @@ def emit_fig_a(core: dict) -> tuple[str, dict]:
     axes(w, XB0, XB1, YB0, YB1,
          xticks=[(k, xb_(k)) for k in ks],
          yticks=[(10 ** e, yb(10 ** e)) for e in range(0, round(math.log10(nruns)) + 1)],
-         xlabel=r"First $k$ steps", ylabel="")
+         xlabel=r"First $k$ turns", ylabel="")
     # the run count is the caption's (1 000: every run its own) (Marc 2026-10-06)
     w(r"\node[rotate=90,anchor=south,align=center] at (%.3f,%.3f) {Distinct openings\\(log scale)};"
       % (XB0 - 0.8, (YB0 + YB1) / 2))
@@ -386,7 +386,10 @@ def emit_table(core: dict) -> str:
     # carries the classes), full text width
     # natural width, the house table style (scrutiny round 2026-09-30: it was
     # stretched to the text width); the attacker model is a group label row
-    w(r"  \tablestyle")  # group rows keep the stripes (Marc, 2026-10-01)
+    # 2026-10-18 (Marc): the run counts in the MTTC cells pushed the table 49 pt
+    # past the text width; 4 pt column gaps (as Table 5.3's generator below) and the
+    # baseline attacker's label on two lines bring it to 447 of 455 pt, one row taller
+    w(r"  \tablestyle\setlength{\tabcolsep}{4pt}")  # group rows keep the stripes (Marc, 2026-10-01)
     w(r"  \begin{tabular}{@{}lccccc@{}}")
     w(r"    \toprule")
     w(r"    Attacker & ASP & NCR & MTTC (s) & \shortstack{Attack rate\\(per minute)} & \shortstack{Attack\\confidentiality (\%)} \\")
@@ -426,7 +429,7 @@ def emit_table(core: dict) -> str:
     for p in PROFILES:
         w(row(r"\quad " + LABEL[p], p))
     w(r"    \midrule")
-    w(row(r"Baseline attacker", "baseline"))
+    w(row(r"\begin{tabular}[t]{@{}l@{}}Baseline\\attacker\end{tabular}", "baseline"))
     w(r"    \bottomrule")
     w(r"  \end{tabular}")
     w(r"\end{table}")

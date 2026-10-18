@@ -626,7 +626,7 @@ def _rules_table(rs: RuleSet, verdict: str, label: str) -> list[str]:
     L.append(r"\centering")
     L.append(r"\caption[The rules of the failure matrix]{The rules of the failure matrix "
              r"(Section~\ref{subsec:failure-matrix}). After a tactic's attack action fails, "
-             r"the first rule that applies to a candidate next tactic, from A down, gives its "
+             r"the first rule from A down that applies to a candidate next tactic gives its "
              r"value. In ATT\&CK's order, a tactic after Initial Access needs a foothold "
              r"(Section~\ref{subsec:apt}). \emph{Stage} is the next tactic's lifecycle stage "
              r"against the failed tactic's.}")

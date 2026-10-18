@@ -161,7 +161,7 @@ def decode_time_lost(C: dict) -> str:
     kept = min(c["deployments"] / (c["deployments"] + c["dropped"])
                for k, c in C.items() if k.endswith("|%s" % INTERVAL) and "deployments" in c)
     return (r"Time lost is over the MTD deployments made while the same seed's run with no MTD is still "
-            r"going, which are at least %d\,\%% of each cell's MTD deployments." % int(100 * kept))
+            r"going. These are at least %d\,\%% of each cell's MTD deployments." % int(100 * kept))
 
 
 def _place(hw: float) -> int:
@@ -222,10 +222,10 @@ def emit_table(d: dict) -> str:
         r"\begin{table}[htbp]",
         r"  \centering",
         # 2026-10-14 (Marc: simplify): the caption's job is "Figure 5.2's values, with intervals"
-        (r"  \caption[Attack actions blocked and time lost per MTD deployment]{The values of "
-         r"Figure~\ref{fig:aio-adaptivity}, each with its 95\,\% confidence interval: attack actions "
-         r"blocked and time lost per MTD deployment at a deployment interval of 2\,000\,s, the APT "
-         r"attacker model averaged over $c_1$ to $c_4$. " + decode_time_lost(C) + EXACT + "}"),
+        (r"  \caption[Attack actions blocked and time lost per MTD deployment]{Attack actions "
+         r"blocked and time lost per MTD deployment at a deployment interval of 2\,000\,s, each with its "
+         r"95\,\% confidence interval (Figure~\ref{fig:aio-adaptivity}). The APT "
+         r"attacker model is averaged over $c_1$ to $c_4$. " + decode_time_lost(C) + EXACT + "}"),
         r"  \label{tab:disruption}",
         # scriptsize, 3 pt gaps: at footnotesize the 3-decimal brackets exceed the text width (conventions, "Table size")
         r"  \tablestyle\scriptsize\setlength{\tabcolsep}{3pt}",  # group rows keep the stripes (Marc, 2026-10-01)

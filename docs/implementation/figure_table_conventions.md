@@ -342,6 +342,8 @@ routes land on the same URW Nimbus Sans metrics:
 | hand-authored SVG through Chromium (`tools/ch2_fig2*.html`) | the `svg {}` CSS rule | `font-family: "Nimbus Sans", "TeX Gyre Heros", Helvetica, Arial, sans-serif`, class sizes at 0.92 of nominal (`FACE_SCALE` in the generator) |
 | Attack Flow Builder export (`tools/restyle_attackflow_svg.py`) | the font stack rewrite | `Arial, Helvetica, sans-serif` (Builder metrics are Inter; Helvetica-metric fits its boxes) |
 
+**One exception, ruled 2026-10-18 (Marc).** Figure 4.6, the tactic-to-action mapping (`tools/controller_mapping_figure.py`), is set in the body face: Computer Modern (OT1, Type1), with `\pdfinterwordspaceon`. It is a table drawn as a figure, mostly text, and the supervisor flagged it (final feedback item 12) as a different face whose text would not select. Do not "fix" it back to Helvetica. The side-by-side render is `data/supervisor_feedback/renders/fig_4-6_helvetica_vs_cm.png`.
+
 **Why a sans, and why this one.** Read from the embedded font lists of the
 §a corpus: every paper that draws its own figures sets the body in a serif
 (Times, Computer Modern, Charis) and the figure text in a sans —

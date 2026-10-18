@@ -235,9 +235,9 @@ def write_table(out: dict) -> None:
         r"\begin{table}[htbp]",
         r"  \centering",
         (r"  \caption[The APT attacker model with and without the vulnerability memory, by services per operating system]{The APT "
-         r"attacker model with and without the vulnerability memory, at every number of services per "
-         r"operating system: the share of exploits that succeed, NCR, and $d$ on NCR, with minus without, "
-         r"with its 95\,\% interval. An exploit the host's operating system rules out is not counted.}"),
+         r"attacker model with and without the vulnerability memory at every number of services per "
+         r"operating system. $d$ on NCR is with minus without. Parentheses give its 95\,\% interval. "
+         r"An exploit the host's operating system rules out is not counted.}"),
         r"  \label{tab:ablation-memory}",
         r"  \tablestyle",  # group rows keep the stripes (Marc, 2026-10-01)
         r"  \begin{tabular}{@{}cccccc@{}}",

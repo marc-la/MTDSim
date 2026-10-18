@@ -63,10 +63,10 @@ def main() -> None:
     # 2026-10-14 (Marc: dedupe with the prose; "strategy" is not a layer): decode only.
     cap = (r"The rank of each MTD mechanism and deployment strategy by NCR reduction at a deployment "
            r"interval of 200\,s, with the APT attacker model's 45\,s mean duration at its declared value and "
-           r"at the low and high ends of its band; the baseline attacker's ranks are Table~\ref{tab:eff-cross-arm}'s, and the APT attacker model "
-           r"is averaged over $c_1$ to $c_4$. Bold: rank~1, by Scott--Knott ESD. $\rho$: "
-           r"Spearman's rank correlation with the baseline attacker's NCR reductions; every 95\,\%% "
-           r"interval lies within $%.2f$ and $%.2f$." % (lo_all, hi_all))
+           r"at the low and high ends of its band. The baseline attacker's ranks are Table~\ref{tab:eff-cross-arm}'s, and the APT attacker model "
+           r"is averaged over $c_1$ to $c_4$. Bold: rank~1. $\rho$: "
+           r"Spearman's rank correlation with the baseline attacker's NCR reductions. Every 95\,\%% "
+           r"interval of $\rho$ lies between $%.2f$ and $%.2f$." % (lo_all, hi_all))
     head = (r"\rowcolor{white}MTD & Group & \shortstack{declared\\(45\,s)} & \shortstack{low end\\(11.25\,s)} & "
             r"\shortstack{high end\\(180\,s)} & \shortstack{Baseline\\attacker} \\")
     tex = "\n".join([

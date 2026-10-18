@@ -117,6 +117,8 @@ class report.cls by Cara MacNish August 1999/September 2000]
 \def\categories#1{\gdef\@categories{#1}}	%ckm
 \def\supervisor#1{\gdef\@supervisor{#1}}	%mtd added: supervisor name(s)
 \def\@supervisor{}				%mtd added: default (no supervisor)
+\def\wordcount#1{\gdef\@wordcount{#1}}	%mtd added: word count line on the title page
+\def\@wordcount{}				%mtd added: default (no word count line)
 %mtd Title page uses \includegraphics for the UWA crest; load graphicx
 %mtd in your document preamble (dissertation.tex already does this).
 
@@ -223,12 +225,16 @@ class report.cls by Cara MacNish August 1999/September 2000]
 \vfill
 %mtd submission statement ("This report is submitted as partial
 %mtd fulfilment ...") removed (Marc, 2026-09-24); the year stays.
+	\ifx\@wordcount\@empty\else%mtd word count (hidden if unset)
+		{\normalsize Word count: \@wordcount\par}%
+		\vskip 1.2em%
+	\fi
 		{\large \@submityear\par}
   \end{center}
 %ckm	\par
 %ckm	\@thanks
   \end{titlepage}%
-  \refstepcounter{page}	 	%ckm
+  \stepcounter{page}	 	%ckm %mtd was \refstepcounter: its hyperref anchor duplicated page.2
   \setcounter{footnote}{0}%
   \global\let\thanks\relax
   \global\let\maketitle\relax

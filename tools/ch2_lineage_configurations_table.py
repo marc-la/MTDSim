@@ -37,8 +37,7 @@ CAPTION_LONG = (
     # Reader needs the unit and the dash; why Ho's unlabelled values are
     # seconds lives in the YAML locators (Marc, 2026-10-01: "too much nuance").
     "The configurations the earlier MTDSim studies ran. Times are in seconds; "
-    "a dash marks a value the study does not state. Tay \\citep{tay2024} "
-    "states none."
+    "a dash marks a value the study does not state."
 )
 
 

@@ -346,13 +346,13 @@ def emit_value_table(sweeps: dict) -> tuple[str, list]:
         # (Section 5.1), the interval method (Section 5.1). The ASP table points at the NCR
         # table's layout (its "panels (g) to (l)" was stale: they are Figure D.1 now).
         if suffix:
-            cap = (r"%s, laid out as Table~\ref{tab:eff-interval-values}: the values of "
-                   r"Figure~\ref{fig:eff-cross-arm-asp}. Grey: the 95\,\%% interval includes zero.@BOUND@" % name)
+            cap = (r"%s (Figure~\ref{fig:eff-cross-arm-asp}), laid out as "
+                   r"Table~\ref{tab:eff-interval-values}. Grey: the 95\,\%% interval includes zero.@BOUND@" % name)
         else:
-            cap = (r"%s for each MTD mechanism and deployment strategy against each attacker, at "
-                   r"every deployment interval: the values of Figure~\ref{fig:eff-cross-arm}, the APT "
-                   r"attacker model averaged over $c_1$ to $c_4$. An italic row is a layer's mean, the "
-                   r"line the figure plots. Grey: the 95\,\%% interval includes zero.@BOUND@" % name)
+            cap = (r"%s for each MTD mechanism and deployment strategy against each attacker at "
+                   r"every deployment interval (Figure~\ref{fig:eff-cross-arm}). The APT "
+                   r"attacker model is averaged over $c_1$ to $c_4$. An italic row is the layer's mean "
+                   r"the figure plots. Grey: the 95\,\%% interval includes zero.@BOUND@" % name)
         w(r"  \caption[%s against each attacker, by MTD mechanism and deployment interval]{%s}" % (name, cap))
         cap_at = len(L) - 1  # the bound decode joins the caption only if a cell needs it
         w(r"  \label{tab:eff-interval-values%s}" % suffix)
@@ -516,7 +516,7 @@ def emit_ranking_table(ranking) -> tuple[str, list]:
     #   the row order (read off the first rank column), the interval method (Section 5.1).
     L[cap_at] = (r"  \caption[The MTD mechanisms and deployment strategies ranked against each attacker]{The MTD "
                  r"mechanisms and deployment strategies ranked by NCR reduction against each attacker, at a "
-                 r"deployment interval of %s\,s; the APT attacker model averaged over $c_1$ to $c_4$. Bold: "
+                 r"deployment interval of %s\,s. The APT attacker model is averaged over $c_1$ to $c_4$. Bold: "
                  r"rank~1.%s}" % (fmt_thousands(int(iv)), bound))
     L.insert(cap_at, "%% rho (NCR reduction, the two columns) at %s s: %s [%s, %s]" % (
         iv, *(_num(rho[k]) for k in ("rho", "lo", "hi"))))
@@ -537,10 +537,9 @@ def emit_rank_one_table(ranking) -> tuple[str, list]:
     w("%   (section ranking; ranks by Scott-Knott ESD, experiments/ch5_defended/sk_esd.py). Do not hand-edit.")
     w(r"\begin{table}[htbp]")
     w(r"  \centering")
-    w(r"  \caption[Rank 1 against each attacker at every deployment interval]{Rank~1 of "
-      r"Table~\ref{tab:eff-cross-arm} at every deployment interval: the MTD mechanisms and deployment "
-      r"strategies ranked first by NCR reduction against each attacker; the APT attacker model averaged "
-      r"over $c_1$ to $c_4$.}")
+    w(r"  \caption[Rank 1 against each attacker at every deployment interval]{Rank~1 by NCR "
+      r"reduction (Table~\ref{tab:eff-cross-arm}) against each attacker at every deployment interval. "
+      r"The APT attacker model is averaged over $c_1$ to $c_4$.}")
     w(r"  \label{tab:rank-one-intervals}")
     w(r"  \tablestyle\setlength{\tabcolsep}{4pt}")
     w(r"  \begin{tabular}{@{}r>{\raggedright\arraybackslash}p{7.8cm}>{\raggedright\arraybackslash}p{5.4cm}@{}}")  # 2026-10-14: the text width, no overhang

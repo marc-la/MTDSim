@@ -291,7 +291,7 @@ def t_durations(d: dict) -> None:
         "\\caption[The APT attacker model with its tactic durations ablated]"
         "{The APT attacker model with its tactic durations ablated, against the baseline attacker, with no "
         "MTD. The same 1\\,000 seeds in every row. Bold: past the "
-        "baseline attacker's value, the 95\\,\\% intervals apart (a higher ASP, NCR or attack rate, a "
+        "baseline attacker's value with the 95\\,\\% intervals apart (a higher ASP, NCR or attack rate, or a "
         "lower attack confidentiality). Blank: not applicable, as the baseline attacker runs no tactics.}\n"
         "\\label{tab:fa-tactic-durations}\n\\tablestyle\\setlength{\\tabcolsep}{3pt}\n"
         "\\begin{tabular}{@{}l c c c c c@{}}\n\\toprule\n"
@@ -300,10 +300,50 @@ def t_durations(d: dict) -> None:
         "\\midrule\n" + "\n".join(rows) + "\n\\bottomrule\n\\end{tabular}\n\\end{table}\n"))
 
 
+UNMAPPED_MTD = REPO / "experiments" / "ch6_further_analyses" / "unmapped_mtd_numbers.json"
+
+
+def t_unmapped_mtd(d: dict) -> None:
+    """The tactic-duration ablation under MTD (run_unmapped_mtd.py; Jin's final
+    feedback item 13, Marc 2026-10-18): unmapped tactics at 0 s, IP shuffle and
+    service diversity at 200 s. Laid out as Table tab:fa-tactic-durations, which
+    it continues under MTD: the baseline attacker first as the reference, then
+    the APT attacker model's two rows."""
+    def cell(x: dict) -> str:
+        if x["lo"] == x["hi"] == x["point"] == 1.0:  # every deployment blocks one: exact
+            return "$1$"
+        half = max(x["point"] - x["lo"], x["hi"] - x["point"])
+        return f"${x['point']:.3f} \\pm {half:.3f}$"
+
+    def row(label: str, block: dict) -> str:
+        return (f"{label} & " + " & ".join(cell(block[c][m]) for m in ("ncr_reduction", "blocked_per_deployment")
+                                             for c in ("ip_shuffle", "service_diversity")) + " \\\\")
+
+    rows = [row("Baseline attacker", d["baseline_attacker"]), "\\midrule",
+            "\\grouprow{5}{APT attacker model} \\\\",
+            row("\\quad tactic durations as declared", d["declared"]),
+            row("\\quad unmapped tactics at 0\\,s", d["unmapped_zero"])]
+    write("tab_FA-9_unmapped_mtd", "unmapped_mtd_numbers.json, Marc 2026-10-18", (
+        "\\begin{table}[!htbp]\n\\centering\n"
+        "\\caption[The APT attacker model with its unmapped tactics at 0\\,s, under MTD]"
+        "{The APT attacker model with its unmapped tactics at 0\\,s, against the baseline attacker, "
+        "under MTD at a deployment interval of 200\\,s. The same 1\\,000 seeds in every row. The APT "
+        "attacker model is averaged over $c_1$ to $c_4$. $\\pm$: the 95\\,\\% interval.}\n"
+        "\\label{tab:fa-unmapped-mtd}\n\\tablestyle\\setlength{\\tabcolsep}{3pt}\n"
+        "\\begin{tabular}{@{}l c c c c@{}}\n\\toprule\n"
+        "& \\multicolumn{2}{c}{NCR reduction} & \\multicolumn{2}{c}{\\shortstack{Attack actions blocked\\\\per MTD deployment}} \\\\\n"
+        "\\cmidrule(lr){2-3}\\cmidrule(lr){4-5}\n"
+        "Attacker & IP shuffle & service diversity & IP shuffle & service diversity \\\\\n"
+        "\\midrule\n" + "\n".join(rows) + "\n\\bottomrule\n\\end{tabular}\n\\end{table}\n"))
+
+
 def main() -> None:
-    # Only Table FA-8 is in the dissertation (Appendix D.6, since 2026-10-14);
+    # Tables FA-8 and FA-9 are in the dissertation (Appendix D.5.1);
     # --all also writes the cut tables FA-1 to FA-6 from further_analyses_numbers.json.
-    t_durations(json.loads(DURATIONS.read_text()))
+    if DURATIONS.exists():
+        t_durations(json.loads(DURATIONS.read_text()))
+    if UNMAPPED_MTD.exists():
+        t_unmapped_mtd(json.loads(UNMAPPED_MTD.read_text()))
     if "--all" not in sys.argv:
         return
     d = json.loads(NUMBERS.read_text())
