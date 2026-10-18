@@ -6189,7 +6189,14 @@ as in the simulator's released experiment code \citep{tay2024code}.
 in Table~\ref{tab:experiment} is run on the same 1\,000 seeds, the number
 recommended for randomised algorithms \citep{arcuri2014hitchhiker}. Each
 seed generates one network, so the 1\,000 runs of every configuration start
-from the same 1\,000 networks. Every metric at every configuration, with its
+from the same 1\,000 networks.
+% [2026-10-18, Marc: rubric 4.2 'necessary computing equipment'. 6 000 runs with no MTD +
+%  402 000 under MTD (handoff 2026-09-30_ch5_reported_corpus.md); launched ~19:15 on
+%  30 Sep (after the unopposed corpus, ~8 min), done 2026-10-02 00:18 = ~29 h; WORKERS=7.]
+The 408\,000 runs of Sections~\ref{sec:attacker-in-operation}
+and~\ref{sec:effectiveness} took about 29 hours, seven at a time, on a laptop
+with an Intel Core i7-1360P processor, in Python 3.11 under Ubuntu 22.04.
+Every metric at every configuration, with its
 interval, is published with the experiment scripts.
 
 % [ROUND 8, 2026-10-06] Marc on Analysis: "what facts does the examiner actually
@@ -10043,7 +10050,9 @@ content. Any errors that remain are mine.
 % own bibliography: its citations are deliberately NOT merged into
 % references.bib (unchecked against the vetted list; the cai2016 key
 % would collide).
-\includepdf[pages=2,pagecommand={\thispagestyle{empty}\refstepcounter{chapter}%
+% Proposal pages at 90 % with the dissertation's page number in the footer (Marc
+% 2026-10-18): the contents list's page 50 is findable; the proposal keeps its own.
+\includepdf[pages=2,scale=0.9,pagecommand={\thispagestyle{plain}\refstepcounter{chapter}%
   \addcontentsline{toc}{chapter}{\protect\numberline{\thechapter}Original honours proposal}%
   \label{app:proposal}%
   \vspace*{-4\baselineskip}\noindent{\small\textsc{Appendix~\thechapter}\quad Original honours proposal,
@@ -10051,7 +10060,7 @@ content. Any errors that remain are mine.
   out of scope, so this dissertation pursues only the first of the proposal's
   four aims, ``a more sophisticated adversarial module'', and runs MTDShield as
   released, with no IDS.}}]{proposal.pdf}
-\includepdf[pages=3-]{proposal.pdf}
+\includepdf[pages=3-,scale=0.9,pagecommand={\thispagestyle{plain}}]{proposal.pdf}
 
 
 % =====================================================================
