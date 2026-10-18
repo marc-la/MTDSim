@@ -5003,9 +5003,9 @@ each takes that attack action's time, even where the tactic maps to another
 (Section~\ref{subsec:attacker-model}). Initial Access, Privilege Escalation,
 Credential Access and Lateral Movement each act briefly on one host, as the
 exploit attack action does, so each takes the mean time of the exploit attack
-action, 4.5~s. Reconnaissance and Discovery survey a network, as MTDSim's
+action, 4.5\,s. Reconnaissance and Discovery survey a network, as MTDSim's
 scans for hosts, ports and neighbours do together, so each takes the total
-time of the three scans, 35~s.
+time of the three scans, 35\,s.
 
 No source we found times the other nine tactics, since threat reports time whole
 intrusions. We set their mean durations by judgement, from what each tactic
@@ -5014,17 +5014,17 @@ missing~\citep{mcqueen2006, bland2020}.
 Chapter~\ref{ch:experiments} compares the APT attacker model with the baseline
 attacker under the same MTD deployments, so we kept the nine on the scale of
 the baseline attacker's attack actions (Section~\ref{subsec:attacker-model}).
-We also kept each under the 200~s default deployment interval
+We also kept each under the 200\,s default deployment interval
 (Section~\ref{subsec:defence-mechanisms}), or a deployment would disrupt most
 runs of the tactic.
 
 Persistence, Stealth
 and Command and Control keep a foothold, stay hidden and stay in contact
 throughout an attack~\citep{mitre2026attackkb}, so we set them longest, at
-45~s. Collection, Exfiltration and Impact move or destroy data, which we
+45\,s. Collection, Exfiltration and Impact move or destroy data, which we
 judged to take a little longer than surveying a network, so we set them at
-36~s. Execution and Defense Impairment are single acts, so we set them at
-half the 45~s, 22.5~s, still longer than an exploit because the attacker slows
+36\,s. Execution and Defense Impairment are single acts, so we set them at
+half the 45\,s, 22.5\,s, still longer than an exploit because the attacker slows
 them to stay hidden. Resource Development happens before the attack reaches the
 target's network, so it takes no time.
 % ROUND 11, 2026-10-05 (Marc: as in 4.4.3, the last paragraph repeats the
@@ -5047,7 +5047,7 @@ Because these values are our judgement,
 Appendix~\ref{app:dwell-robustness} tests whether NCR
 (Section~\ref{sec:evaluation-metrics}) depends on them: after the values were
 fixed, it moved each mean duration in turn to both ends of a band, from half
-to double, and from a quarter to four times for the 45~s. Only the 45~s changes NCR much,
+to double, and from a quarter to four times for the 45\,s. Only the 45\,s changes NCR much,
 most likely through Command and Control, one of the three tactics it times.
 Command and Control is the only tactic that maps to scan neighbours, the
 attack action that finds the hosts next to those the attacker has compromised
@@ -10572,7 +10572,8 @@ with the APT attacker model averaged over $c_1$ to $c_4$.
 
 
 \input{tables/tab_F-2_ablation_memory}
-\FloatBarrier
+% \FloatBarrier removed (Marc 2026-10-18): it left p. 68 part empty and Table D.12
+% alone on a page; D.5.1's text now follows Table D.8, and D.11-D.12 share a page.
 
 % =====================================================================
 % NEW 2026-10-09 (Marc approved; handoff 2026-10-09_ch7_conclusion_and_appendix_
