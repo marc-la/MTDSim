@@ -306,35 +306,34 @@ UNMAPPED_MTD = REPO / "data" / "results" / "ch6_further_analyses" / "unmapped_mt
 def t_unmapped_mtd(d: dict) -> None:
     """The tactic-duration ablation under MTD (run_unmapped_mtd.py; Jin's final
     feedback item 13, Marc 2026-10-18): unmapped tactics at 0 s, IP shuffle and
-    service diversity at 200 s, beside the declared durations and the baseline
-    attacker."""
+    service diversity at 200 s. Laid out as Table tab:fa-tactic-durations, which
+    it continues under MTD: the baseline attacker first as the reference, then
+    the APT attacker model's two rows."""
     def cell(x: dict) -> str:
-        if x["lo"] == x["hi"] == x["point"] == 1.0:  # every deployment blocks one: exact, as Chapter 5 prints it
+        if x["lo"] == x["hi"] == x["point"] == 1.0:  # every deployment blocks one: exact
             return "$1$"
-        return f"{f(x['point'])} ({f(x['lo'])}, {f(x['hi'])})"
+        half = max(x["point"] - x["lo"], x["hi"] - x["point"])
+        return f"${x['point']:.3f} \\pm {half:.3f}$"
 
-    rows = []
-    for metric, label in (("ncr_reduction", "NCR reduction"),
-                          ("blocked_per_deployment", "Attack actions blocked per MTD deployment")):
-        rows.append(f"\\grouprow{{4}}{{{label}}} \\\\")
-        for c, name in (("ip_shuffle", "IP shuffle"), ("service_diversity", "service diversity")):
-            rows.append(f"\\quad {name} & {cell(d['declared'][c][metric])} & "
-                        f"{cell(d['unmapped_zero'][c][metric])} & {cell(d['baseline_attacker'][c][metric])} \\\\")
-        rows.append("\\midrule")
-    rows.pop()
+    def row(label: str, block: dict) -> str:
+        return (f"{label} & " + " & ".join(cell(block[c][m]) for m in ("ncr_reduction", "blocked_per_deployment")
+                                             for c in ("ip_shuffle", "service_diversity")) + " \\\\")
+
+    rows = [row("Baseline attacker", d["baseline_attacker"]), "\\midrule",
+            "\\grouprow{5}{APT attacker model} \\\\",
+            row("\\quad tactic durations as declared", d["declared"]),
+            row("\\quad unmapped tactics at 0\\,s", d["unmapped_zero"])]
     write("tab_FA-9_unmapped_mtd", "unmapped_mtd_numbers.json, Marc 2026-10-18", (
-        "\\begin{table}[htbp]\n\\centering\n"
-        "\\caption[The ablation of the tactic durations under MTD]"
-        "{The APT attacker model with its unmapped tactics at 0\\,s, under IP shuffle and service "
-        "diversity at a deployment interval of 200\\,s, beside its declared tactic durations and the "
-        "baseline attacker; the APT attacker model averaged over $c_1$ to $c_4$, the same 1\\,000 seeds "
-        "in every cell. In parentheses: the 95\\,\\% interval, resampling seeds for NCR reduction and "
-        "runs for attack actions blocked per MTD deployment.}\n"
-        "\\label{tab:fa-unmapped-mtd}\n\\tablestyle\n"
-        "\\begin{tabular}{@{}l c c c@{}}\n\\toprule\n"
-        "& \\multicolumn{2}{c}{APT attacker model} & \\\\\n\\cmidrule(lr){2-3}\n"
-        "MTD mechanism & \\shortstack{Tactic durations\\\\as declared} & "
-        "\\shortstack{Unmapped tactics\\\\at 0\\,s} & \\shortstack{Baseline\\\\attacker} \\\\\n"
+        "\\begin{table}[!htbp]\n\\centering\n"
+        "\\caption[The APT attacker model with its unmapped tactics at 0\\,s, under MTD]"
+        "{The APT attacker model with its unmapped tactics at 0\\,s, against the baseline attacker, "
+        "under MTD at a deployment interval of 200\\,s. The same 1\\,000 seeds in every row; the APT "
+        "attacker model averaged over $c_1$ to $c_4$; $\\pm$ the 95\\,\\% interval.}\n"
+        "\\label{tab:fa-unmapped-mtd}\n\\tablestyle\\setlength{\\tabcolsep}{3pt}\n"
+        "\\begin{tabular}{@{}l c c c c@{}}\n\\toprule\n"
+        "& \\multicolumn{2}{c}{NCR reduction} & \\multicolumn{2}{c}{\\shortstack{Attack actions blocked\\\\per MTD deployment}} \\\\\n"
+        "\\cmidrule(lr){2-3}\\cmidrule(lr){4-5}\n"
+        "Attacker & IP shuffle & service diversity & IP shuffle & service diversity \\\\\n"
         "\\midrule\n" + "\n".join(rows) + "\n\\bottomrule\n\\end{tabular}\n\\end{table}\n"))
 
 
