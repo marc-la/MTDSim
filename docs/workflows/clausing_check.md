@@ -6,7 +6,7 @@ updated: 2026-10-18
 
 # Clausing check: the final register pass
 
-**Status:** durable. This file defines the sentence-shape defects that AI redrafting leaves in academic prose, and grounds each one in style authority and measured evidence. It also sets the rules for fixing them by minimal edits. Built from Marc's read of pages i–15 on 2026-10-18; the open run is [`../handoffs/2026-10-18_final_register_pass.md`](../handoffs/2026-10-18_final_register_pass.md).
+**Status:** durable. This file defines the sentence-shape defects that AI redrafting leaves in academic prose, and grounds each one in style authority and measured evidence. It also sets the rules for fixing them by minimal edits. Built from Marc's read of pages i–15 on 2026-10-18; the first run (2026-10-18, applied in 80f64af9) is in `data/clausing_check/`.
 
 **Division of labour.**
 - [`voice.md`](voice.md) §h bans the *lexical* tells, such as *delve*, triads and "not X but Y".
