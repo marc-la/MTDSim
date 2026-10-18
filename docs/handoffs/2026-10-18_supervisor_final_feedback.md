@@ -212,6 +212,22 @@ The recommended set nets about **+150 to +170** words of body text: item 1 −18
 - The last count on record was about 16 518 against the 16 500 ceiling (2026-10-15), and claim-check edits since then are uncounted.
 - **Marc reads the Overleaf count after applying.** If the total is over, the cut candidates are T4 option A (+54 instead of +72) and item 7 option C (+12), which is not recommended.
 
+## Progress (2026-10-18)
+
+- **Rulings so far (Marc):** item 6 downgrade; item 13 run; item 5 fleshed out; the rest ratified subject to the before/after sheets.
+- **Sheets for ruling** in `data/supervisor_feedback/`:
+  - `A_claims_and_scoring.md` (items 1, 6, 7)
+  - `B_attribution_and_ablation.md` (items 2, 3, 13)
+  - `CD_anomaly_threats_disclosure.md` (items 4, 5, 8, 9)
+  - `E_references_presentation.md` (items 10, 11, 12)
+- **Item 13 ran** (`run_unmapped_mtd.py`, 8 000 runs, both checks passed). The verdict under the pre-fixed criterion is **mechanism only**.
+  - With unmapped tactics at 0 s, attack actions blocked per MTD deployment under service diversity at 200 s rises from 0.17 to 0.29, but NCR reduction falls from 0.36 to 0.29.
+  - The host layer still leads (0.85).
+  - The model's time sits in Command and Control's scan neighbours: 45 %, against 28 % in the attack actions a service-layer deployment disrupts.
+  - §6.2 ¶3 replaces its unmapped-time sentence. Its claim (tactic durations) stands. See sheet B.
+- **Appendix D:** D.4 and D.6 merge (Marc), with the new Table `tab:fa-unmapped-mtd`.
+- **Next:** Marc rules on the four sheets. Apply ch6 and the appendices, propose the ch1/4/5/7 diffs, then references and Appendix A, then rebuild and check.
+
 ## Validation gate
 
 - Each of the 13 items is marked closed (with commit), already closed (with evidence), or declined (item 13 only, with reason).

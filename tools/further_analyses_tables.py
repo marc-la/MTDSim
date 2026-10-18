@@ -300,9 +300,49 @@ def t_durations(d: dict) -> None:
         "\\midrule\n" + "\n".join(rows) + "\n\\bottomrule\n\\end{tabular}\n\\end{table}\n"))
 
 
+UNMAPPED_MTD = REPO / "data" / "results" / "ch6_further_analyses" / "unmapped_mtd_numbers.json"
+
+
+def t_unmapped_mtd(d: dict) -> None:
+    """The tactic-duration ablation under MTD (run_unmapped_mtd.py; Jin's final
+    feedback item 13, Marc 2026-10-18): unmapped tactics at 0 s, IP shuffle and
+    service diversity at 200 s, beside the declared durations and the baseline
+    attacker."""
+    def cell(x: dict) -> str:
+        if x["lo"] == x["hi"] == x["point"] == 1.0:  # every deployment blocks one: exact, as Chapter 5 prints it
+            return "$1$"
+        return f"{f(x['point'])} ({f(x['lo'])}, {f(x['hi'])})"
+
+    rows = []
+    for metric, label in (("ncr_reduction", "NCR reduction"),
+                          ("blocked_per_deployment", "Attack actions blocked per MTD deployment")):
+        rows.append(f"\\grouprow{{4}}{{{label}}} \\\\")
+        for c, name in (("ip_shuffle", "IP shuffle"), ("service_diversity", "service diversity")):
+            rows.append(f"\\quad {name} & {cell(d['declared'][c][metric])} & "
+                        f"{cell(d['unmapped_zero'][c][metric])} & {cell(d['baseline_attacker'][c][metric])} \\\\")
+        rows.append("\\midrule")
+    rows.pop()
+    write("tab_FA-9_unmapped_mtd", "unmapped_mtd_numbers.json, Marc 2026-10-18", (
+        "\\begin{table}[htbp]\n\\centering\n"
+        "\\caption[The ablation of the tactic durations under MTD]"
+        "{The APT attacker model with its unmapped tactics at 0\\,s, under IP shuffle and service "
+        "diversity at a deployment interval of 200\\,s, beside its declared tactic durations and the "
+        "baseline attacker; the APT attacker model averaged over $c_1$ to $c_4$, the same 1\\,000 seeds "
+        "in every cell. In parentheses: the 95\\,\\% interval, resampling seeds for NCR reduction and "
+        "runs for attack actions blocked per MTD deployment.}\n"
+        "\\label{tab:fa-unmapped-mtd}\n\\tablestyle\n"
+        "\\begin{tabular}{@{}l c c c@{}}\n\\toprule\n"
+        "& \\multicolumn{2}{c}{APT attacker model} & \\\\\n\\cmidrule(lr){2-3}\n"
+        "MTD mechanism & \\shortstack{Tactic durations\\\\as declared} & "
+        "\\shortstack{Unmapped tactics\\\\at 0\\,s} & \\shortstack{Baseline\\\\attacker} \\\\\n"
+        "\\midrule\n" + "\n".join(rows) + "\n\\bottomrule\n\\end{tabular}\n\\end{table}\n"))
+
+
 def main() -> None:
     if DURATIONS.exists():
         t_durations(json.loads(DURATIONS.read_text()))
+    if UNMAPPED_MTD.exists():
+        t_unmapped_mtd(json.loads(UNMAPPED_MTD.read_text()))
     d = json.loads(NUMBERS.read_text())
     for key, fn in (("f1", t_success), ("f2", t_foothold), ("f3", t_accounts), ("f5", t_group_size)):
         # f6 (t_openings, t_after_foothold): old Appendix E.2, cut 2026-10-14 (Marc).

@@ -1,0 +1,123 @@
+{
+ "criterion": "run_unmapped_mtd.py docstring, fixed before the run",
+ "interval_s": 200,
+ "declared": {
+  "ip_shuffle": {
+   "ncr_reduction": {
+    "point": 0.9589902594553485,
+    "lo": 0.9562740388131061,
+    "hi": 0.9615895023008609,
+    "ncr_none_hosts": 8.54675,
+    "ncr_mtd_hosts": 0.3505
+   },
+   "blocked_per_deployment": {
+    "point": 0.10743333333333334,
+    "lo": 0.10522291666666667,
+    "hi": 0.10952008333333334
+   }
+  },
+  "service_diversity": {
+   "ncr_reduction": {
+    "point": 0.3641442653640272,
+    "lo": 0.3533060788887662,
+    "hi": 0.3750223066393071,
+    "ncr_none_hosts": 8.54675,
+    "ncr_mtd_hosts": 5.4345
+   },
+   "blocked_per_deployment": {
+    "point": 0.16754231754482898,
+    "lo": 0.16575548482588728,
+    "hi": 0.16926991302075575
+   }
+  }
+ },
+ "unmapped_zero": {
+  "ip_shuffle": {
+   "ncr_reduction": {
+    "point": 0.8480440452042886,
+    "lo": 0.8428776338619314,
+    "hi": 0.8530020880266684,
+    "ncr_none_hosts": 12.94125,
+    "ncr_mtd_hosts": 1.9665
+   },
+   "blocked_per_deployment": {
+    "point": 0.27005590169839766,
+    "lo": 0.2649757399057885,
+    "hi": 0.27531745207787134,
+    "runs": 4000
+   },
+   "time_share_by_action": {
+    "SCAN_HOST": 0.03756781941252134,
+    "ENUM_HOST": 0.012336575722593144,
+    "SCAN_PORT": 0.041987445953927144,
+    "SCAN_NEIGHBOR": 0.08847635003905963,
+    "BRUTE_FORCE": 0.006117799116374321,
+    "EXPLOIT_VULN": 0.009950619850566448
+   },
+   "time_share_service_layer_disruptable": 0.05805586492086791
+  },
+  "service_diversity": {
+   "ncr_reduction": {
+    "point": 0.2938858301941466,
+    "lo": 0.28169418000349933,
+    "hi": 0.30618913964128713,
+    "ncr_none_hosts": 12.94125,
+    "ncr_mtd_hosts": 9.138
+   },
+   "blocked_per_deployment": {
+    "point": 0.2939856095293834,
+    "lo": 0.29037890660496757,
+    "hi": 0.2976532708057078,
+    "runs": 4000
+   },
+   "time_share_by_action": {
+    "SCAN_HOST": 0.04452545873335405,
+    "ENUM_HOST": 0.018036393438508963,
+    "SCAN_PORT": 0.18921193361724714,
+    "SCAN_NEIGHBOR": 0.4514777756996256,
+    "BRUTE_FORCE": 0.01741420424144857,
+    "EXPLOIT_VULN": 0.07593633896924579
+   },
+   "time_share_service_layer_disruptable": 0.2825624768279415
+  }
+ },
+ "baseline_attacker": {
+  "ip_shuffle": {
+   "ncr_reduction": {
+    "point": 0.6847379859937213,
+    "lo": 0.6715736715042859,
+    "hi": 0.6968698642019698,
+    "ncr_none_hosts": 24.846,
+    "ncr_mtd_hosts": 7.833
+   },
+   "blocked_per_deployment": {
+    "point": 1.0,
+    "lo": 1.0,
+    "hi": 1.0
+   }
+  },
+  "service_diversity": {
+   "ncr_reduction": {
+    "point": 0.9178539805200032,
+    "lo": 0.9114786628252138,
+    "hi": 0.923740660139308,
+    "ncr_none_hosts": 24.846,
+    "ncr_mtd_hosts": 2.041
+   },
+   "blocked_per_deployment": {
+    "point": 0.988627922367337,
+    "lo": 0.9874898260666397,
+    "hi": 0.989780161477622
+   }
+  }
+ },
+ "verdict": {
+  "service_diversity_rises": {
+   "ncr_reduction": false,
+   "blocked_per_deployment": true
+  },
+  "a_or_b": "MECHANISM ONLY",
+  "c_host_lead_holds": true,
+  "c_intervals_apart": true
+ }
+}
