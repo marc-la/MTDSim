@@ -9316,7 +9316,22 @@ model.
 %  1) for all three host-layer mechanisms at 50-200 s.
 \item\label{thr:ncr} NCR reduction, our main metric, only partially
 measures how MTD performs: it counts the hosts an attacker compromises,
-whether or not it reaches a target host in the targeted attack scenario. To mitigate this threat, we also computed ASP reduction, and it orders
+whether or not it reaches a target host in the targeted attack scenario.
+With no MTD, 66\,\% of the baseline attacker's runs end at their first target
+host compromised, and 91\,\% of the APT attacker model's at the time limit. A
+run's NCR only rises while the run lasts, because a deployment never takes back
+a compromised host (Section~\ref{subsec:attacker-model}). NCR reduction can
+therefore credit an MTD mechanism that helps the baseline attacker reach a
+target host, because more of its runs then end early, with fewer hosts
+compromised. It does so under IP shuffle at 500 to 2\,000\,s, and under
+complete topology shuffle and OS diversity at 500\,s, where the baseline
+attacker's NCR reduction is positive and its ASP reduction negative
+(Tables~\ref{tab:eff-interval-values} and~\ref{tab:eff-interval-values-asp}).
+% [2026-10-18, Marc: supervisor item 5, round 4; NCR reduction the subject
+%  throughout (construct threat). Numbers: numbers_reported.json sweep and
+%  sweep_asp; run endings from runs_reported (baseline 65.6 % at a target,
+%  APT 91.0 % at the time limit, no MTD).]
+To mitigate this threat, we also computed ASP reduction, and it orders
 the two layers as NCR reduction does, for both attackers, at every deployment
 interval (Table~\ref{tab:eff-interval-values-asp}). The threat remains for rank~1
 against the APT attacker model up to 200\,s, where ASP reduction ties every
