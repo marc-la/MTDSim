@@ -11,7 +11,7 @@ export PYTHONHASHSEED := 0
 help:
 	@echo "make install    pinned environment (requirements-lock.txt) + this repo, editable + Chromium for figures"
 	@echo "make inputs     fetch the ATT&CK 19.1 bundle (SHA-256 checked)                       ~1 min"
-	@echo "make test       unit and regression tests (slow grid skipped)                         ~5 min"
+	@echo "make test       unit and regression tests (slow grid skipped)                         ~5-10 min"
 	@echo "make test-all   the full grid, including the slow tests                               ~1 h"
 	@echo "make smoke      re-run seed 0 of both reported corpora; must match the committed rows ~2 min"
 	@echo "make floats     every generated figure and table from the committed numbers files    ~1 min"
@@ -29,10 +29,10 @@ install:
 inputs:
 	$(PY) -m mtdsim.l0_cti
 
-test:
+test: inputs
 	$(PY) -m pytest -q
 
-test-all:
+test-all: inputs
 	$(PY) -m pytest -q --runslow
 
 smoke:

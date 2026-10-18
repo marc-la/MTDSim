@@ -45,7 +45,7 @@ also need TeX Live (`pdflatex`) and Ghostscript.
 ## Quick start
 
 ```sh
-make test      # 1 019 tests, ~5 min (make test-all adds the slow grid)
+make test      # fetches the ATT&CK bundle, then 1 024 tests, ~5-10 min (make test-all adds the slow grid)
 make smoke     # re-run seed 0 of both reported corpora and compare with the recorded rows, ~2 min
 ```
 
