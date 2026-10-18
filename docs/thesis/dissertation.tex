@@ -4195,7 +4195,7 @@ the four attack profiles of Table~\ref{tab:attack-profiles}. An attack flow
 that did both belongs to $c_3$ alone, so no edge weight counts it twice.
 Six of the seven attack flows of $c_3$ are ransomware that stole data and
 then encrypted the systems. The five attack flows of $c_4$ did neither,
-whatever the reason: three attackers were removed from the network before
+so $c_4$ is a mixed group, not a single objective: three attackers were removed from the network before
 they acted, one positioned for future operations, and one ran an adware
 campaign.
 
@@ -10010,8 +10010,11 @@ content. Any errors that remain are mine.
 \includepdf[pages=1,pagecommand={\thispagestyle{empty}\refstepcounter{chapter}%
   \addcontentsline{toc}{chapter}{\protect\numberline{\thechapter}Original honours proposal}%
   \label{app:proposal}%
-  \noindent{\small\textsc{Appendix~\thechapter}\quad Original honours proposal,
-  as submitted in March 2026}}]{proposal.pdf}
+  \vspace*{-4\baselineskip}\noindent{\small\textsc{Appendix~\thechapter}\quad Original honours proposal,
+  as submitted in March 2026. After submission, work on the defender was ruled
+  out of scope, so this dissertation pursues only the first of the proposal's
+  four aims, ``a more sophisticated adversarial module'', and runs MTDShield as
+  released, with no IDS.}}]{proposal.pdf}
 \includepdf[pages=2-]{proposal.pdf}
 
 
