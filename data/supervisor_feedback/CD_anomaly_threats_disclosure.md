@@ -80,3 +80,26 @@ Points 2–4 are the sentence round 1 compressed into "can therefore raise NCR r
 ---
 
 **Repo record owed when items 4 and 5 are applied:** `docs/implementation/disruption_mechanism.md` §9 has three stale points: the §6.2 pointer; "an attempt it would not otherwise have had", which should be "an earlier one"; and D-23 omitted.
+
+---
+
+## Round 3 (Marc 2026-10-18): the defence in one sentence; NCR as a function of time
+
+**Marc.**
+- Item 4: no appendix entry; defend it within the sentence by the four sourced rules.
+- T4: the missing dot is that NCR is, in effect, a function of time.
+
+**What changes.** §2.2.3 already states every rule, cited:
+- the restarts, back to scanning hosts or to the same host's ports [brown2023, zhang2023];
+- the list rebuilt when it runs out [brown2023];
+- "a deployment never takes back a compromised host [zhang2023] … the attacker loses only the progress it must repeat".
+
+So the §5.3.1 sentence names *its procedure* and points to §2.2.3, and T4 grounds the time dot in the same rule. Nothing is re-cited.
+
+**Item 4 v3 (§5.3.1, after "…204 to 232 s forward."). PROPOSE**
+> The first deployment disrupts the baseline attacker while it exploits its first exposed endpoint, and its procedure sends it straight back to that endpoint, keeping the progress it made there (Section~\ref{subsec:attacker-model}). It otherwise returns there only after its list of hosts runs out.
+
+**T4 v4. APPLY ON RULING**
+> NCR reduction, our main metric, only partially measures how MTD performs: it counts the hosts an attacker compromises, whether or not it reaches a target host in the targeted attack scenario. With no MTD, 66\,\% of the baseline attacker's runs end at their first target host compromised, and 91\,\% of the APT attacker model's at the time limit. A run's NCR only rises while the run lasts, because a deployment never takes back a compromised host (Section~\ref{subsec:attacker-model}). An MTD mechanism that brings the baseline attacker to a target host sooner therefore ends those runs with fewer hosts compromised, raising its ASP while lowering its NCR. The baseline attacker's NCR reduction is positive and its ASP reduction negative under IP shuffle at 500 to 2\,000\,s, and under complete topology shuffle and OS diversity at 500\,s (Tables~\ref{tab:eff-interval-values} and~\ref{tab:eff-interval-values-asp}). To mitigate this threat, … *(unchanged)*
+
+Net: item 4 about +40 words; T4 about +100.
