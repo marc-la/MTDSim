@@ -17,10 +17,69 @@ This file gives every proposal from the final register pass, in five clusters. I
 | A2 | Comma jobs, chapters 5–7 and appendices | 49 | 20 |
 | D | Words | 44 | 7 (D.7 merged into C.28) |
 
-**Three items need you, not a style rule.**
+**Three items need you, not a style rule** (now §0 below).
 - **A2.14 (L9845, chapter 7), a factual overclaim.** "maps each tactic onto one of the baseline attacker's six attack actions" is wrong, because the unmapped tactics run no attack action (§4.4.1, L4938). The fix is folded into the comma edit. It is the one item here that changes a claim.
 - **F.7 overturns a ratified ruling:** round 3's "the caption says what to look at". The item names it.
 - ***Step* has three senses in chapter 4:** a step drawn in an attack flow, a numbered step of the loop in Figure 4.4, and the step of the behaviour metrics. Renaming one touches a figure and chapter 5, so it is left as a question, not a proposal: should the senses be split?
+
+## 0. First: the factual fix and the three senses of *step*
+
+**F.7. Ruled ok (Marc, 2026-10-18).** The figure should show it visually. Where it cannot, the caption says it clearly.
+
+### 0.1 · A2.14 · L9845 · §7.1. Restoring the fact
+
+> In MTDSim, the APT attacker model uses a Petri net to choose its next tactic at runtime, and maps each tactic onto one of the baseline attacker's six attack actions, none of which models actions on objectives.
+
+| | After | Δ |
+|---|---|---|
+| (a) fact only | …at runtime, and maps eight of the 15 tactics onto the baseline attacker's six attack actions, none of which models actions on objectives. | +3 |
+| (b) fact plus split | …at runtime. It maps eight of the 15 tactics onto the baseline attacker's six attack actions, none of which models actions on objectives. | +2 |
+
+- "Eight of the 15 tactics" is §6.4's wording verbatim (L8979), so chapters 6 and 7 then agree.
+- (a) changes only the false words. (b) also splits a two-idea sentence.
+- **Recommended: (a).** It is the minimal fix, and A2's comma concern is secondary here.
+
+**Mark:** a / b / look —
+
+### 0.2 *Step*: three senses, split two ways
+
+The three senses are:
+1. **a step drawn in an attack flow** (one technique after another, L438–445, L4038–4078, L9397–9516). **Keep *step*.**
+2. **a numbered part of the loop in Figure 4.4** (caption L4635, L4643, and the refs at L4893, L4965, L5118, L5292);
+3. **the unit the behaviour metrics count** (definition L5434–5437, the relative tactic occurrence equation (`eq:rto`), L5446–5494, chapter 5 at L6807–6831 and L8680, and the axis label "First *k* steps" in `tools/ch5_unopposed_figures.py:300`).
+
+The figure prints only numbered badges with one-word labels. It never prints "step", so sense 2 is prose-only.
+
+**Sense 2, the loop.**
+
+| Option | Form | Pros | Cons |
+|---|---|---|---|
+| **(a) no noun; cite the number** | "(2 in Figure 4.4)" | no term at all; the figure's numbers are the labels; −1 word per reference; removes a K2 tail at L4965 and L5118 | an unusual reference form at first sight |
+| (b) *part* | "at part 2 of Figure 4.4" | one plain noun | vague, and a new word to carry |
+| (c) *stage* | — | — | **collides** with the failure matrix's lifecycle stages (L5184, L10302) and Kim's four stages |
+
+**Recommended: (a).** The edits:
+- **L4635 caption:** "…numbered by step." becomes "…numbered in order." (0)
+- **L4643:** "One iteration of the loop runs in six steps, numbered as in Figure 4.4:" becomes "One iteration of the loop runs as follows, numbered as in Figure 4.4:" (−1). The list itself shows the six.
+- **L4893:** "…attack actions at step 2 of Figure 4.4." becomes "…attack actions (2 in Figure 4.4)." (−2)
+- **L4965:** "…how long each tactic takes, at step 3 of Figure 4.4." becomes "…how long each tactic takes (3 in Figure 4.4)." (−2)
+- **L5118:** "…after an attack action fails, at step 5 of Figure 4.4." becomes "…after an attack action fails (5 in Figure 4.4)." (−2)
+- **L5292:** "(step 3 of Figure 4.4)" becomes "(3 in Figure 4.4)." (−1)
+
+**Sense 3, the metrics' unit.**
+
+| Option | Pros | Cons |
+|---|---|---|
+| **(a) *turn*** ("A *turn* is one tactic the token enters…"; "first *k* turns"; "947 distinct openings over eight turns") | plain English; no collision as a noun; sits with *opening*, which is already a game term; clearly not a drawn step | about 16 prose edits plus one axis label and a figure re-render; "turns" is a verb at L4893 ("turns the token's tactic into") |
+| (b) keep *step* for the metrics; call sense 1 a *drawn step* | no edit to chapter 5 or the figure | you keep a word you found rhetorical; senses 1 and 3 differ in resolution (technique against tactic), which is the risk |
+| (c) no unit noun ("the tactics the token enters") | no term | "openings over eight tactics" reads as eight *different* tactics, which is wrong |
+
+**Recommended: (a) *turn*.** It is the only option that separates the senses without ambiguity, and it costs 0 words: each edit swaps one word for one word. The L4893 verb becomes "maps the token's tactic onto" (0), so *turn* is never both a noun and a verb.
+- *Move* was considered and rejected. It collides with MTD's "when to move" and with the failure matrix's "a move to another tactic".
+
+**Mark:** sense 2 a / b / look — sense 3 a / b / c / look —
+
+---
 
 **Calibration item 5 correction.** Cluster F found that Table D.2 also holds attack actions blocked, so the proposed D.2 title "Values of time lost per MTD deployment" undersells the table. See F's note.
 
