@@ -111,7 +111,7 @@ Tables 4.3 and 5.1, and the tables set inline in the text, are typed in
 - **Run the APT attacker model in a new study:** `mtdsim.l3_simulation.movement.run.run_movement(profile, seed=..., mtd_scheme=..., ...)` returns the run's records; `experiments/ch5_defended/run_corpus.py` shows the configuration Chapter 5 reports.
 - **Add an MTD mechanism:** subclass `MTD` (`src/mtdnetwork/mtd/__init__.py`) beside the others in `src/mtdnetwork/mtd/`, and pass it through `custom_strategies`.
 - **Change behaviour on purpose:** the golden streams in `baseline/` will fail; re-capture them with `PYTHONPATH=src python tools/mtd_golden_streams.py capture` and say why in `baseline/CHANGELOG.md`.
-- **Find what something is for:** the design record for each choice is in `docs/implementation/pipeline/ogasp/`. Code comments that cite `docs/handoffs/` point at working notes that are not kept here (they are in the git history).
+- **Find what something is for:** the design record for each choice is in `docs/implementation/pipeline/ogasp/`. A code comment that cites a document not in the repository (a working note in `docs/handoffs/`, a run plan, or a superseded design record) points at the git history, where that document is kept.
 
 ## Credits, licence, citation
 

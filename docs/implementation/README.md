@@ -30,12 +30,10 @@ graph, GASP for the attack profiles, "substrate" for the inherited simulator);
 | [`provenance.md`](provenance.md), [`declared_value_provenance.md`](declared_value_provenance.md) | every load-bearing constant, its source and where the code uses it |
 | [`metrics_semantics.md`](metrics_semantics.md), [`disruption_mechanism.md`](disruption_mechanism.md) | what each metric measures and how far it compares with the prior studies |
 | [`mtd_mechanism_costs.md`](mtd_mechanism_costs.md) | the measured run-time cost of each MTD mechanism |
-| [`figure_table_conventions.md`](figure_table_conventions.md), [`results_presentation_standard.md`](results_presentation_standard.md) | how the floats print numbers and intervals |
 
 **Per stage:** [`pipeline/gap/`](pipeline/gap/) (attack graph schema),
 [`pipeline/gasp/`](pipeline/gasp/) (attack profiles schema and partition),
 [`pipeline/ogasp/`](pipeline/ogasp/) (every Chapter 4 design choice as a
 pre-registration and its findings, and the Chapter 5 findings records).
 [`evidence/`](evidence/) holds the per-tactic literature evidence behind the
-tactic durations; [`run_plans/`](run_plans/) the run plans the experiment
-scripts cite.
+tactic durations.
