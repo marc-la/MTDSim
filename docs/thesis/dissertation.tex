@@ -169,6 +169,9 @@
 \supervisor{Dr Jin B.\ Hong}
 
 % =====================================================================
+% Bullets as the maths bullet (Type 1), not \textbullet, which without cm-super
+% embeds as a bitmap glyph (2026-10-18, supervisor item 12).
+\renewcommand\labelitemi{\(\bullet\)}
 \begin{document}
 %TC:ignore
 % WORD COUNT (Marc 2026-10-15): Overleaf's Word Count (texcount) skips everything
@@ -10024,13 +10027,14 @@ content. Any errors that remain are mine.
 %  proposal's first page: counter, contents line and label are set there, with
 %  a one-line label in the top margin above the proposal's own title. Prior
 %  form (heading page + "reproduced as submitted" sentence) in git.]
-% The proposal is included as submitted (13 March 2026), compiled from
-% the standalone proposal.tex alongside this file --- rebuild it with
-% pdflatex before compiling the dissertation if it changes. It keeps its
+% The proposal is included as submitted (13 March 2026): proposal.pdf is the
+% submitted file itself (2026-10-18, supervisor item 12: the local rebuild of
+% proposal.tex had bitmap fonts with no selectable text). Its page 1 is the UWA
+% declaration, skipped below. It keeps its
 % own bibliography: its citations are deliberately NOT merged into
 % references.bib (unchecked against the vetted list; the cai2016 key
 % would collide).
-\includepdf[pages=1,pagecommand={\thispagestyle{empty}\refstepcounter{chapter}%
+\includepdf[pages=2,pagecommand={\thispagestyle{empty}\refstepcounter{chapter}%
   \addcontentsline{toc}{chapter}{\protect\numberline{\thechapter}Original honours proposal}%
   \label{app:proposal}%
   \vspace*{-4\baselineskip}\noindent{\small\textsc{Appendix~\thechapter}\quad Original honours proposal,
@@ -10038,7 +10042,7 @@ content. Any errors that remain are mine.
   out of scope, so this dissertation pursues only the first of the proposal's
   four aims, ``a more sophisticated adversarial module'', and runs MTDShield as
   released, with no IDS.}}]{proposal.pdf}
-\includepdf[pages=2-]{proposal.pdf}
+\includepdf[pages=3-]{proposal.pdf}
 
 
 % =====================================================================
