@@ -111,3 +111,45 @@ Still untested: whether Command and Control's 45 s causes the gap. That is D.6's
 | **Total** | **+103** (Alt. +78) |
 
 **Citations:** none. **New label:** `tab:fa-unmapped-mtd`.
+
+---
+
+## Round 2 (Marc 2026-10-18): the ideas are right; recrafted for seamlessness
+
+**Marc's ruling on round 1.** The ideas are right, but the execution is not seamless: the additions read as additions. Recraft them against the ch6 scrutiny record (`docs/handoffs/2026-10-11_ch6_1_redraft_scrutiny.md`; lessons §9 and (a)–(ag)), so that each change mirrors the prose around it, leads with its subject, uses no colon or rhetorical lead-in, and says only what the reader needs.
+
+**Settled first (lesson (ae)), verified on the reported corpus.** Under service diversity at 200 s, with the declared durations, the APT attacker model spends:
+- 46 % of its time in unmapped tactics;
+- 25 % in scan neighbours (Command and Control);
+- 17 % in scan port, exploit and brute force.
+
+Attack actions blocked per MTD deployment is 0.17. With unmapped tactics at 0 s, the shares are 45 % in scan neighbours and 28 % in the three disruptable actions, and blocked per deployment is 0.29. Blocked per deployment tracks the share of time in the disruptable actions under both settings.
+
+**One-line mechanisms.**
+- *Host layer:* after a shuffle, the tactic-to-action mapping leaves the APT attacker model no host until Lateral Movement. Its failure matrix, its only response, does not shorten that.
+- *Service layer:* its tactic durations keep it mostly in unmapped tactics and in Command and Control, out of the attack actions a service-layer deployment disrupts. Removing the unmapped time leaves Command and Control holding it, and NCR reduction falls.
+
+| # | Before | After (v2) | Lessons applied |
+|---|---|---|---|
+| B1 | *(after "…their preconditions are missing.")* | The tactic-to-action mapping therefore gives the host layer part of its lead (\ref{thr:cause}). The APT attacker model's failure matrix leaves its time lost under IP shuffle unchanged (Section~\ref{sec:ablation}), so the host layer's lead reflects a disruption it does not adapt to. | Subject first; "therefore" is earned by the mechanism sentence, which already cites §4.4.1. The rival explanation is one clause, with the bound in T2 (§9.5). The second sentence mirrors §5.4's own verb ("leaves … unchanged") and scopes the negative to IP shuffle (c). No colon. |
+| B2 | The APT attacker model's tactic durations keep it between attack actions, in unmapped tactics that run none (Section~\ref{subsec:aio-disruption}). | The APT attacker model's tactic durations keep it mostly in unmapped tactics, which run no attack action (Section~\ref{subsec:aio-disruption}), and in Command and Control, which runs scan neighbours. | The sentence is edited in place, not cut: it keeps its position, its subject and its pointer. The throughline gives way to the data (ag): 71 % of the time, not "between attack actions". |
+| B3 | *(after the 0.15 / 0.95 sentence)* | With its unmapped tactics at 0\,s, the APT attacker model spends 45\,\% of its time in scan neighbours, and service diversity's reduction of its NCR at 200\,s falls from 0.36 to 0.29 (Table~\ref{tab:fa-unmapped-mtd}). | It leads with the test, as plain description. "Explains little of this:" is cut. The reader draws the one-step inference; the dense rule applies. Every number can be found in the float or the appendix text it cites (§9.8). |
+| B4 | We did not repeat this ablation under MTD, so the rest of our explanation is inferred. We never varied the tactic-to-action mapping, so we cannot rule it out as a cause of what we credit to the order of its tactics. | Under MTD, we repeated it only with the unmapped tactics at 0\,s, so the rest of our explanation is inferred. We never varied the tactic-to-action mapping, so we cannot separate its share from that of the order of its tactics. | Each sentence keeps its original shape (what was done, so what remains), and only the facts change. The second is shorter than before. |
+| B5 | Our ablation of the tactic durations ran with no MTD, and we never varied the tactic-to-action mapping (\ref{thr:cause}). | Our ablation of the tactic durations ran under MTD only with the unmapped tactics at 0\,s, and we never varied the tactic-to-action mapping (\ref{thr:cause}). | Mirrors the original sentence; only the fact changes. **PROPOSE** (ch7). |
+| B7 | *(a separate new paragraph in round 1)* | Appended to the end of D.6's existing lead paragraph instead: "The first step also runs under IP shuffle and service diversity at 200\,s (Table~\ref{tab:fa-unmapped-mtd}). It then spends 45\,\% of its time in scan neighbours, the attack action of Command and Control, under service diversity, and 79\,\% of its attack actions fail for missing preconditions under IP shuffle." | The section's lead already introduces its table, so the new table is introduced the same way. No new paragraph. It carries the two numbers §6.2 and the 2×2 need. |
+| B8 | *(round 1: six rows, a four-line caption)* | Table laid out as Table D.6 (FA-8), which it continues under MTD: the baseline attacker first, then the APT attacker model's two rows, indented under a group row; ± intervals; caption in FA-8's words. | It reads as D.6's continuation, not an add-on, at half the height. |
+
+**In place, §6.2 ¶3 (v2).**
+> We attribute the service layer's smaller reduction of its NCR to the APT attacker model's tactic durations. A service-layer deployment disrupts an attacker only while it scans ports, exploits or brute-forces (Section 2.2.3), which the baseline attacker does back to back. The APT attacker model's tactic durations keep it mostly **in unmapped tactics, which run no attack action (Section 5.3.1), and in Command and Control, which runs scan neighbours**. Consistent with this, attack actions blocked per MTD deployment under every service-layer mechanism is 0.15 for the APT attacker model, against 0.95 for the baseline attacker (Figure 5.2(a)). **With its unmapped tactics at 0 s, the APT attacker model spends 45 % of its time in scan neighbours, and service diversity's reduction of its NCR at 200 s falls from 0.36 to 0.29 (Table D.12).**
+
+### Appendix D layout (B6): Marc to choose
+
+Merging D.6 into D.4 adds about a third of a page of content: the new table and two sentences. The 10-14 layout cannot absorb it unchanged. Each option was compiled; L1 is rendered in `renders/B_layout_swap_pp65-70.png`.
+
+| Option | What happens | Pages |
+|---|---|---|
+| **L1 (recommended): swap D.4 and D.5.** D.4 *Sensitivity analysis* (unchanged, its own page), then D.5 *Ablation studies* with D.5.1 *Ablation of the tactic durations*. | The sensitivity page is exactly as designed. The ablations run to the end of Appendix D, and the new table sits alone at the top of the last page before the bibliography. This also **follows Chapter 5's order**: ch4 (l.5035) and §5.1 (l.6261) cite the sensitivity analysis, and §5.4 cites the ablations. Appendix D's opening sentence must change to "D.1 to D.5 back Chapter 5, and D.5.1 backs Chapter 6" (`\ref{app:sup-ablations}` in place of `app:sensitivity`). | 83 |
+| L2: keep the order, drop the `\clearpage` before the sensitivity analysis | The new table tops page 69 with D.5 starting under it. D.5's last table (D.12) is split onto page 70 alone. | 83 |
+| L3: keep the order and the `\clearpage` | The new table sits alone on page 69; D.5 keeps its own page. | 83 |
+
+Tried and not enough: a shorter caption, `[!htbp]`, putting the table before its text, and moving the text into the lead. The merged D.4.1 is one table's height over a page in every arrangement.
