@@ -12,11 +12,18 @@ created: 2026-10-18
 - **The standard exists.** [`../workflows/clausing_check.md`](../workflows/clausing_check.md) sorts the defects into eight classes, K1–K8, each grounded in style authority and, where it exists, in measured LLM-text evidence. It also sets the seamless-edit rules (§4).
 - **The census exists.** [`../../tools/clause_census.py`](../../tools/clause_census.py) `rates` measures the dissertation against 20 pre-2023 field papers, and `flags` lists the units to read. Its findings are in the standard's §3. The defect is real but concentrated: chapters 2 and 3, the captions, and the appendix headings.
 - **Calibration ledger (below), not yet ruled.** It holds Marc's 19 items from pages iv–15, each with a proposal. Ruling it first tests the standard on the cases that produced it, before the session extrapolates.
-- **Not started:** the extrapolation to the rest of the dissertation.
+- **Extrapolation done (2026-10-18), not ruled.** [`../../data/clausing_check/ruling_file.md`](../../data/clausing_check/ruling_file.md) has 136 proposals in five clusters: F captions and headings, C colons, A1 and A2 comma jobs, D words. Each cluster has its rule, a cluster-wide move with options, its kept rows and their warrants, and per-item marks.
+  - Every unit of the dissertation was assigned to exactly one cluster by the census thresholds (`clause_census.py worklist`, standard §5), and one agent judged each cluster.
+  - Cluster C was re-judged under a stricter amplification test after a spot check found the "amplification" warrant over-used.
+- **Known tool gaps,** to fix before any re-run:
+  - the worklist misses captions whose short form wraps a line;
+  - the calibration heading pattern also drops §5.3.1–5.3.2 and §5.4, because they share their wording with Appendix D.
+
+  Cluster F covered both by reading.
 
 ## Order of work
 
-1. **Marc rules the calibration ledger.** Where a ruling disagrees with the standard, the standard changes first (rule on merit).
+1. **Marc rules the calibration ledger, then the ruling file cluster by cluster.** Where a ruling disagrees with the standard, the standard changes first (rule on merit).
 2. **Headings and captions, all chapters.** Read every one in full, whatever the flags say: they are where an examiner forms a judgement first, and where Marc's worst finds sat. Then:
    - chapters 2–3 (colon rate two to three times the field);
    - chapter 4 and the appendices;

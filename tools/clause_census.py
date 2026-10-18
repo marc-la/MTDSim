@@ -8,6 +8,10 @@ human-written baseline from the field — the mechanical half of the clausing ch
     python tools/clause_census.py flags [--chapter NAME] [--kind prose|caption|heading]
         every unit that trips a flag (a colon; four or more commas; a short trailing
         clause after the last comma), with its line — the work list for the ledger
+    python tools/clause_census.py worklist [--out DIR]
+        every unit assigned to exactly one cluster by the thresholds of
+        clausing_check.md §5 (floats and headings > colons > comma jobs > words),
+        written as one JSONL work list per cluster for the cluster agents
 
 A flag marks a sentence to read, never a sentence to change: a colon that introduces
 a list or an equation is warranted, and the session judges each one (clausing_check.md
@@ -76,7 +80,7 @@ def dissertation_units() -> list[dict]:
             if m.group(1) == "chapter":
                 chapter = ci.plain(m.group(2))
             rows.append({"kind": "heading", "origin": f"L{i}", "chapter": chapter,
-                         "text": ci.plain(m.group(2))})
+                         "text": ci.plain(m.group(2)), "tex": ln})
     return rows
 
 
@@ -87,6 +91,101 @@ def baseline_text(key: str) -> str:
         t = t[: cut[-1]]
     # drop short lines (running heads, table cells, page numbers, figure labels)
     return " ".join(ln for ln in t.split("\n") if len(WORD.findall(ln)) >= 6)
+
+
+# ---- thresholds (clausing_check.md §5) ---------------------------------------------
+APPOS = re.compile(r"\b[A-Za-z][\w\-]*, (?:a|an|the) [^,.;:]{3,60}?(?:,|\.$)")
+PART_TAIL = re.compile(r", (?:[a-z]+ly )?[a-z]+ing\b[^,;:]{0,60}\.?$")
+FIGURATIVE = re.compile(r"\b(deeper|opened|opens up|unfold\w*|journey|pool of|stands? (?:for|in for)|lands?|"
+                        r"walks?|behind|sits?|lives?|drives?|feeds?|fuels?|shapes?|paints?|picture|lens|"
+                        r"backbone|heart of|toolbox|arsenal|landscape|footprint|window into|sheds? light|"
+                        r"carr(?:y|ies) (?:the|its)|speaks?|tells?|answers?)\b", re.I)
+UNNEEDED = re.compile(r"\b(none|does not state|do not state|not stated|nothing|no such)\b", re.I)
+EMPH = re.compile(r"\\emph\{([^{}]{2,60})\}")
+COUNT_LEAD = re.compile(r"\b(two|three|four|five|six|seven|eight|nine|ten|\d+|following|as follows|both)\b[^:]*:", re.I)
+CALIBRATION_LINES = [(723, 726), (806, 808), (1229, 1229), (1593, 1596), (1706, 1709), (2195, 2197), (3578, 3580)]
+CALIBRATION_LABELS = {"fig:mtdsim-model", "fig:network-model", "tab:defence-mechanisms",
+                      "tab:deployment-strategies", "tab:attacker-objectives",
+                      "tab:lineage-configurations", "fig:attack-matrix"}
+CALIBRATION_HEADS = re.compile(r"^(Properties an MTD attacker model|APT attacker model versus MTD attacker|"
+                               r"Predicate tests|The attack graph with|The sources behind|Edges of the|"
+                               r"Tactic durations against|The rules and the|Where each value|MTDShield as run|"
+                               r"Disruption per MTD|MTD ranking against|Sensitivity analysis of|Ablation studies|"
+                               r"Ablation of the tactic)")
+FRONT = ("Introduction", "Background", "Literature review", "APT attacker model")
+
+
+def rare_terms(rows: list[dict]) -> dict[str, int]:
+    """Emphasised (defined) terms and their uses in the body after the definition."""
+    body = " ".join(r["text"].lower() for r in rows if r["kind"] == "prose")
+    out = {}
+    defs = {m.group(1) for r in rows if r["kind"] == "prose" for m in EMPH.finditer(r.get("tex", ""))}
+    for t in defs:
+        t2 = re.sub(r"\s+", " ", re.sub(r"[{}\\]", "", t)).strip().lower()
+        if t2 and not t2.startswith("$"):
+            out[t2] = max(body.count(t2) - 1, 0)
+    return {k: v for k, v in out.items() if v <= 2}
+
+
+def assign(r: dict, rare: dict) -> tuple[str | None, list[str]]:
+    t, m = r["text"], marks(r["text"])
+    why = []
+    if m["colon"]:
+        why.append("colon" + (" after a count" if COUNT_LEAD.search(t) else ""))
+    if m["comma"] >= 4:
+        why.append(f"{m['comma']} commas")
+    if trailing(t) or PART_TAIL.search(t.strip()):
+        why.append("trailing clause")
+    if APPOS.search(t):
+        why.append("appositive")
+    for f in FIGURATIVE.findall(t):
+        why.append(f"figurative? '{f}'")
+    if UNNEEDED.search(t):
+        why.append("unneeded?")
+    for term in rare:
+        if f"\\emph{{{term}" in re.sub(r"\s+", " ", r.get("tex", "")).lower():
+            why.append(f"defined '{term}', reused {rare[term]}x")
+    if r["kind"] in ("caption", "heading"):
+        return "F_floats_headings", why or ["read in full"]
+    if not why:
+        return None, why
+    if m["colon"]:
+        return "C_colons", why
+    if any(w.startswith(("trailing", "appositive")) or w.endswith("commas") for w in why):
+        return ("A1_commas_ch1-4" if r["chapter"] in FRONT or r["chapter"] is None else "A2_commas_ch5-app"), why
+    return "D_words", why
+
+
+def calibrated(r: dict) -> bool:
+    if r["kind"] == "heading":
+        return bool(CALIBRATION_HEADS.match(r["text"]))
+    if r.get("label") in CALIBRATION_LABELS and r["kind"] == "caption":
+        return True
+    o = r["origin"]
+    if o.startswith("L"):
+        n = int(o[1:].split("-")[0])
+        return any(a <= n <= b for a, b in CALIBRATION_LINES)
+    return False
+
+
+def cmd_worklist(a) -> None:
+    import json
+    rows = [r for r in dissertation_units() if r["chapter"] != "AI Use Declaration"]
+    rare = rare_terms(rows)
+    out = Path(a.out)
+    out.mkdir(parents=True, exist_ok=True)
+    lists: dict[str, list] = defaultdict(list)
+    for r in rows:
+        if calibrated(r):
+            continue
+        cl, why = assign(r, rare)
+        if cl:
+            lists[cl].append({"origin": r["origin"], "chapter": r["chapter"], "kind": r["kind"],
+                              "label": r.get("label"), "flags": why, "text": r["text"]})
+    for cl, items in sorted(lists.items()):
+        (out / f"{cl}.jsonl").write_text("".join(json.dumps(i) + "\n" for i in items))
+        print(f"{cl:22s}{len(items):4d}")
+    print("rare defined terms:", ", ".join(f"{k} ({v})" for k, v in sorted(rare.items())))
 
 
 def per_k(c: dict) -> str:
@@ -148,6 +247,9 @@ def main(argv=None) -> None:
     f.add_argument("--chapter")
     f.add_argument("--kind", choices=["prose", "caption", "heading"])
     f.set_defaults(fn=cmd_flags)
+    w = sub.add_parser("worklist")
+    w.add_argument("--out", default=str(REPO / "data" / "clausing_check" / "worklists"))
+    w.set_defaults(fn=cmd_worklist)
     a = p.parse_args(argv)
     a.fn(a)
 

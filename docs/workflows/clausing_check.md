@@ -142,6 +142,27 @@ Marc's goal is minimal rework that improves the flow. The fix must not show.
 
 ## 5. Procedure
 
+**The thresholds** (`clause_census.py worklist`; ruled by Marc 2026-10-18). A unit is picked when any one holds:
+
+| Flag | Threshold |
+|---|---|
+| K1 | any colon |
+| K2 | at least 2 commas and a last segment of ≤ 7 words, or an "-ing" phrase after the last comma |
+| K3 | the pattern ", a/an/the … ," |
+| Comma job | 4 or more commas |
+| K4 | a figurative-word cue from a fixed list |
+| K7 | a term defined with `\emph` and reused at most twice |
+| K8 | a "none" or "not stated" cue |
+| K5 | every caption and heading, unconditionally |
+
+**Ownership.** Each unit goes to exactly one cluster, in this order of precedence:
+1. **F**, floats and headings;
+2. **C**, any colon;
+3. **A1/A2**, comma jobs, split at chapter 5;
+4. **D**, word-level defects.
+
+The owning agent fixes every defect in its sentence, so no sentence appears twice in the ruling file.
+
 1. **Measure.** Run `python tools/clause_census.py rates` and record the numbers in the handoff.
 2. **List.** Run `python tools/clause_census.py flags --chapter <name>` per chapter. This is the K1–K3 work list.
 3. **Read in full, whatever the flags say:** every heading, every caption, and every first paragraph of a section. That is where K4–K8 live, and where the examiner reads first (Mullins & Kiley 2002).
