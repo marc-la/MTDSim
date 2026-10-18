@@ -109,6 +109,12 @@
 \renewcommand{\textfraction}{0.15}
 \renewcommand{\floatpagefraction}{0.8}
 \usepackage[hidelinks]{hyperref}
+\hypersetup{pdftitle={Evaluating moving target defence against advanced persistent threat attackers modelled on documented intrusion campaigns},
+  pdfauthor={Marc Labouchardiere}}  % PDF properties (2026-10-18 presentation pass)
+% A paragraph that cannot break within the margin gets extra interword stretch
+% instead of an overfull line (2026-10-18: fixes the overruns on pp. 4 and 33;
+% no other paragraph reflows).
+\setlength{\emergencystretch}{1.5em}
 \usepackage{xurl}             % break the long report URLs in the reference list
 \graphicspath{{figures/}}      % keep figures in the figures/ folder
 \usepackage[margin=2.5cm]{geometry}
@@ -167,6 +173,9 @@
        threat attackers modelled on documented intrusion campaigns}
 \author{Marc Labouchardiere \\ \normalsize\upshape (23857377)}
 \supervisor{Dr Jin B.\ Hong}
+% Word count of Chapters 1-7 (Overleaf's Word Count; see the TC note below).
+% PLACEHOLDER (2026-10-18): Marc enters the final count after his last edits.
+\wordcount{[TBC]}
 
 % =====================================================================
 % Bullets as the maths bullet (Type 1), not \textbullet, which without cm-super
@@ -10618,6 +10627,8 @@ for missing preconditions.
 
 
 
+% The class's bibliography is a \chapter* with no contents line (2026-10-18).
+\clearpage\phantomsection\addcontentsline{toc}{chapter}{\bibname}
 \bibliography{references}
 
 %TC:endignore
