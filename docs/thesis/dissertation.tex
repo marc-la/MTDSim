@@ -460,6 +460,10 @@ to do after one fails. Both
 attackers run on the same network. We run both first with no MTD, then under each of MTDSim's seven MTD mechanisms at six deployment intervals,
 how often MTD changes the network. We measure MTD's performance by how much it reduces
 the number of hosts each attacker compromises.
+% [2026-10-18, Marc: rubric 4.1, the implications of each possible result.]
+If the same MTD mechanism is most effective against both attackers, an
+evaluation against the baseline attacker alone identifies it. If they differ,
+the most effective MTD mechanism depends on the attacker model.
 
 % P6, PRELIMINARY FINDINGS + VALUE + SCOPE --- floated 2026-09-24 (Marc:
 % "it's just a placeholder"). Sentences 1-5 are PRELIMINARY (100-seed
@@ -661,7 +665,8 @@ by finding which MTD mechanisms are most effective against each attacker, and
 proposing why. It
 closes on what the results mean for MTD evaluation.
 Chapter~\ref{ch:conclusion} answers the research question and sets out
-future work.
+future work. Appendix~\ref{app:proposal} is the original proposal. This
+dissertation addresses only the first of its four aims.
 % [2026-09-28: the Future work chapter became a section of the conclusion
 %  (Marc's macrostructure ruling; handoff 2026-09-15 §10); the two sentences
 %  on it and the conclusion merged, Marc's words kept. Re-check when chapters 6
@@ -9003,7 +9008,10 @@ hosts, with no actions on objectives.
 %  ch3's frame; no list of shoulds (only ¶1 and ¶2a end on one), and ¶3's
 %  ending (the shared attack actions) left to ¶3. Bounds are §6.5's.
 In MTDSim, at every deployment interval, the most effective MTD mechanism
-differs between the two attackers (Table~\ref{tab:rank-one-intervals}). Which
+differs between the two attackers (Table~\ref{tab:rank-one-intervals}).
+% [2026-10-18, Marc: rubric 4.4, returns to Chapter 1's outcomes; the colon form
+%  he ratified split in two per clausing_check.md K1.]
+Chapter~\ref{ch:intro} set out this outcome. Which
 MTD mechanism an MTD evaluation finds most effective can therefore depend on its
 attacker model. An evaluation against a single attacker model is not enough
 to show how MTD performs against other attackers.
@@ -10057,7 +10065,7 @@ content. Any errors that remain are mine.
   \label{app:proposal}%
   \vspace*{-4\baselineskip}\noindent{\small\textsc{Appendix~\thechapter}\quad Original honours proposal,
   as submitted in March 2026. After submission, work on the defender was ruled
-  out of scope, so this dissertation pursues only the first of the proposal's
+  out of scope, so this dissertation addresses only the first of the proposal's
   four aims, ``a more sophisticated adversarial module'', and runs MTDShield as
   released, with no IDS.}}]{proposal.pdf}
 \includepdf[pages=3-,scale=0.9,pagecommand={\thispagestyle{plain}}]{proposal.pdf}
