@@ -21,7 +21,7 @@ under seven MTD mechanisms, two deployment strategies and MTDShield over 1 000 s
 |---|---|
 | [`src/mtdnetwork/`](src/mtdnetwork/) | the simulator inherited from the lineage, with the defects we repaired |
 | [`src/mtdsim/`](src/mtdsim/) | the APT attacker model; its README maps each dissertation section to a package |
-| [`data/`](data/) | inputs: the Attack Flow snapshot, the attack graph, attack profiles, Petri nets, tactic durations, the MTDShield agent |
+| [`data/`](data/) | inputs: the Attack Flow snapshot, the attack graph, attack profiles, Petri nets, tactic durations, the MTDShield agent. Folders use the internal names: `gap/` the attack graph, `gasp/` the attack profiles, `ogasp/` the Petri nets ([`docs/implementation/README.md`](docs/implementation/README.md)) |
 | [`experiments/`](experiments/) | one folder per experiment: runner, analyser, and the numbers files the floats read |
 | [`tools/`](tools/) | the figure and table generators (`build_floats.py` runs them all) and developer tools |
 | [`tests/`](tests/), [`baseline/`](baseline/) | unit and regression tests; golden event streams that pin the simulator's behaviour |
