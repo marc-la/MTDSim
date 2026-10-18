@@ -68,7 +68,7 @@ byte. Reproduction comes in four levels, from cheapest:
 |---|---|---|---|
 | `make floats` | every generated figure and table, from the committed numbers files | this repository | ~1 min |
 | `make smoke` | 408 recorded runs (seed 0 of Chapter 5's corpora), compared byte for byte | this repository | ~2 min |
-| `make verify` / `make numbers` | sampled runs from all nine raw ledgers; every numbers file from the raw runs | the raw runs | ~5 min / ~1 h |
+| `make verify` / `make numbers` | sampled runs from all nine raw ledgers; every numbers file from the raw runs | the raw runs (on request) | ~5 min / ~1 h |
 | `make runs` | every simulation behind Chapters 5 and 6 (over 800 000 runs) | this repository | ~45 h on 7 cores |
 
 Times are on a laptop (Intel i7-1360P, 13 GB RAM). [`experiments/README.md`](experiments/README.md)

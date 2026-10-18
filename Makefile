@@ -16,7 +16,7 @@ help:
 	@echo "make smoke      re-run seed 0 of both reported corpora; must match the committed rows ~2 min"
 	@echo "make floats     every generated figure and table from the committed numbers files    ~1 min"
 	@echo "make verify     re-run 20 random rows of each raw ledger (needs the raw runs, README) ~5 min"
-	@echo "make check-raw  check the unpacked raw runs against experiments/RAW_RUNS.sha256"
+	@echo "make check-raw  check a copy of the raw runs against experiments/RAW_RUNS.sha256"
 	@echo "make numbers    recompute every numbers file from the raw runs (needs the raw runs)   ~1 h"
 	@echo "make runs       every simulation behind Chapters 5 and 6, from scratch                ~45 h on 7 cores"
 	@echo "make thesis     build docs/thesis/dissertation.pdf (pdflatex + bibtex)"

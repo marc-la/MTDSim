@@ -9,7 +9,7 @@ JSON line it produces must equal the recorded line.
 
     python experiments/verify_ledgers.py                 # 20 rows per ledger
     python experiments/verify_ledgers.py --n 100 --only defended_reported
-    python experiments/verify_ledgers.py --runs-dir /path/to/archive/experiments
+    python experiments/verify_ledgers.py --runs-dir /path/to/copy/experiments
     python experiments/verify_ledgers.py --smoke         # no raw runs needed (~2 min)
 
 ``--smoke`` re-runs every row of the committed fixtures, seed 0 of the two

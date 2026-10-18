@@ -34,7 +34,7 @@ data/misc/_viz/*/*.png
 data/misc/_viz/*/*.json
 data/misc/_viz/*/*.jsonl
 
-# Raw experiment runs: too large for git (75 GB), archived with checksums (README).
+# Raw experiment runs: too large for git (51 GB); SHA-256 sums in experiments/RAW_RUNS.sha256.
 # Each experiment's scripts and its numbers*.json summaries ARE committed.
 experiments/**/*.jsonl
 experiments/**/*.pkl
