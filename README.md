@@ -117,6 +117,5 @@ Tables 4.3 and 5.1, and the tables set inline in the text, are typed in
 
 The simulator in `src/mtdnetwork/` is the work of Alex Brown, Wenxiao Zhang, Wai
 Him Ho and Joo Kai Tay ([Bsubs/MTDSim](https://github.com/Bsubs/MTDSim)); the
-MTDShield agent in `data/mtdshield/` is Tay's. The rest is MIT-licensed; see
-[`LICENSE`](LICENSE) for what it covers. To cite this work, see
-[`CITATION.cff`](CITATION.cff).
+MTDShield agent in `data/mtdshield/` is Tay's. Licensed under MIT ([`LICENSE`](LICENSE)).
+To cite this work, see [`CITATION.cff`](CITATION.cff).

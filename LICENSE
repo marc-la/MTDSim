@@ -19,14 +19,3 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
-
----------------------------------------------------------------------------
-Scope. This licence covers the work of Marc Labouchardiere in this repository:
-src/mtdsim/, experiments/, tools/, tests/, and the changes to src/mtdnetwork/
-made since the fork. The simulator in src/mtdnetwork/ was written by Alex Brown,
-Wenxiao Zhang, Wai Him Ho and Joo Kai Tay (https://github.com/Bsubs/MTDSim),
-whose repositories carry no licence; their code remains theirs. The reports in
-docs/lineage/ are their authors' and are redistributed as the upstream
-repository published them. Third-party data keeps its own terms: the CTID
-Attack Flow corpus (data/gap/_corpus_stix/, Apache-2.0) and MITRE ATT&CK
-(fetched, ATT&CK Terms of Use).
